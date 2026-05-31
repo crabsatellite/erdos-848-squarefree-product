@@ -438,6 +438,29 @@ theorem globalOppositeFiniteOffsetEighteenBoxedTargetNeighbor_of_squarefreeBoxed
     GlobalOppositeFiniteOffsetEighteenBoxedTargetNeighbor code.toBoxed :=
   code.property
 
+/--
+Squarefree-boxed code carrying the proof that a fixed global decoder sends its
+target back to the source.
+-/
+def DecodedSquarefreeBoxedOppositeFiniteOffsetCode
+    (N b : Nat) (decoder : Nat -> Nat) : Type :=
+  { code : SquarefreeBoxedOppositeFiniteOffsetCode N b //
+    decoder (boxedOppositeFiniteOffsetCodeValue code.toBoxed) = b }
+
+/-- Forget the decoder-hit proof and keep the squarefree-boxed code. -/
+def DecodedSquarefreeBoxedOppositeFiniteOffsetCode.toSquarefreeBoxed
+    {N b : Nat} {decoder : Nat -> Nat}
+    (code : DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b decoder) :
+    SquarefreeBoxedOppositeFiniteOffsetCode N b :=
+  code.val
+
+/-- Extract the decoder-hit proof carried by a decoded squarefree-boxed code. -/
+theorem decodedSquarefreeBoxedOppositeFiniteOffsetCode_leftInverse
+    {N b : Nat} {decoder : Nat -> Nat}
+    (code : DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b decoder) :
+    decoder (boxedOppositeFiniteOffsetCodeValue code.toSquarefreeBoxed.toBoxed) = b :=
+  code.property
+
 /-- Repackage boxed target-neighbor data into the typed-code target form. -/
 theorem globalOppositeFiniteOffsetEighteenTypedTargetNeighbor_of_boxed
     {N b : Nat} {code : BoxedOppositeFiniteOffsetCode N b}
@@ -1005,6 +1028,58 @@ def GlobalFiniteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCertificate
           (fun b hbBox hb18 =>
             SquarefreeBoxedOppositeFiniteOffsetCode.toBoxed
               (offset b hbBox hb18))) decTarget)
+
+/--
+Decoded squarefree-boxed certificate.  The decoder left-inverse proof is carried
+by each source-indexed finite-offset code, leaving only the decoder, decoded
+code family, and strict-middle credit capacity as separate live data.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate : Prop :=
+  forall N : Nat, Exists fun decoder : Nat -> Nat =>
+  Exists fun offset :
+      (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b decoder) =>
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B))
+        (decTarget : DecidablePred
+          (ActiveStrictMiddleCreditTarget N 7 B
+            (boxedOppositeFiniteOffsetMate N
+              (fun b hbBox hb18 =>
+                SquarefreeBoxedOppositeFiniteOffsetCode.toBoxed
+                  (DecodedSquarefreeBoxedOppositeFiniteOffsetCode.toSquarefreeBoxed
+                    (offset b hbBox hb18)))))),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditCapacity N 7 B decMid
+        (boxedOppositeFiniteOffsetMate N
+          (fun b hbBox hb18 =>
+            SquarefreeBoxedOppositeFiniteOffsetCode.toBoxed
+              (DecodedSquarefreeBoxedOppositeFiniteOffsetCode.toSquarefreeBoxed
+                (offset b hbBox hb18)))) decTarget)
+
+/--
+The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
+decoder certificate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoder_of_decoded
+    (h : GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCertificate := by
+  intro N
+  rcases h N with ⟨decoder, offset, hCapacity⟩
+  let offsetSquarefree :
+      forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        SquarefreeBoxedOppositeFiniteOffsetCode N b :=
+    fun b hbBox hb18 =>
+      DecodedSquarefreeBoxedOppositeFiniteOffsetCode.toSquarefreeBoxed
+        (offset b hbBox hb18)
+  refine ⟨offsetSquarefree, decoder, ?_, ?_⟩
+  · intro b hbBox hb18
+    simpa [offsetSquarefree] using
+      decodedSquarefreeBoxedOppositeFiniteOffsetCode_leftInverse
+        (offset b hbBox hb18)
+  · intro B decMid decTarget hB hClique hMid
+    simpa [offsetSquarefree] using hCapacity B decMid decTarget hB hClique hMid
 
 /-- The squarefree-boxed certificate supplies the previous boxed-code certificate. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenBoxedDecoder_of_squarefreeBoxed
@@ -2258,9 +2333,15 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
     omega
   simpa [APHallExpansionForOutsideSet, Nbr] using hfinal
 
-/-- Open analytic cut: squarefree-boxed decoder-form `18 mod 25` finite-offset middle compression. -/
-axiom finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCertificate
+/-- Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle compression. -/
+axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate
+
+/-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
+theorem finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoder_of_decoded
+    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut
 
 /-- Current boxed-code decoder certificate with squarefree edge data unpacked from codes. -/
 theorem finiteOffsetMiddleCompressionEighteenBoxedDecoderCut :
