@@ -10,7 +10,7 @@ This is the research base view.  Endpoint closure, route labels, and route state
 
 Open mathematical cut(s):
 - `Erdos848.activeStrictMiddleCreditMatchingCut` at `Erdos848/Infrastructure/SquarefreeAP.lean`
-- `Erdos848.oppositeNearbyMatchingImageCut` at `Erdos848/Infrastructure/SquarefreeAP.lean`
+- `Erdos848.globalOppositeNearbyMatchingCut` at `Erdos848/Infrastructure/SquarefreeAP.lean`
 
 Active route(s) to work on:
 - `hall-expansion-compression` (active): gaps `G-squarefree-ap-hall-expansion`, `G-rough-square-divisor-unpacking`
@@ -194,9 +194,14 @@ Files:
 
 ### `G-squarefree-ap-hall-expansion` -- Squarefree AP Hall-neighborhood expansion
 
-Replace finite Hall checks by two explicit analytic cuts for the endpoint-consumed `7 mod 25` progression: a nearby/banded matching-image cut for the opposite block, and an active strict-middle credit-matching cut into unused opposite surplus or new middle neighbors.
+Replace finite Hall checks by two explicit analytic cuts for the endpoint-consumed `7 mod 25` progression: a global nearby/banded matching cut for the full opposite block, and an active strict-middle credit-matching cut into unused opposite surplus or new middle neighbors.
 
 Declarations:
+- `Erdos848.globalOppositeNearbyMatchingCut`
+- `Erdos848.GlobalOppositeNearbyMatchingAPCertificateForResidue`
+- `Erdos848.GlobalOppositeNearbyMatchingImageAllocation`
+- `Erdos848.GlobalOppositeNearbyNeighbor`
+- `Erdos848.oppositeNearbyMatchingAPCertificate_of_global`
 - `Erdos848.oppositeNearbyMatchingImageCut`
 - `Erdos848.activeStrictMiddleCreditMatchingCut`
 - `Erdos848.activeStrictMiddleIncrementalCapacityCut`

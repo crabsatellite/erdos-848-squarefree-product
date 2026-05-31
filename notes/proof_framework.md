@@ -46,25 +46,31 @@ The exact finite checks have to be replaced by explicit inequalities:
 1. Squarefree counts in arithmetic progressions for `b(25t+7)+1`.
 2. A strict-middle credit-matching certificate after removing the opposite
    `18 mod 25` equality block.
-3. A nearby matching-image split incremental/surplus certificate:
-   match the `18 mod 25` equality block injectively to nearby candidate
-   neighbors, and prove `|O| + |M| <= |N(O)| + |N(M) \ N(O)|` only in the
-   active case where the strict-middle part is nonempty.
+3. A global nearby matching-image split incremental/surplus certificate:
+   match the whole `18 mod 25` equality block injectively to nearby candidate
+   neighbors, restrict that global matching to every outside clique, and prove
+   `|O| + |M| <= |N(O)| + |N(M) \ N(O)|` only in the active case where the
+   strict-middle part is nonempty.
 4. A rough-square-divisor ledger for `a^2+1 = m p^2` with large `p`.
 5. A certified bridge from residue certificates to interval certificates.
 
 ## Audit Cuts
 
-- `Erdos848.oppositeNearbyMatchingImageCut`: nearby/banded matching-image
-  certificate for the opposite `18 mod 25` equality block, still open.  The
-  matching-image count is now kernel-derived from boxed injectivity, so this
-  cut only has to provide the nearby matching function and injectivity.
+- `Erdos848.globalOppositeNearbyMatchingCut`: global nearby/banded matching
+  certificate for the full opposite `18 mod 25` equality block, still open.
+  It is independent of the outside clique `B`; Lean now derives the older
+  `B`-relative matching-image certificate by restriction.
 - `Erdos848.activeStrictMiddleCreditMatchingCut`: active strict-middle
   credit-matching certificate, still open.  Middle vertices are injected into
   either unused opposite-neighbor surplus or genuinely new middle neighbors.
 
 Closed local supports:
 
+- `Erdos848.oppositeNearbyMatchingImageCut`: the old `B`-relative
+  nearby/banded matching-image certificate, now kernel-derived from
+  `globalOppositeNearbyMatchingCut`.
+- `Erdos848.oppositeNearbyMatchingAPCertificate_of_global`: bridge from the
+  global opposite-block matching to every `B`-relative opposite part.
 - `Erdos848.activeStrictMiddleIncrementalCapacityCut`: active strict-middle
   incremental surplus certificate, kernel-derived from the credit-matching cut.
 - `Erdos848.activeStrictMiddleIncrementalCapacity_of_creditMatching`: bridge

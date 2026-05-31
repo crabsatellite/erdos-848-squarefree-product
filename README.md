@@ -69,12 +69,14 @@ small enough for local review.
   region after removing the opposite `18 mod 25` class.  This records the
   observed surplus away from the equality block and gives the next certificate
   split target.
-- `Nearby matching-image split AP/Hall cuts`: Lean now derives the endpoint
-  `SquarefreeAPHallCertificate` from two explicit analytic cuts: a nearby
-  injective matching image for the equality block, plus active strict-middle
-  credit matchings into unused opposite-neighbor surplus or genuinely new
-  middle neighbors.  The matching-image count is kernel-derived from boxed
-  injectivity rather than assumed in the cut.  Python
+- `Global nearby matching-image split AP/Hall cuts`: Lean now derives the
+  endpoint `SquarefreeAPHallCertificate` from two explicit analytic cuts: a
+  global nearby injective matching for the full opposite equality block, plus
+  active strict-middle credit matchings into unused opposite-neighbor surplus
+  or genuinely new middle neighbors.  The older `B`-relative opposite matching
+  image is now kernel-derived by restricting the global matching to the
+  opposite part of any outside clique, and the matching-image count is
+  kernel-derived from boxed injectivity rather than assumed in the cut.  Python
   separately checks the finite shadows `|N(O)| >= |O|`, `|N(M)| >= |M|`,
   `|N(O) union N(M)| >= |O| + |M|`,
   `(|N(O)| - |O|) + |N(M) \ N(O)| >= |M|`, and the active-middle version of

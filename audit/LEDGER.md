@@ -7,19 +7,19 @@ reports, then record only durable round movement here.
 | round | file | durable movement |
 |-------|------|------------------|
 | R001 | `R001_infra_bootstrap.md` | bootstrapped the #848 workspace using #327/#727 shape and ChainAudit status entrypoints |
-| R002-R016 | `R002_hall_assembly_close.md` | closed residue, rough-square, Hall assembly, partition/capacity bridges, matching-image count, and active credit finite checker |
+| R002-R017 | `R002_hall_assembly_close.md` | closed residue, rough-square, Hall assembly, partition/capacity bridges, matching-image count, active credit finite checker, and global opposite matching restriction bridge |
 
 ## Current Frontier
 
 Generated `lean4/chain-status/route-index.md` reports two mathematical cuts:
 
-- `Erdos848.oppositeNearbyMatchingImageCut`
+- `Erdos848.globalOppositeNearbyMatchingCut`
 - `Erdos848.activeStrictMiddleCreditMatchingCut`
 
 The active replacement route is `chain:hall-expansion-compression`, with
 primary gap `G-squarefree-ap-hall-expansion`.  The current certificate shape is
-a banded opposite matching image plus a strict-middle credit matching into the
-unused opposite surplus or genuinely new middle neighbors.
+a global banded opposite matching image plus a strict-middle credit matching
+into the unused opposite surplus or genuinely new middle neighbors.
 
 ## Local Gate
 

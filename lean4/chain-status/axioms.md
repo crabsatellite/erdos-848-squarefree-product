@@ -7,7 +7,7 @@ Equivalent to running `#print axioms <endpoint>` for each endpoint.
 
 - `Classical.choice`
 - `Erdos848.activeStrictMiddleCreditMatchingCut`
-- `Erdos848.oppositeNearbyMatchingImageCut`
+- `Erdos848.globalOppositeNearbyMatchingCut`
 - `Quot.sound`
 - `propext`
 

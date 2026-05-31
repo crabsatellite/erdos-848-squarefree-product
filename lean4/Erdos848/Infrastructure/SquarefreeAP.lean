@@ -196,6 +196,39 @@ def OppositeNearbyMatchingImageAllocation
       mate b1 = mate b2 ->
       b1 = b2)
 
+/-- Direct global nearby squarefree edge from an opposite-class vertex to the base class. -/
+def GlobalOppositeNearbyNeighbor (N r K b a : Nat) : Prop :=
+  InBox N b /\
+    OppositeCandidateCarrier r b /\
+    InBox N a /\
+    CandidateCarrier r a /\
+    ForbiddenSquarefreeEdge a b /\
+    a <= b + K /\
+    b <= a + K
+
+/--
+Global banded matching for the whole opposite candidate block.
+
+This is stronger than the `B`-relative opposite matching-image cut: after such
+a matching is known for every boxed opposite-class vertex, any compatible
+outside subset inherits the same matching by restriction.
+-/
+def GlobalOppositeNearbyMatchingImageAllocation (N r K : Nat) : Prop :=
+  Exists fun mate : Nat -> Nat =>
+    (forall b : Nat, InBox N b -> OppositeCandidateCarrier r b ->
+      GlobalOppositeNearbyNeighbor N r K b (mate b)) /\
+    (forall b1 b2 : Nat,
+      InBox N b1 ->
+      OppositeCandidateCarrier r b1 ->
+      InBox N b2 ->
+      OppositeCandidateCarrier r b2 ->
+      mate b1 = mate b2 ->
+      b1 = b2)
+
+/-- Global opposite-block matching certificate, independent of the outside clique `B`. -/
+def GlobalOppositeNearbyMatchingAPCertificateForResidue (r K : Nat) : Prop :=
+  forall N : Nat, GlobalOppositeNearbyMatchingImageAllocation N r K
+
 /-- Banded opposite-only allocation certificate. -/
 def OppositeNearbyAPAllocationCertificateForResidue (r K : Nat) : Prop :=
   forall (N : Nat) (B : Nat -> Prop)
@@ -799,6 +832,29 @@ theorem oppositeNearbyNeighborAllocation_of_matchingImage
       simpa [hmate] using hMap b hbOpp
   ⟩
 
+/-- A global opposite-block matching restricts to every opposite part of every outside clique. -/
+theorem oppositeNearbyMatchingAPCertificate_of_global
+    {r K : Nat}
+    (h : GlobalOppositeNearbyMatchingAPCertificateForResidue r K) :
+    OppositeNearbyMatchingAPCertificateForResidue r K := by
+  intro N B decOpp hB _hClique
+  rcases h N with ⟨mate, hMap, hInjective⟩
+  refine Exists.intro mate ?_
+  constructor
+  · intro b hbOpp
+    have hbBox : InBox N b := (hB b hbOpp.left).left
+    have hGlobal := hMap b hbBox hbOpp.right
+    rcases hGlobal with ⟨_hbBox, _hbOpp, haBox, haCand, hedge, haLe, hbLe⟩
+    exact And.intro
+      (And.intro haBox (And.intro haCand (Exists.intro b (And.intro hbOpp hedge))))
+      (Exists.intro b (And.intro hbOpp (And.intro haLe hbLe)))
+  · intro b1 b2 hb1 hb2 hmate
+    exact hInjective
+      b1 b2
+      (hB b1 hb1.left).left hb1.right
+      (hB b2 hb2.left).left hb2.right
+      hmate
+
 /-- A residue-level matching-image certificate implies the nearby allocation certificate. -/
 theorem oppositeNearbyAPAllocationCertificate_of_matching
     {r K : Nat}
@@ -1057,9 +1113,14 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
     omega
   simpa [APHallExpansionForOutsideSet, Nbr] using hfinal
 
-/-- Open analytic cut: nearby/banded matching image for the equality block. -/
-axiom oppositeNearbyMatchingImageCut :
+/-- Open analytic cut: global nearby/banded matching for the full equality block. -/
+axiom globalOppositeNearbyMatchingCut :
+  GlobalOppositeNearbyMatchingAPCertificateForResidue 7 86
+
+/-- Current nearby/banded matching image for the equality block, by restriction. -/
+theorem oppositeNearbyMatchingImageCut :
   OppositeNearbyMatchingAPCertificateForResidue 7 86
+  := oppositeNearbyMatchingAPCertificate_of_global globalOppositeNearbyMatchingCut
 
 /-- Open analytic cut: credit matching for active strict-middle vertices. -/
 axiom activeStrictMiddleCreditMatchingCut :

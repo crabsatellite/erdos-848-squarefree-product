@@ -16,7 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.oppositeNearbyMatchingImageCut,
+    ``Erdos848.globalOppositeNearbyMatchingCut,
     ``Erdos848.activeStrictMiddleCreditMatchingCut
   ]
   infraFiles := [
@@ -75,11 +75,16 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by two explicit analytic cuts for the endpoint-consumed `7 mod 25` progression: a nearby/banded matching-image cut for the opposite block, and an active strict-middle credit-matching cut into unused opposite surplus or new middle neighbors."
+        "Replace finite Hall checks by two explicit analytic cuts for the endpoint-consumed `7 mod 25` progression: a global nearby/banded matching cut for the full opposite block, and an active strict-middle credit-matching cut into unused opposite surplus or new middle neighbors."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
+        "Erdos848.globalOppositeNearbyMatchingCut",
+        "Erdos848.GlobalOppositeNearbyMatchingAPCertificateForResidue",
+        "Erdos848.GlobalOppositeNearbyMatchingImageAllocation",
+        "Erdos848.GlobalOppositeNearbyNeighbor",
+        "Erdos848.oppositeNearbyMatchingAPCertificate_of_global",
         "Erdos848.oppositeNearbyMatchingImageCut",
         "Erdos848.activeStrictMiddleCreditMatchingCut",
         "Erdos848.activeStrictMiddleIncrementalCapacityCut",
@@ -241,10 +246,10 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Promote the opposite `18 mod 25` banded matching shadow into a nearby matching-image certificate; image cardinality is now kernel-derived from boxed injectivity.",
+        "Promote the opposite `18 mod 25` banded matching shadow into a global nearby matching certificate; every outside subset inherits it by restriction and image cardinality is kernel-derived from boxed injectivity.",
         "Promote active strict-middle surplus into a credit-matching certificate, using unused opposite-neighbor surplus or genuinely new middle neighbors."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `oppositeNearbyMatchingImageCut` and `activeStrictMiddleCreditMatchingCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `globalOppositeNearbyMatchingCut` and `activeStrictMiddleCreditMatchingCut`."
     },
     {
       id := "residue-certificate"
@@ -328,6 +333,11 @@ def config : ChainAudit.ProjectConfig := {
         "nearbyMatchedSplitIncrementalSquarefreeAPCapacity",
         "OppositeNearbyMatchingImageAllocation",
         "OppositeMatchingImage",
+        "GlobalOppositeNearbyMatchingAPCertificateForResidue",
+        "GlobalOppositeNearbyMatchingImageAllocation",
+        "GlobalOppositeNearbyNeighbor",
+        "globalOppositeNearbyMatchingCut",
+        "oppositeNearbyMatchingAPCertificate_of_global",
         "opposite_matching_certificate.py",
         "nearbyAllocatedSplitIncrementalSquarefreeAPCapacity",
         "OppositeNearbyNeighbor",

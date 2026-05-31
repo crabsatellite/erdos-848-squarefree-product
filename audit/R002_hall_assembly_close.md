@@ -20,7 +20,7 @@ neighborhood expansion.
 
 Generated `lean4/chain-status/cuts.md` now reports two project mathematical cuts:
 
-- `Erdos848.oppositeNearbyMatchingImageCut`
+- `Erdos848.globalOppositeNearbyMatchingCut`
 - `Erdos848.activeStrictMiddleCreditMatchingCut`
 
 ## R003 Endpoint Cut Narrowing
@@ -236,6 +236,22 @@ The route index reports:
 - debt components: 0
 - branch heads: 0
 - hard failures: 0
+
+## R017 Global Opposite Matching Cut
+
+The opposite nearby-matching obligation was narrowed again:
+
+- `globalOppositeNearbyMatchingCut` is now the open opposite equality-block
+  axiom.
+- `GlobalOppositeNearbyMatchingImageAllocation` asks for one banded injective
+  matching on the full boxed opposite candidate class, independent of the
+  outside clique `B`.
+- `oppositeNearbyMatchingAPCertificate_of_global` proves that every
+  `B`-relative opposite part inherits the global matching by restriction.
+- `oppositeNearbyMatchingImageCut` is now a theorem, not an axiom.
+- This aligns the Lean cut with `opposite_matching_certificate.py`, whose
+  banded checker already searches the full `18 mod 25` block and verifies
+  index bandwidth `3`, hence value distance at most `86`.
 
 ## Gate
 
