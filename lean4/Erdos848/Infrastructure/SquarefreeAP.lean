@@ -22,6 +22,20 @@ def OppositeCandidateCarrier (r b : Nat) : Prop :=
   (r = 7 /\ CandidateCarrier 18 b) \/
     (r = 18 /\ CandidateCarrier 7 b)
 
+/-- The live `7 mod 25` route's opposite carrier is exactly the `18 mod 25` class. -/
+theorem oppositeCandidateCarrier_seven_of_candidate_eighteen
+    {b : Nat} (hb : CandidateCarrier 18 b) :
+    OppositeCandidateCarrier 7 b :=
+  Or.inl ⟨rfl, hb⟩
+
+/-- Extract the concrete opposite residue from the live `7 mod 25` opposite carrier. -/
+theorem candidateCarrier_eighteen_of_oppositeCandidateCarrier_seven
+    {b : Nat} (hb : OppositeCandidateCarrier 7 b) :
+    CandidateCarrier 18 b := by
+  rcases hb with hOpp | hOpp
+  · exact hOpp.right
+  · omega
+
 /-- Strict middle-region vertices: outside the base and outside the opposite candidate class. -/
 def StrictMiddleOutside (r b : Nat) : Prop :=
   CandidateOutside r b /\ Not (OppositeCandidateCarrier r b)
@@ -292,6 +306,28 @@ def GlobalOppositeFiniteOffsetSevenSquarefreeNeighbor (N b code : Nat) : Prop :=
     OppositeCandidateCarrier 7 b /\
     InBox N (OppositeFiniteOffsetValue b code) /\
     ForbiddenSquarefreeEdge (OppositeFiniteOffsetValue b code) b
+
+/--
+Live finite-offset source-residue core.  This uses the concrete opposite class
+`18 mod 25` directly; Lean reintroduces `OppositeCandidateCarrier 7` by the
+closed residue equivalence.
+-/
+def GlobalOppositeFiniteOffsetEighteenSquarefreeNeighbor (N b code : Nat) : Prop :=
+  code <= 6 /\
+    InBox N b /\
+    CandidateCarrier 18 b /\
+    InBox N (OppositeFiniteOffsetValue b code) /\
+    ForbiddenSquarefreeEdge (OppositeFiniteOffsetValue b code) b
+
+/-- Repackage the concrete `18 mod 25` source-residue core as the seven-core neighbor. -/
+theorem globalOppositeFiniteOffsetSevenSquarefreeNeighbor_of_eighteen
+    {N b code : Nat}
+    (h : GlobalOppositeFiniteOffsetEighteenSquarefreeNeighbor N b code) :
+    GlobalOppositeFiniteOffsetSevenSquarefreeNeighbor N b code := by
+  rcases h with ⟨hcode, hbBox, hb18, haBox, hedge⟩
+  exact ⟨hcode, hbBox,
+    oppositeCandidateCarrier_seven_of_candidate_eighteen hb18,
+    haBox, hedge⟩
 
 /-- In the live route, any boxed seven-offset mate of an opposite vertex is `7 mod 25`. -/
 theorem candidateCarrier_seven_of_oppositeFiniteOffsetValue
@@ -618,6 +654,54 @@ def GlobalFiniteOffsetMiddleCompressionSevenCoreCertificate : Prop :=
       (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
       ActiveStrictMiddleCreditCapacity N 7 B decMid
         (fun b => OppositeFiniteOffsetValue b (offset b)) decTarget)
+
+/--
+Live finite-offset middle-compression core with the concrete opposite residue
+`18 mod 25` on the source side.  This removes the project-level
+`OppositeCandidateCarrier` disjunction from the open cut.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenCoreCertificate : Prop :=
+  forall N : Nat, Exists fun offset : Nat -> Nat =>
+    (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+      GlobalOppositeFiniteOffsetEighteenSquarefreeNeighbor N b (offset b)) /\
+    (forall b1 b2 : Nat,
+      InBox N b1 ->
+      CandidateCarrier 18 b1 ->
+      InBox N b2 ->
+      CandidateCarrier 18 b2 ->
+      OppositeFiniteOffsetValue b1 (offset b1) =
+        OppositeFiniteOffsetValue b2 (offset b2) ->
+      b1 = b2) /\
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B))
+        (decTarget : DecidablePred
+          (ActiveStrictMiddleCreditTarget N 7 B
+            (fun b => OppositeFiniteOffsetValue b (offset b)))),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditCapacity N 7 B decMid
+        (fun b => OppositeFiniteOffsetValue b (offset b)) decTarget)
+
+/-- The concrete `18 mod 25` source-residue core supplies the previous seven-core cut. -/
+theorem globalFiniteOffsetMiddleCompressionSevenCore_of_eighteenCore
+    (h : GlobalFiniteOffsetMiddleCompressionEighteenCoreCertificate) :
+    GlobalFiniteOffsetMiddleCompressionSevenCoreCertificate := by
+  intro N
+  rcases h N with ⟨offset, hMap, hInjective, hCapacity⟩
+  refine ⟨offset, ?_, ?_, hCapacity⟩
+  · intro b hbBox hbOpp
+    exact globalOppositeFiniteOffsetSevenSquarefreeNeighbor_of_eighteen
+      (hMap b hbBox
+        (candidateCarrier_eighteen_of_oppositeCandidateCarrier_seven hbOpp))
+  · intro b1 b2 hb1Box hb1Opp hb2Box hb2Opp hmate
+    exact hInjective
+      b1 b2
+      hb1Box
+      (candidateCarrier_eighteen_of_oppositeCandidateCarrier_seven hb1Opp)
+      hb2Box
+      (candidateCarrier_eighteen_of_oppositeCandidateCarrier_seven hb2Opp)
+      hmate
 
 /-- The specialized seven-core certificate supplies the generic core certificate for residue `7`. -/
 theorem globalFiniteOffsetMiddleCompressionCore_of_sevenCore
@@ -1765,9 +1849,15 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
     omega
   simpa [APHallExpansionForOutsideSet, Nbr] using hfinal
 
-/-- Open analytic cut: live seven-core finite-offset middle-compression capacity. -/
-axiom finiteOffsetMiddleCompressionSevenCoreCut :
-  GlobalFiniteOffsetMiddleCompressionSevenCoreCertificate
+/-- Open analytic cut: concrete `18 mod 25` finite-offset middle-compression capacity. -/
+axiom finiteOffsetMiddleCompressionEighteenCoreCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenCoreCertificate
+
+/-- Current seven-core certificate derived from the concrete `18 mod 25` source-residue cut. -/
+theorem finiteOffsetMiddleCompressionSevenCoreCut :
+  GlobalFiniteOffsetMiddleCompressionSevenCoreCertificate :=
+  globalFiniteOffsetMiddleCompressionSevenCore_of_eighteenCore
+    finiteOffsetMiddleCompressionEighteenCoreCut
 
 /-- Current generic core certificate with target residues derived in Lean. -/
 theorem finiteOffsetMiddleCompressionCoreCut :

@@ -16,7 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.finiteOffsetMiddleCompressionSevenCoreCut
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenCoreCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -74,12 +74,19 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit seven-core finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies boxed seven-offset squarefree neighbors and injectivity, while Lean derives the target `7 mod 25` residue and the `86` value band; the strict middle is paid by the induced credit-capacity pool."
+        "Replace finite Hall checks by one explicit concrete `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies boxed seven-offset squarefree neighbors and injectivity, while Lean derives the project-level opposite carrier, target `7 mod 25` residue, and the `86` value band; the strict middle is paid by the induced credit-capacity pool."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
+        "Erdos848.finiteOffsetMiddleCompressionEighteenCoreCut",
         "Erdos848.finiteOffsetMiddleCompressionSevenCoreCut",
+        "Erdos848.globalFiniteOffsetMiddleCompressionSevenCore_of_eighteenCore",
+        "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenCoreCertificate",
+        "Erdos848.globalOppositeFiniteOffsetSevenSquarefreeNeighbor_of_eighteen",
+        "Erdos848.GlobalOppositeFiniteOffsetEighteenSquarefreeNeighbor",
+        "Erdos848.candidateCarrier_eighteen_of_oppositeCandidateCarrier_seven",
+        "Erdos848.oppositeCandidateCarrier_seven_of_candidate_eighteen",
         "Erdos848.finiteOffsetMiddleCompressionCoreCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionCore_of_sevenCore",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionSevenCoreCertificate",
@@ -275,10 +282,10 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Prove the remaining seven-core finite-offset middle-compression cut: boxed squarefree seven-offset opposite mates, injectivity, and the induced strict-middle credit-capacity pool must hold for every compatible outside clique.",
-        "Use Lean's residue and offset-band theorems to recover the generic finite-offset certificate and then derive direct partitioned capacity."
+        "Prove the remaining concrete `18 mod 25` finite-offset middle-compression cut: boxed squarefree seven-offset opposite mates, injectivity, and the induced strict-middle credit-capacity pool must hold for every compatible outside clique.",
+        "Use Lean's opposite-carrier, target-residue, and offset-band theorems to recover the generic finite-offset certificate and then derive direct partitioned capacity."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionSevenCoreCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenCoreCut`."
     },
     {
       id := "residue-certificate"
@@ -359,7 +366,14 @@ def config : ChainAudit.ProjectConfig := {
       keywords := [
         "SquarefreeAP",
         "squarefreeAPHall",
+        "finiteOffsetMiddleCompressionEighteenCoreCut",
         "finiteOffsetMiddleCompressionSevenCoreCut",
+        "globalFiniteOffsetMiddleCompressionSevenCore_of_eighteenCore",
+        "GlobalFiniteOffsetMiddleCompressionEighteenCoreCertificate",
+        "globalOppositeFiniteOffsetSevenSquarefreeNeighbor_of_eighteen",
+        "GlobalOppositeFiniteOffsetEighteenSquarefreeNeighbor",
+        "candidateCarrier_eighteen_of_oppositeCandidateCarrier_seven",
+        "oppositeCandidateCarrier_seven_of_candidate_eighteen",
         "finiteOffsetMiddleCompressionCoreCut",
         "globalFiniteOffsetMiddleCompressionCore_of_sevenCore",
         "GlobalFiniteOffsetMiddleCompressionSevenCoreCertificate",

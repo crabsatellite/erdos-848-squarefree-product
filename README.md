@@ -69,15 +69,17 @@ small enough for local review.
   region after removing the opposite `18 mod 25` class.  This records the
   observed surplus away from the equality block and gives the next certificate
   split target.
-- `Seven-core finite-offset middle-compression cut`: Lean now derives the endpoint
+- `18-core finite-offset middle-compression cut`: Lean now derives the endpoint
   `SquarefreeAPHallCertificate` from `partitionedSquarefreeAPCapacityCut`,
   which is itself a theorem derived from
   `finiteOffsetMiddleCompressedCapacityCut`; that theorem is derived from
-  `finiteOffsetMiddleCompressionCoreCut`, which is now derived from the live
-  cut `finiteOffsetMiddleCompressionSevenCoreCut`.  The live cut asks for
-  boxed seven-offset squarefree opposite mates, injectivity, and the active
-  strict-middle credit-capacity pool.  Lean derives the target `7 mod 25`
-  residue and the `86` value band from the offset code, then derives direct
+  `finiteOffsetMiddleCompressionCoreCut`, which is derived from
+  `finiteOffsetMiddleCompressionSevenCoreCut`; that theorem is now derived
+  from the live cut `finiteOffsetMiddleCompressionEighteenCoreCut`.  The live
+  cut asks for boxed seven-offset squarefree mates from the concrete
+  `18 mod 25` source class, injectivity, and the active strict-middle
+  credit-capacity pool.  Lean derives the project-level opposite carrier, the
+  target `7 mod 25` residue, and the `86` value band, then derives direct
   partitioned neighbor capacity for every compatible outside clique.  Python
   separately checks the finite shadows
   `|N(O)| >= |O|`, `|N(M)| >= |M|`,
@@ -96,6 +98,6 @@ small enough for local review.
   the credit pool.
 
 The audit-visible primary gap is `G-squarefree-ap-hall-expansion`; the current
-open mathematical cut is `Erdos848.finiteOffsetMiddleCompressionSevenCoreCut`.
+open mathematical cut is `Erdos848.finiteOffsetMiddleCompressionEighteenCoreCut`.
 Finite search is kept as support evidence and explicitly marked as a dead route
 when used alone.

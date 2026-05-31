@@ -55,14 +55,24 @@ The exact finite checks have to be replaced by explicit inequalities:
 
 ## Audit Cuts
 
-- `Erdos848.finiteOffsetMiddleCompressionSevenCoreCut`: live seven-core
-  finite-offset middle-compression capacity, still open.  It combines boxed
-  seven-offset squarefree opposite mates, injectivity, and count-level active
-  strict-middle credit capacity.  The target `7 mod 25` residue and `86`
-  value-band inequalities are no longer part of the axiom surface.
+- `Erdos848.finiteOffsetMiddleCompressionEighteenCoreCut`: live concrete
+  `18 mod 25` finite-offset middle-compression capacity, still open.  It
+  combines boxed seven-offset squarefree mates from the concrete opposite
+  source class, injectivity, and count-level active strict-middle credit
+  capacity.  The project-level opposite carrier, target `7 mod 25` residue,
+  and `86` value-band inequalities are no longer part of the axiom surface.
 
 Closed local supports:
 
+- `Erdos848.oppositeCandidateCarrier_seven_of_candidate_eighteen` and
+  `Erdos848.candidateCarrier_eighteen_of_oppositeCandidateCarrier_seven`: the
+  live `7 mod 25` route's opposite carrier is exactly the `18 mod 25` class.
+- `Erdos848.globalOppositeFiniteOffsetSevenSquarefreeNeighbor_of_eighteen`:
+  bridge from the concrete source-residue neighbor to the seven-core neighbor.
+- `Erdos848.globalFiniteOffsetMiddleCompressionSevenCore_of_eighteenCore`:
+  bridge from the live `18 mod 25` core cut to the previous seven-core cut.
+- `Erdos848.finiteOffsetMiddleCompressionSevenCoreCut`: previous seven-core
+  cut, now kernel-derived from the concrete `18 mod 25` core cut.
 - `Erdos848.candidateCarrier_seven_of_oppositeFiniteOffsetValue`: pure
   arithmetic proof that a boxed finite-offset mate of an opposite `18 mod 25`
   vertex lies in the target `7 mod 25` class.
