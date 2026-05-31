@@ -55,15 +55,23 @@ The exact finite checks have to be replaced by explicit inequalities:
 
 ## Audit Cuts
 
-- `Erdos848.finiteOffsetMiddleCompressionEighteenCoreCut`: live concrete
+- `Erdos848.finiteOffsetMiddleCompressionEighteenTargetCut`: live target-only
   `18 mod 25` finite-offset middle-compression capacity, still open.  It
-  combines boxed seven-offset squarefree mates from the concrete opposite
+  combines seven-offset target box/squarefree data from the concrete opposite
   source class, injectivity, and count-level active strict-middle credit
-  capacity.  The project-level opposite carrier, target `7 mod 25` residue,
-  and `86` value-band inequalities are no longer part of the axiom surface.
+  capacity.  The source box/residue facts, project-level opposite carrier,
+  target `7 mod 25` residue, and `86` value-band inequalities are no longer
+  part of the axiom surface.
 
 Closed local supports:
 
+- `Erdos848.globalOppositeFiniteOffsetEighteenSquarefreeNeighbor_of_target`:
+  bridge that reattaches the source `InBox` and `18 mod 25` facts to a
+  target-only finite-offset neighbor.
+- `Erdos848.globalFiniteOffsetMiddleCompressionEighteenCore_of_target`: bridge
+  from the live target-only cut to the previous concrete `18 mod 25` core cut.
+- `Erdos848.finiteOffsetMiddleCompressionEighteenCoreCut`: previous concrete
+  source-residue cut, now kernel-derived from the target-only cut.
 - `Erdos848.oppositeCandidateCarrier_seven_of_candidate_eighteen` and
   `Erdos848.candidateCarrier_eighteen_of_oppositeCandidateCarrier_seven`: the
   live `7 mod 25` route's opposite carrier is exactly the `18 mod 25` class.

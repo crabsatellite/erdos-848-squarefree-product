@@ -319,6 +319,25 @@ def GlobalOppositeFiniteOffsetEighteenSquarefreeNeighbor (N b code : Nat) : Prop
     InBox N (OppositeFiniteOffsetValue b code) /\
     ForbiddenSquarefreeEdge (OppositeFiniteOffsetValue b code) b
 
+/--
+Pointwise finite-offset target data for the concrete `18 mod 25` source class.
+The source box and residue facts are inputs to the certificate map, so they are
+not repeated here.
+-/
+def GlobalOppositeFiniteOffsetEighteenTargetNeighbor (N b code : Nat) : Prop :=
+  code <= 6 /\
+    InBox N (OppositeFiniteOffsetValue b code) /\
+    ForbiddenSquarefreeEdge (OppositeFiniteOffsetValue b code) b
+
+/-- Reattach source box/residue inputs to a finite-offset target-neighbor fact. -/
+theorem globalOppositeFiniteOffsetEighteenSquarefreeNeighbor_of_target
+    {N b code : Nat}
+    (hbBox : InBox N b)
+    (hb18 : CandidateCarrier 18 b)
+    (h : GlobalOppositeFiniteOffsetEighteenTargetNeighbor N b code) :
+    GlobalOppositeFiniteOffsetEighteenSquarefreeNeighbor N b code := by
+  exact ⟨h.left, hbBox, hb18, h.right.left, h.right.right⟩
+
 /-- Repackage the concrete `18 mod 25` source-residue core as the seven-core neighbor. -/
 theorem globalOppositeFiniteOffsetSevenSquarefreeNeighbor_of_eighteen
     {N b code : Nat}
@@ -682,6 +701,44 @@ def GlobalFiniteOffsetMiddleCompressionEighteenCoreCertificate : Prop :=
       (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
       ActiveStrictMiddleCreditCapacity N 7 B decMid
         (fun b => OppositeFiniteOffsetValue b (offset b)) decTarget)
+
+/--
+Concrete `18 mod 25` finite-offset middle-compression certificate with source
+box/residue inputs removed from the returned pointwise neighbor data.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTargetCertificate : Prop :=
+  forall N : Nat, Exists fun offset : Nat -> Nat =>
+    (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+      GlobalOppositeFiniteOffsetEighteenTargetNeighbor N b (offset b)) /\
+    (forall b1 b2 : Nat,
+      InBox N b1 ->
+      CandidateCarrier 18 b1 ->
+      InBox N b2 ->
+      CandidateCarrier 18 b2 ->
+      OppositeFiniteOffsetValue b1 (offset b1) =
+        OppositeFiniteOffsetValue b2 (offset b2) ->
+      b1 = b2) /\
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B))
+        (decTarget : DecidablePred
+          (ActiveStrictMiddleCreditTarget N 7 B
+            (fun b => OppositeFiniteOffsetValue b (offset b)))),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditCapacity N 7 B decMid
+        (fun b => OppositeFiniteOffsetValue b (offset b)) decTarget)
+
+/-- The source-input-minimal target certificate supplies the previous eighteen-core cut. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenCore_of_target
+    (h : GlobalFiniteOffsetMiddleCompressionEighteenTargetCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenCoreCertificate := by
+  intro N
+  rcases h N with ⟨offset, hMap, hInjective, hCapacity⟩
+  refine ⟨offset, ?_, hInjective, hCapacity⟩
+  intro b hbBox hb18
+  exact globalOppositeFiniteOffsetEighteenSquarefreeNeighbor_of_target
+    hbBox hb18 (hMap b hbBox hb18)
 
 /-- The concrete `18 mod 25` source-residue core supplies the previous seven-core cut. -/
 theorem globalFiniteOffsetMiddleCompressionSevenCore_of_eighteenCore
@@ -1849,9 +1906,15 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
     omega
   simpa [APHallExpansionForOutsideSet, Nbr] using hfinal
 
-/-- Open analytic cut: concrete `18 mod 25` finite-offset middle-compression capacity. -/
-axiom finiteOffsetMiddleCompressionEighteenCoreCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenCoreCertificate
+/-- Open analytic cut: target-only `18 mod 25` finite-offset middle-compression capacity. -/
+axiom finiteOffsetMiddleCompressionEighteenTargetCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTargetCertificate
+
+/-- Current concrete `18 mod 25` core cut with source facts reattached in Lean. -/
+theorem finiteOffsetMiddleCompressionEighteenCoreCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenCoreCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenCore_of_target
+    finiteOffsetMiddleCompressionEighteenTargetCut
 
 /-- Current seven-core certificate derived from the concrete `18 mod 25` source-residue cut. -/
 theorem finiteOffsetMiddleCompressionSevenCoreCut :

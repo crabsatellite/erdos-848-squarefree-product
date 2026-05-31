@@ -16,19 +16,20 @@ reports, then record only durable round movement here.
 | R024 | `R024_offset_band_core.md` | proved the seven-offset value-band arithmetic in Lean and removed the band inequalities from the live middle-compression axiom |
 | R025 | `R025_seven_core_residue.md` | proved the target-residue arithmetic for boxed seven-offset mates and removed the candidate-residue condition from the live cut |
 | R026 | `R026_eighteen_core_source.md` | proved the live opposite carrier is exactly the concrete `18 mod 25` source class and removed that disjunction from the live cut |
+| R027 | `R027_target_only_neighbor.md` | reattached source box/residue facts in Lean and removed them from the finite-offset neighbor data returned by the live cut |
 
 ## Current Frontier
 
 Generated `lean4/chain-status/route-index.md` reports one mathematical cut:
 
-- `Erdos848.finiteOffsetMiddleCompressionEighteenCoreCut`
+- `Erdos848.finiteOffsetMiddleCompressionEighteenTargetCut`
 
 The active replacement route is `chain:hall-expansion-compression`, with
 primary gap `G-squarefree-ap-hall-expansion`.  The current certificate shape is
-concrete `18 mod 25` finite-offset middle-compression capacity for compatible
-outside cliques, from which Lean derives the project-level opposite carrier,
-the target `7 mod 25` residue, the `86` value band, and then direct partitioned
-neighbor capacity.
+target-only concrete `18 mod 25` finite-offset middle-compression capacity for
+compatible outside cliques, from which Lean reattaches source box/residue facts,
+derives the project-level opposite carrier, the target `7 mod 25` residue, the
+`86` value band, and then direct partitioned neighbor capacity.
 
 ## Local Gate
 
