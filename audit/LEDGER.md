@@ -10,18 +10,18 @@ reports, then record only durable round movement here.
 | R002-R018 | `R002_hall_assembly_close.md` | closed residue, rough-square, Hall assembly, partition/capacity bridges, matching-image count, active credit finite checker, global opposite matching restriction bridge, and global-relative active credit cut |
 | R019 | `R019_finite_offset_split_credit.md` | compressed the two global cuts into one finite-offset split-credit cut and recorded the seven-offset matching shadow |
 | R020 | `R020_finite_offset_split_capacity.md` | replaced the live split-credit cut with a count-level split-capacity cut and proved the incremental-capacity bridge in Lean |
+| R021 | `R021_finite_offset_partitioned_capacity.md` | replaced the live split-capacity cut with direct partitioned capacity and proved the reverse union-to-incremental bridge |
 
 ## Current Frontier
 
 Generated `lean4/chain-status/route-index.md` reports one mathematical cut:
 
-- `Erdos848.globalFiniteOffsetSplitCapacityCut`
+- `Erdos848.globalFiniteOffsetPartitionedCapacityCut`
 
 The active replacement route is `chain:hall-expansion-compression`, with
 primary gap `G-squarefree-ap-hall-expansion`.  The current certificate shape is
-a finite-offset global banded opposite matching image plus count-level
-strict-middle credit capacity relative to that same finite-offset mate into the
-unused opposite surplus or genuinely new middle neighbors.
+a finite-offset global banded opposite matching image plus direct partitioned
+neighbor capacity for compatible outside cliques.
 
 ## Local Gate
 

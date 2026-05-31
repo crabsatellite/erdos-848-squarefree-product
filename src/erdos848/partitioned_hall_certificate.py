@@ -30,7 +30,7 @@ def partitioned_hall_certificate(
     base_residue: int = 7,
     opposite_residue: int = 18,
 ) -> PartitionedHallCertificate:
-    """Check the finite shadow of the partitioned AP/Hall cut.
+    """Check the finite shadow of the live partitioned-capacity cut.
 
     For every compatible outside clique B, split B into the opposite candidate
     part O and the strict middle part M.  A disjoint allocation exists whenever
@@ -40,7 +40,8 @@ def partitioned_hall_certificate(
     * |N(M)| >= |M|
     * |N(O) union N(M)| >= |O| + |M|
 
-    The last line is the flexible replacement for the overstrong condition
+    The direct union-capacity line is now the live Lean cut's count target.  It
+    is also the flexible replacement for the overstrong condition
     |N(M) \\ N(O)| >= |M|, which is already false in small windows.
     Equivalently, the opposite-neighbor surplus pays for strict-middle overlap:
 

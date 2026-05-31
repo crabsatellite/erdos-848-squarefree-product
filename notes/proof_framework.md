@@ -44,30 +44,31 @@ and is forced into a thinner prime-square root class.
 The exact finite checks have to be replaced by explicit inequalities:
 
 1. Squarefree counts in arithmetic progressions for `b(25t+7)+1`.
-2. A finite-offset split-capacity certificate: match the whole `18 mod 25`
+2. A finite-offset partitioned-capacity certificate: match the whole `18 mod 25`
    equality block injectively by one of seven fixed offsets into nearby
    candidate neighbors, restrict that global matching to every outside clique,
-   and prove only the count-level active strict-middle credit capacity relative
-   to that same finite-offset mate.
-3. The remaining analytic inequality behind the split-capacity cut:
-   `|O| + |M| <= |N(O)| + |N(M) \ N(O)|` only in the active case where the
-   strict-middle part is nonempty.
+   and prove direct partitioned neighbor capacity for every compatible outside
+   clique.
+3. The remaining analytic inequality behind the partitioned-capacity cut:
+   `|O| + |M| <= |N(O) union N(M)|`.
 4. A rough-square-divisor ledger for `a^2+1 = m p^2` with large `p`.
 5. A certified bridge from residue certificates to interval certificates.
 
 ## Audit Cuts
 
-- `Erdos848.globalFiniteOffsetSplitCapacityCut`: finite-offset global opposite
-  matching plus active strict-middle credit-capacity certificate, still open.
+- `Erdos848.globalFiniteOffsetPartitionedCapacityCut`: finite-offset global
+  opposite matching plus direct partitioned-neighbor capacity, still open.
   The opposite mate is restricted to the seven value offsets
-  `[-86, -61, -36, -11, 14, 39, 64]`; middle vertices are injected into either
-  unused opposite-neighbor surplus or genuinely new middle neighbors relative
-  to that same mate by count capacity, not by assuming a credit function.
+  `[-86, -61, -36, -11, 14, 39, 64]`; the active-middle credit pool is no
+  longer part of the live cut.
 
 Closed local supports:
 
 - `Erdos848.globalOppositeFiniteOffsetMatchingCut`: the finite-offset global
-  matching projection, kernel-derived from `globalFiniteOffsetSplitCapacityCut`.
+  matching projection, kernel-derived from
+  `globalFiniteOffsetPartitionedCapacityCut`.
+- `Erdos848.partitionedSquarefreeAPCapacityCut`: the direct union-capacity
+  certificate, kernel-derived from `globalFiniteOffsetPartitionedCapacityCut`.
 - `Erdos848.globalOppositeNearbyMatchingCut`: the old global nearby/banded
   matching certificate, now kernel-derived from the finite-offset matching.
 - `Erdos848.oppositeNearbyMatchingImageCut`: the old `B`-relative
@@ -79,11 +80,18 @@ Closed local supports:
   from the split-credit cut to the finite-offset matching certificate.
 - `Erdos848.globalOppositeFiniteOffsetMatching_of_splitCapacity`: projection
   from the split-capacity cut to the finite-offset matching certificate.
+- `Erdos848.globalOppositeFiniteOffsetMatching_of_partitionedCapacity`:
+  projection from the partitioned-capacity cut to the finite-offset matching.
+- `Erdos848.partitionedSquarefreeAPCapacity_of_finiteOffsetPartitionedCapacity`:
+  projection from the live cut to direct partitioned capacity.
 - `Erdos848.oppositeNearbyMatchingAPCertificate_of_global`: bridge from the
   global opposite-block matching to every `B`-relative opposite part.
 - `Erdos848.activeStrictMiddleIncrementalCapacityCut`: active strict-middle
   incremental surplus certificate, kernel-derived from the finite-offset
-  split-capacity cut.
+  partitioned-capacity cut.
+- `Erdos848.incrementalPartitionedSquarefreeAPCapacity_of_partitionedCapacity`:
+  bridge from direct union capacity to incremental/surplus capacity, using the
+  cover of `N(O) union N(M)` by `N(O)` and `N(M) \ N(O)`.
 - `Erdos848.activeStrictMiddleIncrementalCapacity_of_finiteOffsetSplitCapacity`:
   bridge from the finite-offset global mate plus count-level credit-capacity
   interface to the incremental capacity certificate.

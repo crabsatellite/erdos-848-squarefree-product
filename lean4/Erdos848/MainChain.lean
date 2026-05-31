@@ -16,7 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.globalFiniteOffsetSplitCapacityCut
+    ``Erdos848.globalFiniteOffsetPartitionedCapacityCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -74,12 +74,16 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit finite-offset split-capacity analytic cut for the endpoint-consumed `7 mod 25` progression: the opposite `18 mod 25` block is matched by one of seven fixed offsets, and active strict-middle vertices are paid by a count-level credit pool relative to that same finite-offset mate."
+        "Replace finite Hall checks by one explicit finite-offset partitioned-capacity analytic cut for the endpoint-consumed `7 mod 25` progression: the opposite `18 mod 25` block is matched by one of seven fixed offsets, and every compatible outside clique satisfies direct partitioned neighbor capacity."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
-        "Erdos848.globalFiniteOffsetSplitCapacityCut",
+        "Erdos848.globalFiniteOffsetPartitionedCapacityCut",
+        "Erdos848.GlobalFiniteOffsetPartitionedCapacityCertificateForResidue",
+        "Erdos848.globalOppositeFiniteOffsetMatching_of_partitionedCapacity",
+        "Erdos848.partitionedSquarefreeAPCapacity_of_finiteOffsetPartitionedCapacity",
+        "Erdos848.incrementalPartitionedSquarefreeAPCapacity_of_partitionedCapacity",
         "Erdos848.GlobalFiniteOffsetSplitCapacityCertificateForResidue",
         "Erdos848.ActiveStrictMiddleCreditCapacity",
         "Erdos848.GlobalFiniteOffsetSplitCreditCertificateForResidue",
@@ -262,9 +266,9 @@ def config : ChainAudit.ProjectConfig := {
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
         "Promote the opposite `18 mod 25` banded matching shadow into a seven-offset global matching certificate; every outside subset inherits it by restriction and image cardinality is kernel-derived from boxed injectivity.",
-        "Prove the remaining finite-offset split-capacity cut: active strict-middle surplus must have enough count-level credit capacity relative to the same finite-offset mate, using unused opposite-neighbor surplus or genuinely new middle neighbors."
+        "Prove the remaining finite-offset partitioned-capacity cut: every compatible outside clique must satisfy direct partitioned neighbor capacity while the opposite equality block keeps the same finite-offset global mate."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `globalFiniteOffsetSplitCapacityCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `globalFiniteOffsetPartitionedCapacityCut`."
     },
     {
       id := "residue-certificate"
@@ -346,8 +350,12 @@ def config : ChainAudit.ProjectConfig := {
         "SquarefreeAP",
         "squarefreeAPHall",
         "nearbyMatchedSplitIncrementalSquarefreeAPCapacity",
+        "GlobalFiniteOffsetPartitionedCapacityCertificateForResidue",
+        "globalFiniteOffsetPartitionedCapacityCut",
+        "globalOppositeFiniteOffsetMatching_of_partitionedCapacity",
+        "partitionedSquarefreeAPCapacity_of_finiteOffsetPartitionedCapacity",
+        "incrementalPartitionedSquarefreeAPCapacity_of_partitionedCapacity",
         "GlobalFiniteOffsetSplitCapacityCertificateForResidue",
-        "globalFiniteOffsetSplitCapacityCut",
         "ActiveStrictMiddleCreditCapacity",
         "GlobalFiniteOffsetSplitCreditCertificateForResidue",
         "OppositeFiniteOffsetValue",

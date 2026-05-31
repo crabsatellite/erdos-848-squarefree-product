@@ -456,6 +456,28 @@ def GlobalFiniteOffsetSplitCapacityCertificateForResidue (r K : Nat) : Prop :=
       ActiveStrictMiddleCreditCapacity N r B decMid
         (fun b => OppositeFiniteOffsetValue b (offset b)) decTarget)
 
+/--
+Single global cut with a finite-offset opposite matching and direct
+partitioned-neighbor capacity for every compatible outside clique.
+-/
+def GlobalFiniteOffsetPartitionedCapacityCertificateForResidue (r K : Nat) : Prop :=
+  forall N : Nat, Exists fun offset : Nat -> Nat =>
+    (forall b : Nat, InBox N b -> OppositeCandidateCarrier r b ->
+      GlobalOppositeFiniteOffsetNeighbor N r K b (offset b)) /\
+    (forall b1 b2 : Nat,
+      InBox N b1 -> OppositeCandidateCarrier r b1 ->
+      InBox N b2 -> OppositeCandidateCarrier r b2 ->
+      OppositeFiniteOffsetValue b1 (offset b1) =
+        OppositeFiniteOffsetValue b2 (offset b2) ->
+      b1 = b2) /\
+    (forall (B : Nat -> Prop)
+        (decOpp : DecidablePred (OppositeOutsidePart r B))
+        (decMid : DecidablePred (StrictMiddlePart r B))
+        (decUnion : DecidablePred (PartitionedNeighborUnion N r B)),
+      BoundedOutsideSet N r B ->
+      NonSquarefreeClique B ->
+      PartitionedNeighborCapacity N r B decOpp decMid decUnion)
+
 /-- Split certificate: equality-block expansion plus active strict-middle surplus. -/
 def SplitIncrementalSquarefreeAPCapacityCertificateForResidue (r : Nat) : Prop :=
   OppositeSquarefreeAPCapacityCertificateForResidue r /\
@@ -994,6 +1016,24 @@ theorem globalOppositeFiniteOffsetMatching_of_splitCapacity
   rcases h N with ⟨offset, hMap, hInjective, _hCapacity⟩
   exact Exists.intro offset (And.intro hMap hInjective)
 
+/-- The direct partitioned-capacity certificate projects to finite-offset matching. -/
+theorem globalOppositeFiniteOffsetMatching_of_partitionedCapacity
+    {r K : Nat}
+    (h : GlobalFiniteOffsetPartitionedCapacityCertificateForResidue r K) :
+    GlobalOppositeFiniteOffsetMatchingAPCertificateForResidue r K := by
+  intro N
+  rcases h N with ⟨offset, hMap, hInjective, _hCapacity⟩
+  exact Exists.intro offset (And.intro hMap hInjective)
+
+/-- The direct partitioned-capacity certificate projects to partitioned capacity. -/
+theorem partitionedSquarefreeAPCapacity_of_finiteOffsetPartitionedCapacity
+    {r K : Nat}
+    (h : GlobalFiniteOffsetPartitionedCapacityCertificateForResidue r K) :
+    PartitionedSquarefreeAPCapacityCertificateForResidue r := by
+  intro N B decOpp decMid decUnion hB hClique
+  rcases h N with ⟨_offset, _hMap, _hInjective, hCapacity⟩
+  exact hCapacity B decOpp decMid decUnion hB hClique
+
 /-- A residue-level matching-image certificate implies the nearby allocation certificate. -/
 theorem oppositeNearbyAPAllocationCertificate_of_matching
     {r K : Nat}
@@ -1379,6 +1419,41 @@ theorem incrementalPartitionedSquarefreeAPCapacity_of_split
       omega
     simpa [PartitionedIncrementalCapacity] using hfinal
 
+/-- Direct union-capacity also implies incremental/surplus capacity. -/
+theorem incrementalPartitionedSquarefreeAPCapacity_of_partitionedCapacity
+    (h : PartitionedSquarefreeAPCapacityCertificate) :
+    IncrementalPartitionedSquarefreeAPCapacityCertificate := by
+  intro N B decOpp decMid decOppNbr decNewMid hB hClique
+  classical
+  let OppNbr : Nat -> Prop :=
+    SquarefreeNeighborInCandidate N 7 (OppositeOutsidePart 7 B)
+  let NewMid : Nat -> Prop := IncrementalStrictMiddleNeighbor N 7 B
+  let U : Nat -> Prop := PartitionedNeighborUnion N 7 B
+  let decUnion : DecidablePred U := fun a => Classical.propDecidable (U a)
+  have hcap :
+      @familySize N (OppositeOutsidePart 7 B) decOpp +
+          @familySize N (StrictMiddlePart 7 B) decMid <=
+        @familySize N U decUnion := by
+    simpa [PartitionedNeighborCapacity, U] using
+      h N B decOpp decMid decUnion hB hClique
+  have hUle :
+      @familySize N U decUnion <=
+        @familySize N OppNbr decOppNbr + @familySize N NewMid decNewMid := by
+    apply familySize_le_add_of_subset_or
+      N U OppNbr NewMid decUnion decOppNbr decNewMid
+    intro a ha
+    rcases ha with hOpp | hMid
+    · exact Or.inl hOpp
+    · by_cases hOpp : OppNbr a
+      · exact Or.inl hOpp
+      · exact Or.inr (And.intro hMid hOpp)
+  have hfinal :
+      @familySize N (OppositeOutsidePart 7 B) decOpp +
+          @familySize N (StrictMiddlePart 7 B) decMid <=
+        @familySize N OppNbr decOppNbr + @familySize N NewMid decNewMid := by
+    omega
+  simpa [PartitionedIncrementalCapacity, OppNbr, NewMid] using hfinal
+
 /-- The incremental/surplus certificate implies the direct union-capacity certificate. -/
 theorem partitionedSquarefreeAPCapacity_of_incremental
     (h : IncrementalPartitionedSquarefreeAPCapacityCertificate) :
@@ -1455,15 +1530,15 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
     omega
   simpa [APHallExpansionForOutsideSet, Nbr] using hfinal
 
-/-- Open analytic cut: finite-offset global matching plus split credit capacity. -/
-axiom globalFiniteOffsetSplitCapacityCut :
-  GlobalFiniteOffsetSplitCapacityCertificateForResidue 7 86
+/-- Open analytic cut: finite-offset global matching plus partitioned capacity. -/
+axiom globalFiniteOffsetPartitionedCapacityCut :
+  GlobalFiniteOffsetPartitionedCapacityCertificateForResidue 7 86
 
 /-- Current finite-offset matching image for the equality block. -/
 theorem globalOppositeFiniteOffsetMatchingCut :
   GlobalOppositeFiniteOffsetMatchingAPCertificateForResidue 7 86 :=
-  globalOppositeFiniteOffsetMatching_of_splitCapacity
-    globalFiniteOffsetSplitCapacityCut
+  globalOppositeFiniteOffsetMatching_of_partitionedCapacity
+    globalFiniteOffsetPartitionedCapacityCut
 
 /-- Current global nearby/banded matching for the equality block. -/
 theorem globalOppositeNearbyMatchingCut :
@@ -1476,18 +1551,30 @@ theorem oppositeNearbyMatchingImageCut :
   OppositeNearbyMatchingAPCertificateForResidue 7 86
   := oppositeNearbyMatchingAPCertificate_of_global globalOppositeNearbyMatchingCut
 
-/-- Current active strict-middle surplus derived from finite-offset split capacity. -/
-theorem activeStrictMiddleIncrementalCapacityCut :
-  ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7 :=
-  activeStrictMiddleIncrementalCapacity_of_finiteOffsetSplitCapacity
-    globalFiniteOffsetSplitCapacityCut
+/-- Current union-capacity certificate derived directly from partitioned capacity. -/
+theorem partitionedSquarefreeAPCapacityCut : PartitionedSquarefreeAPCapacityCertificate :=
+  partitionedSquarefreeAPCapacity_of_finiteOffsetPartitionedCapacity
+    globalFiniteOffsetPartitionedCapacityCut
 
-/-- Current matching-image split certificate derived from finite-offset split capacity. -/
+/-- Current incremental/surplus certificate derived from direct union capacity. -/
+theorem incrementalPartitionedSquarefreeAPCapacityCut :
+    IncrementalPartitionedSquarefreeAPCapacityCertificate :=
+  incrementalPartitionedSquarefreeAPCapacity_of_partitionedCapacity
+    partitionedSquarefreeAPCapacityCut
+
+/-- Current active strict-middle surplus derived from direct union capacity. -/
+theorem activeStrictMiddleIncrementalCapacityCut :
+  ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7 := by
+  intro N B decOpp decMid decOppNbr decNewMid hB hClique _hMid
+  exact incrementalPartitionedSquarefreeAPCapacityCut
+    N B decOpp decMid decOppNbr decNewMid hB hClique
+
+/-- Current matching-image split certificate derived from partitioned capacity. -/
 theorem nearbyMatchedSplitIncrementalSquarefreeAPCapacityCut :
     NearbyMatchedSplitIncrementalSquarefreeAPCapacityCertificate :=
   And.intro oppositeNearbyMatchingImageCut activeStrictMiddleIncrementalCapacityCut
 
-/-- Current nearby split certificate derived from finite-offset split capacity. -/
+/-- Current nearby split certificate derived from partitioned capacity. -/
 theorem nearbyAllocatedSplitIncrementalSquarefreeAPCapacityCut :
     NearbyAllocatedSplitIncrementalSquarefreeAPCapacityCertificate :=
   nearbyAllocatedSplitIncrementalSquarefreeAPCapacity_of_matched
@@ -1504,17 +1591,6 @@ theorem splitIncrementalSquarefreeAPCapacityCut :
     SplitIncrementalSquarefreeAPCapacityCertificate :=
   splitIncrementalSquarefreeAPCapacity_of_allocated
     allocatedSplitIncrementalSquarefreeAPCapacityCut
-
-/-- Current incremental/surplus certificate derived from the split cut. -/
-theorem incrementalPartitionedSquarefreeAPCapacityCut :
-    IncrementalPartitionedSquarefreeAPCapacityCertificate :=
-  incrementalPartitionedSquarefreeAPCapacity_of_split
-    splitIncrementalSquarefreeAPCapacityCut
-
-/-- Current union-capacity certificate derived from the incremental/surplus cut. -/
-theorem partitionedSquarefreeAPCapacityCut : PartitionedSquarefreeAPCapacityCertificate :=
-  partitionedSquarefreeAPCapacity_of_incremental
-    incrementalPartitionedSquarefreeAPCapacityCut
 
 /-- Current endpoint AP/Hall certificate derived from the structured partitioned capacity cut. -/
 theorem squarefreeAPHallCut : SquarefreeAPHallCertificate :=
