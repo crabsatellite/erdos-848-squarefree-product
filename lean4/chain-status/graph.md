@@ -11,13 +11,13 @@ graph TD
   classDef cut fill:#ffd,stroke:#a80
   classDef drift fill:#fdd,stroke:#a00,stroke-width:3px
   classDef endpoint fill:#dfd,stroke:#080
+  Erdos848_finiteOffsetMiddleCompressionEighteenBoxedDecoderCut{{ "finiteOffsetMiddleCompressionEighteenBoxedDecoderCut" }}:::cut
   propext{{ "propext" }}:::cut
   Classical_choice{{ "choice" }}:::cut
   Quot_sound{{ "sound" }}:::cut
-  Erdos848_finiteOffsetMiddleCompressionEighteenTypedDecoderCut{{ "finiteOffsetMiddleCompressionEighteenTypedDecoderCut" }}:::cut
   Erdos848_erdos848_main>"erdos848_main"]:::endpoint
   Erdos848_erdos848_main --> Classical_choice
-  Erdos848_erdos848_main --> Erdos848_finiteOffsetMiddleCompressionEighteenTypedDecoderCut
+  Erdos848_erdos848_main --> Erdos848_finiteOffsetMiddleCompressionEighteenBoxedDecoderCut
   Erdos848_erdos848_main --> Quot_sound
   Erdos848_erdos848_main --> propext
 ```

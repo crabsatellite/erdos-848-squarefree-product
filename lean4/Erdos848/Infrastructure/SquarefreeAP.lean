@@ -285,6 +285,47 @@ def OppositeFiniteOffsetCodeValue
     (b : Nat) (code : OppositeFiniteOffsetCode) : Nat :=
   OppositeFiniteOffsetValue b (OppositeFiniteOffsetCode.toNat code)
 
+/-- A finite-offset code packaged with the proof that its target remains boxed. -/
+def BoxedOppositeFiniteOffsetCode (N b : Nat) : Type :=
+  { code : OppositeFiniteOffsetCode //
+    InBox N (OppositeFiniteOffsetCodeValue b code) }
+
+/-- The target value carried by a boxed finite-offset code. -/
+def boxedOppositeFiniteOffsetCodeValue
+    {N b : Nat} (code : BoxedOppositeFiniteOffsetCode N b) : Nat :=
+  OppositeFiniteOffsetCodeValue b code.val
+
+/-- Extract the target box proof carried by a boxed finite-offset code. -/
+theorem boxedOppositeFiniteOffsetCodeValue_inBox
+    {N b : Nat} (code : BoxedOppositeFiniteOffsetCode N b) :
+    InBox N (boxedOppositeFiniteOffsetCodeValue code) :=
+  code.property
+
+/--
+Total Nat-indexed code induced by source-indexed boxed codes.  Non-source
+values are unreachable by the live matching image, so they get a harmless
+default constructor.
+-/
+noncomputable def boxedOppositeFiniteOffsetRawCode
+    (N : Nat)
+    (offset : forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+      BoxedOppositeFiniteOffsetCode N b)
+    (b : Nat) : OppositeFiniteOffsetCode := by
+  classical
+  exact
+    if h : InBox N b /\ CandidateCarrier 18 b then
+      (offset b h.left h.right).val
+    else
+      OppositeFiniteOffsetCode.neg86
+
+/-- Total mate function induced by source-indexed boxed finite-offset codes. -/
+noncomputable def boxedOppositeFiniteOffsetMate
+    (N : Nat)
+    (offset : forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+      BoxedOppositeFiniteOffsetCode N b)
+    (b : Nat) : Nat :=
+  OppositeFiniteOffsetCodeValue b (boxedOppositeFiniteOffsetRawCode N offset b)
+
 /-- Every permitted finite-offset code lands inside the fixed value band `86`. -/
 theorem oppositeFiniteOffsetValue_band_eightySix
     (b code : Nat) (hcode : code <= 6) :
@@ -368,6 +409,21 @@ def GlobalOppositeFiniteOffsetEighteenTypedTargetNeighbor
     (N b : Nat) (code : OppositeFiniteOffsetCode) : Prop :=
   InBox N (OppositeFiniteOffsetCodeValue b code) /\
     ForbiddenSquarefreeEdge (OppositeFiniteOffsetCodeValue b code) b
+
+/--
+Pointwise target data with the target-box proof carried by the boxed code.
+Only the squarefree edge remains as explicit pointwise output.
+-/
+def GlobalOppositeFiniteOffsetEighteenBoxedTargetNeighbor
+    {N b : Nat} (code : BoxedOppositeFiniteOffsetCode N b) : Prop :=
+  ForbiddenSquarefreeEdge (boxedOppositeFiniteOffsetCodeValue code) b
+
+/-- Repackage boxed target-neighbor data into the typed-code target form. -/
+theorem globalOppositeFiniteOffsetEighteenTypedTargetNeighbor_of_boxed
+    {N b : Nat} {code : BoxedOppositeFiniteOffsetCode N b}
+    (h : GlobalOppositeFiniteOffsetEighteenBoxedTargetNeighbor code) :
+    GlobalOppositeFiniteOffsetEighteenTypedTargetNeighbor N b code.val := by
+  exact And.intro (boxedOppositeFiniteOffsetCodeValue_inBox code) h
 
 /-- Repackage typed target-neighbor data into the legacy Nat-code target form. -/
 theorem globalOppositeFiniteOffsetEighteenTargetNeighbor_of_typed
@@ -792,6 +848,15 @@ def GlobalFiniteOffsetEighteenTypedTargetLeftInverse
   forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
     decoder (OppositeFiniteOffsetCodeValue b (offset b)) = b
 
+/-- One-sided inverse certificate for source-indexed boxed finite-offset codes. -/
+def GlobalFiniteOffsetEighteenBoxedTargetLeftInverse
+    (N : Nat)
+    (offset : forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+      BoxedOppositeFiniteOffsetCode N b)
+    (decoder : Nat -> Nat) : Prop :=
+  forall b : Nat, forall hbBox : InBox N b, forall hb18 : CandidateCarrier 18 b,
+    decoder (boxedOppositeFiniteOffsetCodeValue (offset b hbBox hb18)) = b
+
 /-- A target left-inverse certificate implies pairwise finite-offset injectivity. -/
 theorem finiteOffsetEighteenTarget_injective_of_leftInverse
     {N : Nat} {offset decoder : Nat -> Nat}
@@ -855,6 +920,58 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedDecoderCertificate : Prop :=
       (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
       ActiveStrictMiddleCreditCapacity N 7 B decMid
         (fun b => OppositeFiniteOffsetCodeValue b (offset b)) decTarget)
+
+/--
+Boxed-code decoder certificate.  The source-side offset is indexed by the
+source box/residue proofs and carries the target-box proof in the code object,
+so the pointwise target output only supplies the squarefree edge.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenBoxedDecoderCertificate : Prop :=
+  forall N : Nat, Exists fun offset :
+      (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        BoxedOppositeFiniteOffsetCode N b) =>
+  Exists fun decoder : Nat -> Nat =>
+    (forall b : Nat, forall hbBox : InBox N b,
+      forall hb18 : CandidateCarrier 18 b,
+      GlobalOppositeFiniteOffsetEighteenBoxedTargetNeighbor
+        (offset b hbBox hb18)) /\
+    GlobalFiniteOffsetEighteenBoxedTargetLeftInverse N offset decoder /\
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B))
+        (decTarget : DecidablePred
+          (ActiveStrictMiddleCreditTarget N 7 B
+            (boxedOppositeFiniteOffsetMate N offset))),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditCapacity N 7 B decMid
+        (boxedOppositeFiniteOffsetMate N offset) decTarget)
+
+/-- The boxed-code certificate supplies the previous typed-code decoder certificate. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedDecoder_of_boxed
+    (h : GlobalFiniteOffsetMiddleCompressionEighteenBoxedDecoderCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedDecoderCertificate := by
+  intro N
+  rcases h N with ⟨offset, decoder, hMap, hLeft, hCapacity⟩
+  let offsetTotal : Nat -> OppositeFiniteOffsetCode :=
+    boxedOppositeFiniteOffsetRawCode N offset
+  refine ⟨offsetTotal, decoder, ?_, ?_, ?_⟩
+  · intro b hbBox hb18
+    have hsrc : InBox N b /\ CandidateCarrier 18 b := And.intro hbBox hb18
+    have htyped :
+        GlobalOppositeFiniteOffsetEighteenTypedTargetNeighbor N b
+          (offset b hbBox hb18).val :=
+      globalOppositeFiniteOffsetEighteenTypedTargetNeighbor_of_boxed
+        (hMap b hbBox hb18)
+    simpa [offsetTotal, boxedOppositeFiniteOffsetRawCode, hsrc] using htyped
+  · intro b hbBox hb18
+    have hsrc : InBox N b /\ CandidateCarrier 18 b := And.intro hbBox hb18
+    simpa [offsetTotal, boxedOppositeFiniteOffsetRawCode,
+      boxedOppositeFiniteOffsetCodeValue, hsrc] using
+      hLeft b hbBox hb18
+  · intro B decMid decTarget hB hClique hMid
+    simpa [offsetTotal, boxedOppositeFiniteOffsetMate] using
+      hCapacity B decMid decTarget hB hClique hMid
 
 /-- The typed-code certificate supplies the previous Nat-code decoder certificate. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenDecoder_of_typed
@@ -2061,9 +2178,15 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
     omega
   simpa [APHallExpansionForOutsideSet, Nbr] using hfinal
 
-/-- Open analytic cut: typed-code decoder-form `18 mod 25` finite-offset middle compression. -/
-axiom finiteOffsetMiddleCompressionEighteenTypedDecoderCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedDecoderCertificate
+/-- Open analytic cut: boxed-code decoder-form `18 mod 25` finite-offset middle compression. -/
+axiom finiteOffsetMiddleCompressionEighteenBoxedDecoderCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenBoxedDecoderCertificate
+
+/-- Current typed-code decoder certificate with target-box data unpacked from boxed codes. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedDecoderCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedDecoderCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedDecoder_of_boxed
+    finiteOffsetMiddleCompressionEighteenBoxedDecoderCut
 
 /-- Current decoder certificate with the finite-offset code bound derived from the code type. -/
 theorem finiteOffsetMiddleCompressionEighteenDecoderCut :
