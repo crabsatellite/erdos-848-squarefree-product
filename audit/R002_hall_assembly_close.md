@@ -21,7 +21,7 @@ neighborhood expansion.
 Generated `lean4/chain-status/cuts.md` now reports two project mathematical cuts:
 
 - `Erdos848.globalOppositeNearbyMatchingCut`
-- `Erdos848.activeStrictMiddleCreditMatchingCut`
+- `Erdos848.globalActiveStrictMiddleCreditMatchingCut`
 
 ## R003 Endpoint Cut Narrowing
 
@@ -205,7 +205,8 @@ The opposite matching-image cut was narrowed again:
 The active middle obligation was narrowed from a count-bearing new-neighbor
 allocation to a credit-matching interface:
 
-- `activeStrictMiddleCreditMatchingCut` is now the active middle open axiom.
+- At this stage, `activeStrictMiddleCreditMatchingCut` was the active middle
+  open axiom.
 - `ActiveStrictMiddleCreditTarget` is the disjoint credit pool: unused
   opposite-neighbor surplus relative to the opposite matching, or genuinely new
   strict-middle neighbors.
@@ -252,6 +253,24 @@ The opposite nearby-matching obligation was narrowed again:
 - This aligns the Lean cut with `opposite_matching_certificate.py`, whose
   banded checker already searches the full `18 mod 25` block and verifies
   index bandwidth `3`, hence value distance at most `86`.
+
+## R018 Global-Relative Active Credit Cut
+
+The active strict-middle obligation was narrowed again:
+
+- `globalActiveStrictMiddleCreditMatchingCut` is now the active middle open
+  axiom.
+- `GlobalActiveStrictMiddleCreditMatchingCertificateForResidue` asks for credit
+  matchings only relative to the global opposite matching function supplied by
+  `globalOppositeNearbyMatchingCut`.
+- `activeStrictMiddleIncrementalCapacity_of_creditMatchingFor` factors the
+  counting proof through one concrete opposite mate and one concrete credit
+  matching.
+- `activeStrictMiddleIncrementalCapacity_of_globalCreditMatching` composes the
+  global opposite matching with the global-relative credit certificate to
+  recover the active incremental capacity certificate.
+- The older arbitrary-mate bridge remains as support, but the endpoint no
+  longer consumes an arbitrary-mate active credit axiom.
 
 ## Gate
 

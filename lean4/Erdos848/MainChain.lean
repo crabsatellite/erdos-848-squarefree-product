@@ -17,7 +17,7 @@ def config : ChainAudit.ProjectConfig := {
   ]
   openAxioms := [
     ``Erdos848.globalOppositeNearbyMatchingCut,
-    ``Erdos848.activeStrictMiddleCreditMatchingCut
+    ``Erdos848.globalActiveStrictMiddleCreditMatchingCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -75,7 +75,7 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by two explicit analytic cuts for the endpoint-consumed `7 mod 25` progression: a global nearby/banded matching cut for the full opposite block, and an active strict-middle credit-matching cut into unused opposite surplus or new middle neighbors."
+        "Replace finite Hall checks by two explicit analytic cuts for the endpoint-consumed `7 mod 25` progression: a global nearby/banded matching cut for the full opposite block, and an active strict-middle credit-matching cut relative to that global opposite mate into unused opposite surplus or new middle neighbors."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
@@ -86,7 +86,7 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.GlobalOppositeNearbyNeighbor",
         "Erdos848.oppositeNearbyMatchingAPCertificate_of_global",
         "Erdos848.oppositeNearbyMatchingImageCut",
-        "Erdos848.activeStrictMiddleCreditMatchingCut",
+        "Erdos848.globalActiveStrictMiddleCreditMatchingCut",
         "Erdos848.activeStrictMiddleIncrementalCapacityCut",
         "Erdos848.nearbyMatchedSplitIncrementalSquarefreeAPCapacityCut",
         "Erdos848.nearbyAllocatedSplitIncrementalSquarefreeAPCapacityCut",
@@ -107,10 +107,13 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.ActiveStrictMiddleNewNeighborAllocation",
         "Erdos848.activeStrictMiddleIncrementalCapacity_of_newNeighborAllocation",
         "Erdos848.ActiveStrictMiddleCreditMatchingCertificateForResidue",
+        "Erdos848.GlobalActiveStrictMiddleCreditMatchingCertificateForResidue",
         "Erdos848.ActiveStrictMiddleCreditMatching",
         "Erdos848.ActiveStrictMiddleCreditImage",
         "Erdos848.ActiveStrictMiddleCreditTarget",
+        "Erdos848.activeStrictMiddleIncrementalCapacity_of_creditMatchingFor",
         "Erdos848.activeStrictMiddleIncrementalCapacity_of_creditMatching",
+        "Erdos848.activeStrictMiddleIncrementalCapacity_of_globalCreditMatching",
         "Erdos848.NearbyAllocatedSplitIncrementalSquarefreeAPCapacityCertificate",
         "Erdos848.NearbyAllocatedSplitIncrementalSquarefreeAPCapacityCertificateForResidue",
         "Erdos848.OppositeNearbyAPAllocationCertificateForResidue",
@@ -247,9 +250,9 @@ def config : ChainAudit.ProjectConfig := {
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
         "Promote the opposite `18 mod 25` banded matching shadow into a global nearby matching certificate; every outside subset inherits it by restriction and image cardinality is kernel-derived from boxed injectivity.",
-        "Promote active strict-middle surplus into a credit-matching certificate, using unused opposite-neighbor surplus or genuinely new middle neighbors."
+        "Promote active strict-middle surplus into a credit-matching certificate relative to the global opposite mate, using unused opposite-neighbor surplus or genuinely new middle neighbors."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `globalOppositeNearbyMatchingCut` and `activeStrictMiddleCreditMatchingCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `globalOppositeNearbyMatchingCut` and `globalActiveStrictMiddleCreditMatchingCut`."
     },
     {
       id := "residue-certificate"
@@ -349,7 +352,9 @@ def config : ChainAudit.ProjectConfig := {
         "OppositeNeighborExpansion",
         "ActiveStrictMiddleCreditMatching",
         "ActiveStrictMiddleCreditTarget",
-        "activeStrictMiddleCreditMatchingCut",
+        "GlobalActiveStrictMiddleCreditMatchingCertificateForResidue",
+        "globalActiveStrictMiddleCreditMatchingCut",
+        "activeStrictMiddleIncrementalCapacity_of_globalCreditMatching",
         "active_credit_certificate.py",
         "credit matching",
         "credit-matching",

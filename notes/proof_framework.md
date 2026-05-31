@@ -44,8 +44,8 @@ and is forced into a thinner prime-square root class.
 The exact finite checks have to be replaced by explicit inequalities:
 
 1. Squarefree counts in arithmetic progressions for `b(25t+7)+1`.
-2. A strict-middle credit-matching certificate after removing the opposite
-   `18 mod 25` equality block.
+2. A strict-middle credit-matching certificate relative to the global opposite
+   mate after removing the opposite `18 mod 25` equality block.
 3. A global nearby matching-image split incremental/surplus certificate:
    match the whole `18 mod 25` equality block injectively to nearby candidate
    neighbors, restrict that global matching to every outside clique, and prove
@@ -60,9 +60,10 @@ The exact finite checks have to be replaced by explicit inequalities:
   certificate for the full opposite `18 mod 25` equality block, still open.
   It is independent of the outside clique `B`; Lean now derives the older
   `B`-relative matching-image certificate by restriction.
-- `Erdos848.activeStrictMiddleCreditMatchingCut`: active strict-middle
-  credit-matching certificate, still open.  Middle vertices are injected into
-  either unused opposite-neighbor surplus or genuinely new middle neighbors.
+- `Erdos848.globalActiveStrictMiddleCreditMatchingCut`: active strict-middle
+  credit-matching certificate relative to the global opposite mate, still
+  open.  Middle vertices are injected into either unused opposite-neighbor
+  surplus or genuinely new middle neighbors.
 
 Closed local supports:
 
@@ -72,9 +73,17 @@ Closed local supports:
 - `Erdos848.oppositeNearbyMatchingAPCertificate_of_global`: bridge from the
   global opposite-block matching to every `B`-relative opposite part.
 - `Erdos848.activeStrictMiddleIncrementalCapacityCut`: active strict-middle
-  incremental surplus certificate, kernel-derived from the credit-matching cut.
+  incremental surplus certificate, kernel-derived from the global-relative
+  credit-matching cut.
+- `Erdos848.activeStrictMiddleIncrementalCapacity_of_globalCreditMatching`:
+  bridge from the global opposite mate and global-relative credit-matching
+  interface to the incremental capacity certificate.
+- `Erdos848.activeStrictMiddleIncrementalCapacity_of_creditMatchingFor`:
+  pointwise kernel bridge from one concrete opposite mate plus one concrete
+  credit matching to the incremental capacity inequality.
 - `Erdos848.activeStrictMiddleIncrementalCapacity_of_creditMatching`: bridge
-  from the credit-matching interface to the incremental capacity certificate.
+  from the older arbitrary-mate credit-matching interface to the incremental
+  capacity certificate.
 - `Erdos848.nearbyMatchedSplitIncrementalSquarefreeAPCapacityCut`: nearby
   matching-image split certificate, kernel-derived from the two explicit
   analytic cuts.

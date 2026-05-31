@@ -14,11 +14,11 @@ graph TD
   propext{{ "propext" }}:::cut
   Erdos848_globalOppositeNearbyMatchingCut{{ "globalOppositeNearbyMatchingCut" }}:::cut
   Classical_choice{{ "choice" }}:::cut
+  Erdos848_globalActiveStrictMiddleCreditMatchingCut{{ "globalActiveStrictMiddleCreditMatchingCut" }}:::cut
   Quot_sound{{ "sound" }}:::cut
-  Erdos848_activeStrictMiddleCreditMatchingCut{{ "activeStrictMiddleCreditMatchingCut" }}:::cut
   Erdos848_erdos848_main>"erdos848_main"]:::endpoint
   Erdos848_erdos848_main --> Classical_choice
-  Erdos848_erdos848_main --> Erdos848_activeStrictMiddleCreditMatchingCut
+  Erdos848_erdos848_main --> Erdos848_globalActiveStrictMiddleCreditMatchingCut
   Erdos848_erdos848_main --> Erdos848_globalOppositeNearbyMatchingCut
   Erdos848_erdos848_main --> Quot_sound
   Erdos848_erdos848_main --> propext

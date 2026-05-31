@@ -349,6 +349,25 @@ def ActiveStrictMiddleCreditMatchingCertificateForResidue (r K : Nat) : Prop :=
       b1 = b2) ->
     ActiveStrictMiddleCreditMatching N r B decMid mate
 
+/-- Active strict-middle credit matching relative to the global opposite-block mate. -/
+def GlobalActiveStrictMiddleCreditMatchingCertificateForResidue (r K : Nat) : Prop :=
+  forall (N : Nat) (B : Nat -> Prop)
+    (decMid : DecidablePred (StrictMiddlePart r B))
+    (mate : Nat -> Nat),
+    BoundedOutsideSet N r B ->
+    NonSquarefreeClique B ->
+    (Exists fun b : Nat => StrictMiddlePart r B b) ->
+    (forall b : Nat, InBox N b -> OppositeCandidateCarrier r b ->
+      GlobalOppositeNearbyNeighbor N r K b (mate b)) ->
+    (forall b1 b2 : Nat,
+      InBox N b1 ->
+      OppositeCandidateCarrier r b1 ->
+      InBox N b2 ->
+      OppositeCandidateCarrier r b2 ->
+      mate b1 = mate b2 ->
+      b1 = b2) ->
+    ActiveStrictMiddleCreditMatching N r B decMid mate
+
 /-- Split certificate: equality-block expansion plus active strict-middle surplus. -/
 def SplitIncrementalSquarefreeAPCapacityCertificateForResidue (r : Nat) : Prop :=
   OppositeSquarefreeAPCapacityCertificateForResidue r /\
@@ -896,17 +915,27 @@ theorem activeStrictMiddleIncrementalCapacity_of_newNeighborAllocation
     omega
   simpa [PartitionedIncrementalCapacity] using hfinal
 
-/-- A credit matching for active middle vertices implies incremental capacity. -/
-theorem activeStrictMiddleIncrementalCapacity_of_creditMatching
-    {r K : Nat}
-    (hOpp : OppositeNearbyMatchingAPCertificateForResidue r K)
-    (hCredit : ActiveStrictMiddleCreditMatchingCertificateForResidue r K) :
-    ActiveStrictMiddleIncrementalCapacityCertificateForResidue r := by
-  intro N B decOpp decMid decOppNbr decNewMid hB hClique hMid
+/-- A concrete opposite mate plus a concrete credit matching implies incremental capacity. -/
+theorem activeStrictMiddleIncrementalCapacity_of_creditMatchingFor
+    {N r K : Nat} {B : Nat -> Prop}
+    {decOpp : DecidablePred (OppositeOutsidePart r B)}
+    {decMid : DecidablePred (StrictMiddlePart r B)}
+    {decOppNbr : DecidablePred
+      (SquarefreeNeighborInCandidate N r (OppositeOutsidePart r B))}
+    {decNewMid : DecidablePred (IncrementalStrictMiddleNeighbor N r B)}
+    {mate : Nat -> Nat}
+    (hB : BoundedOutsideSet N r B)
+    (hMateMap : forall b : Nat, OppositeOutsidePart r B b ->
+      OppositeNearbyNeighbor N r K B (mate b))
+    (hMateInjective : forall b1 b2 : Nat,
+      OppositeOutsidePart r B b1 ->
+      OppositeOutsidePart r B b2 ->
+      mate b1 = mate b2 ->
+      b1 = b2)
+    (hCreditMatch : ActiveStrictMiddleCreditMatching N r B decMid mate) :
+    PartitionedIncrementalCapacity N r B decOpp decMid decOppNbr decNewMid := by
   classical
-  rcases hOpp N B decOpp hB hClique with ⟨mate, hMateMap, hMateInjective⟩
-  rcases hCredit N B decOpp decMid mate hB hClique hMid hMateMap hMateInjective with
-    ⟨credit, hCreditMap, hCreditInjective⟩
+  rcases hCreditMatch with ⟨credit, hCreditMap, hCreditInjective⟩
   let OppImage : Nat -> Prop := OppositeMatchingImage r B mate
   let CreditImage : Nat -> Prop := ActiveStrictMiddleCreditImage r B credit
   let OppNbr : Nat -> Prop :=
@@ -976,6 +1005,62 @@ theorem activeStrictMiddleIncrementalCapacity_of_creditMatching
         @familySize N OppNbr decOppNbr + @familySize N NewMid decNewMid := by
     omega
   simpa [PartitionedIncrementalCapacity, OppNbr, NewMid] using hfinal
+
+/-- A credit matching for active middle vertices implies incremental capacity. -/
+theorem activeStrictMiddleIncrementalCapacity_of_creditMatching
+    {r K : Nat}
+    (hOpp : OppositeNearbyMatchingAPCertificateForResidue r K)
+    (hCredit : ActiveStrictMiddleCreditMatchingCertificateForResidue r K) :
+    ActiveStrictMiddleIncrementalCapacityCertificateForResidue r := by
+  intro N B decOpp decMid decOppNbr decNewMid hB hClique hMid
+  rcases hOpp N B decOpp hB hClique with ⟨mate, hMateMap, hMateInjective⟩
+  have hCreditMatch :
+      ActiveStrictMiddleCreditMatching N r B decMid mate :=
+    hCredit N B decOpp decMid mate hB hClique hMid hMateMap hMateInjective
+  exact activeStrictMiddleIncrementalCapacity_of_creditMatchingFor
+    (N := N) (r := r) (K := K) (B := B)
+    (decOpp := decOpp) (decMid := decMid)
+    (decOppNbr := decOppNbr) (decNewMid := decNewMid)
+    hB hMateMap hMateInjective hCreditMatch
+
+/-- A global opposite matching plus global-relative credit matching implies incremental capacity. -/
+theorem activeStrictMiddleIncrementalCapacity_of_globalCreditMatching
+    {r K : Nat}
+    (hOpp : GlobalOppositeNearbyMatchingAPCertificateForResidue r K)
+    (hCredit : GlobalActiveStrictMiddleCreditMatchingCertificateForResidue r K) :
+    ActiveStrictMiddleIncrementalCapacityCertificateForResidue r := by
+  intro N B decOpp decMid decOppNbr decNewMid hB hClique hMid
+  rcases hOpp N with ⟨mate, hGlobalMap, hGlobalInjective⟩
+  have hMateMap :
+      forall b : Nat, OppositeOutsidePart r B b ->
+        OppositeNearbyNeighbor N r K B (mate b) := by
+    intro b hbOpp
+    have hbBox : InBox N b := (hB b hbOpp.left).left
+    have hGlobal := hGlobalMap b hbBox hbOpp.right
+    rcases hGlobal with ⟨_hbBox, _hbOpp, haBox, haCand, hedge, haLe, hbLe⟩
+    exact And.intro
+      (And.intro haBox (And.intro haCand (Exists.intro b (And.intro hbOpp hedge))))
+      (Exists.intro b (And.intro hbOpp (And.intro haLe hbLe)))
+  have hMateInjective :
+      forall b1 b2 : Nat,
+        OppositeOutsidePart r B b1 ->
+        OppositeOutsidePart r B b2 ->
+        mate b1 = mate b2 ->
+        b1 = b2 := by
+    intro b1 b2 hb1 hb2 hmate
+    exact hGlobalInjective
+      b1 b2
+      (hB b1 hb1.left).left hb1.right
+      (hB b2 hb2.left).left hb2.right
+      hmate
+  have hCreditMatch :
+      ActiveStrictMiddleCreditMatching N r B decMid mate :=
+    hCredit N B decMid mate hB hClique hMid hGlobalMap hGlobalInjective
+  exact activeStrictMiddleIncrementalCapacity_of_creditMatchingFor
+    (N := N) (r := r) (K := K) (B := B)
+    (decOpp := decOpp) (decMid := decMid)
+    (decOppNbr := decOppNbr) (decNewMid := decNewMid)
+    hB hMateMap hMateInjective hCreditMatch
 
 /-- A nearby/banded split certificate implies the allocation-form split certificate. -/
 theorem allocatedSplitIncrementalSquarefreeAPCapacity_of_nearby
@@ -1122,16 +1207,16 @@ theorem oppositeNearbyMatchingImageCut :
   OppositeNearbyMatchingAPCertificateForResidue 7 86
   := oppositeNearbyMatchingAPCertificate_of_global globalOppositeNearbyMatchingCut
 
-/-- Open analytic cut: credit matching for active strict-middle vertices. -/
-axiom activeStrictMiddleCreditMatchingCut :
-  ActiveStrictMiddleCreditMatchingCertificateForResidue 7 86
+/-- Open analytic cut: credit matching relative to the global opposite mate. -/
+axiom globalActiveStrictMiddleCreditMatchingCut :
+  GlobalActiveStrictMiddleCreditMatchingCertificateForResidue 7 86
 
-/-- Current active strict-middle surplus derived from opposite matching plus credit matching. -/
+/-- Current active strict-middle surplus derived from global matching plus global-relative credit matching. -/
 theorem activeStrictMiddleIncrementalCapacityCut :
   ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7 :=
-  activeStrictMiddleIncrementalCapacity_of_creditMatching
-    oppositeNearbyMatchingImageCut
-    activeStrictMiddleCreditMatchingCut
+  activeStrictMiddleIncrementalCapacity_of_globalCreditMatching
+    globalOppositeNearbyMatchingCut
+    globalActiveStrictMiddleCreditMatchingCut
 
 /-- Current matching-image split certificate derived from the two explicit analytic cuts. -/
 theorem nearbyMatchedSplitIncrementalSquarefreeAPCapacityCut :

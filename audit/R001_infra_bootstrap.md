@@ -47,4 +47,4 @@ The first Lean route movement closed two bootstrap cuts:
 The generated route ledger later moved again: `hallExpansionCut` and
 `squarefreeAPHallCut` are now kernel-closed, and the only project mathematical
 cuts are `globalOppositeNearbyMatchingCut` and
-`activeStrictMiddleCreditMatchingCut`.
+`globalActiveStrictMiddleCreditMatchingCut`.
