@@ -461,6 +461,19 @@ theorem decodedSquarefreeBoxedOppositeFiniteOffsetCode_leftInverse
     decoder (boxedOppositeFiniteOffsetCodeValue code.toSquarefreeBoxed.toBoxed) = b :=
   code.property
 
+/-- The opposite mate induced by a decoded squarefree-boxed finite-offset family. -/
+noncomputable def decodedSquarefreeBoxedOppositeFiniteOffsetMate
+    (N : Nat) {decoder : Nat -> Nat}
+    (offset :
+      forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b decoder) :
+    Nat -> Nat :=
+  boxedOppositeFiniteOffsetMate N
+    (fun b hbBox hb18 =>
+      SquarefreeBoxedOppositeFiniteOffsetCode.toBoxed
+        (DecodedSquarefreeBoxedOppositeFiniteOffsetCode.toSquarefreeBoxed
+          (offset b hbBox hb18)))
+
 /-- Repackage boxed target-neighbor data into the typed-code target form. -/
 theorem globalOppositeFiniteOffsetEighteenTypedTargetNeighbor_of_boxed
     {N b : Nat} {code : BoxedOppositeFiniteOffsetCode N b}
@@ -1043,20 +1056,29 @@ def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate
         (decMid : DecidablePred (StrictMiddlePart 7 B))
         (decTarget : DecidablePred
           (ActiveStrictMiddleCreditTarget N 7 B
-            (boxedOppositeFiniteOffsetMate N
-              (fun b hbBox hb18 =>
-                SquarefreeBoxedOppositeFiniteOffsetCode.toBoxed
-                  (DecodedSquarefreeBoxedOppositeFiniteOffsetCode.toSquarefreeBoxed
-                    (offset b hbBox hb18)))))),
+            (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset))),
       BoundedOutsideSet N 7 B ->
       NonSquarefreeClique B ->
       (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
       ActiveStrictMiddleCreditCapacity N 7 B decMid
-        (boxedOppositeFiniteOffsetMate N
-          (fun b hbBox hb18 =>
-            SquarefreeBoxedOppositeFiniteOffsetCode.toBoxed
-              (DecodedSquarefreeBoxedOppositeFiniteOffsetCode.toSquarefreeBoxed
-                (offset b hbBox hb18)))) decTarget)
+        (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset) decTarget)
+
+/--
+Decoded squarefree-boxed certificate with an explicit strict-middle credit
+matching.  The live capacity inequality is derived from the matching in Lean.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCertificate : Prop :=
+  forall N : Nat, Exists fun decoder : Nat -> Nat =>
+  Exists fun offset :
+      (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b decoder) =>
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B)),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditMatching N 7 B decMid
+        (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset))
 
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
@@ -1079,7 +1101,8 @@ theorem globalFiniteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoder_of_dec
       decodedSquarefreeBoxedOppositeFiniteOffsetCode_leftInverse
         (offset b hbBox hb18)
   · intro B decMid decTarget hB hClique hMid
-    simpa [offsetSquarefree] using hCapacity B decMid decTarget hB hClique hMid
+    simpa [offsetSquarefree, decodedSquarefreeBoxedOppositeFiniteOffsetMate] using
+      hCapacity B decMid decTarget hB hClique hMid
 
 /-- The squarefree-boxed certificate supplies the previous boxed-code certificate. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenBoxedDecoder_of_squarefreeBoxed
@@ -1557,6 +1580,51 @@ private theorem familySize_le_of_bounded_injective_image
       @familySize N QB decQB <= @familySize N Q decQ := by
     exact familySize_mono N QB Q decQB decQ (fun a ha => ha.right)
   omega
+
+/-- Active strict-middle credit targets are boxed candidate-side vertices. -/
+theorem activeStrictMiddleCreditTarget_inBox
+    {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat} {a : Nat}
+    (h : ActiveStrictMiddleCreditTarget N r B mate a) :
+    InBox N a := by
+  rcases h with hReserve | hNew
+  · exact hReserve.left.left
+  · exact hNew.left.left
+
+/-- An explicit active strict-middle credit matching implies count-level capacity. -/
+theorem activeStrictMiddleCreditCapacity_of_creditMatching
+    {N r : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart r B)}
+    {mate : Nat -> Nat}
+    {decTarget : DecidablePred (ActiveStrictMiddleCreditTarget N r B mate)}
+    (hB : BoundedOutsideSet N r B)
+    (hCredit : ActiveStrictMiddleCreditMatching N r B decMid mate) :
+    ActiveStrictMiddleCreditCapacity N r B decMid mate decTarget := by
+  rcases hCredit with ⟨credit, hCreditMap, hCreditInjective⟩
+  apply familySize_le_of_bounded_injective_image
+    N (StrictMiddlePart r B) (ActiveStrictMiddleCreditTarget N r B mate)
+    decMid decTarget credit
+  · intro b hb
+    exact (hB b hb.left).left
+  · intro b hb
+    exact activeStrictMiddleCreditTarget_inBox (hCreditMap b hb)
+  · intro b hb
+    exact hCreditMap b hb
+  · intro b1 b2 hb1 hb2 hcredit
+    exact hCreditInjective b1 b2 hb1 hb2 hcredit
+
+/--
+The explicit decoded squarefree-boxed credit-matching certificate supplies the
+count-level decoded squarefree-boxed certificate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_credit
+    (h : GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate := by
+  intro N
+  rcases h N with ⟨decoder, offset, hCredit⟩
+  refine ⟨decoder, offset, ?_⟩
+  intro B decMid decTarget hB hClique hMid
+  exact activeStrictMiddleCreditCapacity_of_creditMatching hB
+    (hCredit B decMid hB hClique hMid)
 
 private theorem familySize_eq_zero_of_empty
     (N : Nat) (P : Nat -> Prop) (decP : DecidablePred P)
@@ -2333,9 +2401,18 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
     omega
   simpa [APHallExpansionForOutsideSet, Nbr] using hfinal
 
-/-- Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle compression. -/
-axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate
+/--
+Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
+compression with explicit strict-middle credit matching.
+-/
+axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCertificate
+
+/-- Current decoded squarefree-boxed certificate with capacity derived from credit matching. -/
+theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_credit
+    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCut
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
 theorem finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :

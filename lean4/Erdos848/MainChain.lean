@@ -16,7 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -74,11 +74,17 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit decoded squarefree-boxed `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies a decoder and source-indexed seven-offset codes carrying target boxedness, squarefree edge data, and decoder-hit proofs; Lean unpacks the decoder left-inverse, edge, and target boxedness, derives the Nat-code bound, pairwise injectivity, source box/residue facts, the project-level opposite carrier, target `7 mod 25` residue, and the `86` value band; the strict middle is paid by the induced credit-capacity pool."
+        "Replace finite Hall checks by one explicit decoded squarefree-boxed `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies a decoder and source-indexed seven-offset codes carrying target boxedness, squarefree edge data, and decoder-hit proofs; the strict middle now supplies an explicit credit matching, and Lean derives the credit-capacity inequality before unpacking the decoder left-inverse, edge, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
+        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCut",
+        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_credit",
+        "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCertificate",
+        "Erdos848.activeStrictMiddleCreditCapacity_of_creditMatching",
+        "Erdos848.activeStrictMiddleCreditTarget_inBox",
+        "Erdos848.decodedSquarefreeBoxedOppositeFiniteOffsetMate",
         "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoder_of_decoded",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate",
@@ -326,10 +332,10 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Prove the remaining decoded squarefree-boxed `18 mod 25` finite-offset middle-compression cut: one decoder, source-indexed seven-offset codes carrying target boxedness, squarefree edge data, decoder-hit proofs, and the induced strict-middle credit-capacity pool must hold for every compatible outside clique.",
-        "Use Lean to unpack decoder hits, squarefree edge data, and target boxedness from the code, derive the Nat-code bound from the seven-code type, derive pairwise injectivity from the decoder, reattach source box/residue facts, then use the opposite-carrier, target-residue, and offset-band theorems to recover the generic finite-offset certificate and derive direct partitioned capacity."
+        "Prove the remaining decoded squarefree-boxed `18 mod 25` finite-offset middle-compression credit cut: one decoder, source-indexed seven-offset codes carrying target boxedness, squarefree edge data, decoder-hit proofs, and an explicit active strict-middle credit matching must hold for every compatible outside clique.",
+        "Use Lean to derive credit-capacity from the matching, unpack decoder hits, squarefree edge data, and target boxedness from the code, derive the Nat-code bound from the seven-code type, derive pairwise injectivity from the decoder, reattach source box/residue facts, then use the opposite-carrier, target-residue, and offset-band theorems to recover the generic finite-offset certificate and derive direct partitioned capacity."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCut`."
     },
     {
       id := "residue-certificate"
@@ -410,6 +416,11 @@ def config : ChainAudit.ProjectConfig := {
       keywords := [
         "SquarefreeAP",
         "squarefreeAPHall",
+        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCut",
+        "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_credit",
+        "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCertificate",
+        "activeStrictMiddleCreditCapacity_of_creditMatching",
+        "decodedSquarefreeBoxedOppositeFiniteOffsetMate",
         "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut",
         "globalFiniteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoder_of_decoded",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate",
