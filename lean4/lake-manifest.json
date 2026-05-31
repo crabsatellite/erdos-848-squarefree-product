@@ -1,0 +1,12 @@
+{"version": "1.1.0",
+ "packagesDir": ".lake/packages",
+ "packages":
+ [{"type": "path",
+   "scope": "",
+   "name": "chainAudit",
+   "manifestFile": "lake-manifest.json",
+   "inherited": false,
+   "dir": "./../../../tools/chain-audit",
+   "configFile": "lakefile.lean"}],
+ "name": "Erdos848",
+ "lakeDir": ".lake"}

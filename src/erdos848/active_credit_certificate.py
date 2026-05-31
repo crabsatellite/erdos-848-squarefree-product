@@ -1,0 +1,167 @@
+from __future__ import annotations
+
+from dataclasses import asdict, dataclass
+
+from .core import BitsetGraph, squarefree_sieve
+from .opposite_matching_certificate import opposite_matching_certificate
+
+
+@dataclass
+class ActiveCreditCertificate:
+    N: int
+    base_residue: int
+    opposite_residue: int
+    index_bandwidth: int
+    outside_vertices: int
+    worst_credit_defect: int
+    worst_credit_witness: list[int]
+    worst_credit_opposite_size: int
+    worst_credit_middle_size: int
+    worst_credit_pool_size: int
+    worst_credit_reserve_size: int
+    worst_credit_new_middle_size: int
+    worst_credit_matching: list[tuple[int, int]]
+
+
+def active_credit_certificate(
+    N: int,
+    base_residue: int = 7,
+    opposite_residue: int = 18,
+    index_bandwidth: int = 3,
+) -> ActiveCreditCertificate:
+    """Check the finite shadow of `ActiveStrictMiddleCreditMatching`.
+
+    For a compatible outside clique B, use the banded opposite matching on the
+    opposite part O.  The active strict-middle credit pool is
+
+    * opposite neighbors of O not used by the opposite matching image, plus
+    * strict-middle neighbors not already hit by O.
+
+    The Lean credit-matching cut only needs an injection from the strict-middle
+    part M into this pool, so in finite windows it is enough to check
+    `|credit_pool| >= |M|` and record an explicit sorted injection witness.
+    """
+    sf = squarefree_sieve(N * N + 1)
+    base = [a for a in range(1, N + 1) if a % 25 == base_residue]
+    base_index = {a: i for i, a in enumerate(base)}
+    outside = [
+        b
+        for b in range(1, N + 1)
+        if b % 25 != base_residue and not sf[b * b + 1]
+    ]
+
+    band_match = opposite_matching_certificate(
+        N, base_residue, opposite_residue, index_bandwidth=index_bandwidth
+    )
+    if not band_match.perfect:
+        raise ValueError("banded opposite matching must be perfect")
+    matched_base_index = {
+        b: base_index[a]
+        for b, a in band_match.matching
+    }
+
+    graph = BitsetGraph(outside, lambda a, b: not sf[a * b + 1])
+    is_opposite = [b % 25 == opposite_residue for b in outside]
+    neigh = [0] * len(outside)
+    for i, b in enumerate(outside):
+        mask = 0
+        for k, a in enumerate(base):
+            if sf[a * b + 1]:
+                mask |= 1 << k
+        neigh[i] = mask
+
+    worst_credit_defect = 10**18
+    worst_credit_witness: list[int] = []
+    worst_credit_opposite_size = 0
+    worst_credit_middle_size = 0
+    worst_credit_pool_size = 0
+    worst_credit_reserve_size = 0
+    worst_credit_new_middle_size = 0
+    worst_credit_matching: list[tuple[int, int]] = []
+
+    def expand(
+        P: int,
+        chosen: list[int],
+        opposite_size: int,
+        middle_vertices: list[int],
+        opposite_neighbors: int,
+        middle_neighbors: int,
+        opposite_image: int,
+    ) -> None:
+        nonlocal worst_credit_defect
+        nonlocal worst_credit_witness
+        nonlocal worst_credit_opposite_size
+        nonlocal worst_credit_middle_size
+        nonlocal worst_credit_pool_size
+        nonlocal worst_credit_reserve_size
+        nonlocal worst_credit_new_middle_size
+        nonlocal worst_credit_matching
+
+        middle_size = len(middle_vertices)
+        if middle_size > 0:
+            reserve = opposite_neighbors & ~opposite_image
+            new_middle = middle_neighbors & ~opposite_neighbors
+            credit_pool = reserve | new_middle
+            credit_vertices = [base[i] for i in range(len(base)) if (credit_pool >> i) & 1]
+            defect = len(credit_vertices) - middle_size
+            if defect < worst_credit_defect:
+                worst_credit_defect = defect
+                worst_credit_witness = [outside[i] for i in chosen]
+                worst_credit_opposite_size = opposite_size
+                worst_credit_middle_size = middle_size
+                worst_credit_pool_size = len(credit_vertices)
+                worst_credit_reserve_size = reserve.bit_count()
+                worst_credit_new_middle_size = new_middle.bit_count()
+                worst_credit_matching = list(zip(middle_vertices, credit_vertices[:middle_size]))
+
+        while P:
+            lsb = P & -P
+            v = lsb.bit_length() - 1
+            P ^= lsb
+            b = outside[v]
+            if is_opposite[v]:
+                match_bit = 1 << matched_base_index[b]
+                expand(
+                    P & graph.adj[v],
+                    chosen + [v],
+                    opposite_size + 1,
+                    middle_vertices,
+                    opposite_neighbors | neigh[v],
+                    middle_neighbors,
+                    opposite_image | match_bit,
+                )
+            else:
+                expand(
+                    P & graph.adj[v],
+                    chosen + [v],
+                    opposite_size,
+                    middle_vertices + [b],
+                    opposite_neighbors,
+                    middle_neighbors | neigh[v],
+                    opposite_image,
+                )
+
+    expand((1 << len(outside)) - 1, [], 0, [], 0, 0, 0)
+
+    if worst_credit_defect == 10**18:
+        worst_credit_defect = 0
+
+    return ActiveCreditCertificate(
+        N=N,
+        base_residue=base_residue,
+        opposite_residue=opposite_residue,
+        index_bandwidth=index_bandwidth,
+        outside_vertices=len(outside),
+        worst_credit_defect=worst_credit_defect,
+        worst_credit_witness=worst_credit_witness,
+        worst_credit_opposite_size=worst_credit_opposite_size,
+        worst_credit_middle_size=worst_credit_middle_size,
+        worst_credit_pool_size=worst_credit_pool_size,
+        worst_credit_reserve_size=worst_credit_reserve_size,
+        worst_credit_new_middle_size=worst_credit_new_middle_size,
+        worst_credit_matching=worst_credit_matching,
+    )
+
+
+def certificate_to_jsonable(cert: ActiveCreditCertificate) -> dict:
+    return asdict(cert)

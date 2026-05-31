@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv/
+tmp/
+*.tmp
+lean4/.lake/
