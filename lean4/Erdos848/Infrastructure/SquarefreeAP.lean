@@ -705,6 +705,24 @@ theorem activeStrictMiddleCreditCode_target
     ActiveStrictMiddleCreditTarget N r B mate code.value :=
   code.property
 
+/-- Candidate-neighbor code with the source witness carried explicitly. -/
+structure SquarefreeNeighborInCandidateWitnessCode
+    (N r : Nat) (B : Nat -> Prop) where
+  value : Nat
+  source : Nat
+  valueBox : InBox N value
+  valueCarrier : CandidateCarrier r value
+  sourceMem : B source
+  edge : ForbiddenSquarefreeEdge value source
+
+/-- Forget the explicit source fields and keep the old neighbor predicate. -/
+theorem squarefreeNeighborInCandidate_of_witnessCode
+    {N r : Nat} {B : Nat -> Prop}
+    (code : SquarefreeNeighborInCandidateWitnessCode N r B) :
+    SquarefreeNeighborInCandidate N r B code.value :=
+  ⟨code.valueBox, code.valueCarrier,
+    ⟨code.source, code.sourceMem, code.edge⟩⟩
+
 /-- Credit code for an unused opposite-neighbor reserve target. -/
 def ActiveStrictMiddleReserveCreditCode
     (N r : Nat) (B : Nat -> Prop) (mate : Nat -> Nat) : Type :=
@@ -716,6 +734,37 @@ def ActiveStrictMiddleReserveCreditCode
 def ActiveStrictMiddleNewCreditCode
     (N r : Nat) (B : Nat -> Prop) : Type :=
   { a : Nat // IncrementalStrictMiddleNeighbor N r B a }
+
+/-- Reserve credit code with the opposite-neighbor source witness explicit. -/
+structure ActiveStrictMiddleReserveWitnessCreditCode
+    (N r : Nat) (B : Nat -> Prop) (mate : Nat -> Nat) where
+  neighbor : SquarefreeNeighborInCandidateWitnessCode N r (OppositeOutsidePart r B)
+  notImage : Not (OppositeMatchingImage r B mate neighbor.value)
+
+/-- Forget the explicit neighbor source and keep the old reserve credit code. -/
+def ActiveStrictMiddleReserveWitnessCreditCode.toReserveCode
+    {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    (code : ActiveStrictMiddleReserveWitnessCreditCode N r B mate) :
+    ActiveStrictMiddleReserveCreditCode N r B mate :=
+  ⟨code.neighbor.value,
+    squarefreeNeighborInCandidate_of_witnessCode code.neighbor,
+    code.notImage⟩
+
+/-- New-middle credit code with the strict-middle neighbor source explicit. -/
+structure ActiveStrictMiddleNewWitnessCreditCode
+    (N r : Nat) (B : Nat -> Prop) where
+  neighbor : SquarefreeNeighborInCandidateWitnessCode N r (StrictMiddlePart r B)
+  notOppositeNeighbor :
+    Not (SquarefreeNeighborInCandidate N r (OppositeOutsidePart r B) neighbor.value)
+
+/-- Forget the explicit neighbor source and keep the old new-middle credit code. -/
+def ActiveStrictMiddleNewWitnessCreditCode.toNewCode
+    {N r : Nat} {B : Nat -> Prop}
+    (code : ActiveStrictMiddleNewWitnessCreditCode N r B) :
+    ActiveStrictMiddleNewCreditCode N r B :=
+  ⟨code.neighbor.value,
+    squarefreeNeighborInCandidate_of_witnessCode code.neighbor,
+    code.notOppositeNeighbor⟩
 
 /--
 Credit target as an explicit reserve/new-middle sum code, rather than an
@@ -751,6 +800,34 @@ def ActiveStrictMiddleCreditSumCode.toCode
     (code : ActiveStrictMiddleCreditSumCode N r B mate) :
     ActiveStrictMiddleCreditCode N r B mate :=
   ⟨code.value, activeStrictMiddleCreditSumCode_target code⟩
+
+/--
+Credit target as an explicit reserve/new-middle sum whose neighbor source
+witness is also carried by the code.
+-/
+def ActiveStrictMiddleCreditWitnessSumCode
+    (N r : Nat) (B : Nat -> Prop) (mate : Nat -> Nat) : Type :=
+  Sum (ActiveStrictMiddleReserveWitnessCreditCode N r B mate)
+    (ActiveStrictMiddleNewWitnessCreditCode N r B)
+
+/-- Forget proof data and keep the target value of a witness sum code. -/
+def ActiveStrictMiddleCreditWitnessSumCode.value
+    {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    (code : ActiveStrictMiddleCreditWitnessSumCode N r B mate) : Nat :=
+  match code with
+  | Sum.inl reserve => reserve.neighbor.value
+  | Sum.inr newMiddle => newMiddle.neighbor.value
+
+/-- Forget the explicit neighbor witness and keep the previous sum code. -/
+def ActiveStrictMiddleCreditWitnessSumCode.toSumCode
+    {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    (code : ActiveStrictMiddleCreditWitnessSumCode N r B mate) :
+    ActiveStrictMiddleCreditSumCode N r B mate :=
+  match code with
+  | Sum.inl reserve =>
+      Sum.inl reserve.toReserveCode
+  | Sum.inr newMiddle =>
+      Sum.inr newMiddle.toNewCode
 
 /-- Credit code carrying a decoder proof back to its strict-middle source. -/
 def DecodedActiveStrictMiddleCreditCode
@@ -794,6 +871,36 @@ def DecodedActiveStrictMiddleCreditSumCode.toDecodedCode
   ⟨ActiveStrictMiddleCreditSumCode.toCode code.val, by
     simpa [ActiveStrictMiddleCreditCode.value, ActiveStrictMiddleCreditSumCode.toCode] using
       code.property⟩
+
+/--
+Decoded reserve/new-middle witness code carrying a decoder proof back to its
+strict-middle source.
+-/
+def DecodedActiveStrictMiddleCreditWitnessSumCode
+    (N r : Nat) (B : Nat -> Prop) (mate : Nat -> Nat)
+    (decoder : Nat -> Nat) (b : Nat) : Type :=
+  { code : ActiveStrictMiddleCreditWitnessSumCode N r B mate //
+    decoder code.value = b }
+
+/-- Forget the explicit neighbor witness and keep the previous decoded sum code. -/
+def DecodedActiveStrictMiddleCreditWitnessSumCode.toDecodedSumCode
+    {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {decoder : Nat -> Nat} {b : Nat}
+    (code : DecodedActiveStrictMiddleCreditWitnessSumCode N r B mate decoder b) :
+    DecodedActiveStrictMiddleCreditSumCode N r B mate decoder b := by
+  refine ⟨ActiveStrictMiddleCreditWitnessSumCode.toSumCode code.val, ?_⟩
+  rcases code with ⟨codeVal, hdecode⟩
+  cases codeVal with
+    | inl reserve =>
+        simpa [ActiveStrictMiddleCreditWitnessSumCode.value,
+          ActiveStrictMiddleCreditWitnessSumCode.toSumCode,
+          ActiveStrictMiddleCreditSumCode.value,
+          ActiveStrictMiddleReserveWitnessCreditCode.toReserveCode] using hdecode
+    | inr newMiddle =>
+        simpa [ActiveStrictMiddleCreditWitnessSumCode.value,
+          ActiveStrictMiddleCreditWitnessSumCode.toSumCode,
+          ActiveStrictMiddleCreditSumCode.value,
+          ActiveStrictMiddleNewWitnessCreditCode.toNewCode] using hdecode
 
 /--
 Active strict-middle matching with target membership and injectivity carried by
@@ -867,6 +974,32 @@ theorem activeStrictMiddleDecodedCreditMatching_of_sum
   refine ⟨decoder, ?_, trivial⟩
   intro b hb
   exact DecodedActiveStrictMiddleCreditSumCode.toDecodedCode (credit b hb)
+
+/--
+Active strict-middle decoded matching where every credit code carries both the
+reserve/new-middle branch and the neighbor source witness.
+-/
+def ActiveStrictMiddleDecodedCreditWitnessSumMatching
+    (N r : Nat) (B : Nat -> Prop)
+    (_decMid : DecidablePred (StrictMiddlePart r B))
+    (mate : Nat -> Nat) : Prop :=
+  Exists fun decoder : Nat -> Nat =>
+  Exists fun _credit :
+      (forall b : Nat, StrictMiddlePart r B b ->
+        DecodedActiveStrictMiddleCreditWitnessSumCode N r B mate decoder b) =>
+    True
+
+/-- Decoded witness sum codes supply decoded reserve/new-middle sum matching. -/
+theorem activeStrictMiddleDecodedCreditSumMatching_of_witness
+    {N r : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart r B)}
+    {mate : Nat -> Nat}
+    (h : ActiveStrictMiddleDecodedCreditWitnessSumMatching N r B decMid mate) :
+    ActiveStrictMiddleDecodedCreditSumMatching N r B decMid mate := by
+  rcases h with ⟨decoder, credit, _⟩
+  refine ⟨decoder, ?_, trivial⟩
+  intro b hb
+  exact DecodedActiveStrictMiddleCreditWitnessSumCode.toDecodedSumCode (credit b hb)
 
 /-- Count-level active strict-middle credit capacity for one fixed opposite mate. -/
 def ActiveStrictMiddleCreditCapacity
@@ -1294,6 +1427,24 @@ def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCo
       NonSquarefreeClique B ->
       (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
       ActiveStrictMiddleDecodedCreditSumMatching N 7 B decMid
+        (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset))
+
+/--
+Decoded squarefree-boxed certificate whose strict-middle credit codes carry both
+the reserve/new-middle branch and the candidate-neighbor source witness.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCertificate :
+    Prop :=
+  forall N : Nat, Exists fun decoder : Nat -> Nat =>
+  Exists fun offset :
+      (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b decoder) =>
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B)),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleDecodedCreditWitnessSumMatching N 7 B decMid
         (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset))
 
 /--
@@ -1827,6 +1978,21 @@ theorem activeStrictMiddleCreditCapacity_of_creditMatching
     exact hCreditMap b hb
   · intro b1 b2 hb1 hb2 hcredit
     exact hCreditInjective b1 b2 hb1 hb2 hcredit
+
+/--
+The decoded squarefree-boxed credit-witness-sum-code certificate supplies the
+decoded credit-sum-code certificate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCode_of_witness
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCertificate := by
+  intro N
+  rcases h N with ⟨decoder, offset, hCreditWitness⟩
+  refine ⟨decoder, offset, ?_⟩
+  intro B decMid hB hClique hMid
+  exact activeStrictMiddleDecodedCreditSumMatching_of_witness
+    (hCreditWitness B decMid hB hClique hMid)
 
 /--
 The decoded squarefree-boxed credit-sum-code certificate supplies the decoded
@@ -2648,11 +2814,17 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 
 /--
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
-compression with source-indexed decoded strict-middle reserve/new-middle credit
-codes.
+compression with source-indexed decoded strict-middle credit codes carrying
+reserve/new-middle branches and candidate-neighbor source witnesses.
 -/
-axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCertificate
+axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCertificate
+
+/-- Current credit-sum-code certificate derived from explicit neighbor-witness codes. -/
+theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCode_of_witness
+    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCut
 
 /-- Current decoded credit-code certificate derived from reserve/new-middle sum codes. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCodeCut :

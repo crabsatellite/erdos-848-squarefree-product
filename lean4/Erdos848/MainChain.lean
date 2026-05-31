@@ -16,7 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCut
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -74,11 +74,27 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit decoded squarefree-boxed `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies a decoder and source-indexed seven-offset codes carrying target boxedness, squarefree edge data, and decoder-hit proofs; the strict middle now supplies source-indexed decoded credit sum codes that choose reserve or new-middle targets, and Lean derives decoded credit codes, credit matching, and credit-capacity before unpacking the decoder left-inverse, edge, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
+        "Replace finite Hall checks by one explicit decoded squarefree-boxed `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies a decoder and source-indexed seven-offset codes carrying target boxedness, squarefree edge data, and decoder-hit proofs; the strict middle now supplies source-indexed decoded credit witness-sum codes that choose reserve or new-middle targets and carry the candidate-neighbor source witness, and Lean derives sum codes, decoded credit codes, credit matching, and credit-capacity before unpacking the decoder left-inverse, edge, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
+        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCut",
+        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCode_of_witness",
+        "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCertificate",
+        "Erdos848.activeStrictMiddleDecodedCreditSumMatching_of_witness",
+        "Erdos848.ActiveStrictMiddleDecodedCreditWitnessSumMatching",
+        "Erdos848.DecodedActiveStrictMiddleCreditWitnessSumCode",
+        "Erdos848.DecodedActiveStrictMiddleCreditWitnessSumCode.toDecodedSumCode",
+        "Erdos848.ActiveStrictMiddleCreditWitnessSumCode",
+        "Erdos848.ActiveStrictMiddleCreditWitnessSumCode.value",
+        "Erdos848.ActiveStrictMiddleCreditWitnessSumCode.toSumCode",
+        "Erdos848.ActiveStrictMiddleReserveWitnessCreditCode",
+        "Erdos848.ActiveStrictMiddleReserveWitnessCreditCode.toReserveCode",
+        "Erdos848.ActiveStrictMiddleNewWitnessCreditCode",
+        "Erdos848.ActiveStrictMiddleNewWitnessCreditCode.toNewCode",
+        "Erdos848.SquarefreeNeighborInCandidateWitnessCode",
+        "Erdos848.squarefreeNeighborInCandidate_of_witnessCode",
         "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCode_of_sumCode",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCertificate",
@@ -356,10 +372,10 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Prove the remaining decoded squarefree-boxed `18 mod 25` finite-offset middle-compression credit-sum-code cut: one decoder, source-indexed seven-offset codes carrying target boxedness, squarefree edge data, decoder-hit proofs, and source-indexed decoded credit sum codes selecting reserve or new-middle targets must hold for every compatible outside clique.",
-        "Use Lean to erase the reserve/new-middle branch into decoded credit codes, derive the strict-middle credit matching, derive credit-capacity from the matching, unpack decoder hits, squarefree edge data, and target boxedness from the offset code, derive the Nat-code bound from the seven-code type, derive pairwise injectivity from the decoder, reattach source box/residue facts, then use the opposite-carrier, target-residue, and offset-band theorems to recover the generic finite-offset certificate and derive direct partitioned capacity."
+        "Prove the remaining decoded squarefree-boxed `18 mod 25` finite-offset middle-compression credit-witness-sum-code cut: one decoder, source-indexed seven-offset codes carrying target boxedness, squarefree edge data, decoder-hit proofs, and source-indexed decoded credit witness-sum codes selecting reserve or new-middle targets with explicit candidate-neighbor source witnesses must hold for every compatible outside clique.",
+        "Use Lean to erase the candidate-neighbor source witness, erase the reserve/new-middle branch into decoded credit codes, derive the strict-middle credit matching, derive credit-capacity from the matching, unpack decoder hits, squarefree edge data, and target boxedness from the offset code, derive the Nat-code bound from the seven-code type, derive pairwise injectivity from the decoder, reattach source box/residue facts, then use the opposite-carrier, target-residue, and offset-band theorems to recover the generic finite-offset certificate and derive direct partitioned capacity."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCut`."
     },
     {
       id := "residue-certificate"
@@ -440,6 +456,17 @@ def config : ChainAudit.ProjectConfig := {
       keywords := [
         "SquarefreeAP",
         "squarefreeAPHall",
+        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCut",
+        "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCode_of_witness",
+        "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCertificate",
+        "activeStrictMiddleDecodedCreditSumMatching_of_witness",
+        "ActiveStrictMiddleDecodedCreditWitnessSumMatching",
+        "DecodedActiveStrictMiddleCreditWitnessSumCode",
+        "ActiveStrictMiddleCreditWitnessSumCode",
+        "ActiveStrictMiddleReserveWitnessCreditCode",
+        "ActiveStrictMiddleNewWitnessCreditCode",
+        "SquarefreeNeighborInCandidateWitnessCode",
+        "squarefreeNeighborInCandidate_of_witnessCode",
         "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCode_of_sumCode",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCertificate",
