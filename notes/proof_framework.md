@@ -55,16 +55,22 @@ The exact finite checks have to be replaced by explicit inequalities:
 
 ## Audit Cuts
 
-- `Erdos848.finiteOffsetMiddleCompressionEighteenTargetCut`: live target-only
-  `18 mod 25` finite-offset middle-compression capacity, still open.  It
-  combines seven-offset target box/squarefree data from the concrete opposite
-  source class, injectivity, and count-level active strict-middle credit
-  capacity.  The source box/residue facts, project-level opposite carrier,
-  target `7 mod 25` residue, and `86` value-band inequalities are no longer
-  part of the axiom surface.
+- `Erdos848.finiteOffsetMiddleCompressionEighteenDecoderCut`: live
+  decoder-form `18 mod 25` finite-offset middle-compression capacity, still
+  open.  It combines seven-offset target box/squarefree data from the concrete
+  opposite source class, a target decoder left-inverse, and count-level active
+  strict-middle credit capacity.  Pairwise injectivity, source box/residue
+  facts, project-level opposite carrier, target `7 mod 25` residue, and `86`
+  value-band inequalities are no longer part of the axiom surface.
 
 Closed local supports:
 
+- `Erdos848.finiteOffsetEighteenTarget_injective_of_leftInverse`: bridge from
+  a target decoder left-inverse to pairwise finite-offset injectivity.
+- `Erdos848.globalFiniteOffsetMiddleCompressionEighteenTarget_of_decoder`:
+  bridge from the live decoder-form cut to the previous target-only cut.
+- `Erdos848.finiteOffsetMiddleCompressionEighteenTargetCut`: previous
+  target-only cut, now kernel-derived from the decoder-form cut.
 - `Erdos848.globalOppositeFiniteOffsetEighteenSquarefreeNeighbor_of_target`:
   bridge that reattaches the source `InBox` and `18 mod 25` facts to a
   target-only finite-offset neighbor.

@@ -729,6 +729,65 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTargetCertificate : Prop :=
       ActiveStrictMiddleCreditCapacity N 7 B decMid
         (fun b => OppositeFiniteOffsetValue b (offset b)) decTarget)
 
+/-- One-sided inverse certificate for the finite-offset opposite mate image. -/
+def GlobalFiniteOffsetEighteenTargetLeftInverse
+    (N : Nat) (offset decoder : Nat -> Nat) : Prop :=
+  forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+    decoder (OppositeFiniteOffsetValue b (offset b)) = b
+
+/-- A target left-inverse certificate implies pairwise finite-offset injectivity. -/
+theorem finiteOffsetEighteenTarget_injective_of_leftInverse
+    {N : Nat} {offset decoder : Nat -> Nat}
+    (hLeft : GlobalFiniteOffsetEighteenTargetLeftInverse N offset decoder) :
+    forall b1 b2 : Nat,
+      InBox N b1 ->
+      CandidateCarrier 18 b1 ->
+      InBox N b2 ->
+      CandidateCarrier 18 b2 ->
+      OppositeFiniteOffsetValue b1 (offset b1) =
+        OppositeFiniteOffsetValue b2 (offset b2) ->
+      b1 = b2 := by
+  intro b1 b2 hb1Box hb1Residue hb2Box hb2Residue hmate
+  have hleft1 := hLeft b1 hb1Box hb1Residue
+  have hleft2 := hLeft b2 hb2Box hb2Residue
+  calc
+    b1 = decoder (OppositeFiniteOffsetValue b1 (offset b1)) := by
+      exact hleft1.symm
+    _ = decoder (OppositeFiniteOffsetValue b2 (offset b2)) := by
+      rw [hmate]
+    _ = b2 := hleft2
+
+/--
+Target-only middle-compression certificate with injectivity supplied by a
+one-sided decoder for the finite-offset image.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenDecoderCertificate : Prop :=
+  forall N : Nat, Exists fun offset : Nat -> Nat =>
+  Exists fun decoder : Nat -> Nat =>
+    (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+      GlobalOppositeFiniteOffsetEighteenTargetNeighbor N b (offset b)) /\
+    GlobalFiniteOffsetEighteenTargetLeftInverse N offset decoder /\
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B))
+        (decTarget : DecidablePred
+          (ActiveStrictMiddleCreditTarget N 7 B
+            (fun b => OppositeFiniteOffsetValue b (offset b)))),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditCapacity N 7 B decMid
+        (fun b => OppositeFiniteOffsetValue b (offset b)) decTarget)
+
+/-- The decoder-form certificate supplies the pairwise-injective target certificate. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTarget_of_decoder
+    (h : GlobalFiniteOffsetMiddleCompressionEighteenDecoderCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTargetCertificate := by
+  intro N
+  rcases h N with ⟨offset, decoder, hMap, hLeft, hCapacity⟩
+  exact ⟨offset, hMap,
+    finiteOffsetEighteenTarget_injective_of_leftInverse hLeft,
+    hCapacity⟩
+
 /-- The source-input-minimal target certificate supplies the previous eighteen-core cut. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenCore_of_target
     (h : GlobalFiniteOffsetMiddleCompressionEighteenTargetCertificate) :
@@ -1906,9 +1965,15 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
     omega
   simpa [APHallExpansionForOutsideSet, Nbr] using hfinal
 
-/-- Open analytic cut: target-only `18 mod 25` finite-offset middle-compression capacity. -/
-axiom finiteOffsetMiddleCompressionEighteenTargetCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTargetCertificate
+/-- Open analytic cut: decoder-form `18 mod 25` finite-offset middle compression. -/
+axiom finiteOffsetMiddleCompressionEighteenDecoderCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecoderCertificate
+
+/-- Current target-only certificate with pairwise injectivity derived from a decoder. -/
+theorem finiteOffsetMiddleCompressionEighteenTargetCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTargetCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTarget_of_decoder
+    finiteOffsetMiddleCompressionEighteenDecoderCut
 
 /-- Current concrete `18 mod 25` core cut with source facts reattached in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenCoreCut :
