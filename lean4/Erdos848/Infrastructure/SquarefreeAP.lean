@@ -687,6 +687,94 @@ def ActiveStrictMiddleCreditMatching
       credit b1 = credit b2 ->
       b1 = b2)
 
+/-- Credit target code carrying the target-side membership proof. -/
+def ActiveStrictMiddleCreditCode
+    (N r : Nat) (B : Nat -> Prop) (mate : Nat -> Nat) : Type :=
+  { a : Nat // ActiveStrictMiddleCreditTarget N r B mate a }
+
+/-- Forget proof data and keep the target value of a credit code. -/
+def ActiveStrictMiddleCreditCode.value
+    {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    (code : ActiveStrictMiddleCreditCode N r B mate) : Nat :=
+  code.val
+
+/-- Extract target membership carried by a credit code. -/
+theorem activeStrictMiddleCreditCode_target
+    {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    (code : ActiveStrictMiddleCreditCode N r B mate) :
+    ActiveStrictMiddleCreditTarget N r B mate code.value :=
+  code.property
+
+/-- Credit code carrying a decoder proof back to its strict-middle source. -/
+def DecodedActiveStrictMiddleCreditCode
+    (N r : Nat) (B : Nat -> Prop) (mate : Nat -> Nat)
+    (decoder : Nat -> Nat) (b : Nat) : Type :=
+  { code : ActiveStrictMiddleCreditCode N r B mate //
+    decoder code.value = b }
+
+/-- Forget the decoder-hit proof and keep the target credit code. -/
+def DecodedActiveStrictMiddleCreditCode.toCode
+    {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {decoder : Nat -> Nat} {b : Nat}
+    (code : DecodedActiveStrictMiddleCreditCode N r B mate decoder b) :
+    ActiveStrictMiddleCreditCode N r B mate :=
+  code.val
+
+/-- Extract the decoder-hit proof carried by a decoded credit code. -/
+theorem decodedActiveStrictMiddleCreditCode_leftInverse
+    {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {decoder : Nat -> Nat} {b : Nat}
+    (code : DecodedActiveStrictMiddleCreditCode N r B mate decoder b) :
+    decoder code.toCode.value = b :=
+  code.property
+
+/--
+Active strict-middle matching with target membership and injectivity carried by
+source-indexed decoded credit codes.
+-/
+def ActiveStrictMiddleDecodedCreditMatching
+    (N r : Nat) (B : Nat -> Prop)
+    (_decMid : DecidablePred (StrictMiddlePart r B))
+    (mate : Nat -> Nat) : Prop :=
+  Exists fun decoder : Nat -> Nat =>
+  Exists fun _credit :
+      (forall b : Nat, StrictMiddlePart r B b ->
+        DecodedActiveStrictMiddleCreditCode N r B mate decoder b) =>
+    True
+
+/-- Decoded strict-middle credit codes supply the explicit credit matching. -/
+theorem activeStrictMiddleCreditMatching_of_decoded
+    {N r : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart r B)}
+    {mate : Nat -> Nat}
+    (h : ActiveStrictMiddleDecodedCreditMatching N r B decMid mate) :
+    ActiveStrictMiddleCreditMatching N r B decMid mate := by
+  rcases h with ⟨decoder, credit, _⟩
+  let creditValue : Nat -> Nat := fun b =>
+    haveI : Decidable (StrictMiddlePart r B b) := decMid b
+    if hb : StrictMiddlePart r B b then
+      (DecodedActiveStrictMiddleCreditCode.toCode (credit b hb)).value
+    else
+      0
+  refine ⟨creditValue, ?_, ?_⟩
+  · intro b hb
+    simpa [creditValue, hb] using
+      activeStrictMiddleCreditCode_target
+        (DecodedActiveStrictMiddleCreditCode.toCode (credit b hb))
+  · intro b1 b2 hb1 hb2 hcredit
+    have hleft :
+        decoder (creditValue b1) = b1 := by
+      simpa [creditValue, hb1] using
+        decodedActiveStrictMiddleCreditCode_leftInverse (credit b1 hb1)
+    have hright :
+        decoder (creditValue b2) = b2 := by
+      simpa [creditValue, hb2] using
+        decodedActiveStrictMiddleCreditCode_leftInverse (credit b2 hb2)
+    calc
+      b1 = decoder (creditValue b1) := hleft.symm
+      _ = decoder (creditValue b2) := by rw [hcredit]
+      _ = b2 := hright
+
 /-- Count-level active strict-middle credit capacity for one fixed opposite mate. -/
 def ActiveStrictMiddleCreditCapacity
     (N r : Nat) (B : Nat -> Prop)
@@ -1078,6 +1166,23 @@ def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCerti
       NonSquarefreeClique B ->
       (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
       ActiveStrictMiddleCreditMatching N 7 B decMid
+        (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset))
+
+/--
+Decoded squarefree-boxed certificate whose strict-middle credit matching is
+itself source-indexed and decoded.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCodeCertificate : Prop :=
+  forall N : Nat, Exists fun decoder : Nat -> Nat =>
+  Exists fun offset :
+      (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b decoder) =>
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B)),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleDecodedCreditMatching N 7 B decMid
         (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset))
 
 /--
@@ -1611,6 +1716,20 @@ theorem activeStrictMiddleCreditCapacity_of_creditMatching
     exact hCreditMap b hb
   · intro b1 b2 hb1 hb2 hcredit
     exact hCreditInjective b1 b2 hb1 hb2 hcredit
+
+/--
+The decoded squarefree-boxed credit-code certificate supplies the explicit
+credit-matching certificate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_creditCode
+    (h : GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCodeCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCertificate := by
+  intro N
+  rcases h N with ⟨decoder, offset, hCreditCode⟩
+  refine ⟨decoder, offset, ?_⟩
+  intro B decMid hB hClique hMid
+  exact activeStrictMiddleCreditMatching_of_decoded
+    (hCreditCode B decMid hB hClique hMid)
 
 /--
 The explicit decoded squarefree-boxed credit-matching certificate supplies the
@@ -2403,10 +2522,16 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 
 /--
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
-compression with explicit strict-middle credit matching.
+compression with source-indexed decoded strict-middle credit codes.
 -/
-axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCertificate
+axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCodeCertificate
+
+/-- Current explicit credit-matching certificate derived from decoded credit codes. -/
+theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_creditCode
+    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCodeCut
 
 /-- Current decoded squarefree-boxed certificate with capacity derived from credit matching. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
