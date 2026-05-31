@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections import deque
+from collections import Counter, deque
 from dataclasses import asdict, dataclass
 
 from .core import squarefree_sieve
@@ -19,6 +19,9 @@ class OppositeMatchingCertificate:
     min_degree: int
     max_index_gap: int
     max_value_gap: int
+    allowed_value_offsets: list[int]
+    value_offset_counts: dict[int, int]
+    index_shift_counts: dict[int, int]
     matching: list[tuple[int, int]]
 
 
@@ -95,11 +98,21 @@ def opposite_matching_certificate(
         for u, v in enumerate(pair_left)
         if v >= 0
     ]
-    index_gaps = [
-        abs(((a - base_residue) // 25) - ((b - opposite_residue) // 25))
+    index_shifts = [
+        ((a - base_residue) // 25) - ((b - opposite_residue) // 25)
         for b, a in matching
     ]
+    index_gaps = [abs(shift) for shift in index_shifts]
+    value_offsets = [a - b for b, a in matching]
     value_gaps = [abs(a - b) for b, a in matching]
+    allowed_value_offsets = (
+        [
+            25 * shift + base_residue - opposite_residue
+            for shift in range(-index_bandwidth, index_bandwidth + 1)
+        ]
+        if index_bandwidth is not None
+        else []
+    )
     min_degree = min((len(row) for row in adj), default=0)
     return OppositeMatchingCertificate(
         N=N,
@@ -113,6 +126,9 @@ def opposite_matching_certificate(
         min_degree=min_degree,
         max_index_gap=max(index_gaps, default=0),
         max_value_gap=max(value_gaps, default=0),
+        allowed_value_offsets=allowed_value_offsets,
+        value_offset_counts=dict(sorted(Counter(value_offsets).items())),
+        index_shift_counts=dict(sorted(Counter(index_shifts).items())),
         matching=matching,
     )
 

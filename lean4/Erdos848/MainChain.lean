@@ -16,8 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.globalOppositeNearbyMatchingCut,
-    ``Erdos848.globalActiveStrictMiddleCreditMatchingCut
+    ``Erdos848.globalFiniteOffsetSplitCreditCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -75,19 +74,28 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by two explicit analytic cuts for the endpoint-consumed `7 mod 25` progression: a global nearby/banded matching cut for the full opposite block, and an active strict-middle credit-matching cut relative to that global opposite mate into unused opposite surplus or new middle neighbors."
+        "Replace finite Hall checks by one explicit finite-offset split-credit analytic cut for the endpoint-consumed `7 mod 25` progression: the opposite `18 mod 25` block is matched by one of seven fixed offsets, and active strict-middle vertices are credited relative to that same finite-offset mate."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
-        "Erdos848.globalOppositeNearbyMatchingCut",
+        "Erdos848.globalFiniteOffsetSplitCreditCut",
+        "Erdos848.GlobalFiniteOffsetSplitCreditCertificateForResidue",
+        "Erdos848.OppositeFiniteOffsetValue",
+        "Erdos848.GlobalOppositeFiniteOffsetNeighbor",
+        "Erdos848.GlobalOppositeFiniteOffsetMatchingImageAllocation",
+        "Erdos848.GlobalOppositeFiniteOffsetMatchingAPCertificateForResidue",
+        "Erdos848.globalOppositeFiniteOffsetMatching_of_splitCredit",
+        "Erdos848.globalOppositeFiniteOffsetMatchingCut",
+        "Erdos848.globalOppositeNearbyMatching_of_finiteOffset",
         "Erdos848.GlobalOppositeNearbyMatchingAPCertificateForResidue",
         "Erdos848.GlobalOppositeNearbyMatchingImageAllocation",
         "Erdos848.GlobalOppositeNearbyNeighbor",
+        "Erdos848.globalOppositeNearbyMatchingCut",
         "Erdos848.oppositeNearbyMatchingAPCertificate_of_global",
         "Erdos848.oppositeNearbyMatchingImageCut",
-        "Erdos848.globalActiveStrictMiddleCreditMatchingCut",
         "Erdos848.activeStrictMiddleIncrementalCapacityCut",
+        "Erdos848.activeStrictMiddleIncrementalCapacity_of_finiteOffsetSplitCredit",
         "Erdos848.nearbyMatchedSplitIncrementalSquarefreeAPCapacityCut",
         "Erdos848.nearbyAllocatedSplitIncrementalSquarefreeAPCapacityCut",
         "Erdos848.allocatedSplitIncrementalSquarefreeAPCapacityCut",
@@ -249,10 +257,10 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Promote the opposite `18 mod 25` banded matching shadow into a global nearby matching certificate; every outside subset inherits it by restriction and image cardinality is kernel-derived from boxed injectivity.",
-        "Promote active strict-middle surplus into a credit-matching certificate relative to the global opposite mate, using unused opposite-neighbor surplus or genuinely new middle neighbors."
+        "Promote the opposite `18 mod 25` banded matching shadow into a seven-offset global matching certificate; every outside subset inherits it by restriction and image cardinality is kernel-derived from boxed injectivity.",
+        "Prove the remaining finite-offset split-credit cut: active strict-middle surplus must be matched relative to the same finite-offset mate, using unused opposite-neighbor surplus or genuinely new middle neighbors."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `globalOppositeNearbyMatchingCut` and `globalActiveStrictMiddleCreditMatchingCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `globalFiniteOffsetSplitCreditCut`."
     },
     {
       id := "residue-certificate"
@@ -334,6 +342,12 @@ def config : ChainAudit.ProjectConfig := {
         "SquarefreeAP",
         "squarefreeAPHall",
         "nearbyMatchedSplitIncrementalSquarefreeAPCapacity",
+        "GlobalFiniteOffsetSplitCreditCertificateForResidue",
+        "globalFiniteOffsetSplitCreditCut",
+        "OppositeFiniteOffsetValue",
+        "GlobalOppositeFiniteOffsetNeighbor",
+        "GlobalOppositeFiniteOffsetMatchingAPCertificateForResidue",
+        "globalOppositeNearbyMatching_of_finiteOffset",
         "OppositeNearbyMatchingImageAllocation",
         "OppositeMatchingImage",
         "GlobalOppositeNearbyMatchingAPCertificateForResidue",
@@ -353,8 +367,8 @@ def config : ChainAudit.ProjectConfig := {
         "ActiveStrictMiddleCreditMatching",
         "ActiveStrictMiddleCreditTarget",
         "GlobalActiveStrictMiddleCreditMatchingCertificateForResidue",
-        "globalActiveStrictMiddleCreditMatchingCut",
         "activeStrictMiddleIncrementalCapacity_of_globalCreditMatching",
+        "activeStrictMiddleIncrementalCapacity_of_finiteOffsetSplitCredit",
         "active_credit_certificate.py",
         "credit matching",
         "credit-matching",

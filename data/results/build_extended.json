@@ -464,7 +464,7 @@
       ]
     }
   ],
-  "generated_at": "2026-05-31T20:58:13.441537+00:00",
+  "generated_at": "2026-05-31T21:08:01.103582+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -1254,9 +1254,23 @@
   "opposite_band_matching_checks": [
     {
       "N": 100,
+      "allowed_value_offsets": [
+        -86,
+        -61,
+        -36,
+        -11,
+        14,
+        39,
+        64
+      ],
       "base_residue": 7,
       "base_size": 4,
       "index_bandwidth": 3,
+      "index_shift_counts": {
+        "-1": 2,
+        "0": 1,
+        "2": 1
+      },
       "matched_count": 4,
       "matching": [
         [
@@ -1281,13 +1295,35 @@
       "min_degree": 2,
       "opposite_residue": 18,
       "opposite_size": 4,
-      "perfect": true
+      "perfect": true,
+      "value_offset_counts": {
+        "-36": 2,
+        "-11": 1,
+        "39": 1
+      }
     },
     {
       "N": 500,
+      "allowed_value_offsets": [
+        -86,
+        -61,
+        -36,
+        -11,
+        14,
+        39,
+        64
+      ],
       "base_residue": 7,
       "base_size": 20,
       "index_bandwidth": 3,
+      "index_shift_counts": {
+        "-3": 1,
+        "-2": 1,
+        "-1": 7,
+        "0": 4,
+        "1": 2,
+        "2": 5
+      },
       "matched_count": 20,
       "matching": [
         [
@@ -1376,13 +1412,36 @@
       "min_degree": 1,
       "opposite_residue": 18,
       "opposite_size": 20,
-      "perfect": true
+      "perfect": true,
+      "value_offset_counts": {
+        "-86": 1,
+        "-61": 1,
+        "-36": 7,
+        "-11": 4,
+        "14": 2,
+        "39": 5
+      }
     },
     {
       "N": 1000,
+      "allowed_value_offsets": [
+        -86,
+        -61,
+        -36,
+        -11,
+        14,
+        39,
+        64
+      ],
       "base_residue": 7,
       "base_size": 40,
       "index_bandwidth": 3,
+      "index_shift_counts": {
+        "-1": 20,
+        "0": 7,
+        "1": 6,
+        "2": 7
+      },
       "matched_count": 40,
       "matching": [
         [
@@ -1551,13 +1610,36 @@
       "min_degree": 3,
       "opposite_residue": 18,
       "opposite_size": 40,
-      "perfect": true
+      "perfect": true,
+      "value_offset_counts": {
+        "-36": 20,
+        "-11": 7,
+        "14": 6,
+        "39": 7
+      }
     },
     {
       "N": 2000,
+      "allowed_value_offsets": [
+        -86,
+        -61,
+        -36,
+        -11,
+        14,
+        39,
+        64
+      ],
       "base_residue": 7,
       "base_size": 80,
       "index_bandwidth": 3,
+      "index_shift_counts": {
+        "-3": 1,
+        "-2": 3,
+        "-1": 34,
+        "0": 15,
+        "1": 11,
+        "2": 16
+      },
       "matched_count": 80,
       "matching": [
         [
@@ -1886,13 +1968,38 @@
       "min_degree": 1,
       "opposite_residue": 18,
       "opposite_size": 80,
-      "perfect": true
+      "perfect": true,
+      "value_offset_counts": {
+        "-86": 1,
+        "-61": 3,
+        "-36": 34,
+        "-11": 15,
+        "14": 11,
+        "39": 16
+      }
     },
     {
       "N": 5000,
+      "allowed_value_offsets": [
+        -86,
+        -61,
+        -36,
+        -11,
+        14,
+        39,
+        64
+      ],
       "base_residue": 7,
       "base_size": 200,
       "index_bandwidth": 3,
+      "index_shift_counts": {
+        "-2": 8,
+        "-1": 89,
+        "0": 37,
+        "1": 28,
+        "2": 37,
+        "3": 1
+      },
       "matched_count": 200,
       "matching": [
         [
@@ -2701,15 +2808,29 @@
       "min_degree": 2,
       "opposite_residue": 18,
       "opposite_size": 200,
-      "perfect": true
+      "perfect": true,
+      "value_offset_counts": {
+        "-61": 8,
+        "-36": 89,
+        "-11": 37,
+        "14": 28,
+        "39": 37,
+        "64": 1
+      }
     }
   ],
   "opposite_matching_checks": [
     {
       "N": 100,
+      "allowed_value_offsets": [],
       "base_residue": 7,
       "base_size": 4,
       "index_bandwidth": null,
+      "index_shift_counts": {
+        "-1": 2,
+        "0": 1,
+        "2": 1
+      },
       "matched_count": 4,
       "matching": [
         [
@@ -2734,13 +2855,28 @@
       "min_degree": 2,
       "opposite_residue": 18,
       "opposite_size": 4,
-      "perfect": true
+      "perfect": true,
+      "value_offset_counts": {
+        "-36": 2,
+        "-11": 1,
+        "39": 1
+      }
     },
     {
       "N": 500,
+      "allowed_value_offsets": [],
       "base_residue": 7,
       "base_size": 20,
       "index_bandwidth": null,
+      "index_shift_counts": {
+        "-17": 1,
+        "-2": 1,
+        "-1": 7,
+        "0": 4,
+        "1": 3,
+        "2": 3,
+        "17": 1
+      },
       "matched_count": 20,
       "matching": [
         [
@@ -2829,13 +2965,29 @@
       "min_degree": 10,
       "opposite_residue": 18,
       "opposite_size": 20,
-      "perfect": true
+      "perfect": true,
+      "value_offset_counts": {
+        "-436": 1,
+        "-61": 1,
+        "-36": 7,
+        "-11": 4,
+        "14": 3,
+        "39": 3,
+        "414": 1
+      }
     },
     {
       "N": 1000,
+      "allowed_value_offsets": [],
       "base_residue": 7,
       "base_size": 40,
       "index_bandwidth": null,
+      "index_shift_counts": {
+        "-1": 20,
+        "0": 7,
+        "1": 6,
+        "2": 7
+      },
       "matched_count": 40,
       "matching": [
         [
@@ -3004,13 +3156,29 @@
       "min_degree": 22,
       "opposite_residue": 18,
       "opposite_size": 40,
-      "perfect": true
+      "perfect": true,
+      "value_offset_counts": {
+        "-36": 20,
+        "-11": 7,
+        "14": 6,
+        "39": 7
+      }
     },
     {
       "N": 2000,
+      "allowed_value_offsets": [],
       "base_residue": 7,
       "base_size": 80,
       "index_bandwidth": null,
+      "index_shift_counts": {
+        "-78": 1,
+        "-2": 2,
+        "-1": 34,
+        "0": 15,
+        "1": 12,
+        "2": 15,
+        "74": 1
+      },
       "matched_count": 80,
       "matching": [
         [
@@ -3339,13 +3507,32 @@
       "min_degree": 47,
       "opposite_residue": 18,
       "opposite_size": 80,
-      "perfect": true
+      "perfect": true,
+      "value_offset_counts": {
+        "-1961": 1,
+        "-61": 2,
+        "-36": 34,
+        "-11": 15,
+        "14": 12,
+        "39": 15,
+        "1839": 1
+      }
     },
     {
       "N": 5000,
+      "allowed_value_offsets": [],
       "base_residue": 7,
       "base_size": 200,
       "index_bandwidth": null,
+      "index_shift_counts": {
+        "-196": 1,
+        "-2": 7,
+        "-1": 90,
+        "0": 36,
+        "1": 29,
+        "2": 36,
+        "199": 1
+      },
       "matched_count": 200,
       "matching": [
         [
@@ -4154,7 +4341,16 @@
       "min_degree": 123,
       "opposite_residue": 18,
       "opposite_size": 200,
-      "perfect": true
+      "perfect": true,
+      "value_offset_counts": {
+        "-4911": 1,
+        "-61": 7,
+        "-36": 90,
+        "-11": 36,
+        "14": 29,
+        "39": 36,
+        "4964": 1
+      }
     }
   ],
   "partitioned_hall_checks": [

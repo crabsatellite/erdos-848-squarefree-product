@@ -144,6 +144,8 @@ def assert_gate(payload: dict) -> None:
         assert item["matched_count"] == item["opposite_size"], item
         assert item["max_index_gap"] <= 3, item
         assert item["max_value_gap"] <= 86, item
+        assert item["allowed_value_offsets"] == [-86, -61, -36, -11, 14, 39, 64], item
+        assert set(item["value_offset_counts"]) <= set(item["allowed_value_offsets"]), item
     for item in payload["partitioned_hall_checks"]:
         assert item["worst_opposite_defect"] >= 0, item
         assert item["worst_middle_defect"] >= 0, item

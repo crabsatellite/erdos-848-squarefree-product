@@ -69,15 +69,15 @@ small enough for local review.
   region after removing the opposite `18 mod 25` class.  This records the
   observed surplus away from the equality block and gives the next certificate
   split target.
-- `Global nearby matching-image split AP/Hall cuts`: Lean now derives the
-  endpoint `SquarefreeAPHallCertificate` from two explicit analytic cuts: a
-  global nearby injective matching for the full opposite equality block, plus
-  active strict-middle credit matchings relative to that global opposite mate
-  into unused opposite-neighbor surplus or genuinely new middle neighbors.  The
-  older `B`-relative opposite matching image is now kernel-derived by
-  restricting the global matching to the opposite part of any outside clique,
-  and the matching-image count is kernel-derived from boxed injectivity rather
-  than assumed in the cut.  Python
+- `Finite-offset split-credit AP/Hall cut`: Lean now derives the endpoint
+  `SquarefreeAPHallCertificate` from one explicit analytic cut:
+  `globalFiniteOffsetSplitCreditCut`.  The cut chooses, for every boxed
+  `18 mod 25` vertex, one of seven fixed finite offsets into the `7 mod 25`
+  class, proves injectivity of that global mate, and proves active
+  strict-middle credit matchings relative to the same finite-offset mate.  The
+  older global nearby matching, `B`-relative opposite matching image, and
+  active strict-middle incremental capacity cuts are now kernel-derived from
+  this one interface.  Python
   separately checks the finite shadows `|N(O)| >= |O|`, `|N(M)| >= |M|`,
   `|N(O) union N(M)| >= |O| + |M|`,
   `(|N(O)| - |O|) + |N(M) \ N(O)| >= |M|`, and the active-middle version of
@@ -85,12 +85,14 @@ small enough for local review.
 - `Opposite matching certificate`: Python now separately finds full matchings
   from the opposite `18 mod 25` equality block into the base `7 mod 25`
   progression.  The banded version restricts to index displacement at most `3`
-  and value distance at most `86`, matching the nearby matching-image half of
-  the split cut.
+  and records the seven value offsets
+  `[-86, -61, -36, -11, 14, 39, 64]`, matching the finite-offset half of the
+  split cut.
 - `Active credit certificate`: Python now checks the finite shadow of the
   active-middle credit-matching cut, using the banded opposite matching image
   to form unused opposite surplus plus new middle neighbors as the credit pool.
 
-The audit-visible primary gap is `G-squarefree-ap-hall-expansion`; finite
+The audit-visible primary gap is `G-squarefree-ap-hall-expansion`; the current
+open mathematical cut is `Erdos848.globalFiniteOffsetSplitCreditCut`.  Finite
 search is kept as support evidence and explicitly marked as a dead route when
 used alone.

@@ -3,7 +3,7 @@
 
 Decision-first index for the next research round.  Treat this as the base map: the proof spine is the endpoint closure, route labels are generated automatically from the Lean import graph, file names, source text, and audit route taxonomy.  The goal is to show which proof routes are active, blocked, closed, or orphaned before a new agent starts editing.
 
-* endpoints: **1**  *  open mathematical cuts: **2**  *  route taxonomy chains: **4**  *  route taxonomy gaps: **5**  *  debt components: **0**  *  branch heads: **0**
+* endpoints: **1**  *  open mathematical cuts: **1**  *  route taxonomy chains: **4**  *  route taxonomy gaps: **5**  *  debt components: **0**  *  branch heads: **0**
 
 ## Audit Truth Contract
 
@@ -12,14 +12,13 @@ This file is generated.  Future agents should update Lean files, audit rules, or
 ## Next Agent Brief
 
 Research attack target:
-- Primary proof gap: `gap:G-squarefree-ap-hall-expansion` -- Replace finite Hall checks by two explicit analytic cuts for the endpoint-consumed `7 mod 25` progression: a global nearby/banded matching cut for the full opposite block, and an active strict-middle credit-matching cut relative to that global opposite mate into unused opposite surplus or new middle neighbors.
+- Primary proof gap: `gap:G-squarefree-ap-hall-expansion` -- Replace finite Hall checks by one explicit finite-offset split-credit analytic cut for the endpoint-consumed `7 mod 25` progression: the opposite `18 mod 25` block is matched by one of seven fixed offsets, and active strict-middle vertices are credited relative to that same finite-offset mate.
 - Route owner(s): `chain:hall-expansion-compression`, `chain:main-full-close`
 - Current constructive attack route: `chain:hall-expansion-compression`.  Use it to replace the primary cut; do not route around the configured gap ledger.
-- Success criterion: A theorem of the shape `SquarefreeAPHallCertificate` is proved without `globalOppositeNearbyMatchingCut` and `globalActiveStrictMiddleCreditMatchingCut`.
+- Success criterion: A theorem of the shape `SquarefreeAPHallCertificate` is proved without `globalFiniteOffsetSplitCreditCut`.
 
 Kernel cut ledger.  These are audit-visible unresolved constants on the endpoint closure; use the configured route/gap above to decide the next research attack, not this flat list alone:
-- `Erdos848.globalActiveStrictMiddleCreditMatchingCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
-- `Erdos848.globalOppositeNearbyMatchingCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
+- `Erdos848.globalFiniteOffsetSplitCreditCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
 
 ## New Agent Attack Cards
 
@@ -27,9 +26,9 @@ Readiness verdict: **actionable**.  The main cut and replacement route are clear
 
 Current replacement plan:
 - Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.
-- Promote the opposite `18 mod 25` banded matching shadow into a global nearby matching certificate; every outside subset inherits it by restriction and image cardinality is kernel-derived from boxed injectivity.
-- Promote active strict-middle surplus into a credit-matching certificate relative to the global opposite mate, using unused opposite-neighbor surplus or genuinely new middle neighbors.
-- Final success criterion: A theorem of the shape `SquarefreeAPHallCertificate` is proved without `globalOppositeNearbyMatchingCut` and `globalActiveStrictMiddleCreditMatchingCut`.
+- Promote the opposite `18 mod 25` banded matching shadow into a seven-offset global matching certificate; every outside subset inherits it by restriction and image cardinality is kernel-derived from boxed injectivity.
+- Prove the remaining finite-offset split-credit cut: active strict-middle surplus must be matched relative to the same finite-offset mate, using unused opposite-neighbor surplus or genuinely new middle neighbors.
+- Final success criterion: A theorem of the shape `SquarefreeAPHallCertificate` is proved without `globalFiniteOffsetSplitCreditCut`.
 
 Do-not-attack inactive routes:
 | gap | reason | evidence files |
@@ -40,11 +39,10 @@ Do-not-attack inactive routes:
 
 | endpoint | mathematical cuts | full axiom count |
 |----------|-------------------|-----------------:|
-| `Erdos848.erdos848_main` | `Erdos848.globalActiveStrictMiddleCreditMatchingCut`, `Erdos848.globalOppositeNearbyMatchingCut` | 5 |
+| `Erdos848.erdos848_main` | `Erdos848.globalFiniteOffsetSplitCreditCut` | 4 |
 
 Open mathematical cut ledger:
-- `Erdos848.globalActiveStrictMiddleCreditMatchingCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
-- `Erdos848.globalOppositeNearbyMatchingCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
+- `Erdos848.globalFiniteOffsetSplitCreditCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
 
 ## Route Taxonomy
 
@@ -61,7 +59,7 @@ Open mathematical cut ledger:
 |-----|--------|--------------|--------------|-------|
 | `gap:G-hall-expansion-global` | closed-local | `chain:main-full-close` | `Erdos848.hallExpansionCut`, `Erdos848.atMostCandidateBound_of_current_cuts`, `Erdos848.erdos848_main` | on-chain: 3 |
 | `gap:G-candidate-p5-sharpness` | closed-local | `chain:main-full-close`, `chain:residue-certificate` | `Erdos848.squareDivides_five_mul_add_one_of_candidate_seven`, `Erdos848.squareDivides_five_mul_add_one_of_candidate_eighteen`, `Erdos848.not_squareDivides_five_mul_add_one_of_candidate_seven_eighteen`, +3 more | on-chain: 1 |
-| `gap:G-squarefree-ap-hall-expansion` | open | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.globalOppositeNearbyMatchingCut`, `Erdos848.GlobalOppositeNearbyMatchingAPCertificateForResidue`, `Erdos848.GlobalOppositeNearbyMatchingImageAllocation`, +86 more | cut: 1 |
+| `gap:G-squarefree-ap-hall-expansion` | open | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.globalFiniteOffsetSplitCreditCut`, `Erdos848.GlobalFiniteOffsetSplitCreditCertificateForResidue`, `Erdos848.OppositeFiniteOffsetValue`, +95 more | cut: 1 |
 | `gap:G-rough-square-divisor-unpacking` | closed-local | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.roughSquareDivisor`, `Erdos848.RoughSquareDivisorCertificate` | on-chain: 1 |
 | `gap:D-finite-search-only` | dead | `chain:finite-search-only` | - | (none) |
 

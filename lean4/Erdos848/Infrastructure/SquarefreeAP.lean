@@ -229,6 +229,38 @@ def GlobalOppositeNearbyMatchingImageAllocation (N r K : Nat) : Prop :=
 def GlobalOppositeNearbyMatchingAPCertificateForResidue (r K : Nat) : Prop :=
   forall N : Nat, GlobalOppositeNearbyMatchingImageAllocation N r K
 
+/-- Seven possible value offsets for an index-bandwidth-three opposite matching. -/
+def OppositeFiniteOffsetValue (b code : Nat) : Nat :=
+  match code with
+  | 0 => b - 86
+  | 1 => b - 61
+  | 2 => b - 36
+  | 3 => b - 11
+  | 4 => b + 14
+  | 5 => b + 39
+  | _ => b + 64
+
+/-- A finite-offset opposite mate is one of the seven index-bandwidth-three shadows. -/
+def GlobalOppositeFiniteOffsetNeighbor (N r K b code : Nat) : Prop :=
+  code <= 6 /\
+    GlobalOppositeNearbyNeighbor N r K b (OppositeFiniteOffsetValue b code)
+
+/-- Global opposite-block matching whose mate is chosen from the seven fixed offsets. -/
+def GlobalOppositeFiniteOffsetMatchingImageAllocation (N r K : Nat) : Prop :=
+  Exists fun offset : Nat -> Nat =>
+    (forall b : Nat, InBox N b -> OppositeCandidateCarrier r b ->
+      GlobalOppositeFiniteOffsetNeighbor N r K b (offset b)) /\
+    (forall b1 b2 : Nat,
+      InBox N b1 -> OppositeCandidateCarrier r b1 ->
+      InBox N b2 -> OppositeCandidateCarrier r b2 ->
+      OppositeFiniteOffsetValue b1 (offset b1) =
+        OppositeFiniteOffsetValue b2 (offset b2) ->
+      b1 = b2)
+
+/-- Residue-level finite-offset global opposite matching certificate. -/
+def GlobalOppositeFiniteOffsetMatchingAPCertificateForResidue (r K : Nat) : Prop :=
+  forall N : Nat, GlobalOppositeFiniteOffsetMatchingImageAllocation N r K
+
 /-- Banded opposite-only allocation certificate. -/
 def OppositeNearbyAPAllocationCertificateForResidue (r K : Nat) : Prop :=
   forall (N : Nat) (B : Nat -> Prop)
@@ -367,6 +399,28 @@ def GlobalActiveStrictMiddleCreditMatchingCertificateForResidue (r K : Nat) : Pr
       mate b1 = mate b2 ->
       b1 = b2) ->
     ActiveStrictMiddleCreditMatching N r B decMid mate
+
+/--
+Single global cut combining the finite-offset opposite matching and the active
+strict-middle credit matching relative to that finite-offset mate.
+-/
+def GlobalFiniteOffsetSplitCreditCertificateForResidue (r K : Nat) : Prop :=
+  forall N : Nat, Exists fun offset : Nat -> Nat =>
+    (forall b : Nat, InBox N b -> OppositeCandidateCarrier r b ->
+      GlobalOppositeFiniteOffsetNeighbor N r K b (offset b)) /\
+    (forall b1 b2 : Nat,
+      InBox N b1 -> OppositeCandidateCarrier r b1 ->
+      InBox N b2 -> OppositeCandidateCarrier r b2 ->
+      OppositeFiniteOffsetValue b1 (offset b1) =
+        OppositeFiniteOffsetValue b2 (offset b2) ->
+      b1 = b2) /\
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart r B)),
+      BoundedOutsideSet N r B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart r B b) ->
+      ActiveStrictMiddleCreditMatching N r B decMid
+        (fun b => OppositeFiniteOffsetValue b (offset b)))
 
 /-- Split certificate: equality-block expansion plus active strict-middle surplus. -/
 def SplitIncrementalSquarefreeAPCapacityCertificateForResidue (r : Nat) : Prop :=
@@ -874,6 +928,29 @@ theorem oppositeNearbyMatchingAPCertificate_of_global
       (hB b2 hb2.left).left hb2.right
       hmate
 
+/-- A finite-offset global matching is a global nearby matching. -/
+theorem globalOppositeNearbyMatching_of_finiteOffset
+    {r K : Nat}
+    (h : GlobalOppositeFiniteOffsetMatchingAPCertificateForResidue r K) :
+    GlobalOppositeNearbyMatchingAPCertificateForResidue r K := by
+  intro N
+  rcases h N with ⟨offset, hMap, hInjective⟩
+  refine Exists.intro (fun b => OppositeFiniteOffsetValue b (offset b)) ?_
+  constructor
+  · intro b hbBox hbOpp
+    exact (hMap b hbBox hbOpp).right
+  · intro b1 b2 hb1Box hb1Opp hb2Box hb2Opp hmate
+    exact hInjective b1 b2 hb1Box hb1Opp hb2Box hb2Opp hmate
+
+/-- The combined finite-offset split-credit certificate projects to opposite matching. -/
+theorem globalOppositeFiniteOffsetMatching_of_splitCredit
+    {r K : Nat}
+    (h : GlobalFiniteOffsetSplitCreditCertificateForResidue r K) :
+    GlobalOppositeFiniteOffsetMatchingAPCertificateForResidue r K := by
+  intro N
+  rcases h N with ⟨offset, hMap, hInjective, _hCredit⟩
+  exact Exists.intro offset (And.intro hMap hInjective)
+
 /-- A residue-level matching-image certificate implies the nearby allocation certificate. -/
 theorem oppositeNearbyAPAllocationCertificate_of_matching
     {r K : Nat}
@@ -1062,6 +1139,49 @@ theorem activeStrictMiddleIncrementalCapacity_of_globalCreditMatching
     (decOppNbr := decOppNbr) (decNewMid := decNewMid)
     hB hMateMap hMateInjective hCreditMatch
 
+/--
+The finite-offset split-credit certificate gives the same active-middle
+incremental capacity, with the opposite mate fixed by the finite offset code.
+-/
+theorem activeStrictMiddleIncrementalCapacity_of_finiteOffsetSplitCredit
+    {r K : Nat}
+    (h : GlobalFiniteOffsetSplitCreditCertificateForResidue r K) :
+    ActiveStrictMiddleIncrementalCapacityCertificateForResidue r := by
+  intro N B decOpp decMid decOppNbr decNewMid hB hClique hMid
+  rcases h N with ⟨offset, hMap, hInjective, hCredit⟩
+  let mate : Nat -> Nat := fun b => OppositeFiniteOffsetValue b (offset b)
+  have hMateMap :
+      forall b : Nat, OppositeOutsidePart r B b ->
+        OppositeNearbyNeighbor N r K B (mate b) := by
+    intro b hbOpp
+    have hbBox : InBox N b := (hB b hbOpp.left).left
+    have hOff := hMap b hbBox hbOpp.right
+    rcases hOff with ⟨_hCode, hGlobal⟩
+    rcases hGlobal with ⟨_hbBox, _hbOpp, haBox, haCand, hedge, haLe, hbLe⟩
+    exact And.intro
+      (And.intro haBox (And.intro haCand (Exists.intro b (And.intro hbOpp hedge))))
+      (Exists.intro b (And.intro hbOpp (And.intro haLe hbLe)))
+  have hMateInjective :
+      forall b1 b2 : Nat,
+        OppositeOutsidePart r B b1 ->
+        OppositeOutsidePart r B b2 ->
+        mate b1 = mate b2 ->
+        b1 = b2 := by
+    intro b1 b2 hb1 hb2 hmate
+    exact hInjective
+      b1 b2
+      (hB b1 hb1.left).left hb1.right
+      (hB b2 hb2.left).left hb2.right
+      hmate
+  have hCreditMatch : ActiveStrictMiddleCreditMatching N r B decMid mate := by
+    simpa [mate] using hCredit B decMid hB hClique hMid
+  exact activeStrictMiddleIncrementalCapacity_of_creditMatchingFor
+    (N := N) (r := r) (K := K) (B := B)
+    (decOpp := decOpp) (decMid := decMid)
+    (decOppNbr := decOppNbr) (decNewMid := decNewMid)
+    (mate := mate)
+    hB hMateMap hMateInjective hCreditMatch
+
 /-- A nearby/banded split certificate implies the allocation-form split certificate. -/
 theorem allocatedSplitIncrementalSquarefreeAPCapacity_of_nearby
     (h : NearbyAllocatedSplitIncrementalSquarefreeAPCapacityCertificate) :
@@ -1198,32 +1318,39 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
     omega
   simpa [APHallExpansionForOutsideSet, Nbr] using hfinal
 
-/-- Open analytic cut: global nearby/banded matching for the full equality block. -/
-axiom globalOppositeNearbyMatchingCut :
-  GlobalOppositeNearbyMatchingAPCertificateForResidue 7 86
+/-- Open analytic cut: finite-offset global matching plus split credit matching. -/
+axiom globalFiniteOffsetSplitCreditCut :
+  GlobalFiniteOffsetSplitCreditCertificateForResidue 7 86
+
+/-- Current finite-offset matching image for the equality block. -/
+theorem globalOppositeFiniteOffsetMatchingCut :
+  GlobalOppositeFiniteOffsetMatchingAPCertificateForResidue 7 86 :=
+  globalOppositeFiniteOffsetMatching_of_splitCredit
+    globalFiniteOffsetSplitCreditCut
+
+/-- Current global nearby/banded matching for the equality block. -/
+theorem globalOppositeNearbyMatchingCut :
+  GlobalOppositeNearbyMatchingAPCertificateForResidue 7 86 :=
+  globalOppositeNearbyMatching_of_finiteOffset
+    globalOppositeFiniteOffsetMatchingCut
 
 /-- Current nearby/banded matching image for the equality block, by restriction. -/
 theorem oppositeNearbyMatchingImageCut :
   OppositeNearbyMatchingAPCertificateForResidue 7 86
   := oppositeNearbyMatchingAPCertificate_of_global globalOppositeNearbyMatchingCut
 
-/-- Open analytic cut: credit matching relative to the global opposite mate. -/
-axiom globalActiveStrictMiddleCreditMatchingCut :
-  GlobalActiveStrictMiddleCreditMatchingCertificateForResidue 7 86
-
-/-- Current active strict-middle surplus derived from global matching plus global-relative credit matching. -/
+/-- Current active strict-middle surplus derived from finite-offset split credit. -/
 theorem activeStrictMiddleIncrementalCapacityCut :
   ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7 :=
-  activeStrictMiddleIncrementalCapacity_of_globalCreditMatching
-    globalOppositeNearbyMatchingCut
-    globalActiveStrictMiddleCreditMatchingCut
+  activeStrictMiddleIncrementalCapacity_of_finiteOffsetSplitCredit
+    globalFiniteOffsetSplitCreditCut
 
-/-- Current matching-image split certificate derived from the two explicit analytic cuts. -/
+/-- Current matching-image split certificate derived from finite-offset split credit. -/
 theorem nearbyMatchedSplitIncrementalSquarefreeAPCapacityCut :
     NearbyMatchedSplitIncrementalSquarefreeAPCapacityCertificate :=
   And.intro oppositeNearbyMatchingImageCut activeStrictMiddleIncrementalCapacityCut
 
-/-- Current nearby split certificate derived from the two explicit analytic cuts. -/
+/-- Current nearby split certificate derived from finite-offset split credit. -/
 theorem nearbyAllocatedSplitIncrementalSquarefreeAPCapacityCut :
     NearbyAllocatedSplitIncrementalSquarefreeAPCapacityCertificate :=
   nearbyAllocatedSplitIncrementalSquarefreeAPCapacity_of_matched

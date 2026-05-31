@@ -44,11 +44,12 @@ and is forced into a thinner prime-square root class.
 The exact finite checks have to be replaced by explicit inequalities:
 
 1. Squarefree counts in arithmetic progressions for `b(25t+7)+1`.
-2. A strict-middle credit-matching certificate relative to the global opposite
-   mate after removing the opposite `18 mod 25` equality block.
-3. A global nearby matching-image split incremental/surplus certificate:
-   match the whole `18 mod 25` equality block injectively to nearby candidate
-   neighbors, restrict that global matching to every outside clique, and prove
+2. A finite-offset split-credit certificate: match the whole `18 mod 25`
+   equality block injectively by one of seven fixed offsets into nearby
+   candidate neighbors, restrict that global matching to every outside clique,
+   and prove the active strict-middle credit matching relative to that same
+   finite-offset mate.
+3. The remaining analytic inequality behind the split-credit cut:
    `|O| + |M| <= |N(O)| + |N(M) \ N(O)|` only in the active case where the
    strict-middle part is nonempty.
 4. A rough-square-divisor ledger for `a^2+1 = m p^2` with large `p`.
@@ -56,25 +57,34 @@ The exact finite checks have to be replaced by explicit inequalities:
 
 ## Audit Cuts
 
-- `Erdos848.globalOppositeNearbyMatchingCut`: global nearby/banded matching
-  certificate for the full opposite `18 mod 25` equality block, still open.
-  It is independent of the outside clique `B`; Lean now derives the older
-  `B`-relative matching-image certificate by restriction.
-- `Erdos848.globalActiveStrictMiddleCreditMatchingCut`: active strict-middle
-  credit-matching certificate relative to the global opposite mate, still
-  open.  Middle vertices are injected into either unused opposite-neighbor
-  surplus or genuinely new middle neighbors.
+- `Erdos848.globalFiniteOffsetSplitCreditCut`: finite-offset global opposite
+  matching plus active strict-middle credit-matching certificate, still open.
+  The opposite mate is restricted to the seven value offsets
+  `[-86, -61, -36, -11, 14, 39, 64]`; middle vertices are injected into either
+  unused opposite-neighbor surplus or genuinely new middle neighbors relative
+  to that same mate.
 
 Closed local supports:
 
+- `Erdos848.globalOppositeFiniteOffsetMatchingCut`: the finite-offset global
+  matching projection, kernel-derived from `globalFiniteOffsetSplitCreditCut`.
+- `Erdos848.globalOppositeNearbyMatchingCut`: the old global nearby/banded
+  matching certificate, now kernel-derived from the finite-offset matching.
 - `Erdos848.oppositeNearbyMatchingImageCut`: the old `B`-relative
   nearby/banded matching-image certificate, now kernel-derived from
   `globalOppositeNearbyMatchingCut`.
+- `Erdos848.globalOppositeNearbyMatching_of_finiteOffset`: bridge from the
+  seven-offset global matching to the older nearby matching interface.
+- `Erdos848.globalOppositeFiniteOffsetMatching_of_splitCredit`: projection
+  from the split-credit cut to the finite-offset matching certificate.
 - `Erdos848.oppositeNearbyMatchingAPCertificate_of_global`: bridge from the
   global opposite-block matching to every `B`-relative opposite part.
 - `Erdos848.activeStrictMiddleIncrementalCapacityCut`: active strict-middle
-  incremental surplus certificate, kernel-derived from the global-relative
-  credit-matching cut.
+  incremental surplus certificate, kernel-derived from the finite-offset
+  split-credit cut.
+- `Erdos848.activeStrictMiddleIncrementalCapacity_of_finiteOffsetSplitCredit`:
+  bridge from the finite-offset global mate plus split-credit interface to the
+  incremental capacity certificate.
 - `Erdos848.activeStrictMiddleIncrementalCapacity_of_globalCreditMatching`:
   bridge from the global opposite mate and global-relative credit-matching
   interface to the incremental capacity certificate.
@@ -139,11 +149,11 @@ full matching from every `18 mod 25` vertex to a squarefree neighbor in the
 for all subsets of that block, because it restricts to an injection on every
 subset.
 
-The current nearby version uses index bandwidth `3`, which corresponds to
-value distance at most `86` between matched opposite and base vertices.  This
-matches the Lean `OppositeNearbyMatchingImageAllocation` interface in the live
-cut and projects kernel-locally to `OppositeNearbyNeighborAllocation`; the
-allocation count is no longer assumed in that live cut.
+The current nearby version uses index bandwidth `3`, which corresponds to the
+seven fixed value offsets `[-86, -61, -36, -11, 14, 39, 64]` between matched
+opposite and base vertices.  This matches the Lean
+`GlobalOppositeFiniteOffsetMatchingImageAllocation` interface in the live cut;
+the older nearby and allocation interfaces are now projections from it.
 
 ## Reference Problems
 
