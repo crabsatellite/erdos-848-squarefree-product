@@ -16,7 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenDecoderCut
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedDecoderCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -74,11 +74,21 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit decoder-form `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies seven-offset target box/squarefree data plus a decoder left-inverse, while Lean derives pairwise injectivity, reattaches source box/residue facts, and derives the project-level opposite carrier, target `7 mod 25` residue, and the `86` value band; the strict middle is paid by the induced credit-capacity pool."
+        "Replace finite Hall checks by one explicit typed-code decoder-form `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies seven-offset target box/squarefree data plus a decoder left-inverse, while Lean derives the Nat-code bound, pairwise injectivity, source box/residue facts, the project-level opposite carrier, target `7 mod 25` residue, and the `86` value band; the strict middle is paid by the induced credit-capacity pool."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
+        "Erdos848.finiteOffsetMiddleCompressionEighteenTypedDecoderCut",
+        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecoder_of_typed",
+        "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedDecoderCertificate",
+        "Erdos848.GlobalFiniteOffsetEighteenTypedTargetLeftInverse",
+        "Erdos848.globalOppositeFiniteOffsetEighteenTargetNeighbor_of_typed",
+        "Erdos848.GlobalOppositeFiniteOffsetEighteenTypedTargetNeighbor",
+        "Erdos848.OppositeFiniteOffsetCode",
+        "Erdos848.OppositeFiniteOffsetCode.toNat",
+        "Erdos848.oppositeFiniteOffsetCode_toNat_le_six",
+        "Erdos848.OppositeFiniteOffsetCodeValue",
         "Erdos848.finiteOffsetMiddleCompressionEighteenDecoderCut",
         "Erdos848.finiteOffsetMiddleCompressionEighteenTargetCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTarget_of_decoder",
@@ -292,10 +302,10 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Prove the remaining decoder-form `18 mod 25` finite-offset middle-compression cut: seven-offset target box/squarefree data, a target decoder left-inverse, and the induced strict-middle credit-capacity pool must hold for every compatible outside clique.",
-        "Use Lean to derive pairwise injectivity from the decoder, reattach source box/residue facts, then use the opposite-carrier, target-residue, and offset-band theorems to recover the generic finite-offset certificate and derive direct partitioned capacity."
+        "Prove the remaining typed-code decoder-form `18 mod 25` finite-offset middle-compression cut: typed seven-offset target box/squarefree data, a target decoder left-inverse, and the induced strict-middle credit-capacity pool must hold for every compatible outside clique.",
+        "Use Lean to derive the Nat-code bound from the seven-code type, derive pairwise injectivity from the decoder, reattach source box/residue facts, then use the opposite-carrier, target-residue, and offset-band theorems to recover the generic finite-offset certificate and derive direct partitioned capacity."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenDecoderCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedDecoderCut`."
     },
     {
       id := "residue-certificate"
@@ -376,6 +386,15 @@ def config : ChainAudit.ProjectConfig := {
       keywords := [
         "SquarefreeAP",
         "squarefreeAPHall",
+        "finiteOffsetMiddleCompressionEighteenTypedDecoderCut",
+        "globalFiniteOffsetMiddleCompressionEighteenDecoder_of_typed",
+        "GlobalFiniteOffsetMiddleCompressionEighteenTypedDecoderCertificate",
+        "GlobalFiniteOffsetEighteenTypedTargetLeftInverse",
+        "globalOppositeFiniteOffsetEighteenTargetNeighbor_of_typed",
+        "GlobalOppositeFiniteOffsetEighteenTypedTargetNeighbor",
+        "OppositeFiniteOffsetCode",
+        "OppositeFiniteOffsetCodeValue",
+        "oppositeFiniteOffsetCode_toNat_le_six",
         "finiteOffsetMiddleCompressionEighteenDecoderCut",
         "finiteOffsetMiddleCompressionEighteenTargetCut",
         "globalFiniteOffsetMiddleCompressionEighteenTarget_of_decoder",

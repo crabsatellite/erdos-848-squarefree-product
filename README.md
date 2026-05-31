@@ -69,7 +69,7 @@ small enough for local review.
   region after removing the opposite `18 mod 25` class.  This records the
   observed surplus away from the equality block and gives the next certificate
   split target.
-- `Decoder-form 18-core finite-offset middle-compression cut`: Lean now derives the endpoint
+- `Typed-code decoder-form 18-core finite-offset middle-compression cut`: Lean now derives the endpoint
   `SquarefreeAPHallCertificate` from `partitionedSquarefreeAPCapacityCut`,
   which is itself a theorem derived from
   `finiteOffsetMiddleCompressedCapacityCut`; that theorem is derived from
@@ -77,14 +77,16 @@ small enough for local review.
   `finiteOffsetMiddleCompressionSevenCoreCut`; that theorem is now derived
   from `finiteOffsetMiddleCompressionEighteenCoreCut`, which is now derived
   from `finiteOffsetMiddleCompressionEighteenTargetCut`, which is now derived
-  from the live cut `finiteOffsetMiddleCompressionEighteenDecoderCut`.  The
-  live cut asks for seven-offset target box/squarefree data from the concrete
-  `18 mod 25` source class, a target decoder left-inverse, and the active
-  strict-middle credit-capacity pool.  Lean derives pairwise injectivity from
-  the decoder, reattaches the source box/residue facts, derives the
-  project-level opposite carrier, the target `7 mod 25` residue, and the `86`
-  value band, then derives direct partitioned neighbor capacity for every
-  compatible outside clique.  Python separately checks the finite shadows
+  from `finiteOffsetMiddleCompressionEighteenDecoderCut`, which is now derived
+  from the live cut `finiteOffsetMiddleCompressionEighteenTypedDecoderCut`.
+  The live cut asks for typed seven-offset target box/squarefree data from the
+  concrete `18 mod 25` source class, a target decoder left-inverse, and the
+  active strict-middle credit-capacity pool.  Lean derives the Nat-code bound
+  from the finite code type, derives pairwise injectivity from the decoder,
+  reattaches the source box/residue facts, derives the project-level opposite
+  carrier, the target `7 mod 25` residue, and the `86` value band, then derives
+  direct partitioned neighbor capacity for every compatible outside clique.
+  Python separately checks the finite shadows
   `|N(O)| >= |O|`, `|N(M)| >= |M|`,
   `|N(O) union N(M)| >= |O| + |M|`,
   `(|N(O)| - |O|) + |N(M) \ N(O)| >= |M|`, and the active-middle version of
@@ -101,6 +103,6 @@ small enough for local review.
   the credit pool.
 
 The audit-visible primary gap is `G-squarefree-ap-hall-expansion`; the current
-open mathematical cut is `Erdos848.finiteOffsetMiddleCompressionEighteenDecoderCut`.
+open mathematical cut is `Erdos848.finiteOffsetMiddleCompressionEighteenTypedDecoderCut`.
 Finite search is kept as support evidence and explicitly marked as a dead route
 when used alone.

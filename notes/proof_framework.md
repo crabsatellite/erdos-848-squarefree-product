@@ -55,22 +55,36 @@ The exact finite checks have to be replaced by explicit inequalities:
 
 ## Audit Cuts
 
-- `Erdos848.finiteOffsetMiddleCompressionEighteenDecoderCut`: live
-  decoder-form `18 mod 25` finite-offset middle-compression capacity, still
-  open.  It combines seven-offset target box/squarefree data from the concrete
-  opposite source class, a target decoder left-inverse, and count-level active
-  strict-middle credit capacity.  Pairwise injectivity, source box/residue
-  facts, project-level opposite carrier, target `7 mod 25` residue, and `86`
-  value-band inequalities are no longer part of the axiom surface.
+- `Erdos848.finiteOffsetMiddleCompressionEighteenTypedDecoderCut`: live
+  typed-code decoder-form `18 mod 25` finite-offset middle-compression
+  capacity, still open.  It combines typed seven-offset target box/squarefree
+  data from the concrete opposite source class, a target decoder left-inverse,
+  and count-level active strict-middle credit capacity.  The Nat-code bound,
+  pairwise injectivity, source box/residue facts, project-level opposite
+  carrier, target `7 mod 25` residue, and `86` value-band inequalities are no
+  longer part of the axiom surface.
 
 Closed local supports:
 
+- `Erdos848.OppositeFiniteOffsetCode`: finite type for the seven allowed
+  offsets.
+- `Erdos848.oppositeFiniteOffsetCode_toNat_le_six`: bridge proving the legacy
+  Nat-code bound from the typed code.
+- `Erdos848.globalOppositeFiniteOffsetEighteenTargetNeighbor_of_typed`: bridge
+  from typed target-neighbor data to the previous Nat-code target-neighbor
+  surface.
+- `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedDecoderCertificate`:
+  live certificate shape with the offset bound encoded by type.
+- `Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecoder_of_typed`:
+  bridge from the live typed-code cut to the previous decoder-form cut.
+- `Erdos848.finiteOffsetMiddleCompressionEighteenDecoderCut`: previous
+  decoder-form cut, now kernel-derived from the typed-code cut.
 - `Erdos848.finiteOffsetEighteenTarget_injective_of_leftInverse`: bridge from
   a target decoder left-inverse to pairwise finite-offset injectivity.
 - `Erdos848.globalFiniteOffsetMiddleCompressionEighteenTarget_of_decoder`:
-  bridge from the live decoder-form cut to the previous target-only cut.
+  bridge from the decoder-form cut to the previous target-only cut.
 - `Erdos848.finiteOffsetMiddleCompressionEighteenTargetCut`: previous
-  target-only cut, now kernel-derived from the decoder-form cut.
+  target-only cut, now kernel-derived from the decoder-form theorem.
 - `Erdos848.globalOppositeFiniteOffsetEighteenSquarefreeNeighbor_of_target`:
   bridge that reattaches the source `InBox` and `18 mod 25` facts to a
   target-only finite-offset neighbor.

@@ -254,6 +254,37 @@ def OppositeFiniteOffsetValue (b code : Nat) : Nat :=
   | 5 => b + 39
   | _ => b + 64
 
+/-- Typed seven-offset code for the index-bandwidth-three opposite matching. -/
+inductive OppositeFiniteOffsetCode : Type
+  | neg86
+  | neg61
+  | neg36
+  | neg11
+  | pos14
+  | pos39
+  | pos64
+
+/-- Convert a typed finite-offset code to the legacy Nat code. -/
+def OppositeFiniteOffsetCode.toNat : OppositeFiniteOffsetCode -> Nat
+  | OppositeFiniteOffsetCode.neg86 => 0
+  | OppositeFiniteOffsetCode.neg61 => 1
+  | OppositeFiniteOffsetCode.neg36 => 2
+  | OppositeFiniteOffsetCode.neg11 => 3
+  | OppositeFiniteOffsetCode.pos14 => 4
+  | OppositeFiniteOffsetCode.pos39 => 5
+  | OppositeFiniteOffsetCode.pos64 => 6
+
+/-- A typed finite-offset code is automatically one of the seven permitted codes. -/
+theorem oppositeFiniteOffsetCode_toNat_le_six
+    (code : OppositeFiniteOffsetCode) :
+    OppositeFiniteOffsetCode.toNat code <= 6 := by
+  cases code <;> simp [OppositeFiniteOffsetCode.toNat]
+
+/-- Finite-offset value computed from a typed seven-offset code. -/
+def OppositeFiniteOffsetCodeValue
+    (b : Nat) (code : OppositeFiniteOffsetCode) : Nat :=
+  OppositeFiniteOffsetValue b (OppositeFiniteOffsetCode.toNat code)
+
 /-- Every permitted finite-offset code lands inside the fixed value band `86`. -/
 theorem oppositeFiniteOffsetValue_band_eightySix
     (b code : Nat) (hcode : code <= 6) :
@@ -328,6 +359,25 @@ def GlobalOppositeFiniteOffsetEighteenTargetNeighbor (N b code : Nat) : Prop :=
   code <= 6 /\
     InBox N (OppositeFiniteOffsetValue b code) /\
     ForbiddenSquarefreeEdge (OppositeFiniteOffsetValue b code) b
+
+/--
+Typed pointwise finite-offset target data.  The code bound is not part of this
+certificate surface because the code type has only the seven permitted offsets.
+-/
+def GlobalOppositeFiniteOffsetEighteenTypedTargetNeighbor
+    (N b : Nat) (code : OppositeFiniteOffsetCode) : Prop :=
+  InBox N (OppositeFiniteOffsetCodeValue b code) /\
+    ForbiddenSquarefreeEdge (OppositeFiniteOffsetCodeValue b code) b
+
+/-- Repackage typed target-neighbor data into the legacy Nat-code target form. -/
+theorem globalOppositeFiniteOffsetEighteenTargetNeighbor_of_typed
+    {N b : Nat} {code : OppositeFiniteOffsetCode}
+    (h : GlobalOppositeFiniteOffsetEighteenTypedTargetNeighbor N b code) :
+    GlobalOppositeFiniteOffsetEighteenTargetNeighbor
+      N b (OppositeFiniteOffsetCode.toNat code) := by
+  exact And.intro
+    (oppositeFiniteOffsetCode_toNat_le_six code)
+    (And.intro h.left h.right)
 
 /-- Reattach source box/residue inputs to a finite-offset target-neighbor fact. -/
 theorem globalOppositeFiniteOffsetEighteenSquarefreeNeighbor_of_target
@@ -735,6 +785,13 @@ def GlobalFiniteOffsetEighteenTargetLeftInverse
   forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
     decoder (OppositeFiniteOffsetValue b (offset b)) = b
 
+/-- One-sided inverse certificate for the typed finite-offset opposite mate image. -/
+def GlobalFiniteOffsetEighteenTypedTargetLeftInverse
+    (N : Nat) (offset : Nat -> OppositeFiniteOffsetCode)
+    (decoder : Nat -> Nat) : Prop :=
+  forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+    decoder (OppositeFiniteOffsetCodeValue b (offset b)) = b
+
 /-- A target left-inverse certificate implies pairwise finite-offset injectivity. -/
 theorem finiteOffsetEighteenTarget_injective_of_leftInverse
     {N : Nat} {offset decoder : Nat -> Nat}
@@ -777,6 +834,45 @@ def GlobalFiniteOffsetMiddleCompressionEighteenDecoderCertificate : Prop :=
       (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
       ActiveStrictMiddleCreditCapacity N 7 B decMid
         (fun b => OppositeFiniteOffsetValue b (offset b)) decTarget)
+
+/--
+Typed-code decoder certificate.  The finite-offset code is no longer a Nat
+with a returned `<= 6` proof; it is one of the seven constructors by type.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedDecoderCertificate : Prop :=
+  forall N : Nat, Exists fun offset : Nat -> OppositeFiniteOffsetCode =>
+  Exists fun decoder : Nat -> Nat =>
+    (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+      GlobalOppositeFiniteOffsetEighteenTypedTargetNeighbor N b (offset b)) /\
+    GlobalFiniteOffsetEighteenTypedTargetLeftInverse N offset decoder /\
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B))
+        (decTarget : DecidablePred
+          (ActiveStrictMiddleCreditTarget N 7 B
+            (fun b => OppositeFiniteOffsetCodeValue b (offset b)))),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditCapacity N 7 B decMid
+        (fun b => OppositeFiniteOffsetCodeValue b (offset b)) decTarget)
+
+/-- The typed-code certificate supplies the previous Nat-code decoder certificate. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecoder_of_typed
+    (h : GlobalFiniteOffsetMiddleCompressionEighteenTypedDecoderCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecoderCertificate := by
+  intro N
+  rcases h N with ⟨offset, decoder, hMap, hLeft, hCapacity⟩
+  let offsetNat : Nat -> Nat := fun b => OppositeFiniteOffsetCode.toNat (offset b)
+  refine ⟨offsetNat, decoder, ?_, ?_, ?_⟩
+  · intro b hbBox hb18
+    exact globalOppositeFiniteOffsetEighteenTargetNeighbor_of_typed
+      (hMap b hbBox hb18)
+  · intro b hbBox hb18
+    simpa [offsetNat, OppositeFiniteOffsetCodeValue] using
+      hLeft b hbBox hb18
+  · intro B decMid decTarget hB hClique hMid
+    simpa [offsetNat, OppositeFiniteOffsetCodeValue] using
+      hCapacity B decMid decTarget hB hClique hMid
 
 /-- The decoder-form certificate supplies the pairwise-injective target certificate. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenTarget_of_decoder
@@ -1965,9 +2061,15 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
     omega
   simpa [APHallExpansionForOutsideSet, Nbr] using hfinal
 
-/-- Open analytic cut: decoder-form `18 mod 25` finite-offset middle compression. -/
-axiom finiteOffsetMiddleCompressionEighteenDecoderCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecoderCertificate
+/-- Open analytic cut: typed-code decoder-form `18 mod 25` finite-offset middle compression. -/
+axiom finiteOffsetMiddleCompressionEighteenTypedDecoderCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedDecoderCertificate
+
+/-- Current decoder certificate with the finite-offset code bound derived from the code type. -/
+theorem finiteOffsetMiddleCompressionEighteenDecoderCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecoderCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenDecoder_of_typed
+    finiteOffsetMiddleCompressionEighteenTypedDecoderCut
 
 /-- Current target-only certificate with pairwise injectivity derived from a decoder. -/
 theorem finiteOffsetMiddleCompressionEighteenTargetCut :

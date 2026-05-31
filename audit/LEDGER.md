@@ -18,20 +18,21 @@ reports, then record only durable round movement here.
 | R026 | `R026_eighteen_core_source.md` | proved the live opposite carrier is exactly the concrete `18 mod 25` source class and removed that disjunction from the live cut |
 | R027 | `R027_target_only_neighbor.md` | reattached source box/residue facts in Lean and removed them from the finite-offset neighbor data returned by the live cut |
 | R028 | `R028_decoder_injectivity.md` | replaced pairwise finite-offset injectivity in the live cut by a target decoder left-inverse and proved the injectivity bridge in Lean |
+| R029 | `R029_typed_offset_code.md` | encoded the seven finite-offset choices as a Lean type, proved the Nat-code bound bridge, and removed `code <= 6` from the live pointwise neighbor data |
 
 ## Current Frontier
 
 Generated `lean4/chain-status/route-index.md` reports one mathematical cut:
 
-- `Erdos848.finiteOffsetMiddleCompressionEighteenDecoderCut`
+- `Erdos848.finiteOffsetMiddleCompressionEighteenTypedDecoderCut`
 
 The active replacement route is `chain:hall-expansion-compression`, with
 primary gap `G-squarefree-ap-hall-expansion`.  The current certificate shape is
-decoder-form concrete `18 mod 25` finite-offset middle-compression capacity for
-compatible outside cliques, from which Lean derives pairwise injectivity,
-reattaches source box/residue facts, derives the project-level opposite carrier,
-the target `7 mod 25` residue, the `86` value band, and then direct partitioned
-neighbor capacity.
+typed-code decoder-form concrete `18 mod 25` finite-offset middle-compression
+capacity for compatible outside cliques, from which Lean derives the Nat-code
+bound, pairwise injectivity, reattaches source box/residue facts, derives the
+project-level opposite carrier, the target `7 mod 25` residue, the `86` value
+band, and then direct partitioned neighbor capacity.
 
 ## Local Gate
 
