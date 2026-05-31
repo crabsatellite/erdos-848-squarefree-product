@@ -55,17 +55,29 @@ The exact finite checks have to be replaced by explicit inequalities:
 
 ## Audit Cuts
 
-- `Erdos848.finiteOffsetMiddleCompressionEighteenBoxedDecoderCut`: live
-  boxed-code decoder-form `18 mod 25` finite-offset middle-compression
-  capacity, still open.  It combines source-indexed boxed seven-offset codes,
-  squarefree edge data from the concrete opposite source class, a target
-  decoder left-inverse, and count-level active strict-middle credit capacity.
-  Target boxedness, the Nat-code bound, pairwise injectivity, source box/residue
-  facts, project-level opposite carrier, target `7 mod 25` residue, and `86`
-  value-band inequalities are no longer part of the axiom surface.
+- `Erdos848.finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut`:
+  live squarefree-boxed decoder-form `18 mod 25` finite-offset
+  middle-compression capacity, still open.  It combines source-indexed
+  seven-offset codes carrying target boxedness and squarefree edge data, a
+  target decoder left-inverse, and count-level active strict-middle credit
+  capacity.  The squarefree edge output, target boxedness, the Nat-code bound,
+  pairwise injectivity, source box/residue facts, project-level opposite
+  carrier, target `7 mod 25` residue, and `86` value-band inequalities are no
+  longer separate clauses of the axiom surface.
 
 Closed local supports:
 
+- `Erdos848.SquarefreeBoxedOppositeFiniteOffsetCode`: dependent finite-offset
+  code that carries both target boxedness and the squarefree edge proof.
+- `Erdos848.globalOppositeFiniteOffsetEighteenBoxedTargetNeighbor_of_squarefreeBoxed`:
+  bridge from squarefree-boxed code data to the previous boxed target-neighbor
+  surface.
+- `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCertificate`:
+  live certificate shape with pointwise edge data encoded by the code object.
+- `Erdos848.globalFiniteOffsetMiddleCompressionEighteenBoxedDecoder_of_squarefreeBoxed`:
+  bridge from the live squarefree-boxed cut to the previous boxed-code cut.
+- `Erdos848.finiteOffsetMiddleCompressionEighteenBoxedDecoderCut`: previous
+  boxed-code cut, now kernel-derived from the squarefree-boxed cut.
 - `Erdos848.BoxedOppositeFiniteOffsetCode`: dependent finite-offset code that
   carries the target `InBox` proof for a fixed source.
 - `Erdos848.boxedOppositeFiniteOffsetMate`: total mate induced by
@@ -73,9 +85,9 @@ Closed local supports:
 - `Erdos848.globalOppositeFiniteOffsetEighteenTypedTargetNeighbor_of_boxed`:
   bridge from boxed edge data to the previous typed target-neighbor surface.
 - `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenBoxedDecoderCertificate`:
-  live certificate shape with target boxedness encoded by dependent code.
+  previous certificate shape with target boxedness encoded by dependent code.
 - `Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedDecoder_of_boxed`:
-  bridge from the live boxed-code cut to the previous typed-code cut.
+  bridge from the boxed-code theorem to the previous typed-code cut.
 - `Erdos848.finiteOffsetMiddleCompressionEighteenTypedDecoderCut`: previous
   typed-code cut, now kernel-derived from the boxed-code cut.
 - `Erdos848.OppositeFiniteOffsetCode`: finite type for the seven allowed

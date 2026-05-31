@@ -20,21 +20,22 @@ reports, then record only durable round movement here.
 | R028 | `R028_decoder_injectivity.md` | replaced pairwise finite-offset injectivity in the live cut by a target decoder left-inverse and proved the injectivity bridge in Lean |
 | R029 | `R029_typed_offset_code.md` | encoded the seven finite-offset choices as a Lean type, proved the Nat-code bound bridge, and removed `code <= 6` from the live pointwise neighbor data |
 | R030 | `R030_boxed_target_code.md` | indexed finite-offset codes by source box/residue proofs, carried target boxedness in the code object, and removed target `InBox` from explicit pointwise output |
+| R031 | `R031_squarefree_boxed_code.md` | carried the squarefree edge proof inside the source-indexed finite-offset code and removed the explicit pointwise edge-output clause from the live cut |
 
 ## Current Frontier
 
 Generated `lean4/chain-status/route-index.md` reports one mathematical cut:
 
-- `Erdos848.finiteOffsetMiddleCompressionEighteenBoxedDecoderCut`
+- `Erdos848.finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut`
 
 The active replacement route is `chain:hall-expansion-compression`, with
 primary gap `G-squarefree-ap-hall-expansion`.  The current certificate shape is
-boxed-code decoder-form concrete `18 mod 25` finite-offset middle-compression
-capacity for compatible outside cliques, from which Lean unpacks target
-boxedness, derives the Nat-code bound, pairwise injectivity, reattaches source
-box/residue facts, derives the project-level opposite carrier, the target
-`7 mod 25` residue, the `86` value band, and then direct partitioned neighbor
-capacity.
+squarefree-boxed decoder-form concrete `18 mod 25` finite-offset
+middle-compression capacity for compatible outside cliques, from which Lean
+unpacks squarefree edge data and target boxedness, derives the Nat-code bound,
+pairwise injectivity, reattaches source box/residue facts, derives the
+project-level opposite carrier, the target `7 mod 25` residue, the `86` value
+band, and then direct partitioned neighbor capacity.
 
 ## Local Gate
 

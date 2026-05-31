@@ -69,7 +69,7 @@ small enough for local review.
   region after removing the opposite `18 mod 25` class.  This records the
   observed surplus away from the equality block and gives the next certificate
   split target.
-- `Boxed-code decoder-form 18-core finite-offset middle-compression cut`: Lean now derives the endpoint
+- `Squarefree-boxed decoder-form 18-core finite-offset middle-compression cut`: Lean now derives the endpoint
   `SquarefreeAPHallCertificate` from `partitionedSquarefreeAPCapacityCut`,
   which is itself a theorem derived from
   `finiteOffsetMiddleCompressedCapacityCut`; that theorem is derived from
@@ -79,16 +79,19 @@ small enough for local review.
   from `finiteOffsetMiddleCompressionEighteenTargetCut`, which is now derived
   from `finiteOffsetMiddleCompressionEighteenDecoderCut`, which is now derived
   from `finiteOffsetMiddleCompressionEighteenTypedDecoderCut`, which is now
-  derived from the live cut `finiteOffsetMiddleCompressionEighteenBoxedDecoderCut`.
-  The live cut asks for source-indexed boxed seven-offset codes from the
-  concrete `18 mod 25` source class, squarefree edge data, a target decoder
-  left-inverse, and the active strict-middle credit-capacity pool.  Lean unpacks
-  target boxedness from the code object, derives the Nat-code bound from the
-  finite code type, derives pairwise injectivity from the decoder, reattaches
-  the source box/residue facts, derives the project-level opposite carrier,
-  the target `7 mod 25` residue, and the `86` value band, then derives direct
-  partitioned neighbor capacity for every compatible outside clique.  Python
-  separately checks the finite shadows
+  derived from `finiteOffsetMiddleCompressionEighteenBoxedDecoderCut`, which is
+  now derived from the live cut
+  `finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut`.  The live
+  cut asks for source-indexed seven-offset codes from the concrete `18 mod 25`
+  source class, with target boxedness and squarefree edge data carried by the
+  code object, plus a target decoder left-inverse and the active strict-middle
+  credit-capacity pool.  Lean unpacks the edge and target boxedness from the
+  code object, derives the Nat-code bound from the finite code type, derives
+  pairwise injectivity from the decoder, reattaches the source box/residue
+  facts, derives the project-level opposite carrier, the target `7 mod 25`
+  residue, and the `86` value band, then derives direct partitioned neighbor
+  capacity for every compatible outside clique.  Python separately checks the
+  finite shadows
   `|N(O)| >= |O|`, `|N(M)| >= |M|`,
   `|N(O) union N(M)| >= |O| + |M|`,
   `(|N(O)| - |O|) + |N(M) \ N(O)| >= |M|`, and the active-middle version of
@@ -105,6 +108,6 @@ small enough for local review.
   the credit pool.
 
 The audit-visible primary gap is `G-squarefree-ap-hall-expansion`; the current
-open mathematical cut is `Erdos848.finiteOffsetMiddleCompressionEighteenBoxedDecoderCut`.
+open mathematical cut is `Erdos848.finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut`.
 Finite search is kept as support evidence and explicitly marked as a dead route
 when used alone.
