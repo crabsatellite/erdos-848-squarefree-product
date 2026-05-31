@@ -11,13 +11,13 @@ This file is generated.  Future agents should update Lean files, audit rules, or
 ## Next Agent Brief
 
 Research attack target:
-- Primary proof gap: `gap:G-squarefree-ap-hall-expansion` -- Replace finite Hall checks by one explicit finite-offset partitioned-capacity analytic cut for the endpoint-consumed `7 mod 25` progression: the opposite `18 mod 25` block is matched by one of seven fixed offsets, and every compatible outside clique satisfies direct partitioned neighbor capacity.
+- Primary proof gap: `gap:G-squarefree-ap-hall-expansion` -- Replace finite Hall checks by one explicit direct partitioned-capacity analytic cut for the endpoint-consumed `7 mod 25` progression: every compatible outside clique split into the opposite block and strict middle satisfies direct partitioned neighbor capacity.
 - Route owner(s): `chain:hall-expansion-compression`, `chain:main-full-close`
 - Current constructive attack route: `chain:hall-expansion-compression`.  Use it to replace the primary cut; do not route around the configured gap ledger.
-- Success criterion: A theorem of the shape `SquarefreeAPHallCertificate` is proved without `globalFiniteOffsetPartitionedCapacityCut`.
+- Success criterion: A theorem of the shape `SquarefreeAPHallCertificate` is proved without `partitionedSquarefreeAPCapacityCut`.
 
 Kernel cut ledger.  These are audit-visible unresolved constants on the endpoint closure; use the configured route/gap above to decide the next research attack, not this flat list alone:
-- `Erdos848.globalFiniteOffsetPartitionedCapacityCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
+- `Erdos848.partitionedSquarefreeAPCapacityCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
 
 ## New Agent Attack Cards
 
@@ -25,9 +25,9 @@ Readiness verdict: **actionable**.  The main cut and replacement route are clear
 
 Current replacement plan:
 - Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.
-- Promote the opposite `18 mod 25` banded matching shadow into a seven-offset global matching certificate; every outside subset inherits it by restriction and image cardinality is kernel-derived from boxed injectivity.
-- Prove the remaining finite-offset partitioned-capacity cut: every compatible outside clique must satisfy direct partitioned neighbor capacity while the opposite equality block keeps the same finite-offset global mate.
-- Final success criterion: A theorem of the shape `SquarefreeAPHallCertificate` is proved without `globalFiniteOffsetPartitionedCapacityCut`.
+- Prove the remaining direct partitioned-capacity cut: every compatible outside clique must satisfy `|O| + |M| <= |N(O) union N(M)|`.
+- Keep finite-offset opposite matching as route support evidence, but do not let the endpoint depend on it.
+- Final success criterion: A theorem of the shape `SquarefreeAPHallCertificate` is proved without `partitionedSquarefreeAPCapacityCut`.
 
 Do-not-attack inactive routes:
 | gap | reason | evidence files |
@@ -38,10 +38,10 @@ Do-not-attack inactive routes:
 
 | endpoint | mathematical cuts | full axiom count |
 |----------|-------------------|-----------------:|
-| `Erdos848.erdos848_main` | `Erdos848.globalFiniteOffsetPartitionedCapacityCut` | 4 |
+| `Erdos848.erdos848_main` | `Erdos848.partitionedSquarefreeAPCapacityCut` | 4 |
 
 Open mathematical cut ledger:
-- `Erdos848.globalFiniteOffsetPartitionedCapacityCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
+- `Erdos848.partitionedSquarefreeAPCapacityCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
 
 ## Route Taxonomy
 
@@ -58,7 +58,7 @@ Open mathematical cut ledger:
 |-----|--------|--------------|--------------|-------|
 | `gap:G-hall-expansion-global` | closed-local | `chain:main-full-close` | `Erdos848.hallExpansionCut`, `Erdos848.atMostCandidateBound_of_current_cuts`, `Erdos848.erdos848_main` | on-chain: 3 |
 | `gap:G-candidate-p5-sharpness` | closed-local | `chain:main-full-close`, `chain:residue-certificate` | `Erdos848.squareDivides_five_mul_add_one_of_candidate_seven`, `Erdos848.squareDivides_five_mul_add_one_of_candidate_eighteen`, `Erdos848.not_squareDivides_five_mul_add_one_of_candidate_seven_eighteen`, +3 more | on-chain: 1 |
-| `gap:G-squarefree-ap-hall-expansion` | open | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.globalFiniteOffsetPartitionedCapacityCut`, `Erdos848.GlobalFiniteOffsetPartitionedCapacityCertificateForResidue`, `Erdos848.globalOppositeFiniteOffsetMatching_of_partitionedCapacity`, +103 more | cut: 1 |
+| `gap:G-squarefree-ap-hall-expansion` | open | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.partitionedSquarefreeAPCapacityCut`, `Erdos848.incrementalPartitionedSquarefreeAPCapacity_of_partitionedCapacity`, `Erdos848.incrementalPartitionedSquarefreeAPCapacityCut`, +95 more | cut: 1 |
 | `gap:G-rough-square-divisor-unpacking` | closed-local | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.roughSquareDivisor`, `Erdos848.RoughSquareDivisorCertificate` | on-chain: 1 |
 | `gap:D-finite-search-only` | dead | `chain:finite-search-only` | - | (none) |
 

@@ -44,36 +44,32 @@ and is forced into a thinner prime-square root class.
 The exact finite checks have to be replaced by explicit inequalities:
 
 1. Squarefree counts in arithmetic progressions for `b(25t+7)+1`.
-2. A finite-offset partitioned-capacity certificate: match the whole `18 mod 25`
-   equality block injectively by one of seven fixed offsets into nearby
-   candidate neighbors, restrict that global matching to every outside clique,
-   and prove direct partitioned neighbor capacity for every compatible outside
-   clique.
-3. The remaining analytic inequality behind the partitioned-capacity cut:
+2. A direct partitioned-capacity certificate for every compatible outside
+   clique after splitting it into the opposite `18 mod 25` block and the strict
+   middle.
+3. The remaining analytic inequality behind the live partitioned-capacity cut:
    `|O| + |M| <= |N(O) union N(M)|`.
 4. A rough-square-divisor ledger for `a^2+1 = m p^2` with large `p`.
 5. A certified bridge from residue certificates to interval certificates.
 
 ## Audit Cuts
 
-- `Erdos848.globalFiniteOffsetPartitionedCapacityCut`: finite-offset global
-  opposite matching plus direct partitioned-neighbor capacity, still open.
-  The opposite mate is restricted to the seven value offsets
-  `[-86, -61, -36, -11, 14, 39, 64]`; the active-middle credit pool is no
-  longer part of the live cut.
+- `Erdos848.partitionedSquarefreeAPCapacityCut`: direct partitioned-neighbor
+  capacity, still open.  The finite-offset opposite matching and active-middle
+  credit pool are now support evidence, not endpoint assumptions.
 
 Closed local supports:
 
-- `Erdos848.globalOppositeFiniteOffsetMatchingCut`: the finite-offset global
-  matching projection, kernel-derived from
-  `globalFiniteOffsetPartitionedCapacityCut`.
-- `Erdos848.partitionedSquarefreeAPCapacityCut`: the direct union-capacity
-  certificate, kernel-derived from `globalFiniteOffsetPartitionedCapacityCut`.
-- `Erdos848.globalOppositeNearbyMatchingCut`: the old global nearby/banded
-  matching certificate, now kernel-derived from the finite-offset matching.
-- `Erdos848.oppositeNearbyMatchingImageCut`: the old `B`-relative
-  nearby/banded matching-image certificate, now kernel-derived from
-  `globalOppositeNearbyMatchingCut`.
+- `Erdos848.squarefreeAPHallCut`: the endpoint AP/Hall certificate,
+  kernel-derived from `partitionedSquarefreeAPCapacityCut`.
+- `Erdos848.incrementalPartitionedSquarefreeAPCapacityCut`: incremental/surplus
+  certificate, kernel-derived from direct partitioned capacity.
+- `Erdos848.activeStrictMiddleIncrementalCapacityCut`: active strict-middle
+  incremental surplus certificate, kernel-derived from direct partitioned
+  capacity.
+- `Erdos848.partitionedSquarefreeAPCapacity_of_finiteOffsetPartitionedCapacity`:
+  support projection showing the prior finite-offset partitioned-capacity
+  interface implies the current live cut.
 - `Erdos848.globalOppositeNearbyMatching_of_finiteOffset`: bridge from the
   seven-offset global matching to the older nearby matching interface.
 - `Erdos848.globalOppositeFiniteOffsetMatching_of_splitCredit`: projection
@@ -82,13 +78,8 @@ Closed local supports:
   from the split-capacity cut to the finite-offset matching certificate.
 - `Erdos848.globalOppositeFiniteOffsetMatching_of_partitionedCapacity`:
   projection from the partitioned-capacity cut to the finite-offset matching.
-- `Erdos848.partitionedSquarefreeAPCapacity_of_finiteOffsetPartitionedCapacity`:
-  projection from the live cut to direct partitioned capacity.
 - `Erdos848.oppositeNearbyMatchingAPCertificate_of_global`: bridge from the
   global opposite-block matching to every `B`-relative opposite part.
-- `Erdos848.activeStrictMiddleIncrementalCapacityCut`: active strict-middle
-  incremental surplus certificate, kernel-derived from the finite-offset
-  partitioned-capacity cut.
 - `Erdos848.incrementalPartitionedSquarefreeAPCapacity_of_partitionedCapacity`:
   bridge from direct union capacity to incremental/surplus capacity, using the
   cover of `N(O) union N(M)` by `N(O)` and `N(M) \ N(O)`.
@@ -107,22 +98,6 @@ Closed local supports:
 - `Erdos848.activeStrictMiddleIncrementalCapacity_of_creditMatching`: bridge
   from the older arbitrary-mate credit-matching interface to the incremental
   capacity certificate.
-- `Erdos848.nearbyMatchedSplitIncrementalSquarefreeAPCapacityCut`: nearby
-  matching-image split certificate, kernel-derived from the two explicit
-  analytic cuts.
-- `Erdos848.squarefreeAPHallCut`: the endpoint AP/Hall certificate, now
-  kernel-derived from the two explicit analytic cuts.
-- `Erdos848.nearbyAllocatedSplitIncrementalSquarefreeAPCapacityCut`: nearby
-  allocation-form split certificate, now kernel-derived from the matching-image
-  split certificate.
-- `Erdos848.allocatedSplitIncrementalSquarefreeAPCapacityCut`:
-  allocation-form split certificate, now kernel-derived from the nearby cut.
-- `Erdos848.splitIncrementalSquarefreeAPCapacityCut`: split expansion
-  certificate, now kernel-derived from the nearby cut.
-- `Erdos848.incrementalPartitionedSquarefreeAPCapacityCut`: incremental
-  capacity certificate, now kernel-derived from the allocation-form split cut.
-- `Erdos848.partitionedSquarefreeAPCapacityCut`: union-capacity certificate,
-  now kernel-derived from the allocation-form split cut.
 - `Erdos848.hallExpansionCut`: finite counting assembly from the AP/Hall
   expansion certificate to `AtMostCandidateBound`.
 - `Erdos848.residueCandidateSharp`: candidate admissibility via `5^2`.

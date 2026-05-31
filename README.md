@@ -69,16 +69,12 @@ small enough for local review.
   region after removing the opposite `18 mod 25` class.  This records the
   observed surplus away from the equality block and gives the next certificate
   split target.
-- `Finite-offset partitioned-capacity AP/Hall cut`: Lean now derives the endpoint
+- `Direct partitioned-capacity AP/Hall cut`: Lean now derives the endpoint
   `SquarefreeAPHallCertificate` from one explicit analytic cut:
-  `globalFiniteOffsetPartitionedCapacityCut`.  The cut chooses, for every boxed
-  `18 mod 25` vertex, one of seven fixed finite offsets into the `7 mod 25`
-  class, proves injectivity of that global mate, and proves direct partitioned
-  neighbor capacity for every compatible outside clique.
-  The older global nearby matching, `B`-relative opposite matching image, and
-  active strict-middle incremental capacity cuts are now kernel-derived from
-  this one interface; no active-middle credit pool or credit function is
-  assumed in the live cut.  Python
+  `partitionedSquarefreeAPCapacityCut`.  The live cut only asks for direct
+  partitioned neighbor capacity for every compatible outside clique; the older
+  finite-offset matching, nearby matching, and active credit-capacity routes
+  are support evidence and no longer sit on the endpoint closure.  Python
   separately checks the finite shadows `|N(O)| >= |O|`, `|N(M)| >= |M|`,
   `|N(O) union N(M)| >= |O| + |M|`,
   `(|N(O)| - |O|) + |N(M) \ N(O)| >= |M|`, and the active-middle version of
@@ -96,6 +92,6 @@ small enough for local review.
   capacity.
 
 The audit-visible primary gap is `G-squarefree-ap-hall-expansion`; the current
-open mathematical cut is `Erdos848.globalFiniteOffsetPartitionedCapacityCut`.  Finite
+open mathematical cut is `Erdos848.partitionedSquarefreeAPCapacityCut`.  Finite
 search is kept as support evidence and explicitly marked as a dead route when
 used alone.

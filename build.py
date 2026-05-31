@@ -181,7 +181,7 @@ def main() -> int:
         f"{[(x['N'], x['opposite_size'], x['matched_count'], x['min_degree'], x['max_value_gap']) for x in payload['opposite_band_matching_checks']]}"
     )
     print(
-        "  partitioned checks: "
+        "  partitioned capacity checks: "
         f"{[(x['N'], x['worst_opposite_defect'], x['worst_middle_defect'], x['worst_new_middle_defect'], x['worst_incremental_defect'], x['worst_incremental_with_middle_defect']) for x in payload['partitioned_hall_checks']]}"
     )
     print(

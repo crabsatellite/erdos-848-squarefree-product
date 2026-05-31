@@ -16,7 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.globalFiniteOffsetPartitionedCapacityCut
+    ``Erdos848.partitionedSquarefreeAPCapacityCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -74,16 +74,35 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit finite-offset partitioned-capacity analytic cut for the endpoint-consumed `7 mod 25` progression: the opposite `18 mod 25` block is matched by one of seven fixed offsets, and every compatible outside clique satisfies direct partitioned neighbor capacity."
+        "Replace finite Hall checks by one explicit direct partitioned-capacity analytic cut for the endpoint-consumed `7 mod 25` progression: every compatible outside clique split into the opposite block and strict middle satisfies direct partitioned neighbor capacity."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
-        "Erdos848.globalFiniteOffsetPartitionedCapacityCut",
+        "Erdos848.partitionedSquarefreeAPCapacityCut",
+        "Erdos848.incrementalPartitionedSquarefreeAPCapacity_of_partitionedCapacity",
+        "Erdos848.incrementalPartitionedSquarefreeAPCapacityCut",
+        "Erdos848.activeStrictMiddleIncrementalCapacityCut",
+        "Erdos848.squarefreeAPHallCut",
+        "Erdos848.PartitionedSquarefreeAPCapacityCertificate",
+        "Erdos848.PartitionedSquarefreeAPCapacityCertificateForResidue",
+        "Erdos848.PartitionedNeighborCapacity",
+        "Erdos848.PartitionedNeighborUnion",
+        "Erdos848.squarefreeAPHallCertificate_of_partitionedCapacity",
+        "Erdos848.SquarefreeAPHallCertificate",
+        "Erdos848.SquarefreeAPHallCertificateForResidue",
+        "Erdos848.SquarefreeNeighborInCandidate",
+        "Erdos848.APHallExpansionForOutsideSet",
+        "Erdos848.OppositeOutsidePart",
+        "Erdos848.StrictMiddlePart",
+        "Erdos848.BoundedOutsideSet",
+        "Erdos848.NonSquarefreeClique",
+        "Erdos848.CandidateOutside",
+        "Erdos848.OppositeCandidateCarrier",
+        "Erdos848.StrictMiddleOutside",
         "Erdos848.GlobalFiniteOffsetPartitionedCapacityCertificateForResidue",
         "Erdos848.globalOppositeFiniteOffsetMatching_of_partitionedCapacity",
         "Erdos848.partitionedSquarefreeAPCapacity_of_finiteOffsetPartitionedCapacity",
-        "Erdos848.incrementalPartitionedSquarefreeAPCapacity_of_partitionedCapacity",
         "Erdos848.GlobalFiniteOffsetSplitCapacityCertificateForResidue",
         "Erdos848.ActiveStrictMiddleCreditCapacity",
         "Erdos848.GlobalFiniteOffsetSplitCreditCertificateForResidue",
@@ -93,24 +112,13 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.GlobalOppositeFiniteOffsetMatchingAPCertificateForResidue",
         "Erdos848.globalOppositeFiniteOffsetMatching_of_splitCapacity",
         "Erdos848.globalOppositeFiniteOffsetMatching_of_splitCredit",
-        "Erdos848.globalOppositeFiniteOffsetMatchingCut",
         "Erdos848.globalOppositeNearbyMatching_of_finiteOffset",
         "Erdos848.GlobalOppositeNearbyMatchingAPCertificateForResidue",
         "Erdos848.GlobalOppositeNearbyMatchingImageAllocation",
         "Erdos848.GlobalOppositeNearbyNeighbor",
-        "Erdos848.globalOppositeNearbyMatchingCut",
         "Erdos848.oppositeNearbyMatchingAPCertificate_of_global",
-        "Erdos848.oppositeNearbyMatchingImageCut",
-        "Erdos848.activeStrictMiddleIncrementalCapacityCut",
         "Erdos848.activeStrictMiddleIncrementalCapacity_of_finiteOffsetSplitCapacity",
         "Erdos848.activeStrictMiddleIncrementalCapacity_of_finiteOffsetSplitCredit",
-        "Erdos848.nearbyMatchedSplitIncrementalSquarefreeAPCapacityCut",
-        "Erdos848.nearbyAllocatedSplitIncrementalSquarefreeAPCapacityCut",
-        "Erdos848.allocatedSplitIncrementalSquarefreeAPCapacityCut",
-        "Erdos848.splitIncrementalSquarefreeAPCapacityCut",
-        "Erdos848.incrementalPartitionedSquarefreeAPCapacityCut",
-        "Erdos848.partitionedSquarefreeAPCapacityCut",
-        "Erdos848.squarefreeAPHallCut",
         "Erdos848.NearbyMatchedSplitIncrementalSquarefreeAPCapacityCertificate",
         "Erdos848.NearbyMatchedSplitIncrementalSquarefreeAPCapacityCertificateForResidue",
         "Erdos848.OppositeNearbyMatchingAPCertificateForResidue",
@@ -149,36 +157,20 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.ActiveStrictMiddleIncrementalCapacityCertificateForResidue",
         "Erdos848.OppositeNeighborExpansion",
         "Erdos848.incrementalPartitionedSquarefreeAPCapacity_of_split",
-        "Erdos848.SquarefreeAPHallCertificate",
         "Erdos848.IncrementalPartitionedSquarefreeAPCapacityCertificate",
         "Erdos848.IncrementalPartitionedSquarefreeAPCapacityCertificateForResidue",
         "Erdos848.PartitionedIncrementalCapacity",
         "Erdos848.IncrementalStrictMiddleNeighbor",
         "Erdos848.partitionedSquarefreeAPCapacity_of_incremental",
-        "Erdos848.PartitionedSquarefreeAPCapacityCertificate",
-        "Erdos848.PartitionedSquarefreeAPCapacityCertificateForResidue",
-        "Erdos848.PartitionedNeighborCapacity",
-        "Erdos848.PartitionedNeighborUnion",
-        "Erdos848.squarefreeAPHallCertificate_of_partitionedCapacity",
         "Erdos848.PartitionedSquarefreeAPHallCertificate",
         "Erdos848.PartitionedSquarefreeAPHallCertificateForResidue",
         "Erdos848.PartitionedNeighborAllocation",
         "Erdos848.squarefreeAPHallCertificate_of_partitioned",
-        "Erdos848.SquarefreeAPHallCertificateForResidue",
         "Erdos848.StrictMiddleAPHallCertificateForResidue",
         "Erdos848.CandidateResidueSquarefreeAPHallCertificate",
         "Erdos848.squarefreeAPHallCertificate_of_candidateResidues",
-        "Erdos848.SquarefreeNeighborInCandidate",
-        "Erdos848.APHallExpansionForOutsideSet",
         "Erdos848.BoundedOutsidePart",
         "Erdos848.BoundedStrictMiddlePart",
-        "Erdos848.OppositeOutsidePart",
-        "Erdos848.StrictMiddlePart",
-        "Erdos848.BoundedOutsideSet",
-        "Erdos848.NonSquarefreeClique",
-        "Erdos848.CandidateOutside",
-        "Erdos848.OppositeCandidateCarrier",
-        "Erdos848.StrictMiddleOutside",
         "Erdos848.boundedOutsidePart_boundedOutsideSet",
         "Erdos848.boundedOutsidePart_nonSquarefreeClique_of_admissible",
         "Erdos848.boundedStrictMiddlePart_boundedOutsideSet",
@@ -265,10 +257,10 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Promote the opposite `18 mod 25` banded matching shadow into a seven-offset global matching certificate; every outside subset inherits it by restriction and image cardinality is kernel-derived from boxed injectivity.",
-        "Prove the remaining finite-offset partitioned-capacity cut: every compatible outside clique must satisfy direct partitioned neighbor capacity while the opposite equality block keeps the same finite-offset global mate."
+        "Prove the remaining direct partitioned-capacity cut: every compatible outside clique must satisfy `|O| + |M| <= |N(O) union N(M)|`.",
+        "Keep finite-offset opposite matching as route support evidence, but do not let the endpoint depend on it."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `globalFiniteOffsetPartitionedCapacityCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `partitionedSquarefreeAPCapacityCut`."
     },
     {
       id := "residue-certificate"
@@ -349,9 +341,9 @@ def config : ChainAudit.ProjectConfig := {
       keywords := [
         "SquarefreeAP",
         "squarefreeAPHall",
+        "partitionedSquarefreeAPCapacityCut",
         "nearbyMatchedSplitIncrementalSquarefreeAPCapacity",
         "GlobalFiniteOffsetPartitionedCapacityCertificateForResidue",
-        "globalFiniteOffsetPartitionedCapacityCut",
         "globalOppositeFiniteOffsetMatching_of_partitionedCapacity",
         "partitionedSquarefreeAPCapacity_of_finiteOffsetPartitionedCapacity",
         "incrementalPartitionedSquarefreeAPCapacity_of_partitionedCapacity",
@@ -368,7 +360,6 @@ def config : ChainAudit.ProjectConfig := {
         "GlobalOppositeNearbyMatchingAPCertificateForResidue",
         "GlobalOppositeNearbyMatchingImageAllocation",
         "GlobalOppositeNearbyNeighbor",
-        "globalOppositeNearbyMatchingCut",
         "oppositeNearbyMatchingAPCertificate_of_global",
         "opposite_matching_certificate.py",
         "nearbyAllocatedSplitIncrementalSquarefreeAPCapacity",

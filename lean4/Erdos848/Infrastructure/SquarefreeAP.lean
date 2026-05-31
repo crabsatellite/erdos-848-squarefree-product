@@ -1530,31 +1530,8 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
     omega
   simpa [APHallExpansionForOutsideSet, Nbr] using hfinal
 
-/-- Open analytic cut: finite-offset global matching plus partitioned capacity. -/
-axiom globalFiniteOffsetPartitionedCapacityCut :
-  GlobalFiniteOffsetPartitionedCapacityCertificateForResidue 7 86
-
-/-- Current finite-offset matching image for the equality block. -/
-theorem globalOppositeFiniteOffsetMatchingCut :
-  GlobalOppositeFiniteOffsetMatchingAPCertificateForResidue 7 86 :=
-  globalOppositeFiniteOffsetMatching_of_partitionedCapacity
-    globalFiniteOffsetPartitionedCapacityCut
-
-/-- Current global nearby/banded matching for the equality block. -/
-theorem globalOppositeNearbyMatchingCut :
-  GlobalOppositeNearbyMatchingAPCertificateForResidue 7 86 :=
-  globalOppositeNearbyMatching_of_finiteOffset
-    globalOppositeFiniteOffsetMatchingCut
-
-/-- Current nearby/banded matching image for the equality block, by restriction. -/
-theorem oppositeNearbyMatchingImageCut :
-  OppositeNearbyMatchingAPCertificateForResidue 7 86
-  := oppositeNearbyMatchingAPCertificate_of_global globalOppositeNearbyMatchingCut
-
-/-- Current union-capacity certificate derived directly from partitioned capacity. -/
-theorem partitionedSquarefreeAPCapacityCut : PartitionedSquarefreeAPCapacityCertificate :=
-  partitionedSquarefreeAPCapacity_of_finiteOffsetPartitionedCapacity
-    globalFiniteOffsetPartitionedCapacityCut
+/-- Open analytic cut: direct partitioned AP/Hall neighbor capacity. -/
+axiom partitionedSquarefreeAPCapacityCut : PartitionedSquarefreeAPCapacityCertificate
 
 /-- Current incremental/surplus certificate derived from direct union capacity. -/
 theorem incrementalPartitionedSquarefreeAPCapacityCut :
@@ -1568,29 +1545,6 @@ theorem activeStrictMiddleIncrementalCapacityCut :
   intro N B decOpp decMid decOppNbr decNewMid hB hClique _hMid
   exact incrementalPartitionedSquarefreeAPCapacityCut
     N B decOpp decMid decOppNbr decNewMid hB hClique
-
-/-- Current matching-image split certificate derived from partitioned capacity. -/
-theorem nearbyMatchedSplitIncrementalSquarefreeAPCapacityCut :
-    NearbyMatchedSplitIncrementalSquarefreeAPCapacityCertificate :=
-  And.intro oppositeNearbyMatchingImageCut activeStrictMiddleIncrementalCapacityCut
-
-/-- Current nearby split certificate derived from partitioned capacity. -/
-theorem nearbyAllocatedSplitIncrementalSquarefreeAPCapacityCut :
-    NearbyAllocatedSplitIncrementalSquarefreeAPCapacityCertificate :=
-  nearbyAllocatedSplitIncrementalSquarefreeAPCapacity_of_matched
-    nearbyMatchedSplitIncrementalSquarefreeAPCapacityCut
-
-/-- Current allocation-form split certificate derived from the nearby/banded cut. -/
-theorem allocatedSplitIncrementalSquarefreeAPCapacityCut :
-    AllocatedSplitIncrementalSquarefreeAPCapacityCertificate :=
-  allocatedSplitIncrementalSquarefreeAPCapacity_of_nearby
-    nearbyAllocatedSplitIncrementalSquarefreeAPCapacityCut
-
-/-- Current split certificate derived from the allocation-form split cut. -/
-theorem splitIncrementalSquarefreeAPCapacityCut :
-    SplitIncrementalSquarefreeAPCapacityCertificate :=
-  splitIncrementalSquarefreeAPCapacity_of_allocated
-    allocatedSplitIncrementalSquarefreeAPCapacityCut
 
 /-- Current endpoint AP/Hall certificate derived from the structured partitioned capacity cut. -/
 theorem squarefreeAPHallCut : SquarefreeAPHallCertificate :=
