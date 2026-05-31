@@ -14,18 +14,19 @@ reports, then record only durable round movement here.
 | R022 | `R022_direct_partitioned_capacity.md` | removed finite-offset matching from the endpoint cut and made direct partitioned capacity the only live mathematical cut |
 | R023 | `R023_middle_compressed_capacity.md` | proved the Lean bridge from finite-offset middle-compressed split capacity to direct partitioned capacity and made that structured certificate the live cut |
 | R024 | `R024_offset_band_core.md` | proved the seven-offset value-band arithmetic in Lean and removed the band inequalities from the live middle-compression axiom |
+| R025 | `R025_seven_core_residue.md` | proved the target-residue arithmetic for boxed seven-offset mates and removed the candidate-residue condition from the live cut |
 
 ## Current Frontier
 
 Generated `lean4/chain-status/route-index.md` reports one mathematical cut:
 
-- `Erdos848.finiteOffsetMiddleCompressionCoreCut`
+- `Erdos848.finiteOffsetMiddleCompressionSevenCoreCut`
 
 The active replacement route is `chain:hall-expansion-compression`, with
 primary gap `G-squarefree-ap-hall-expansion`.  The current certificate shape is
-finite-offset middle-compression core capacity for compatible outside cliques,
-from which Lean derives the `86` value band and then direct partitioned
-neighbor capacity.
+seven-core finite-offset middle-compression capacity for compatible outside
+cliques, from which Lean derives the target `7 mod 25` residue, the `86` value
+band, and then direct partitioned neighbor capacity.
 
 ## Local Gate
 

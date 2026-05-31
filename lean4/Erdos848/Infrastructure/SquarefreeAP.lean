@@ -281,6 +281,63 @@ def GlobalOppositeFiniteOffsetSquarefreeNeighbor (N r b code : Nat) : Prop :=
     CandidateCarrier r (OppositeFiniteOffsetValue b code) /\
     ForbiddenSquarefreeEdge (OppositeFiniteOffsetValue b code) b
 
+/--
+Specialized seven-offset core for the live `7 mod 25` route.  The target
+residue condition is omitted: if the finite-offset value is in the box and the
+source is in the opposite class, Lean derives the `7 mod 25` target residue.
+-/
+def GlobalOppositeFiniteOffsetSevenSquarefreeNeighbor (N b code : Nat) : Prop :=
+  code <= 6 /\
+    InBox N b /\
+    OppositeCandidateCarrier 7 b /\
+    InBox N (OppositeFiniteOffsetValue b code) /\
+    ForbiddenSquarefreeEdge (OppositeFiniteOffsetValue b code) b
+
+/-- In the live route, any boxed seven-offset mate of an opposite vertex is `7 mod 25`. -/
+theorem candidateCarrier_seven_of_oppositeFiniteOffsetValue
+    {b code : Nat}
+    (hcode : code <= 6)
+    (hbOpp : OppositeCandidateCarrier 7 b)
+    (hpos : 1 <= OppositeFiniteOffsetValue b code) :
+    CandidateCarrier 7 (OppositeFiniteOffsetValue b code) := by
+  have hb18 : CandidateCarrier 18 b := by
+    rcases hbOpp with hOpp | hOpp
+    · exact hOpp.right
+    · omega
+  unfold CandidateCarrier at hb18 ⊢
+  rcases code with _ | code
+  · simp [OppositeFiniteOffsetValue] at hpos ⊢
+    omega
+  rcases code with _ | code
+  · simp [OppositeFiniteOffsetValue] at hpos ⊢
+    omega
+  rcases code with _ | code
+  · simp [OppositeFiniteOffsetValue] at hpos ⊢
+    omega
+  rcases code with _ | code
+  · simp [OppositeFiniteOffsetValue] at hpos ⊢
+    omega
+  rcases code with _ | code
+  · simp [OppositeFiniteOffsetValue] at hpos ⊢
+    omega
+  rcases code with _ | code
+  · simp [OppositeFiniteOffsetValue] at hpos ⊢
+    omega
+  rcases code with _ | code
+  · simp [OppositeFiniteOffsetValue] at hpos ⊢
+    omega
+  · omega
+
+/-- Add the automatic `7 mod 25` target residue to the specialized seven-core neighbor. -/
+theorem globalOppositeFiniteOffsetSquarefreeNeighbor_of_seven
+    {N b code : Nat}
+    (h : GlobalOppositeFiniteOffsetSevenSquarefreeNeighbor N b code) :
+    GlobalOppositeFiniteOffsetSquarefreeNeighbor N 7 b code := by
+  rcases h with ⟨hcode, hbBox, hbOpp, haBox, hedge⟩
+  exact ⟨hcode, hbBox, hbOpp, haBox,
+    candidateCarrier_seven_of_oppositeFiniteOffsetValue hcode hbOpp haBox.left,
+    hedge⟩
+
 /-- A finite-offset opposite mate is one of the seven index-bandwidth-three shadows. -/
 def GlobalOppositeFiniteOffsetNeighbor (N r K b code : Nat) : Prop :=
   code <= 6 /\
@@ -533,6 +590,44 @@ def GlobalFiniteOffsetMiddleCompressionCoreCertificateForResidue (r : Nat) : Pro
       (Exists fun b : Nat => StrictMiddlePart r B b) ->
       ActiveStrictMiddleCreditCapacity N r B decMid
         (fun b => OppositeFiniteOffsetValue b (offset b)) decTarget)
+
+/--
+Live-route finite-offset middle-compression core specialized to the
+`7 mod 25` endpoint.  The target candidate-residue condition is omitted because
+it is derived from the opposite residue and boxed finite-offset value.
+-/
+def GlobalFiniteOffsetMiddleCompressionSevenCoreCertificate : Prop :=
+  forall N : Nat, Exists fun offset : Nat -> Nat =>
+    (forall b : Nat, InBox N b -> OppositeCandidateCarrier 7 b ->
+      GlobalOppositeFiniteOffsetSevenSquarefreeNeighbor N b (offset b)) /\
+    (forall b1 b2 : Nat,
+      InBox N b1 ->
+      OppositeCandidateCarrier 7 b1 ->
+      InBox N b2 ->
+      OppositeCandidateCarrier 7 b2 ->
+      OppositeFiniteOffsetValue b1 (offset b1) =
+        OppositeFiniteOffsetValue b2 (offset b2) ->
+      b1 = b2) /\
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B))
+        (decTarget : DecidablePred
+          (ActiveStrictMiddleCreditTarget N 7 B
+            (fun b => OppositeFiniteOffsetValue b (offset b)))),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditCapacity N 7 B decMid
+        (fun b => OppositeFiniteOffsetValue b (offset b)) decTarget)
+
+/-- The specialized seven-core certificate supplies the generic core certificate for residue `7`. -/
+theorem globalFiniteOffsetMiddleCompressionCore_of_sevenCore
+    (h : GlobalFiniteOffsetMiddleCompressionSevenCoreCertificate) :
+    GlobalFiniteOffsetMiddleCompressionCoreCertificateForResidue 7 := by
+  intro N
+  rcases h N with ⟨offset, hMap, hInjective, hCapacity⟩
+  refine ⟨offset, ?_, hInjective, hCapacity⟩
+  intro b hbBox hbOpp
+  exact globalOppositeFiniteOffsetSquarefreeNeighbor_of_seven (hMap b hbBox hbOpp)
 
 /-- The core middle-compression certificate supplies the old `K = 86` split capacity. -/
 theorem globalFiniteOffsetSplitCapacity_of_middleCompressionCore
@@ -1670,9 +1765,15 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
     omega
   simpa [APHallExpansionForOutsideSet, Nbr] using hfinal
 
-/-- Open analytic cut: finite-offset middle-compression core AP/Hall capacity. -/
-axiom finiteOffsetMiddleCompressionCoreCut :
-  GlobalFiniteOffsetMiddleCompressionCoreCertificateForResidue 7
+/-- Open analytic cut: live seven-core finite-offset middle-compression capacity. -/
+axiom finiteOffsetMiddleCompressionSevenCoreCut :
+  GlobalFiniteOffsetMiddleCompressionSevenCoreCertificate
+
+/-- Current generic core certificate with target residues derived in Lean. -/
+theorem finiteOffsetMiddleCompressionCoreCut :
+  GlobalFiniteOffsetMiddleCompressionCoreCertificateForResidue 7 :=
+  globalFiniteOffsetMiddleCompressionCore_of_sevenCore
+    finiteOffsetMiddleCompressionSevenCoreCut
 
 /-- Current middle-compressed capacity with the value band derived in Lean. -/
 theorem finiteOffsetMiddleCompressedCapacityCut :

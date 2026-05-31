@@ -16,7 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.finiteOffsetMiddleCompressionCoreCut
+    ``Erdos848.finiteOffsetMiddleCompressionSevenCoreCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -74,12 +74,18 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit finite-offset middle-compression core cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies seven-offset squarefree neighbors and injectivity, while Lean derives the `86` value band and the strict middle is paid by the induced credit-capacity pool."
+        "Replace finite Hall checks by one explicit seven-core finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies boxed seven-offset squarefree neighbors and injectivity, while Lean derives the target `7 mod 25` residue and the `86` value band; the strict middle is paid by the induced credit-capacity pool."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
+        "Erdos848.finiteOffsetMiddleCompressionSevenCoreCut",
         "Erdos848.finiteOffsetMiddleCompressionCoreCut",
+        "Erdos848.globalFiniteOffsetMiddleCompressionCore_of_sevenCore",
+        "Erdos848.GlobalFiniteOffsetMiddleCompressionSevenCoreCertificate",
+        "Erdos848.globalOppositeFiniteOffsetSquarefreeNeighbor_of_seven",
+        "Erdos848.candidateCarrier_seven_of_oppositeFiniteOffsetValue",
+        "Erdos848.GlobalOppositeFiniteOffsetSevenSquarefreeNeighbor",
         "Erdos848.finiteOffsetMiddleCompressedCapacityCut",
         "Erdos848.globalFiniteOffsetSplitCapacity_of_middleCompressionCore",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionCoreCertificateForResidue",
@@ -269,10 +275,10 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Prove the remaining finite-offset middle-compression core cut: squarefree seven-offset opposite mates, injectivity, and the induced strict-middle credit-capacity pool must hold for every compatible outside clique.",
-        "Use Lean's offset-band theorem to recover the `86` nearby certificate and then derive direct partitioned capacity."
+        "Prove the remaining seven-core finite-offset middle-compression cut: boxed squarefree seven-offset opposite mates, injectivity, and the induced strict-middle credit-capacity pool must hold for every compatible outside clique.",
+        "Use Lean's residue and offset-band theorems to recover the generic finite-offset certificate and then derive direct partitioned capacity."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionCoreCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionSevenCoreCut`."
     },
     {
       id := "residue-certificate"
@@ -353,7 +359,13 @@ def config : ChainAudit.ProjectConfig := {
       keywords := [
         "SquarefreeAP",
         "squarefreeAPHall",
+        "finiteOffsetMiddleCompressionSevenCoreCut",
         "finiteOffsetMiddleCompressionCoreCut",
+        "globalFiniteOffsetMiddleCompressionCore_of_sevenCore",
+        "GlobalFiniteOffsetMiddleCompressionSevenCoreCertificate",
+        "globalOppositeFiniteOffsetSquarefreeNeighbor_of_seven",
+        "candidateCarrier_seven_of_oppositeFiniteOffsetValue",
+        "GlobalOppositeFiniteOffsetSevenSquarefreeNeighbor",
         "finiteOffsetMiddleCompressedCapacityCut",
         "globalFiniteOffsetSplitCapacity_of_middleCompressionCore",
         "GlobalFiniteOffsetMiddleCompressionCoreCertificateForResidue",

@@ -55,14 +55,23 @@ The exact finite checks have to be replaced by explicit inequalities:
 
 ## Audit Cuts
 
-- `Erdos848.finiteOffsetMiddleCompressionCoreCut`: finite-offset
-  middle-compression core capacity, still open.  It combines seven-offset
-  squarefree opposite mates, injectivity, and count-level active strict-middle
-  credit capacity.  The `86` value-band inequalities are no longer part of the
-  axiom surface.
+- `Erdos848.finiteOffsetMiddleCompressionSevenCoreCut`: live seven-core
+  finite-offset middle-compression capacity, still open.  It combines boxed
+  seven-offset squarefree opposite mates, injectivity, and count-level active
+  strict-middle credit capacity.  The target `7 mod 25` residue and `86`
+  value-band inequalities are no longer part of the axiom surface.
 
 Closed local supports:
 
+- `Erdos848.candidateCarrier_seven_of_oppositeFiniteOffsetValue`: pure
+  arithmetic proof that a boxed finite-offset mate of an opposite `18 mod 25`
+  vertex lies in the target `7 mod 25` class.
+- `Erdos848.globalOppositeFiniteOffsetSquarefreeNeighbor_of_seven`: bridge
+  adding the automatic target residue to a seven-core squarefree neighbor.
+- `Erdos848.globalFiniteOffsetMiddleCompressionCore_of_sevenCore`: bridge
+  from the live seven-core cut to the generic core cut.
+- `Erdos848.finiteOffsetMiddleCompressionCoreCut`: previous core cut, now
+  kernel-derived from the seven-core cut.
 - `Erdos848.oppositeFiniteOffsetValue_band_eightySix`: pure arithmetic proof
   that every permitted finite-offset code lands inside the `86` value band.
 - `Erdos848.globalOppositeFiniteOffsetNeighbor_of_squarefree`: bridge adding

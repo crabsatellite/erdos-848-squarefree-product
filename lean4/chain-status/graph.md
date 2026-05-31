@@ -12,12 +12,12 @@ graph TD
   classDef drift fill:#fdd,stroke:#a00,stroke-width:3px
   classDef endpoint fill:#dfd,stroke:#080
   propext{{ "propext" }}:::cut
-  Erdos848_finiteOffsetMiddleCompressionCoreCut{{ "finiteOffsetMiddleCompressionCoreCut" }}:::cut
+  Erdos848_finiteOffsetMiddleCompressionSevenCoreCut{{ "finiteOffsetMiddleCompressionSevenCoreCut" }}:::cut
   Classical_choice{{ "choice" }}:::cut
   Quot_sound{{ "sound" }}:::cut
   Erdos848_erdos848_main>"erdos848_main"]:::endpoint
   Erdos848_erdos848_main --> Classical_choice
-  Erdos848_erdos848_main --> Erdos848_finiteOffsetMiddleCompressionCoreCut
+  Erdos848_erdos848_main --> Erdos848_finiteOffsetMiddleCompressionSevenCoreCut
   Erdos848_erdos848_main --> Quot_sound
   Erdos848_erdos848_main --> propext
 ```
