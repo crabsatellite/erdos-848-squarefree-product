@@ -240,10 +240,60 @@ def OppositeFiniteOffsetValue (b code : Nat) : Nat :=
   | 5 => b + 39
   | _ => b + 64
 
+/-- Every permitted finite-offset code lands inside the fixed value band `86`. -/
+theorem oppositeFiniteOffsetValue_band_eightySix
+    (b code : Nat) (hcode : code <= 6) :
+    OppositeFiniteOffsetValue b code <= b + 86 /\
+      b <= OppositeFiniteOffsetValue b code + 86 := by
+  rcases code with _ | code
+  · simp [OppositeFiniteOffsetValue]
+    omega
+  rcases code with _ | code
+  · simp [OppositeFiniteOffsetValue]
+    omega
+  rcases code with _ | code
+  · simp [OppositeFiniteOffsetValue]
+    omega
+  rcases code with _ | code
+  · simp [OppositeFiniteOffsetValue]
+    omega
+  rcases code with _ | code
+  · simp [OppositeFiniteOffsetValue]
+    omega
+  rcases code with _ | code
+  · simp [OppositeFiniteOffsetValue]
+    omega
+  rcases code with _ | code
+  · simp [OppositeFiniteOffsetValue]
+    omega
+  · omega
+
+/--
+The arithmetic core of a finite-offset neighbor.  The value-band inequalities
+are deliberately omitted because `oppositeFiniteOffsetValue_band_eightySix`
+derives them from `code <= 6`.
+-/
+def GlobalOppositeFiniteOffsetSquarefreeNeighbor (N r b code : Nat) : Prop :=
+  code <= 6 /\
+    InBox N b /\
+    OppositeCandidateCarrier r b /\
+    InBox N (OppositeFiniteOffsetValue b code) /\
+    CandidateCarrier r (OppositeFiniteOffsetValue b code) /\
+    ForbiddenSquarefreeEdge (OppositeFiniteOffsetValue b code) b
+
 /-- A finite-offset opposite mate is one of the seven index-bandwidth-three shadows. -/
 def GlobalOppositeFiniteOffsetNeighbor (N r K b code : Nat) : Prop :=
   code <= 6 /\
     GlobalOppositeNearbyNeighbor N r K b (OppositeFiniteOffsetValue b code)
+
+/-- Add the automatic value-band inequalities to the finite-offset core neighbor. -/
+theorem globalOppositeFiniteOffsetNeighbor_of_squarefree
+    {N r b code : Nat}
+    (h : GlobalOppositeFiniteOffsetSquarefreeNeighbor N r b code) :
+    GlobalOppositeFiniteOffsetNeighbor N r 86 b code := by
+  rcases h with ⟨hcode, hbBox, hbOpp, haBox, haCand, hedge⟩
+  have hband := oppositeFiniteOffsetValue_band_eightySix b code hcode
+  exact ⟨hcode, hbBox, hbOpp, haBox, haCand, hedge, hband.left, hband.right⟩
 
 /-- Global opposite-block matching whose mate is chosen from the seven fixed offsets. -/
 def GlobalOppositeFiniteOffsetMatchingImageAllocation (N r K : Nat) : Prop :=
@@ -455,6 +505,45 @@ def GlobalFiniteOffsetSplitCapacityCertificateForResidue (r K : Nat) : Prop :=
       (Exists fun b : Nat => StrictMiddlePart r B b) ->
       ActiveStrictMiddleCreditCapacity N r B decMid
         (fun b => OppositeFiniteOffsetValue b (offset b)) decTarget)
+
+/--
+Finite-offset middle-compression certificate with the value-band inequalities
+removed from the axiom surface.  For the seven fixed offsets, Lean derives the
+`86` band directly from `code <= 6`.
+-/
+def GlobalFiniteOffsetMiddleCompressionCoreCertificateForResidue (r : Nat) : Prop :=
+  forall N : Nat, Exists fun offset : Nat -> Nat =>
+    (forall b : Nat, InBox N b -> OppositeCandidateCarrier r b ->
+      GlobalOppositeFiniteOffsetSquarefreeNeighbor N r b (offset b)) /\
+    (forall b1 b2 : Nat,
+      InBox N b1 ->
+      OppositeCandidateCarrier r b1 ->
+      InBox N b2 ->
+      OppositeCandidateCarrier r b2 ->
+      OppositeFiniteOffsetValue b1 (offset b1) =
+        OppositeFiniteOffsetValue b2 (offset b2) ->
+      b1 = b2) /\
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart r B))
+        (decTarget : DecidablePred
+          (ActiveStrictMiddleCreditTarget N r B
+            (fun b => OppositeFiniteOffsetValue b (offset b)))),
+      BoundedOutsideSet N r B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart r B b) ->
+      ActiveStrictMiddleCreditCapacity N r B decMid
+        (fun b => OppositeFiniteOffsetValue b (offset b)) decTarget)
+
+/-- The core middle-compression certificate supplies the old `K = 86` split capacity. -/
+theorem globalFiniteOffsetSplitCapacity_of_middleCompressionCore
+    {r : Nat}
+    (h : GlobalFiniteOffsetMiddleCompressionCoreCertificateForResidue r) :
+    GlobalFiniteOffsetSplitCapacityCertificateForResidue r 86 := by
+  intro N
+  rcases h N with ⟨offset, hMap, hInjective, hCapacity⟩
+  refine ⟨offset, ?_, hInjective, hCapacity⟩
+  intro b hbBox hbOpp
+  exact globalOppositeFiniteOffsetNeighbor_of_squarefree (hMap b hbBox hbOpp)
 
 /--
 Single global cut with a finite-offset opposite matching and direct
@@ -1581,9 +1670,15 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
     omega
   simpa [APHallExpansionForOutsideSet, Nbr] using hfinal
 
-/-- Open analytic cut: finite-offset middle-compressed AP/Hall capacity. -/
-axiom finiteOffsetMiddleCompressedCapacityCut :
-  GlobalFiniteOffsetSplitCapacityCertificateForResidue 7 86
+/-- Open analytic cut: finite-offset middle-compression core AP/Hall capacity. -/
+axiom finiteOffsetMiddleCompressionCoreCut :
+  GlobalFiniteOffsetMiddleCompressionCoreCertificateForResidue 7
+
+/-- Current middle-compressed capacity with the value band derived in Lean. -/
+theorem finiteOffsetMiddleCompressedCapacityCut :
+  GlobalFiniteOffsetSplitCapacityCertificateForResidue 7 86 :=
+  globalFiniteOffsetSplitCapacity_of_middleCompressionCore
+    finiteOffsetMiddleCompressionCoreCut
 
 /-- Current direct partitioned capacity derived from middle-compressed capacity. -/
 theorem partitionedSquarefreeAPCapacityCut : PartitionedSquarefreeAPCapacityCertificate :=

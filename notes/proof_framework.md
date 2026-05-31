@@ -55,12 +55,23 @@ The exact finite checks have to be replaced by explicit inequalities:
 
 ## Audit Cuts
 
-- `Erdos848.finiteOffsetMiddleCompressedCapacityCut`: finite-offset
-  middle-compressed capacity, still open.  It combines the seven-offset
-  opposite matching with count-level active strict-middle credit capacity.
+- `Erdos848.finiteOffsetMiddleCompressionCoreCut`: finite-offset
+  middle-compression core capacity, still open.  It combines seven-offset
+  squarefree opposite mates, injectivity, and count-level active strict-middle
+  credit capacity.  The `86` value-band inequalities are no longer part of the
+  axiom surface.
 
 Closed local supports:
 
+- `Erdos848.oppositeFiniteOffsetValue_band_eightySix`: pure arithmetic proof
+  that every permitted finite-offset code lands inside the `86` value band.
+- `Erdos848.globalOppositeFiniteOffsetNeighbor_of_squarefree`: bridge adding
+  the automatic value-band inequalities to a finite-offset squarefree neighbor.
+- `Erdos848.globalFiniteOffsetSplitCapacity_of_middleCompressionCore`: bridge
+  from the live core cut to the previous finite-offset split-capacity
+  certificate.
+- `Erdos848.finiteOffsetMiddleCompressedCapacityCut`: previous
+  middle-compressed capacity surface, now kernel-derived from the core cut.
 - `Erdos848.partitionedSquarefreeAPCapacityCut`: direct partitioned-neighbor
   capacity, kernel-derived from `finiteOffsetMiddleCompressedCapacityCut`.
 - `Erdos848.partitionedSquarefreeAPCapacity_of_finiteOffsetSplitCapacity`:
