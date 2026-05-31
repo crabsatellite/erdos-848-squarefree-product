@@ -69,13 +69,14 @@ small enough for local review.
   region after removing the opposite `18 mod 25` class.  This records the
   observed surplus away from the equality block and gives the next certificate
   split target.
-- `Direct partitioned-capacity AP/Hall cut`: Lean now derives the endpoint
-  `SquarefreeAPHallCertificate` from one explicit analytic cut:
-  `partitionedSquarefreeAPCapacityCut`.  The live cut only asks for direct
-  partitioned neighbor capacity for every compatible outside clique; the older
-  finite-offset matching, nearby matching, and active credit-capacity routes
-  are support evidence and no longer sit on the endpoint closure.  Python
-  separately checks the finite shadows `|N(O)| >= |O|`, `|N(M)| >= |M|`,
+- `Finite-offset middle-compressed AP/Hall cut`: Lean now derives the endpoint
+  `SquarefreeAPHallCertificate` from `partitionedSquarefreeAPCapacityCut`,
+  which is itself a theorem derived from the live cut
+  `finiteOffsetMiddleCompressedCapacityCut`.  The live cut asks for the
+  seven-offset opposite matching plus the active strict-middle credit-capacity
+  pool; Lean then derives direct partitioned neighbor capacity for every
+  compatible outside clique.  Python separately checks the finite shadows
+  `|N(O)| >= |O|`, `|N(M)| >= |M|`,
   `|N(O) union N(M)| >= |O| + |M|`,
   `(|N(O)| - |O|) + |N(M) \ N(O)| >= |M|`, and the active-middle version of
   that final inequality.
@@ -86,12 +87,11 @@ small enough for local review.
   `[-86, -61, -36, -11, 14, 39, 64]`, matching the finite-offset half of the
   split cut.
 - `Active credit capacity certificate`: Python now checks the finite shadow of
-  the previous active-middle credit-capacity route, using the banded opposite matching
-  image to form unused opposite surplus plus new middle neighbors as the credit
-  pool.  It is now support evidence; the live cut uses direct partitioned
-  capacity.
+  the live active-middle credit-capacity route, using the banded opposite
+  matching image to form unused opposite surplus plus new middle neighbors as
+  the credit pool.
 
 The audit-visible primary gap is `G-squarefree-ap-hall-expansion`; the current
-open mathematical cut is `Erdos848.partitionedSquarefreeAPCapacityCut`.  Finite
-search is kept as support evidence and explicitly marked as a dead route when
-used alone.
+open mathematical cut is `Erdos848.finiteOffsetMiddleCompressedCapacityCut`.
+Finite search is kept as support evidence and explicitly marked as a dead route
+when used alone.

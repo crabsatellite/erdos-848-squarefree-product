@@ -12,16 +12,18 @@ reports, then record only durable round movement here.
 | R020 | `R020_finite_offset_split_capacity.md` | replaced the live split-credit cut with a count-level split-capacity cut and proved the incremental-capacity bridge in Lean |
 | R021 | `R021_finite_offset_partitioned_capacity.md` | replaced the live split-capacity cut with direct partitioned capacity and proved the reverse union-to-incremental bridge |
 | R022 | `R022_direct_partitioned_capacity.md` | removed finite-offset matching from the endpoint cut and made direct partitioned capacity the only live mathematical cut |
+| R023 | `R023_middle_compressed_capacity.md` | proved the Lean bridge from finite-offset middle-compressed split capacity to direct partitioned capacity and made that structured certificate the live cut |
 
 ## Current Frontier
 
 Generated `lean4/chain-status/route-index.md` reports one mathematical cut:
 
-- `Erdos848.partitionedSquarefreeAPCapacityCut`
+- `Erdos848.finiteOffsetMiddleCompressedCapacityCut`
 
 The active replacement route is `chain:hall-expansion-compression`, with
 primary gap `G-squarefree-ap-hall-expansion`.  The current certificate shape is
-direct partitioned neighbor capacity for compatible outside cliques.
+finite-offset middle-compressed capacity for compatible outside cliques, from
+which Lean derives direct partitioned neighbor capacity.
 
 ## Local Gate
 

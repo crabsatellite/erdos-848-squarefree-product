@@ -1044,6 +1044,24 @@ theorem oppositeNearbyAPAllocationCertificate_of_matching
     hB
     (h N B decOpp hB hClique)
 
+/-- A nearby opposite allocation is already an ordinary opposite allocation. -/
+theorem oppositeSquarefreeAPAllocation_of_nearby
+    {r K : Nat}
+    (h : OppositeNearbyAPAllocationCertificateForResidue r K) :
+    OppositeSquarefreeAPAllocationCertificateForResidue r := by
+  intro N B decOpp hB hClique
+  exact oppositeNeighborAllocation_of_nearby (h N B decOpp hB hClique)
+
+/-- A global finite-offset opposite matching supplies ordinary opposite allocation. -/
+theorem oppositeSquarefreeAPAllocation_of_globalFiniteOffsetMatching
+    {r K : Nat}
+    (h : GlobalOppositeFiniteOffsetMatchingAPCertificateForResidue r K) :
+    OppositeSquarefreeAPAllocationCertificateForResidue r := by
+  exact oppositeSquarefreeAPAllocation_of_nearby
+    (oppositeNearbyAPAllocationCertificate_of_matching
+      (oppositeNearbyMatchingAPCertificate_of_global
+        (globalOppositeNearbyMatching_of_finiteOffset h)))
+
 /-- A matching-image split certificate implies the nearby allocation-form split certificate. -/
 theorem nearbyAllocatedSplitIncrementalSquarefreeAPCapacity_of_matched
     (h : NearbyMatchedSplitIncrementalSquarefreeAPCapacityCertificate) :
@@ -1370,6 +1388,20 @@ theorem allocatedSplitIncrementalSquarefreeAPCapacity_of_nearby
       (hNear N B decOpp hB hClique)
   · exact hActive
 
+/--
+The finite-offset split-capacity certificate is a middle-compressed allocation
+certificate: the same finite-offset mate supplies the opposite allocation, and
+the count-level credit capacity supplies the active strict-middle side.
+-/
+theorem allocatedSplitIncrementalSquarefreeAPCapacity_of_finiteOffsetSplitCapacity
+    {K : Nat}
+    (h : GlobalFiniteOffsetSplitCapacityCertificateForResidue 7 K) :
+    AllocatedSplitIncrementalSquarefreeAPCapacityCertificate := by
+  constructor
+  · exact oppositeSquarefreeAPAllocation_of_globalFiniteOffsetMatching
+      (globalOppositeFiniteOffsetMatching_of_splitCapacity h)
+  · exact activeStrictMiddleIncrementalCapacity_of_finiteOffsetSplitCapacity h
+
 /-- Allocation-form opposite certificate implies the split capacity certificate. -/
 theorem splitIncrementalSquarefreeAPCapacity_of_allocated
     (h : AllocatedSplitIncrementalSquarefreeAPCapacityCertificate) :
@@ -1490,6 +1522,25 @@ theorem partitionedSquarefreeAPCapacity_of_incremental
     omega
   simpa [PartitionedNeighborCapacity] using hfinal
 
+/-- Allocation-form split capacity implies direct partitioned union capacity. -/
+theorem partitionedSquarefreeAPCapacity_of_allocated
+    (h : AllocatedSplitIncrementalSquarefreeAPCapacityCertificate) :
+    PartitionedSquarefreeAPCapacityCertificate :=
+  partitionedSquarefreeAPCapacity_of_incremental
+    (incrementalPartitionedSquarefreeAPCapacity_of_split
+      (splitIncrementalSquarefreeAPCapacity_of_allocated h))
+
+/--
+A finite-offset split-capacity certificate implies the direct partitioned
+union-capacity certificate consumed by the AP/Hall endpoint.
+-/
+theorem partitionedSquarefreeAPCapacity_of_finiteOffsetSplitCapacity
+    {K : Nat}
+    (h : GlobalFiniteOffsetSplitCapacityCertificateForResidue 7 K) :
+    PartitionedSquarefreeAPCapacityCertificate :=
+  partitionedSquarefreeAPCapacity_of_allocated
+    (allocatedSplitIncrementalSquarefreeAPCapacity_of_finiteOffsetSplitCapacity h)
+
 /-- A direct partitioned union-capacity certificate implies the endpoint AP/Hall certificate. -/
 theorem squarefreeAPHallCertificate_of_partitionedCapacity
     (h : PartitionedSquarefreeAPCapacityCertificate) :
@@ -1530,8 +1581,14 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
     omega
   simpa [APHallExpansionForOutsideSet, Nbr] using hfinal
 
-/-- Open analytic cut: direct partitioned AP/Hall neighbor capacity. -/
-axiom partitionedSquarefreeAPCapacityCut : PartitionedSquarefreeAPCapacityCertificate
+/-- Open analytic cut: finite-offset middle-compressed AP/Hall capacity. -/
+axiom finiteOffsetMiddleCompressedCapacityCut :
+  GlobalFiniteOffsetSplitCapacityCertificateForResidue 7 86
+
+/-- Current direct partitioned capacity derived from middle-compressed capacity. -/
+theorem partitionedSquarefreeAPCapacityCut : PartitionedSquarefreeAPCapacityCertificate :=
+  partitionedSquarefreeAPCapacity_of_finiteOffsetSplitCapacity
+    finiteOffsetMiddleCompressedCapacityCut
 
 /-- Current incremental/surplus certificate derived from direct union capacity. -/
 theorem incrementalPartitionedSquarefreeAPCapacityCut :

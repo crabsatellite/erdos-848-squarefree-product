@@ -44,22 +44,34 @@ and is forced into a thinner prime-square root class.
 The exact finite checks have to be replaced by explicit inequalities:
 
 1. Squarefree counts in arithmetic progressions for `b(25t+7)+1`.
-2. A direct partitioned-capacity certificate for every compatible outside
+2. A finite-offset middle-compression certificate for every compatible outside
    clique after splitting it into the opposite `18 mod 25` block and the strict
    middle.
-3. The remaining analytic inequality behind the live partitioned-capacity cut:
+3. The remaining analytic inequality behind the live cut: the seven-offset
+   opposite mate plus the induced credit pool must prove
    `|O| + |M| <= |N(O) union N(M)|`.
 4. A rough-square-divisor ledger for `a^2+1 = m p^2` with large `p`.
 5. A certified bridge from residue certificates to interval certificates.
 
 ## Audit Cuts
 
-- `Erdos848.partitionedSquarefreeAPCapacityCut`: direct partitioned-neighbor
-  capacity, still open.  The finite-offset opposite matching and active-middle
-  credit pool are now support evidence, not endpoint assumptions.
+- `Erdos848.finiteOffsetMiddleCompressedCapacityCut`: finite-offset
+  middle-compressed capacity, still open.  It combines the seven-offset
+  opposite matching with count-level active strict-middle credit capacity.
 
 Closed local supports:
 
+- `Erdos848.partitionedSquarefreeAPCapacityCut`: direct partitioned-neighbor
+  capacity, kernel-derived from `finiteOffsetMiddleCompressedCapacityCut`.
+- `Erdos848.partitionedSquarefreeAPCapacity_of_finiteOffsetSplitCapacity`:
+  bridge from the finite-offset middle-compressed split-capacity certificate to
+  direct partitioned capacity.
+- `Erdos848.allocatedSplitIncrementalSquarefreeAPCapacity_of_finiteOffsetSplitCapacity`:
+  bridge from the live finite-offset cut to the allocation-form split
+  certificate.
+- `Erdos848.oppositeSquarefreeAPAllocation_of_globalFiniteOffsetMatching`:
+  bridge from the finite-offset global matching to the opposite allocation
+  certificate consumed by the split route.
 - `Erdos848.squarefreeAPHallCut`: the endpoint AP/Hall certificate,
   kernel-derived from `partitionedSquarefreeAPCapacityCut`.
 - `Erdos848.incrementalPartitionedSquarefreeAPCapacityCut`: incremental/surplus
