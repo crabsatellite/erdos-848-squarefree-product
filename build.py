@@ -185,7 +185,7 @@ def main() -> int:
         f"{[(x['N'], x['worst_opposite_defect'], x['worst_middle_defect'], x['worst_new_middle_defect'], x['worst_incremental_defect'], x['worst_incremental_with_middle_defect']) for x in payload['partitioned_hall_checks']]}"
     )
     print(
-        "  active credit checks: "
+        "  active credit capacity checks: "
         f"{[(x['N'], x['worst_credit_defect'], x['worst_credit_middle_size'], x['worst_credit_pool_size']) for x in payload['active_credit_checks']]}"
     )
     print("  wrote data/results/latest.json")

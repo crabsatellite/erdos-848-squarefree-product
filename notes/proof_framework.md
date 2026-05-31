@@ -44,12 +44,12 @@ and is forced into a thinner prime-square root class.
 The exact finite checks have to be replaced by explicit inequalities:
 
 1. Squarefree counts in arithmetic progressions for `b(25t+7)+1`.
-2. A finite-offset split-credit certificate: match the whole `18 mod 25`
+2. A finite-offset split-capacity certificate: match the whole `18 mod 25`
    equality block injectively by one of seven fixed offsets into nearby
    candidate neighbors, restrict that global matching to every outside clique,
-   and prove the active strict-middle credit matching relative to that same
-   finite-offset mate.
-3. The remaining analytic inequality behind the split-credit cut:
+   and prove only the count-level active strict-middle credit capacity relative
+   to that same finite-offset mate.
+3. The remaining analytic inequality behind the split-capacity cut:
    `|O| + |M| <= |N(O)| + |N(M) \ N(O)|` only in the active case where the
    strict-middle part is nonempty.
 4. A rough-square-divisor ledger for `a^2+1 = m p^2` with large `p`.
@@ -57,17 +57,17 @@ The exact finite checks have to be replaced by explicit inequalities:
 
 ## Audit Cuts
 
-- `Erdos848.globalFiniteOffsetSplitCreditCut`: finite-offset global opposite
-  matching plus active strict-middle credit-matching certificate, still open.
+- `Erdos848.globalFiniteOffsetSplitCapacityCut`: finite-offset global opposite
+  matching plus active strict-middle credit-capacity certificate, still open.
   The opposite mate is restricted to the seven value offsets
   `[-86, -61, -36, -11, 14, 39, 64]`; middle vertices are injected into either
   unused opposite-neighbor surplus or genuinely new middle neighbors relative
-  to that same mate.
+  to that same mate by count capacity, not by assuming a credit function.
 
 Closed local supports:
 
 - `Erdos848.globalOppositeFiniteOffsetMatchingCut`: the finite-offset global
-  matching projection, kernel-derived from `globalFiniteOffsetSplitCreditCut`.
+  matching projection, kernel-derived from `globalFiniteOffsetSplitCapacityCut`.
 - `Erdos848.globalOppositeNearbyMatchingCut`: the old global nearby/banded
   matching certificate, now kernel-derived from the finite-offset matching.
 - `Erdos848.oppositeNearbyMatchingImageCut`: the old `B`-relative
@@ -77,11 +77,16 @@ Closed local supports:
   seven-offset global matching to the older nearby matching interface.
 - `Erdos848.globalOppositeFiniteOffsetMatching_of_splitCredit`: projection
   from the split-credit cut to the finite-offset matching certificate.
+- `Erdos848.globalOppositeFiniteOffsetMatching_of_splitCapacity`: projection
+  from the split-capacity cut to the finite-offset matching certificate.
 - `Erdos848.oppositeNearbyMatchingAPCertificate_of_global`: bridge from the
   global opposite-block matching to every `B`-relative opposite part.
 - `Erdos848.activeStrictMiddleIncrementalCapacityCut`: active strict-middle
   incremental surplus certificate, kernel-derived from the finite-offset
-  split-credit cut.
+  split-capacity cut.
+- `Erdos848.activeStrictMiddleIncrementalCapacity_of_finiteOffsetSplitCapacity`:
+  bridge from the finite-offset global mate plus count-level credit-capacity
+  interface to the incremental capacity certificate.
 - `Erdos848.activeStrictMiddleIncrementalCapacity_of_finiteOffsetSplitCredit`:
   bridge from the finite-offset global mate plus split-credit interface to the
   incremental capacity certificate.
@@ -137,11 +142,11 @@ is nonempty, the recorded windows have positive incremental margin, so the
 remaining proof should split the opposite-only equality block from the genuine
 middle-region surplus.
 
-The active credit checker now computes the exact Lean credit pool for bounded
-windows: unused opposite-neighbor surplus relative to the banded opposite
-matching image, union genuinely new middle neighbors.  In the current extended
-windows (`N=100,500` for the partitioned scan), the worst credit defects are
-positive: `2` and `11`.
+The active credit checker now computes the exact Lean credit-capacity pool for
+bounded windows: unused opposite-neighbor surplus relative to the banded
+opposite matching image, union genuinely new middle neighbors.  In the current
+extended windows (`N=100,500` for the partitioned scan), the worst credit
+capacity defects are positive: `2` and `11`.
 
 For the opposite-only equality block, the finite checker now searches for a
 full matching from every `18 mod 25` vertex to a squarefree neighbor in the

@@ -363,6 +363,15 @@ def ActiveStrictMiddleCreditMatching
       credit b1 = credit b2 ->
       b1 = b2)
 
+/-- Count-level active strict-middle credit capacity for one fixed opposite mate. -/
+def ActiveStrictMiddleCreditCapacity
+    (N r : Nat) (B : Nat -> Prop)
+    (decMid : DecidablePred (StrictMiddlePart r B))
+    (mate : Nat -> Nat)
+    (decTarget : DecidablePred (ActiveStrictMiddleCreditTarget N r B mate)) : Prop :=
+  @familySize N (StrictMiddlePart r B) decMid <=
+    @familySize N (ActiveStrictMiddleCreditTarget N r B mate) decTarget
+
 /-- Active strict-middle credit-matching certificate relative to an opposite matching. -/
 def ActiveStrictMiddleCreditMatchingCertificateForResidue (r K : Nat) : Prop :=
   forall (N : Nat) (B : Nat -> Prop)
@@ -421,6 +430,31 @@ def GlobalFiniteOffsetSplitCreditCertificateForResidue (r K : Nat) : Prop :=
       (Exists fun b : Nat => StrictMiddlePart r B b) ->
       ActiveStrictMiddleCreditMatching N r B decMid
         (fun b => OppositeFiniteOffsetValue b (offset b)))
+
+/--
+Single global cut with a finite-offset opposite matching and only count-level
+active strict-middle credit capacity relative to that finite-offset mate.
+-/
+def GlobalFiniteOffsetSplitCapacityCertificateForResidue (r K : Nat) : Prop :=
+  forall N : Nat, Exists fun offset : Nat -> Nat =>
+    (forall b : Nat, InBox N b -> OppositeCandidateCarrier r b ->
+      GlobalOppositeFiniteOffsetNeighbor N r K b (offset b)) /\
+    (forall b1 b2 : Nat,
+      InBox N b1 -> OppositeCandidateCarrier r b1 ->
+      InBox N b2 -> OppositeCandidateCarrier r b2 ->
+      OppositeFiniteOffsetValue b1 (offset b1) =
+        OppositeFiniteOffsetValue b2 (offset b2) ->
+      b1 = b2) /\
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart r B))
+        (decTarget : DecidablePred
+          (ActiveStrictMiddleCreditTarget N r B
+            (fun b => OppositeFiniteOffsetValue b (offset b)))),
+      BoundedOutsideSet N r B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart r B b) ->
+      ActiveStrictMiddleCreditCapacity N r B decMid
+        (fun b => OppositeFiniteOffsetValue b (offset b)) decTarget)
 
 /-- Split certificate: equality-block expansion plus active strict-middle surplus. -/
 def SplitIncrementalSquarefreeAPCapacityCertificateForResidue (r : Nat) : Prop :=
@@ -951,6 +985,15 @@ theorem globalOppositeFiniteOffsetMatching_of_splitCredit
   rcases h N with ⟨offset, hMap, hInjective, _hCredit⟩
   exact Exists.intro offset (And.intro hMap hInjective)
 
+/-- The count-level finite-offset split-capacity certificate projects to matching. -/
+theorem globalOppositeFiniteOffsetMatching_of_splitCapacity
+    {r K : Nat}
+    (h : GlobalFiniteOffsetSplitCapacityCertificateForResidue r K) :
+    GlobalOppositeFiniteOffsetMatchingAPCertificateForResidue r K := by
+  intro N
+  rcases h N with ⟨offset, hMap, hInjective, _hCapacity⟩
+  exact Exists.intro offset (And.intro hMap hInjective)
+
 /-- A residue-level matching-image certificate implies the nearby allocation certificate. -/
 theorem oppositeNearbyAPAllocationCertificate_of_matching
     {r K : Nat}
@@ -1182,6 +1225,100 @@ theorem activeStrictMiddleIncrementalCapacity_of_finiteOffsetSplitCredit
     (mate := mate)
     hB hMateMap hMateInjective hCreditMatch
 
+/--
+The finite-offset split-capacity certificate derives active-middle incremental
+capacity without assuming an explicit credit matching function.
+-/
+theorem activeStrictMiddleIncrementalCapacity_of_finiteOffsetSplitCapacity
+    {r K : Nat}
+    (h : GlobalFiniteOffsetSplitCapacityCertificateForResidue r K) :
+    ActiveStrictMiddleIncrementalCapacityCertificateForResidue r := by
+  intro N B decOpp decMid decOppNbr decNewMid hB hClique hMid
+  classical
+  rcases h N with ⟨offset, hMap, hInjective, hCapacity⟩
+  let mate : Nat -> Nat := fun b => OppositeFiniteOffsetValue b (offset b)
+  have hMateMap :
+      forall b : Nat, OppositeOutsidePart r B b ->
+        OppositeNearbyNeighbor N r K B (mate b) := by
+    intro b hbOpp
+    have hbBox : InBox N b := (hB b hbOpp.left).left
+    have hOff := hMap b hbBox hbOpp.right
+    rcases hOff with ⟨_hCode, hGlobal⟩
+    rcases hGlobal with ⟨_hbBox, _hbOpp, haBox, haCand, hedge, haLe, hbLe⟩
+    exact And.intro
+      (And.intro haBox (And.intro haCand (Exists.intro b (And.intro hbOpp hedge))))
+      (Exists.intro b (And.intro hbOpp (And.intro haLe hbLe)))
+  have hMateInjective :
+      forall b1 b2 : Nat,
+        OppositeOutsidePart r B b1 ->
+        OppositeOutsidePart r B b2 ->
+        mate b1 = mate b2 ->
+        b1 = b2 := by
+    intro b1 b2 hb1 hb2 hmate
+    exact hInjective
+      b1 b2
+      (hB b1 hb1.left).left hb1.right
+      (hB b2 hb2.left).left hb2.right
+      hmate
+  let OppImage : Nat -> Prop := OppositeMatchingImage r B mate
+  let OppNbr : Nat -> Prop :=
+    SquarefreeNeighborInCandidate N r (OppositeOutsidePart r B)
+  let NewMid : Nat -> Prop := IncrementalStrictMiddleNeighbor N r B
+  let OppReserve : Nat -> Prop := fun a => OppNbr a /\ Not (OppImage a)
+  let CreditTarget : Nat -> Prop := ActiveStrictMiddleCreditTarget N r B mate
+  let decOppImage : DecidablePred OppImage :=
+    fun a => Classical.propDecidable (OppImage a)
+  let decOppReserve : DecidablePred OppReserve :=
+    fun a => Classical.propDecidable (OppReserve a)
+  let decCreditTarget : DecidablePred CreditTarget :=
+    fun a => Classical.propDecidable (CreditTarget a)
+  have hOppCount :
+      @familySize N (OppositeOutsidePart r B) decOpp <=
+        @familySize N OppImage decOppImage := by
+    apply familySize_le_of_bounded_injective_image
+      N (OppositeOutsidePart r B) OppImage decOpp decOppImage mate
+    · intro b hb
+      exact (hB b hb.left).left
+    · intro b hb
+      exact (hMateMap b hb).left.left
+    · intro b hb
+      exact Exists.intro b (And.intro hb rfl)
+    · intro b1 b2 hb1 hb2 hmate
+      exact hMateInjective b1 b2 hb1 hb2 hmate
+  have hCreditCount :
+      @familySize N (StrictMiddlePart r B) decMid <=
+        @familySize N CreditTarget decCreditTarget := by
+    simpa [ActiveStrictMiddleCreditCapacity, CreditTarget, mate] using
+      hCapacity B decMid decCreditTarget hB hClique hMid
+  have hCreditSplit :
+      @familySize N CreditTarget decCreditTarget <=
+        @familySize N OppReserve decOppReserve +
+          @familySize N NewMid decNewMid := by
+    apply familySize_le_add_of_subset_or
+      N CreditTarget OppReserve NewMid decCreditTarget decOppReserve decNewMid
+    intro a ha
+    simpa [CreditTarget, ActiveStrictMiddleCreditTarget, OppReserve, OppNbr,
+      OppImage, NewMid] using ha
+  have hOppImageReserve :
+      @familySize N OppImage decOppImage +
+          @familySize N OppReserve decOppReserve <=
+        @familySize N OppNbr decOppNbr := by
+    apply familySize_add_le_of_disjoint_subsets
+      N OppImage OppReserve OppNbr decOppImage decOppReserve decOppNbr
+    · intro a ha
+      rcases ha with ⟨b, hbOpp, hmate⟩
+      simpa [OppNbr, hmate] using (hMateMap b hbOpp).left
+    · intro a ha
+      exact ha.left
+    · intro a hImage hReserve
+      exact hReserve.right hImage
+  have hfinal :
+      @familySize N (OppositeOutsidePart r B) decOpp +
+          @familySize N (StrictMiddlePart r B) decMid <=
+        @familySize N OppNbr decOppNbr + @familySize N NewMid decNewMid := by
+    omega
+  simpa [PartitionedIncrementalCapacity, OppNbr, NewMid] using hfinal
+
 /-- A nearby/banded split certificate implies the allocation-form split certificate. -/
 theorem allocatedSplitIncrementalSquarefreeAPCapacity_of_nearby
     (h : NearbyAllocatedSplitIncrementalSquarefreeAPCapacityCertificate) :
@@ -1318,15 +1455,15 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
     omega
   simpa [APHallExpansionForOutsideSet, Nbr] using hfinal
 
-/-- Open analytic cut: finite-offset global matching plus split credit matching. -/
-axiom globalFiniteOffsetSplitCreditCut :
-  GlobalFiniteOffsetSplitCreditCertificateForResidue 7 86
+/-- Open analytic cut: finite-offset global matching plus split credit capacity. -/
+axiom globalFiniteOffsetSplitCapacityCut :
+  GlobalFiniteOffsetSplitCapacityCertificateForResidue 7 86
 
 /-- Current finite-offset matching image for the equality block. -/
 theorem globalOppositeFiniteOffsetMatchingCut :
   GlobalOppositeFiniteOffsetMatchingAPCertificateForResidue 7 86 :=
-  globalOppositeFiniteOffsetMatching_of_splitCredit
-    globalFiniteOffsetSplitCreditCut
+  globalOppositeFiniteOffsetMatching_of_splitCapacity
+    globalFiniteOffsetSplitCapacityCut
 
 /-- Current global nearby/banded matching for the equality block. -/
 theorem globalOppositeNearbyMatchingCut :
@@ -1339,18 +1476,18 @@ theorem oppositeNearbyMatchingImageCut :
   OppositeNearbyMatchingAPCertificateForResidue 7 86
   := oppositeNearbyMatchingAPCertificate_of_global globalOppositeNearbyMatchingCut
 
-/-- Current active strict-middle surplus derived from finite-offset split credit. -/
+/-- Current active strict-middle surplus derived from finite-offset split capacity. -/
 theorem activeStrictMiddleIncrementalCapacityCut :
   ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7 :=
-  activeStrictMiddleIncrementalCapacity_of_finiteOffsetSplitCredit
-    globalFiniteOffsetSplitCreditCut
+  activeStrictMiddleIncrementalCapacity_of_finiteOffsetSplitCapacity
+    globalFiniteOffsetSplitCapacityCut
 
-/-- Current matching-image split certificate derived from finite-offset split credit. -/
+/-- Current matching-image split certificate derived from finite-offset split capacity. -/
 theorem nearbyMatchedSplitIncrementalSquarefreeAPCapacityCut :
     NearbyMatchedSplitIncrementalSquarefreeAPCapacityCertificate :=
   And.intro oppositeNearbyMatchingImageCut activeStrictMiddleIncrementalCapacityCut
 
-/-- Current nearby split certificate derived from finite-offset split credit. -/
+/-- Current nearby split certificate derived from finite-offset split capacity. -/
 theorem nearbyAllocatedSplitIncrementalSquarefreeAPCapacityCut :
     NearbyAllocatedSplitIncrementalSquarefreeAPCapacityCertificate :=
   nearbyAllocatedSplitIncrementalSquarefreeAPCapacity_of_matched

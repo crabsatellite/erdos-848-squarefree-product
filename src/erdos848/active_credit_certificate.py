@@ -29,7 +29,7 @@ def active_credit_certificate(
     opposite_residue: int = 18,
     index_bandwidth: int = 3,
 ) -> ActiveCreditCertificate:
-    """Check the finite shadow of `ActiveStrictMiddleCreditMatching`.
+    """Check the finite shadow of `ActiveStrictMiddleCreditCapacity`.
 
     For a compatible outside clique B, use the banded opposite matching on the
     opposite part O.  The active strict-middle credit pool is
@@ -37,9 +37,9 @@ def active_credit_certificate(
     * opposite neighbors of O not used by the opposite matching image, plus
     * strict-middle neighbors not already hit by O.
 
-    The Lean credit-matching cut only needs an injection from the strict-middle
-    part M into this pool, so in finite windows it is enough to check
-    `|credit_pool| >= |M|` and record an explicit sorted injection witness.
+    The live Lean cut now asks only for count-level credit capacity.  In finite
+    windows this is exactly `|credit_pool| >= |M|`; the sorted matching witness
+    remains in the JSON as diagnostic support.
     """
     sf = squarefree_sieve(N * N + 1)
     base = [a for a in range(1, N + 1) if a % 25 == base_residue]
