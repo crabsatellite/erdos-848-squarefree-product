@@ -21,7 +21,11 @@ from erdos848.middle_region_certificate import middle_region_certificate
 from erdos848.opposite_matching_certificate import (
     certificate_to_jsonable as opposite_matching_to_json,
 )
-from erdos848.opposite_matching_certificate import opposite_matching_certificate
+from erdos848.opposite_matching_certificate import (
+    opposite_band_matching_sparse_summary,
+    opposite_matching_certificate,
+    sparse_summary_to_jsonable as opposite_sparse_summary_to_json,
+)
 from erdos848.partitioned_hall_certificate import (
     certificate_to_jsonable as partitioned_to_json,
 )
@@ -68,6 +72,7 @@ def run(mode: str) -> dict:
         if not extended
         else [100, 500, 1000, 2000, 5000, 10000, 20000]
     )
+    large_sparse_matching_Ns = [] if not extended else [50000]
     partitioned_Ns = [100, 500]
     active_credit_jobs = (
         [(100, True), (500, True)]
@@ -109,6 +114,12 @@ def run(mode: str) -> dict:
         opposite_matching_to_json(opposite_matching_certificate(N, 7, 18, index_bandwidth=3))
         for N in matching_Ns
     ]
+    opposite_band_matching_large_summaries = [
+        opposite_sparse_summary_to_json(
+            opposite_band_matching_sparse_summary(N, 7, 18, index_bandwidth=3)
+        )
+        for N in large_sparse_matching_Ns
+    ]
 
     refs = {
         "327": {
@@ -132,6 +143,7 @@ def run(mode: str) -> dict:
         "middle_region_checks": middle,
         "opposite_matching_checks": opposite_matching,
         "opposite_band_matching_checks": opposite_band_matching,
+        "opposite_band_matching_large_summaries": opposite_band_matching_large_summaries,
         "partitioned_hall_checks": partitioned,
         "active_credit_checks": active_credit,
         "reference_problem_templates": refs,
@@ -206,6 +218,39 @@ def assert_gate(payload: dict) -> None:
             assert -3 <= shift <= 3, item
             assert code_by_source[source_index] == shift + 3, item
             assert reconstructed_codes[source_index] == shift + 3, item
+    for item in payload["opposite_band_matching_large_summaries"]:
+        assert item["perfect"], item
+        assert item["matched_count"] == item["opposite_size"], item
+        assert item["max_index_gap"] <= 3, item
+        assert item["max_value_gap"] <= 86, item
+        assert item["allowed_value_offsets"] == [-86, -61, -36, -11, 14, 39, 64], item
+        assert set(item["value_offset_counts"]) <= set(item["allowed_value_offsets"]), item
+        assert item["source_index_target_valid_count"] == item["matched_count"], item
+        assert item["source_index_target_valid_failures"] == [], item
+        assert item["period6_template"] == [0, 2, -1, -1, 1, -1], item
+        assert item["period6_template_code_names"] == [
+            code_names[shift + 3] for shift in item["period6_template"]
+        ], item
+        assert item["period6_template_invalid_count"] <= item["period6_matching_deviation_count"], item
+        assert item["period6_repair_window_count"] <= item["period6_matching_deviation_count"], item
+        assert item["period6_repair_window_count"] == len(item["period6_repair_code_windows"]), item
+        assert item["period6_repair_window_count"] == len(item["period6_repair_code_name_windows"]), item
+        assert sum(len(codes) for _start, codes in item["period6_repair_code_windows"]) == item["period6_matching_deviation_count"], item
+        assert max(
+            (len(codes) for _start, codes in item["period6_repair_code_windows"]),
+            default=0,
+        ) == item["period6_repair_window_max_length"], item
+        for (start, codes), (name_start, names) in zip(
+            item["period6_repair_code_windows"],
+            item["period6_repair_code_name_windows"],
+        ):
+            assert start == name_start, item
+            assert names == [code_names[code] for code in codes], item
+            assert codes, item
+            for code in codes:
+                assert 0 <= code <= 6, item
+        assert item["sparse_squarefree_checks"] > 0, item
+        assert item["stores_full_matching"] is False, item
     for item in payload["partitioned_hall_checks"]:
         assert item["worst_opposite_defect"] >= 0, item
         assert item["worst_middle_defect"] >= 0, item
@@ -254,6 +299,10 @@ def main() -> int:
     print(
         "  opposite band matching checks: "
         f"{[(x['N'], x['opposite_size'], x['matched_count'], x['min_degree'], x['max_value_gap']) for x in payload['opposite_band_matching_checks']]}"
+    )
+    print(
+        "  opposite band large summaries: "
+        f"{[(x['N'], x['opposite_size'], x['matched_count'], x['min_degree'], x['max_value_gap'], x['sparse_squarefree_checks']) for x in payload['opposite_band_matching_large_summaries']]}"
     )
     print(
         "  partitioned capacity checks: "

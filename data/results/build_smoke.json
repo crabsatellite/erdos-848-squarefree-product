@@ -175,7 +175,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T08:19:15.691102+00:00",
+  "generated_at": "2026-06-01T08:24:27.335594+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -1494,6 +1494,7 @@
       }
     }
   ],
+  "opposite_band_matching_large_summaries": [],
   "opposite_matching_checks": [
     {
       "N": 100,

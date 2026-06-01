@@ -53,6 +53,7 @@ the source of truth and use this file only as a durable round index.
 | R073 | Reordered active-credit clique search to consider strict-middle vertices before opposite vertices. This keeps the same finite obligation but exposes active-credit branches earlier, allowing the existing obligation-aware pruning to fire sooner and moving extended exact active-credit evidence to `N=5000`. |
 | R074 | Added a capacity-only active-credit verification mode. For large windows the checker can stop once the descendant defect lower bound is nonnegative, explicitly marking that the observed worst defect is not claimed exact while still certifying nonnegative capacity. |
 | R075 | Raised the extended finite evidence frontier to `N=20000` for both banded source-index matching and active credit capacity-only verification. This keeps the two halves of the live source-index cut aligned at the same large diagnostic window. |
+| R076 | Added a sparse large-window band-matching diagnostic path. The extended build now checks the typed source-index repair certificate at `N=50000` without constructing an `N^2` squarefree sieve or storing the full matching in result JSON. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
