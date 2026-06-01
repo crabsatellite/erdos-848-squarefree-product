@@ -16,7 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCut
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitConsecutiveSeedKeyCarrierFreeCountUpperFreeSeedStrictMiddleExistsSourceWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -82,7 +82,7 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
-        "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCut",
+        "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitConsecutiveSeedKeyCarrierFreeCountUpperFreeSeedStrictMiddleExistsSourceWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex",
         "Erdos848.globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex",
         "Erdos848.globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid_of_validMatching",
@@ -1016,10 +1016,10 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Prove the remaining generated-prefix seed allocation certificate: length-exact source-index list matching with target coherence, boundary boxedness, gap-indexed local injectivity, count-additive consecutive seed keys, indexed opposite witnesses, and source-index lower-bound exclusion for mate images; Lean now derives the target-prefix scalar bound.",
+        "Prove the remaining generated-prefix seed allocation certificate: length-exact source-index list matching with target coherence, boundary boxedness, gap-indexed local injectivity, count-upper consecutive seed keys, prefix source witnesses, and source-index lower-bound exclusion for mate images; Lean now derives the indexed/opposite witness and target-prefix scalar refinements.",
         "Use Lean to assemble generated-prefix allocation into reserve dominance, active-credit capacity, decoded squarefree-boxed compression, and then unpack Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitConsecutiveSeedKeyCarrierFreeCountUpperFreeSeedStrictMiddleExistsSourceWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCut`."
     },
     {
       id := "residue-certificate"
@@ -1107,7 +1107,7 @@ def config : ChainAudit.ProjectConfig := {
       keywords := [
         "SquarefreeAP",
         "squarefreeAPHall",
-        "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCut",
+        "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitConsecutiveSeedKeyCarrierFreeCountUpperFreeSeedStrictMiddleExistsSourceWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCut",
         "globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex",
         "globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex",
         "globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid_of_validMatching",
