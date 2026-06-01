@@ -3140,6 +3140,31 @@ def ActiveStrictMiddleCreditDeficitCapacity
       @familySize N (IncrementalStrictMiddleNeighbor N r B) decNewMid <=
     @familySize N (ActiveStrictMiddleCreditReserve N r B mate) decReserve
 
+/--
+Allocation form for the deterministic active-credit deficit: a finite deficit
+set pays for middle vertices not already covered by new-middle neighbors, and
+each deficit payer injects into opposite reserve.
+-/
+def ActiveStrictMiddleCreditDeficitAllocation
+    (N r : Nat) (B : Nat -> Prop)
+    (decMid : DecidablePred (StrictMiddlePart r B))
+    (mate : Nat -> Nat)
+    (_decReserve :
+      DecidablePred (ActiveStrictMiddleCreditReserve N r B mate))
+    (decNewMid :
+      DecidablePred (IncrementalStrictMiddleNeighbor N r B)) : Prop :=
+  Exists fun Deficit : Nat -> Prop =>
+  Exists fun decDeficit : DecidablePred Deficit =>
+  Exists fun reservePay : Nat -> Nat =>
+    @familySize N (StrictMiddlePart r B) decMid <=
+        @familySize N (IncrementalStrictMiddleNeighbor N r B) decNewMid +
+          @familySize N Deficit decDeficit /\
+    (forall b : Nat, Deficit b -> InBox N b) /\
+    (forall b : Nat, Deficit b ->
+      ActiveStrictMiddleCreditReserve N r B mate (reservePay b)) /\
+    (forall b1 b2 : Nat,
+      Deficit b1 -> Deficit b2 -> reservePay b1 = reservePay b2 -> b1 = b2)
+
 /-- Deficit active credit capacity supplies slack active credit capacity. -/
 theorem activeStrictMiddleCreditSlackCapacity_of_deficitCapacity
     {N r : Nat} {B : Nat -> Prop}
@@ -4235,6 +4260,24 @@ def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDefici
     ActiveStrictMiddleCreditDeficitCapacity N 7 B decMid
       (OppositeFiniteOffsetSourceIndexMate offsetIndex) decReserve decNewMid
 
+/--
+Source-index active credit deficit allocation: an explicit deficit-payer set
+injects into reserve after new-middle coverage.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitAllocation
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall (B : Nat -> Prop)
+      (decMid : DecidablePred (StrictMiddlePart 7 B))
+      (decReserve : DecidablePred
+        (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex)))
+      (decNewMid : DecidablePred (IncrementalStrictMiddleNeighbor N 7 B)),
+    BoundedOutsideSet N 7 B ->
+    NonSquarefreeClique B ->
+    (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+    ActiveStrictMiddleCreditDeficitAllocation N 7 B decMid
+      (OppositeFiniteOffsetSourceIndexMate offsetIndex) decReserve decNewMid
+
 /-- Source-index deficit capacity supplies source-index slack capacity. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditSlackCapacity_of_deficitCapacity
     {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
@@ -4328,6 +4371,15 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity N
       (OppositeFiniteOffsetTemplateWindowRepairCode windows)
 
+/-- Source-index split certificate with compact repair windows and deficit allocation. -/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitAllocationCertificate :
+    Prop :=
+  forall N : Nat, Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateWindowRepairValidMatching
+      N windows /\
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitAllocation N
+      (OppositeFiniteOffsetTemplateWindowRepairCode windows)
+
 /-- Current source-index split certificate, narrowed to template-window-repair form. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
@@ -4356,6 +4408,14 @@ deficit inequality.
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacityCertificate :
     Prop :=
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCapacityCertificate
+
+/--
+Current source-index split certificate with active credit stated as an explicit
+deficit allocation into reserve.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitAllocationCertificate :
+    Prop :=
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitAllocationCertificate
 
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
@@ -5752,6 +5812,38 @@ private theorem familySize_add_le_of_disjoint_subsets
           · simp [countUpTo, hp, hq, hr]
             omega
 
+/-- A deficit allocation gives the deterministic deficit-capacity inequality. -/
+theorem activeStrictMiddleCreditDeficitCapacity_of_deficitAllocation
+    {N r : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart r B)}
+    {mate : Nat -> Nat}
+    {decReserve :
+      DecidablePred (ActiveStrictMiddleCreditReserve N r B mate)}
+    {decNewMid :
+      DecidablePred (IncrementalStrictMiddleNeighbor N r B)}
+    (hAlloc :
+      ActiveStrictMiddleCreditDeficitAllocation N r B decMid mate
+        decReserve decNewMid) :
+    ActiveStrictMiddleCreditDeficitCapacity N r B decMid mate
+      decReserve decNewMid := by
+  classical
+  rcases hAlloc with
+    ⟨Deficit, decDeficit, reservePay, hMidDeficit, hDeficitBox,
+      hReservePay, hReservePayInjective⟩
+  have hDeficitReserve :
+      @familySize N Deficit decDeficit <=
+        @familySize N (ActiveStrictMiddleCreditReserve N r B mate) decReserve := by
+    apply familySize_le_of_bounded_injective_image
+      N Deficit (ActiveStrictMiddleCreditReserve N r B mate)
+      decDeficit decReserve reservePay
+    · exact hDeficitBox
+    · intro b hb
+      exact (hReservePay b hb).left.left
+    · exact hReservePay
+    · exact hReservePayInjective
+  unfold ActiveStrictMiddleCreditDeficitCapacity
+  omega
+
 /-- Split reserve/new-middle active credit capacity implies target-union capacity. -/
 theorem activeStrictMiddleCreditCapacity_of_splitCapacity
     {N r : Nat} {B : Nat -> Prop}
@@ -5812,6 +5904,41 @@ theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCa
       (N := N) (r := 7) (B := B) (decMid := decMid)
       (mate := mate) (decReserve := decReserve)
       (decNewMid := decNewMid) (decTarget := decTarget) hLocal
+
+/-- Source-index deficit allocation supplies source-index deficit capacity. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity_of_deficitAllocation
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hAlloc :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitAllocation
+        N offsetIndex) :
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity
+      N offsetIndex := by
+  intro B decMid decReserve decNewMid hB hClique hMid
+  exact activeStrictMiddleCreditDeficitCapacity_of_deficitAllocation
+    (hAlloc B decMid decReserve decNewMid hB hClique hMid)
+
+/-- Window-repair deficit-allocation certificate supplies the deficit-capacity certificate. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCapacity_of_deficitAllocation
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitAllocationCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCapacityCertificate := by
+  intro N
+  rcases h N with ⟨windows, hValid, hAlloc⟩
+  exact ⟨windows, hValid,
+    globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity_of_deficitAllocation
+      hAlloc⟩
+
+/-- Allocation-form current source-index certificate supplies the deficit-capacity certificate. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacity_of_deficitAllocation
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitAllocationCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacityCertificate := by
+  simpa [
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitAllocationCertificate,
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacityCertificate]
+    using
+      globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCapacity_of_deficitAllocation
+        h
 
 /-- Window-repair deficit-capacity certificate supplies the slack-capacity certificate. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditSlackCapacity_of_deficitCapacity
@@ -6626,7 +6753,7 @@ squarefree-boxed codes, and constructs the decoder; the strict-middle side is
 the count-level active credit capacity for the simple typed mate.
 -/
 axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacityCertificate
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitAllocationCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
@@ -6639,7 +6766,8 @@ theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
           (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacity_of_splitCapacity
             (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSplitCapacity_of_slackCapacity
               (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSlackCapacity_of_deficitCapacity
-                finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut)))))))
+                (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacity_of_deficitAllocation
+                  finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut))))))))
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
 theorem finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :
