@@ -11,6 +11,7 @@
       "observed_max_credit_deficit_allocation_exact_prefix_pairs": true,
       "observed_max_credit_deficit_allocation_generated_prefix_pairs": true,
       "observed_max_credit_deficit_allocation_last_target_upper_bound_valid": true,
+      "observed_max_credit_deficit_allocation_mate_target_lower_bound_valid": true,
       "observed_max_credit_deficit_allocation_mate_target_no_image_valid": true,
       "observed_max_credit_deficit_allocation_opposite_witness_valid": true,
       "observed_max_credit_deficit_allocation_pairs": [],
@@ -55,6 +56,7 @@
       "worst_credit_deficit_allocation_exact_prefix_pairs": true,
       "worst_credit_deficit_allocation_generated_prefix_pairs": true,
       "worst_credit_deficit_allocation_last_target_upper_bound_valid": true,
+      "worst_credit_deficit_allocation_mate_target_lower_bound_valid": true,
       "worst_credit_deficit_allocation_mate_target_no_image_valid": true,
       "worst_credit_deficit_allocation_opposite_witness_valid": true,
       "worst_credit_deficit_allocation_pairs": [],
@@ -110,6 +112,7 @@
       "observed_max_credit_deficit_allocation_exact_prefix_pairs": true,
       "observed_max_credit_deficit_allocation_generated_prefix_pairs": true,
       "observed_max_credit_deficit_allocation_last_target_upper_bound_valid": true,
+      "observed_max_credit_deficit_allocation_mate_target_lower_bound_valid": true,
       "observed_max_credit_deficit_allocation_mate_target_no_image_valid": true,
       "observed_max_credit_deficit_allocation_opposite_witness_valid": true,
       "observed_max_credit_deficit_allocation_pairs": [
@@ -182,6 +185,7 @@
       "worst_credit_deficit_allocation_exact_prefix_pairs": true,
       "worst_credit_deficit_allocation_generated_prefix_pairs": true,
       "worst_credit_deficit_allocation_last_target_upper_bound_valid": true,
+      "worst_credit_deficit_allocation_mate_target_lower_bound_valid": true,
       "worst_credit_deficit_allocation_mate_target_no_image_valid": true,
       "worst_credit_deficit_allocation_opposite_witness_valid": true,
       "worst_credit_deficit_allocation_pairs": [],
@@ -338,7 +342,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T15:18:41.637952+00:00",
+  "generated_at": "2026-06-01T15:25:12.815528+00:00",
   "hall_checks": [
     {
       "N": 100,

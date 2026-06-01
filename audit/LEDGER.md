@@ -107,6 +107,7 @@ the source of truth and use this file only as a durable round index.
 | R127 | Replaced final generated-target boxedness with the final generated-target upper bound; Lean reconstructs `InBox` from positivity of `25*(d-1)+7`. |
 | R128 | Replaced per-target opposite-edge existentials with an explicit opposite-witness function; Lean recovers the existential edge field. |
 | R129 | Added Python audit fields for the current live allocation: mate-target no-image, last-target upper bound, and explicit opposite witnesses. |
+| R130 | Replaced per-prefix mate-target no-image with the single mate-target lower bound `25*d+7 <= mate(b)` for every opposite vertex. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
