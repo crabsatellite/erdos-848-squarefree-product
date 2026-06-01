@@ -3201,6 +3201,28 @@ low exceptional sources or the `239 mod 676` progression inside the local
 def ActiveStrictMiddleCreditDeficitSeed (b : Nat) : Prop :=
   b = 41 \/ b = 515 \/ b % 676 = 239
 
+/-- Canonical key-to-source map for active-credit deficit middle seeds. -/
+def ActiveStrictMiddleCreditDeficitSeedValue (key : Nat) : Nat :=
+  if key = 0 then 41
+  else if key = 1 then 515
+  else 239 + 676 * (key - 2)
+
+/-- Every generated seed value satisfies the active-credit deficit seed predicate. -/
+theorem activeStrictMiddleCreditDeficitSeed_seedValue (key : Nat) :
+    ActiveStrictMiddleCreditDeficitSeed
+      (ActiveStrictMiddleCreditDeficitSeedValue key) := by
+  unfold ActiveStrictMiddleCreditDeficitSeed ActiveStrictMiddleCreditDeficitSeedValue
+  by_cases h0 : key = 0
+  · simp [h0]
+  · by_cases h1 : key = 1
+    · simp [h0, h1]
+    · right
+      right
+      have hkey : 2 <= key := by omega
+      have hmod : (239 + 676 * (key - 2)) % 676 = 239 := by
+        omega
+      simp [h0, h1, hmod]
+
 /-- The canonical `239 mod 676` deficit progression lies in `70 mod 169`. -/
 theorem mod169_seventy_of_mod676_twoThirtyNine
     {b : Nat} (hb : b % 676 = 239) :
@@ -3237,6 +3259,61 @@ def ActiveStrictMiddleCreditDeficitSeedPairListAllocation
       Exists fun i : Nat => i < pairs.length /\ pair.snd = 25 * i + r) /\
     (forall pair : Nat × Nat, pair ∈ pairs ->
       ActiveStrictMiddleCreditReserve N r B mate pair.snd)
+
+/--
+Seed-value pair-list allocation: every deficit middle source is named by a
+canonical seed key.
+-/
+def ActiveStrictMiddleCreditDeficitSeedValuePairListAllocation
+    (N r : Nat) (B : Nat -> Prop)
+    (decMid : DecidablePred (StrictMiddlePart r B))
+    (mate : Nat -> Nat)
+    (_decReserve :
+      DecidablePred (ActiveStrictMiddleCreditReserve N r B mate))
+    (decNewMid :
+      DecidablePred (IncrementalStrictMiddleNeighbor N r B)) : Prop :=
+  Exists fun pairs : List (Nat × Nat) =>
+    @familySize N (StrictMiddlePart r B) decMid <=
+        @familySize N (IncrementalStrictMiddleNeighbor N r B) decNewMid +
+          pairs.length /\
+    pairs.length =
+      @familySize N (StrictMiddlePart r B) decMid -
+        @familySize N (IncrementalStrictMiddleNeighbor N r B) decNewMid /\
+    (pairs.map Prod.fst).Nodup /\
+    (pairs.map Prod.snd).Nodup /\
+    (forall pair : Nat × Nat, pair ∈ pairs -> StrictMiddlePart r B pair.fst) /\
+    (forall pair : Nat × Nat, pair ∈ pairs ->
+      Exists fun key : Nat =>
+        pair.fst = ActiveStrictMiddleCreditDeficitSeedValue key) /\
+    (forall pair : Nat × Nat, pair ∈ pairs ->
+      Exists fun i : Nat => i < pairs.length /\ pair.snd = 25 * i + r) /\
+    (forall pair : Nat × Nat, pair ∈ pairs ->
+      ActiveStrictMiddleCreditReserve N r B mate pair.snd)
+
+/-- Seed-value pair-list allocation supplies seeded pair-list allocation. -/
+theorem activeStrictMiddleCreditDeficitSeedPairListAllocation_of_seedValuePairListAllocation
+    {N r : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart r B)}
+    {mate : Nat -> Nat}
+    {decReserve :
+      DecidablePred (ActiveStrictMiddleCreditReserve N r B mate)}
+    {decNewMid :
+      DecidablePred (IncrementalStrictMiddleNeighbor N r B)}
+    (hValue :
+      ActiveStrictMiddleCreditDeficitSeedValuePairListAllocation N r B decMid
+        mate decReserve decNewMid) :
+    ActiveStrictMiddleCreditDeficitSeedPairListAllocation N r B decMid mate
+      decReserve decNewMid := by
+  rcases hValue with
+    ⟨pairs, hCount, hLength, hFstNodup, hSndNodup, hStrict, hValue,
+      hPrefix, hReserve⟩
+  refine
+    ⟨pairs, hCount, hLength, hFstNodup, hSndNodup, hStrict, ?_,
+      hPrefix, hReserve⟩
+  intro pair hpair
+  rcases hValue pair hpair with ⟨key, hkey⟩
+  rw [hkey]
+  exact activeStrictMiddleCreditDeficitSeed_seedValue key
 
 /-- Seeded pair-list allocation supplies the previous pair-list allocation. -/
 theorem activeStrictMiddleCreditDeficitPairListAllocation_of_seedPairListAllocation
@@ -4408,6 +4485,24 @@ def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDefici
     ActiveStrictMiddleCreditDeficitSeedPairListAllocation N 7 B decMid
       (OppositeFiniteOffsetSourceIndexMate offsetIndex) decReserve decNewMid
 
+/--
+Source-index active credit seed-value pair-list allocation: deficit middle
+sources are named by canonical seed keys.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitSeedValuePairListAllocation
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall (B : Nat -> Prop)
+      (decMid : DecidablePred (StrictMiddlePart 7 B))
+      (decReserve : DecidablePred
+        (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex)))
+      (decNewMid : DecidablePred (IncrementalStrictMiddleNeighbor N 7 B)),
+    BoundedOutsideSet N 7 B ->
+    NonSquarefreeClique B ->
+    (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+    ActiveStrictMiddleCreditDeficitSeedValuePairListAllocation N 7 B decMid
+      (OppositeFiniteOffsetSourceIndexMate offsetIndex) decReserve decNewMid
+
 /-- Source-index deficit capacity supplies source-index slack capacity. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditSlackCapacity_of_deficitCapacity
     {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
@@ -4531,6 +4626,18 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitSeedPairListAllocation N
       (OppositeFiniteOffsetTemplateWindowRepairCode windows)
 
+/--
+Source-index split certificate with compact repair windows and seed-value
+pair-list deficit allocation.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitSeedValuePairListAllocationCertificate :
+    Prop :=
+  forall N : Nat, Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateWindowRepairValidMatching
+      N windows /\
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitSeedValuePairListAllocation N
+      (OppositeFiniteOffsetTemplateWindowRepairCode windows)
+
 /-- Current source-index split certificate, narrowed to template-window-repair form. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
@@ -4583,6 +4690,14 @@ pair-list deficit allocation into reserve.
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedPairListAllocationCertificate :
     Prop :=
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitSeedPairListAllocationCertificate
+
+/--
+Current source-index split certificate with active credit stated as a
+seed-value pair-list deficit allocation into reserve.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedValuePairListAllocationCertificate :
+    Prop :=
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitSeedValuePairListAllocationCertificate
 
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
@@ -6183,6 +6298,41 @@ theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDe
   exact activeStrictMiddleCreditDeficitPairListAllocation_of_seedPairListAllocation
     (hSeed B decMid decReserve decNewMid hB hClique hMid)
 
+/-- Source-index seed-value pair-list allocation supplies source-index seeded allocation. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitSeedPairListAllocation_of_seedValuePairListAllocation
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hValue :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitSeedValuePairListAllocation
+        N offsetIndex) :
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitSeedPairListAllocation
+      N offsetIndex := by
+  intro B decMid decReserve decNewMid hB hClique hMid
+  exact activeStrictMiddleCreditDeficitSeedPairListAllocation_of_seedValuePairListAllocation
+    (hValue B decMid decReserve decNewMid hB hClique hMid)
+
+/-- Window-repair seed-value pair-list certificate supplies the seeded certificate. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitSeedPairListAllocation_of_seedValuePairListAllocation
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitSeedValuePairListAllocationCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitSeedPairListAllocationCertificate := by
+  intro N
+  rcases h N with ⟨windows, hValid, hValue⟩
+  exact ⟨windows, hValid,
+    globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitSeedPairListAllocation_of_seedValuePairListAllocation
+      hValue⟩
+
+/-- Seed-value current source-index certificate supplies the seeded certificate. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedPairListAllocation_of_seedValuePairListAllocation
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedValuePairListAllocationCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedPairListAllocationCertificate := by
+  simpa [
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedValuePairListAllocationCertificate,
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedPairListAllocationCertificate]
+    using
+      globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitSeedPairListAllocation_of_seedValuePairListAllocation
+        h
+
 /-- Window-repair seeded pair-list certificate supplies the pair-list certificate. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitPairListAllocation_of_seedPairListAllocation
     (h :
@@ -7065,7 +7215,7 @@ squarefree-boxed codes, and constructs the decoder; the strict-middle side is
 the count-level active credit capacity for the simple typed mate.
 -/
 axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedPairListAllocationCertificate
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedValuePairListAllocationCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
@@ -7080,7 +7230,8 @@ theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
               (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSlackCapacity_of_deficitCapacity
                 (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacity_of_pairListAllocation
                   (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitPairListAllocation_of_seedPairListAllocation
-                    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut)))))))))
+                    (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedPairListAllocation_of_seedValuePairListAllocation
+                      finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut))))))))))
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
 theorem finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :

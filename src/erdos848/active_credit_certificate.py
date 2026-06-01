@@ -11,8 +11,18 @@ from .opposite_matching_certificate import opposite_matching_certificate
 DEFICIT_SEED_EXCEPTIONS = {41, 515}
 
 
+def _deficit_seed_key(vertex: int) -> int | None:
+    if vertex not in DEFICIT_SEED_EXCEPTIONS and vertex % 676 != 239:
+        return None
+    if vertex == 41:
+        return 0
+    if vertex == 515:
+        return 1
+    return 2 + (vertex - 239) // 676
+
+
 def _is_deficit_seed(vertex: int) -> bool:
-    return vertex in DEFICIT_SEED_EXCEPTIONS or vertex % 676 == 239
+    return _deficit_seed_key(vertex) is not None
 
 
 @dataclass
@@ -49,6 +59,7 @@ class ActiveCreditCertificate:
     worst_credit_deficit_allocation_valid: bool
     worst_credit_deficit_allocation_reserve_prefix: bool
     worst_credit_deficit_allocation_seeded: bool
+    worst_credit_deficit_allocation_seed_keys: list[int]
     worst_credit_required_reserve_slack: int
     worst_credit_reserve_slack_surplus: int
     worst_credit_split_pool_size: int
@@ -70,6 +81,7 @@ class ActiveCreditCertificate:
     observed_max_credit_deficit_allocation_valid: bool
     observed_max_credit_deficit_allocation_reserve_prefix: bool
     observed_max_credit_deficit_allocation_seeded: bool
+    observed_max_credit_deficit_allocation_seed_keys: list[int]
     observed_deficit_pressure_complete: bool
 
 
@@ -151,6 +163,7 @@ def active_credit_certificate(
     worst_credit_deficit_allocation_valid = True
     worst_credit_deficit_allocation_reserve_prefix = True
     worst_credit_deficit_allocation_seeded = True
+    worst_credit_deficit_allocation_seed_keys: list[int] = []
     worst_credit_required_reserve_slack = 0
     worst_credit_reserve_slack_surplus = 0
     worst_credit_split_pool_size = 0
@@ -172,6 +185,7 @@ def active_credit_certificate(
     observed_max_credit_deficit_allocation_valid = True
     observed_max_credit_deficit_allocation_reserve_prefix = True
     observed_max_credit_deficit_allocation_seeded = True
+    observed_max_credit_deficit_allocation_seed_keys: list[int] = []
     search_nodes = 0
     search_max_depth = 0
     search_pruned_no_middle_tail = 0
@@ -204,6 +218,7 @@ def active_credit_certificate(
         nonlocal worst_credit_deficit_allocation_valid
         nonlocal worst_credit_deficit_allocation_reserve_prefix
         nonlocal worst_credit_deficit_allocation_seeded
+        nonlocal worst_credit_deficit_allocation_seed_keys
         nonlocal worst_credit_required_reserve_slack
         nonlocal worst_credit_reserve_slack_surplus
         nonlocal worst_credit_split_pool_size
@@ -225,6 +240,7 @@ def active_credit_certificate(
         nonlocal observed_max_credit_deficit_allocation_valid
         nonlocal observed_max_credit_deficit_allocation_reserve_prefix
         nonlocal observed_max_credit_deficit_allocation_seeded
+        nonlocal observed_max_credit_deficit_allocation_seed_keys
         nonlocal search_nodes
         nonlocal search_max_depth
         nonlocal search_pruned_no_middle_tail
@@ -292,9 +308,15 @@ def active_credit_certificate(
                     observed_max_credit_deficit_allocation_reserve_prefix = (
                         [pay for _middle, pay in allocation_pairs] == base[:credit_deficit]
                     )
+                    observed_seed_keys = [
+                        _deficit_seed_key(middle) for middle, _pay in allocation_pairs
+                    ]
                     observed_max_credit_deficit_allocation_seeded = all(
-                        _is_deficit_seed(middle) for middle, _pay in allocation_pairs
+                        key is not None for key in observed_seed_keys
                     )
+                    observed_max_credit_deficit_allocation_seed_keys = [
+                        key for key in observed_seed_keys if key is not None
+                    ]
             if defect < worst_credit_defect:
                 credit_vertices = [base[i] for i in range(len(base)) if (credit_pool >> i) & 1]
                 reserve_vertices = [base[i] for i in range(len(base)) if (reserve >> i) & 1]
@@ -333,9 +355,15 @@ def active_credit_certificate(
                 worst_credit_deficit_allocation_reserve_prefix = (
                     [pay for _middle, pay in allocation_pairs] == base[:credit_deficit]
                 )
+                worst_seed_keys = [
+                    _deficit_seed_key(middle) for middle, _pay in allocation_pairs
+                ]
                 worst_credit_deficit_allocation_seeded = all(
-                    _is_deficit_seed(middle) for middle, _pay in allocation_pairs
+                    key is not None for key in worst_seed_keys
                 )
+                worst_credit_deficit_allocation_seed_keys = [
+                    key for key in worst_seed_keys if key is not None
+                ]
                 worst_credit_required_reserve_slack = credit_deficit
                 worst_credit_reserve_slack_surplus = deficit_surplus
                 worst_credit_split_pool_size = split_pool_size
@@ -420,6 +448,7 @@ def active_credit_certificate(
         worst_credit_deficit_allocation_valid=worst_credit_deficit_allocation_valid,
         worst_credit_deficit_allocation_reserve_prefix=worst_credit_deficit_allocation_reserve_prefix,
         worst_credit_deficit_allocation_seeded=worst_credit_deficit_allocation_seeded,
+        worst_credit_deficit_allocation_seed_keys=worst_credit_deficit_allocation_seed_keys,
         worst_credit_required_reserve_slack=worst_credit_required_reserve_slack,
         worst_credit_reserve_slack_surplus=worst_credit_reserve_slack_surplus,
         worst_credit_split_pool_size=worst_credit_split_pool_size,
@@ -446,6 +475,9 @@ def active_credit_certificate(
         ),
         observed_max_credit_deficit_allocation_seeded=(
             observed_max_credit_deficit_allocation_seeded
+        ),
+        observed_max_credit_deficit_allocation_seed_keys=(
+            observed_max_credit_deficit_allocation_seed_keys
         ),
         observed_deficit_pressure_complete=exact_worst,
     )
