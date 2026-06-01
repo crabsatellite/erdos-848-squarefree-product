@@ -29,6 +29,16 @@ private theorem mod25_zero_of_squareDivides_five {n : Nat} (hdiv : SquareDivides
       rw [hk]
       omega
 
+/-- Convert a modulo-`169` zero certificate into the local `13^2` divisor form. -/
+private theorem squareDivides_thirteen_of_mod169_zero {n : Nat} (hmod : n % 169 = 0) :
+    SquareDivides 13 n := by
+  unfold SquareDivides
+  have hdvd := Nat.dvd_of_mod_eq_zero hmod
+  match hdvd with
+  | Exists.intro k hk =>
+      refine Exists.intro k ?_
+      omega
+
 /-- If both factors lie in `7 mod 25`, then `5^2 | a*b+1`. -/
 theorem squareDivides_five_mul_add_one_of_candidate_seven
     {a b : Nat} (ha : CandidateCarrier 7 a) (hb : CandidateCarrier 7 b) :
@@ -44,6 +54,25 @@ theorem squareDivides_five_mul_add_one_of_candidate_eighteen
   apply squareDivides_five_of_mod25_zero
   unfold CandidateCarrier at ha hb
   rw [Nat.add_mod, Nat.mul_mod, ha, hb]
+
+/-- If both factors lie in `70 mod 169`, then `13^2 | a*b+1`. -/
+theorem squareDivides_thirteen_mul_add_one_of_mod169_seventy
+    {a b : Nat} (ha : a % 169 = 70) (hb : b % 169 = 70) :
+    SquareDivides 13 (a * b + 1) := by
+  apply squareDivides_thirteen_of_mod169_zero
+  rw [Nat.add_mod, Nat.mul_mod, ha, hb]
+
+/--
+The observed `70 mod 169` middle-region clique cannot contain a squarefree
+coexistence edge.
+-/
+theorem not_forbiddenSquarefreeEdge_of_mod169_seventy
+    {a b : Nat} (ha : a % 169 = 70) (hb : b % 169 = 70) :
+    Not (ForbiddenSquarefreeEdge a b) := by
+  intro hsf
+  unfold ForbiddenSquarefreeEdge at hsf
+  exact hsf 13 (by omega)
+    (squareDivides_thirteen_mul_add_one_of_mod169_seventy ha hb)
 
 /-- Cross-pairs from `7 mod 25` and `18 mod 25` are not killed by `5^2`. -/
 theorem not_squareDivides_five_mul_add_one_of_candidate_seven_eighteen

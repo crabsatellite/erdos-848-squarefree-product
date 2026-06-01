@@ -56,7 +56,7 @@ def config : ChainAudit.ProjectConfig := {
       title := "Candidate 5-square sharpness"
       status := "closed-local"
       summary :=
-        "Kernel-checked residue algebra: if both factors lie in `7 mod 25` then `5^2` divides `a*b+1`; hence the literal #848 `7 mod 25` sharpness side is no longer an axiom.  The parallel `18 mod 25` root-class fact remains support data for the compression route, not the endpoint target."
+        "Kernel-checked residue algebra: if both factors lie in `7 mod 25` then `5^2` divides `a*b+1`; hence the literal #848 `7 mod 25` sharpness side is no longer an axiom.  The parallel `18 mod 25` root-class fact remains support data for the compression route, and the local `70 mod 169` fact now records the active middle-region obstruction exposed by the deficit diagnostics."
       files := [
         "Erdos848/Infrastructure/ResidueCertificates.lean"
       ]
@@ -65,6 +65,8 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.squareDivides_five_mul_add_one_of_candidate_eighteen",
         "Erdos848.not_squareDivides_five_mul_add_one_of_candidate_seven_eighteen",
         "Erdos848.not_squareDivides_five_mul_add_one_of_candidate_eighteen_seven",
+        "Erdos848.squareDivides_thirteen_mul_add_one_of_mod169_seventy",
+        "Erdos848.not_forbiddenSquarefreeEdge_of_mod169_seventy",
         "Erdos848.residueSecondLayer",
         "Erdos848.residueCandidateSevenSharp",
         "Erdos848.residueCandidateSharp"
@@ -603,7 +605,7 @@ def config : ChainAudit.ProjectConfig := {
       kind := "support"
       status := "closed-local"
       summary :=
-        "Kernel-local `5^2` residue algebra proves the literal `7 mod 25` sharpness construction and records the parallel `18 mod 25` support class plus cross-pair diagnostics.  The broader Python `25*13^2` evidence remains diagnostic support for designing the Hall route, but the endpoint no longer consumes it as an axiom."
+        "Kernel-local `5^2` residue algebra proves the literal `7 mod 25` sharpness construction and records the parallel `18 mod 25` support class plus cross-pair diagnostics.  It also proves the local `70 mod 169` obstruction used to explain the current active-credit middle deficit pattern.  The broader Python `25*13^2` evidence remains diagnostic support for designing the Hall route, but the endpoint no longer consumes it as an axiom."
       files := [
         "Erdos848/Infrastructure/ResidueCertificates.lean"
       ]
@@ -612,6 +614,8 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.squareDivides_five_mul_add_one_of_candidate_eighteen",
         "Erdos848.not_squareDivides_five_mul_add_one_of_candidate_seven_eighteen",
         "Erdos848.not_squareDivides_five_mul_add_one_of_candidate_eighteen_seven",
+        "Erdos848.squareDivides_thirteen_mul_add_one_of_mod169_seventy",
+        "Erdos848.not_forbiddenSquarefreeEdge_of_mod169_seventy",
         "Erdos848.residueSecondLayer",
         "Erdos848.residueCandidateSevenSharp",
         "Erdos848.residueCandidateSharp"
@@ -665,6 +669,9 @@ def config : ChainAudit.ProjectConfig := {
         "residueSecondLayer",
         "residueCandidateSevenSharp",
         "residueCandidateSharp",
+        "squareDivides_thirteen_mul_add_one_of_mod169_seventy",
+        "not_forbiddenSquarefreeEdge_of_mod169_seventy",
+        "70 mod 169",
         "25*13^2",
         "modulo",
         "residue_certificate"
