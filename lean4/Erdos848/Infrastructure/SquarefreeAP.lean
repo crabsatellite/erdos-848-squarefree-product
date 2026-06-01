@@ -738,6 +738,36 @@ theorem squarefreeNeighborInCandidate_of_witnessCode
   ⟨code.valueBox, code.valueCarrier,
     ⟨code.source, code.sourceMem, code.edge⟩⟩
 
+/--
+Canonical source decoder for a target known to be a squarefree neighbor.  The
+decoder chooses one source witness when the target lies in the neighbor set.
+-/
+noncomputable def squarefreeNeighborSourceDecoder
+    (B : Nat -> Prop) (a : Nat) : Nat :=
+  by
+    classical
+    exact
+      if h : Exists fun b : Nat => B b /\ ForbiddenSquarefreeEdge a b then
+        Classical.choose h
+      else
+        0
+
+/-- The canonical source decoder returns a real source for any neighbor target. -/
+theorem squarefreeNeighborSourceDecoder_spec
+    {N r : Nat} {B : Nat -> Prop} {a : Nat}
+    (h : SquarefreeNeighborInCandidate N r B a) :
+    B (squarefreeNeighborSourceDecoder B a) /\
+      ForbiddenSquarefreeEdge a (squarefreeNeighborSourceDecoder B a) := by
+  classical
+  rcases h with ⟨_haBox, _haCarrier, b, hb, hedge⟩
+  let hExists : Exists fun b : Nat => B b /\ ForbiddenSquarefreeEdge a b :=
+    ⟨b, hb, hedge⟩
+  have hchoose :
+      B (Classical.choose hExists) /\
+        ForbiddenSquarefreeEdge a (Classical.choose hExists) :=
+    Classical.choose_spec hExists
+  simpa [squarefreeNeighborSourceDecoder, hExists] using hchoose
+
 /-- Credit code for an unused opposite-neighbor reserve target. -/
 def ActiveStrictMiddleReserveCreditCode
     (N r : Nat) (B : Nat -> Prop) (mate : Nat -> Nat) : Type :=
@@ -809,6 +839,32 @@ def ActiveStrictMiddleNewWitnessCreditCode.toNewCode
   ⟨code.neighbor.value,
     squarefreeNeighborInCandidate_of_witnessCode code.neighbor,
     code.notOppositeNeighbor⟩
+
+/--
+New-middle credit code whose non-opposite-neighbor fact is certified by the
+canonical opposite-neighbor source decoder.
+-/
+structure ActiveStrictMiddleNewSourceAntiNeighborWitnessCreditCode
+    (N r : Nat) (B : Nat -> Prop) where
+  neighbor : SquarefreeNeighborInCandidateWitnessCode N r (StrictMiddlePart r B)
+  decoderNotOppositeNeighbor :
+    Not (OppositeOutsidePart r B
+        (squarefreeNeighborSourceDecoder (OppositeOutsidePart r B) neighbor.value) /\
+      ForbiddenSquarefreeEdge neighbor.value
+        (squarefreeNeighborSourceDecoder (OppositeOutsidePart r B) neighbor.value))
+
+/--
+Decoder-side anti-neighbor data supplies the previous new-middle witness code.
+-/
+def ActiveStrictMiddleNewSourceAntiNeighborWitnessCreditCode.toNewWitnessCreditCode
+    {N r : Nat} {B : Nat -> Prop}
+    (code : ActiveStrictMiddleNewSourceAntiNeighborWitnessCreditCode N r B) :
+    ActiveStrictMiddleNewWitnessCreditCode N r B where
+  neighbor := code.neighbor
+  notOppositeNeighbor := by
+    intro hOppNbr
+    exact code.decoderNotOppositeNeighbor
+      (squarefreeNeighborSourceDecoder_spec hOppNbr)
 
 /--
 Credit target as an explicit reserve/new-middle sum code, rather than an
@@ -908,6 +964,41 @@ def ActiveStrictMiddleCreditAntiImageWitnessSumCode.toWitnessSumCode
       Sum.inl (reserve.toReserveWitnessCode hLeft)
   | Sum.inr newMiddle =>
       Sum.inr newMiddle
+
+/--
+Credit target as a witness sum where reserve non-image and new-middle
+anti-neighbor facts are both decoder-side certificates.
+-/
+def ActiveStrictMiddleCreditSourceAntiNeighborWitnessSumCode
+    (N r : Nat) (B : Nat -> Prop) (mate : Nat -> Nat)
+    (oppositeDecoder : Nat -> Nat) : Type :=
+  Sum (ActiveStrictMiddleReserveAntiImageWitnessCreditCode
+      N r B mate oppositeDecoder)
+    (ActiveStrictMiddleNewSourceAntiNeighborWitnessCreditCode N r B)
+
+/-- Forget proof data and keep the target value of a source-anti-neighbor sum. -/
+def ActiveStrictMiddleCreditSourceAntiNeighborWitnessSumCode.value
+    {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {oppositeDecoder : Nat -> Nat}
+    (code : ActiveStrictMiddleCreditSourceAntiNeighborWitnessSumCode
+      N r B mate oppositeDecoder) : Nat :=
+  match code with
+  | Sum.inl reserve => reserve.neighbor.value
+  | Sum.inr newMiddle => newMiddle.neighbor.value
+
+/-- Forget source anti-neighbor data and keep the previous anti-image sum code. -/
+def ActiveStrictMiddleCreditSourceAntiNeighborWitnessSumCode.toAntiImageWitnessSumCode
+    {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {oppositeDecoder : Nat -> Nat}
+    (code : ActiveStrictMiddleCreditSourceAntiNeighborWitnessSumCode
+      N r B mate oppositeDecoder) :
+    ActiveStrictMiddleCreditAntiImageWitnessSumCode
+      N r B mate oppositeDecoder :=
+  match code with
+  | Sum.inl reserve =>
+      Sum.inl reserve
+  | Sum.inr newMiddle =>
+      Sum.inr newMiddle.toNewWitnessCreditCode
 
 /-- Credit code carrying a decoder proof back to its strict-middle source. -/
 def DecodedActiveStrictMiddleCreditCode
@@ -1018,6 +1109,44 @@ def DecodedActiveStrictMiddleCreditAntiImageWitnessSumCode.toDecodedWitnessSumCo
       simpa [ActiveStrictMiddleCreditAntiImageWitnessSumCode.value,
         ActiveStrictMiddleCreditAntiImageWitnessSumCode.toWitnessSumCode,
         ActiveStrictMiddleCreditWitnessSumCode.value] using hdecode
+
+/--
+Decoded source-anti-neighbor witness sum code carrying a decoder proof back to
+its strict-middle source.
+-/
+def DecodedActiveStrictMiddleCreditSourceAntiNeighborWitnessSumCode
+    (N r : Nat) (B : Nat -> Prop) (mate : Nat -> Nat)
+    (oppositeDecoder : Nat -> Nat) (creditDecoder : Nat -> Nat)
+    (b : Nat) : Type :=
+  { code : ActiveStrictMiddleCreditSourceAntiNeighborWitnessSumCode
+      N r B mate oppositeDecoder //
+    creditDecoder code.value = b }
+
+/--
+Forget source anti-neighbor data and keep the previous decoded anti-image sum.
+-/
+def DecodedActiveStrictMiddleCreditSourceAntiNeighborWitnessSumCode.toDecodedAntiImageWitnessSumCode
+    {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {oppositeDecoder creditDecoder : Nat -> Nat} {b : Nat}
+    (code :
+      DecodedActiveStrictMiddleCreditSourceAntiNeighborWitnessSumCode
+        N r B mate oppositeDecoder creditDecoder b) :
+    DecodedActiveStrictMiddleCreditAntiImageWitnessSumCode
+      N r B mate oppositeDecoder creditDecoder b := by
+  refine ⟨ActiveStrictMiddleCreditSourceAntiNeighborWitnessSumCode.toAntiImageWitnessSumCode
+    code.val, ?_⟩
+  rcases code with ⟨codeVal, hdecode⟩
+  cases codeVal with
+  | inl reserve =>
+      simpa [ActiveStrictMiddleCreditSourceAntiNeighborWitnessSumCode.value,
+        ActiveStrictMiddleCreditSourceAntiNeighborWitnessSumCode.toAntiImageWitnessSumCode,
+        ActiveStrictMiddleCreditAntiImageWitnessSumCode.value] using hdecode
+  | inr newMiddle =>
+      simpa [ActiveStrictMiddleCreditSourceAntiNeighborWitnessSumCode.value,
+        ActiveStrictMiddleCreditSourceAntiNeighborWitnessSumCode.toAntiImageWitnessSumCode,
+        ActiveStrictMiddleCreditAntiImageWitnessSumCode.value,
+        ActiveStrictMiddleNewSourceAntiNeighborWitnessCreditCode.toNewWitnessCreditCode] using
+        hdecode
 
 /--
 Active strict-middle matching with target membership and injectivity carried by
@@ -1149,6 +1278,37 @@ theorem activeStrictMiddleDecodedCreditWitnessSumMatching_of_antiImage
   intro b hb
   exact DecodedActiveStrictMiddleCreditAntiImageWitnessSumCode.toDecodedWitnessSumCode
     hLeft (credit b hb)
+
+/--
+Active strict-middle decoded matching where both negative credit-side facts are
+certified by decoders.
+-/
+def ActiveStrictMiddleDecodedCreditSourceAntiNeighborWitnessSumMatching
+    (N r : Nat) (B : Nat -> Prop)
+    (_decMid : DecidablePred (StrictMiddlePart r B))
+    (mate : Nat -> Nat) (oppositeDecoder : Nat -> Nat) : Prop :=
+  Exists fun creditDecoder : Nat -> Nat =>
+  Exists fun _credit :
+      (forall b : Nat, StrictMiddlePart r B b ->
+        DecodedActiveStrictMiddleCreditSourceAntiNeighborWitnessSumCode
+          N r B mate oppositeDecoder creditDecoder b) =>
+    True
+
+/-- Source-anti-neighbor matching supplies the previous anti-image matching. -/
+theorem activeStrictMiddleDecodedCreditAntiImageWitnessSumMatching_of_sourceAntiNeighbor
+    {N r : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart r B)}
+    {mate oppositeDecoder : Nat -> Nat}
+    (h :
+      ActiveStrictMiddleDecodedCreditSourceAntiNeighborWitnessSumMatching
+        N r B decMid mate oppositeDecoder) :
+    ActiveStrictMiddleDecodedCreditAntiImageWitnessSumMatching
+      N r B decMid mate oppositeDecoder := by
+  rcases h with ⟨creditDecoder, credit, _⟩
+  refine ⟨creditDecoder, ?_, trivial⟩
+  intro b hb
+  exact DecodedActiveStrictMiddleCreditSourceAntiNeighborWitnessSumCode.toDecodedAntiImageWitnessSumCode
+    (credit b hb)
 
 /-- Count-level active strict-middle credit capacity for one fixed opposite mate. -/
 def ActiveStrictMiddleCreditCapacity
@@ -1612,6 +1772,24 @@ def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiI
       NonSquarefreeClique B ->
       (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
       ActiveStrictMiddleDecodedCreditAntiImageWitnessSumMatching N 7 B decMid
+        (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset) decoder)
+
+/--
+Decoded squarefree-boxed certificate whose reserve non-image and new-middle
+anti-neighbor facts are both certified by decoders.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCodeCertificate :
+    Prop :=
+  forall N : Nat, Exists fun decoder : Nat -> Nat =>
+  Exists fun offset :
+      (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b decoder) =>
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B)),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleDecodedCreditSourceAntiNeighborWitnessSumMatching N 7 B decMid
         (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset) decoder)
 
 /--
@@ -2145,6 +2323,21 @@ theorem activeStrictMiddleCreditCapacity_of_creditMatching
     exact hCreditMap b hb
   · intro b1 b2 hb1 hb2 hcredit
     exact hCreditInjective b1 b2 hb1 hb2 hcredit
+
+/--
+The source-anti-neighbor certificate supplies the previous anti-image
+witness-sum-code certificate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCode_of_sourceAntiNeighbor
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCodeCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCodeCertificate := by
+  intro N
+  rcases h N with ⟨decoder, offset, hCreditSourceAnti⟩
+  refine ⟨decoder, offset, ?_⟩
+  intro B decMid hB hClique hMid
+  exact activeStrictMiddleDecodedCreditAntiImageWitnessSumMatching_of_sourceAntiNeighbor
+    (hCreditSourceAnti B decMid hB hClique hMid)
 
 /--
 The decoded squarefree-boxed anti-image certificate supplies the previous
@@ -3005,10 +3198,17 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 
 /--
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
-compression with reserve non-image certified by the opposite decoder.
+compression with both reserve and new-middle negative credit facts certified by
+decoders.
 -/
-axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCodeCertificate
+axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCodeCertificate
+
+/-- Current anti-image certificate derived from source anti-neighbor data. -/
+theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCodeCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCode_of_sourceAntiNeighbor
+    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCodeCut
 
 /-- Current witness-sum-code certificate derived from decoder-side anti-image data. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCut :
