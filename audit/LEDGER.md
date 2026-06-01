@@ -110,6 +110,7 @@ the source of truth and use this file only as a durable round index.
 | R130 | Replaced per-prefix mate-target no-image with the single mate-target lower bound `25*d+7 <= mate(b)` for every opposite vertex. |
 | R131 | Replaced mate-target lower bound with the source-index lower bound `d <= mateIndex(b)` for every opposite vertex. |
 | R132 | Replaced last-target upper-bound disjunction with the scalar prefix box bound `25*d <= N+18`. |
+| R133 | Replaced seed membership plus key-residue exclusion with direct `StrictMiddlePart 7 B` seed certification. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
