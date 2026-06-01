@@ -17206,18 +17206,18 @@ the simple typed mate, stated with count-additive generated prefix-pair indexed
 opposite witnesses carrying the target-prefix scalar bound; these imply
 indexed/existential source-witnesses, count-upper/target-prefix source
 witnesses, and the prefix reserve witness, with the empty strict-middle reserve
-branch closed in Lean.  The live surface is now the total reserve-dominance
-inequality; prefix witnesses, scalar lower bounds, seed keys, and
-indexed-opposite layers are retained as proved bridge nodes below this weaker
-obligation.
+branch closed in Lean.  The live surface is now direct source-index selector
+reserve dominance; finite list selectors, prefix witnesses, scalar lower
+bounds, seed keys, and indexed-opposite layers are retained as proved bridge
+nodes below this weaker obligation.
 -/
 axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominanceCertificate
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSelectorDeficitReserveDominanceCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapTotalReserveDominance
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexSelectorReserveDominance
     finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
