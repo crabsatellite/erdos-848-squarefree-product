@@ -2383,6 +2383,67 @@ def ActiveStrictMiddleDecodedCreditSelfCanonicalTargetSumMatching
           N B mate oppositeDecoder creditDecoder b) =>
     True
 
+/--
+Live-route self-canonical-target matching with direct target-value injectivity;
+Lean constructs the decoder used by the previous decoded matching surface.
+-/
+def ActiveStrictMiddleCreditSelfCanonicalTargetInjectiveSumMatching
+    (N : Nat) (B : Nat -> Prop)
+    (_decMid : DecidablePred (StrictMiddlePart 7 B))
+    (mate : Nat -> Nat) (oppositeDecoder : Nat -> Nat) : Prop :=
+  Exists fun credit :
+      (forall b : Nat, StrictMiddlePart 7 B b ->
+        ActiveStrictMiddleCreditSelfCanonicalTargetSumCode
+          N B mate oppositeDecoder b) =>
+    forall b1 b2 : Nat,
+      forall hb1 : StrictMiddlePart 7 B b1,
+      forall hb2 : StrictMiddlePart 7 B b2,
+        (credit b1 hb1).value = (credit b2 hb2).value ->
+          b1 = b2
+
+/-- A directly injective self-canonical matching supplies a decoded matching. -/
+theorem activeStrictMiddleDecodedCreditSelfCanonicalTargetSumMatching_of_injective
+    {N : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart 7 B)}
+    {mate oppositeDecoder : Nat -> Nat}
+    (h :
+      ActiveStrictMiddleCreditSelfCanonicalTargetInjectiveSumMatching
+        N B decMid mate oppositeDecoder) :
+    ActiveStrictMiddleDecodedCreditSelfCanonicalTargetSumMatching
+      N B decMid mate oppositeDecoder := by
+  classical
+  rcases h with ⟨credit, hinj⟩
+  let creditDecoder : Nat -> Nat := fun a =>
+    if hsource :
+        Exists fun b : Nat =>
+          Exists fun hb : StrictMiddlePart 7 B b =>
+            (credit b hb).value = a then
+      Classical.choose hsource
+    else
+      0
+  refine ⟨creditDecoder, ?_, trivial⟩
+  intro b hb
+  refine ⟨credit b hb, ?_⟩
+  have hsource :
+      Exists fun b' : Nat =>
+        Exists fun hb' : StrictMiddlePart 7 B b' =>
+          (credit b' hb').value = (credit b hb).value := by
+    exact ⟨b, hb, rfl⟩
+  have hchoose :
+      Exists fun hb' : StrictMiddlePart 7 B (Classical.choose hsource) =>
+        (credit (Classical.choose hsource) hb').value =
+          (credit b hb).value :=
+    Classical.choose_spec hsource
+  have hbchoose : StrictMiddlePart 7 B (Classical.choose hsource) :=
+    Classical.choose hchoose
+  have hvalue :
+      (credit (Classical.choose hsource) hbchoose).value =
+        (credit b hb).value :=
+    Classical.choose_spec hchoose
+  rw [show creditDecoder (credit b hb).value = Classical.choose hsource by
+    simp [creditDecoder, hsource]]
+  exact hinj (Classical.choose hsource) b hbchoose hb hvalue
+
 /-- Self-canonical-target matching supplies the previous self-target matching. -/
 theorem activeStrictMiddleDecodedCreditSelfTargetSumMatching_of_selfCanonicalTarget
     {N : Nat} {B : Nat -> Prop}
@@ -3043,6 +3104,24 @@ def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfC
         (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset) decoder)
 
 /--
+Decoded squarefree-boxed certificate whose strict-middle credit side supplies
+direct target-value injectivity; Lean constructs the credit decoder.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetInjectiveSumCodeCertificate :
+    Prop :=
+  forall N : Nat, Exists fun decoder : Nat -> Nat =>
+  Exists fun offset :
+      (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b decoder) =>
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B)),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditSelfCanonicalTargetInjectiveSumMatching N B decMid
+        (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset) decoder)
+
+/--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
 decoder certificate.
 -/
@@ -3651,6 +3730,18 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditS
   intro B decMid hB hClique hMid
   exact activeStrictMiddleDecodedCreditSelfTargetSumMatching_of_selfCanonicalTarget
     (hCreditSelfCanonicalTarget B decMid hB hClique hMid)
+
+/-- The injective self-canonical certificate supplies decoded self-canonical data. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCode_of_injective
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetInjectiveSumCodeCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCertificate := by
+  intro N
+  rcases h N with ⟨decoder, offset, hCreditSelfCanonicalInjective⟩
+  refine ⟨decoder, offset, ?_⟩
+  intro B decMid hB hClique hMid
+  exact activeStrictMiddleDecodedCreditSelfCanonicalTargetSumMatching_of_injective
+    (hCreditSelfCanonicalInjective B decMid hB hClique hMid)
 
 /-- The self-source credit certificate supplies the previous anti-`18 mod 25` data. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCode_of_self
@@ -4552,10 +4643,17 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
 compression whose new-middle credit branch reuses the existing incremental
 target code and identifies the current source by the canonical strict-middle
-source decoder.
+source decoder, with direct target-value injectivity replacing an explicit
+credit decoder.
 -/
-axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCertificate
+axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetInjectiveSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetInjectiveSumCodeCertificate
+
+/-- Current self-canonical-target certificate derived from injective data. -/
+theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCode_of_injective
+    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetInjectiveSumCodeCut
 
 /-- Current self-target certificate derived from self-canonical-target data. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCut :
