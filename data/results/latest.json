@@ -30,10 +30,14 @@
       "worst_credit_pool_size": 3,
       "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 0,
+      "worst_credit_split_mode": "new_middle_only",
       "worst_credit_split_pool_size": 3,
       "worst_credit_witness": [
         41
-      ]
+      ],
+      "worst_credit_witness_residue_counts": {
+        "16": 1
+      }
     },
     {
       "N": 500,
@@ -69,11 +73,16 @@
       "worst_credit_pool_size": 13,
       "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 0,
+      "worst_credit_split_mode": "new_middle_only",
       "worst_credit_split_pool_size": 13,
       "worst_credit_witness": [
         41,
         437
-      ]
+      ],
+      "worst_credit_witness_residue_counts": {
+        "12": 1,
+        "16": 1
+      }
     },
     {
       "N": 1000,
@@ -105,6 +114,7 @@
       "worst_credit_pool_size": 23,
       "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 23,
+      "worst_credit_split_mode": "reserve_only",
       "worst_credit_split_pool_size": 23,
       "worst_credit_witness": [
         515,
@@ -125,7 +135,11 @@
         868,
         893,
         993
-      ]
+      ],
+      "worst_credit_witness_residue_counts": {
+        "15": 1,
+        "18": 17
+      }
     },
     {
       "N": 2000,
@@ -157,10 +171,14 @@
       "worst_credit_pool_size": 48,
       "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 0,
+      "worst_credit_split_mode": "new_middle_only",
       "worst_credit_split_pool_size": 48,
       "worst_credit_witness": [
         1303
-      ]
+      ],
+      "worst_credit_witness_residue_counts": {
+        "3": 1
+      }
     },
     {
       "N": 5000,
@@ -192,10 +210,14 @@
       "worst_credit_pool_size": 123,
       "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 0,
+      "worst_credit_split_mode": "new_middle_only",
       "worst_credit_split_pool_size": 123,
       "worst_credit_witness": [
         1303
-      ]
+      ],
+      "worst_credit_witness_residue_counts": {
+        "3": 1
+      }
     },
     {
       "N": 10000,
@@ -227,10 +249,14 @@
       "worst_credit_pool_size": 249,
       "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 0,
+      "worst_credit_split_mode": "new_middle_only",
       "worst_credit_split_pool_size": 249,
       "worst_credit_witness": [
         4831
-      ]
+      ],
+      "worst_credit_witness_residue_counts": {
+        "6": 1
+      }
     },
     {
       "N": 20000,
@@ -262,10 +288,14 @@
       "worst_credit_pool_size": 500,
       "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 0,
+      "worst_credit_split_mode": "new_middle_only",
       "worst_credit_split_pool_size": 500,
       "worst_credit_witness": [
         6031
-      ]
+      ],
+      "worst_credit_witness_residue_counts": {
+        "6": 1
+      }
     }
   ],
   "exact_848_checks": [
@@ -679,7 +709,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T08:39:25.918327+00:00",
+  "generated_at": "2026-06-01T08:43:36.968068+00:00",
   "hall_checks": [
     {
       "N": 100,

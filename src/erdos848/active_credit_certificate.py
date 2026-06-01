@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import Counter
 from dataclasses import asdict, dataclass
 
 from .core import BitsetGraph, squarefree_sieve
@@ -26,6 +27,8 @@ class ActiveCreditCertificate:
     capacity_obligation: str
     worst_credit_defect: int
     worst_credit_witness: list[int]
+    worst_credit_witness_residue_counts: dict[int, int]
+    worst_credit_split_mode: str
     worst_credit_opposite_size: int
     worst_credit_middle_size: int
     worst_credit_pool_size: int
@@ -99,6 +102,8 @@ def active_credit_certificate(
 
     worst_credit_defect = 10**18
     worst_credit_witness: list[int] = []
+    worst_credit_witness_residue_counts: dict[int, int] = {}
+    worst_credit_split_mode = "empty"
     worst_credit_opposite_size = 0
     worst_credit_middle_size = 0
     worst_credit_pool_size = 0
@@ -125,6 +130,8 @@ def active_credit_certificate(
     ) -> None:
         nonlocal worst_credit_defect
         nonlocal worst_credit_witness
+        nonlocal worst_credit_witness_residue_counts
+        nonlocal worst_credit_split_mode
         nonlocal worst_credit_opposite_size
         nonlocal worst_credit_middle_size
         nonlocal worst_credit_pool_size
@@ -162,6 +169,17 @@ def active_credit_certificate(
                 credit_vertices = [base[i] for i in range(len(base)) if (credit_pool >> i) & 1]
                 worst_credit_defect = defect
                 worst_credit_witness = [outside[i] for i in chosen]
+                worst_credit_witness_residue_counts = dict(
+                    sorted(Counter(b % 25 for b in worst_credit_witness).items())
+                )
+                if split_pool_size == 0:
+                    worst_credit_split_mode = "empty"
+                elif reserve.bit_count() == 0:
+                    worst_credit_split_mode = "new_middle_only"
+                elif new_middle.bit_count() == 0:
+                    worst_credit_split_mode = "reserve_only"
+                else:
+                    worst_credit_split_mode = "mixed"
                 worst_credit_opposite_size = opposite_size
                 worst_credit_middle_size = middle_size
                 worst_credit_pool_size = credit_pool_size
@@ -234,6 +252,8 @@ def active_credit_certificate(
         capacity_obligation="reserve_plus_new_middle",
         worst_credit_defect=worst_credit_defect,
         worst_credit_witness=worst_credit_witness,
+        worst_credit_witness_residue_counts=worst_credit_witness_residue_counts,
+        worst_credit_split_mode=worst_credit_split_mode,
         worst_credit_opposite_size=worst_credit_opposite_size,
         worst_credit_middle_size=worst_credit_middle_size,
         worst_credit_pool_size=worst_credit_pool_size,
