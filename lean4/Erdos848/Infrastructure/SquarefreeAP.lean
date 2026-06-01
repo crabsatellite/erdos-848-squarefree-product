@@ -1113,6 +1113,30 @@ structure ActiveStrictMiddleNewSelfTargetCreditCode
   target : ActiveStrictMiddleNewCreditCode N 7 B
   edge : ForbiddenSquarefreeEdge target.val b
 
+/--
+Live-route new-middle credit code whose current-source edge is recovered from
+the canonical strict-middle source decoder.
+-/
+structure ActiveStrictMiddleNewSelfCanonicalTargetCreditCode
+    (N : Nat) (B : Nat -> Prop) (b : Nat) where
+  target : ActiveStrictMiddleNewCreditCode N 7 B
+  sourceHit :
+    squarefreeNeighborSourceDecoder (StrictMiddlePart 7 B) target.val = b
+
+/-- A canonical-source target code supplies the previous self-target code. -/
+def ActiveStrictMiddleNewSelfCanonicalTargetCreditCode.toSelfTargetCreditCode
+    {N : Nat} {B : Nat -> Prop} {b : Nat}
+    (code : ActiveStrictMiddleNewSelfCanonicalTargetCreditCode N B b) :
+    ActiveStrictMiddleNewSelfTargetCreditCode N B b where
+  target := code.target
+  edge := by
+    have hNbr :
+        SquarefreeNeighborInCandidate N 7 (StrictMiddlePart 7 B)
+          code.target.val :=
+      code.target.property.left
+    have hSpec := squarefreeNeighborSourceDecoder_spec hNbr
+    simpa [code.sourceHit] using hSpec.right
+
 /-- A self-target code supplies the previous self-incremental witness code. -/
 def ActiveStrictMiddleNewSelfTargetCreditCode.toSelfIncrementalWitnessCreditCode
     {N : Nat} {B : Nat -> Prop} {b : Nat}
@@ -1479,6 +1503,41 @@ def ActiveStrictMiddleCreditSelfTargetSumCode
   Sum (ActiveStrictMiddleReserveAntiEighteenWitnessCreditCode
       N B mate oppositeDecoder)
     (ActiveStrictMiddleNewSelfTargetCreditCode N B b)
+
+/--
+Live-route credit target where the new-middle branch is an existing
+incremental target whose canonical strict-middle source is the current source.
+-/
+def ActiveStrictMiddleCreditSelfCanonicalTargetSumCode
+    (N : Nat) (B : Nat -> Prop) (mate : Nat -> Nat)
+    (oppositeDecoder : Nat -> Nat) (b : Nat) : Type :=
+  Sum (ActiveStrictMiddleReserveAntiEighteenWitnessCreditCode
+      N B mate oppositeDecoder)
+    (ActiveStrictMiddleNewSelfCanonicalTargetCreditCode N B b)
+
+/-- Forget proof data and keep the target value of a self-canonical-target sum. -/
+def ActiveStrictMiddleCreditSelfCanonicalTargetSumCode.value
+    {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {oppositeDecoder : Nat -> Nat} {b : Nat}
+    (code : ActiveStrictMiddleCreditSelfCanonicalTargetSumCode
+      N B mate oppositeDecoder b) : Nat :=
+  match code with
+  | Sum.inl reserve => reserve.neighbor.value
+  | Sum.inr newMiddle => newMiddle.target.val
+
+/-- Self-canonical-target sums supply self-target sums. -/
+def ActiveStrictMiddleCreditSelfCanonicalTargetSumCode.toSelfTargetSumCode
+    {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {oppositeDecoder : Nat -> Nat} {b : Nat}
+    (code : ActiveStrictMiddleCreditSelfCanonicalTargetSumCode
+      N B mate oppositeDecoder b) :
+    ActiveStrictMiddleCreditSelfTargetSumCode
+      N B mate oppositeDecoder b :=
+  match code with
+  | Sum.inl reserve =>
+      Sum.inl reserve
+  | Sum.inr newMiddle =>
+      Sum.inr newMiddle.toSelfTargetCreditCode
 
 /-- Forget proof data and keep the target value of a self-target sum. -/
 def ActiveStrictMiddleCreditSelfTargetSumCode.value
@@ -1885,6 +1944,42 @@ def DecodedActiveStrictMiddleCreditSelfTargetSumCode
       N B mate oppositeDecoder b //
     creditDecoder code.value = b }
 
+/--
+Decoded self-canonical-target sum code carrying a decoder proof back to its
+strict-middle source.
+-/
+def DecodedActiveStrictMiddleCreditSelfCanonicalTargetSumCode
+    (N : Nat) (B : Nat -> Prop) (mate : Nat -> Nat)
+    (oppositeDecoder : Nat -> Nat) (creditDecoder : Nat -> Nat)
+    (b : Nat) : Type :=
+  { code : ActiveStrictMiddleCreditSelfCanonicalTargetSumCode
+      N B mate oppositeDecoder b //
+    creditDecoder code.value = b }
+
+/-- Self-canonical-target decoded sums supply self-target decoded sums. -/
+def DecodedActiveStrictMiddleCreditSelfCanonicalTargetSumCode.toDecodedSelfTargetSumCode
+    {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {oppositeDecoder creditDecoder : Nat -> Nat} {b : Nat}
+    (code :
+      DecodedActiveStrictMiddleCreditSelfCanonicalTargetSumCode
+        N B mate oppositeDecoder creditDecoder b) :
+    DecodedActiveStrictMiddleCreditSelfTargetSumCode
+      N B mate oppositeDecoder creditDecoder b := by
+  refine ⟨ActiveStrictMiddleCreditSelfCanonicalTargetSumCode.toSelfTargetSumCode
+    code.val, ?_⟩
+  rcases code with ⟨codeVal, hdecode⟩
+  cases codeVal with
+  | inl reserve =>
+      simpa [ActiveStrictMiddleCreditSelfCanonicalTargetSumCode.value,
+        ActiveStrictMiddleCreditSelfCanonicalTargetSumCode.toSelfTargetSumCode,
+        ActiveStrictMiddleCreditSelfTargetSumCode.value] using hdecode
+  | inr newMiddle =>
+      simpa [ActiveStrictMiddleCreditSelfCanonicalTargetSumCode.value,
+        ActiveStrictMiddleCreditSelfCanonicalTargetSumCode.toSelfTargetSumCode,
+        ActiveStrictMiddleCreditSelfTargetSumCode.value,
+        ActiveStrictMiddleNewSelfCanonicalTargetCreditCode.toSelfTargetCreditCode] using
+        hdecode
+
 /-- Self-target decoded sums supply self-incremental decoded sums. -/
 def DecodedActiveStrictMiddleCreditSelfTargetSumCode.toDecodedSelfIncrementalWitnessSumCode
     {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
@@ -2271,6 +2366,38 @@ def ActiveStrictMiddleDecodedCreditSelfTargetSumMatching
         DecodedActiveStrictMiddleCreditSelfTargetSumCode
           N B mate oppositeDecoder creditDecoder b) =>
     True
+
+/--
+Live-route active strict-middle decoded matching where any new-middle branch is
+an existing incremental target whose canonical strict-middle source is the
+current source.
+-/
+def ActiveStrictMiddleDecodedCreditSelfCanonicalTargetSumMatching
+    (N : Nat) (B : Nat -> Prop)
+    (_decMid : DecidablePred (StrictMiddlePart 7 B))
+    (mate : Nat -> Nat) (oppositeDecoder : Nat -> Nat) : Prop :=
+  Exists fun creditDecoder : Nat -> Nat =>
+  Exists fun _credit :
+      (forall b : Nat, StrictMiddlePart 7 B b ->
+        DecodedActiveStrictMiddleCreditSelfCanonicalTargetSumCode
+          N B mate oppositeDecoder creditDecoder b) =>
+    True
+
+/-- Self-canonical-target matching supplies the previous self-target matching. -/
+theorem activeStrictMiddleDecodedCreditSelfTargetSumMatching_of_selfCanonicalTarget
+    {N : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart 7 B)}
+    {mate oppositeDecoder : Nat -> Nat}
+    (h :
+      ActiveStrictMiddleDecodedCreditSelfCanonicalTargetSumMatching
+        N B decMid mate oppositeDecoder) :
+    ActiveStrictMiddleDecodedCreditSelfTargetSumMatching
+      N B decMid mate oppositeDecoder := by
+  rcases h with ⟨creditDecoder, credit, _⟩
+  refine ⟨creditDecoder, ?_, trivial⟩
+  intro b hb
+  exact DecodedActiveStrictMiddleCreditSelfCanonicalTargetSumCode.toDecodedSelfTargetSumCode
+    (credit b hb)
 
 /-- Self-target matching supplies the previous self-incremental matching. -/
 theorem activeStrictMiddleDecodedCreditSelfIncrementalWitnessSumMatching_of_selfTarget
@@ -2897,6 +3024,25 @@ def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfT
         (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset) decoder)
 
 /--
+Decoded squarefree-boxed certificate whose new-middle branch uses an existing
+incremental target and identifies the current source by the canonical
+strict-middle source decoder.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCertificate :
+    Prop :=
+  forall N : Nat, Exists fun decoder : Nat -> Nat =>
+  Exists fun offset :
+      (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b decoder) =>
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B)),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleDecodedCreditSelfCanonicalTargetSumMatching N B decMid
+        (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset) decoder)
+
+/--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
 decoder certificate.
 -/
@@ -3493,6 +3639,18 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditS
   intro B decMid hB hClique hMid
   exact activeStrictMiddleDecodedCreditSelfIncrementalWitnessSumMatching_of_selfTarget
     (hCreditSelfTarget B decMid hB hClique hMid)
+
+/-- The self-canonical-target certificate supplies the previous self-target data. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCode_of_selfCanonicalTarget
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCertificate := by
+  intro N
+  rcases h N with ⟨decoder, offset, hCreditSelfCanonicalTarget⟩
+  refine ⟨decoder, offset, ?_⟩
+  intro B decMid hB hClique hMid
+  exact activeStrictMiddleDecodedCreditSelfTargetSumMatching_of_selfCanonicalTarget
+    (hCreditSelfCanonicalTarget B decMid hB hClique hMid)
 
 /-- The self-source credit certificate supplies the previous anti-`18 mod 25` data. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCode_of_self
@@ -4393,10 +4551,17 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 /--
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
 compression whose new-middle credit branch reuses the existing incremental
-target code and adds only the current-source edge.
+target code and identifies the current source by the canonical strict-middle
+source decoder.
 -/
-axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCertificate
+axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCertificate
+
+/-- Current self-target certificate derived from self-canonical-target data. -/
+theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCode_of_selfCanonicalTarget
+    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCut
 
 /-- Current self-incremental certificate derived from self-target data. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut :

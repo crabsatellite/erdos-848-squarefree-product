@@ -18,6 +18,7 @@ the source of truth and use this file only as a durable round index.
 | R038 | Re-anchored the endpoint surface to literal #848 (`7 mod 25` sharpness and exact `candidateCount 7` bound) and replaced the new-middle decoder anti-`18 mod 25` obligation by direct freshness from every opposite source; the only project mathematical cut is now `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut`. |
 | R039 | Replaced pointwise new-middle freshness by the exact non-opposite-neighbor side of `IncrementalStrictMiddleNeighbor`; the only project mathematical cut is now `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut`. |
 | R040 | Reused the existing `ActiveStrictMiddleNewCreditCode` in the new-middle branch and kept only the current-source edge as extra self data; the only project mathematical cut is now `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCut`. |
+| R041 | Replaced the explicit new-middle current-source edge field by a canonical strict-middle source-decoder hit; Lean now derives the self-target edge from `squarefreeNeighborSourceDecoder_spec`, and the only project mathematical cut is now `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCut`. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
