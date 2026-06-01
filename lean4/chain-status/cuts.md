@@ -7,6 +7,7 @@ open by design; non-whitelisted cuts are I1 hard-failures.
 | axiom | file | status |
 |-------|------|--------|
 | `Classical.choice` | `Init/Prelude.lean` | OPEN (whitelisted) |
-| `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut` | `Erdos848/Infrastructure/SquarefreeAP.lean` | OPEN (whitelisted) |
+| `Erdos848.activeStrictMiddleIncrementalCapacityCut` | `Erdos848/Infrastructure/SquarefreeAP.lean` | OPEN (whitelisted) |
+| `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCut` | `Erdos848/Infrastructure/SquarefreeAP.lean` | OPEN (whitelisted) |
 | `Quot.sound` | `Init/Core.lean` | OPEN (whitelisted) |
 | `propext` | `Init/Core.lean` | OPEN (whitelisted) |

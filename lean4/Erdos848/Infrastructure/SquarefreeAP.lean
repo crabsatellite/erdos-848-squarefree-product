@@ -9345,6 +9345,12 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSele
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalReserveDominance N
       (OppositeFiniteOffsetListSelector codes)
 
+/-- Gap-indexed finite list-selector matching certificate, separated from middle capacity. -/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCertificate :
+    Prop :=
+  forall N : Nat, Exists fun codes : List OppositeFiniteOffsetCode =>
+    OppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching N codes
+
 /--
 Source-index split certificate with the code-independent middle-region
 incremental capacity separated from the finite list-selector matching.
@@ -9352,8 +9358,7 @@ incremental capacity separated from the finite list-selector matching.
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditIncrementalCapacityCertificate :
     Prop :=
   ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7 /\
-  forall N : Nat, Exists fun codes : List OppositeFiniteOffsetCode =>
-    OppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching N codes
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCertificate
 
 /--
 Source-index split certificate with a total scalar reserve lower-bound witness
@@ -16552,6 +16557,17 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
 
 /--
 Code-independent incremental middle capacity plus the gap-indexed list
+matching supplies the current split incremental-capacity certificate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacity_of_activeStrictMiddleIncrementalCapacity_and_matching
+    (hInc : ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7)
+    (hMatching :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCertificate := by
+  exact And.intro hInc hMatching
+
+/--
+Code-independent incremental middle capacity plus the gap-indexed list
 matching supplies the current total reserve-dominance certificate.
 -/
 theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominance_of_incrementalCapacity
@@ -18040,14 +18056,24 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
   simpa [APHallExpansionForOutsideSet, Nbr] using hfinal
 
 /--
-Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
-compression whose open offset side is a gap-indexed finite list-selector code
-certificate and whose active-credit side is the code-independent incremental
-middle-capacity certificate.  Lean combines these two pieces into total reserve
-dominance before deriving the endpoint Hall expansion.
+Open analytic cuts for decoded squarefree-boxed `18 mod 25` finite-offset
+middle compression: the active-credit side is the code-independent incremental
+middle-capacity certificate, and the offset side is a gap-indexed finite
+list-selector code certificate.  Lean combines these two pieces into total
+reserve dominance before deriving the endpoint Hall expansion.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCertificate
+axiom activeStrictMiddleIncrementalCapacityCut :
+  ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7
+
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCertificate
+
+/-- Current split incremental-capacity certificate from the two active cuts. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacity_of_activeStrictMiddleIncrementalCapacity_and_matching
+    activeStrictMiddleIncrementalCapacityCut
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCut
 
 /-- Current decoded squarefree-boxed certificate from incremental-capacity list-selector data. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
@@ -18120,8 +18146,8 @@ theorem incrementalPartitionedSquarefreeAPCapacityCut :
   incrementalPartitionedSquarefreeAPCapacity_of_partitionedCapacity
     partitionedSquarefreeAPCapacityCut
 
-/-- Current active strict-middle surplus derived from direct union capacity. -/
-theorem activeStrictMiddleIncrementalCapacityCut :
+/-- Active strict-middle surplus derived from direct union capacity. -/
+theorem activeStrictMiddleIncrementalCapacity_of_partitionedCapacityCut :
   ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7 := by
   intro N B decOpp decMid decOppNbr decNewMid hB hClique _hMid
   exact incrementalPartitionedSquarefreeAPCapacityCut
