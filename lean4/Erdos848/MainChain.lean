@@ -16,7 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -77,12 +77,12 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the live certificate is split into a source-index valid-matching package and strict-middle source-index-mate active credit capacity. The valid-matching package combines target-valid data with source-index shift injectivity; target-valid bundles non-underflow, shift-target upper bound, and target-value squarefree edge data. Lean derives target-value coherence from non-underflow, derives the original squarefree edge from the target-value edge, transfers source-index-mate active capacity to the old typed finite-offset mate, derives target upper-bound data from the shift-target bound `t <= (N-7)/25`, derives full target boxedness because `25*t+7` is automatically positive, induces the total typed mate by `CandidateClassIndex`, derives target-index injectivity from explicit source-index shifts, derives target-value injectivity, packages squarefree-boxed codes, constructs the decoder, transfers active credit capacity to the decoded boxed mate, then unpacks Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band; Lean now derives the split reserve/new-middle and selector reserve-dominance surfaces from the live selector active-credit capacity cut."
+        "Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the live certificate is now typed-mate uniform direct credit data. It supplies typed target-neighbor maps, target-value injectivity, and for every compatible strict-middle clique a self-canonical injective credit function into reserve or new-middle targets. Lean packages typed offsets into squarefree-boxed decoded codes, derives active-credit capacity, split reserve/new-middle, selector reserve-dominance, target upper-bound data, target-value injectivity, the decoder, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
-        "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut",
+        "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex",
         "Erdos848.globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex",
         "Erdos848.globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid_of_validMatching",
@@ -567,6 +567,7 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCertificate",
         "Erdos848.activeStrictMiddleCreditCapacity_mono_mate",
         "Erdos848.activeStrictMiddleCreditTarget_mono_mate",
+        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateUniformSelfCanonicalTargetDirect",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_typedMateUniformSelfCanonicalTargetDirect",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate",
         "Erdos848.activeStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching_congr_mate",
@@ -1010,10 +1011,10 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Prove the remaining source-index split certificate: `GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching` plus direct selector active-credit capacity for the induced source-index mate on every compatible outside clique.",
+        "Prove the remaining typed-mate direct certificate: target-neighbor data, target-value injectivity, and self-canonical injective credit data for every compatible strict-middle clique.",
         "Use Lean to assemble the split certificate, induce the total typed mate through `CandidateClassIndex`, convert source-index shift injectivity to target-index injectivity, convert target-index injectivity to target-value injectivity, transfer typed-mate active credit capacity to the boxed decoded mate, package typed offsets into squarefree-boxed codes, build decoded offset data from target injectivity, then unpack Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut`."
     },
     {
       id := "residue-certificate"
@@ -1101,7 +1102,7 @@ def config : ChainAudit.ProjectConfig := {
       keywords := [
         "SquarefreeAP",
         "squarefreeAPHall",
-        "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut",
+        "finiteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut",
         "globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex",
         "globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex",
         "globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid_of_validMatching",
@@ -1586,6 +1587,7 @@ def config : ChainAudit.ProjectConfig := {
         "GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCertificate",
         "activeStrictMiddleCreditCapacity_mono_mate",
         "activeStrictMiddleCreditTarget_mono_mate",
+        "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateUniformSelfCanonicalTargetDirect",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_typedMateUniformSelfCanonicalTargetDirect",
         "GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate",
         "activeStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching_congr_mate",

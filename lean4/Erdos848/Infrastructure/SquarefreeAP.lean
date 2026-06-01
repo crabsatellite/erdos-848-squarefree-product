@@ -12619,6 +12619,19 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_cre
   exact activeStrictMiddleCreditCapacity_of_creditMatching hB
     (hCredit B decMid hB hClique hMid)
 
+/--
+Typed-mate uniform direct credit codes supply the decoded squarefree-boxed
+capacity certificate: Lean packages the typed offsets, constructs the decoder,
+and converts the explicit credit matching to the count-level capacity.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateUniformSelfCanonicalTargetDirect
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_credit
+    (globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_typedMateUniformSelfCanonicalTargetDirect
+      h)
+
 private theorem familySize_eq_zero_of_empty
     (N : Nat) (P : Nat -> Prop) (decP : DecidablePred P)
     (hEmpty : forall a : Nat, Not (P a)) :
@@ -17309,22 +17322,21 @@ between typed finite-offset values and source-index targets.  The target-index
 map is certified by local six-window no-collision, while target boxedness is
 certified only on the final bandwidth-three boundary.  Lean derives the
 non-boundary target bounds, global injectivity, target-value injectivity,
-packages the squarefree-boxed codes, and constructs the decoder.  The
-strict-middle side is now the direct source-index selector active-credit
-capacity inequality for the simple typed mate.  Lean derives the split
-reserve/new-middle form and the reserve-dominance surface; finite list
-selectors, prefix witnesses, scalar lower bounds, seed keys, and
-indexed-opposite layers are retained as proved bridge nodes below this stronger
-capacity obligation.
+packages the squarefree-boxed codes, and constructs the decoder.  The live
+surface is now typed-mate uniform direct credit data: target-value injectivity
+plus, for every compatible strict-middle clique, a self-canonical injective
+credit function into reserve or new-middle targets.  Lean packages the typed
+offsets as decoded boxed codes and derives the count-level active-credit
+capacity, split reserve/new-middle, and reserve-dominance surfaces below it.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditCapacityCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate
 
-/-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
+/-- Current decoded squarefree-boxed certificate with explicit credit matching transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexSelectorCapacity
-    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateUniformSelfCanonicalTargetDirect
+    finiteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
 theorem finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :
