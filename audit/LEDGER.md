@@ -83,6 +83,7 @@ the source of truth and use this file only as a durable round index.
 | R103 | Re-keyed reserve witness indices by reserve prefix position, so the finite witness list is interpreted directly as `i ↦ k_i`. |
 | R104 | Re-keyed deficit seed values by reserve prefix position, so the finite seed-key list is interpreted directly as `i ↦ seedKey_i`. |
 | R105 | Tightened the active-credit deficit witness to exact prefix pairs `(seedValue_i, 25*i+7)`, removing the remaining freedom between a listed pair and its prefix-index seed/reserve slot. |
+| R106 | Added prefix-pair completeness: every reserve prefix index below the deficit length must appear in the exact deficit pair list. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.

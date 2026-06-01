@@ -10,6 +10,7 @@
       "observed_max_credit_deficit": 0,
       "observed_max_credit_deficit_allocation_exact_prefix_pairs": true,
       "observed_max_credit_deficit_allocation_pairs": [],
+      "observed_max_credit_deficit_allocation_prefix_pairs_complete": true,
       "observed_max_credit_deficit_allocation_prefix_witness_edge_valid": true,
       "observed_max_credit_deficit_allocation_reserve_prefix": true,
       "observed_max_credit_deficit_allocation_reserve_witness_indices": [],
@@ -48,6 +49,7 @@
       "worst_credit_deficit": 0,
       "worst_credit_deficit_allocation_exact_prefix_pairs": true,
       "worst_credit_deficit_allocation_pairs": [],
+      "worst_credit_deficit_allocation_prefix_pairs_complete": true,
       "worst_credit_deficit_allocation_prefix_witness_edge_valid": true,
       "worst_credit_deficit_allocation_reserve_prefix": true,
       "worst_credit_deficit_allocation_reserve_witness_indices": [],
@@ -102,6 +104,7 @@
           7
         ]
       ],
+      "observed_max_credit_deficit_allocation_prefix_pairs_complete": true,
       "observed_max_credit_deficit_allocation_prefix_witness_edge_valid": true,
       "observed_max_credit_deficit_allocation_reserve_prefix": true,
       "observed_max_credit_deficit_allocation_reserve_witness_indices": [
@@ -163,6 +166,7 @@
       "worst_credit_deficit": 0,
       "worst_credit_deficit_allocation_exact_prefix_pairs": true,
       "worst_credit_deficit_allocation_pairs": [],
+      "worst_credit_deficit_allocation_prefix_pairs_complete": true,
       "worst_credit_deficit_allocation_prefix_witness_edge_valid": true,
       "worst_credit_deficit_allocation_reserve_prefix": true,
       "worst_credit_deficit_allocation_reserve_witness_indices": [],
@@ -314,7 +318,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T11:47:21.237058+00:00",
+  "generated_at": "2026-06-01T11:57:46.231177+00:00",
   "hall_checks": [
     {
       "N": 100,
