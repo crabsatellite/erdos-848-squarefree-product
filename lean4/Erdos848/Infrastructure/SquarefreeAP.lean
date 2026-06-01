@@ -418,6 +418,40 @@ def OppositeFiniteOffsetSourceIndexTargetValid
     (OppositeFiniteOffsetSourceIndexTargetValue k code)
     (EighteenSourceFromIndex k)
 
+/-- A finite selector list covers every boxed `18 mod 25` source index. -/
+def OppositeFiniteOffsetListSelectorCoversBox
+    (N : Nat) (codes : List OppositeFiniteOffsetCode) : Prop :=
+  forall k : Nat, InBox N (EighteenSourceFromIndex k) -> k < codes.length
+
+/-- Local target-validity for the finite selector list on boxed source indices. -/
+def OppositeFiniteOffsetListSelectorTargetValid
+    (N : Nat) (codes : List OppositeFiniteOffsetCode) : Prop :=
+  forall k : Nat, k < codes.length ->
+    InBox N (EighteenSourceFromIndex k) ->
+    OppositeFiniteOffsetSourceIndexTargetValid N k
+      (OppositeFiniteOffsetListSelector codes k)
+
+/-- Local shift-injectivity for the finite selector list on boxed source indices. -/
+def OppositeFiniteOffsetListSelectorShiftInjective
+    (N : Nat) (codes : List OppositeFiniteOffsetCode) : Prop :=
+  forall k1 k2 : Nat,
+    k1 < codes.length ->
+    k2 < codes.length ->
+    InBox N (EighteenSourceFromIndex k1) ->
+    InBox N (EighteenSourceFromIndex k2) ->
+      OppositeFiniteOffsetSourceIndexShiftTarget k1
+          (OppositeFiniteOffsetListSelector codes k1) =
+        OppositeFiniteOffsetSourceIndexShiftTarget k2
+          (OppositeFiniteOffsetListSelector codes k2) ->
+      k1 = k2
+
+/-- List-local valid matching package for a finite selector certificate. -/
+def OppositeFiniteOffsetListSelectorValidMatching
+    (N : Nat) (codes : List OppositeFiniteOffsetCode) : Prop :=
+  OppositeFiniteOffsetListSelectorCoversBox N codes /\
+  OppositeFiniteOffsetListSelectorTargetValid N codes /\
+  OppositeFiniteOffsetListSelectorShiftInjective N codes
+
 /--
 Non-underflow is enough to identify the original finite-offset target value
 with the source-index target value.
@@ -6758,6 +6792,22 @@ def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching
   GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid N offsetIndex /\
   GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective N offsetIndex
 
+/-- A list-local selector package supplies the global source-index valid matching. -/
+theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching_of_listSelectorValidMatching
+    {N : Nat} {codes : List OppositeFiniteOffsetCode}
+    (h : OppositeFiniteOffsetListSelectorValidMatching N codes) :
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching N
+      (OppositeFiniteOffsetListSelector codes) := by
+  rcases h with ⟨hCoverage, hTarget, hInjective⟩
+  constructor
+  · intro k hBox
+    exact hTarget k (hCoverage k hBox) hBox
+  · intro k1 k2 hBox1 hBox2 hShift
+    exact hInjective k1 k2
+      (hCoverage k1 hBox1)
+      (hCoverage k2 hBox2)
+      hBox1 hBox2 hShift
+
 /--
 Source-index valid matching stated as a period-six template plus sparse local
 repairs.  The repair map carries the compact code windows emitted by the Python
@@ -8539,9 +8589,7 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelector
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorCreditDeficitReserveDominanceCertificate :
     Prop :=
   forall N : Nat, Exists fun codes : List OppositeFiniteOffsetCode =>
-    (forall k : Nat, InBox N (EighteenSourceFromIndex k) -> k < codes.length) /\
-    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching N
-      (OppositeFiniteOffsetListSelector codes) /\
+    OppositeFiniteOffsetListSelectorValidMatching N codes /\
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance N
       (OppositeFiniteOffsetListSelector codes)
 
@@ -14156,8 +14204,11 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
       GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorDeficitReserveDominanceCertificate) :
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSelectorDeficitReserveDominanceCertificate := by
   intro N
-  rcases h N with ⟨codes, _hCoverage, hValidMatching, hDominance⟩
-  exact ⟨OppositeFiniteOffsetListSelector codes, hValidMatching, hDominance⟩
+  rcases h N with ⟨codes, hLocalMatching, hDominance⟩
+  exact ⟨OppositeFiniteOffsetListSelector codes,
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching_of_listSelectorValidMatching
+      hLocalMatching,
+    hDominance⟩
 
 /-- Scalar reserve lower bound directly supplies source-index deficit capacity. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity_of_countUpperReserveLowerBoundAllocation

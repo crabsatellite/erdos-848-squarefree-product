@@ -127,6 +127,7 @@ the source of truth and use this file only as a durable round index.
 | R147 | Replaced the live reserve-lower-bound witness with the pure reserve-dominance inequality. |
 | R148 | Replaced the live window-repair existential with a direct source-index selector certificate. |
 | R149 | Replaced the live arbitrary selector function with a finite list-selector certificate. |
+| R150 | Replaced global selector validity in the live cut with list-local coverage, target-validity, and shift-injectivity. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
