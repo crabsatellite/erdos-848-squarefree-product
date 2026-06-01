@@ -71,6 +71,7 @@ the source of truth and use this file only as a durable round index.
 | R091 | Narrowed pair-list allocation to canonical reserve-prefix payments. The live Lean certificate now requires every reserve endpoint in the deficit pair list to be one of the first `pairs.length` candidate-prefix values `25*i+7`. |
 | R092 | Added max-deficit strict-middle shape diagnostics. The active-credit gate now records observed max-deficit middle vertices, their mod-169 distribution, and their arithmetic step gcd to expose the emerging `13^2` pattern. |
 | R093 | Proved the local `70 mod 169` middle obstruction in Lean: two such vertices force `13^2 | a*b+1`, so no squarefree coexistence edge can occur inside that residue class. |
+| R094 | Narrowed active-credit pair lists to seeded middle sources: each deficit payer is now either below `2500` or in the `70 mod 169` progression, with finite evidence gated against the same seed predicate. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.

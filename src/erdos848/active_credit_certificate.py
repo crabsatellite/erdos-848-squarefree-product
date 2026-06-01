@@ -8,6 +8,13 @@ from .core import BitsetGraph, squarefree_sieve
 from .opposite_matching_certificate import opposite_matching_certificate
 
 
+DEFICIT_SEED_LOW_CUTOFF = 2500
+
+
+def _is_deficit_seed(vertex: int) -> bool:
+    return vertex < DEFICIT_SEED_LOW_CUTOFF or vertex % 169 == 70
+
+
 @dataclass
 class ActiveCreditCertificate:
     N: int
@@ -41,6 +48,7 @@ class ActiveCreditCertificate:
     worst_credit_deficit_allocation_pairs: list[tuple[int, int]]
     worst_credit_deficit_allocation_valid: bool
     worst_credit_deficit_allocation_reserve_prefix: bool
+    worst_credit_deficit_allocation_seeded: bool
     worst_credit_required_reserve_slack: int
     worst_credit_reserve_slack_surplus: int
     worst_credit_split_pool_size: int
@@ -61,6 +69,7 @@ class ActiveCreditCertificate:
     observed_max_credit_deficit_allocation_pairs: list[tuple[int, int]]
     observed_max_credit_deficit_allocation_valid: bool
     observed_max_credit_deficit_allocation_reserve_prefix: bool
+    observed_max_credit_deficit_allocation_seeded: bool
     observed_deficit_pressure_complete: bool
 
 
@@ -141,6 +150,7 @@ def active_credit_certificate(
     worst_credit_deficit_allocation_pairs: list[tuple[int, int]] = []
     worst_credit_deficit_allocation_valid = True
     worst_credit_deficit_allocation_reserve_prefix = True
+    worst_credit_deficit_allocation_seeded = True
     worst_credit_required_reserve_slack = 0
     worst_credit_reserve_slack_surplus = 0
     worst_credit_split_pool_size = 0
@@ -161,6 +171,7 @@ def active_credit_certificate(
     observed_max_credit_deficit_allocation_pairs: list[tuple[int, int]] = []
     observed_max_credit_deficit_allocation_valid = True
     observed_max_credit_deficit_allocation_reserve_prefix = True
+    observed_max_credit_deficit_allocation_seeded = True
     search_nodes = 0
     search_max_depth = 0
     search_pruned_no_middle_tail = 0
@@ -192,6 +203,7 @@ def active_credit_certificate(
         nonlocal worst_credit_deficit_allocation_pairs
         nonlocal worst_credit_deficit_allocation_valid
         nonlocal worst_credit_deficit_allocation_reserve_prefix
+        nonlocal worst_credit_deficit_allocation_seeded
         nonlocal worst_credit_required_reserve_slack
         nonlocal worst_credit_reserve_slack_surplus
         nonlocal worst_credit_split_pool_size
@@ -212,6 +224,7 @@ def active_credit_certificate(
         nonlocal observed_max_credit_deficit_allocation_pairs
         nonlocal observed_max_credit_deficit_allocation_valid
         nonlocal observed_max_credit_deficit_allocation_reserve_prefix
+        nonlocal observed_max_credit_deficit_allocation_seeded
         nonlocal search_nodes
         nonlocal search_max_depth
         nonlocal search_pruned_no_middle_tail
@@ -279,6 +292,9 @@ def active_credit_certificate(
                     observed_max_credit_deficit_allocation_reserve_prefix = (
                         [pay for _middle, pay in allocation_pairs] == base[:credit_deficit]
                     )
+                    observed_max_credit_deficit_allocation_seeded = all(
+                        _is_deficit_seed(middle) for middle, _pay in allocation_pairs
+                    )
             if defect < worst_credit_defect:
                 credit_vertices = [base[i] for i in range(len(base)) if (credit_pool >> i) & 1]
                 reserve_vertices = [base[i] for i in range(len(base)) if (reserve >> i) & 1]
@@ -316,6 +332,9 @@ def active_credit_certificate(
                 )
                 worst_credit_deficit_allocation_reserve_prefix = (
                     [pay for _middle, pay in allocation_pairs] == base[:credit_deficit]
+                )
+                worst_credit_deficit_allocation_seeded = all(
+                    _is_deficit_seed(middle) for middle, _pay in allocation_pairs
                 )
                 worst_credit_required_reserve_slack = credit_deficit
                 worst_credit_reserve_slack_surplus = deficit_surplus
@@ -400,6 +419,7 @@ def active_credit_certificate(
         worst_credit_deficit_allocation_pairs=worst_credit_deficit_allocation_pairs,
         worst_credit_deficit_allocation_valid=worst_credit_deficit_allocation_valid,
         worst_credit_deficit_allocation_reserve_prefix=worst_credit_deficit_allocation_reserve_prefix,
+        worst_credit_deficit_allocation_seeded=worst_credit_deficit_allocation_seeded,
         worst_credit_required_reserve_slack=worst_credit_required_reserve_slack,
         worst_credit_reserve_slack_surplus=worst_credit_reserve_slack_surplus,
         worst_credit_split_pool_size=worst_credit_split_pool_size,
@@ -423,6 +443,9 @@ def active_credit_certificate(
         observed_max_credit_deficit_allocation_valid=observed_max_credit_deficit_allocation_valid,
         observed_max_credit_deficit_allocation_reserve_prefix=(
             observed_max_credit_deficit_allocation_reserve_prefix
+        ),
+        observed_max_credit_deficit_allocation_seeded=(
+            observed_max_credit_deficit_allocation_seeded
         ),
         observed_deficit_pressure_complete=exact_worst,
     )
