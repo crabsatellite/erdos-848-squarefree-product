@@ -17529,32 +17529,23 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 /--
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
 compression whose open offset side is a finite source-index code list over
-`25*k+18`, with length exactly the boxed source count and direct coherence
-between typed finite-offset values and source-index targets.  The target-index
-map is certified by local six-window no-collision, while target boxedness is
-certified only on the final bandwidth-three boundary.  Lean derives the
-non-boundary target bounds, global injectivity, target-value injectivity,
-packages the squarefree-boxed codes, and constructs the decoder.  The live
-surface is now a length-exact finite list selector with target coherence,
-boundary boxedness, gap-indexed local injectivity, and, for every compatible
-strict-middle clique, a self-canonical injective credit function into reserve
-or new-middle targets for the induced source-index mate.  Lean derives ordinary
-list matching, the source-index selector surface, typed target data,
-target-value injectivity, the typed-mate direct credit surface, count-level
-active-credit capacity, split reserve/new-middle, and reserve-dominance below
-it.
+`25*k+18`, with length exactly the boxed source count, target coherence,
+boundary boxedness, and gap-indexed local injectivity.  The live surface is now
+a generated-prefix seed allocation: count-additive consecutive seed keys name
+the strict-middle deficit, and the reserve payments are the target prefix
+`25*i+7` with indexed opposite witnesses and a source-index lower bound for the
+mate image.  Lean derives ordinary list matching, reserve dominance,
+active-credit capacity, target-value injectivity, packages the squarefree-boxed
+codes, and constructs the decoder.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate
 
-/-- Current decoded squarefree-boxed certificate with explicit credit matching transferred in Lean. -/
+/-- Current decoded squarefree-boxed certificate from generated-prefix seed allocation. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateUniformSelfCanonicalTargetDirect
-    (globalFiniteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCode_of_sourceIndexSelector
-      (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCode_of_listSelector
-        (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCode_of_lengthTargetCoherentBoundaryBoxGapListSelector
-          finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut)))
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCut
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
 theorem finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :
