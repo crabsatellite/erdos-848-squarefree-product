@@ -35,6 +35,7 @@ class OppositeMatchingCertificate:
     period6_matching_first_deviations: list[tuple[int, int, int]]
     period6_repair_window_count: int
     period6_repair_windows: list[tuple[int, int, int]]
+    period6_repair_code_windows: list[tuple[int, list[int]]]
 
 
 def opposite_matching_certificate(
@@ -169,12 +170,16 @@ def opposite_matching_certificate(
             if shift != period6_template[source_index % len(period6_template)]:
                 period6_matching_deviations.append((source_index, target_index, shift))
     period6_repair_windows: list[tuple[int, int, int]] = []
+    period6_repair_code_windows: list[tuple[int, list[int]]] = []
     for _key, group in groupby(
         enumerate(period6_matching_deviations),
         key=lambda item: item[1][0] - item[0],
     ):
         window = [entry for _index, entry in group]
         period6_repair_windows.append((window[0][0], window[-1][0], len(window)))
+        period6_repair_code_windows.append(
+            (window[0][0], [shift + 3 for _source_index, _target_index, shift in window])
+        )
     index_gaps = [abs(shift) for shift in index_shifts]
     value_offsets = [a - b for b, a in matching]
     value_gaps = [abs(a - b) for b, a in matching]
@@ -214,6 +219,7 @@ def opposite_matching_certificate(
         period6_matching_first_deviations=period6_matching_deviations[:32],
         period6_repair_window_count=len(period6_repair_windows),
         period6_repair_windows=period6_repair_windows[:64],
+        period6_repair_code_windows=period6_repair_code_windows[:64],
     )
 
 

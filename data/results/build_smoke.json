@@ -158,7 +158,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T07:35:36.424320+00:00",
+  "generated_at": "2026-06-01T07:39:01.853472+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -404,6 +404,7 @@
       "perfect": true,
       "period6_matching_deviation_count": 0,
       "period6_matching_first_deviations": [],
+      "period6_repair_code_windows": [],
       "period6_repair_window_count": 0,
       "period6_repair_windows": [],
       "period6_template": [
@@ -596,6 +597,27 @@
           19,
           17,
           -2
+        ]
+      ],
+      "period6_repair_code_windows": [
+        [
+          14,
+          [
+            5
+          ]
+        ],
+        [
+          16,
+          [
+            0,
+            5
+          ]
+        ],
+        [
+          19,
+          [
+            1
+          ]
         ]
       ],
       "period6_repair_window_count": 3,
@@ -1018,6 +1040,7 @@
       "perfect": true,
       "period6_matching_deviation_count": 0,
       "period6_matching_first_deviations": [],
+      "period6_repair_code_windows": [],
       "period6_repair_window_count": 0,
       "period6_repair_windows": [],
       "period6_template": [
@@ -1443,6 +1466,7 @@
       "perfect": true,
       "period6_matching_deviation_count": 0,
       "period6_matching_first_deviations": [],
+      "period6_repair_code_windows": [],
       "period6_repair_window_count": 0,
       "period6_repair_windows": [],
       "period6_template": [],
@@ -1585,6 +1609,7 @@
       "perfect": true,
       "period6_matching_deviation_count": 0,
       "period6_matching_first_deviations": [],
+      "period6_repair_code_windows": [],
       "period6_repair_window_count": 0,
       "period6_repair_windows": [],
       "period6_template": [],
@@ -1888,6 +1913,7 @@
       "perfect": true,
       "period6_matching_deviation_count": 0,
       "period6_matching_first_deviations": [],
+      "period6_repair_code_windows": [],
       "period6_repair_window_count": 0,
       "period6_repair_windows": [],
       "period6_template": [],

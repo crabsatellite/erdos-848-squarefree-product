@@ -464,7 +464,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T07:36:42.708976+00:00",
+  "generated_at": "2026-06-01T07:40:11.685686+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -1298,6 +1298,7 @@
       "perfect": true,
       "period6_matching_deviation_count": 0,
       "period6_matching_first_deviations": [],
+      "period6_repair_code_windows": [],
       "period6_repair_window_count": 0,
       "period6_repair_windows": [],
       "period6_template": [
@@ -1490,6 +1491,27 @@
           19,
           17,
           -2
+        ]
+      ],
+      "period6_repair_code_windows": [
+        [
+          14,
+          [
+            5
+          ]
+        ],
+        [
+          16,
+          [
+            0,
+            5
+          ]
+        ],
+        [
+          19,
+          [
+            1
+          ]
         ]
       ],
       "period6_repair_window_count": 3,
@@ -1912,6 +1934,7 @@
       "perfect": true,
       "period6_matching_deviation_count": 0,
       "period6_matching_first_deviations": [],
+      "period6_repair_code_windows": [],
       "period6_repair_window_count": 0,
       "period6_repair_windows": [],
       "period6_template": [
@@ -2689,6 +2712,41 @@
           79,
           77,
           -2
+        ]
+      ],
+      "period6_repair_code_windows": [
+        [
+          57,
+          [
+            5,
+            1
+          ]
+        ],
+        [
+          68,
+          [
+            3,
+            1
+          ]
+        ],
+        [
+          74,
+          [
+            5
+          ]
+        ],
+        [
+          76,
+          [
+            0,
+            5
+          ]
+        ],
+        [
+          79,
+          [
+            1
+          ]
         ]
       ],
       "period6_repair_window_count": 5,
@@ -4417,6 +4475,79 @@
           199,
           197,
           -2
+        ]
+      ],
+      "period6_repair_code_windows": [
+        [
+          57,
+          [
+            5,
+            1
+          ]
+        ],
+        [
+          68,
+          [
+            3,
+            1
+          ]
+        ],
+        [
+          106,
+          [
+            5
+          ]
+        ],
+        [
+          108,
+          [
+            2
+          ]
+        ],
+        [
+          117,
+          [
+            5,
+            1
+          ]
+        ],
+        [
+          128,
+          [
+            3,
+            1
+          ]
+        ],
+        [
+          140,
+          [
+            3,
+            1
+          ]
+        ],
+        [
+          177,
+          [
+            5,
+            1,
+            5,
+            1,
+            2,
+            3,
+            3
+          ]
+        ],
+        [
+          196,
+          [
+            6
+          ]
+        ],
+        [
+          199,
+          [
+            1
+          ]
         ]
       ],
       "period6_repair_window_count": 10,
@@ -6383,6 +6514,7 @@
       "perfect": true,
       "period6_matching_deviation_count": 0,
       "period6_matching_first_deviations": [],
+      "period6_repair_code_windows": [],
       "period6_repair_window_count": 0,
       "period6_repair_windows": [],
       "period6_template": [],
@@ -6525,6 +6657,7 @@
       "perfect": true,
       "period6_matching_deviation_count": 0,
       "period6_matching_first_deviations": [],
+      "period6_repair_code_windows": [],
       "period6_repair_window_count": 0,
       "period6_repair_windows": [],
       "period6_template": [],
@@ -6828,6 +6961,7 @@
       "perfect": true,
       "period6_matching_deviation_count": 0,
       "period6_matching_first_deviations": [],
+      "period6_repair_code_windows": [],
       "period6_repair_window_count": 0,
       "period6_repair_windows": [],
       "period6_template": [],
@@ -7391,6 +7525,7 @@
       "perfect": true,
       "period6_matching_deviation_count": 0,
       "period6_matching_first_deviations": [],
+      "period6_repair_code_windows": [],
       "period6_repair_window_count": 0,
       "period6_repair_windows": [],
       "period6_template": [],
@@ -8637,6 +8772,7 @@
       "perfect": true,
       "period6_matching_deviation_count": 0,
       "period6_matching_first_deviations": [],
+      "period6_repair_code_windows": [],
       "period6_repair_window_count": 0,
       "period6_repair_windows": [],
       "period6_template": [],

@@ -156,11 +156,23 @@ def assert_gate(payload: dict) -> None:
         assert item["period6_template"] == [0, 2, -1, -1, 1, -1], item
         assert item["period6_template_invalid_count"] <= item["period6_matching_deviation_count"], item
         assert item["period6_repair_window_count"] <= item["period6_matching_deviation_count"], item
+        assert item["period6_repair_window_count"] == len(item["period6_repair_code_windows"]), item
+        assert sum(len(codes) for _start, codes in item["period6_repair_code_windows"]) == item["period6_matching_deviation_count"], item
         code_by_source = dict(item["typed_source_index_codes"])
+        reconstructed_codes = {
+            source_index: item["period6_template"][source_index % len(item["period6_template"])] + 3
+            for source_index in range(item["opposite_size"])
+        }
+        for start, codes in item["period6_repair_code_windows"]:
+            assert codes, item
+            for offset, code in enumerate(codes):
+                assert 0 <= code <= 6, item
+                reconstructed_codes[start + offset] = code
         for source_index, target_index, shift in item["source_index_matching"]:
             assert target_index - source_index == shift, item
             assert -3 <= shift <= 3, item
             assert code_by_source[source_index] == shift + 3, item
+            assert reconstructed_codes[source_index] == shift + 3, item
     for item in payload["partitioned_hall_checks"]:
         assert item["worst_opposite_defect"] >= 0, item
         assert item["worst_middle_defect"] >= 0, item
