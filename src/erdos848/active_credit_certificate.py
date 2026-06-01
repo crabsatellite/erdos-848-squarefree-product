@@ -72,6 +72,8 @@ class ActiveCreditCertificate:
     worst_credit_deficit_allocation_seed_keys_prefix_indexed: bool
     worst_credit_deficit_allocation_seed_keys_prefix_injective: bool
     worst_credit_deficit_allocation_seed_keys_strictly_increasing: bool
+    worst_credit_deficit_allocation_seed_key_start: int
+    worst_credit_deficit_allocation_seed_keys_consecutive: bool
     worst_credit_deficit_allocation_seed_strict_middle_valid: bool
     worst_credit_deficit_allocation_exact_prefix_pairs: bool
     worst_credit_deficit_allocation_prefix_pairs_complete: bool
@@ -118,6 +120,8 @@ class ActiveCreditCertificate:
     observed_max_credit_deficit_allocation_seed_keys_prefix_indexed: bool
     observed_max_credit_deficit_allocation_seed_keys_prefix_injective: bool
     observed_max_credit_deficit_allocation_seed_keys_strictly_increasing: bool
+    observed_max_credit_deficit_allocation_seed_key_start: int
+    observed_max_credit_deficit_allocation_seed_keys_consecutive: bool
     observed_max_credit_deficit_allocation_seed_strict_middle_valid: bool
     observed_max_credit_deficit_allocation_exact_prefix_pairs: bool
     observed_max_credit_deficit_allocation_prefix_pairs_complete: bool
@@ -224,6 +228,8 @@ def active_credit_certificate(
     worst_credit_deficit_allocation_seed_keys_prefix_indexed = True
     worst_credit_deficit_allocation_seed_keys_prefix_injective = True
     worst_credit_deficit_allocation_seed_keys_strictly_increasing = True
+    worst_credit_deficit_allocation_seed_key_start = 0
+    worst_credit_deficit_allocation_seed_keys_consecutive = True
     worst_credit_deficit_allocation_seed_strict_middle_valid = True
     worst_credit_deficit_allocation_exact_prefix_pairs = True
     worst_credit_deficit_allocation_prefix_pairs_complete = True
@@ -270,6 +276,8 @@ def active_credit_certificate(
     observed_max_credit_deficit_allocation_seed_keys_prefix_indexed = True
     observed_max_credit_deficit_allocation_seed_keys_prefix_injective = True
     observed_max_credit_deficit_allocation_seed_keys_strictly_increasing = True
+    observed_max_credit_deficit_allocation_seed_key_start = 0
+    observed_max_credit_deficit_allocation_seed_keys_consecutive = True
     observed_max_credit_deficit_allocation_seed_strict_middle_valid = True
     observed_max_credit_deficit_allocation_exact_prefix_pairs = True
     observed_max_credit_deficit_allocation_prefix_pairs_complete = True
@@ -620,6 +628,13 @@ def active_credit_certificate(
                     for j in range(i + 1, len(seed_keys))
                 )
 
+            def allocation_seed_key_start(seed_keys: list[int]) -> int:
+                return seed_keys[0] if seed_keys else 0
+
+            def allocation_seed_keys_consecutive(seed_keys: list[int]) -> bool:
+                start = allocation_seed_key_start(seed_keys)
+                return all(seed_key == start + i for i, seed_key in enumerate(seed_keys))
+
             def allocation_seed_strict_middle_valid(
                 allocation_pairs: list[tuple[int, int]],
                 seed_keys: list[int],
@@ -755,6 +770,16 @@ def active_credit_certificate(
                     )
                     observed_max_credit_deficit_allocation_seed_keys_strictly_increasing = (
                         allocation_seed_keys_strictly_increasing(
+                            observed_max_credit_deficit_allocation_seed_keys
+                        )
+                    )
+                    observed_max_credit_deficit_allocation_seed_key_start = (
+                        allocation_seed_key_start(
+                            observed_max_credit_deficit_allocation_seed_keys
+                        )
+                    )
+                    observed_max_credit_deficit_allocation_seed_keys_consecutive = (
+                        allocation_seed_keys_consecutive(
                             observed_max_credit_deficit_allocation_seed_keys
                         )
                     )
@@ -904,6 +929,14 @@ def active_credit_certificate(
                 )
                 worst_credit_deficit_allocation_seed_keys_strictly_increasing = (
                     allocation_seed_keys_strictly_increasing(
+                        worst_credit_deficit_allocation_seed_keys
+                    )
+                )
+                worst_credit_deficit_allocation_seed_key_start = (
+                    allocation_seed_key_start(worst_credit_deficit_allocation_seed_keys)
+                )
+                worst_credit_deficit_allocation_seed_keys_consecutive = (
+                    allocation_seed_keys_consecutive(
                         worst_credit_deficit_allocation_seed_keys
                     )
                 )
@@ -1083,6 +1116,12 @@ def active_credit_certificate(
         worst_credit_deficit_allocation_seed_keys_strictly_increasing=(
             worst_credit_deficit_allocation_seed_keys_strictly_increasing
         ),
+        worst_credit_deficit_allocation_seed_key_start=(
+            worst_credit_deficit_allocation_seed_key_start
+        ),
+        worst_credit_deficit_allocation_seed_keys_consecutive=(
+            worst_credit_deficit_allocation_seed_keys_consecutive
+        ),
         worst_credit_deficit_allocation_seed_strict_middle_valid=(
             worst_credit_deficit_allocation_seed_strict_middle_valid
         ),
@@ -1184,6 +1223,12 @@ def active_credit_certificate(
         ),
         observed_max_credit_deficit_allocation_seed_keys_strictly_increasing=(
             observed_max_credit_deficit_allocation_seed_keys_strictly_increasing
+        ),
+        observed_max_credit_deficit_allocation_seed_key_start=(
+            observed_max_credit_deficit_allocation_seed_key_start
+        ),
+        observed_max_credit_deficit_allocation_seed_keys_consecutive=(
+            observed_max_credit_deficit_allocation_seed_keys_consecutive
         ),
         observed_max_credit_deficit_allocation_seed_strict_middle_valid=(
             observed_max_credit_deficit_allocation_seed_strict_middle_valid

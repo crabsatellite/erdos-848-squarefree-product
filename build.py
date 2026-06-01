@@ -304,6 +304,7 @@ def assert_gate(payload: dict) -> None:
         assert item[
             "worst_credit_deficit_allocation_seed_keys_strictly_increasing"
         ], item
+        assert item["worst_credit_deficit_allocation_seed_keys_consecutive"], item
         assert item[
             "worst_credit_deficit_allocation_seed_strict_middle_valid"
         ], item
@@ -425,6 +426,9 @@ def assert_gate(payload: dict) -> None:
             ], item
             assert item[
                 "observed_max_credit_deficit_allocation_seed_keys_strictly_increasing"
+            ], item
+            assert item[
+                "observed_max_credit_deficit_allocation_seed_keys_consecutive"
             ], item
             assert item[
                 "observed_max_credit_deficit_allocation_seed_strict_middle_valid"

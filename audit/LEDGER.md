@@ -115,6 +115,7 @@ the source of truth and use this file only as a durable round index.
 | R135 | Replaced list-level seed-key nodup in the live cut with prefix injectivity of the seed-key function. |
 | R136 | Replaced truncated count difference with additive count balance `StrictMiddle = NewMiddle + d`. |
 | R137 | Replaced seed-key prefix injectivity with strict monotonicity on the deficit prefix. |
+| R138 | Replaced arbitrary strict-monotone seed-key functions with consecutive seed keys `start+i`. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
