@@ -94,6 +94,7 @@ the source of truth and use this file only as a durable round index.
 | R114 | Removed the redundant count inequality from the live cut; Lean now derives `|Mid| <= |New| + deficitLength` from the exact deficit-length equation. |
 | R115 | Replaced seed-value nodup with seed-key nodup in the live cut; Lean proves the canonical seed-value map is injective and derives generated seed-value nodup. |
 | R116 | Replaced reserve-witness `OppositeOutsidePart` data with raw witness source membership; Lean derives the `18 mod 25` opposite-carrier fact from `EighteenSourceFromIndex`. |
+| R117 | Replaced the target no-image premise `OppositeOutsidePart 7 B (EighteenSourceFromIndex k)` with raw source membership `B (EighteenSourceFromIndex k)`. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
