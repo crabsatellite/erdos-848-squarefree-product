@@ -258,6 +258,7 @@ def assert_gate(payload: dict) -> None:
         assert item["worst_incremental_defect"] >= 0, item
         assert item["worst_incremental_with_middle_defect"] >= 0, item
     for item in payload["active_credit_checks"]:
+        assert item["capacity_obligation"] == "reserve_plus_new_middle", item
         assert item["search_order"] == "middle_first_then_opposite", item
         assert item["search_exhausted"], item
         assert item["outside_opposite_vertices"] + item["outside_middle_vertices"] == item["outside_vertices"], item
@@ -274,6 +275,11 @@ def assert_gate(payload: dict) -> None:
         else:
             assert item["search_pruned_nonnegative_bound"] > 0, item
         assert item["worst_credit_defect"] >= 0, item
+        assert item["worst_credit_reserve_new_disjoint"], item
+        assert item["worst_credit_split_pool_size"] == (
+            item["worst_credit_reserve_size"] + item["worst_credit_new_middle_size"]
+        ), item
+        assert item["worst_credit_split_pool_size"] == item["worst_credit_pool_size"], item
         assert item["worst_credit_pool_size"] >= item["worst_credit_middle_size"], item
         assert len(item["worst_credit_matching"]) == item["worst_credit_middle_size"], item
 
@@ -310,7 +316,7 @@ def main() -> int:
     )
     print(
         "  active credit capacity checks: "
-        f"{[(x['N'], x['exact_worst'], x['worst_credit_defect'], x['worst_credit_middle_size'], x['worst_credit_pool_size'], x['search_nodes'], x['search_pruned_no_middle_tail'], x['search_pruned_defect_bound'], x['search_pruned_nonnegative_bound']) for x in payload['active_credit_checks']]}"
+        f"{[(x['N'], x['exact_worst'], x['worst_credit_defect'], x['worst_credit_middle_size'], x['worst_credit_pool_size'], x['worst_credit_reserve_size'], x['worst_credit_new_middle_size'], x['search_nodes'], x['search_pruned_no_middle_tail'], x['search_pruned_defect_bound'], x['search_pruned_nonnegative_bound']) for x in payload['active_credit_checks']]}"
     )
     print("  wrote data/results/latest.json")
     return 0

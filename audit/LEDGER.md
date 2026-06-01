@@ -55,6 +55,7 @@ the source of truth and use this file only as a durable round index.
 | R075 | Raised the extended finite evidence frontier to `N=20000` for both banded source-index matching and active credit capacity-only verification. This keeps the two halves of the live source-index cut aligned at the same large diagnostic window. |
 | R076 | Added a sparse large-window band-matching diagnostic path. The extended build now checks the typed source-index repair certificate at `N=50000` without constructing an `N^2` squarefree sieve or storing the full matching in result JSON. |
 | R077 | Narrowed the live active-credit obligation to split capacity. Lean now proves that reserve-plus-new-middle capacity implies the old active-credit target capacity, so the remaining cut matches the capacity-only checker’s actual pool decomposition. |
+| R078 | Aligned the active-credit evidence schema with the new split-capacity cut. The Python gate now records and verifies reserve/new-middle disjointness, split-pool size, and equality with the credit pool used in the finite search. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.

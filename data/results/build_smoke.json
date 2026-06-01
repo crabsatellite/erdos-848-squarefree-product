@@ -3,6 +3,7 @@
     {
       "N": 100,
       "base_residue": 7,
+      "capacity_obligation": "reserve_plus_new_middle",
       "exact_worst": true,
       "index_bandwidth": 3,
       "opposite_residue": 18,
@@ -27,7 +28,9 @@
       "worst_credit_new_middle_size": 3,
       "worst_credit_opposite_size": 0,
       "worst_credit_pool_size": 3,
+      "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 0,
+      "worst_credit_split_pool_size": 3,
       "worst_credit_witness": [
         41
       ]
@@ -35,6 +38,7 @@
     {
       "N": 500,
       "base_residue": 7,
+      "capacity_obligation": "reserve_plus_new_middle",
       "exact_worst": true,
       "index_bandwidth": 3,
       "opposite_residue": 18,
@@ -63,7 +67,9 @@
       "worst_credit_new_middle_size": 13,
       "worst_credit_opposite_size": 0,
       "worst_credit_pool_size": 13,
+      "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 0,
+      "worst_credit_split_pool_size": 13,
       "worst_credit_witness": [
         41,
         437
@@ -175,7 +181,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T08:24:27.335594+00:00",
+  "generated_at": "2026-06-01T08:37:29.250406+00:00",
   "hall_checks": [
     {
       "N": 100,
