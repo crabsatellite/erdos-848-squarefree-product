@@ -118,6 +118,7 @@ the source of truth and use this file only as a durable round index.
 | R138 | Replaced arbitrary strict-monotone seed-key functions with consecutive seed keys `start+i`. |
 | R139 | Removed the explicit target-prefix box bound; Lean derives it from boundedness of the last consecutive seed value. |
 | R140 | Replaced indexed opposite-witness membership with source membership; Lean derives the opposite carrier from `25*k+18`. |
+| R141 | Replaced the live source-witness function with prefix-wise existential source witnesses; Lean chooses the indexed function internally. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
