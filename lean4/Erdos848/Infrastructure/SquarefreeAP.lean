@@ -332,6 +332,12 @@ def OppositeFiniteOffsetSourceIndexTargetValue
     (k : Nat) (code : OppositeFiniteOffsetCode) : Nat :=
   25 * OppositeFiniteOffsetSourceIndexShiftTarget k code + 7
 
+/-- Total mate induced by a source-index code assignment. -/
+def OppositeFiniteOffsetSourceIndexMate
+    (offsetIndex : Nat -> OppositeFiniteOffsetCode) (b : Nat) : Nat :=
+  OppositeFiniteOffsetSourceIndexTargetValue
+    (CandidateClassIndex b) (offsetIndex (CandidateClassIndex b))
+
 /-- The source index is large enough that the typed negative offset does not underflow. -/
 def OppositeFiniteOffsetSourceIndexCodeNonUnderflow
     (k : Nat) : OppositeFiniteOffsetCode -> Prop
@@ -3970,6 +3976,20 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity
     ActiveStrictMiddleCreditCapacity N 7 B decMid
       (fun b => OppositeFiniteOffsetCodeValue b (offset b)) decTarget
 
+/-- Strict-middle active credit capacity against the source-index target-value mate. -/
+def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall (B : Nat -> Prop)
+      (decMid : DecidablePred (StrictMiddlePart 7 B))
+      (decTarget : DecidablePred
+        (ActiveStrictMiddleCreditTarget N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex))),
+    BoundedOutsideSet N 7 B ->
+    NonSquarefreeClique B ->
+    (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+    ActiveStrictMiddleCreditCapacity N 7 B decMid
+      (OppositeFiniteOffsetSourceIndexMate offsetIndex) decTarget
+
 /--
 Split certificate for the current route: one typed opposite index matching and
 one strict-middle active credit capacity obligation.
@@ -3998,8 +4018,8 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCre
     Prop :=
   forall N : Nat, Exists fun offsetIndex : Nat -> OppositeFiniteOffsetCode =>
     GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching N offsetIndex /\
-    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity N
-      (fun b => offsetIndex (CandidateClassIndex b))
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity N
+      offsetIndex
 
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
@@ -4957,6 +4977,67 @@ theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent_of
       (hNonUnderflow k hkBox)
 
 /--
+Source-index mate active capacity supplies typed-mate active capacity because
+valid matching proves the source-index mate equals the old typed finite-offset
+mate on every opposite source.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity_of_sourceIndexMate
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hValidMatching :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching
+        N offsetIndex)
+    (hCapacitySource :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity
+        N offsetIndex) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity N
+      (fun b => offsetIndex (CandidateClassIndex b)) := by
+  intro B decMid decTarget hB hClique hMid
+  let sourceMate : Nat -> Nat := OppositeFiniteOffsetSourceIndexMate offsetIndex
+  let typedMate : Nat -> Nat :=
+    fun b => OppositeFiniteOffsetCodeValue b
+      (offsetIndex (CandidateClassIndex b))
+  let decTargetSource :
+      DecidablePred (ActiveStrictMiddleCreditTarget N 7 B sourceMate) :=
+    fun a => Classical.propDecidable
+      (ActiveStrictMiddleCreditTarget N 7 B sourceMate a)
+  apply activeStrictMiddleCreditCapacity_mono_mate
+    (mateOld := sourceMate)
+    (mateNew := typedMate)
+    (decTargetOld := decTargetSource)
+    (decTargetNew := decTarget)
+  · intro b hbOpp
+    have hb18 : CandidateCarrier 18 b :=
+      candidateCarrier_eighteen_of_oppositeCandidateCarrier_seven hbOpp.right
+    have hsource := eighteenSourceFromIndex_candidateClassIndex hb18
+    have hbBox : InBox N b := (hB b hbOpp.left).left
+    have hbIndexBox :
+        InBox N (EighteenSourceFromIndex (CandidateClassIndex b)) := by
+      simpa [hsource] using hbBox
+    have hTargetValid :
+        GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid
+          N offsetIndex :=
+      globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid_of_validMatching
+        hValidMatching
+    have hNonUnderflow :
+        OppositeFiniteOffsetSourceIndexCodeNonUnderflow
+          (CandidateClassIndex b) (offsetIndex (CandidateClassIndex b)) :=
+      (hTargetValid (CandidateClassIndex b) hbIndexBox).1
+    have hEq :=
+      oppositeFiniteOffsetCodeValue_eighteenSource_eq_sourceIndexTargetValue_of_nonUnderflow
+        hNonUnderflow
+    calc
+      sourceMate b =
+          OppositeFiniteOffsetSourceIndexTargetValue
+            (CandidateClassIndex b) (offsetIndex (CandidateClassIndex b)) := rfl
+      _ =
+          OppositeFiniteOffsetCodeValue
+            (EighteenSourceFromIndex (CandidateClassIndex b))
+            (offsetIndex (CandidateClassIndex b)) := hEq.symm
+      _ = typedMate b := by
+        simp [typedMate, hsource]
+  · exact hCapacitySource B decMid decTargetSource hB hClique hMid
+
+/--
 The source-indexed shift matching induces the previous total `b`-indexed
 shift matching by reading the offset at `CandidateClassIndex b`.
 -/
@@ -5006,7 +5087,7 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCredi
       GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate) :
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCertificate := by
   intro N
-  rcases h N with ⟨offsetIndex, hValidMatching, hCapacity⟩
+  rcases h N with ⟨offsetIndex, hValidMatching, hCapacitySource⟩
   have hTargetValid :
       GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid
         N offsetIndex :=
@@ -5056,6 +5137,11 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCredi
         N offsetIndex :=
     globalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge_of_targetValue
       hTargetCoherent hTargetValueSquarefreeEdge
+  have hCapacity :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity N
+        (fun b => offsetIndex (CandidateClassIndex b)) :=
+    globalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity_of_sourceIndexMate
+      hValidMatching hCapacitySource
   exact ⟨fun b => offsetIndex (CandidateClassIndex b),
     globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex
       ⟨⟨hTargetBox, hSquarefreeEdge⟩, hShiftInjective⟩,

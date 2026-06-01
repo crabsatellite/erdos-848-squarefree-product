@@ -75,7 +75,7 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the live certificate is split into a source-index valid-matching package and strict-middle typed-mate active credit capacity. The valid-matching package combines target-valid data with source-index shift injectivity; target-valid bundles non-underflow, shift-target upper bound, and target-value squarefree edge data. Lean derives target-value coherence from non-underflow, derives the original squarefree edge from the target-value edge, derives target upper-bound data from the shift-target bound `t <= (N-7)/25`, derives full target boxedness because `25*t+7` is automatically positive, induces the total typed mate by `CandidateClassIndex`, derives target-index injectivity from explicit source-index shifts, derives target-value injectivity, packages squarefree-boxed codes, constructs the decoder, transfers active credit capacity to the decoded boxed mate, then unpacks Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
+        "Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the live certificate is split into a source-index valid-matching package and strict-middle source-index-mate active credit capacity. The valid-matching package combines target-valid data with source-index shift injectivity; target-valid bundles non-underflow, shift-target upper bound, and target-value squarefree edge data. Lean derives target-value coherence from non-underflow, derives the original squarefree edge from the target-value edge, transfers source-index-mate active capacity to the old typed finite-offset mate, derives target upper-bound data from the shift-target bound `t <= (N-7)/25`, derives full target boxedness because `25*t+7` is automatically positive, induces the total typed mate by `CandidateClassIndex`, derives target-index injectivity from explicit source-index shifts, derives target-value injectivity, packages squarefree-boxed codes, constructs the decoder, transfers active credit capacity to the decoded boxed mate, then unpacks Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
@@ -85,6 +85,7 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex",
         "Erdos848.globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid_of_validMatching",
         "Erdos848.globalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective_of_validMatching",
+        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity_of_sourceIndexMate",
         "Erdos848.globalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow_of_targetValid",
         "Erdos848.globalOppositeFiniteOffsetEighteenTypedSourceIndexShiftTargetUpperBound_of_targetValid",
         "Erdos848.globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeEdge_of_targetValid",
@@ -95,8 +96,10 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox_of_indexBox",
         "Erdos848.oppositeFiniteOffsetCodeValue_eighteenSource_eq_sourceIndexTargetValue_of_nonUnderflow",
         "Erdos848.OppositeFiniteOffsetSourceIndexTargetValid",
+        "Erdos848.OppositeFiniteOffsetSourceIndexMate",
         "Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid",
         "Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching",
+        "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate",
         "Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow",
         "Erdos848.OppositeFiniteOffsetSourceIndexCodeNonUnderflow",
@@ -575,7 +578,7 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Prove the remaining source-index split certificate: `GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching` and `GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity` for the induced total typed mate on every compatible outside clique with nonempty strict middle.",
+        "Prove the remaining source-index split certificate: `GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching` and `GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity` for the induced source-index mate on every compatible outside clique with nonempty strict middle.",
         "Use Lean to assemble the split certificate, induce the total typed mate through `CandidateClassIndex`, convert source-index shift injectivity to target-index injectivity, convert target-index injectivity to target-value injectivity, transfer typed-mate active credit capacity to the boxed decoded mate, package typed offsets into squarefree-boxed codes, build decoded offset data from target injectivity, then unpack Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       ]
       successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut`."
@@ -666,6 +669,7 @@ def config : ChainAudit.ProjectConfig := {
         "globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex",
         "globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid_of_validMatching",
         "globalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective_of_validMatching",
+        "globalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity_of_sourceIndexMate",
         "globalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow_of_targetValid",
         "globalOppositeFiniteOffsetEighteenTypedSourceIndexShiftTargetUpperBound_of_targetValid",
         "globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeEdge_of_targetValid",
@@ -676,8 +680,10 @@ def config : ChainAudit.ProjectConfig := {
         "globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox_of_indexBox",
         "oppositeFiniteOffsetCodeValue_eighteenSource_eq_sourceIndexTargetValue_of_nonUnderflow",
         "OppositeFiniteOffsetSourceIndexTargetValid",
+        "OppositeFiniteOffsetSourceIndexMate",
         "GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid",
         "GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching",
+        "GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity",
         "GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate",
         "GlobalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow",
         "OppositeFiniteOffsetSourceIndexCodeNonUnderflow",
