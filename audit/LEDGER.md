@@ -125,6 +125,7 @@ the source of truth and use this file only as a durable round index.
 | R145 | Compressed prefix reserve membership to a scalar reserve lower-bound witness for the live deficit cut. |
 | R146 | Added direct reserve-lower-bound bridge theorems to source-index capacity and decoded squarefree-boxed compression. |
 | R147 | Replaced the live reserve-lower-bound witness with the pure reserve-dominance inequality. |
+| R148 | Replaced the live window-repair existential with a direct source-index selector certificate. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.

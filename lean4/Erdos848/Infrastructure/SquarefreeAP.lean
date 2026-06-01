@@ -7868,6 +7868,15 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity N
       (OppositeFiniteOffsetTemplateRepairCode repair)
 
+/-- Source-index split certificate stated directly by a selector function. -/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditCapacityCertificate :
+    Prop :=
+  forall N : Nat, Exists fun offsetIndex : Nat -> OppositeFiniteOffsetCode =>
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching N
+      offsetIndex /\
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity N
+      offsetIndex
+
 /-- Source-index split certificate with compact repair-window overrides. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditCapacityCertificate :
     Prop :=
@@ -8509,6 +8518,15 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance N
       (OppositeFiniteOffsetTemplateWindowRepairCode windows)
 
+/-- Source-index split certificate with direct selector and pure reserve dominance. -/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditDeficitReserveDominanceCertificate :
+    Prop :=
+  forall N : Nat, Exists fun offsetIndex : Nat -> OppositeFiniteOffsetCode =>
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching N
+      offsetIndex /\
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance N
+      offsetIndex
+
 /-- Current source-index split certificate, narrowed to template-window-repair form. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
@@ -8935,6 +8953,11 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCre
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitReserveDominanceCertificate :
     Prop :=
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitReserveDominanceCertificate
+
+/-- Current source-index split certificate as direct selector reserve dominance. -/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSelectorDeficitReserveDominanceCertificate :
+    Prop :=
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditDeficitReserveDominanceCertificate
 
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
@@ -11236,6 +11259,72 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCredi
         N offsetIndex := by
     simpa [offsetIndex, repair, OppositeFiniteOffsetTemplateWindowRepairCode]
       using hCapacityWindow
+  have hTargetValid :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid_of_validMatching
+      hValidMatching
+  have hShiftInjective :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective_of_validMatching
+      hValidMatching
+  have hNonUnderflow :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow_of_targetValid
+      hTargetValid
+  have hShiftTargetUpperBound :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftTargetUpperBound
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexShiftTargetUpperBound_of_targetValid
+      hTargetValid
+  have hTargetValueSquarefreeEdge :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeEdge
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeEdge_of_targetValid
+      hTargetValid
+  have hTargetCoherent :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent_of_nonUnderflow
+      hNonUnderflow
+  have hTargetUpperBound :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetUpperBound
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetUpperBound_of_shiftTargetUpperBound
+      hShiftTargetUpperBound
+  have hTargetIndexBox :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox_of_upperBound
+      hTargetUpperBound
+  have hTargetBox :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox_of_indexBox
+      hTargetCoherent hTargetIndexBox
+  have hSquarefreeEdge :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge_of_targetValue
+      hTargetCoherent hTargetValueSquarefreeEdge
+  have hCapacity :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity N
+        (fun b => offsetIndex (CandidateClassIndex b)) :=
+    globalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity_of_sourceIndexMate
+      hValidMatching hCapacitySource
+  exact ⟨fun b => offsetIndex (CandidateClassIndex b),
+    globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex
+      ⟨⟨hTargetBox, hSquarefreeEdge⟩, hShiftInjective⟩,
+    hCapacity⟩
+
+/-- A direct source-index selector certificate supplies the shift-index split certificate. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndexSelector
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditCapacityCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCertificate := by
+  intro N
+  rcases h N with ⟨offsetIndex, hValidMatching, hCapacitySource⟩
   have hTargetValid :
       GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid
         N offsetIndex :=
@@ -14008,6 +14097,36 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
       globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCountUpperReserveLowerBoundAllocation_of_reserveDominance
         h
 
+/-- Window-repair reserve dominance supplies a direct source-index selector certificate. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSelectorDeficitReserveDominance_of_windowRepair
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitReserveDominanceCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSelectorDeficitReserveDominanceCertificate := by
+  intro N
+  rcases h N with ⟨windows, hWindowMatching, hDominance⟩
+  let repair : Nat -> Option OppositeFiniteOffsetCode :=
+    OppositeFiniteOffsetRepairWindowsCode? windows
+  let offsetIndex : Nat -> OppositeFiniteOffsetCode :=
+    OppositeFiniteOffsetTemplateRepairCode repair
+  have hTemplateMatching :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateRepairValidMatching
+        N repair := by
+    simpa [repair] using
+      globalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateRepairValidMatching_of_windowRepair
+        hWindowMatching
+  have hValidMatching :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching
+        N offsetIndex := by
+    simpa [offsetIndex] using
+      globalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching_of_templateRepair
+        hTemplateMatching
+  have hDominanceSelector :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance
+        N offsetIndex := by
+    simpa [offsetIndex, repair, OppositeFiniteOffsetTemplateWindowRepairCode]
+      using hDominance
+  exact ⟨offsetIndex, hValidMatching, hDominanceSelector⟩
+
 /-- Scalar reserve lower bound directly supplies source-index deficit capacity. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity_of_countUpperReserveLowerBoundAllocation
     {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
@@ -14044,6 +14163,37 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
     using
       globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCapacity_of_countUpperReserveLowerBoundAllocation
         h
+
+/-- Direct selector reserve dominance supplies direct selector credit capacity. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditCapacity_of_reserveDominance
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditDeficitReserveDominanceCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditCapacityCertificate := by
+  intro N
+  rcases h N with ⟨offsetIndex, hValidMatching, hDominance⟩
+  have hLower :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCountUpperReserveLowerBoundAllocation
+        N offsetIndex :=
+    globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCountUpperReserveLowerBoundAllocation_of_reserveDominance
+      hDominance
+  have hDeficit :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity
+        N offsetIndex :=
+    globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity_of_countUpperReserveLowerBoundAllocation
+      hLower
+  have hSlack :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditSlackCapacity
+        N offsetIndex :=
+    globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditSlackCapacity_of_deficitCapacity
+      hDeficit
+  have hSplit :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditSplitCapacity
+        N offsetIndex :=
+    globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditSplitCapacity_of_slackCapacity
+      hSlack
+  exact ⟨offsetIndex, hValidMatching,
+    globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity_of_splitCapacity
+      hSplit⟩
 
 /-- Window-repair deficit-allocation certificate supplies the deficit-capacity certificate. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCapacity_of_deficitAllocation
@@ -14178,6 +14328,37 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_cou
   exact
     globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateCreditCapacity
       hTypedMate
+
+/-- Direct source-index selector capacity supplies decoded squarefree-boxed compression. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexSelectorCapacity
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditCapacityCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate := by
+  have hShiftIndex :=
+    globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndexSelector
+      h
+  have hSplitIndex :=
+    globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacity_of_shift
+      hShiftIndex
+  have hIndex :=
+    globalFiniteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacity_of_split
+      hSplitIndex
+  have hTypedMate :=
+    globalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacity_of_index
+      hIndex
+  exact
+    globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateCreditCapacity
+      hTypedMate
+
+/-- Direct source-index selector reserve dominance supplies decoded squarefree-boxed compression. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexSelectorReserveDominance
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSelectorDeficitReserveDominanceCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate := by
+  exact
+    globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexSelectorCapacity
+      (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditCapacity_of_reserveDominance
+        h)
 
 /-- Current reserve dominance directly supplies decoded squarefree-boxed compression. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_reserveDominance
@@ -14933,12 +15114,12 @@ squarefree-boxed codes, and constructs the decoder; the strict-middle side is
 the count-level active credit capacity for the simple typed mate.
 -/
 axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitReserveDominanceCertificate
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSelectorDeficitReserveDominanceCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_reserveDominance
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexSelectorReserveDominance
     finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
