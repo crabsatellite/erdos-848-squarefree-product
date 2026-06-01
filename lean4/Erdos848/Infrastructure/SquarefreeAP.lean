@@ -1105,6 +1105,12 @@ def ActiveStrictMiddleCreditTarget
       Not (OppositeMatchingImage r B mate a)) \/
     IncrementalStrictMiddleNeighbor N r B a
 
+/-- Opposite-neighbor reserve left after removing the opposite matching image. -/
+def ActiveStrictMiddleCreditReserve
+    (N r : Nat) (B : Nat -> Prop) (mate : Nat -> Nat) (a : Nat) : Prop :=
+  SquarefreeNeighborInCandidate N r (OppositeOutsidePart r B) a /\
+    Not (OppositeMatchingImage r B mate a)
+
 /-- Image of an active strict-middle credit function. -/
 def ActiveStrictMiddleCreditImage
     (r : Nat) (B : Nat -> Prop) (credit : Nat -> Nat) (a : Nat) : Prop :=
@@ -3084,6 +3090,22 @@ def ActiveStrictMiddleCreditCapacity
   @familySize N (StrictMiddlePart r B) decMid <=
     @familySize N (ActiveStrictMiddleCreditTarget N r B mate) decTarget
 
+/--
+Split form of active strict-middle credit capacity: the credit pool is counted
+as opposite reserve plus genuinely new strict-middle neighbors.
+-/
+def ActiveStrictMiddleCreditSplitCapacity
+    (N r : Nat) (B : Nat -> Prop)
+    (decMid : DecidablePred (StrictMiddlePart r B))
+    (mate : Nat -> Nat)
+    (decReserve :
+      DecidablePred (ActiveStrictMiddleCreditReserve N r B mate))
+    (decNewMid :
+      DecidablePred (IncrementalStrictMiddleNeighbor N r B)) : Prop :=
+  @familySize N (StrictMiddlePart r B) decMid <=
+    @familySize N (ActiveStrictMiddleCreditReserve N r B mate) decReserve +
+      @familySize N (IncrementalStrictMiddleNeighbor N r B) decNewMid
+
 /-- Active strict-middle credit-matching certificate relative to an opposite matching. -/
 def ActiveStrictMiddleCreditMatchingCertificateForResidue (r K : Nat) : Prop :=
   forall (N : Nat) (B : Nat -> Prop)
@@ -4086,6 +4108,25 @@ def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapaci
       (OppositeFiniteOffsetSourceIndexMate offsetIndex) decTarget
 
 /--
+Source-index active credit split capacity: the finite checker's reserve/new
+middle pool is the primitive obligation, and Lean later folds it back into the
+current count-level credit target.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditSplitCapacity
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall (B : Nat -> Prop)
+      (decMid : DecidablePred (StrictMiddlePart 7 B))
+      (decReserve : DecidablePred
+        (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex)))
+      (decNewMid : DecidablePred (IncrementalStrictMiddleNeighbor N 7 B)),
+    BoundedOutsideSet N 7 B ->
+    NonSquarefreeClique B ->
+    (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+    ActiveStrictMiddleCreditSplitCapacity N 7 B decMid
+      (OppositeFiniteOffsetSourceIndexMate offsetIndex) decReserve decNewMid
+
+/--
 Split certificate for the current route: one typed opposite index matching and
 one strict-middle active credit capacity obligation.
 -/
@@ -4127,10 +4168,27 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity N
       (OppositeFiniteOffsetTemplateWindowRepairCode windows)
 
+/-- Source-index split certificate with compact repair windows and split credit capacity. -/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditSplitCapacityCertificate :
+    Prop :=
+  forall N : Nat, Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateWindowRepairValidMatching
+      N windows /\
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditSplitCapacity N
+      (OppositeFiniteOffsetTemplateWindowRepairCode windows)
+
 /-- Current source-index split certificate, narrowed to template-window-repair form. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditCapacityCertificate
+
+/--
+Current source-index split certificate with active credit stated in reserve/new
+middle split form.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSplitCapacityCertificate :
+    Prop :=
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditSplitCapacityCertificate
 
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
@@ -5527,6 +5585,90 @@ private theorem familySize_add_le_of_disjoint_subsets
           · simp [countUpTo, hp, hq, hr]
             omega
 
+/-- Split reserve/new-middle active credit capacity implies target-union capacity. -/
+theorem activeStrictMiddleCreditCapacity_of_splitCapacity
+    {N r : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart r B)}
+    {mate : Nat -> Nat}
+    {decReserve :
+      DecidablePred (ActiveStrictMiddleCreditReserve N r B mate)}
+    {decNewMid :
+      DecidablePred (IncrementalStrictMiddleNeighbor N r B)}
+    {decTarget : DecidablePred (ActiveStrictMiddleCreditTarget N r B mate)}
+    (hSplit :
+      ActiveStrictMiddleCreditSplitCapacity N r B decMid mate
+        decReserve decNewMid) :
+    ActiveStrictMiddleCreditCapacity N r B decMid mate decTarget := by
+  unfold ActiveStrictMiddleCreditSplitCapacity at hSplit
+  unfold ActiveStrictMiddleCreditCapacity
+  have hPool :
+      @familySize N (ActiveStrictMiddleCreditReserve N r B mate) decReserve +
+          @familySize N (IncrementalStrictMiddleNeighbor N r B) decNewMid <=
+        @familySize N (ActiveStrictMiddleCreditTarget N r B mate) decTarget := by
+    apply familySize_add_le_of_disjoint_subsets
+      N
+      (ActiveStrictMiddleCreditReserve N r B mate)
+      (IncrementalStrictMiddleNeighbor N r B)
+      (ActiveStrictMiddleCreditTarget N r B mate)
+      decReserve decNewMid decTarget
+    · intro a ha
+      exact Or.inl ha
+    · intro a ha
+      exact Or.inr ha
+    · intro a hReserve hNew
+      exact hNew.right hReserve.left
+  omega
+
+/-- Source-index split credit capacity supplies the current source-index capacity surface. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity_of_splitCapacity
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hSplit :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditSplitCapacity
+        N offsetIndex) :
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity
+      N offsetIndex := by
+  intro B decMid decTarget hB hClique hMid
+  let mate : Nat -> Nat := OppositeFiniteOffsetSourceIndexMate offsetIndex
+  let Reserve : Nat -> Prop := ActiveStrictMiddleCreditReserve N 7 B mate
+  let NewMid : Nat -> Prop := IncrementalStrictMiddleNeighbor N 7 B
+  let decReserve : DecidablePred Reserve :=
+    fun a => Classical.propDecidable (Reserve a)
+  let decNewMid : DecidablePred NewMid :=
+    fun a => Classical.propDecidable (NewMid a)
+  have hLocal :
+      ActiveStrictMiddleCreditSplitCapacity N 7 B decMid mate
+        decReserve decNewMid := by
+    simpa [mate, Reserve, NewMid] using
+      hSplit B decMid decReserve decNewMid hB hClique hMid
+  simpa [mate] using
+    activeStrictMiddleCreditCapacity_of_splitCapacity
+      (N := N) (r := 7) (B := B) (decMid := decMid)
+      (mate := mate) (decReserve := decReserve)
+      (decNewMid := decNewMid) (decTarget := decTarget) hLocal
+
+/-- Window-repair split-capacity certificate supplies the current capacity certificate. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditCapacity_of_splitCapacity
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditSplitCapacityCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditCapacityCertificate := by
+  intro N
+  rcases h N with ⟨windows, hValid, hSplit⟩
+  exact ⟨windows, hValid,
+    globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity_of_splitCapacity
+      hSplit⟩
+
+/-- Split-form current source-index certificate supplies the capacity-form certificate. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacity_of_splitCapacity
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSplitCapacityCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate := by
+  simpa [
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSplitCapacityCertificate,
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate]
+    using
+      globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditCapacity_of_splitCapacity
+        h
+
 /-- A partitioned opposite-block/strict-middle certificate implies the endpoint AP/Hall certificate. -/
 theorem squarefreeAPHallCertificate_of_partitioned
     (h : PartitionedSquarefreeAPHallCertificate) :
@@ -6271,7 +6413,7 @@ squarefree-boxed codes, and constructs the decoder; the strict-middle side is
 the count-level active credit capacity for the simple typed mate.
 -/
 axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSplitCapacityCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
@@ -6280,8 +6422,9 @@ theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
     (globalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacity_of_index
       (globalFiniteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacity_of_split
         (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacity_of_shift
-          (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex
-            finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut))))
+      (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex
+          (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacity_of_splitCapacity
+            finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut)))))
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
 theorem finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :
