@@ -332,6 +332,28 @@ def OppositeFiniteOffsetSourceIndexTargetValue
     (k : Nat) (code : OppositeFiniteOffsetCode) : Nat :=
   25 * OppositeFiniteOffsetSourceIndexShiftTarget k code + 7
 
+/--
+Default period-six source-index template found by the middle-compression search.
+The values correspond to shifts `[0, 2, -1, -1, 1, -1]`.
+-/
+def OppositeFiniteOffsetPeriodSixTemplateCode
+    (k : Nat) : OppositeFiniteOffsetCode :=
+  match k % 6 with
+  | 0 => OppositeFiniteOffsetCode.neg11
+  | 1 => OppositeFiniteOffsetCode.pos39
+  | 2 => OppositeFiniteOffsetCode.neg36
+  | 3 => OppositeFiniteOffsetCode.neg36
+  | 4 => OppositeFiniteOffsetCode.pos14
+  | _ => OppositeFiniteOffsetCode.neg36
+
+/-- Apply a sparse source-index repair map over the period-six default template. -/
+def OppositeFiniteOffsetTemplateRepairCode
+    (repair : Nat -> Option OppositeFiniteOffsetCode)
+    (k : Nat) : OppositeFiniteOffsetCode :=
+  match repair k with
+  | some code => code
+  | none => OppositeFiniteOffsetPeriodSixTemplateCode k
+
 /-- Total mate induced by a source-index code assignment. -/
 def OppositeFiniteOffsetSourceIndexMate
     (offsetIndex : Nat -> OppositeFiniteOffsetCode) (b : Nat) : Nat :=
@@ -3954,6 +3976,28 @@ def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching
   GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective N offsetIndex
 
 /--
+Source-index valid matching stated as a period-six template plus sparse local
+repairs.  The repair map carries the compact code windows emitted by the Python
+certificate search.
+-/
+def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateRepairValidMatching
+    (N : Nat) (repair : Nat -> Option OppositeFiniteOffsetCode) : Prop :=
+  GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching N
+    (OppositeFiniteOffsetTemplateRepairCode repair)
+
+/-- Template-repair valid matching projects to the ordinary source-index package. -/
+theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching_of_templateRepair
+    {N : Nat} {repair : Nat -> Option OppositeFiniteOffsetCode}
+    (h :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateRepairValidMatching
+        N repair) :
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching N
+      (OppositeFiniteOffsetTemplateRepairCode repair) := by
+  simpa [
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateRepairValidMatching]
+    using h
+
+/--
 Opposite-side typed matching indexed only by the `18 mod 25` source index.
 The induced total mate uses `offsetIndex (CandidateClassIndex b)`.
 -/
@@ -4012,14 +4056,21 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCap
 
 /--
 Split certificate whose opposite block is indexed by `k` with source
-`25*k+18`; the existing typed mate is induced by `CandidateClassIndex`.
+`25*k+18`; the source-index code is represented by a period-six template plus
+local repair overrides.
 -/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateRepairCreditCapacityCertificate :
+    Prop :=
+  forall N : Nat, Exists fun repair : Nat -> Option OppositeFiniteOffsetCode =>
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateRepairValidMatching
+      N repair /\
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity N
+      (OppositeFiniteOffsetTemplateRepairCode repair)
+
+/-- Current source-index split certificate, narrowed to template-repair form. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
-  forall N : Nat, Exists fun offsetIndex : Nat -> OppositeFiniteOffsetCode =>
-    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching N offsetIndex /\
-    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity N
-      offsetIndex
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateRepairCreditCapacityCertificate
 
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
@@ -5087,7 +5138,19 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCredi
       GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate) :
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCertificate := by
   intro N
-  rcases h N with ⟨offsetIndex, hValidMatching, hCapacitySource⟩
+  rcases h N with ⟨repair, hTemplateMatching, hCapacityTemplate⟩
+  let offsetIndex : Nat -> OppositeFiniteOffsetCode :=
+    OppositeFiniteOffsetTemplateRepairCode repair
+  have hValidMatching :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching
+        N offsetIndex := by
+    simpa [offsetIndex] using
+      globalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching_of_templateRepair
+        hTemplateMatching
+  have hCapacitySource :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity
+        N offsetIndex := by
+    simpa [offsetIndex] using hCapacityTemplate
   have hTargetValid :
       GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid
         N offsetIndex :=
@@ -6132,12 +6195,11 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 /--
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
 compression whose open offset side is a source-indexed typed seven-offset map
-over `25*k+18`, with target boxedness, squarefree edge data, and explicit
-source-index shift injectivity.  Lean induces the total typed mate from
-`CandidateClassIndex`, derives target-index injectivity, target-value
-injectivity, packages the squarefree-boxed codes, and constructs the decoder;
-the strict-middle side is the count-level active credit capacity for the
-simple typed mate.
+over `25*k+18`, represented as a period-six template with local repair
+overrides.  Lean induces the total typed mate from `CandidateClassIndex`,
+derives target-index injectivity, target-value injectivity, packages the
+squarefree-boxed codes, and constructs the decoder; the strict-middle side is
+the count-level active credit capacity for the simple typed mate.
 -/
 axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut :
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate
