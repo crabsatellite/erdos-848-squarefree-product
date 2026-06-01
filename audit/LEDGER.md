@@ -120,6 +120,7 @@ the source of truth and use this file only as a durable round index.
 | R140 | Replaced indexed opposite-witness membership with source membership; Lean derives the opposite carrier from `25*k+18`. |
 | R141 | Replaced the live source-witness function with prefix-wise existential source witnesses; Lean chooses the indexed function internally. |
 | R142 | Weakened the live deficit count from additive equality to count upper bound and routed it directly to active-credit deficit capacity. |
+| R143 | Removed seed-key and strict-middle carrier data from the live deficit cut; Lean now uses only the scalar target-prefix bound for reserve boxing. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.

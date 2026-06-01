@@ -5178,6 +5178,36 @@ def ActiveStrictMiddleCreditDeficitConsecutiveSeedKeyCarrierFreeCountUpperFreeSe
           (CandidateClassIndex b) (offsetIndex (CandidateClassIndex b)))
 
 /--
+Seed-key-free deficit allocation: only the count upper bound, target-prefix
+box bound, prefix source witnesses, and mate lower bound remain live.
+-/
+def ActiveStrictMiddleCreditDeficitCountUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocation
+    (N : Nat) (B : Nat -> Prop)
+    (decMid : DecidablePred (StrictMiddlePart 7 B))
+    (offsetIndex : Nat -> OppositeFiniteOffsetCode)
+    (_decReserve :
+      DecidablePred
+        (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex)))
+    (decNewMid :
+      DecidablePred (IncrementalStrictMiddleNeighbor N 7 B)) : Prop :=
+  Exists fun deficitLength : Nat =>
+    @familySize N (StrictMiddlePart 7 B) decMid <=
+      @familySize N (IncrementalStrictMiddleNeighbor N 7 B) decNewMid +
+        deficitLength /\
+    25 * deficitLength <= N + 18 /\
+    (forall i : Nat, i < deficitLength ->
+      Exists fun sourceIndex : Nat =>
+        B (EighteenSourceFromIndex sourceIndex) /\
+          ForbiddenSquarefreeEdge (25 * i + 7)
+            (EighteenSourceFromIndex sourceIndex)) /\
+    (forall b : Nat,
+      OppositeOutsidePart 7 B b ->
+      deficitLength <=
+        OppositeFiniteOffsetSourceIndexShiftTarget
+          (CandidateClassIndex b) (offsetIndex (CandidateClassIndex b)))
+
+/--
 Direct-length generated prefix-pair allocation supplies canonical generated
 prefix-pair allocation.
 -/
@@ -7667,6 +7697,21 @@ def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDefici
     ActiveStrictMiddleCreditDeficitConsecutiveSeedKeyCarrierFreeCountUpperFreeSeedStrictMiddleExistsSourceWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
       N B decMid offsetIndex decReserve decNewMid
 
+/-- Source-index active credit allocation with no seed-key carrier field. -/
+def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCountUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocation
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall (B : Nat -> Prop)
+      (decMid : DecidablePred (StrictMiddlePart 7 B))
+      (decReserve : DecidablePred
+        (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex)))
+      (decNewMid : DecidablePred (IncrementalStrictMiddleNeighbor N 7 B)),
+    BoundedOutsideSet N 7 B ->
+    NonSquarefreeClique B ->
+    (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+    ActiveStrictMiddleCreditDeficitCountUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocation
+      N B decMid offsetIndex decReserve decNewMid
+
 /-- Source-index deficit capacity supplies source-index slack capacity. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditSlackCapacity_of_deficitCapacity
     {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
@@ -8329,6 +8374,15 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitConsecutiveSeedKeyCarrierFreeCountUpperFreeSeedStrictMiddleExistsSourceWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation N
       (OppositeFiniteOffsetTemplateWindowRepairCode windows)
 
+/-- Source-index split certificate with no seed-key carrier field. -/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCountUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocationCertificate :
+    Prop :=
+  forall N : Nat, Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateWindowRepairValidMatching
+      N windows /\
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCountUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocation N
+      (OppositeFiniteOffsetTemplateWindowRepairCode windows)
+
 /-- Current source-index split certificate, narrowed to template-window-repair form. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
@@ -8735,6 +8789,11 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCre
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitConsecutiveSeedKeyCarrierFreeCountUpperFreeSeedStrictMiddleExistsSourceWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate :
     Prop :=
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitConsecutiveSeedKeyCarrierFreeCountUpperFreeSeedStrictMiddleExistsSourceWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate
+
+/-- Current source-index split certificate with no seed-key carrier field. -/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCountUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocationCertificate :
+    Prop :=
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCountUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocationCertificate
 
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
@@ -13575,6 +13634,108 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
       globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCapacity_of_consecutiveSeedKeyCarrierFreeCountUpperFreeSeedStrictMiddleExistsSourceWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
         h
 
+/--
+Seed-key-free count-upper prefix reserve targets directly supply source-index
+deficit capacity.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity_of_countUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocation
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hAlloc :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCountUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocation
+        N offsetIndex) :
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity
+      N offsetIndex := by
+  intro B decMid decReserve decNewMid hB hClique hMid
+  rcases hAlloc B decMid decReserve decNewMid hB hClique hMid with
+    ⟨deficitLength, hCountUpper, hPrefixBound, hExistsSourceWitness,
+      hMateSourceIndexLower⟩
+  let reserveList : List Nat :=
+    (List.range deficitLength).map (fun i : Nat => 25 * i + 7)
+  have hRangeNodup : (List.range deficitLength).Nodup :=
+    List.nodup_range deficitLength
+  have hReserveListNodup : reserveList.Nodup := by
+    apply list_nodup_map_of_inj_on hRangeNodup
+    intro x y _hx _hy hxy
+    omega
+  have hReserveListBound :
+      reserveList.length <=
+        @familySize N (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex)) decReserve := by
+    refine
+      list_length_le_familySize_of_nodup_boxed N
+        (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex))
+        decReserve reserveList hReserveListNodup ?_ ?_
+    · intro a ha
+      rcases List.mem_map.mp ha with ⟨i, hiRange, rfl⟩
+      have hi : i < deficitLength := by
+        simpa [List.mem_range] using hiRange
+      unfold InBox
+      constructor <;> omega
+    · intro a ha
+      rcases List.mem_map.mp ha with ⟨i, hiRange, rfl⟩
+      have hi : i < deficitLength := by
+        simpa [List.mem_range] using hiRange
+      rcases hExistsSourceWitness i hi with ⟨sourceIndex, hbSource, hEdge⟩
+      constructor
+      · unfold SquarefreeNeighborInCandidate
+        refine ⟨?_, ?_, ?_⟩
+        · unfold InBox
+          constructor <;> omega
+        · unfold CandidateCarrier
+          omega
+        · exact
+            ⟨EighteenSourceFromIndex sourceIndex,
+              ⟨⟨hbSource,
+                  oppositeCandidateCarrier_seven_of_candidate_eighteen
+                    (candidateCarrier_eighteenSourceFromIndex sourceIndex)⟩,
+                hEdge⟩⟩
+      · intro hImage
+        rcases hImage with ⟨b, hbOpp, hMateEq⟩
+        have hLower := hMateSourceIndexLower b hbOpp
+        have hEq :
+            25 *
+                OppositeFiniteOffsetSourceIndexShiftTarget
+                  (CandidateClassIndex b) (offsetIndex (CandidateClassIndex b)) +
+              7 =
+            25 * i + 7 := by
+          simpa [OppositeFiniteOffsetSourceIndexMate,
+            OppositeFiniteOffsetSourceIndexTargetValue] using hMateEq
+        omega
+  have hReserveListLength : reserveList.length = deficitLength := by
+    simp [reserveList]
+  have hReserveLower :
+      deficitLength <=
+        @familySize N (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex)) decReserve := by
+    rw [← hReserveListLength]
+    exact hReserveListBound
+  unfold ActiveStrictMiddleCreditDeficitCapacity
+  omega
+
+/-- Window-repair seed-key-free certificate directly supplies deficit capacity. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCapacity_of_countUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocation
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCountUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocationCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCapacityCertificate := by
+  intro N
+  rcases h N with ⟨windows, hValid, hAlloc⟩
+  exact ⟨windows, hValid,
+    globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity_of_countUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocation
+      hAlloc⟩
+
+/-- Current seed-key-free certificate directly supplies deficit capacity. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacity_of_countUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocation
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCountUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocationCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacityCertificate := by
+  simpa [
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCountUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocationCertificate,
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacityCertificate]
+    using
+      globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCapacity_of_countUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocation
+        h
+
 /-- Window-repair deficit-allocation certificate supplies the deficit-capacity certificate. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCapacity_of_deficitAllocation
     (h :
@@ -14411,13 +14572,13 @@ squarefree-boxed codes, and constructs the decoder; the strict-middle side is
 the count-level active credit capacity for the simple typed mate.
 -/
 axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitConsecutiveSeedKeyCarrierFreeCountUpperFreeSeedStrictMiddleExistsSourceWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCountUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocationCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate := by
   have hDeficit :=
-    globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacity_of_consecutiveSeedKeyCarrierFreeCountUpperFreeSeedStrictMiddleExistsSourceWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+    globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacity_of_countUpperTargetPrefixBoundExistsSourceWitnessMateSourceIndexLowerBoundAllocation
       finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut
   have hSlack :=
     globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSlackCapacity_of_deficitCapacity
