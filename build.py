@@ -179,6 +179,7 @@ def assert_gate(payload: dict) -> None:
         assert len(item["source_index_matching"]) == item["matched_count"], item
         for source_index, target_index, shift in item["source_index_matching"]:
             assert target_index - source_index == shift, item
+            assert 25 * target_index + 7 == 25 * source_index + 18 + 25 * shift - 11, item
             assert 25 * target_index + 7 <= item["N"], item
     for item in payload["opposite_band_matching_checks"]:
         assert item["opposite_size"] == source_count(item["N"]), item
@@ -223,6 +224,7 @@ def assert_gate(payload: dict) -> None:
         for source_index, target_index, shift in item["source_index_matching"]:
             assert target_index - source_index == shift, item
             assert -3 <= shift <= 3, item
+            assert 25 * target_index + 7 == 25 * source_index + 18 + 25 * shift - 11, item
             assert 25 * target_index + 7 <= item["N"], item
             assert code_by_source[source_index] == shift + 3, item
             assert reconstructed_codes[source_index] == shift + 3, item
