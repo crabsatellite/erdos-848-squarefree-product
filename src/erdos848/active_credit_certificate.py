@@ -21,6 +21,14 @@ def _deficit_seed_key(vertex: int) -> int | None:
     return 2 + (vertex - 239) // 676
 
 
+def _deficit_seed_value(key: int) -> int:
+    if key == 0:
+        return 41
+    if key == 1:
+        return 515
+    return 239 + 676 * (key - 2)
+
+
 def _is_deficit_seed(vertex: int) -> bool:
     return _deficit_seed_key(vertex) is not None
 
@@ -61,6 +69,7 @@ class ActiveCreditCertificate:
     worst_credit_deficit_allocation_seeded: bool
     worst_credit_deficit_allocation_seed_keys: list[int]
     worst_credit_deficit_allocation_seed_keys_prefix_indexed: bool
+    worst_credit_deficit_allocation_exact_prefix_pairs: bool
     worst_credit_deficit_allocation_reserve_witnesses: list[int]
     worst_credit_deficit_allocation_reserve_witness_indices: list[int]
     worst_credit_deficit_allocation_reserve_witness_valid: bool
@@ -92,6 +101,7 @@ class ActiveCreditCertificate:
     observed_max_credit_deficit_allocation_seeded: bool
     observed_max_credit_deficit_allocation_seed_keys: list[int]
     observed_max_credit_deficit_allocation_seed_keys_prefix_indexed: bool
+    observed_max_credit_deficit_allocation_exact_prefix_pairs: bool
     observed_max_credit_deficit_allocation_reserve_witnesses: list[int]
     observed_max_credit_deficit_allocation_reserve_witness_indices: list[int]
     observed_max_credit_deficit_allocation_reserve_witness_valid: bool
@@ -183,6 +193,7 @@ def active_credit_certificate(
     worst_credit_deficit_allocation_seeded = True
     worst_credit_deficit_allocation_seed_keys: list[int] = []
     worst_credit_deficit_allocation_seed_keys_prefix_indexed = True
+    worst_credit_deficit_allocation_exact_prefix_pairs = True
     worst_credit_deficit_allocation_reserve_witnesses: list[int] = []
     worst_credit_deficit_allocation_reserve_witness_indices: list[int] = []
     worst_credit_deficit_allocation_reserve_witness_valid = True
@@ -214,6 +225,7 @@ def active_credit_certificate(
     observed_max_credit_deficit_allocation_seeded = True
     observed_max_credit_deficit_allocation_seed_keys: list[int] = []
     observed_max_credit_deficit_allocation_seed_keys_prefix_indexed = True
+    observed_max_credit_deficit_allocation_exact_prefix_pairs = True
     observed_max_credit_deficit_allocation_reserve_witnesses: list[int] = []
     observed_max_credit_deficit_allocation_reserve_witness_indices: list[int] = []
     observed_max_credit_deficit_allocation_reserve_witness_valid = True
@@ -256,6 +268,7 @@ def active_credit_certificate(
         nonlocal worst_credit_deficit_allocation_seeded
         nonlocal worst_credit_deficit_allocation_seed_keys
         nonlocal worst_credit_deficit_allocation_seed_keys_prefix_indexed
+        nonlocal worst_credit_deficit_allocation_exact_prefix_pairs
         nonlocal worst_credit_deficit_allocation_reserve_witnesses
         nonlocal worst_credit_deficit_allocation_reserve_witness_indices
         nonlocal worst_credit_deficit_allocation_reserve_witness_valid
@@ -287,6 +300,7 @@ def active_credit_certificate(
         nonlocal observed_max_credit_deficit_allocation_seeded
         nonlocal observed_max_credit_deficit_allocation_seed_keys
         nonlocal observed_max_credit_deficit_allocation_seed_keys_prefix_indexed
+        nonlocal observed_max_credit_deficit_allocation_exact_prefix_pairs
         nonlocal observed_max_credit_deficit_allocation_reserve_witnesses
         nonlocal observed_max_credit_deficit_allocation_reserve_witness_indices
         nonlocal observed_max_credit_deficit_allocation_reserve_witness_valid
@@ -444,6 +458,22 @@ def active_credit_certificate(
                         return False
                 return True
 
+            def allocation_exact_prefix_pairs(
+                allocation_pairs: list[tuple[int, int]],
+                seed_keys: list[int],
+            ) -> bool:
+                if len(allocation_pairs) != len(seed_keys):
+                    return False
+                for prefix_index, ((middle, pay), seed_key) in enumerate(
+                    zip(allocation_pairs, seed_keys)
+                ):
+                    if (middle, pay) != (
+                        _deficit_seed_value(seed_key),
+                        25 * prefix_index + base_residue,
+                    ):
+                        return False
+                return True
+
             if credit_deficit > 0:
                 observed_positive_deficit_nodes += 1
                 if credit_deficit > observed_max_credit_deficit:
@@ -493,6 +523,12 @@ def active_credit_certificate(
                     ]
                     observed_max_credit_deficit_allocation_seed_keys_prefix_indexed = (
                         allocation_seed_keys_prefix_indexed(
+                            allocation_pairs,
+                            observed_max_credit_deficit_allocation_seed_keys,
+                        )
+                    )
+                    observed_max_credit_deficit_allocation_exact_prefix_pairs = (
+                        allocation_exact_prefix_pairs(
                             allocation_pairs,
                             observed_max_credit_deficit_allocation_seed_keys,
                         )
@@ -570,6 +606,12 @@ def active_credit_certificate(
                 ]
                 worst_credit_deficit_allocation_seed_keys_prefix_indexed = (
                     allocation_seed_keys_prefix_indexed(
+                        allocation_pairs,
+                        worst_credit_deficit_allocation_seed_keys,
+                    )
+                )
+                worst_credit_deficit_allocation_exact_prefix_pairs = (
+                    allocation_exact_prefix_pairs(
                         allocation_pairs,
                         worst_credit_deficit_allocation_seed_keys,
                     )
@@ -686,6 +728,9 @@ def active_credit_certificate(
         worst_credit_deficit_allocation_seed_keys_prefix_indexed=(
             worst_credit_deficit_allocation_seed_keys_prefix_indexed
         ),
+        worst_credit_deficit_allocation_exact_prefix_pairs=(
+            worst_credit_deficit_allocation_exact_prefix_pairs
+        ),
         worst_credit_deficit_allocation_reserve_witnesses=(
             worst_credit_deficit_allocation_reserve_witnesses
         ),
@@ -742,6 +787,9 @@ def active_credit_certificate(
         ),
         observed_max_credit_deficit_allocation_seed_keys_prefix_indexed=(
             observed_max_credit_deficit_allocation_seed_keys_prefix_indexed
+        ),
+        observed_max_credit_deficit_allocation_exact_prefix_pairs=(
+            observed_max_credit_deficit_allocation_exact_prefix_pairs
         ),
         observed_max_credit_deficit_allocation_reserve_witnesses=(
             observed_max_credit_deficit_allocation_reserve_witnesses
