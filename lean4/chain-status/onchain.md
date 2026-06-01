@@ -5,7 +5,7 @@ Files whose declarations are transitively reached from `config.endpoints` (and a
 
 * on-chain: **5**  *  cut: **1**  *  total reached: **6**
 
-* closure constants: 2086  *  closure modules: 46
+* closure constants: 2179  *  closure modules: 47
 
 
 ## On-chain files
