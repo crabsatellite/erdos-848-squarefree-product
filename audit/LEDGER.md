@@ -41,6 +41,7 @@ the source of truth and use this file only as a durable round index.
 | R061 | Packed the three local target conditions into `OppositeFiniteOffsetSourceIndexTargetValid`: non-underflow, shift-target upper bound, and target-value squarefree edge. Lean projects the prior blocks from this single local certificate surface. |
 | R062 | Packed target-valid data and source-index shift injectivity into `GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching`. The Python evidence gate now also checks the finite band matchings against the Lean target-valid conditions. |
 | R063 | Replaced the active-capacity side of the live cut by source-index-mate active capacity. Lean uses valid matching to prove the source-index mate equals the old typed finite-offset mate on every opposite source, then transfers count-level capacity. |
+| R064 | Added finite-window period-6 template diagnostics for the source-index valid matching search. The infra now separates direct template invalid edges from extra matching deviations needed for injective repairs. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.

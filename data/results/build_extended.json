@@ -464,7 +464,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T07:29:59.520752+00:00",
+  "generated_at": "2026-06-01T07:34:02.012035+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -1296,6 +1296,18 @@
       "opposite_residue": 18,
       "opposite_size": 4,
       "perfect": true,
+      "period6_matching_deviation_count": 0,
+      "period6_matching_first_deviations": [],
+      "period6_template": [
+        0,
+        2,
+        -1,
+        -1,
+        1,
+        -1
+      ],
+      "period6_template_first_invalid": [],
+      "period6_template_invalid_count": 0,
       "source_index_matching": [
         [
           0,
@@ -1455,6 +1467,45 @@
       "opposite_residue": 18,
       "opposite_size": 20,
       "perfect": true,
+      "period6_matching_deviation_count": 4,
+      "period6_matching_first_deviations": [
+        [
+          14,
+          16,
+          2
+        ],
+        [
+          16,
+          13,
+          -3
+        ],
+        [
+          17,
+          19,
+          2
+        ],
+        [
+          19,
+          17,
+          -2
+        ]
+      ],
+      "period6_template": [
+        0,
+        2,
+        -1,
+        -1,
+        1,
+        -1
+      ],
+      "period6_template_first_invalid": [
+        [
+          19,
+          21,
+          2
+        ]
+      ],
+      "period6_template_invalid_count": 1,
       "source_index_matching": [
         [
           0,
@@ -1839,6 +1890,18 @@
       "opposite_residue": 18,
       "opposite_size": 40,
       "perfect": true,
+      "period6_matching_deviation_count": 0,
+      "period6_matching_first_deviations": [],
+      "period6_template": [
+        0,
+        2,
+        -1,
+        -1,
+        1,
+        -1
+      ],
+      "period6_template_first_invalid": [],
+      "period6_template_invalid_count": 0,
       "source_index_matching": [
         [
           0,
@@ -2563,6 +2626,75 @@
       "opposite_residue": 18,
       "opposite_size": 80,
       "perfect": true,
+      "period6_matching_deviation_count": 8,
+      "period6_matching_first_deviations": [
+        [
+          57,
+          59,
+          2
+        ],
+        [
+          58,
+          56,
+          -2
+        ],
+        [
+          68,
+          68,
+          0
+        ],
+        [
+          69,
+          67,
+          -2
+        ],
+        [
+          74,
+          76,
+          2
+        ],
+        [
+          76,
+          73,
+          -3
+        ],
+        [
+          77,
+          79,
+          2
+        ],
+        [
+          79,
+          77,
+          -2
+        ]
+      ],
+      "period6_template": [
+        0,
+        2,
+        -1,
+        -1,
+        1,
+        -1
+      ],
+      "period6_template_first_invalid": [
+        [
+          57,
+          56,
+          -1
+        ],
+        [
+          68,
+          67,
+          -1
+        ],
+        [
+          79,
+          81,
+          2
+        ]
+      ],
+      "period6_template_invalid_count": 3,
       "source_index_matching": [
         [
           0,
@@ -4129,6 +4261,170 @@
       "opposite_residue": 18,
       "opposite_size": 200,
       "perfect": true,
+      "period6_matching_deviation_count": 21,
+      "period6_matching_first_deviations": [
+        [
+          57,
+          59,
+          2
+        ],
+        [
+          58,
+          56,
+          -2
+        ],
+        [
+          68,
+          68,
+          0
+        ],
+        [
+          69,
+          67,
+          -2
+        ],
+        [
+          106,
+          108,
+          2
+        ],
+        [
+          108,
+          107,
+          -1
+        ],
+        [
+          117,
+          119,
+          2
+        ],
+        [
+          118,
+          116,
+          -2
+        ],
+        [
+          128,
+          128,
+          0
+        ],
+        [
+          129,
+          127,
+          -2
+        ],
+        [
+          140,
+          140,
+          0
+        ],
+        [
+          141,
+          139,
+          -2
+        ],
+        [
+          177,
+          179,
+          2
+        ],
+        [
+          178,
+          176,
+          -2
+        ],
+        [
+          179,
+          181,
+          2
+        ],
+        [
+          180,
+          178,
+          -2
+        ],
+        [
+          181,
+          180,
+          -1
+        ],
+        [
+          182,
+          182,
+          0
+        ],
+        [
+          183,
+          183,
+          0
+        ],
+        [
+          196,
+          199,
+          3
+        ],
+        [
+          199,
+          197,
+          -2
+        ]
+      ],
+      "period6_template": [
+        0,
+        2,
+        -1,
+        -1,
+        1,
+        -1
+      ],
+      "period6_template_first_invalid": [
+        [
+          57,
+          56,
+          -1
+        ],
+        [
+          68,
+          67,
+          -1
+        ],
+        [
+          106,
+          107,
+          1
+        ],
+        [
+          117,
+          116,
+          -1
+        ],
+        [
+          128,
+          127,
+          -1
+        ],
+        [
+          140,
+          139,
+          -1
+        ],
+        [
+          177,
+          176,
+          -1
+        ],
+        [
+          179,
+          178,
+          -1
+        ],
+        [
+          199,
+          201,
+          2
+        ]
+      ],
+      "period6_template_invalid_count": 9,
       "source_index_matching": [
         [
           0,
@@ -5982,6 +6278,11 @@
       "opposite_residue": 18,
       "opposite_size": 4,
       "perfect": true,
+      "period6_matching_deviation_count": 0,
+      "period6_matching_first_deviations": [],
+      "period6_template": [],
+      "period6_template_first_invalid": [],
+      "period6_template_invalid_count": 0,
       "source_index_matching": [
         [
           0,
@@ -6117,6 +6418,11 @@
       "opposite_residue": 18,
       "opposite_size": 20,
       "perfect": true,
+      "period6_matching_deviation_count": 0,
+      "period6_matching_first_deviations": [],
+      "period6_template": [],
+      "period6_template_first_invalid": [],
+      "period6_template_invalid_count": 0,
       "source_index_matching": [
         [
           0,
@@ -6413,6 +6719,11 @@
       "opposite_residue": 18,
       "opposite_size": 40,
       "perfect": true,
+      "period6_matching_deviation_count": 0,
+      "period6_matching_first_deviations": [],
+      "period6_template": [],
+      "period6_template_first_invalid": [],
+      "period6_template_invalid_count": 0,
       "source_index_matching": [
         [
           0,
@@ -6969,6 +7280,11 @@
       "opposite_residue": 18,
       "opposite_size": 80,
       "perfect": true,
+      "period6_matching_deviation_count": 0,
+      "period6_matching_first_deviations": [],
+      "period6_template": [],
+      "period6_template_first_invalid": [],
+      "period6_template_invalid_count": 0,
       "source_index_matching": [
         [
           0,
@@ -8208,6 +8524,11 @@
       "opposite_residue": 18,
       "opposite_size": 200,
       "perfect": true,
+      "period6_matching_deviation_count": 0,
+      "period6_matching_first_deviations": [],
+      "period6_template": [],
+      "period6_template_first_invalid": [],
+      "period6_template_invalid_count": 0,
       "source_index_matching": [
         [
           0,

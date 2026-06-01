@@ -27,6 +27,11 @@ class OppositeMatchingCertificate:
     typed_source_index_codes: list[tuple[int, int]]
     source_index_target_valid_count: int
     source_index_target_valid_failures: list[tuple[int, int, int, str]]
+    period6_template: list[int]
+    period6_template_invalid_count: int
+    period6_template_first_invalid: list[tuple[int, int, int]]
+    period6_matching_deviation_count: int
+    period6_matching_first_deviations: list[tuple[int, int, int]]
 
 
 def opposite_matching_certificate(
@@ -146,6 +151,20 @@ def opposite_matching_certificate(
                 source_index_target_valid_failures.append(
                     (source_index, target_index, shift, "target_value_squarefree_edge")
                 )
+    period6_template = [0, 2, -1, -1, 1, -1]
+    period6_template_invalid: list[tuple[int, int, int]] = []
+    period6_matching_deviations: list[tuple[int, int, int]] = []
+    if index_bandwidth == 3:
+        for source_index in range(len(opposite)):
+            shift = period6_template[source_index % len(period6_template)]
+            target_index = source_index + shift
+            source = 25 * source_index + opposite_residue
+            target = 25 * target_index + base_residue
+            if target_index < 0 or target > N or not sf[target * source + 1]:
+                period6_template_invalid.append((source_index, target_index, shift))
+        for source_index, target_index, shift in source_index_matching:
+            if shift != period6_template[source_index % len(period6_template)]:
+                period6_matching_deviations.append((source_index, target_index, shift))
     index_gaps = [abs(shift) for shift in index_shifts]
     value_offsets = [a - b for b, a in matching]
     value_gaps = [abs(a - b) for b, a in matching]
@@ -178,6 +197,11 @@ def opposite_matching_certificate(
         typed_source_index_codes=typed_source_index_codes,
         source_index_target_valid_count=matched - len(source_index_target_valid_failure_sources),
         source_index_target_valid_failures=source_index_target_valid_failures,
+        period6_template=period6_template if index_bandwidth == 3 else [],
+        period6_template_invalid_count=len(period6_template_invalid),
+        period6_template_first_invalid=period6_template_invalid[:32],
+        period6_matching_deviation_count=len(period6_matching_deviations),
+        period6_matching_first_deviations=period6_matching_deviations[:32],
     )
 
 
