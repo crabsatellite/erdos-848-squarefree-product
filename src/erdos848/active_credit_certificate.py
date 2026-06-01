@@ -88,6 +88,7 @@ class ActiveCreditCertificate:
     worst_credit_deficit_allocation_last_target_upper_bound_valid: bool
     worst_credit_deficit_allocation_prefix_witness_edge_valid: bool
     worst_credit_deficit_allocation_opposite_witness_valid: bool
+    worst_credit_deficit_allocation_opposite_witness_source_indexed: bool
     worst_credit_required_reserve_slack: int
     worst_credit_reserve_slack_surplus: int
     worst_credit_split_pool_size: int
@@ -130,6 +131,7 @@ class ActiveCreditCertificate:
     observed_max_credit_deficit_allocation_last_target_upper_bound_valid: bool
     observed_max_credit_deficit_allocation_prefix_witness_edge_valid: bool
     observed_max_credit_deficit_allocation_opposite_witness_valid: bool
+    observed_max_credit_deficit_allocation_opposite_witness_source_indexed: bool
     observed_deficit_pressure_complete: bool
 
 
@@ -232,6 +234,7 @@ def active_credit_certificate(
     worst_credit_deficit_allocation_last_target_upper_bound_valid = True
     worst_credit_deficit_allocation_prefix_witness_edge_valid = True
     worst_credit_deficit_allocation_opposite_witness_valid = True
+    worst_credit_deficit_allocation_opposite_witness_source_indexed = True
     worst_credit_required_reserve_slack = 0
     worst_credit_reserve_slack_surplus = 0
     worst_credit_split_pool_size = 0
@@ -274,6 +277,7 @@ def active_credit_certificate(
     observed_max_credit_deficit_allocation_last_target_upper_bound_valid = True
     observed_max_credit_deficit_allocation_prefix_witness_edge_valid = True
     observed_max_credit_deficit_allocation_opposite_witness_valid = True
+    observed_max_credit_deficit_allocation_opposite_witness_source_indexed = True
     search_nodes = 0
     search_max_depth = 0
     search_pruned_no_middle_tail = 0
@@ -554,6 +558,17 @@ def active_credit_certificate(
                         return False
                 return True
 
+            def allocation_opposite_witness_source_indexed(
+                witnesses: list[int],
+                witness_indices: list[int],
+            ) -> bool:
+                if len(witnesses) != len(witness_indices):
+                    return False
+                for witness, index in zip(witnesses, witness_indices):
+                    if witness != 25 * index + opposite_residue:
+                        return False
+                return True
+
             def allocation_reserve_witness_prefix_indexed(
                 allocation_pairs: list[tuple[int, int]],
                 witness_indices: list[int],
@@ -782,6 +797,12 @@ def active_credit_certificate(
                             observed_max_credit_deficit_allocation_reserve_witnesses,
                         )
                     )
+                    observed_max_credit_deficit_allocation_opposite_witness_source_indexed = (
+                        allocation_opposite_witness_source_indexed(
+                            observed_max_credit_deficit_allocation_reserve_witnesses,
+                            observed_max_credit_deficit_allocation_reserve_witness_indices,
+                        )
+                    )
             if defect < worst_credit_defect:
                 credit_vertices = [base[i] for i in range(len(base)) if (credit_pool >> i) & 1]
                 reserve_vertices = [base[i] for i in range(len(base)) if (reserve >> i) & 1]
@@ -906,6 +927,12 @@ def active_credit_certificate(
                     allocation_opposite_witness_valid(
                         allocation_pairs,
                         worst_credit_deficit_allocation_reserve_witnesses,
+                    )
+                )
+                worst_credit_deficit_allocation_opposite_witness_source_indexed = (
+                    allocation_opposite_witness_source_indexed(
+                        worst_credit_deficit_allocation_reserve_witnesses,
+                        worst_credit_deficit_allocation_reserve_witness_indices,
                     )
                 )
                 worst_credit_required_reserve_slack = credit_deficit
@@ -1053,6 +1080,9 @@ def active_credit_certificate(
         worst_credit_deficit_allocation_opposite_witness_valid=(
             worst_credit_deficit_allocation_opposite_witness_valid
         ),
+        worst_credit_deficit_allocation_opposite_witness_source_indexed=(
+            worst_credit_deficit_allocation_opposite_witness_source_indexed
+        ),
         worst_credit_required_reserve_slack=worst_credit_required_reserve_slack,
         worst_credit_reserve_slack_surplus=worst_credit_reserve_slack_surplus,
         worst_credit_split_pool_size=worst_credit_split_pool_size,
@@ -1142,6 +1172,9 @@ def active_credit_certificate(
         ),
         observed_max_credit_deficit_allocation_opposite_witness_valid=(
             observed_max_credit_deficit_allocation_opposite_witness_valid
+        ),
+        observed_max_credit_deficit_allocation_opposite_witness_source_indexed=(
+            observed_max_credit_deficit_allocation_opposite_witness_source_indexed
         ),
         observed_deficit_pressure_complete=exact_worst,
     )

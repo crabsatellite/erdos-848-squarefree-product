@@ -338,6 +338,9 @@ def assert_gate(payload: dict) -> None:
         assert item[
             "worst_credit_deficit_allocation_opposite_witness_valid"
         ], item
+        assert item[
+            "worst_credit_deficit_allocation_opposite_witness_source_indexed"
+        ], item
         assert len(item["worst_credit_deficit_allocation_reserve_witnesses"]) == item[
             "worst_credit_deficit"
         ], item
@@ -457,6 +460,9 @@ def assert_gate(payload: dict) -> None:
             ], item
             assert item[
                 "observed_max_credit_deficit_allocation_opposite_witness_valid"
+            ], item
+            assert item[
+                "observed_max_credit_deficit_allocation_opposite_witness_source_indexed"
             ], item
             assert len(
                 item["observed_max_credit_deficit_allocation_reserve_witnesses"]
