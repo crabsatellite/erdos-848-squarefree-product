@@ -4562,6 +4562,41 @@ def ActiveStrictMiddleCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeed
           (CandidateClassIndex b) (offsetIndex (CandidateClassIndex b)) ≠ i)
 
 /--
+Generated prefix-pair allocation whose no-image premise is stated directly on
+opposite-side vertices with the b-indexed finite-offset shift target.
+-/
+def ActiveStrictMiddleCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+    (N : Nat) (B : Nat -> Prop)
+    (decMid : DecidablePred (StrictMiddlePart 7 B))
+    (offsetIndex : Nat -> OppositeFiniteOffsetCode)
+    (_decReserve :
+      DecidablePred
+        (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex)))
+    (decNewMid :
+      DecidablePred (IncrementalStrictMiddleNeighbor N 7 B)) : Prop :=
+  Exists fun deficitLength : Nat =>
+  Exists fun deficitSeedPrefixKey : Nat -> Nat =>
+    deficitLength =
+      @familySize N (StrictMiddlePart 7 B) decMid -
+        @familySize N (IncrementalStrictMiddleNeighbor N 7 B) decNewMid /\
+    ((List.range deficitLength).map deficitSeedPrefixKey).Nodup /\
+    (forall i : Nat, i < deficitLength ->
+      B (ActiveStrictMiddleCreditDeficitSeedValue
+          (deficitSeedPrefixKey i)) /\
+        Not (deficitSeedPrefixKey i % 25 = 6)) /\
+    (deficitLength = 0 \/ InBox N (25 * (deficitLength - 1) + 7)) /\
+    (forall i : Nat, i < deficitLength ->
+      Exists fun b : Nat =>
+        OppositeOutsidePart 7 B b /\
+        ForbiddenSquarefreeEdge (25 * i + 7) b) /\
+    (forall i : Nat, i < deficitLength ->
+      forall b : Nat,
+        OppositeOutsidePart 7 B b ->
+        OppositeFiniteOffsetCodeShiftTargetIndex b
+          (offsetIndex (CandidateClassIndex b)) ≠ i)
+
+/--
 Direct-length generated prefix-pair allocation supplies canonical generated
 prefix-pair allocation.
 -/
@@ -6745,6 +6780,24 @@ def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDefici
     ActiveStrictMiddleCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
       N B decMid offsetIndex decReserve decNewMid
 
+/--
+Source-index active credit allocation with no-image stated directly on
+opposite-side vertices.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall (B : Nat -> Prop)
+      (decMid : DecidablePred (StrictMiddlePart 7 B))
+      (decReserve : DecidablePred
+        (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex)))
+      (decNewMid : DecidablePred (IncrementalStrictMiddleNeighbor N 7 B)),
+    BoundedOutsideSet N 7 B ->
+    NonSquarefreeClique B ->
+    (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+    ActiveStrictMiddleCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+      N B decMid offsetIndex decReserve decNewMid
+
 /-- Source-index deficit capacity supplies source-index slack capacity. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditSlackCapacity_of_deficitCapacity
     {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
@@ -7204,6 +7257,18 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation N
       (OppositeFiniteOffsetTemplateWindowRepairCode windows)
 
+/--
+Source-index split certificate with no-image stated directly on opposite-side
+vertices.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate :
+    Prop :=
+  forall N : Nat, Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateWindowRepairValidMatching
+      N windows /\
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation N
+      (OppositeFiniteOffsetTemplateWindowRepairCode windows)
+
 /-- Current source-index split certificate, narrowed to template-window-repair form. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
@@ -7480,6 +7545,14 @@ last-target box proof plus direct edge witnesses.
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate :
     Prop :=
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate
+
+/--
+Current source-index split certificate with no-image stated directly on
+opposite-side vertices.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate :
+    Prop :=
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate
 
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
@@ -7947,6 +8020,45 @@ theorem activeStrictMiddleCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperBoun
   exact
     ⟨deficitLength, deficitSeedPrefixKey, hLength, hKeyNodup,
       hSeedMember, hUpper, hTargetNeighbor, hBoxedSourceNoImage⟩
+
+/--
+Opposite-side no-image allocation supplies the previous direct-source
+no-image premise.
+-/
+theorem activeStrictMiddleCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_seedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+    {N : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart 7 B)}
+    {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    {decReserve :
+      DecidablePred
+        (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex))}
+    {decNewMid :
+      DecidablePred (IncrementalStrictMiddleNeighbor N 7 B)}
+    (hOppositeNoImage :
+      ActiveStrictMiddleCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+        N B decMid offsetIndex decReserve decNewMid) :
+    ActiveStrictMiddleCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+      N B decMid offsetIndex decReserve decNewMid := by
+  rcases hOppositeNoImage with
+    ⟨deficitLength, deficitSeedPrefixKey, hLength, hKeyNodup,
+      hSeedMember, hLastTargetBox, hTargetEdge, hOppositeNoImage⟩
+  have hDirectSourceNoImage :
+      forall i : Nat, i < deficitLength ->
+      forall b : Nat,
+        B b ->
+        CandidateCarrier 18 b ->
+        OppositeFiniteOffsetSourceIndexShiftTarget
+          (CandidateClassIndex b) (offsetIndex (CandidateClassIndex b)) ≠ i := by
+    intro i hi b hb h18
+    have hOpp : OppositeOutsidePart 7 B b :=
+      ⟨hb, oppositeCandidateCarrier_seven_of_candidate_eighteen h18⟩
+    have hNoImage := hOppositeNoImage i hi b hOpp
+    rw [oppositeFiniteOffsetCodeShiftTargetIndex_eq_sourceIndexShift] at hNoImage
+    exact hNoImage
+  exact
+    ⟨deficitLength, deficitSeedPrefixKey, hLength, hKeyNodup,
+      hSeedMember, hLastTargetBox, hTargetEdge, hDirectSourceNoImage⟩
 
 /--
 Last-boxed target-edge allocation reconstructs the full generated
@@ -9921,6 +10033,50 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
         h
 
 /--
+Opposite-side no-image allocation supplies the previous direct-source
+no-image allocation.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_seedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hOppositeNoImage :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+        N offsetIndex) :
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+      N offsetIndex := by
+  intro B decMid decReserve decNewMid hB hClique hMid
+  exact activeStrictMiddleCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_seedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+    (hOppositeNoImage B decMid decReserve decNewMid hB hClique hMid)
+
+/--
+Window-repair opposite-side no-image certificate supplies the previous
+direct-source no-image certificate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_seedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate := by
+  intro N
+  rcases h N with ⟨windows, hValid, hOppositeNoImage⟩
+  exact ⟨windows, hValid,
+    globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_seedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+      hOppositeNoImage⟩
+
+/--
+Current opposite-side no-image certificate supplies the previous direct-source
+no-image certificate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_seedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate := by
+  simpa [
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate,
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate]
+    using
+      globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_seedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+        h
+
+/--
 Last-boxed target-edge allocation supplies the previous direct-source
 no-image neighbor allocation.
 -/
@@ -11743,7 +11899,7 @@ squarefree-boxed codes, and constructs the decoder; the strict-middle side is
 the count-level active credit capacity for the simple typed mate.
 -/
 axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
@@ -11786,7 +11942,8 @@ theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
                                                                       (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperBoundSeedMembershipKeyResidueNeighborBoxedSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_seedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueNeighborBoxedSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
                                                                         (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueNeighborBoxedSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_seedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueNeighborSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
                                                                           (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueNeighborSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_seedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
-                                                                            finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut)))))))))))))))))))))))))))))))))))))
+                                                                            (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitSeedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeSourceNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_seedKeyNodupCarrierFreeCountFreeUpperFreeSeedMembershipKeyResidueLastBoxedTargetEdgeOppositeNoImageLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+                                                                              finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut))))))))))))))))))))))))))))))))))))))
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
 theorem finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :
