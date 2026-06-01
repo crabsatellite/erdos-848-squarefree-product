@@ -2495,6 +2495,23 @@ def ActiveStrictMiddleCreditSelfCanonicalTargetDirectInjectiveSumMatching
         (credit b1 hb1).value = (credit b2 hb2).value ->
           b1 = b2
 
+/--
+`decMid`-free live-route direct matching.  The credit object is indexed only by
+the strict-middle proof itself; decidability is needed later only to turn it
+into the total `Nat -> Nat` matching consumed by the capacity layer.
+-/
+def ActiveStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching
+    (N : Nat) (B : Nat -> Prop) (mate : Nat -> Nat) : Prop :=
+  Exists fun credit :
+      (forall b : Nat, StrictMiddlePart 7 B b ->
+        ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode
+          N B mate b) =>
+    forall b1 b2 : Nat,
+      forall hb1 : StrictMiddlePart 7 B b1,
+      forall hb2 : StrictMiddlePart 7 B b2,
+        (credit b1 hb1).value = (credit b2 hb2).value ->
+          b1 = b2
+
 /-- Direct self-canonical injective matching supplies active credit matching. -/
 theorem activeStrictMiddleCreditMatching_of_selfCanonicalTargetDirectInjective
     {N : Nat} {B : Nat -> Prop}
@@ -2533,6 +2550,20 @@ theorem activeStrictMiddleCreditMatching_of_selfCanonicalTargetDirectInjective
   · intro b1 b2 hb1 hb2 hcredit
     exact hinj b1 b2 hb1 hb2 (by
       simpa [creditValue, hb1, hb2] using hcredit)
+
+/-- A `decMid`-free direct matching supplies active credit matching. -/
+theorem activeStrictMiddleCreditMatching_of_selfCanonicalTargetDirectInjectiveMatching
+    {N : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart 7 B)}
+    {mate : Nat -> Nat}
+    (h :
+      ActiveStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching
+        N B mate) :
+    ActiveStrictMiddleCreditMatching N 7 B decMid mate := by
+  rcases h with ⟨credit, hinj⟩
+  exact activeStrictMiddleCreditMatching_of_selfCanonicalTargetDirectInjective
+    (N := N) (B := B) (decMid := decMid) (mate := mate)
+    ⟨credit, hinj⟩
 
 /-- Self-canonical-target matching supplies the previous self-target matching. -/
 theorem activeStrictMiddleDecodedCreditSelfTargetSumMatching_of_selfCanonicalTarget
@@ -3231,6 +3262,23 @@ def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfC
         (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset))
 
 /--
+Decoded squarefree-boxed certificate whose strict-middle credit side is
+independent of the `StrictMiddlePart` decidability instance.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate :
+    Prop :=
+  forall N : Nat, Exists fun decoder : Nat -> Nat =>
+  Exists fun offset :
+      (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b decoder) =>
+    (forall B : Nat -> Prop,
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching N B
+        (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset))
+
+/--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
 decoder certificate.
 -/
@@ -3863,6 +3911,21 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_
   intro B decMid hB hClique hMid
   exact activeStrictMiddleCreditMatching_of_selfCanonicalTargetDirectInjective
     (hCreditSelfCanonicalDirect B decMid hB hClique hMid)
+
+/--
+The uniform direct self-canonical certificate supplies active credit matching;
+`decMid` is used only to totalize the matching function.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_uniformSelfCanonicalTargetDirect
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCertificate := by
+  intro N
+  rcases h N with ⟨decoder, offset, hCreditSelfCanonicalDirect⟩
+  refine ⟨decoder, offset, ?_⟩
+  intro B decMid hB hClique hMid
+  exact activeStrictMiddleCreditMatching_of_selfCanonicalTargetDirectInjectiveMatching
+    (hCreditSelfCanonicalDirect B hB hClique hMid)
 
 /-- The self-source credit certificate supplies the previous anti-`18 mod 25` data. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCode_of_self
@@ -4762,18 +4825,18 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 
 /--
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
-compression whose strict-middle credit side is already an active credit
-matching code: reserve credits carry original non-image data, and new-middle
-credits carry canonical source hits.
+compression whose strict-middle credit side is already a `decMid`-independent
+active credit matching code: reserve credits carry original non-image data, and
+new-middle credits carry canonical source hits.
 -/
-axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetDirectInjectiveSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetDirectInjectiveSumCodeCertificate
+axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate
 
 /-- Current explicit credit-matching certificate derived from direct active codes. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_selfCanonicalTargetDirect
-    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetDirectInjectiveSumCodeCut
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_uniformSelfCanonicalTargetDirect
+    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut
 
 /-- Current decoded squarefree-boxed certificate with capacity derived from credit matching. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
