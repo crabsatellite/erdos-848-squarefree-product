@@ -79,6 +79,7 @@ the source of truth and use this file only as a durable round index.
 | R099 | Narrowed reserve-witness pair lists to indexed reserve-witness pair lists: every reserve witness is now recorded by its canonical `18 mod 25` source index. |
 | R100 | Replaced raw reserve non-image facts with source-index mate no-image data: every reserve payment is checked against all opposite source indices in the current outside set. |
 | R101 | Narrowed reserve non-image data to shift-target index avoidance: each reserve prefix index is checked against the matched target indices of all opposite sources. |
+| R102 | Narrowed reserve witness edge data to prefix-index form: witness squarefree edges are now checked as `(25*i+7, 25*k+18)` from reserve prefix and source indices. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
