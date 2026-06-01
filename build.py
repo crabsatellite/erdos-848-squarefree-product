@@ -158,6 +158,9 @@ def run(mode: str) -> dict:
 
 def assert_gate(payload: dict) -> None:
     code_names = ["neg86", "neg61", "neg36", "neg11", "pos14", "pos39", "pos64"]
+    def source_count(n: int) -> int:
+        return 0 if n < 18 else (n - 18) // 25 + 1
+
     residue = payload["residue_certificate_5_13"]
     assert residue["max_clique"] == residue["modulus"] // 25
     assert residue["outside_pm5_max_clique"] == 23
@@ -170,12 +173,14 @@ def assert_gate(payload: dict) -> None:
     for item in payload["middle_region_checks"]:
         assert item["strict_worst_defect"] >= 0, item
     for item in payload["opposite_matching_checks"]:
+        assert item["opposite_size"] == source_count(item["N"]), item
         assert item["perfect"], item
         assert item["matched_count"] == item["opposite_size"], item
         assert len(item["source_index_matching"]) == item["matched_count"], item
         for source_index, target_index, shift in item["source_index_matching"]:
             assert target_index - source_index == shift, item
     for item in payload["opposite_band_matching_checks"]:
+        assert item["opposite_size"] == source_count(item["N"]), item
         assert item["perfect"], item
         assert item["matched_count"] == item["opposite_size"], item
         assert item["max_index_gap"] <= 3, item
@@ -220,6 +225,7 @@ def assert_gate(payload: dict) -> None:
             assert code_by_source[source_index] == shift + 3, item
             assert reconstructed_codes[source_index] == shift + 3, item
     for item in payload["opposite_band_matching_large_summaries"]:
+        assert item["opposite_size"] == source_count(item["N"]), item
         assert item["perfect"], item
         assert item["matched_count"] == item["opposite_size"], item
         assert item["max_index_gap"] <= 3, item
