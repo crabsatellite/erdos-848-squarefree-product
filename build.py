@@ -63,7 +63,7 @@ def run(mode: str) -> dict:
     extended = mode == "extended"
     exact_Ns = [100, 500, 1000] if not extended else [100, 500, 1000, 2000, 5000]
     hall_Ns = [100, 500] if not extended else [100, 500, 1000, 2000]
-    matching_Ns = [100, 500, 1000] if not extended else [100, 500, 1000, 2000, 5000]
+    matching_Ns = [100, 500, 1000] if not extended else [100, 500, 1000, 2000, 5000, 10000]
     partitioned_Ns = [100, 500]
 
     residue = residue_to_json(generate_residue_certificate([5, 13], run_prefix=extended))
@@ -125,6 +125,7 @@ def run(mode: str) -> dict:
 
 
 def assert_gate(payload: dict) -> None:
+    code_names = ["neg86", "neg61", "neg36", "neg11", "pos14", "pos39", "pos64"]
     residue = payload["residue_certificate_5_13"]
     assert residue["max_clique"] == residue["modulus"] // 25
     assert residue["outside_pm5_max_clique"] == 23
@@ -154,16 +155,29 @@ def assert_gate(payload: dict) -> None:
         assert item["source_index_target_valid_count"] == item["matched_count"], item
         assert item["source_index_target_valid_failures"] == [], item
         assert item["period6_template"] == [0, 2, -1, -1, 1, -1], item
+        assert item["period6_template_code_names"] == [
+            code_names[shift + 3] for shift in item["period6_template"]
+        ], item
         assert item["period6_template_invalid_count"] <= item["period6_matching_deviation_count"], item
         assert item["period6_repair_window_count"] <= item["period6_matching_deviation_count"], item
         assert item["period6_repair_window_count"] == len(item["period6_repair_code_windows"]), item
+        assert item["period6_repair_window_count"] == len(item["period6_repair_code_name_windows"]), item
         assert sum(len(codes) for _start, codes in item["period6_repair_code_windows"]) == item["period6_matching_deviation_count"], item
+        assert max(
+            (len(codes) for _start, codes in item["period6_repair_code_windows"]),
+            default=0,
+        ) == item["period6_repair_window_max_length"], item
         code_by_source = dict(item["typed_source_index_codes"])
         reconstructed_codes = {
             source_index: item["period6_template"][source_index % len(item["period6_template"])] + 3
             for source_index in range(item["opposite_size"])
         }
-        for start, codes in item["period6_repair_code_windows"]:
+        for (start, codes), (name_start, names) in zip(
+            item["period6_repair_code_windows"],
+            item["period6_repair_code_name_windows"],
+        ):
+            assert start == name_start, item
+            assert names == [code_names[code] for code in codes], item
             assert codes, item
             for offset, code in enumerate(codes):
                 assert 0 <= code <= 6, item

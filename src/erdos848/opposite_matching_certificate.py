@@ -6,6 +6,16 @@ from itertools import groupby
 
 from .core import squarefree_sieve
 
+SHIFT_CODE_NAMES = {
+    -3: "neg86",
+    -2: "neg61",
+    -1: "neg36",
+    0: "neg11",
+    1: "pos14",
+    2: "pos39",
+    3: "pos64",
+}
+
 
 @dataclass
 class OppositeMatchingCertificate:
@@ -29,13 +39,16 @@ class OppositeMatchingCertificate:
     source_index_target_valid_count: int
     source_index_target_valid_failures: list[tuple[int, int, int, str]]
     period6_template: list[int]
+    period6_template_code_names: list[str]
     period6_template_invalid_count: int
     period6_template_first_invalid: list[tuple[int, int, int]]
     period6_matching_deviation_count: int
     period6_matching_first_deviations: list[tuple[int, int, int]]
     period6_repair_window_count: int
+    period6_repair_window_max_length: int
     period6_repair_windows: list[tuple[int, int, int]]
     period6_repair_code_windows: list[tuple[int, list[int]]]
+    period6_repair_code_name_windows: list[tuple[int, list[str]]]
 
 
 def opposite_matching_certificate(
@@ -171,6 +184,7 @@ def opposite_matching_certificate(
                 period6_matching_deviations.append((source_index, target_index, shift))
     period6_repair_windows: list[tuple[int, int, int]] = []
     period6_repair_code_windows: list[tuple[int, list[int]]] = []
+    period6_repair_code_name_windows: list[tuple[int, list[str]]] = []
     for _key, group in groupby(
         enumerate(period6_matching_deviations),
         key=lambda item: item[1][0] - item[0],
@@ -179,6 +193,9 @@ def opposite_matching_certificate(
         period6_repair_windows.append((window[0][0], window[-1][0], len(window)))
         period6_repair_code_windows.append(
             (window[0][0], [shift + 3 for _source_index, _target_index, shift in window])
+        )
+        period6_repair_code_name_windows.append(
+            (window[0][0], [SHIFT_CODE_NAMES[shift] for _source_index, _target_index, shift in window])
         )
     index_gaps = [abs(shift) for shift in index_shifts]
     value_offsets = [a - b for b, a in matching]
@@ -213,13 +230,23 @@ def opposite_matching_certificate(
         source_index_target_valid_count=matched - len(source_index_target_valid_failure_sources),
         source_index_target_valid_failures=source_index_target_valid_failures,
         period6_template=period6_template if index_bandwidth == 3 else [],
+        period6_template_code_names=(
+            [SHIFT_CODE_NAMES[shift] for shift in period6_template]
+            if index_bandwidth == 3
+            else []
+        ),
         period6_template_invalid_count=len(period6_template_invalid),
         period6_template_first_invalid=period6_template_invalid[:32],
         period6_matching_deviation_count=len(period6_matching_deviations),
         period6_matching_first_deviations=period6_matching_deviations[:32],
         period6_repair_window_count=len(period6_repair_windows),
+        period6_repair_window_max_length=max(
+            (length for _start, _end, length in period6_repair_windows),
+            default=0,
+        ),
         period6_repair_windows=period6_repair_windows[:64],
         period6_repair_code_windows=period6_repair_code_windows[:64],
+        period6_repair_code_name_windows=period6_repair_code_name_windows[:64],
     )
 
 

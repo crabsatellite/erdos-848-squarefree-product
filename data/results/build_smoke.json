@@ -158,7 +158,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T07:39:01.853472+00:00",
+  "generated_at": "2026-06-01T07:50:22.987673+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -404,8 +404,10 @@
       "perfect": true,
       "period6_matching_deviation_count": 0,
       "period6_matching_first_deviations": [],
+      "period6_repair_code_name_windows": [],
       "period6_repair_code_windows": [],
       "period6_repair_window_count": 0,
+      "period6_repair_window_max_length": 0,
       "period6_repair_windows": [],
       "period6_template": [
         0,
@@ -414,6 +416,14 @@
         -1,
         1,
         -1
+      ],
+      "period6_template_code_names": [
+        "neg11",
+        "pos39",
+        "neg36",
+        "neg36",
+        "pos14",
+        "neg36"
       ],
       "period6_template_first_invalid": [],
       "period6_template_invalid_count": 0,
@@ -599,6 +609,27 @@
           -2
         ]
       ],
+      "period6_repair_code_name_windows": [
+        [
+          14,
+          [
+            "pos39"
+          ]
+        ],
+        [
+          16,
+          [
+            "neg86",
+            "pos39"
+          ]
+        ],
+        [
+          19,
+          [
+            "neg61"
+          ]
+        ]
+      ],
       "period6_repair_code_windows": [
         [
           14,
@@ -621,6 +652,7 @@
         ]
       ],
       "period6_repair_window_count": 3,
+      "period6_repair_window_max_length": 2,
       "period6_repair_windows": [
         [
           14,
@@ -645,6 +677,14 @@
         -1,
         1,
         -1
+      ],
+      "period6_template_code_names": [
+        "neg11",
+        "pos39",
+        "neg36",
+        "neg36",
+        "pos14",
+        "neg36"
       ],
       "period6_template_first_invalid": [
         [
@@ -1040,8 +1080,10 @@
       "perfect": true,
       "period6_matching_deviation_count": 0,
       "period6_matching_first_deviations": [],
+      "period6_repair_code_name_windows": [],
       "period6_repair_code_windows": [],
       "period6_repair_window_count": 0,
+      "period6_repair_window_max_length": 0,
       "period6_repair_windows": [],
       "period6_template": [
         0,
@@ -1050,6 +1092,14 @@
         -1,
         1,
         -1
+      ],
+      "period6_template_code_names": [
+        "neg11",
+        "pos39",
+        "neg36",
+        "neg36",
+        "pos14",
+        "neg36"
       ],
       "period6_template_first_invalid": [],
       "period6_template_invalid_count": 0,
@@ -1466,10 +1516,13 @@
       "perfect": true,
       "period6_matching_deviation_count": 0,
       "period6_matching_first_deviations": [],
+      "period6_repair_code_name_windows": [],
       "period6_repair_code_windows": [],
       "period6_repair_window_count": 0,
+      "period6_repair_window_max_length": 0,
       "period6_repair_windows": [],
       "period6_template": [],
+      "period6_template_code_names": [],
       "period6_template_first_invalid": [],
       "period6_template_invalid_count": 0,
       "source_index_matching": [
@@ -1609,10 +1662,13 @@
       "perfect": true,
       "period6_matching_deviation_count": 0,
       "period6_matching_first_deviations": [],
+      "period6_repair_code_name_windows": [],
       "period6_repair_code_windows": [],
       "period6_repair_window_count": 0,
+      "period6_repair_window_max_length": 0,
       "period6_repair_windows": [],
       "period6_template": [],
+      "period6_template_code_names": [],
       "period6_template_first_invalid": [],
       "period6_template_invalid_count": 0,
       "source_index_matching": [
@@ -1913,10 +1969,13 @@
       "perfect": true,
       "period6_matching_deviation_count": 0,
       "period6_matching_first_deviations": [],
+      "period6_repair_code_name_windows": [],
       "period6_repair_code_windows": [],
       "period6_repair_window_count": 0,
+      "period6_repair_window_max_length": 0,
       "period6_repair_windows": [],
       "period6_template": [],
+      "period6_template_code_names": [],
       "period6_template_first_invalid": [],
       "period6_template_invalid_count": 0,
       "source_index_matching": [
