@@ -60,6 +60,8 @@ class ActiveCreditCertificate:
     worst_credit_deficit_allocation_reserve_prefix: bool
     worst_credit_deficit_allocation_seeded: bool
     worst_credit_deficit_allocation_seed_keys: list[int]
+    worst_credit_deficit_allocation_reserve_witnesses: list[int]
+    worst_credit_deficit_allocation_reserve_witness_valid: bool
     worst_credit_required_reserve_slack: int
     worst_credit_reserve_slack_surplus: int
     worst_credit_split_pool_size: int
@@ -82,6 +84,8 @@ class ActiveCreditCertificate:
     observed_max_credit_deficit_allocation_reserve_prefix: bool
     observed_max_credit_deficit_allocation_seeded: bool
     observed_max_credit_deficit_allocation_seed_keys: list[int]
+    observed_max_credit_deficit_allocation_reserve_witnesses: list[int]
+    observed_max_credit_deficit_allocation_reserve_witness_valid: bool
     observed_deficit_pressure_complete: bool
 
 
@@ -164,6 +168,8 @@ def active_credit_certificate(
     worst_credit_deficit_allocation_reserve_prefix = True
     worst_credit_deficit_allocation_seeded = True
     worst_credit_deficit_allocation_seed_keys: list[int] = []
+    worst_credit_deficit_allocation_reserve_witnesses: list[int] = []
+    worst_credit_deficit_allocation_reserve_witness_valid = True
     worst_credit_required_reserve_slack = 0
     worst_credit_reserve_slack_surplus = 0
     worst_credit_split_pool_size = 0
@@ -186,6 +192,8 @@ def active_credit_certificate(
     observed_max_credit_deficit_allocation_reserve_prefix = True
     observed_max_credit_deficit_allocation_seeded = True
     observed_max_credit_deficit_allocation_seed_keys: list[int] = []
+    observed_max_credit_deficit_allocation_reserve_witnesses: list[int] = []
+    observed_max_credit_deficit_allocation_reserve_witness_valid = True
     search_nodes = 0
     search_max_depth = 0
     search_pruned_no_middle_tail = 0
@@ -219,6 +227,8 @@ def active_credit_certificate(
         nonlocal worst_credit_deficit_allocation_reserve_prefix
         nonlocal worst_credit_deficit_allocation_seeded
         nonlocal worst_credit_deficit_allocation_seed_keys
+        nonlocal worst_credit_deficit_allocation_reserve_witnesses
+        nonlocal worst_credit_deficit_allocation_reserve_witness_valid
         nonlocal worst_credit_required_reserve_slack
         nonlocal worst_credit_reserve_slack_surplus
         nonlocal worst_credit_split_pool_size
@@ -241,6 +251,8 @@ def active_credit_certificate(
         nonlocal observed_max_credit_deficit_allocation_reserve_prefix
         nonlocal observed_max_credit_deficit_allocation_seeded
         nonlocal observed_max_credit_deficit_allocation_seed_keys
+        nonlocal observed_max_credit_deficit_allocation_reserve_witnesses
+        nonlocal observed_max_credit_deficit_allocation_reserve_witness_valid
         nonlocal search_nodes
         nonlocal search_max_depth
         nonlocal search_pruned_no_middle_tail
@@ -270,6 +282,36 @@ def active_credit_certificate(
             deficit_surplus = reserve_size - credit_deficit
             reserve_new_disjoint = (reserve & new_middle) == 0
             defect = credit_pool_size - middle_size
+
+            def allocation_reserve_witnesses(
+                allocation_pairs: list[tuple[int, int]],
+            ) -> tuple[list[int], bool]:
+                witnesses: list[int] = []
+                valid = True
+                for _middle, pay in allocation_pairs:
+                    pay_index = base_index[pay]
+                    witness = None
+                    for chosen_index in chosen:
+                        if not is_opposite[chosen_index]:
+                            continue
+                        if (neigh[chosen_index] >> pay_index) & 1:
+                            witness = outside[chosen_index]
+                            break
+                    if witness is None:
+                        valid = False
+                        witnesses.append(0)
+                        continue
+                    witnesses.append(witness)
+                    valid = (
+                        valid
+                        and 1 <= pay <= N
+                        and pay % 25 == base_residue
+                        and witness % 25 == opposite_residue
+                        and sf[pay * witness + 1]
+                        and not ((opposite_image >> pay_index) & 1)
+                    )
+                return witnesses, valid
+
             if credit_deficit > 0:
                 observed_positive_deficit_nodes += 1
                 if credit_deficit > observed_max_credit_deficit:
@@ -317,6 +359,10 @@ def active_credit_certificate(
                     observed_max_credit_deficit_allocation_seed_keys = [
                         key for key in observed_seed_keys if key is not None
                     ]
+                    (
+                        observed_max_credit_deficit_allocation_reserve_witnesses,
+                        observed_max_credit_deficit_allocation_reserve_witness_valid,
+                    ) = allocation_reserve_witnesses(allocation_pairs)
             if defect < worst_credit_defect:
                 credit_vertices = [base[i] for i in range(len(base)) if (credit_pool >> i) & 1]
                 reserve_vertices = [base[i] for i in range(len(base)) if (reserve >> i) & 1]
@@ -364,6 +410,10 @@ def active_credit_certificate(
                 worst_credit_deficit_allocation_seed_keys = [
                     key for key in worst_seed_keys if key is not None
                 ]
+                (
+                    worst_credit_deficit_allocation_reserve_witnesses,
+                    worst_credit_deficit_allocation_reserve_witness_valid,
+                ) = allocation_reserve_witnesses(allocation_pairs)
                 worst_credit_required_reserve_slack = credit_deficit
                 worst_credit_reserve_slack_surplus = deficit_surplus
                 worst_credit_split_pool_size = split_pool_size
@@ -449,6 +499,12 @@ def active_credit_certificate(
         worst_credit_deficit_allocation_reserve_prefix=worst_credit_deficit_allocation_reserve_prefix,
         worst_credit_deficit_allocation_seeded=worst_credit_deficit_allocation_seeded,
         worst_credit_deficit_allocation_seed_keys=worst_credit_deficit_allocation_seed_keys,
+        worst_credit_deficit_allocation_reserve_witnesses=(
+            worst_credit_deficit_allocation_reserve_witnesses
+        ),
+        worst_credit_deficit_allocation_reserve_witness_valid=(
+            worst_credit_deficit_allocation_reserve_witness_valid
+        ),
         worst_credit_required_reserve_slack=worst_credit_required_reserve_slack,
         worst_credit_reserve_slack_surplus=worst_credit_reserve_slack_surplus,
         worst_credit_split_pool_size=worst_credit_split_pool_size,
@@ -478,6 +534,12 @@ def active_credit_certificate(
         ),
         observed_max_credit_deficit_allocation_seed_keys=(
             observed_max_credit_deficit_allocation_seed_keys
+        ),
+        observed_max_credit_deficit_allocation_reserve_witnesses=(
+            observed_max_credit_deficit_allocation_reserve_witnesses
+        ),
+        observed_max_credit_deficit_allocation_reserve_witness_valid=(
+            observed_max_credit_deficit_allocation_reserve_witness_valid
         ),
         observed_deficit_pressure_complete=exact_worst,
     )
