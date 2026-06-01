@@ -496,6 +496,99 @@ theorem decodedSquarefreeBoxedOppositeFiniteOffsetMate_leftInverse
     decodedSquarefreeBoxedOppositeFiniteOffsetCode_leftInverse
       (offset b hbBox hb18)
 
+/-- Image-source predicate for a source-indexed squarefree-boxed offset family. -/
+def SquarefreeBoxedOffsetImageSource
+    {N : Nat}
+    (offset :
+      forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        SquarefreeBoxedOppositeFiniteOffsetCode N b)
+    (a b : Nat) : Prop :=
+  Exists fun hbBox : InBox N b =>
+  Exists fun hb18 : CandidateCarrier 18 b =>
+    boxedOppositeFiniteOffsetCodeValue
+      (SquarefreeBoxedOppositeFiniteOffsetCode.toBoxed
+        (offset b hbBox hb18)) = a
+
+/-- Pairwise injectivity of source-indexed squarefree-boxed offset values. -/
+def SquarefreeBoxedOffsetInjective
+    (N : Nat)
+    (offset :
+      forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        SquarefreeBoxedOppositeFiniteOffsetCode N b) : Prop :=
+  forall b1 b2 : Nat,
+    forall hb1Box : InBox N b1,
+    forall hb1Residue : CandidateCarrier 18 b1,
+    forall hb2Box : InBox N b2,
+    forall hb2Residue : CandidateCarrier 18 b2,
+      boxedOppositeFiniteOffsetCodeValue
+        (SquarefreeBoxedOppositeFiniteOffsetCode.toBoxed
+          (offset b1 hb1Box hb1Residue)) =
+        boxedOppositeFiniteOffsetCodeValue
+          (SquarefreeBoxedOppositeFiniteOffsetCode.toBoxed
+            (offset b2 hb2Box hb2Residue)) ->
+        b1 = b2
+
+/-- Decoder induced by any injective source-indexed squarefree-boxed offset. -/
+noncomputable def squarefreeBoxedOffsetDecoder
+    (N : Nat)
+    (offset :
+      forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        SquarefreeBoxedOppositeFiniteOffsetCode N b)
+    (a : Nat) : Nat :=
+  by
+    classical
+    exact
+      if h : Exists fun b : Nat =>
+          SquarefreeBoxedOffsetImageSource offset a b then
+        Classical.choose h
+      else
+        0
+
+/-- The induced decoder is a left inverse on every injective offset target. -/
+theorem squarefreeBoxedOffsetDecoder_leftInverse
+    {N b : Nat}
+    {offset :
+      forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        SquarefreeBoxedOppositeFiniteOffsetCode N b}
+    (hInjective : SquarefreeBoxedOffsetInjective N offset)
+    (hbBox : InBox N b) (hb18 : CandidateCarrier 18 b) :
+    squarefreeBoxedOffsetDecoder N offset
+      (boxedOppositeFiniteOffsetCodeValue
+        (SquarefreeBoxedOppositeFiniteOffsetCode.toBoxed
+          (offset b hbBox hb18))) = b := by
+  classical
+  let target :=
+    boxedOppositeFiniteOffsetCodeValue
+      (SquarefreeBoxedOppositeFiniteOffsetCode.toBoxed
+        (offset b hbBox hb18))
+  have hExists :
+      Exists fun c : Nat =>
+        SquarefreeBoxedOffsetImageSource offset target c :=
+    ⟨b, hbBox, hb18, rfl⟩
+  have hchosen :
+      SquarefreeBoxedOffsetImageSource offset target
+        (Classical.choose hExists) :=
+    Classical.choose_spec hExists
+  rcases hchosen with ⟨hcBox, hc18, htarget⟩
+  have hsource :
+      Classical.choose hExists = b := by
+    exact hInjective (Classical.choose hExists) b
+      hcBox hc18 hbBox hb18 htarget
+  simpa [squarefreeBoxedOffsetDecoder, target, hExists] using hsource
+
+/-- Package an injective squarefree-boxed offset as decoded code data. -/
+def decodedSquarefreeBoxedOffset_of_injective
+    {N b : Nat}
+    {offset :
+      forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        SquarefreeBoxedOppositeFiniteOffsetCode N b}
+    (hInjective : SquarefreeBoxedOffsetInjective N offset)
+    (hbBox : InBox N b) (hb18 : CandidateCarrier 18 b) :
+    DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b
+      (squarefreeBoxedOffsetDecoder N offset) :=
+  ⟨offset b hbBox hb18,
+    squarefreeBoxedOffsetDecoder_leftInverse hInjective hbBox hb18⟩
+
 /-- Repackage boxed target-neighbor data into the typed-code target form. -/
 theorem globalOppositeFiniteOffsetEighteenTypedTargetNeighbor_of_boxed
     {N b : Nat} {code : BoxedOppositeFiniteOffsetCode N b}
@@ -3279,6 +3372,27 @@ def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfC
         (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset))
 
 /--
+Squarefree-boxed uniform direct certificate.  The open surface supplies
+source-indexed squarefree-boxed offsets and pairwise target injectivity; Lean
+constructs the decoder and decoded offset wrapper.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenSquarefreeBoxedCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate :
+    Prop :=
+  forall N : Nat, Exists fun offset :
+      (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        SquarefreeBoxedOppositeFiniteOffsetCode N b) =>
+    SquarefreeBoxedOffsetInjective N offset /\
+    (forall B : Nat -> Prop,
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching N B
+        (boxedOppositeFiniteOffsetMate N
+          (fun b hbBox hb18 =>
+            SquarefreeBoxedOppositeFiniteOffsetCode.toBoxed
+              (offset b hbBox hb18))))
+
+/--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
 decoder certificate.
 -/
@@ -3926,6 +4040,32 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_
   intro B decMid hB hClique hMid
   exact activeStrictMiddleCreditMatching_of_selfCanonicalTargetDirectInjectiveMatching
     (hCreditSelfCanonicalDirect B hB hClique hMid)
+
+/--
+The squarefree-boxed uniform direct certificate supplies decoded offset data by
+constructing the finite-offset decoder from target injectivity.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_squarefreeBoxedUniformSelfCanonicalTargetDirect
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenSquarefreeBoxedCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCertificate := by
+  intro N
+  rcases h N with ⟨offset, hInjective, hCreditSelfCanonicalDirect⟩
+  let decoder : Nat -> Nat := squarefreeBoxedOffsetDecoder N offset
+  let decodedOffset :
+      forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b decoder :=
+    fun b hbBox hb18 =>
+      decodedSquarefreeBoxedOffset_of_injective
+        (N := N) (offset := offset) hInjective hbBox hb18
+  refine ⟨decoder, decodedOffset, ?_⟩
+  intro B decMid hB hClique hMid
+  have hCredit :=
+    hCreditSelfCanonicalDirect B hB hClique hMid
+  exact activeStrictMiddleCreditMatching_of_selfCanonicalTargetDirectInjectiveMatching
+    (decMid := decMid) (by
+      simpa [decodedOffset, decodedSquarefreeBoxedOppositeFiniteOffsetMate]
+        using hCredit)
 
 /-- The self-source credit certificate supplies the previous anti-`18 mod 25` data. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCode_of_self
@@ -4825,18 +4965,18 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 
 /--
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
-compression whose strict-middle credit side is already a `decMid`-independent
-active credit matching code: reserve credits carry original non-image data, and
-new-middle credits carry canonical source hits.
+compression whose open offset side is squarefree-boxed and target-injective;
+Lean constructs the decoder, while the strict-middle credit side is already a
+`decMid`-independent active credit matching code.
 -/
-axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate
+axiom finiteOffsetMiddleCompressionEighteenSquarefreeBoxedCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenSquarefreeBoxedCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate
 
 /-- Current explicit credit-matching certificate derived from direct active codes. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_uniformSelfCanonicalTargetDirect
-    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_squarefreeBoxedUniformSelfCanonicalTargetDirect
+    finiteOffsetMiddleCompressionEighteenSquarefreeBoxedCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut
 
 /-- Current decoded squarefree-boxed certificate with capacity derived from credit matching. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
