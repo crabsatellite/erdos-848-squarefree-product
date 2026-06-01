@@ -61,7 +61,9 @@ class ActiveCreditCertificate:
     worst_credit_deficit_allocation_seeded: bool
     worst_credit_deficit_allocation_seed_keys: list[int]
     worst_credit_deficit_allocation_reserve_witnesses: list[int]
+    worst_credit_deficit_allocation_reserve_witness_indices: list[int]
     worst_credit_deficit_allocation_reserve_witness_valid: bool
+    worst_credit_deficit_allocation_reserve_witness_source_indexed: bool
     worst_credit_required_reserve_slack: int
     worst_credit_reserve_slack_surplus: int
     worst_credit_split_pool_size: int
@@ -85,7 +87,9 @@ class ActiveCreditCertificate:
     observed_max_credit_deficit_allocation_seeded: bool
     observed_max_credit_deficit_allocation_seed_keys: list[int]
     observed_max_credit_deficit_allocation_reserve_witnesses: list[int]
+    observed_max_credit_deficit_allocation_reserve_witness_indices: list[int]
     observed_max_credit_deficit_allocation_reserve_witness_valid: bool
+    observed_max_credit_deficit_allocation_reserve_witness_source_indexed: bool
     observed_deficit_pressure_complete: bool
 
 
@@ -169,7 +173,9 @@ def active_credit_certificate(
     worst_credit_deficit_allocation_seeded = True
     worst_credit_deficit_allocation_seed_keys: list[int] = []
     worst_credit_deficit_allocation_reserve_witnesses: list[int] = []
+    worst_credit_deficit_allocation_reserve_witness_indices: list[int] = []
     worst_credit_deficit_allocation_reserve_witness_valid = True
+    worst_credit_deficit_allocation_reserve_witness_source_indexed = True
     worst_credit_required_reserve_slack = 0
     worst_credit_reserve_slack_surplus = 0
     worst_credit_split_pool_size = 0
@@ -193,7 +199,9 @@ def active_credit_certificate(
     observed_max_credit_deficit_allocation_seeded = True
     observed_max_credit_deficit_allocation_seed_keys: list[int] = []
     observed_max_credit_deficit_allocation_reserve_witnesses: list[int] = []
+    observed_max_credit_deficit_allocation_reserve_witness_indices: list[int] = []
     observed_max_credit_deficit_allocation_reserve_witness_valid = True
+    observed_max_credit_deficit_allocation_reserve_witness_source_indexed = True
     search_nodes = 0
     search_max_depth = 0
     search_pruned_no_middle_tail = 0
@@ -228,7 +236,9 @@ def active_credit_certificate(
         nonlocal worst_credit_deficit_allocation_seeded
         nonlocal worst_credit_deficit_allocation_seed_keys
         nonlocal worst_credit_deficit_allocation_reserve_witnesses
+        nonlocal worst_credit_deficit_allocation_reserve_witness_indices
         nonlocal worst_credit_deficit_allocation_reserve_witness_valid
+        nonlocal worst_credit_deficit_allocation_reserve_witness_source_indexed
         nonlocal worst_credit_required_reserve_slack
         nonlocal worst_credit_reserve_slack_surplus
         nonlocal worst_credit_split_pool_size
@@ -252,7 +262,9 @@ def active_credit_certificate(
         nonlocal observed_max_credit_deficit_allocation_seeded
         nonlocal observed_max_credit_deficit_allocation_seed_keys
         nonlocal observed_max_credit_deficit_allocation_reserve_witnesses
+        nonlocal observed_max_credit_deficit_allocation_reserve_witness_indices
         nonlocal observed_max_credit_deficit_allocation_reserve_witness_valid
+        nonlocal observed_max_credit_deficit_allocation_reserve_witness_source_indexed
         nonlocal search_nodes
         nonlocal search_max_depth
         nonlocal search_pruned_no_middle_tail
@@ -285,9 +297,11 @@ def active_credit_certificate(
 
             def allocation_reserve_witnesses(
                 allocation_pairs: list[tuple[int, int]],
-            ) -> tuple[list[int], bool]:
+            ) -> tuple[list[int], list[int], bool, bool]:
                 witnesses: list[int] = []
+                witness_indices: list[int] = []
                 valid = True
+                source_indexed = True
                 for _middle, pay in allocation_pairs:
                     pay_index = base_index[pay]
                     witness = None
@@ -299,9 +313,21 @@ def active_credit_certificate(
                             break
                     if witness is None:
                         valid = False
+                        source_indexed = False
                         witnesses.append(0)
+                        witness_indices.append(0)
                         continue
                     witnesses.append(witness)
+                    witness_index = (
+                        (witness - opposite_residue) // 25
+                        if witness >= opposite_residue
+                        else 0
+                    )
+                    witness_indices.append(witness_index)
+                    source_indexed = (
+                        source_indexed
+                        and witness == 25 * witness_index + opposite_residue
+                    )
                     valid = (
                         valid
                         and 1 <= pay <= N
@@ -310,7 +336,7 @@ def active_credit_certificate(
                         and sf[pay * witness + 1]
                         and not ((opposite_image >> pay_index) & 1)
                     )
-                return witnesses, valid
+                return witnesses, witness_indices, valid, source_indexed
 
             if credit_deficit > 0:
                 observed_positive_deficit_nodes += 1
@@ -361,7 +387,9 @@ def active_credit_certificate(
                     ]
                     (
                         observed_max_credit_deficit_allocation_reserve_witnesses,
+                        observed_max_credit_deficit_allocation_reserve_witness_indices,
                         observed_max_credit_deficit_allocation_reserve_witness_valid,
+                        observed_max_credit_deficit_allocation_reserve_witness_source_indexed,
                     ) = allocation_reserve_witnesses(allocation_pairs)
             if defect < worst_credit_defect:
                 credit_vertices = [base[i] for i in range(len(base)) if (credit_pool >> i) & 1]
@@ -412,7 +440,9 @@ def active_credit_certificate(
                 ]
                 (
                     worst_credit_deficit_allocation_reserve_witnesses,
+                    worst_credit_deficit_allocation_reserve_witness_indices,
                     worst_credit_deficit_allocation_reserve_witness_valid,
+                    worst_credit_deficit_allocation_reserve_witness_source_indexed,
                 ) = allocation_reserve_witnesses(allocation_pairs)
                 worst_credit_required_reserve_slack = credit_deficit
                 worst_credit_reserve_slack_surplus = deficit_surplus
@@ -502,8 +532,14 @@ def active_credit_certificate(
         worst_credit_deficit_allocation_reserve_witnesses=(
             worst_credit_deficit_allocation_reserve_witnesses
         ),
+        worst_credit_deficit_allocation_reserve_witness_indices=(
+            worst_credit_deficit_allocation_reserve_witness_indices
+        ),
         worst_credit_deficit_allocation_reserve_witness_valid=(
             worst_credit_deficit_allocation_reserve_witness_valid
+        ),
+        worst_credit_deficit_allocation_reserve_witness_source_indexed=(
+            worst_credit_deficit_allocation_reserve_witness_source_indexed
         ),
         worst_credit_required_reserve_slack=worst_credit_required_reserve_slack,
         worst_credit_reserve_slack_surplus=worst_credit_reserve_slack_surplus,
@@ -538,8 +574,14 @@ def active_credit_certificate(
         observed_max_credit_deficit_allocation_reserve_witnesses=(
             observed_max_credit_deficit_allocation_reserve_witnesses
         ),
+        observed_max_credit_deficit_allocation_reserve_witness_indices=(
+            observed_max_credit_deficit_allocation_reserve_witness_indices
+        ),
         observed_max_credit_deficit_allocation_reserve_witness_valid=(
             observed_max_credit_deficit_allocation_reserve_witness_valid
+        ),
+        observed_max_credit_deficit_allocation_reserve_witness_source_indexed=(
+            observed_max_credit_deficit_allocation_reserve_witness_source_indexed
         ),
         observed_deficit_pressure_complete=exact_worst,
     )

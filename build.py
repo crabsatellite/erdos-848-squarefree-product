@@ -297,9 +297,22 @@ def assert_gate(payload: dict) -> None:
             "worst_credit_deficit"
         ], item
         assert item["worst_credit_deficit_allocation_reserve_witness_valid"], item
+        assert item[
+            "worst_credit_deficit_allocation_reserve_witness_source_indexed"
+        ], item
         assert len(item["worst_credit_deficit_allocation_reserve_witnesses"]) == item[
             "worst_credit_deficit"
         ], item
+        assert len(item["worst_credit_deficit_allocation_reserve_witness_indices"]) == item[
+            "worst_credit_deficit"
+        ], item
+        assert all(
+            witness == 25 * index + 18
+            for witness, index in zip(
+                item["worst_credit_deficit_allocation_reserve_witnesses"],
+                item["worst_credit_deficit_allocation_reserve_witness_indices"],
+            )
+        ), item
         assert len(item["worst_credit_deficit_allocation_pairs"]) == item[
             "worst_credit_deficit"
         ], item
@@ -356,9 +369,22 @@ def assert_gate(payload: dict) -> None:
             assert item[
                 "observed_max_credit_deficit_allocation_reserve_witness_valid"
             ], item
+            assert item[
+                "observed_max_credit_deficit_allocation_reserve_witness_source_indexed"
+            ], item
             assert len(
                 item["observed_max_credit_deficit_allocation_reserve_witnesses"]
             ) == item["observed_max_credit_deficit"], item
+            assert len(
+                item["observed_max_credit_deficit_allocation_reserve_witness_indices"]
+            ) == item["observed_max_credit_deficit"], item
+            assert all(
+                witness == 25 * index + 18
+                for witness, index in zip(
+                    item["observed_max_credit_deficit_allocation_reserve_witnesses"],
+                    item["observed_max_credit_deficit_allocation_reserve_witness_indices"],
+                )
+            ), item
             assert len(item["observed_max_credit_deficit_allocation_pairs"]) == item[
                 "observed_max_credit_deficit"
             ], item
