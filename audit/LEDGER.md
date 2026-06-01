@@ -103,6 +103,7 @@ the source of truth and use this file only as a durable round index.
 | R123 | Replaced boxed source-index no-image evidence with direct no-image over actual `18 mod 25` sources in `B`; Lean recovers the source index by `CandidateClassIndex`. |
 | R124 | Split generated target-neighbor evidence into one last-target box proof plus per-target opposite edge witnesses; Lean reconstructs boxed candidate neighbors. |
 | R125 | Restated no-image directly over `OppositeOutsidePart 7 B` using the b-indexed shift target; Lean recovers the source-index form. |
+| R126 | Restated no-image at the mate target-value level; Lean lowers target-value avoidance back to b-indexed shift no-image. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
