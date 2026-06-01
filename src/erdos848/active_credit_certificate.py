@@ -93,6 +93,7 @@ class ActiveCreditCertificate:
     worst_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid: bool
     worst_credit_deficit_allocation_last_target_upper_bound_valid: bool
     worst_credit_deficit_allocation_prefix_witness_edge_valid: bool
+    worst_credit_deficit_allocation_indexed_source_witness_membership_valid: bool
     worst_credit_deficit_allocation_opposite_witness_valid: bool
     worst_credit_deficit_allocation_opposite_witness_source_indexed: bool
     worst_credit_required_reserve_slack: int
@@ -142,6 +143,7 @@ class ActiveCreditCertificate:
     observed_max_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid: bool
     observed_max_credit_deficit_allocation_last_target_upper_bound_valid: bool
     observed_max_credit_deficit_allocation_prefix_witness_edge_valid: bool
+    observed_max_credit_deficit_allocation_indexed_source_witness_membership_valid: bool
     observed_max_credit_deficit_allocation_opposite_witness_valid: bool
     observed_max_credit_deficit_allocation_opposite_witness_source_indexed: bool
     observed_deficit_pressure_complete: bool
@@ -251,6 +253,7 @@ def active_credit_certificate(
     worst_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid = True
     worst_credit_deficit_allocation_last_target_upper_bound_valid = True
     worst_credit_deficit_allocation_prefix_witness_edge_valid = True
+    worst_credit_deficit_allocation_indexed_source_witness_membership_valid = True
     worst_credit_deficit_allocation_opposite_witness_valid = True
     worst_credit_deficit_allocation_opposite_witness_source_indexed = True
     worst_credit_required_reserve_slack = 0
@@ -300,6 +303,7 @@ def active_credit_certificate(
     observed_max_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid = True
     observed_max_credit_deficit_allocation_last_target_upper_bound_valid = True
     observed_max_credit_deficit_allocation_prefix_witness_edge_valid = True
+    observed_max_credit_deficit_allocation_indexed_source_witness_membership_valid = True
     observed_max_credit_deficit_allocation_opposite_witness_valid = True
     observed_max_credit_deficit_allocation_opposite_witness_source_indexed = True
     search_nodes = 0
@@ -599,6 +603,23 @@ def active_credit_certificate(
                         return False
                 return True
 
+            def allocation_indexed_source_witness_membership_valid(
+                allocation_pairs: list[tuple[int, int]],
+                witnesses: list[int],
+            ) -> bool:
+                if len(allocation_pairs) != len(witnesses):
+                    return False
+                chosen_values = {outside[index] for index in chosen}
+                for prefix_index, (_pair, witness) in enumerate(
+                    zip(allocation_pairs, witnesses)
+                ):
+                    prefix_pay = 25 * prefix_index + base_residue
+                    if witness not in chosen_values:
+                        return False
+                    if not sf[prefix_pay * witness + 1]:
+                        return False
+                return True
+
             def allocation_opposite_witness_source_indexed(
                 witnesses: list[int],
                 witness_indices: list[int],
@@ -878,6 +899,12 @@ def active_credit_certificate(
                             observed_max_credit_deficit_allocation_reserve_witnesses,
                         )
                     )
+                    observed_max_credit_deficit_allocation_indexed_source_witness_membership_valid = (
+                        allocation_indexed_source_witness_membership_valid(
+                            allocation_pairs,
+                            observed_max_credit_deficit_allocation_reserve_witnesses,
+                        )
+                    )
                     observed_max_credit_deficit_allocation_opposite_witness_valid = (
                         allocation_opposite_witness_valid(
                             allocation_pairs,
@@ -1033,6 +1060,12 @@ def active_credit_certificate(
                 )
                 worst_credit_deficit_allocation_prefix_witness_edge_valid = (
                     allocation_prefix_witness_edge_valid(
+                        allocation_pairs,
+                        worst_credit_deficit_allocation_reserve_witnesses,
+                    )
+                )
+                worst_credit_deficit_allocation_indexed_source_witness_membership_valid = (
+                    allocation_indexed_source_witness_membership_valid(
                         allocation_pairs,
                         worst_credit_deficit_allocation_reserve_witnesses,
                     )
@@ -1209,6 +1242,9 @@ def active_credit_certificate(
         worst_credit_deficit_allocation_prefix_witness_edge_valid=(
             worst_credit_deficit_allocation_prefix_witness_edge_valid
         ),
+        worst_credit_deficit_allocation_indexed_source_witness_membership_valid=(
+            worst_credit_deficit_allocation_indexed_source_witness_membership_valid
+        ),
         worst_credit_deficit_allocation_opposite_witness_valid=(
             worst_credit_deficit_allocation_opposite_witness_valid
         ),
@@ -1319,6 +1355,9 @@ def active_credit_certificate(
         ),
         observed_max_credit_deficit_allocation_prefix_witness_edge_valid=(
             observed_max_credit_deficit_allocation_prefix_witness_edge_valid
+        ),
+        observed_max_credit_deficit_allocation_indexed_source_witness_membership_valid=(
+            observed_max_credit_deficit_allocation_indexed_source_witness_membership_valid
         ),
         observed_max_credit_deficit_allocation_opposite_witness_valid=(
             observed_max_credit_deficit_allocation_opposite_witness_valid

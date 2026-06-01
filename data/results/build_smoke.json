@@ -11,6 +11,7 @@
       "observed_max_credit_deficit_allocation_additive_count_valid": true,
       "observed_max_credit_deficit_allocation_exact_prefix_pairs": true,
       "observed_max_credit_deficit_allocation_generated_prefix_pairs": true,
+      "observed_max_credit_deficit_allocation_indexed_source_witness_membership_valid": true,
       "observed_max_credit_deficit_allocation_last_target_upper_bound_valid": true,
       "observed_max_credit_deficit_allocation_mate_source_index_lower_bound_valid": true,
       "observed_max_credit_deficit_allocation_mate_target_lower_bound_valid": true,
@@ -66,6 +67,7 @@
       "worst_credit_deficit_allocation_additive_count_valid": true,
       "worst_credit_deficit_allocation_exact_prefix_pairs": true,
       "worst_credit_deficit_allocation_generated_prefix_pairs": true,
+      "worst_credit_deficit_allocation_indexed_source_witness_membership_valid": true,
       "worst_credit_deficit_allocation_last_target_upper_bound_valid": true,
       "worst_credit_deficit_allocation_mate_source_index_lower_bound_valid": true,
       "worst_credit_deficit_allocation_mate_target_lower_bound_valid": true,
@@ -132,6 +134,7 @@
       "observed_max_credit_deficit_allocation_additive_count_valid": true,
       "observed_max_credit_deficit_allocation_exact_prefix_pairs": true,
       "observed_max_credit_deficit_allocation_generated_prefix_pairs": true,
+      "observed_max_credit_deficit_allocation_indexed_source_witness_membership_valid": true,
       "observed_max_credit_deficit_allocation_last_target_upper_bound_valid": true,
       "observed_max_credit_deficit_allocation_mate_source_index_lower_bound_valid": true,
       "observed_max_credit_deficit_allocation_mate_target_lower_bound_valid": true,
@@ -215,6 +218,7 @@
       "worst_credit_deficit_allocation_additive_count_valid": true,
       "worst_credit_deficit_allocation_exact_prefix_pairs": true,
       "worst_credit_deficit_allocation_generated_prefix_pairs": true,
+      "worst_credit_deficit_allocation_indexed_source_witness_membership_valid": true,
       "worst_credit_deficit_allocation_last_target_upper_bound_valid": true,
       "worst_credit_deficit_allocation_mate_source_index_lower_bound_valid": true,
       "worst_credit_deficit_allocation_mate_target_lower_bound_valid": true,
@@ -382,7 +386,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T16:44:24.903453+00:00",
+  "generated_at": "2026-06-01T16:55:43.427839+00:00",
   "hall_checks": [
     {
       "N": 100,
