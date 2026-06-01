@@ -90,6 +90,7 @@ class ActiveCreditCertificate:
     worst_credit_deficit_allocation_mate_target_lower_bound_valid: bool
     worst_credit_deficit_allocation_mate_source_index_lower_bound_valid: bool
     worst_credit_deficit_allocation_target_prefix_box_bound_valid: bool
+    worst_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid: bool
     worst_credit_deficit_allocation_last_target_upper_bound_valid: bool
     worst_credit_deficit_allocation_prefix_witness_edge_valid: bool
     worst_credit_deficit_allocation_opposite_witness_valid: bool
@@ -138,6 +139,7 @@ class ActiveCreditCertificate:
     observed_max_credit_deficit_allocation_mate_target_lower_bound_valid: bool
     observed_max_credit_deficit_allocation_mate_source_index_lower_bound_valid: bool
     observed_max_credit_deficit_allocation_target_prefix_box_bound_valid: bool
+    observed_max_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid: bool
     observed_max_credit_deficit_allocation_last_target_upper_bound_valid: bool
     observed_max_credit_deficit_allocation_prefix_witness_edge_valid: bool
     observed_max_credit_deficit_allocation_opposite_witness_valid: bool
@@ -246,6 +248,7 @@ def active_credit_certificate(
     worst_credit_deficit_allocation_mate_target_lower_bound_valid = True
     worst_credit_deficit_allocation_mate_source_index_lower_bound_valid = True
     worst_credit_deficit_allocation_target_prefix_box_bound_valid = True
+    worst_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid = True
     worst_credit_deficit_allocation_last_target_upper_bound_valid = True
     worst_credit_deficit_allocation_prefix_witness_edge_valid = True
     worst_credit_deficit_allocation_opposite_witness_valid = True
@@ -294,6 +297,7 @@ def active_credit_certificate(
     observed_max_credit_deficit_allocation_mate_target_lower_bound_valid = True
     observed_max_credit_deficit_allocation_mate_source_index_lower_bound_valid = True
     observed_max_credit_deficit_allocation_target_prefix_box_bound_valid = True
+    observed_max_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid = True
     observed_max_credit_deficit_allocation_last_target_upper_bound_valid = True
     observed_max_credit_deficit_allocation_prefix_witness_edge_valid = True
     observed_max_credit_deficit_allocation_opposite_witness_valid = True
@@ -537,6 +541,20 @@ def active_credit_certificate(
                 deficit_length: int,
             ) -> bool:
                 return 25 * deficit_length <= N + (25 - base_residue)
+
+            def allocation_target_prefix_bound_from_seed_box_valid(
+                deficit_length: int,
+                seed_keys: list[int],
+            ) -> bool:
+                if deficit_length == 0:
+                    return True
+                if len(seed_keys) < deficit_length:
+                    return False
+                last_seed = _deficit_seed_value(seed_keys[deficit_length - 1])
+                return (
+                    1 <= last_seed <= N
+                    and 25 * deficit_length <= N + (25 - base_residue)
+                )
 
             def allocation_last_target_upper_bound_valid(
                 deficit_length: int,
@@ -845,6 +863,12 @@ def active_credit_certificate(
                     observed_max_credit_deficit_allocation_target_prefix_box_bound_valid = (
                         allocation_target_prefix_box_bound_valid(credit_deficit)
                     )
+                    observed_max_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid = (
+                        allocation_target_prefix_bound_from_seed_box_valid(
+                            credit_deficit,
+                            observed_max_credit_deficit_allocation_seed_keys,
+                        )
+                    )
                     observed_max_credit_deficit_allocation_last_target_upper_bound_valid = (
                         allocation_last_target_upper_bound_valid(credit_deficit)
                     )
@@ -997,6 +1021,12 @@ def active_credit_certificate(
                 )
                 worst_credit_deficit_allocation_target_prefix_box_bound_valid = (
                     allocation_target_prefix_box_bound_valid(credit_deficit)
+                )
+                worst_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid = (
+                    allocation_target_prefix_bound_from_seed_box_valid(
+                        credit_deficit,
+                        worst_credit_deficit_allocation_seed_keys,
+                    )
                 )
                 worst_credit_deficit_allocation_last_target_upper_bound_valid = (
                     allocation_last_target_upper_bound_valid(credit_deficit)
@@ -1170,6 +1200,9 @@ def active_credit_certificate(
         worst_credit_deficit_allocation_target_prefix_box_bound_valid=(
             worst_credit_deficit_allocation_target_prefix_box_bound_valid
         ),
+        worst_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid=(
+            worst_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid
+        ),
         worst_credit_deficit_allocation_last_target_upper_bound_valid=(
             worst_credit_deficit_allocation_last_target_upper_bound_valid
         ),
@@ -1277,6 +1310,9 @@ def active_credit_certificate(
         ),
         observed_max_credit_deficit_allocation_target_prefix_box_bound_valid=(
             observed_max_credit_deficit_allocation_target_prefix_box_bound_valid
+        ),
+        observed_max_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid=(
+            observed_max_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid
         ),
         observed_max_credit_deficit_allocation_last_target_upper_bound_valid=(
             observed_max_credit_deficit_allocation_last_target_upper_bound_valid

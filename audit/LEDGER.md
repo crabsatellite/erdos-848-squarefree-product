@@ -116,6 +116,7 @@ the source of truth and use this file only as a durable round index.
 | R136 | Replaced truncated count difference with additive count balance `StrictMiddle = NewMiddle + d`. |
 | R137 | Replaced seed-key prefix injectivity with strict monotonicity on the deficit prefix. |
 | R138 | Replaced arbitrary strict-monotone seed-key functions with consecutive seed keys `start+i`. |
+| R139 | Removed the explicit target-prefix box bound; Lean derives it from boundedness of the last consecutive seed value. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.

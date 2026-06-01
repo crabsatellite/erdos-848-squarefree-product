@@ -37,6 +37,7 @@
       "observed_max_credit_deficit_allocation_seeded": true,
       "observed_max_credit_deficit_allocation_shift_target_no_image_valid": true,
       "observed_max_credit_deficit_allocation_source_index_no_image_valid": true,
+      "observed_max_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid": true,
       "observed_max_credit_deficit_allocation_target_prefix_box_bound_valid": true,
       "observed_max_credit_deficit_allocation_valid": true,
       "observed_max_credit_deficit_middle_mod169_counts": {},
@@ -91,6 +92,7 @@
       "worst_credit_deficit_allocation_seeded": true,
       "worst_credit_deficit_allocation_shift_target_no_image_valid": true,
       "worst_credit_deficit_allocation_source_index_no_image_valid": true,
+      "worst_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid": true,
       "worst_credit_deficit_allocation_target_prefix_box_bound_valid": true,
       "worst_credit_deficit_allocation_valid": true,
       "worst_credit_deficit_capacity_holds": true,
@@ -167,6 +169,7 @@
       "observed_max_credit_deficit_allocation_seeded": true,
       "observed_max_credit_deficit_allocation_shift_target_no_image_valid": true,
       "observed_max_credit_deficit_allocation_source_index_no_image_valid": true,
+      "observed_max_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid": true,
       "observed_max_credit_deficit_allocation_target_prefix_box_bound_valid": true,
       "observed_max_credit_deficit_allocation_valid": true,
       "observed_max_credit_deficit_middle_mod169_counts": {
@@ -238,6 +241,7 @@
       "worst_credit_deficit_allocation_seeded": true,
       "worst_credit_deficit_allocation_shift_target_no_image_valid": true,
       "worst_credit_deficit_allocation_source_index_no_image_valid": true,
+      "worst_credit_deficit_allocation_target_prefix_bound_from_seed_box_valid": true,
       "worst_credit_deficit_allocation_target_prefix_box_bound_valid": true,
       "worst_credit_deficit_allocation_valid": true,
       "worst_credit_deficit_capacity_holds": true,
@@ -378,7 +382,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T16:33:38.720933+00:00",
+  "generated_at": "2026-06-01T16:44:24.903453+00:00",
   "hall_checks": [
     {
       "N": 100,
