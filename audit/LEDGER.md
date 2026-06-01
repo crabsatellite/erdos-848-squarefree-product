@@ -130,6 +130,7 @@ the source of truth and use this file only as a durable round index.
 | R150 | Replaced global selector validity in the live cut with list-local coverage, target-validity, and shift-injectivity. |
 | R151 | Replaced finite-list coverage in the live cut with the exact boxed `18 mod 25` source-count length equation. |
 | R152 | Removed boxed-source premises from the live list-local target-validity and shift-injectivity clauses. |
+| R153 | Replaced the live target-index upper-bound clause with direct target-value boxedness. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
