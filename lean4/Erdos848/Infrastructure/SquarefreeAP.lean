@@ -3182,6 +3182,9 @@ def ActiveStrictMiddleCreditDeficitPairListAllocation
     @familySize N (StrictMiddlePart r B) decMid <=
         @familySize N (IncrementalStrictMiddleNeighbor N r B) decNewMid +
           pairs.length /\
+    pairs.length =
+      @familySize N (StrictMiddlePart r B) decMid -
+        @familySize N (IncrementalStrictMiddleNeighbor N r B) decNewMid /\
     (pairs.map Prod.fst).Nodup /\
     (pairs.map Prod.snd).Nodup /\
     (forall pair : Nat × Nat, pair ∈ pairs -> StrictMiddlePart r B pair.fst) /\
@@ -5923,7 +5926,8 @@ theorem activeStrictMiddleCreditDeficitCapacity_of_pairListAllocation
       decReserve decNewMid := by
   classical
   rcases hPairs with
-    ⟨pairs, hMidPairs, _hMiddleNodup, hReserveNodup, _hMiddle, hReserve⟩
+    ⟨pairs, hMidPairs, _hPairLength, _hMiddleNodup, hReserveNodup,
+      _hMiddle, hReserve⟩
   let reserveList : List Nat := pairs.map Prod.snd
   have hReserveList :
       reserveList.length <=
