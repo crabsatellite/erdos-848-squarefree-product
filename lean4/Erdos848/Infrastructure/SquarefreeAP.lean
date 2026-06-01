@@ -452,6 +452,14 @@ def OppositeFiniteOffsetSourceIndexTargetCoherentBoxValid
     (OppositeFiniteOffsetSourceIndexTargetValue k code)
     (EighteenSourceFromIndex k)
 
+/-- Source-index target coherence plus the squarefree edge, without box data. -/
+def OppositeFiniteOffsetSourceIndexTargetCoherentEdgeValid
+    (k : Nat) (code : OppositeFiniteOffsetCode) : Prop :=
+  OppositeFiniteOffsetSourceIndexTargetCoherent k code /\
+  ForbiddenSquarefreeEdge
+    (OppositeFiniteOffsetSourceIndexTargetValue k code)
+    (EighteenSourceFromIndex k)
+
 /-- Direct source-index/finite-offset target coherence excludes underflow. -/
 theorem oppositeFiniteOffsetSourceIndexCodeNonUnderflow_of_targetCoherent
     {k : Nat} {code : OppositeFiniteOffsetCode}
@@ -492,6 +500,54 @@ theorem oppositeFiniteOffsetSourceIndexTargetBoxValid_of_targetCoherentBoxValid
   And.intro
     (oppositeFiniteOffsetSourceIndexCodeNonUnderflow_of_targetCoherent h.left)
     h.right
+
+/-- The source-index target shift for a typed code is at most `k + 3`. -/
+theorem oppositeFiniteOffsetSourceIndexShiftTarget_le_index_plus_three
+    (k : Nat) (code : OppositeFiniteOffsetCode) :
+    OppositeFiniteOffsetSourceIndexShiftTarget k code <= k + 3 := by
+  cases code <;> simp [OppositeFiniteOffsetSourceIndexShiftTarget] <;> omega
+
+/--
+If a target shift lies below the boxed `18 mod 25` source count, then the
+target value is boxed above by `N`.
+-/
+theorem oppositeFiniteOffsetSourceIndexTargetValue_le_of_shiftTarget_lt_sourceCount
+    {N k : Nat} {code : OppositeFiniteOffsetCode}
+    (hShift :
+      OppositeFiniteOffsetSourceIndexShiftTarget k code <
+        OppositeFiniteOffsetSourceCount N) :
+    OppositeFiniteOffsetSourceIndexTargetValue k code <= N := by
+  unfold OppositeFiniteOffsetSourceCount at hShift
+  by_cases hN : N < 18
+  · simp [hN] at hShift
+  · simp [hN] at hShift
+    have hLe :
+        OppositeFiniteOffsetSourceIndexShiftTarget k code <=
+          (N - 18) / 25 := by
+      omega
+    have hMul :
+        OppositeFiniteOffsetSourceIndexShiftTarget k code * 25 <=
+          N - 18 := by
+      exact (Nat.le_div_iff_mul_le (by decide : 0 < 25)).1 hLe
+    unfold OppositeFiniteOffsetSourceIndexTargetValue
+    omega
+
+/--
+If a list index is at least three positions before the list end, target
+boxedness follows from length exactness and the bandwidth-three shift bound.
+-/
+theorem oppositeFiniteOffsetListSelectorTargetValue_le_of_nonboundary
+    {N k : Nat} {codes : List OppositeFiniteOffsetCode}
+    (hLen : codes.length = OppositeFiniteOffsetSourceCount N)
+    (hGap : k + 3 < codes.length) :
+    OppositeFiniteOffsetSourceIndexTargetValue k
+        (OppositeFiniteOffsetListSelector codes k) <= N := by
+  apply oppositeFiniteOffsetSourceIndexTargetValue_le_of_shiftTarget_lt_sourceCount
+  rw [← hLen]
+  exact Nat.lt_of_le_of_lt
+    (oppositeFiniteOffsetSourceIndexShiftTarget_le_index_plus_three
+      k (OppositeFiniteOffsetListSelector codes k))
+    hGap
 
 /-- Direct target-value boxedness supplies the old target-index upper bound. -/
 theorem oppositeFiniteOffsetSourceIndexTargetValid_of_targetBoxValid
@@ -571,6 +627,20 @@ def OppositeFiniteOffsetListSelectorLengthTargetCoherentBoxValid
     OppositeFiniteOffsetSourceIndexTargetCoherentBoxValid N k
       (OppositeFiniteOffsetListSelector codes k)
 
+/-- Target coherence plus squarefree edge for every finite selector-list index. -/
+def OppositeFiniteOffsetListSelectorLengthTargetCoherentEdgeValid
+    (_N : Nat) (codes : List OppositeFiniteOffsetCode) : Prop :=
+  forall k : Nat, k < codes.length ->
+    OppositeFiniteOffsetSourceIndexTargetCoherentEdgeValid k
+      (OppositeFiniteOffsetListSelector codes k)
+
+/-- Direct target-value boxedness only for the final bandwidth-three boundary. -/
+def OppositeFiniteOffsetListSelectorLengthTargetBoundaryBoxValid
+    (N : Nat) (codes : List OppositeFiniteOffsetCode) : Prop :=
+  forall k : Nat, k < codes.length -> codes.length <= k + 3 ->
+    OppositeFiniteOffsetSourceIndexTargetValue k
+      (OppositeFiniteOffsetListSelector codes k) <= N
+
 /-- Box-free local shift-injectivity for every pair of selector-list indices. -/
 def OppositeFiniteOffsetListSelectorLengthShiftInjective
     (_N : Nat) (codes : List OppositeFiniteOffsetCode) : Prop :=
@@ -638,6 +708,17 @@ def OppositeFiniteOffsetListSelectorLengthTargetCoherentBoxLocalValidMatching
     (N : Nat) (codes : List OppositeFiniteOffsetCode) : Prop :=
   codes.length = OppositeFiniteOffsetSourceCount N /\
   OppositeFiniteOffsetListSelectorLengthTargetCoherentBoxValid N codes /\
+  OppositeFiniteOffsetListSelectorLengthLocalShiftInjective N codes
+
+/--
+Length-exact valid matching with target coherence everywhere and direct
+boxedness only on the final bandwidth-three boundary.
+-/
+def OppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxLocalValidMatching
+    (N : Nat) (codes : List OppositeFiniteOffsetCode) : Prop :=
+  codes.length = OppositeFiniteOffsetSourceCount N /\
+  OppositeFiniteOffsetListSelectorLengthTargetCoherentEdgeValid N codes /\
+  OppositeFiniteOffsetListSelectorLengthTargetBoundaryBoxValid N codes /\
   OppositeFiniteOffsetListSelectorLengthLocalShiftInjective N codes
 
 /-- A target-index collision for bandwidth-three codes has source gap at most six. -/
@@ -771,6 +852,32 @@ theorem oppositeFiniteOffsetListSelectorLengthTargetCoherentBoxValidMatching_of_
     (And.intro h.right.left
       (oppositeFiniteOffsetListSelectorLengthShiftInjective_of_localShiftInjective
         h.right.right))
+
+/--
+Boundary-only target boxedness supplies target boxedness on every list index;
+non-boundary indices are boxed by the bandwidth-three bound and length
+exactness.
+-/
+theorem oppositeFiniteOffsetListSelectorLengthTargetCoherentBoxLocalValidMatching_of_boundaryValidMatching
+    {N : Nat} {codes : List OppositeFiniteOffsetCode}
+    (h :
+      OppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxLocalValidMatching
+        N codes) :
+    OppositeFiniteOffsetListSelectorLengthTargetCoherentBoxLocalValidMatching
+      N codes := by
+  refine And.intro h.left (And.intro ?_ h.right.right.right)
+  intro k hk
+  have hEdge := h.right.left k hk
+  have hUpper :
+      OppositeFiniteOffsetSourceIndexTargetValue k
+        (OppositeFiniteOffsetListSelector codes k) <= N := by
+    by_cases hBoundary : codes.length <= k + 3
+    · exact h.right.right.left k hk hBoundary
+    · have hGap : k + 3 < codes.length := by omega
+      exact
+        oppositeFiniteOffsetListSelectorTargetValue_le_of_nonboundary
+          h.left hGap
+  exact And.intro hEdge.left (And.intro hUpper hEdge.right)
 
 /--
 Non-underflow is enough to identify the original finite-offset target value
@@ -8968,6 +9075,17 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSele
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance N
       (OppositeFiniteOffsetListSelector codes)
 
+/--
+Source-index split certificate with target boxedness required only on the final
+bandwidth-three boundary of the finite length-exact list certificate.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxLocalCreditDeficitReserveDominanceCertificate :
+    Prop :=
+  forall N : Nat, Exists fun codes : List OppositeFiniteOffsetCode =>
+    OppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxLocalValidMatching N codes /\
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance N
+      (OppositeFiniteOffsetListSelector codes)
+
 /-- Current source-index split certificate, narrowed to template-window-repair form. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
@@ -9444,6 +9562,14 @@ target-boxed, length-exact finite list-selector reserve-dominance certificate.
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoxLocalDeficitReserveDominanceCertificate :
     Prop :=
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoxLocalCreditDeficitReserveDominanceCertificate
+
+/--
+Current source-index split certificate with target boxedness only on the final
+bandwidth-three boundary.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxLocalDeficitReserveDominanceCertificate :
+    Prop :=
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxLocalCreditDeficitReserveDominanceCertificate
 
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
@@ -14710,6 +14836,23 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
           hPack.left)
         hPack.right)
 
+/--
+Boundary-boxed local-window target-coherent list-selector reserve dominance
+supplies the previous target-boxed local-window certificate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoxLocalDeficitReserveDominance_of_lengthTargetCoherentBoundaryBoxLocalListSelector
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxLocalDeficitReserveDominanceCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoxLocalDeficitReserveDominanceCertificate := by
+  intro N
+  cases h N with
+  | intro codes hPack =>
+    exact Exists.intro codes
+      (And.intro
+        (oppositeFiniteOffsetListSelectorLengthTargetCoherentBoxLocalValidMatching_of_boundaryValidMatching
+          hPack.left)
+        hPack.right)
+
 /-- Scalar reserve lower bound directly supplies source-index deficit capacity. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity_of_countUpperReserveLowerBoundAllocation
     {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
@@ -15016,6 +15159,19 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sou
   exact
     globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoxReserveDominance
       (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoxDeficitReserveDominance_of_lengthTargetCoherentBoxLocalListSelector
+        h)
+
+/--
+Boundary-boxed local-window finite list-selector reserve dominance supplies
+decoded squarefree-boxed compression.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxLocalReserveDominance
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxLocalDeficitReserveDominanceCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate := by
+  exact
+    globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoxLocalReserveDominance
+      (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoxLocalDeficitReserveDominance_of_lengthTargetCoherentBoundaryBoxLocalListSelector
         h)
 
 /-- Current reserve dominance directly supplies decoded squarefree-boxed compression. -/
@@ -15767,18 +15923,20 @@ Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
 compression whose open offset side is a finite source-index code list over
 `25*k+18`, with length exactly the boxed source count and direct coherence
 between typed finite-offset values and source-index targets.  The target-index
-map is certified by local six-window no-collision; Lean derives global
-injectivity, target-value injectivity, packages the squarefree-boxed codes, and
-constructs the decoder.  The strict-middle side is the reserve-dominance
-active-credit count inequality for the simple typed mate.
+map is certified by local six-window no-collision, while target boxedness is
+certified only on the final bandwidth-three boundary.  Lean derives the
+non-boundary target bounds, global injectivity, target-value injectivity,
+packages the squarefree-boxed codes, and constructs the decoder.  The
+strict-middle side is the reserve-dominance active-credit count inequality for
+the simple typed mate.
 -/
 axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoxLocalDeficitReserveDominanceCertificate
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxLocalDeficitReserveDominanceCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoxLocalReserveDominance
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxLocalReserveDominance
     finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/

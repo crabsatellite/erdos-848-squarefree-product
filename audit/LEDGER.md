@@ -133,6 +133,7 @@ the source of truth and use this file only as a durable round index.
 | R153 | Replaced the live target-index upper-bound clause with direct target-value boxedness. |
 | R154 | Replaced the live non-underflow clause with typed finite-offset/source-index target coherence. |
 | R155 | Replaced global target-index injectivity in the live list certificate with local six-window no-collision. |
+| R156 | Restricted live target-value boxedness to the final bandwidth-three boundary; Lean derives non-boundary bounds. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
