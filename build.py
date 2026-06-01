@@ -289,6 +289,11 @@ def assert_gate(payload: dict) -> None:
             item["worst_credit_reserve_size"] - item["worst_credit_deficit"]
         ), item
         assert item["worst_credit_deficit_capacity_holds"], item
+        assert item["worst_credit_deficit_reserve_dominance_holds"], item
+        assert item["worst_credit_deficit_reserve_dominance_holds"] == (
+            item["worst_credit_middle_size"] <=
+            item["worst_credit_new_middle_size"] + item["worst_credit_reserve_size"]
+        ), item
         assert item["worst_credit_deficit_surplus"] >= 0, item
         assert item["worst_credit_deficit_allocation_valid"], item
         assert item["worst_credit_deficit_allocation_additive_count_valid"], item
@@ -410,6 +415,12 @@ def assert_gate(payload: dict) -> None:
             assert item["observed_max_credit_deficit_surplus"] == (
                 item["observed_max_credit_deficit_reserve_size"] -
                 item["observed_max_credit_deficit"]
+            ), item
+            assert item["observed_max_credit_deficit_reserve_dominance_holds"], item
+            assert item["observed_max_credit_deficit_reserve_dominance_holds"] == (
+                item["observed_max_credit_deficit_middle_size"] <=
+                item["observed_max_credit_deficit_new_middle_size"] +
+                item["observed_max_credit_deficit_reserve_size"]
             ), item
             assert len(item["observed_max_credit_deficit_middle_vertices"]) == item[
                 "observed_max_credit_deficit_middle_size"

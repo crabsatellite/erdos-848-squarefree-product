@@ -63,6 +63,7 @@ class ActiveCreditCertificate:
     worst_credit_deficit: int
     worst_credit_deficit_surplus: int
     worst_credit_deficit_capacity_holds: bool
+    worst_credit_deficit_reserve_dominance_holds: bool
     worst_credit_deficit_allocation_pairs: list[tuple[int, int]]
     worst_credit_deficit_allocation_valid: bool
     worst_credit_deficit_allocation_additive_count_valid: bool
@@ -109,6 +110,7 @@ class ActiveCreditCertificate:
     observed_positive_deficit_nodes: int
     observed_max_credit_deficit: int
     observed_max_credit_deficit_surplus: int
+    observed_max_credit_deficit_reserve_dominance_holds: bool
     observed_max_credit_deficit_witness: list[int]
     observed_max_credit_deficit_residue_counts: dict[int, int]
     observed_max_credit_deficit_middle_vertices: list[int]
@@ -231,6 +233,7 @@ def active_credit_certificate(
     worst_credit_deficit = 0
     worst_credit_deficit_surplus = 0
     worst_credit_deficit_capacity_holds = True
+    worst_credit_deficit_reserve_dominance_holds = True
     worst_credit_deficit_allocation_pairs: list[tuple[int, int]] = []
     worst_credit_deficit_allocation_valid = True
     worst_credit_deficit_allocation_additive_count_valid = True
@@ -277,6 +280,7 @@ def active_credit_certificate(
     observed_positive_deficit_nodes = 0
     observed_max_credit_deficit = 0
     observed_max_credit_deficit_surplus = 0
+    observed_max_credit_deficit_reserve_dominance_holds = True
     observed_max_credit_deficit_witness: list[int] = []
     observed_max_credit_deficit_residue_counts: dict[int, int] = {}
     observed_max_credit_deficit_middle_vertices: list[int] = []
@@ -350,6 +354,7 @@ def active_credit_certificate(
         nonlocal worst_credit_deficit
         nonlocal worst_credit_deficit_surplus
         nonlocal worst_credit_deficit_capacity_holds
+        nonlocal worst_credit_deficit_reserve_dominance_holds
         nonlocal worst_credit_deficit_allocation_pairs
         nonlocal worst_credit_deficit_allocation_valid
         nonlocal worst_credit_deficit_allocation_reserve_prefix
@@ -383,6 +388,7 @@ def active_credit_certificate(
         nonlocal observed_positive_deficit_nodes
         nonlocal observed_max_credit_deficit
         nonlocal observed_max_credit_deficit_surplus
+        nonlocal observed_max_credit_deficit_reserve_dominance_holds
         nonlocal observed_max_credit_deficit_witness
         nonlocal observed_max_credit_deficit_residue_counts
         nonlocal observed_max_credit_deficit_middle_vertices
@@ -459,6 +465,9 @@ def active_credit_certificate(
 
             def allocation_reserve_lower_bound_valid(deficit_length: int) -> bool:
                 return deficit_length <= reserve_size
+
+            def reserve_dominance_holds() -> bool:
+                return middle_size <= new_middle_size + reserve_size
 
             def allocation_reserve_witnesses(
                 allocation_pairs: list[tuple[int, int]],
@@ -806,6 +815,9 @@ def active_credit_certificate(
                     deficit_vertex_set = set(deficit_vertices)
                     observed_max_credit_deficit = credit_deficit
                     observed_max_credit_deficit_surplus = deficit_surplus
+                    observed_max_credit_deficit_reserve_dominance_holds = (
+                        reserve_dominance_holds()
+                    )
                     observed_max_credit_deficit_witness = [outside[i] for i in chosen]
                     observed_max_credit_deficit_residue_counts = dict(
                         sorted(Counter(b % 25 for b in observed_max_credit_deficit_witness).items())
@@ -1008,6 +1020,7 @@ def active_credit_certificate(
                 worst_credit_deficit = credit_deficit
                 worst_credit_deficit_surplus = deficit_surplus
                 worst_credit_deficit_capacity_holds = deficit_surplus >= 0
+                worst_credit_deficit_reserve_dominance_holds = reserve_dominance_holds()
                 worst_credit_deficit_allocation_pairs = allocation_pairs
                 worst_credit_deficit_allocation_valid = (
                     len(allocation_pairs) == credit_deficit
@@ -1240,6 +1253,9 @@ def active_credit_certificate(
         worst_credit_deficit=worst_credit_deficit,
         worst_credit_deficit_surplus=worst_credit_deficit_surplus,
         worst_credit_deficit_capacity_holds=worst_credit_deficit_capacity_holds,
+        worst_credit_deficit_reserve_dominance_holds=(
+            worst_credit_deficit_reserve_dominance_holds
+        ),
         worst_credit_deficit_allocation_pairs=worst_credit_deficit_allocation_pairs,
         worst_credit_deficit_allocation_valid=worst_credit_deficit_allocation_valid,
         worst_credit_deficit_allocation_additive_count_valid=(
@@ -1350,6 +1366,9 @@ def active_credit_certificate(
         observed_positive_deficit_nodes=observed_positive_deficit_nodes,
         observed_max_credit_deficit=observed_max_credit_deficit,
         observed_max_credit_deficit_surplus=observed_max_credit_deficit_surplus,
+        observed_max_credit_deficit_reserve_dominance_holds=(
+            observed_max_credit_deficit_reserve_dominance_holds
+        ),
         observed_max_credit_deficit_witness=observed_max_credit_deficit_witness,
         observed_max_credit_deficit_residue_counts=observed_max_credit_deficit_residue_counts,
         observed_max_credit_deficit_middle_vertices=observed_max_credit_deficit_middle_vertices,
