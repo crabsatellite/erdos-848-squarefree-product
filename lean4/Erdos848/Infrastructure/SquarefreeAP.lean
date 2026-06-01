@@ -3810,11 +3810,25 @@ def GlobalOppositeFiniteOffsetEighteenTypedShiftIndexMatching
 Opposite-side typed matching indexed only by the `18 mod 25` source index.
 The induced total mate uses `offsetIndex (CandidateClassIndex b)`.
 -/
-def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetMap
+def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox
     (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
   forall k : Nat, InBox N (EighteenSourceFromIndex k) ->
-    GlobalOppositeFiniteOffsetEighteenTypedTargetNeighbor N
-      (EighteenSourceFromIndex k) (offsetIndex k)
+    InBox N (OppositeFiniteOffsetCodeValue
+      (EighteenSourceFromIndex k) (offsetIndex k))
+
+/-- Source-index squarefree edges for the `18 mod 25` opposite block. -/
+def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall k : Nat, InBox N (EighteenSourceFromIndex k) ->
+    ForbiddenSquarefreeEdge
+      (OppositeFiniteOffsetCodeValue (EighteenSourceFromIndex k) (offsetIndex k))
+      (EighteenSourceFromIndex k)
+
+/-- Source-index target map, split internally into target box and edge data. -/
+def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetMap
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox N offsetIndex /\
+  GlobalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge N offsetIndex
 
 /-- Source-index shift injectivity for the `18 mod 25` opposite block. -/
 def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective
@@ -3876,7 +3890,8 @@ Split certificate whose opposite block is indexed by `k` with source
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
   forall N : Nat, Exists fun offsetIndex : Nat -> OppositeFiniteOffsetCode =>
-    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetMap N offsetIndex /\
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox N offsetIndex /\
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge N offsetIndex /\
     GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective N offsetIndex /\
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity N
       (fun b => offsetIndex (CandidateClassIndex b))
@@ -4712,13 +4727,16 @@ theorem globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex
         N offsetIndex) :
     GlobalOppositeFiniteOffsetEighteenTypedShiftIndexMatching N
       (fun b => offsetIndex (CandidateClassIndex b)) := by
-  rcases h with ⟨hMapIndex, hIndexInjective⟩
+  rcases h with ⟨hTargetMap, hIndexInjective⟩
+  rcases hTargetMap with ⟨hTargetBox, hSquarefreeEdge⟩
   refine ⟨?_, ?_⟩
   · intro b hbBox hb18
     have hsource := eighteenSourceFromIndex_candidateClassIndex hb18
     have hbIndexBox : InBox N (EighteenSourceFromIndex (CandidateClassIndex b)) := by
       simpa [hsource] using hbBox
-    simpa [hsource] using hMapIndex (CandidateClassIndex b) hbIndexBox
+    exact ⟨by
+      simpa [hsource] using hTargetBox (CandidateClassIndex b) hbIndexBox, by
+      simpa [hsource] using hSquarefreeEdge (CandidateClassIndex b) hbIndexBox⟩
   · intro b1 b2 hb1Box hb1Residue hb2Box hb2Residue hShift
     have hsource1 := eighteenSourceFromIndex_candidateClassIndex hb1Residue
     have hsource2 := eighteenSourceFromIndex_candidateClassIndex hb2Residue
@@ -4748,10 +4766,11 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCredi
       GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate) :
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCertificate := by
   intro N
-  rcases h N with ⟨offsetIndex, hTargetMap, hShiftInjective, hCapacity⟩
+  rcases h N with ⟨offsetIndex, hTargetBox, hSquarefreeEdge,
+    hShiftInjective, hCapacity⟩
   exact ⟨fun b => offsetIndex (CandidateClassIndex b),
     globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex
-      ⟨hTargetMap, hShiftInjective⟩,
+      ⟨⟨hTargetBox, hSquarefreeEdge⟩, hShiftInjective⟩,
     hCapacity⟩
 
 /-- The split shift-index certificate supplies the previous split target-index certificate. -/

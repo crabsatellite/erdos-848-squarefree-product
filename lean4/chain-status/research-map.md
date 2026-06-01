@@ -195,13 +195,15 @@ Files:
 
 ### `G-squarefree-ap-hall-expansion` -- Squarefree AP Hall-neighborhood expansion
 
-Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the live certificate is split into a source-indexed opposite target-map block over `25*k+18`, a source-indexed shift-injectivity block, and a strict-middle typed-mate active credit capacity block. Lean induces the total typed mate by `CandidateClassIndex`, derives target-index injectivity from explicit source-index shifts, derives target-value injectivity, packages squarefree-boxed codes, constructs the decoder, transfers active credit capacity to the decoded boxed mate, then unpacks Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band.
+Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the live certificate is split into source-indexed target-box, squarefree-edge, shift-injectivity, and strict-middle typed-mate active credit capacity blocks. Lean induces the total typed mate by `CandidateClassIndex`, derives target-index injectivity from explicit source-index shifts, derives target-value injectivity, packages squarefree-boxed codes, constructs the decoder, transfers active credit capacity to the decoded boxed mate, then unpacks Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band.
 
 Declarations:
 - `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut`
 - `Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex`
 - `Erdos848.globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex`
 - `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate`
+- `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox`
+- `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge`
 - `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetMap`
 - `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective`
 - `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftMatching`
