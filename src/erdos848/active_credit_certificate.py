@@ -17,6 +17,7 @@ class ActiveCreditCertificate:
     outside_middle_vertices: int
     search_nodes: int
     search_max_depth: int
+    search_pruned_no_middle_tail: int
     search_exhausted: bool
     worst_credit_defect: int
     worst_credit_witness: list[int]
@@ -70,6 +71,10 @@ def active_credit_certificate(
     is_opposite = [b % 25 == opposite_residue for b in outside]
     outside_opposite_vertices = sum(1 for flag in is_opposite if flag)
     outside_middle_vertices = len(outside) - outside_opposite_vertices
+    middle_candidate_mask = 0
+    for i, opposite_flag in enumerate(is_opposite):
+        if not opposite_flag:
+            middle_candidate_mask |= 1 << i
     neigh = [0] * len(outside)
     for i, b in enumerate(outside):
         mask = 0
@@ -88,6 +93,7 @@ def active_credit_certificate(
     worst_credit_matching: list[tuple[int, int]] = []
     search_nodes = 0
     search_max_depth = 0
+    search_pruned_no_middle_tail = 0
     search_exhausted = True
 
     def expand(
@@ -109,6 +115,7 @@ def active_credit_certificate(
         nonlocal worst_credit_matching
         nonlocal search_nodes
         nonlocal search_max_depth
+        nonlocal search_pruned_no_middle_tail
         nonlocal search_exhausted
 
         search_nodes += 1
@@ -118,6 +125,9 @@ def active_credit_certificate(
             return
 
         middle_size = len(middle_vertices)
+        if middle_size == 0 and (P & middle_candidate_mask) == 0:
+            search_pruned_no_middle_tail += 1
+            return
         if middle_size > 0:
             reserve = opposite_neighbors & ~opposite_image
             new_middle = middle_neighbors & ~opposite_neighbors
@@ -176,6 +186,7 @@ def active_credit_certificate(
         outside_middle_vertices=outside_middle_vertices,
         search_nodes=search_nodes,
         search_max_depth=search_max_depth,
+        search_pruned_no_middle_tail=search_pruned_no_middle_tail,
         search_exhausted=search_exhausted,
         worst_credit_defect=worst_credit_defect,
         worst_credit_witness=worst_credit_witness,

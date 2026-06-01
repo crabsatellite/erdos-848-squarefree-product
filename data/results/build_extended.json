@@ -9,8 +9,9 @@
       "outside_opposite_vertices": 4,
       "outside_vertices": 8,
       "search_exhausted": true,
-      "search_max_depth": 4,
-      "search_nodes": 25,
+      "search_max_depth": 2,
+      "search_nodes": 15,
+      "search_pruned_no_middle_tail": 3,
       "worst_credit_defect": 2,
       "worst_credit_matching": [
         [
@@ -36,8 +37,9 @@
       "outside_opposite_vertices": 20,
       "outside_vertices": 32,
       "search_exhausted": true,
-      "search_max_depth": 20,
-      "search_nodes": 1049963,
+      "search_max_depth": 9,
+      "search_nodes": 2135,
+      "search_pruned_no_middle_tail": 661,
       "worst_credit_defect": 11,
       "worst_credit_matching": [
         [
@@ -60,6 +62,51 @@
         343,
         443,
         493
+      ]
+    },
+    {
+      "N": 1000,
+      "base_residue": 7,
+      "index_bandwidth": 3,
+      "opposite_residue": 18,
+      "outside_middle_vertices": 25,
+      "outside_opposite_vertices": 40,
+      "outside_vertices": 65,
+      "search_exhausted": true,
+      "search_max_depth": 18,
+      "search_nodes": 444045,
+      "search_pruned_no_middle_tail": 72178,
+      "worst_credit_defect": 22,
+      "worst_credit_matching": [
+        [
+          515,
+          7
+        ]
+      ],
+      "worst_credit_middle_size": 1,
+      "worst_credit_new_middle_size": 0,
+      "worst_credit_opposite_size": 17,
+      "worst_credit_pool_size": 23,
+      "worst_credit_reserve_size": 23,
+      "worst_credit_witness": [
+        93,
+        193,
+        218,
+        243,
+        293,
+        393,
+        418,
+        493,
+        515,
+        593,
+        643,
+        693,
+        718,
+        793,
+        843,
+        868,
+        893,
+        993
       ]
     }
   ],
@@ -474,7 +521,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T07:57:06.236146+00:00",
+  "generated_at": "2026-06-01T08:01:03.865699+00:00",
   "hall_checks": [
     {
       "N": 100,
