@@ -90,6 +90,7 @@ the source of truth and use this file only as a durable round index.
 | R110 | Replaced generated-list length obligations by direct `deficitLength` obligations, with Lean deriving generated-pair list length. |
 | R111 | Removed reserve-side generated-prefix nodup from the live cut; Lean now proves `(List.range deficitLength).map (fun i => 25*i+7)` is nodup by injectivity. |
 | R112 | Removed the generated target carrier-residue field from the live cut; Lean now proves `CandidateCarrier 7 (25*i+7)` directly from modular arithmetic. |
+| R113 | Compressed generated target boxedness to the scalar prefix upper bound `25*deficitLength <= N+18`; Lean now derives `InBox N (25*i+7)` for every generated endpoint. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
