@@ -3810,17 +3810,30 @@ def GlobalOppositeFiniteOffsetEighteenTypedShiftIndexMatching
 Opposite-side typed matching indexed only by the `18 mod 25` source index.
 The induced total mate uses `offsetIndex (CandidateClassIndex b)`.
 -/
-def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftMatching
+def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetMap
     (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
-  (forall k : Nat, InBox N (EighteenSourceFromIndex k) ->
+  forall k : Nat, InBox N (EighteenSourceFromIndex k) ->
     GlobalOppositeFiniteOffsetEighteenTypedTargetNeighbor N
-      (EighteenSourceFromIndex k) (offsetIndex k)) /\
-  (forall k1 k2 : Nat,
+      (EighteenSourceFromIndex k) (offsetIndex k)
+
+/-- Source-index shift injectivity for the `18 mod 25` opposite block. -/
+def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall k1 k2 : Nat,
     InBox N (EighteenSourceFromIndex k1) ->
     InBox N (EighteenSourceFromIndex k2) ->
       OppositeFiniteOffsetSourceIndexShiftTarget k1 (offsetIndex k1) =
         OppositeFiniteOffsetSourceIndexShiftTarget k2 (offsetIndex k2) ->
-      k1 = k2)
+      k1 = k2
+
+/--
+Opposite-side typed matching indexed only by the `18 mod 25` source index.
+The induced total mate uses `offsetIndex (CandidateClassIndex b)`.
+-/
+def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftMatching
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetMap N offsetIndex /\
+  GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective N offsetIndex
 
 /-- Strict-middle active credit capacity against the simple typed finite-offset mate. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity
@@ -3863,7 +3876,8 @@ Split certificate whose opposite block is indexed by `k` with source
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
   forall N : Nat, Exists fun offsetIndex : Nat -> OppositeFiniteOffsetCode =>
-    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftMatching N offsetIndex /\
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetMap N offsetIndex /\
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective N offsetIndex /\
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity N
       (fun b => offsetIndex (CandidateClassIndex b))
 
@@ -4734,10 +4748,10 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCredi
       GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate) :
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCertificate := by
   intro N
-  rcases h N with ⟨offsetIndex, hOpposite, hCapacity⟩
+  rcases h N with ⟨offsetIndex, hTargetMap, hShiftInjective, hCapacity⟩
   exact ⟨fun b => offsetIndex (CandidateClassIndex b),
     globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex
-      hOpposite,
+      ⟨hTargetMap, hShiftInjective⟩,
     hCapacity⟩
 
 /-- The split shift-index certificate supplies the previous split target-index certificate. -/

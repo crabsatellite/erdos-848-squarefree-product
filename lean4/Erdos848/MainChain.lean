@@ -75,7 +75,7 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the live certificate is split into a source-indexed opposite typed shift-index matching block over `25*k+18` and a strict-middle typed-mate active credit capacity block. Lean induces the total typed mate by `CandidateClassIndex`, derives target-index injectivity from explicit source-index shifts, derives target-value injectivity, packages squarefree-boxed codes, constructs the decoder, transfers active credit capacity to the decoded boxed mate, then unpacks Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
+        "Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the live certificate is split into a source-indexed opposite target-map block over `25*k+18`, a source-indexed shift-injectivity block, and a strict-middle typed-mate active credit capacity block. Lean induces the total typed mate by `CandidateClassIndex`, derives target-index injectivity from explicit source-index shifts, derives target-value injectivity, packages squarefree-boxed codes, constructs the decoder, transfers active credit capacity to the decoded boxed mate, then unpacks Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
@@ -84,6 +84,8 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex",
         "Erdos848.globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate",
+        "Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetMap",
+        "Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective",
         "Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftMatching",
         "Erdos848.EighteenSourceFromIndex",
         "Erdos848.OppositeFiniteOffsetSourceIndexShiftTarget",
@@ -549,7 +551,7 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Prove the remaining source-index split certificate: `GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftMatching` for one seven-constructor offset map on indices `k`, and `GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity` for the induced total typed mate on every compatible outside clique with nonempty strict middle.",
+        "Prove the remaining source-index split certificate: `GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetMap`, `GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective`, and `GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity` for the induced total typed mate on every compatible outside clique with nonempty strict middle.",
         "Use Lean to assemble the split certificate, induce the total typed mate through `CandidateClassIndex`, convert source-index shift injectivity to target-index injectivity, convert target-index injectivity to target-value injectivity, transfer typed-mate active credit capacity to the boxed decoded mate, package typed offsets into squarefree-boxed codes, build decoded offset data from target injectivity, then unpack Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       ]
       successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut`."
@@ -639,6 +641,8 @@ def config : ChainAudit.ProjectConfig := {
         "globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex",
         "globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex",
         "GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate",
+        "GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetMap",
+        "GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective",
         "GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftMatching",
         "EighteenSourceFromIndex",
         "OppositeFiniteOffsetSourceIndexShiftTarget",
