@@ -77,6 +77,7 @@ the source of truth and use this file only as a durable round index.
 | R097 | Narrowed seeded deficit pair lists to seed-value pair lists: every deficit payer is now named by a canonical seed key, and finite evidence records those keys. |
 | R098 | Narrowed seed-value pair lists to reserve-witness pair lists: every reserve payment now carries an explicit opposite source witnessing the candidate-neighbor edge, and finite evidence validates those witnesses. |
 | R099 | Narrowed reserve-witness pair lists to indexed reserve-witness pair lists: every reserve witness is now recorded by its canonical `18 mod 25` source index. |
+| R100 | Replaced raw reserve non-image facts with source-index mate no-image data: every reserve payment is checked against all opposite source indices in the current outside set. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
