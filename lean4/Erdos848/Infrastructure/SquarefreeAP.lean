@@ -343,6 +343,15 @@ def OppositeFiniteOffsetSourceIndexCodeNonUnderflow
   | OppositeFiniteOffsetCode.pos39 => True
   | OppositeFiniteOffsetCode.pos64 => True
 
+/-- Local source-index validity package for one typed opposite target. -/
+def OppositeFiniteOffsetSourceIndexTargetValid
+    (N k : Nat) (code : OppositeFiniteOffsetCode) : Prop :=
+  OppositeFiniteOffsetSourceIndexCodeNonUnderflow k code /\
+  OppositeFiniteOffsetSourceIndexShiftTarget k code <= (N - 7) / 25 /\
+  ForbiddenSquarefreeEdge
+    (OppositeFiniteOffsetSourceIndexTargetValue k code)
+    (EighteenSourceFromIndex k)
+
 /--
 Non-underflow is enough to identify the original finite-offset target value
 with the source-index target value.
@@ -3910,6 +3919,12 @@ def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeEdge
       (OppositeFiniteOffsetSourceIndexTargetValue k (offsetIndex k))
       (EighteenSourceFromIndex k)
 
+/-- Source-index local target-valid package for every boxed `18 mod 25` source. -/
+def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall k : Nat, InBox N (EighteenSourceFromIndex k) ->
+    OppositeFiniteOffsetSourceIndexTargetValid N k (offsetIndex k)
+
 /-- Source-index target map, split internally into target box and edge data. -/
 def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetMap
     (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
@@ -3976,9 +3991,7 @@ Split certificate whose opposite block is indexed by `k` with source
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
   forall N : Nat, Exists fun offsetIndex : Nat -> OppositeFiniteOffsetCode =>
-    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow N offsetIndex /\
-    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftTargetUpperBound N offsetIndex /\
-    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeEdge N offsetIndex /\
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid N offsetIndex /\
     GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective N offsetIndex /\
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity N
       (fun b => offsetIndex (CandidateClassIndex b))
@@ -4857,6 +4870,39 @@ theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetUpperBound_of_sh
   unfold OppositeFiniteOffsetSourceIndexTargetValue
   omega
 
+/-- The local target-valid package supplies source-index non-underflow. -/
+theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow_of_targetValid
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hTargetValid :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid
+        N offsetIndex) :
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow
+      N offsetIndex := by
+  intro k hkBox
+  exact (hTargetValid k hkBox).1
+
+/-- The local target-valid package supplies the source-index shift upper bound. -/
+theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexShiftTargetUpperBound_of_targetValid
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hTargetValid :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid
+        N offsetIndex) :
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftTargetUpperBound
+      N offsetIndex := by
+  intro k hkBox
+  exact (hTargetValid k hkBox).2.1
+
+/-- The local target-valid package supplies target-value squarefree edges. -/
+theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeEdge_of_targetValid
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hTargetValid :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid
+        N offsetIndex) :
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeEdge
+      N offsetIndex := by
+  intro k hkBox
+  exact (hTargetValid k hkBox).2.2
+
 /-- Source-index target-value squarefree edges supply the original edge form. -/
 theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge_of_targetValue
     {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
@@ -4935,8 +4981,22 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCredi
       GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate) :
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCertificate := by
   intro N
-  rcases h N with ⟨offsetIndex, hNonUnderflow, hShiftTargetUpperBound, hTargetValueSquarefreeEdge,
-    hShiftInjective, hCapacity⟩
+  rcases h N with ⟨offsetIndex, hTargetValid, hShiftInjective, hCapacity⟩
+  have hNonUnderflow :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow_of_targetValid
+      hTargetValid
+  have hShiftTargetUpperBound :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftTargetUpperBound
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexShiftTargetUpperBound_of_targetValid
+      hTargetValid
+  have hTargetValueSquarefreeEdge :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeEdge
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeEdge_of_targetValid
+      hTargetValid
   have hTargetCoherent :
       GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent
         N offsetIndex :=
