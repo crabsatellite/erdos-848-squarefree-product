@@ -584,6 +584,23 @@ def OppositeFiniteOffsetListSelectorLengthShiftInjective
       k1 = k2
 
 /--
+Local no-collision condition for the bandwidth-three source-index target map.
+Any global collision must occur inside this six-index window.
+-/
+def OppositeFiniteOffsetListSelectorLengthLocalShiftInjective
+    (_N : Nat) (codes : List OppositeFiniteOffsetCode) : Prop :=
+  forall k1 k2 : Nat,
+    k1 < codes.length ->
+    k2 < codes.length ->
+    k1 < k2 ->
+    k2 <= k1 + 6 ->
+      Not (
+        OppositeFiniteOffsetSourceIndexShiftTarget k1
+            (OppositeFiniteOffsetListSelector codes k1) =
+          OppositeFiniteOffsetSourceIndexShiftTarget k2
+            (OppositeFiniteOffsetListSelector codes k2))
+
+/--
 Length-exact, box-free local valid matching package for a finite selector
 certificate.
 -/
@@ -612,6 +629,48 @@ def OppositeFiniteOffsetListSelectorLengthTargetCoherentBoxValidMatching
   codes.length = OppositeFiniteOffsetSourceCount N /\
   OppositeFiniteOffsetListSelectorLengthTargetCoherentBoxValid N codes /\
   OppositeFiniteOffsetListSelectorLengthShiftInjective N codes
+
+/--
+Length-exact valid matching with target coherence and local six-window
+injectivity.
+-/
+def OppositeFiniteOffsetListSelectorLengthTargetCoherentBoxLocalValidMatching
+    (N : Nat) (codes : List OppositeFiniteOffsetCode) : Prop :=
+  codes.length = OppositeFiniteOffsetSourceCount N /\
+  OppositeFiniteOffsetListSelectorLengthTargetCoherentBoxValid N codes /\
+  OppositeFiniteOffsetListSelectorLengthLocalShiftInjective N codes
+
+/-- A target-index collision for bandwidth-three codes has source gap at most six. -/
+theorem oppositeFiniteOffsetSourceIndexShiftTarget_collision_gap_le_six
+    {k1 k2 : Nat} {c1 c2 : OppositeFiniteOffsetCode}
+    (h :
+      OppositeFiniteOffsetSourceIndexShiftTarget k1 c1 =
+        OppositeFiniteOffsetSourceIndexShiftTarget k2 c2)
+    (hlt : k1 < k2) :
+    k2 <= k1 + 6 := by
+  cases c1 <;> cases c2 <;>
+    simp [OppositeFiniteOffsetSourceIndexShiftTarget] at h <;> omega
+
+/-- Local six-window no-collision supplies global source-index shift injectivity. -/
+theorem oppositeFiniteOffsetListSelectorLengthShiftInjective_of_localShiftInjective
+    {N : Nat} {codes : List OppositeFiniteOffsetCode}
+    (hLocal :
+      OppositeFiniteOffsetListSelectorLengthLocalShiftInjective N codes) :
+    OppositeFiniteOffsetListSelectorLengthShiftInjective N codes := by
+  intro k1 k2 hk1 hk2 hShift
+  by_cases hlt : k1 < k2
+  · have hgap :
+        k2 <= k1 + 6 :=
+      oppositeFiniteOffsetSourceIndexShiftTarget_collision_gap_le_six
+        hShift hlt
+    exact False.elim ((hLocal k1 k2 hk1 hk2 hlt hgap) hShift)
+  · by_cases hgt : k2 < k1
+    · have hgap :
+          k1 <= k2 + 6 :=
+        oppositeFiniteOffsetSourceIndexShiftTarget_collision_gap_le_six
+          hShift.symm hgt
+      exact False.elim ((hLocal k2 k1 hk2 hk1 hgt hgap) hShift.symm)
+    · omega
 
 /-- The exact boxed source count covers every boxed `18 mod 25` source index. -/
 theorem oppositeFiniteOffsetListSelectorCoversBox_of_length_sourceCount
@@ -696,6 +755,22 @@ theorem oppositeFiniteOffsetListSelectorLengthTargetBoxValidMatching_of_targetCo
           oppositeFiniteOffsetSourceIndexTargetBoxValid_of_targetCoherentBoxValid
             (h.right.left k hk))
       h.right.right)
+
+/--
+Target coherence plus local six-window injectivity supplies the previous
+globally injective target-coherence package.
+-/
+theorem oppositeFiniteOffsetListSelectorLengthTargetCoherentBoxValidMatching_of_localValidMatching
+    {N : Nat} {codes : List OppositeFiniteOffsetCode}
+    (h :
+      OppositeFiniteOffsetListSelectorLengthTargetCoherentBoxLocalValidMatching
+        N codes) :
+    OppositeFiniteOffsetListSelectorLengthTargetCoherentBoxValidMatching
+      N codes :=
+  And.intro h.left
+    (And.intro h.right.left
+      (oppositeFiniteOffsetListSelectorLengthShiftInjective_of_localShiftInjective
+        h.right.right))
 
 /--
 Non-underflow is enough to identify the original finite-offset target value
@@ -8882,6 +8957,17 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSele
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance N
       (OppositeFiniteOffsetListSelector codes)
 
+/--
+Source-index split certificate with target coherence and local six-window
+injectivity in the finite length-exact list certificate.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoxLocalCreditDeficitReserveDominanceCertificate :
+    Prop :=
+  forall N : Nat, Exists fun codes : List OppositeFiniteOffsetCode =>
+    OppositeFiniteOffsetListSelectorLengthTargetCoherentBoxLocalValidMatching N codes /\
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance N
+      (OppositeFiniteOffsetListSelector codes)
+
 /-- Current source-index split certificate, narrowed to template-window-repair form. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
@@ -9350,6 +9436,14 @@ length-exact finite list-selector reserve-dominance certificate.
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoxDeficitReserveDominanceCertificate :
     Prop :=
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoxCreditDeficitReserveDominanceCertificate
+
+/--
+Current source-index split certificate as a local-window target-coherent,
+target-boxed, length-exact finite list-selector reserve-dominance certificate.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoxLocalDeficitReserveDominanceCertificate :
+    Prop :=
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoxLocalCreditDeficitReserveDominanceCertificate
 
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
@@ -14599,6 +14693,23 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
           hPack.left)
         hPack.right)
 
+/--
+Local-window target-coherent list-selector reserve dominance supplies the
+previous globally injective target-coherent list-selector certificate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoxDeficitReserveDominance_of_lengthTargetCoherentBoxLocalListSelector
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoxLocalDeficitReserveDominanceCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoxDeficitReserveDominanceCertificate := by
+  intro N
+  cases h N with
+  | intro codes hPack =>
+    exact Exists.intro codes
+      (And.intro
+        (oppositeFiniteOffsetListSelectorLengthTargetCoherentBoxValidMatching_of_localValidMatching
+          hPack.left)
+        hPack.right)
+
 /-- Scalar reserve lower bound directly supplies source-index deficit capacity. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity_of_countUpperReserveLowerBoundAllocation
     {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
@@ -14892,6 +15003,19 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sou
   exact
     globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetBoxReserveDominance
       (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetBoxDeficitReserveDominance_of_lengthTargetCoherentBoxListSelector
+        h)
+
+/--
+Local-window target-coherent finite list-selector reserve dominance supplies
+decoded squarefree-boxed compression.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoxLocalReserveDominance
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoxLocalDeficitReserveDominanceCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate := by
+  exact
+    globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoxReserveDominance
+      (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoxDeficitReserveDominance_of_lengthTargetCoherentBoxLocalListSelector
         h)
 
 /-- Current reserve dominance directly supplies decoded squarefree-boxed compression. -/
@@ -15642,18 +15766,19 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
 compression whose open offset side is a finite source-index code list over
 `25*k+18`, with length exactly the boxed source count and direct coherence
-between typed finite-offset values and source-index targets.  Lean derives
-non-underflow, target-index injectivity, target-value injectivity, packages the
-squarefree-boxed codes, and constructs the decoder; the strict-middle side is
-the reserve-dominance active-credit count inequality for the simple typed mate.
+between typed finite-offset values and source-index targets.  The target-index
+map is certified by local six-window no-collision; Lean derives global
+injectivity, target-value injectivity, packages the squarefree-boxed codes, and
+constructs the decoder.  The strict-middle side is the reserve-dominance
+active-credit count inequality for the simple typed mate.
 -/
 axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoxDeficitReserveDominanceCertificate
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoxLocalDeficitReserveDominanceCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoxReserveDominance
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoxLocalReserveDominance
     finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/

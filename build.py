@@ -177,10 +177,13 @@ def assert_gate(payload: dict) -> None:
         assert item["perfect"], item
         assert item["matched_count"] == item["opposite_size"], item
         assert len(item["source_index_matching"]) == item["matched_count"], item
+        target_by_source = {source_index: target_index for source_index, target_index, _shift in item["source_index_matching"]}
         for source_index, target_index, shift in item["source_index_matching"]:
             assert target_index - source_index == shift, item
             assert 25 * target_index + 7 == 25 * source_index + 18 + 25 * shift - 11, item
             assert 25 * target_index + 7 <= item["N"], item
+            for other_source in range(source_index + 1, min(item["opposite_size"], source_index + 7)):
+                assert target_by_source[other_source] != target_index, item
     for item in payload["opposite_band_matching_checks"]:
         assert item["opposite_size"] == source_count(item["N"]), item
         assert item["perfect"], item
@@ -207,6 +210,7 @@ def assert_gate(payload: dict) -> None:
             default=0,
         ) == item["period6_repair_window_max_length"], item
         code_by_source = dict(item["typed_source_index_codes"])
+        target_by_source = {source_index: target_index for source_index, target_index, _shift in item["source_index_matching"]}
         reconstructed_codes = {
             source_index: item["period6_template"][source_index % len(item["period6_template"])] + 3
             for source_index in range(item["opposite_size"])
@@ -226,6 +230,8 @@ def assert_gate(payload: dict) -> None:
             assert -3 <= shift <= 3, item
             assert 25 * target_index + 7 == 25 * source_index + 18 + 25 * shift - 11, item
             assert 25 * target_index + 7 <= item["N"], item
+            for other_source in range(source_index + 1, min(item["opposite_size"], source_index + 7)):
+                assert target_by_source[other_source] != target_index, item
             assert code_by_source[source_index] == shift + 3, item
             assert reconstructed_codes[source_index] == shift + 3, item
     for item in payload["opposite_band_matching_large_summaries"]:
