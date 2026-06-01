@@ -63,6 +63,7 @@ the source of truth and use this file only as a durable round index.
 | R083 | Aligned active-credit finite evidence with the deterministic deficit cut. The Python gate now records `worst_credit_deficit`, deficit surplus, and a direct deficit-capacity boolean while keeping the old slack fields as aliases. |
 | R084 | Added active-credit deficit-pressure diagnostics. The search now records observed positive-deficit branches, the largest observed deficit witness, and whether that pressure scan is complete so the reserve-paid part of the cut can be localized directly. |
 | R085 | Narrowed the live active-credit cut to an explicit deficit-allocation certificate. Lean now derives deterministic deficit capacity from a finite deficit set, a middle/new-middle count bound, and an injective reserve-payment map. |
+| R086 | Tightened deficit allocation so payers must come from the strict middle and aligned finite evidence with explicit deficit-to-reserve allocation pairs for worst and max-observed deficit witnesses. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.

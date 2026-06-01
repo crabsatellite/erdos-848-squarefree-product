@@ -289,6 +289,13 @@ def assert_gate(payload: dict) -> None:
         ), item
         assert item["worst_credit_deficit_capacity_holds"], item
         assert item["worst_credit_deficit_surplus"] >= 0, item
+        assert item["worst_credit_deficit_allocation_valid"], item
+        assert len(item["worst_credit_deficit_allocation_pairs"]) == item[
+            "worst_credit_deficit"
+        ], item
+        assert len({pay for _middle, pay in item["worst_credit_deficit_allocation_pairs"]}) == item[
+            "worst_credit_deficit"
+        ], item
         assert item["worst_credit_required_reserve_slack"] == max(
             0,
             item["worst_credit_middle_size"] - item["worst_credit_new_middle_size"],
@@ -320,6 +327,13 @@ def assert_gate(payload: dict) -> None:
                 item["observed_max_credit_deficit_reserve_size"] -
                 item["observed_max_credit_deficit"]
             ), item
+            assert item["observed_max_credit_deficit_allocation_valid"], item
+            assert len(item["observed_max_credit_deficit_allocation_pairs"]) == item[
+                "observed_max_credit_deficit"
+            ], item
+            assert len(
+                {pay for _middle, pay in item["observed_max_credit_deficit_allocation_pairs"]}
+            ) == item["observed_max_credit_deficit"], item
             assert item["observed_max_credit_deficit"] == max(
                 0,
                 item["observed_max_credit_deficit_middle_size"] -

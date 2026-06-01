@@ -8,6 +8,8 @@
       "index_bandwidth": 3,
       "observed_deficit_pressure_complete": true,
       "observed_max_credit_deficit": 0,
+      "observed_max_credit_deficit_allocation_pairs": [],
+      "observed_max_credit_deficit_allocation_valid": true,
       "observed_max_credit_deficit_middle_size": 0,
       "observed_max_credit_deficit_new_middle_size": 0,
       "observed_max_credit_deficit_reserve_size": 0,
@@ -28,6 +30,8 @@
       "search_pruned_nonnegative_bound": 0,
       "worst_credit_defect": 2,
       "worst_credit_deficit": 0,
+      "worst_credit_deficit_allocation_pairs": [],
+      "worst_credit_deficit_allocation_valid": true,
       "worst_credit_deficit_capacity_holds": true,
       "worst_credit_deficit_surplus": 0,
       "worst_credit_matching": [
@@ -62,6 +66,13 @@
       "index_bandwidth": 3,
       "observed_deficit_pressure_complete": true,
       "observed_max_credit_deficit": 1,
+      "observed_max_credit_deficit_allocation_pairs": [
+        [
+          41,
+          7
+        ]
+      ],
+      "observed_max_credit_deficit_allocation_valid": true,
       "observed_max_credit_deficit_middle_size": 2,
       "observed_max_credit_deficit_new_middle_size": 1,
       "observed_max_credit_deficit_reserve_size": 15,
@@ -93,6 +104,8 @@
       "search_pruned_nonnegative_bound": 0,
       "worst_credit_defect": 11,
       "worst_credit_deficit": 0,
+      "worst_credit_deficit_allocation_pairs": [],
+      "worst_credit_deficit_allocation_valid": true,
       "worst_credit_deficit_capacity_holds": true,
       "worst_credit_deficit_surplus": 0,
       "worst_credit_matching": [
@@ -133,6 +146,13 @@
       "index_bandwidth": 3,
       "observed_deficit_pressure_complete": true,
       "observed_max_credit_deficit": 1,
+      "observed_max_credit_deficit_allocation_pairs": [
+        [
+          41,
+          7
+        ]
+      ],
+      "observed_max_credit_deficit_allocation_valid": true,
       "observed_max_credit_deficit_middle_size": 2,
       "observed_max_credit_deficit_new_middle_size": 1,
       "observed_max_credit_deficit_reserve_size": 37,
@@ -162,6 +182,13 @@
       "search_pruned_nonnegative_bound": 0,
       "worst_credit_defect": 22,
       "worst_credit_deficit": 1,
+      "worst_credit_deficit_allocation_pairs": [
+        [
+          515,
+          7
+        ]
+      ],
+      "worst_credit_deficit_allocation_valid": true,
       "worst_credit_deficit_capacity_holds": true,
       "worst_credit_deficit_surplus": 22,
       "worst_credit_matching": [
@@ -214,6 +241,13 @@
       "index_bandwidth": 3,
       "observed_deficit_pressure_complete": true,
       "observed_max_credit_deficit": 1,
+      "observed_max_credit_deficit_allocation_pairs": [
+        [
+          41,
+          7
+        ]
+      ],
+      "observed_max_credit_deficit_allocation_valid": true,
       "observed_max_credit_deficit_middle_size": 1,
       "observed_max_credit_deficit_new_middle_size": 0,
       "observed_max_credit_deficit_reserve_size": 77,
@@ -242,6 +276,8 @@
       "search_pruned_nonnegative_bound": 0,
       "worst_credit_defect": 47,
       "worst_credit_deficit": 0,
+      "worst_credit_deficit_allocation_pairs": [],
+      "worst_credit_deficit_allocation_valid": true,
       "worst_credit_deficit_capacity_holds": true,
       "worst_credit_deficit_surplus": 0,
       "worst_credit_matching": [
@@ -276,6 +312,21 @@
       "index_bandwidth": 3,
       "observed_deficit_pressure_complete": true,
       "observed_max_credit_deficit": 3,
+      "observed_max_credit_deficit_allocation_pairs": [
+        [
+          239,
+          7
+        ],
+        [
+          915,
+          32
+        ],
+        [
+          1591,
+          57
+        ]
+      ],
+      "observed_max_credit_deficit_allocation_valid": true,
       "observed_max_credit_deficit_middle_size": 7,
       "observed_max_credit_deficit_new_middle_size": 4,
       "observed_max_credit_deficit_reserve_size": 186,
@@ -315,6 +366,8 @@
       "search_pruned_nonnegative_bound": 0,
       "worst_credit_defect": 122,
       "worst_credit_deficit": 0,
+      "worst_credit_deficit_allocation_pairs": [],
+      "worst_credit_deficit_allocation_valid": true,
       "worst_credit_deficit_capacity_holds": true,
       "worst_credit_deficit_surplus": 0,
       "worst_credit_matching": [
@@ -349,6 +402,8 @@
       "index_bandwidth": 3,
       "observed_deficit_pressure_complete": false,
       "observed_max_credit_deficit": 0,
+      "observed_max_credit_deficit_allocation_pairs": [],
+      "observed_max_credit_deficit_allocation_valid": true,
       "observed_max_credit_deficit_middle_size": 0,
       "observed_max_credit_deficit_new_middle_size": 0,
       "observed_max_credit_deficit_reserve_size": 0,
@@ -369,6 +424,8 @@
       "search_pruned_nonnegative_bound": 2331,
       "worst_credit_defect": 248,
       "worst_credit_deficit": 0,
+      "worst_credit_deficit_allocation_pairs": [],
+      "worst_credit_deficit_allocation_valid": true,
       "worst_credit_deficit_capacity_holds": true,
       "worst_credit_deficit_surplus": 0,
       "worst_credit_matching": [
@@ -403,6 +460,8 @@
       "index_bandwidth": 3,
       "observed_deficit_pressure_complete": false,
       "observed_max_credit_deficit": 0,
+      "observed_max_credit_deficit_allocation_pairs": [],
+      "observed_max_credit_deficit_allocation_valid": true,
       "observed_max_credit_deficit_middle_size": 0,
       "observed_max_credit_deficit_new_middle_size": 0,
       "observed_max_credit_deficit_reserve_size": 0,
@@ -423,6 +482,8 @@
       "search_pruned_nonnegative_bound": 7384,
       "worst_credit_defect": 499,
       "worst_credit_deficit": 0,
+      "worst_credit_deficit_allocation_pairs": [],
+      "worst_credit_deficit_allocation_valid": true,
       "worst_credit_deficit_capacity_holds": true,
       "worst_credit_deficit_surplus": 0,
       "worst_credit_matching": [
@@ -861,7 +922,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T09:21:02.826657+00:00",
+  "generated_at": "2026-06-01T09:34:03.703763+00:00",
   "hall_checks": [
     {
       "N": 100,

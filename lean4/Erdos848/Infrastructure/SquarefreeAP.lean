@@ -3159,6 +3159,7 @@ def ActiveStrictMiddleCreditDeficitAllocation
     @familySize N (StrictMiddlePart r B) decMid <=
         @familySize N (IncrementalStrictMiddleNeighbor N r B) decNewMid +
           @familySize N Deficit decDeficit /\
+    (forall b : Nat, Deficit b -> StrictMiddlePart r B b) /\
     (forall b : Nat, Deficit b -> InBox N b) /\
     (forall b : Nat, Deficit b ->
       ActiveStrictMiddleCreditReserve N r B mate (reservePay b)) /\
@@ -5828,8 +5829,8 @@ theorem activeStrictMiddleCreditDeficitCapacity_of_deficitAllocation
       decReserve decNewMid := by
   classical
   rcases hAlloc with
-    ⟨Deficit, decDeficit, reservePay, hMidDeficit, hDeficitBox,
-      hReservePay, hReservePayInjective⟩
+    ⟨Deficit, decDeficit, reservePay, hMidDeficit, _hDeficitMid,
+      hDeficitBox, hReservePay, hReservePayInjective⟩
   have hDeficitReserve :
       @familySize N Deficit decDeficit <=
         @familySize N (ActiveStrictMiddleCreditReserve N r B mate) decReserve := by

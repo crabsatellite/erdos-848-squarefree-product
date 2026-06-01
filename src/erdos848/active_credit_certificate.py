@@ -37,6 +37,8 @@ class ActiveCreditCertificate:
     worst_credit_deficit: int
     worst_credit_deficit_surplus: int
     worst_credit_deficit_capacity_holds: bool
+    worst_credit_deficit_allocation_pairs: list[tuple[int, int]]
+    worst_credit_deficit_allocation_valid: bool
     worst_credit_required_reserve_slack: int
     worst_credit_reserve_slack_surplus: int
     worst_credit_split_pool_size: int
@@ -51,6 +53,8 @@ class ActiveCreditCertificate:
     observed_max_credit_deficit_middle_size: int
     observed_max_credit_deficit_new_middle_size: int
     observed_max_credit_deficit_reserve_size: int
+    observed_max_credit_deficit_allocation_pairs: list[tuple[int, int]]
+    observed_max_credit_deficit_allocation_valid: bool
     observed_deficit_pressure_complete: bool
 
 
@@ -128,6 +132,8 @@ def active_credit_certificate(
     worst_credit_deficit = 0
     worst_credit_deficit_surplus = 0
     worst_credit_deficit_capacity_holds = True
+    worst_credit_deficit_allocation_pairs: list[tuple[int, int]] = []
+    worst_credit_deficit_allocation_valid = True
     worst_credit_required_reserve_slack = 0
     worst_credit_reserve_slack_surplus = 0
     worst_credit_split_pool_size = 0
@@ -142,6 +148,8 @@ def active_credit_certificate(
     observed_max_credit_deficit_middle_size = 0
     observed_max_credit_deficit_new_middle_size = 0
     observed_max_credit_deficit_reserve_size = 0
+    observed_max_credit_deficit_allocation_pairs: list[tuple[int, int]] = []
+    observed_max_credit_deficit_allocation_valid = True
     search_nodes = 0
     search_max_depth = 0
     search_pruned_no_middle_tail = 0
@@ -170,6 +178,8 @@ def active_credit_certificate(
         nonlocal worst_credit_deficit
         nonlocal worst_credit_deficit_surplus
         nonlocal worst_credit_deficit_capacity_holds
+        nonlocal worst_credit_deficit_allocation_pairs
+        nonlocal worst_credit_deficit_allocation_valid
         nonlocal worst_credit_required_reserve_slack
         nonlocal worst_credit_reserve_slack_surplus
         nonlocal worst_credit_split_pool_size
@@ -184,6 +194,8 @@ def active_credit_certificate(
         nonlocal observed_max_credit_deficit_middle_size
         nonlocal observed_max_credit_deficit_new_middle_size
         nonlocal observed_max_credit_deficit_reserve_size
+        nonlocal observed_max_credit_deficit_allocation_pairs
+        nonlocal observed_max_credit_deficit_allocation_valid
         nonlocal search_nodes
         nonlocal search_max_depth
         nonlocal search_pruned_no_middle_tail
@@ -216,6 +228,11 @@ def active_credit_certificate(
             if credit_deficit > 0:
                 observed_positive_deficit_nodes += 1
                 if credit_deficit > observed_max_credit_deficit:
+                    reserve_vertices = [
+                        base[i] for i in range(len(base)) if (reserve >> i) & 1
+                    ]
+                    deficit_vertices = middle_vertices[:credit_deficit]
+                    allocation_pairs = list(zip(deficit_vertices, reserve_vertices[:credit_deficit]))
                     observed_max_credit_deficit = credit_deficit
                     observed_max_credit_deficit_surplus = deficit_surplus
                     observed_max_credit_deficit_witness = [outside[i] for i in chosen]
@@ -225,8 +242,16 @@ def active_credit_certificate(
                     observed_max_credit_deficit_middle_size = middle_size
                     observed_max_credit_deficit_new_middle_size = new_middle_size
                     observed_max_credit_deficit_reserve_size = reserve_size
+                    observed_max_credit_deficit_allocation_pairs = allocation_pairs
+                    observed_max_credit_deficit_allocation_valid = (
+                        len(allocation_pairs) == credit_deficit
+                        and len({pay for _middle, pay in allocation_pairs}) == credit_deficit
+                    )
             if defect < worst_credit_defect:
                 credit_vertices = [base[i] for i in range(len(base)) if (credit_pool >> i) & 1]
+                reserve_vertices = [base[i] for i in range(len(base)) if (reserve >> i) & 1]
+                deficit_vertices = middle_vertices[:credit_deficit]
+                allocation_pairs = list(zip(deficit_vertices, reserve_vertices[:credit_deficit]))
                 worst_credit_defect = defect
                 worst_credit_witness = [outside[i] for i in chosen]
                 worst_credit_witness_residue_counts = dict(
@@ -248,6 +273,11 @@ def active_credit_certificate(
                 worst_credit_deficit = credit_deficit
                 worst_credit_deficit_surplus = deficit_surplus
                 worst_credit_deficit_capacity_holds = deficit_surplus >= 0
+                worst_credit_deficit_allocation_pairs = allocation_pairs
+                worst_credit_deficit_allocation_valid = (
+                    len(allocation_pairs) == credit_deficit
+                    and len({pay for _middle, pay in allocation_pairs}) == credit_deficit
+                )
                 worst_credit_required_reserve_slack = credit_deficit
                 worst_credit_reserve_slack_surplus = deficit_surplus
                 worst_credit_split_pool_size = split_pool_size
@@ -328,6 +358,8 @@ def active_credit_certificate(
         worst_credit_deficit=worst_credit_deficit,
         worst_credit_deficit_surplus=worst_credit_deficit_surplus,
         worst_credit_deficit_capacity_holds=worst_credit_deficit_capacity_holds,
+        worst_credit_deficit_allocation_pairs=worst_credit_deficit_allocation_pairs,
+        worst_credit_deficit_allocation_valid=worst_credit_deficit_allocation_valid,
         worst_credit_required_reserve_slack=worst_credit_required_reserve_slack,
         worst_credit_reserve_slack_surplus=worst_credit_reserve_slack_surplus,
         worst_credit_split_pool_size=worst_credit_split_pool_size,
@@ -342,6 +374,8 @@ def active_credit_certificate(
         observed_max_credit_deficit_middle_size=observed_max_credit_deficit_middle_size,
         observed_max_credit_deficit_new_middle_size=observed_max_credit_deficit_new_middle_size,
         observed_max_credit_deficit_reserve_size=observed_max_credit_deficit_reserve_size,
+        observed_max_credit_deficit_allocation_pairs=observed_max_credit_deficit_allocation_pairs,
+        observed_max_credit_deficit_allocation_valid=observed_max_credit_deficit_allocation_valid,
         observed_deficit_pressure_complete=exact_worst,
     )
 
