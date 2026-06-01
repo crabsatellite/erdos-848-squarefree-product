@@ -13,6 +13,7 @@ class ActiveCreditCertificate:
     opposite_residue: int
     index_bandwidth: int
     search_order: str
+    exact_worst: bool
     outside_vertices: int
     outside_opposite_vertices: int
     outside_middle_vertices: int
@@ -20,6 +21,7 @@ class ActiveCreditCertificate:
     search_max_depth: int
     search_pruned_no_middle_tail: int
     search_pruned_defect_bound: int
+    search_pruned_nonnegative_bound: int
     search_exhausted: bool
     worst_credit_defect: int
     worst_credit_witness: list[int]
@@ -37,6 +39,7 @@ def active_credit_certificate(
     opposite_residue: int = 18,
     index_bandwidth: int = 3,
     max_nodes: int | None = None,
+    exact_worst: bool = True,
 ) -> ActiveCreditCertificate:
     """Check the finite shadow of `ActiveStrictMiddleCreditCapacity`.
 
@@ -103,6 +106,7 @@ def active_credit_certificate(
     search_max_depth = 0
     search_pruned_no_middle_tail = 0
     search_pruned_defect_bound = 0
+    search_pruned_nonnegative_bound = 0
     search_exhausted = True
 
     def expand(
@@ -126,6 +130,7 @@ def active_credit_certificate(
         nonlocal search_max_depth
         nonlocal search_pruned_no_middle_tail
         nonlocal search_pruned_defect_bound
+        nonlocal search_pruned_nonnegative_bound
         nonlocal search_exhausted
 
         search_nodes += 1
@@ -159,8 +164,12 @@ def active_credit_certificate(
             lower_defect_bound = (
                 credit_pool_size - remaining_opposite_size - middle_size - remaining_middle_size
             )
-            if lower_defect_bound >= worst_credit_defect:
-                search_pruned_defect_bound += 1
+            prune_threshold = worst_credit_defect if exact_worst else 0
+            if lower_defect_bound >= prune_threshold:
+                if exact_worst:
+                    search_pruned_defect_bound += 1
+                else:
+                    search_pruned_nonnegative_bound += 1
                 return
 
         while P and search_exhausted:
@@ -201,6 +210,7 @@ def active_credit_certificate(
         opposite_residue=opposite_residue,
         index_bandwidth=index_bandwidth,
         search_order="middle_first_then_opposite",
+        exact_worst=exact_worst,
         outside_vertices=len(outside),
         outside_opposite_vertices=outside_opposite_vertices,
         outside_middle_vertices=outside_middle_vertices,
@@ -208,6 +218,7 @@ def active_credit_certificate(
         search_max_depth=search_max_depth,
         search_pruned_no_middle_tail=search_pruned_no_middle_tail,
         search_pruned_defect_bound=search_pruned_defect_bound,
+        search_pruned_nonnegative_bound=search_pruned_nonnegative_bound,
         search_exhausted=search_exhausted,
         worst_credit_defect=worst_credit_defect,
         worst_credit_witness=worst_credit_witness,

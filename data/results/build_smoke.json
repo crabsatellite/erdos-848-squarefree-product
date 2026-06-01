@@ -3,6 +3,7 @@
     {
       "N": 100,
       "base_residue": 7,
+      "exact_worst": true,
       "index_bandwidth": 3,
       "opposite_residue": 18,
       "outside_middle_vertices": 4,
@@ -14,6 +15,7 @@
       "search_order": "middle_first_then_opposite",
       "search_pruned_defect_bound": 6,
       "search_pruned_no_middle_tail": 4,
+      "search_pruned_nonnegative_bound": 0,
       "worst_credit_defect": 2,
       "worst_credit_matching": [
         [
@@ -33,6 +35,7 @@
     {
       "N": 500,
       "base_residue": 7,
+      "exact_worst": true,
       "index_bandwidth": 3,
       "opposite_residue": 18,
       "outside_middle_vertices": 12,
@@ -44,6 +47,7 @@
       "search_order": "middle_first_then_opposite",
       "search_pruned_defect_bound": 158,
       "search_pruned_no_middle_tail": 20,
+      "search_pruned_nonnegative_bound": 0,
       "worst_credit_defect": 11,
       "worst_credit_matching": [
         [
@@ -171,7 +175,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T08:09:13.123248+00:00",
+  "generated_at": "2026-06-01T08:15:47.216026+00:00",
   "hall_checks": [
     {
       "N": 100,

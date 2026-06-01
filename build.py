@@ -65,7 +65,11 @@ def run(mode: str) -> dict:
     hall_Ns = [100, 500] if not extended else [100, 500, 1000, 2000]
     matching_Ns = [100, 500, 1000] if not extended else [100, 500, 1000, 2000, 5000, 10000]
     partitioned_Ns = [100, 500]
-    active_credit_Ns = [100, 500] if not extended else [100, 500, 1000, 2000, 5000]
+    active_credit_jobs = (
+        [(100, True), (500, True)]
+        if not extended
+        else [(100, True), (500, True), (1000, True), (2000, True), (5000, True), (10000, False)]
+    )
 
     residue = residue_to_json(generate_residue_certificate([5, 13], run_prefix=extended))
     exact = [exact_848_check(N) for N in exact_Ns]
@@ -80,8 +84,10 @@ def run(mode: str) -> dict:
         for N in partitioned_Ns
     ]
     active_credit = [
-        active_credit_to_json(active_credit_certificate(N, 7, 18, index_bandwidth=3))
-        for N in active_credit_Ns
+        active_credit_to_json(
+            active_credit_certificate(N, 7, 18, index_bandwidth=3, exact_worst=exact_worst)
+        )
+        for N, exact_worst in active_credit_jobs
     ]
     opposite_matching = [
         opposite_matching_to_json(opposite_matching_certificate(N, 7, 18))
@@ -204,6 +210,12 @@ def assert_gate(payload: dict) -> None:
         assert item["search_pruned_no_middle_tail"] <= item["search_nodes"], item
         assert item["search_pruned_defect_bound"] >= 0, item
         assert item["search_pruned_defect_bound"] <= item["search_nodes"], item
+        assert item["search_pruned_nonnegative_bound"] >= 0, item
+        assert item["search_pruned_nonnegative_bound"] <= item["search_nodes"], item
+        if item["exact_worst"]:
+            assert item["search_pruned_nonnegative_bound"] == 0, item
+        else:
+            assert item["search_pruned_nonnegative_bound"] > 0, item
         assert item["worst_credit_defect"] >= 0, item
         assert item["worst_credit_pool_size"] >= item["worst_credit_middle_size"], item
         assert len(item["worst_credit_matching"]) == item["worst_credit_middle_size"], item
@@ -237,7 +249,7 @@ def main() -> int:
     )
     print(
         "  active credit capacity checks: "
-        f"{[(x['N'], x['worst_credit_defect'], x['worst_credit_middle_size'], x['worst_credit_pool_size'], x['search_nodes'], x['search_pruned_no_middle_tail'], x['search_pruned_defect_bound']) for x in payload['active_credit_checks']]}"
+        f"{[(x['N'], x['exact_worst'], x['worst_credit_defect'], x['worst_credit_middle_size'], x['worst_credit_pool_size'], x['search_nodes'], x['search_pruned_no_middle_tail'], x['search_pruned_defect_bound'], x['search_pruned_nonnegative_bound']) for x in payload['active_credit_checks']]}"
     )
     print("  wrote data/results/latest.json")
     return 0

@@ -3,6 +3,7 @@
     {
       "N": 100,
       "base_residue": 7,
+      "exact_worst": true,
       "index_bandwidth": 3,
       "opposite_residue": 18,
       "outside_middle_vertices": 4,
@@ -14,6 +15,7 @@
       "search_order": "middle_first_then_opposite",
       "search_pruned_defect_bound": 6,
       "search_pruned_no_middle_tail": 4,
+      "search_pruned_nonnegative_bound": 0,
       "worst_credit_defect": 2,
       "worst_credit_matching": [
         [
@@ -33,6 +35,7 @@
     {
       "N": 500,
       "base_residue": 7,
+      "exact_worst": true,
       "index_bandwidth": 3,
       "opposite_residue": 18,
       "outside_middle_vertices": 12,
@@ -44,6 +47,7 @@
       "search_order": "middle_first_then_opposite",
       "search_pruned_defect_bound": 158,
       "search_pruned_no_middle_tail": 20,
+      "search_pruned_nonnegative_bound": 0,
       "worst_credit_defect": 11,
       "worst_credit_matching": [
         [
@@ -68,6 +72,7 @@
     {
       "N": 1000,
       "base_residue": 7,
+      "exact_worst": true,
       "index_bandwidth": 3,
       "opposite_residue": 18,
       "outside_middle_vertices": 25,
@@ -79,6 +84,7 @@
       "search_order": "middle_first_then_opposite",
       "search_pruned_defect_bound": 783,
       "search_pruned_no_middle_tail": 40,
+      "search_pruned_nonnegative_bound": 0,
       "worst_credit_defect": 22,
       "worst_credit_matching": [
         [
@@ -115,6 +121,7 @@
     {
       "N": 2000,
       "base_residue": 7,
+      "exact_worst": true,
       "index_bandwidth": 3,
       "opposite_residue": 18,
       "outside_middle_vertices": 48,
@@ -126,6 +133,7 @@
       "search_order": "middle_first_then_opposite",
       "search_pruned_defect_bound": 5526,
       "search_pruned_no_middle_tail": 80,
+      "search_pruned_nonnegative_bound": 0,
       "worst_credit_defect": 47,
       "worst_credit_matching": [
         [
@@ -145,6 +153,7 @@
     {
       "N": 5000,
       "base_residue": 7,
+      "exact_worst": true,
       "index_bandwidth": 3,
       "opposite_residue": 18,
       "outside_middle_vertices": 125,
@@ -156,6 +165,7 @@
       "search_order": "middle_first_then_opposite",
       "search_pruned_defect_bound": 615476,
       "search_pruned_no_middle_tail": 200,
+      "search_pruned_nonnegative_bound": 0,
       "worst_credit_defect": 122,
       "worst_credit_matching": [
         [
@@ -170,6 +180,38 @@
       "worst_credit_reserve_size": 0,
       "worst_credit_witness": [
         1303
+      ]
+    },
+    {
+      "N": 10000,
+      "base_residue": 7,
+      "exact_worst": false,
+      "index_bandwidth": 3,
+      "opposite_residue": 18,
+      "outside_middle_vertices": 248,
+      "outside_opposite_vertices": 400,
+      "outside_vertices": 648,
+      "search_exhausted": true,
+      "search_max_depth": 2,
+      "search_nodes": 2740,
+      "search_order": "middle_first_then_opposite",
+      "search_pruned_defect_bound": 0,
+      "search_pruned_no_middle_tail": 400,
+      "search_pruned_nonnegative_bound": 2331,
+      "worst_credit_defect": 248,
+      "worst_credit_matching": [
+        [
+          4831,
+          7
+        ]
+      ],
+      "worst_credit_middle_size": 1,
+      "worst_credit_new_middle_size": 249,
+      "worst_credit_opposite_size": 0,
+      "worst_credit_pool_size": 249,
+      "worst_credit_reserve_size": 0,
+      "worst_credit_witness": [
+        4831
       ]
     }
   ],
@@ -584,7 +626,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T08:10:17.763423+00:00",
+  "generated_at": "2026-06-01T08:17:03.428284+00:00",
   "hall_checks": [
     {
       "N": 100,
