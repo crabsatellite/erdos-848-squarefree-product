@@ -8504,6 +8504,22 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelector
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity N
       offsetIndex
 
+/--
+Source-index split certificate with direct self-canonical credit matching
+instead of a count-level capacity inequality.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate :
+    Prop :=
+  forall N : Nat, Exists fun offsetIndex : Nat -> OppositeFiniteOffsetCode =>
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching N
+      offsetIndex /\
+    (forall B : Nat -> Prop,
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching N B
+        (OppositeFiniteOffsetSourceIndexMate offsetIndex))
+
 /-- Source-index split certificate with compact repair-window overrides. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditCapacityCertificate :
     Prop :=
@@ -12258,6 +12274,130 @@ theorem globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex
       hIndexInjective (CandidateClassIndex b1) (CandidateClassIndex b2)
         hb1IndexBox hb2IndexBox hShiftIndex
     rw [← hsource1, hindex, hsource2]
+
+/-- Source-index valid matching supplies the induced typed shift-index matching. -/
+theorem globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndexValidMatching
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hValidMatching :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching
+        N offsetIndex) :
+    GlobalOppositeFiniteOffsetEighteenTypedShiftIndexMatching N
+      (fun b => offsetIndex (CandidateClassIndex b)) := by
+  have hTargetValid :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid_of_validMatching
+      hValidMatching
+  have hShiftInjective :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective_of_validMatching
+      hValidMatching
+  have hNonUnderflow :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow_of_targetValid
+      hTargetValid
+  have hShiftTargetUpperBound :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftTargetUpperBound
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexShiftTargetUpperBound_of_targetValid
+      hTargetValid
+  have hTargetValueSquarefreeEdge :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeEdge
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeEdge_of_targetValid
+      hTargetValid
+  have hTargetCoherent :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent_of_nonUnderflow
+      hNonUnderflow
+  have hTargetUpperBound :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetUpperBound
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetUpperBound_of_shiftTargetUpperBound
+      hShiftTargetUpperBound
+  have hTargetIndexBox :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox_of_upperBound
+      hTargetUpperBound
+  have hTargetBox :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox_of_indexBox
+      hTargetCoherent hTargetIndexBox
+  have hSquarefreeEdge :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge_of_targetValue
+      hTargetCoherent hTargetValueSquarefreeEdge
+  exact
+    globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex
+      ⟨⟨hTargetBox, hSquarefreeEdge⟩, hShiftInjective⟩
+
+/--
+Source-index direct credit data supplies the typed-mate direct credit cut:
+valid matching derives target data and transfers source-index mate credits to
+the simple typed mate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCode_of_sourceIndexSelector
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate := by
+  intro N
+  rcases h N with ⟨offsetIndex, hValidMatching, hCreditSource⟩
+  let offset : Nat -> OppositeFiniteOffsetCode :=
+    fun b => offsetIndex (CandidateClassIndex b)
+  have hShiftMatching :
+      GlobalOppositeFiniteOffsetEighteenTypedShiftIndexMatching N offset := by
+    simpa [offset] using
+      globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndexValidMatching
+        hValidMatching
+  have hIndexMatching :
+      GlobalOppositeFiniteOffsetEighteenTypedIndexMatching N offset :=
+    globalOppositeFiniteOffsetEighteenTypedIndexMatching_of_shift hShiftMatching
+  refine ⟨offset, hShiftMatching.1, ?_, ?_⟩
+  · intro b1 b2 hb1Box hb1Residue hb2Box hb2Residue hvalue
+    exact hIndexMatching.2 b1 b2 hb1Box hb1Residue hb2Box hb2Residue (by
+      simpa [OppositeFiniteOffsetCodeTargetIndex] using
+        congrArg CandidateClassIndex hvalue)
+  · intro B hB hClique hMid
+    apply activeStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching_congr_mate
+      (mateOld := OppositeFiniteOffsetSourceIndexMate offsetIndex)
+      (mateNew := fun b => OppositeFiniteOffsetCodeValue b (offset b))
+    · intro b hbOpp
+      have hb18 : CandidateCarrier 18 b :=
+        candidateCarrier_eighteen_of_oppositeCandidateCarrier_seven hbOpp.right
+      have hsource := eighteenSourceFromIndex_candidateClassIndex hb18
+      have hbBox : InBox N b := (hB b hbOpp.left).left
+      have hbIndexBox :
+          InBox N (EighteenSourceFromIndex (CandidateClassIndex b)) := by
+        simpa [hsource] using hbBox
+      have hTargetValid :
+          GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid
+            N offsetIndex :=
+        globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid_of_validMatching
+          hValidMatching
+      have hNonUnderflow :
+          OppositeFiniteOffsetSourceIndexCodeNonUnderflow
+            (CandidateClassIndex b) (offsetIndex (CandidateClassIndex b)) :=
+        (hTargetValid (CandidateClassIndex b) hbIndexBox).1
+      have hEq :=
+        oppositeFiniteOffsetCodeValue_eighteenSource_eq_sourceIndexTargetValue_of_nonUnderflow
+          hNonUnderflow
+      calc
+        OppositeFiniteOffsetSourceIndexMate offsetIndex b =
+            OppositeFiniteOffsetSourceIndexTargetValue
+              (CandidateClassIndex b) (offsetIndex (CandidateClassIndex b)) := rfl
+        _ =
+            OppositeFiniteOffsetCodeValue
+              (EighteenSourceFromIndex (CandidateClassIndex b))
+              (offsetIndex (CandidateClassIndex b)) := hEq.symm
+        _ = OppositeFiniteOffsetCodeValue b (offset b) := by
+          simp [offset, hsource]
+    · exact hCreditSource B hB hClique hMid
 
 /-- The source-index split certificate supplies the previous shift-index split certificate. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex
@@ -17323,20 +17463,22 @@ map is certified by local six-window no-collision, while target boxedness is
 certified only on the final bandwidth-three boundary.  Lean derives the
 non-boundary target bounds, global injectivity, target-value injectivity,
 packages the squarefree-boxed codes, and constructs the decoder.  The live
-surface is now typed-mate uniform direct credit data: target-value injectivity
-plus, for every compatible strict-middle clique, a self-canonical injective
-credit function into reserve or new-middle targets.  Lean packages the typed
-offsets as decoded boxed codes and derives the count-level active-credit
-capacity, split reserve/new-middle, and reserve-dominance surfaces below it.
+surface is now a source-index selector with valid matching plus, for every
+compatible strict-middle clique, a self-canonical injective credit function
+into reserve or new-middle targets for the induced source-index mate.  Lean
+derives typed target data, target-value injectivity, the typed-mate direct
+credit surface, count-level active-credit capacity, split reserve/new-middle,
+and reserve-dominance below it.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate
 
 /-- Current decoded squarefree-boxed certificate with explicit credit matching transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
   globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateUniformSelfCanonicalTargetDirect
-    finiteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut
+    (globalFiniteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCode_of_sourceIndexSelector
+      finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut)
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
 theorem finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :
