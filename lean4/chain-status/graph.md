@@ -11,15 +11,15 @@ graph TD
   classDef cut fill:#ffd,stroke:#a80
   classDef drift fill:#fdd,stroke:#a00,stroke-width:3px
   classDef endpoint fill:#dfd,stroke:#080
-  Erdos848_finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairMatchingCut{{ "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairMatchingCut" }}:::cut
   propext{{ "propext" }}:::cut
+  Erdos848_finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut{{ "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut" }}:::cut
   Erdos848_activeStrictMiddleIncrementalCapacityCut{{ "activeStrictMiddleIncrementalCapacityCut" }}:::cut
   Classical_choice{{ "choice" }}:::cut
   Quot_sound{{ "sound" }}:::cut
   Erdos848_erdos848_main>"erdos848_main"]:::endpoint
   Erdos848_erdos848_main --> Classical_choice
   Erdos848_erdos848_main --> Erdos848_activeStrictMiddleIncrementalCapacityCut
-  Erdos848_erdos848_main --> Erdos848_finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairMatchingCut
+  Erdos848_erdos848_main --> Erdos848_finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut
   Erdos848_erdos848_main --> Quot_sound
   Erdos848_erdos848_main --> propext
 ```

@@ -752,6 +752,45 @@ def OppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatch
   OppositeFiniteOffsetListSelectorLengthTargetBoundaryBoxValid N codes /\
   OppositeFiniteOffsetListSelectorLengthGapShiftInjective N codes
 
+/-- Template-window target coherence plus squarefree edge on every boxed source index. -/
+def OppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentEdgeValid
+    (N : Nat) (windows : List OppositeFiniteOffsetRepairWindow) : Prop :=
+  forall k : Nat, k < OppositeFiniteOffsetSourceCount N ->
+    OppositeFiniteOffsetSourceIndexTargetCoherentEdgeValid k
+      (OppositeFiniteOffsetTemplateWindowRepairCode windows k)
+
+/-- Template-window target boxedness only on the final bandwidth-three boundary. -/
+def OppositeFiniteOffsetTemplateWindowRepairLengthTargetBoundaryBoxValid
+    (N : Nat) (windows : List OppositeFiniteOffsetRepairWindow) : Prop :=
+  forall k : Nat,
+    k < OppositeFiniteOffsetSourceCount N ->
+    OppositeFiniteOffsetSourceCount N <= k + 3 ->
+      OppositeFiniteOffsetSourceIndexTargetValue k
+        (OppositeFiniteOffsetTemplateWindowRepairCode windows k) <= N
+
+/-- Gap-indexed local no-collision condition for a template-window repair map. -/
+def OppositeFiniteOffsetTemplateWindowRepairLengthGapShiftInjective
+    (N : Nat) (windows : List OppositeFiniteOffsetRepairWindow) : Prop :=
+  forall k d : Nat,
+    1 <= d ->
+    d <= 6 ->
+    k + d < OppositeFiniteOffsetSourceCount N ->
+      Not (
+        OppositeFiniteOffsetSourceIndexShiftTarget k
+            (OppositeFiniteOffsetTemplateWindowRepairCode windows k) =
+          OppositeFiniteOffsetSourceIndexShiftTarget (k + d)
+            (OppositeFiniteOffsetTemplateWindowRepairCode windows (k + d)))
+
+/--
+Local template-window matching package: target edge validity, final-boundary
+boxedness, and six-gap no-collision are enough for the finite selector package.
+-/
+def OppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentBoundaryBoxGapValidMatching
+    (N : Nat) (windows : List OppositeFiniteOffsetRepairWindow) : Prop :=
+  OppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentEdgeValid N windows /\
+  OppositeFiniteOffsetTemplateWindowRepairLengthTargetBoundaryBoxValid N windows /\
+  OppositeFiniteOffsetTemplateWindowRepairLengthGapShiftInjective N windows
+
 /-- The truncated repair-code list agrees with the repair assignment on covered indices. -/
 theorem oppositeFiniteOffsetListSelector_windowRepairCodeList_eq
     {N k : Nat} {windows : List OppositeFiniteOffsetRepairWindow}
@@ -7470,6 +7509,58 @@ theorem oppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidM
           omega
 
 /--
+Local template-window matching data supplies the finite gap-indexed list
+certificate by truncating the assignment to the boxed source count.
+-/
+theorem oppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching_of_templateWindowRepairLocalMatching
+    {N : Nat} {windows : List OppositeFiniteOffsetRepairWindow}
+    (h :
+      OppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentBoundaryBoxGapValidMatching
+        N windows) :
+    OppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching
+      N (OppositeFiniteOffsetWindowRepairCodeList N windows) := by
+  rcases h with ⟨hEdge, hBoundary, hGap⟩
+  constructor
+  · simp [OppositeFiniteOffsetWindowRepairCodeList]
+  · constructor
+    · intro k hk
+      have hkCount : k < OppositeFiniteOffsetSourceCount N := by
+        simpa [OppositeFiniteOffsetWindowRepairCodeList] using hk
+      have hEq :=
+        oppositeFiniteOffsetListSelector_windowRepairCodeList_eq
+          (N := N) (windows := windows) hkCount
+      rw [hEq]
+      exact hEdge k hkCount
+    · constructor
+      · intro k hk hBoundaryList
+        have hkCount : k < OppositeFiniteOffsetSourceCount N := by
+          simpa [OppositeFiniteOffsetWindowRepairCodeList] using hk
+        have hBoundaryCount :
+            OppositeFiniteOffsetSourceCount N <= k + 3 := by
+          simpa [OppositeFiniteOffsetWindowRepairCodeList] using hBoundaryList
+        have hEq :=
+          oppositeFiniteOffsetListSelector_windowRepairCodeList_eq
+            (N := N) (windows := windows) hkCount
+        rw [hEq]
+        exact hBoundary k hkCount hBoundaryCount
+      · intro k d hdpos hdle hkd
+        intro hShift
+        have hkCount : k < OppositeFiniteOffsetSourceCount N := by
+          have hkdCount : k + d < OppositeFiniteOffsetSourceCount N := by
+            simpa [OppositeFiniteOffsetWindowRepairCodeList] using hkd
+          omega
+        have hkdCount : k + d < OppositeFiniteOffsetSourceCount N := by
+          simpa [OppositeFiniteOffsetWindowRepairCodeList] using hkd
+        have hEq1 :=
+          oppositeFiniteOffsetListSelector_windowRepairCodeList_eq
+            (N := N) (windows := windows) hkCount
+        have hEq2 :=
+          oppositeFiniteOffsetListSelector_windowRepairCodeList_eq
+            (N := N) (windows := windows) hkdCount
+        rw [hEq1, hEq2] at hShift
+        exact (hGap k d hdpos hdle hkdCount) hShift
+
+/--
 Opposite-side typed matching indexed only by the `18 mod 25` source index.
 The induced total mate uses `offsetIndex (CandidateClassIndex b)`.
 -/
@@ -9491,6 +9582,13 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
     Prop :=
   forall N : Nat, Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
     GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateWindowRepairValidMatching
+      N windows
+
+/-- Local template-window repair matching certificate, separated from middle capacity. -/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCertificate :
+    Prop :=
+  forall N : Nat, Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
+    OppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentBoundaryBoxGapValidMatching
       N windows
 
 /--
@@ -16711,6 +16809,21 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexList
         hWindow)
 
 /--
+Local template-window repair matching supplies gap-indexed finite list matching.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatching_of_templateWindowRepairLocalMatching
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCertificate := by
+  intro N
+  cases h N with
+  | intro windows hWindow =>
+    exact Exists.intro
+      (OppositeFiniteOffsetWindowRepairCodeList N windows)
+      (oppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching_of_templateWindowRepairLocalMatching
+        hWindow)
+
+/--
 Code-independent incremental middle capacity plus the gap-indexed list
 matching supplies the current split incremental-capacity certificate.
 -/
@@ -18220,14 +18333,14 @@ reserve dominance before deriving the endpoint Hall expansion.
 axiom activeStrictMiddleIncrementalCapacityCut :
   ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7
 
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairMatchingCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairMatchingCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCertificate
 
-/-- Current gap-indexed finite list-selector matching from template-window repair matching. -/
+/-- Current gap-indexed finite list-selector matching from local template-window repair matching. -/
 theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCut :
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatching_of_templateWindowRepairMatching
-    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairMatchingCut
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatching_of_templateWindowRepairLocalMatching
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut
 
 /-- Current split incremental-capacity certificate from the two active cuts. -/
 theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut :
