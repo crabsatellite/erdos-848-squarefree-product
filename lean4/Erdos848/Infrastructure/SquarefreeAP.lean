@@ -301,6 +301,142 @@ def OppositeFiniteOffsetCodeTargetIndex
     (b : Nat) (code : OppositeFiniteOffsetCode) : Nat :=
   CandidateClassIndex (OppositeFiniteOffsetCodeValue b code)
 
+/-- Target index expressed as the source residue-class index plus the code shift. -/
+def OppositeFiniteOffsetCodeShiftTargetIndex
+    (b : Nat) : OppositeFiniteOffsetCode -> Nat
+  | OppositeFiniteOffsetCode.neg86 => CandidateClassIndex b - 3
+  | OppositeFiniteOffsetCode.neg61 => CandidateClassIndex b - 2
+  | OppositeFiniteOffsetCode.neg36 => CandidateClassIndex b - 1
+  | OppositeFiniteOffsetCode.neg11 => CandidateClassIndex b
+  | OppositeFiniteOffsetCode.pos14 => CandidateClassIndex b + 1
+  | OppositeFiniteOffsetCode.pos39 => CandidateClassIndex b + 2
+  | OppositeFiniteOffsetCode.pos64 => CandidateClassIndex b + 3
+
+/--
+For boxed targets from an `18 mod 25` source, the target residue-class index is
+the explicit source-index shift attached to the typed finite-offset code.
+-/
+theorem oppositeFiniteOffsetCodeTargetIndex_eq_shiftTargetIndex
+    {N b : Nat} {code : OppositeFiniteOffsetCode}
+    (hb18 : CandidateCarrier 18 b)
+    (hTarget : InBox N (OppositeFiniteOffsetCodeValue b code)) :
+    OppositeFiniteOffsetCodeTargetIndex b code =
+      OppositeFiniteOffsetCodeShiftTargetIndex b code := by
+  unfold CandidateCarrier at hb18
+  have hdecomp : b = 25 * (b / 25) + 18 := by
+    have h := Nat.mod_add_div b 25
+    omega
+  have hsourceIndex : (25 * (b / 25) + 18) / 25 = b / 25 := by
+    rw [Nat.mul_add_div (by omega : 0 < 25) (b / 25) 18]
+    omega
+  cases code
+  · have hleft0 : 1 <= b - 86 := by
+      simpa [OppositeFiniteOffsetCodeValue, OppositeFiniteOffsetValue,
+        OppositeFiniteOffsetCode.toNat] using
+        hTarget.left
+    have hleft : 1 <= 25 * (b / 25) + 18 - 86 := by
+      rw [← hdecomp]
+      exact hleft0
+    have hpos : 0 < 25 * (b / 25) + 18 - 86 := by omega
+    have hgt : 86 < 25 * (b / 25) + 18 := Nat.sub_pos_iff_lt.mp hpos
+    have hk : 3 <= b / 25 := by omega
+    have hcalc : (b - 86) / 25 = b / 25 - 3 := by
+      rw [hdecomp]
+      have hval :
+          25 * (b / 25) + 18 - 86 = 25 * (b / 25 - 3) + 7 := by
+        omega
+      rw [hval]
+      rw [Nat.mul_add_div (by omega : 0 < 25) (b / 25 - 3) 7]
+      rw [hsourceIndex]
+      omega
+    change (b - 86) / 25 = b / 25 - 3
+    exact hcalc
+  · have hleft0 : 1 <= b - 61 := by
+      simpa [OppositeFiniteOffsetCodeValue, OppositeFiniteOffsetValue,
+        OppositeFiniteOffsetCode.toNat] using
+        hTarget.left
+    have hleft : 1 <= 25 * (b / 25) + 18 - 61 := by
+      rw [← hdecomp]
+      exact hleft0
+    have hpos : 0 < 25 * (b / 25) + 18 - 61 := by omega
+    have hgt : 61 < 25 * (b / 25) + 18 := Nat.sub_pos_iff_lt.mp hpos
+    have hk : 2 <= b / 25 := by omega
+    have hcalc : (b - 61) / 25 = b / 25 - 2 := by
+      rw [hdecomp]
+      have hval :
+          25 * (b / 25) + 18 - 61 = 25 * (b / 25 - 2) + 7 := by
+        omega
+      rw [hval]
+      rw [Nat.mul_add_div (by omega : 0 < 25) (b / 25 - 2) 7]
+      rw [hsourceIndex]
+      omega
+    change (b - 61) / 25 = b / 25 - 2
+    exact hcalc
+  · have hleft0 : 1 <= b - 36 := by
+      simpa [OppositeFiniteOffsetCodeValue, OppositeFiniteOffsetValue,
+        OppositeFiniteOffsetCode.toNat] using
+        hTarget.left
+    have hleft : 1 <= 25 * (b / 25) + 18 - 36 := by
+      rw [← hdecomp]
+      exact hleft0
+    have hpos : 0 < 25 * (b / 25) + 18 - 36 := by omega
+    have hgt : 36 < 25 * (b / 25) + 18 := Nat.sub_pos_iff_lt.mp hpos
+    have hk : 1 <= b / 25 := by omega
+    have hcalc : (b - 36) / 25 = b / 25 - 1 := by
+      rw [hdecomp]
+      have hval :
+          25 * (b / 25) + 18 - 36 = 25 * (b / 25 - 1) + 7 := by
+        omega
+      rw [hval]
+      rw [Nat.mul_add_div (by omega : 0 < 25) (b / 25 - 1) 7]
+      rw [hsourceIndex]
+      omega
+    change (b - 36) / 25 = b / 25 - 1
+    exact hcalc
+  · have hcalc : (b - 11) / 25 = b / 25 := by
+      rw [hdecomp]
+      have hval : 25 * (b / 25) + 18 - 11 = 25 * (b / 25) + 7 := by
+        omega
+      rw [hval]
+      rw [Nat.mul_add_div (by omega : 0 < 25) (b / 25) 7]
+      rw [hsourceIndex]
+      omega
+    change (b - 11) / 25 = b / 25
+    exact hcalc
+  · have hcalc : (b + 14) / 25 = b / 25 + 1 := by
+      rw [hdecomp]
+      have hval : 25 * (b / 25) + 18 + 14 = 25 * (b / 25 + 1) + 7 := by
+        omega
+      rw [hval]
+      rw [Nat.mul_add_div (by omega : 0 < 25) (b / 25 + 1) 7]
+      rw [hsourceIndex]
+    simpa [OppositeFiniteOffsetCodeTargetIndex,
+      OppositeFiniteOffsetCodeShiftTargetIndex, OppositeFiniteOffsetCodeValue,
+      OppositeFiniteOffsetValue, OppositeFiniteOffsetCode.toNat,
+      CandidateClassIndex] using hcalc
+  · have hcalc : (b + 39) / 25 = b / 25 + 2 := by
+      rw [hdecomp]
+      have hval : 25 * (b / 25) + 18 + 39 = 25 * (b / 25 + 2) + 7 := by
+        omega
+      rw [hval]
+      rw [Nat.mul_add_div (by omega : 0 < 25) (b / 25 + 2) 7]
+      rw [hsourceIndex]
+    simpa [OppositeFiniteOffsetCodeTargetIndex,
+      OppositeFiniteOffsetCodeShiftTargetIndex, OppositeFiniteOffsetCodeValue,
+      OppositeFiniteOffsetValue, OppositeFiniteOffsetCode.toNat,
+      CandidateClassIndex] using hcalc
+  · have hcalc : (b + 64) / 25 = b / 25 + 3 := by
+      rw [hdecomp]
+      have hval : 25 * (b / 25) + 18 + 64 = 25 * (b / 25 + 3) + 7 := by
+        omega
+      rw [hval]
+      rw [Nat.mul_add_div (by omega : 0 < 25) (b / 25 + 3) 7]
+      rw [hsourceIndex]
+    simpa [OppositeFiniteOffsetCodeTargetIndex,
+      OppositeFiniteOffsetCodeShiftTargetIndex, OppositeFiniteOffsetCodeValue,
+      OppositeFiniteOffsetValue, OppositeFiniteOffsetCode.toNat,
+      CandidateClassIndex] using hcalc
+
 /-- A finite-offset code packaged with the proof that its target remains boxed. -/
 def BoxedOppositeFiniteOffsetCode (N b : Nat) : Type :=
   { code : OppositeFiniteOffsetCode //
@@ -3611,6 +3747,20 @@ def GlobalOppositeFiniteOffsetEighteenTypedIndexMatching
         OppositeFiniteOffsetCodeTargetIndex b2 (offset b2) ->
       b1 = b2)
 
+/-- Opposite-side typed matching stated with the explicit source-index shifts. -/
+def GlobalOppositeFiniteOffsetEighteenTypedShiftIndexMatching
+    (N : Nat) (offset : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+    GlobalOppositeFiniteOffsetEighteenTypedTargetNeighbor N b (offset b)) /\
+  (forall b1 b2 : Nat,
+    forall _hb1Box : InBox N b1,
+    forall _hb1Residue : CandidateCarrier 18 b1,
+    forall _hb2Box : InBox N b2,
+    forall _hb2Residue : CandidateCarrier 18 b2,
+      OppositeFiniteOffsetCodeShiftTargetIndex b1 (offset b1) =
+        OppositeFiniteOffsetCodeShiftTargetIndex b2 (offset b2) ->
+      b1 = b2)
+
 /-- Strict-middle active credit capacity against the simple typed finite-offset mate. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity
     (N : Nat) (offset : Nat -> OppositeFiniteOffsetCode) : Prop :=
@@ -3633,6 +3783,16 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacity
     Prop :=
   forall N : Nat, Exists fun offset : Nat -> OppositeFiniteOffsetCode =>
     GlobalOppositeFiniteOffsetEighteenTypedIndexMatching N offset /\
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity N offset
+
+/--
+Split certificate with the opposite block reduced to explicit source-index
+shifts rather than target-value division.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCertificate :
+    Prop :=
+  forall N : Nat, Exists fun offset : Nat -> OppositeFiniteOffsetCode =>
+    GlobalOppositeFiniteOffsetEighteenTypedShiftIndexMatching N offset /\
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity N offset
 
 /--
@@ -4435,6 +4595,36 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacity_
   rcases h N with ⟨offset, hOpposite, hCapacity⟩
   rcases hOpposite with ⟨hMap, hIndexInjective⟩
   exact ⟨offset, hMap, hIndexInjective, hCapacity⟩
+
+/--
+The explicit shift-index matching supplies the previous target-index matching:
+for boxed `18 mod 25` sources the two indices are definitionally connected by
+`oppositeFiniteOffsetCodeTargetIndex_eq_shiftTargetIndex`.
+-/
+theorem globalOppositeFiniteOffsetEighteenTypedIndexMatching_of_shift
+    {N : Nat} {offset : Nat -> OppositeFiniteOffsetCode}
+    (h : GlobalOppositeFiniteOffsetEighteenTypedShiftIndexMatching N offset) :
+    GlobalOppositeFiniteOffsetEighteenTypedIndexMatching N offset := by
+  rcases h with ⟨hMap, hShiftInjective⟩
+  refine ⟨hMap, ?_⟩
+  intro b1 b2 hb1Box hb1Residue hb2Box hb2Residue hIndex
+  exact hShiftInjective b1 b2 hb1Box hb1Residue hb2Box hb2Residue (by
+    rw [oppositeFiniteOffsetCodeTargetIndex_eq_shiftTargetIndex
+          hb1Residue (hMap b1 hb1Box hb1Residue).left,
+        oppositeFiniteOffsetCodeTargetIndex_eq_shiftTargetIndex
+          hb2Residue (hMap b2 hb2Box hb2Residue).left] at hIndex
+    exact hIndex)
+
+/-- The split shift-index certificate supplies the previous split target-index certificate. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacity_of_shift
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacityCertificate := by
+  intro N
+  rcases h N with ⟨offset, hOpposite, hCapacity⟩
+  exact ⟨offset,
+    globalOppositeFiniteOffsetEighteenTypedIndexMatching_of_shift hOpposite,
+    hCapacity⟩
 
 /--
 Target-index injectivity supplies the previous target-value injectivity because
@@ -5410,13 +5600,14 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 /--
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
 compression whose open offset side is a total typed seven-offset map with
-target boxedness, squarefree edge data, and target-index injectivity.  Lean
-derives target-value injectivity, packages the squarefree-boxed codes, and
-constructs the decoder; the strict-middle side is the count-level active credit
-capacity for the simple typed mate.
+target boxedness, squarefree edge data, and explicit source-index shift
+injectivity.  Lean derives target-index injectivity, target-value injectivity,
+packages the squarefree-boxed codes, and constructs the decoder; the
+strict-middle side is the count-level active credit capacity for the simple
+typed mate.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacityCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
@@ -5424,7 +5615,8 @@ theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateCreditCapacity
     (globalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacity_of_index
       (globalFiniteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacity_of_split
-        finiteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacityCut))
+        (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacity_of_shift
+          finiteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCut)))
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
 theorem finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :
