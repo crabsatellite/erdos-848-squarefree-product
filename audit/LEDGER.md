@@ -47,6 +47,7 @@ the source of truth and use this file only as a durable round index.
 | R067 | Narrowed the live source-index split certificate to a period-six template-repair representation. Lean now projects the compact repair-coded offset map back into the ordinary source-index valid matching before continuing the existing endpoint proof spine. |
 | R068 | Added the Lean-side repair-window representation used by the generated evidence. The live source-index cut now asks for a list of compact windows, derives the repair map from those windows, and then projects back into the existing proof spine. |
 | R069 | Emitted Lean constructor names for the period-six template and repair windows, and extended the generated band-matching evidence through `N=10000`. The Python gate now checks numeric repair codes against their Lean-facing names. |
+| R070 | Added active-credit search diagnostics. The finite active-capacity checker now records outside split sizes, search node count, maximum clique-search depth, and whether the search was exhaustive, with the build gate requiring exact exhaustion. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.

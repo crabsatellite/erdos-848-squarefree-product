@@ -13,6 +13,11 @@ class ActiveCreditCertificate:
     opposite_residue: int
     index_bandwidth: int
     outside_vertices: int
+    outside_opposite_vertices: int
+    outside_middle_vertices: int
+    search_nodes: int
+    search_max_depth: int
+    search_exhausted: bool
     worst_credit_defect: int
     worst_credit_witness: list[int]
     worst_credit_opposite_size: int
@@ -28,6 +33,7 @@ def active_credit_certificate(
     base_residue: int = 7,
     opposite_residue: int = 18,
     index_bandwidth: int = 3,
+    max_nodes: int | None = None,
 ) -> ActiveCreditCertificate:
     """Check the finite shadow of `ActiveStrictMiddleCreditCapacity`.
 
@@ -62,6 +68,8 @@ def active_credit_certificate(
 
     graph = BitsetGraph(outside, lambda a, b: not sf[a * b + 1])
     is_opposite = [b % 25 == opposite_residue for b in outside]
+    outside_opposite_vertices = sum(1 for flag in is_opposite if flag)
+    outside_middle_vertices = len(outside) - outside_opposite_vertices
     neigh = [0] * len(outside)
     for i, b in enumerate(outside):
         mask = 0
@@ -78,6 +86,9 @@ def active_credit_certificate(
     worst_credit_reserve_size = 0
     worst_credit_new_middle_size = 0
     worst_credit_matching: list[tuple[int, int]] = []
+    search_nodes = 0
+    search_max_depth = 0
+    search_exhausted = True
 
     def expand(
         P: int,
@@ -96,6 +107,15 @@ def active_credit_certificate(
         nonlocal worst_credit_reserve_size
         nonlocal worst_credit_new_middle_size
         nonlocal worst_credit_matching
+        nonlocal search_nodes
+        nonlocal search_max_depth
+        nonlocal search_exhausted
+
+        search_nodes += 1
+        search_max_depth = max(search_max_depth, len(chosen))
+        if max_nodes is not None and search_nodes > max_nodes:
+            search_exhausted = False
+            return
 
         middle_size = len(middle_vertices)
         if middle_size > 0:
@@ -114,7 +134,7 @@ def active_credit_certificate(
                 worst_credit_new_middle_size = new_middle.bit_count()
                 worst_credit_matching = list(zip(middle_vertices, credit_vertices[:middle_size]))
 
-        while P:
+        while P and search_exhausted:
             lsb = P & -P
             v = lsb.bit_length() - 1
             P ^= lsb
@@ -152,6 +172,11 @@ def active_credit_certificate(
         opposite_residue=opposite_residue,
         index_bandwidth=index_bandwidth,
         outside_vertices=len(outside),
+        outside_opposite_vertices=outside_opposite_vertices,
+        outside_middle_vertices=outside_middle_vertices,
+        search_nodes=search_nodes,
+        search_max_depth=search_max_depth,
+        search_exhausted=search_exhausted,
         worst_credit_defect=worst_credit_defect,
         worst_credit_witness=worst_credit_witness,
         worst_credit_opposite_size=worst_credit_opposite_size,

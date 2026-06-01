@@ -5,7 +5,12 @@
       "base_residue": 7,
       "index_bandwidth": 3,
       "opposite_residue": 18,
+      "outside_middle_vertices": 4,
+      "outside_opposite_vertices": 4,
       "outside_vertices": 8,
+      "search_exhausted": true,
+      "search_max_depth": 4,
+      "search_nodes": 25,
       "worst_credit_defect": 2,
       "worst_credit_matching": [
         [
@@ -27,7 +32,12 @@
       "base_residue": 7,
       "index_bandwidth": 3,
       "opposite_residue": 18,
+      "outside_middle_vertices": 12,
+      "outside_opposite_vertices": 20,
       "outside_vertices": 32,
+      "search_exhausted": true,
+      "search_max_depth": 20,
+      "search_nodes": 1049963,
       "worst_credit_defect": 11,
       "worst_credit_matching": [
         [
@@ -158,7 +168,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T07:50:22.987673+00:00",
+  "generated_at": "2026-06-01T07:55:52.245921+00:00",
   "hall_checks": [
     {
       "N": 100,
