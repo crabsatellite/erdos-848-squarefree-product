@@ -233,6 +233,8 @@ def active_credit_certificate(
                     ]
                     deficit_vertices = middle_vertices[:credit_deficit]
                     allocation_pairs = list(zip(deficit_vertices, reserve_vertices[:credit_deficit]))
+                    reserve_vertex_set = set(reserve_vertices)
+                    deficit_vertex_set = set(deficit_vertices)
                     observed_max_credit_deficit = credit_deficit
                     observed_max_credit_deficit_surplus = deficit_surplus
                     observed_max_credit_deficit_witness = [outside[i] for i in chosen]
@@ -245,6 +247,8 @@ def active_credit_certificate(
                     observed_max_credit_deficit_allocation_pairs = allocation_pairs
                     observed_max_credit_deficit_allocation_valid = (
                         len(allocation_pairs) == credit_deficit
+                        and all(middle in deficit_vertex_set for middle, _pay in allocation_pairs)
+                        and all(pay in reserve_vertex_set for _middle, pay in allocation_pairs)
                         and len({pay for _middle, pay in allocation_pairs}) == credit_deficit
                     )
             if defect < worst_credit_defect:
@@ -252,6 +256,8 @@ def active_credit_certificate(
                 reserve_vertices = [base[i] for i in range(len(base)) if (reserve >> i) & 1]
                 deficit_vertices = middle_vertices[:credit_deficit]
                 allocation_pairs = list(zip(deficit_vertices, reserve_vertices[:credit_deficit]))
+                reserve_vertex_set = set(reserve_vertices)
+                deficit_vertex_set = set(deficit_vertices)
                 worst_credit_defect = defect
                 worst_credit_witness = [outside[i] for i in chosen]
                 worst_credit_witness_residue_counts = dict(
@@ -276,6 +282,8 @@ def active_credit_certificate(
                 worst_credit_deficit_allocation_pairs = allocation_pairs
                 worst_credit_deficit_allocation_valid = (
                     len(allocation_pairs) == credit_deficit
+                    and all(middle in deficit_vertex_set for middle, _pay in allocation_pairs)
+                    and all(pay in reserve_vertex_set for _middle, pay in allocation_pairs)
                     and len({pay for _middle, pay in allocation_pairs}) == credit_deficit
                 )
                 worst_credit_required_reserve_slack = credit_deficit
