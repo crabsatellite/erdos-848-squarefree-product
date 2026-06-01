@@ -463,6 +463,35 @@ def OppositeFiniteOffsetListSelectorLengthValidMatching
   OppositeFiniteOffsetListSelectorTargetValid N codes /\
   OppositeFiniteOffsetListSelectorShiftInjective N codes
 
+/-- Box-free local target-validity for every index in the finite selector list. -/
+def OppositeFiniteOffsetListSelectorLengthTargetValid
+    (N : Nat) (codes : List OppositeFiniteOffsetCode) : Prop :=
+  forall k : Nat, k < codes.length ->
+    OppositeFiniteOffsetSourceIndexTargetValid N k
+      (OppositeFiniteOffsetListSelector codes k)
+
+/-- Box-free local shift-injectivity for every pair of selector-list indices. -/
+def OppositeFiniteOffsetListSelectorLengthShiftInjective
+    (_N : Nat) (codes : List OppositeFiniteOffsetCode) : Prop :=
+  forall k1 k2 : Nat,
+    k1 < codes.length ->
+    k2 < codes.length ->
+      OppositeFiniteOffsetSourceIndexShiftTarget k1
+          (OppositeFiniteOffsetListSelector codes k1) =
+        OppositeFiniteOffsetSourceIndexShiftTarget k2
+          (OppositeFiniteOffsetListSelector codes k2) ->
+      k1 = k2
+
+/--
+Length-exact, box-free local valid matching package for a finite selector
+certificate.
+-/
+def OppositeFiniteOffsetListSelectorLengthBoxFreeValidMatching
+    (N : Nat) (codes : List OppositeFiniteOffsetCode) : Prop :=
+  codes.length = OppositeFiniteOffsetSourceCount N /\
+  OppositeFiniteOffsetListSelectorLengthTargetValid N codes /\
+  OppositeFiniteOffsetListSelectorLengthShiftInjective N codes
+
 /-- The exact boxed source count covers every boxed `18 mod 25` source index. -/
 theorem oppositeFiniteOffsetListSelectorCoversBox_of_length_sourceCount
     {N : Nat} {codes : List OppositeFiniteOffsetCode}
@@ -493,6 +522,23 @@ theorem oppositeFiniteOffsetListSelectorValidMatching_of_lengthValidMatching
   And.intro
     (oppositeFiniteOffsetListSelectorCoversBox_of_length_sourceCount h.left)
     (And.intro h.right.left h.right.right)
+
+/--
+Box-free length-local validity supplies the previous length-local package with
+explicit boxed-source premises.
+-/
+theorem oppositeFiniteOffsetListSelectorLengthValidMatching_of_lengthBoxFreeValidMatching
+    {N : Nat} {codes : List OppositeFiniteOffsetCode}
+    (h : OppositeFiniteOffsetListSelectorLengthBoxFreeValidMatching N codes) :
+    OppositeFiniteOffsetListSelectorLengthValidMatching N codes :=
+  And.intro h.left
+    (And.intro
+      (by
+        intro k hk _hBox
+        exact h.right.left k hk)
+      (by
+        intro k1 k2 hk1 hk2 _hBox1 _hBox2 hShift
+        exact h.right.right k1 k2 hk1 hk2 hShift))
 
 /--
 Non-underflow is enough to identify the original finite-offset target value
@@ -8646,6 +8692,17 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSele
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance N
       (OppositeFiniteOffsetListSelector codes)
 
+/--
+Source-index split certificate with a finite length-exact list and box-free
+local matching clauses.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthBoxFreeCreditDeficitReserveDominanceCertificate :
+    Prop :=
+  forall N : Nat, Exists fun codes : List OppositeFiniteOffsetCode =>
+    OppositeFiniteOffsetListSelectorLengthBoxFreeValidMatching N codes /\
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance N
+      (OppositeFiniteOffsetListSelector codes)
+
 /-- Current source-index split certificate, narrowed to template-window-repair form. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
@@ -9090,6 +9147,14 @@ reserve-dominance certificate.
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthDeficitReserveDominanceCertificate :
     Prop :=
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthCreditDeficitReserveDominanceCertificate
+
+/--
+Current source-index split certificate as a length-exact, box-free finite
+list-selector reserve-dominance certificate.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthBoxFreeDeficitReserveDominanceCertificate :
+    Prop :=
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthBoxFreeCreditDeficitReserveDominanceCertificate
 
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
@@ -14288,6 +14353,23 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
           hPack.left)
         hPack.right)
 
+/--
+Box-free length-exact finite list-selector reserve dominance supplies the
+previous length-exact list-selector certificate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthDeficitReserveDominance_of_lengthBoxFreeListSelector
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthBoxFreeDeficitReserveDominanceCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthDeficitReserveDominanceCertificate := by
+  intro N
+  cases h N with
+  | intro codes hPack =>
+    exact Exists.intro codes
+      (And.intro
+        (oppositeFiniteOffsetListSelectorLengthValidMatching_of_lengthBoxFreeValidMatching
+          hPack.left)
+        hPack.right)
+
 /-- Scalar reserve lower bound directly supplies source-index deficit capacity. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity_of_countUpperReserveLowerBoundAllocation
     {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
@@ -14542,6 +14624,19 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sou
   exact
     globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorReserveDominance
       (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorDeficitReserveDominance_of_lengthListSelector
+        h)
+
+/--
+Box-free length-exact finite list-selector reserve dominance supplies decoded
+squarefree-boxed compression.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthBoxFreeReserveDominance
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthBoxFreeDeficitReserveDominanceCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate := by
+  exact
+    globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthReserveDominance
+      (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthDeficitReserveDominance_of_lengthBoxFreeListSelector
         h)
 
 /-- Current reserve dominance directly supplies decoded squarefree-boxed compression. -/
@@ -15291,19 +15386,20 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 /--
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
 compression whose open offset side is a finite source-index code list over
-`25*k+18`, with length exactly the boxed source count.  Lean induces the total
-typed mate from `CandidateClassIndex`, derives target-index injectivity,
-target-value injectivity, packages the squarefree-boxed codes, and constructs
-the decoder; the strict-middle side is the reserve-dominance active-credit
-count inequality for the simple typed mate.
+`25*k+18`, with length exactly the boxed source count and box-free local
+validity on the list indices.  Lean induces the total typed mate from
+`CandidateClassIndex`, derives target-index injectivity, target-value
+injectivity, packages the squarefree-boxed codes, and constructs the decoder;
+the strict-middle side is the reserve-dominance active-credit count inequality
+for the simple typed mate.
 -/
 axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthDeficitReserveDominanceCertificate
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthBoxFreeDeficitReserveDominanceCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthReserveDominance
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthBoxFreeReserveDominance
     finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
