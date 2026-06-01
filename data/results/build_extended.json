@@ -28,8 +28,11 @@
       "worst_credit_new_middle_size": 3,
       "worst_credit_opposite_size": 0,
       "worst_credit_pool_size": 3,
+      "worst_credit_required_reserve_slack": 0,
       "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 0,
+      "worst_credit_reserve_slack_surplus": 0,
+      "worst_credit_slack_capacity_holds": true,
       "worst_credit_split_mode": "new_middle_only",
       "worst_credit_split_pool_size": 3,
       "worst_credit_witness": [
@@ -71,8 +74,11 @@
       "worst_credit_new_middle_size": 13,
       "worst_credit_opposite_size": 0,
       "worst_credit_pool_size": 13,
+      "worst_credit_required_reserve_slack": 0,
       "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 0,
+      "worst_credit_reserve_slack_surplus": 0,
+      "worst_credit_slack_capacity_holds": true,
       "worst_credit_split_mode": "new_middle_only",
       "worst_credit_split_pool_size": 13,
       "worst_credit_witness": [
@@ -112,8 +118,11 @@
       "worst_credit_new_middle_size": 0,
       "worst_credit_opposite_size": 17,
       "worst_credit_pool_size": 23,
+      "worst_credit_required_reserve_slack": 1,
       "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 23,
+      "worst_credit_reserve_slack_surplus": 22,
+      "worst_credit_slack_capacity_holds": true,
       "worst_credit_split_mode": "reserve_only",
       "worst_credit_split_pool_size": 23,
       "worst_credit_witness": [
@@ -169,8 +178,11 @@
       "worst_credit_new_middle_size": 48,
       "worst_credit_opposite_size": 0,
       "worst_credit_pool_size": 48,
+      "worst_credit_required_reserve_slack": 0,
       "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 0,
+      "worst_credit_reserve_slack_surplus": 0,
+      "worst_credit_slack_capacity_holds": true,
       "worst_credit_split_mode": "new_middle_only",
       "worst_credit_split_pool_size": 48,
       "worst_credit_witness": [
@@ -208,8 +220,11 @@
       "worst_credit_new_middle_size": 123,
       "worst_credit_opposite_size": 0,
       "worst_credit_pool_size": 123,
+      "worst_credit_required_reserve_slack": 0,
       "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 0,
+      "worst_credit_reserve_slack_surplus": 0,
+      "worst_credit_slack_capacity_holds": true,
       "worst_credit_split_mode": "new_middle_only",
       "worst_credit_split_pool_size": 123,
       "worst_credit_witness": [
@@ -247,8 +262,11 @@
       "worst_credit_new_middle_size": 249,
       "worst_credit_opposite_size": 0,
       "worst_credit_pool_size": 249,
+      "worst_credit_required_reserve_slack": 0,
       "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 0,
+      "worst_credit_reserve_slack_surplus": 0,
+      "worst_credit_slack_capacity_holds": true,
       "worst_credit_split_mode": "new_middle_only",
       "worst_credit_split_pool_size": 249,
       "worst_credit_witness": [
@@ -286,8 +304,11 @@
       "worst_credit_new_middle_size": 500,
       "worst_credit_opposite_size": 0,
       "worst_credit_pool_size": 500,
+      "worst_credit_required_reserve_slack": 0,
       "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 0,
+      "worst_credit_reserve_slack_surplus": 0,
+      "worst_credit_slack_capacity_holds": true,
       "worst_credit_split_mode": "new_middle_only",
       "worst_credit_split_pool_size": 500,
       "worst_credit_witness": [
@@ -709,7 +730,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T08:43:36.968068+00:00",
+  "generated_at": "2026-06-01T08:51:37.522838+00:00",
   "hall_checks": [
     {
       "N": 100,

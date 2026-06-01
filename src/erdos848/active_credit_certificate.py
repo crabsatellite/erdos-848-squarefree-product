@@ -34,8 +34,11 @@ class ActiveCreditCertificate:
     worst_credit_pool_size: int
     worst_credit_reserve_size: int
     worst_credit_new_middle_size: int
+    worst_credit_required_reserve_slack: int
+    worst_credit_reserve_slack_surplus: int
     worst_credit_split_pool_size: int
     worst_credit_reserve_new_disjoint: bool
+    worst_credit_slack_capacity_holds: bool
     worst_credit_matching: list[tuple[int, int]]
 
 
@@ -109,8 +112,11 @@ def active_credit_certificate(
     worst_credit_pool_size = 0
     worst_credit_reserve_size = 0
     worst_credit_new_middle_size = 0
+    worst_credit_required_reserve_slack = 0
+    worst_credit_reserve_slack_surplus = 0
     worst_credit_split_pool_size = 0
     worst_credit_reserve_new_disjoint = True
+    worst_credit_slack_capacity_holds = True
     worst_credit_matching: list[tuple[int, int]] = []
     search_nodes = 0
     search_max_depth = 0
@@ -137,8 +143,11 @@ def active_credit_certificate(
         nonlocal worst_credit_pool_size
         nonlocal worst_credit_reserve_size
         nonlocal worst_credit_new_middle_size
+        nonlocal worst_credit_required_reserve_slack
+        nonlocal worst_credit_reserve_slack_surplus
         nonlocal worst_credit_split_pool_size
         nonlocal worst_credit_reserve_new_disjoint
+        nonlocal worst_credit_slack_capacity_holds
         nonlocal worst_credit_matching
         nonlocal search_nodes
         nonlocal search_max_depth
@@ -162,7 +171,11 @@ def active_credit_certificate(
             new_middle = middle_neighbors & ~opposite_neighbors
             credit_pool = reserve | new_middle
             credit_pool_size = credit_pool.bit_count()
-            split_pool_size = reserve.bit_count() + new_middle.bit_count()
+            reserve_size = reserve.bit_count()
+            new_middle_size = new_middle.bit_count()
+            split_pool_size = reserve_size + new_middle_size
+            required_reserve_slack = max(0, middle_size - new_middle_size)
+            reserve_slack_surplus = reserve_size - required_reserve_slack
             reserve_new_disjoint = (reserve & new_middle) == 0
             defect = credit_pool_size - middle_size
             if defect < worst_credit_defect:
@@ -183,10 +196,13 @@ def active_credit_certificate(
                 worst_credit_opposite_size = opposite_size
                 worst_credit_middle_size = middle_size
                 worst_credit_pool_size = credit_pool_size
-                worst_credit_reserve_size = reserve.bit_count()
-                worst_credit_new_middle_size = new_middle.bit_count()
+                worst_credit_reserve_size = reserve_size
+                worst_credit_new_middle_size = new_middle_size
+                worst_credit_required_reserve_slack = required_reserve_slack
+                worst_credit_reserve_slack_surplus = reserve_slack_surplus
                 worst_credit_split_pool_size = split_pool_size
                 worst_credit_reserve_new_disjoint = reserve_new_disjoint
+                worst_credit_slack_capacity_holds = reserve_slack_surplus >= 0
                 worst_credit_matching = list(zip(middle_vertices, credit_vertices[:middle_size]))
             remaining_middle_size = (P & middle_candidate_mask).bit_count()
             remaining_opposite_size = (P & opposite_candidate_mask).bit_count()
@@ -259,8 +275,11 @@ def active_credit_certificate(
         worst_credit_pool_size=worst_credit_pool_size,
         worst_credit_reserve_size=worst_credit_reserve_size,
         worst_credit_new_middle_size=worst_credit_new_middle_size,
+        worst_credit_required_reserve_slack=worst_credit_required_reserve_slack,
+        worst_credit_reserve_slack_surplus=worst_credit_reserve_slack_surplus,
         worst_credit_split_pool_size=worst_credit_split_pool_size,
         worst_credit_reserve_new_disjoint=worst_credit_reserve_new_disjoint,
+        worst_credit_slack_capacity_holds=worst_credit_slack_capacity_holds,
         worst_credit_matching=worst_credit_matching,
     )
 

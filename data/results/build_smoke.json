@@ -28,8 +28,11 @@
       "worst_credit_new_middle_size": 3,
       "worst_credit_opposite_size": 0,
       "worst_credit_pool_size": 3,
+      "worst_credit_required_reserve_slack": 0,
       "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 0,
+      "worst_credit_reserve_slack_surplus": 0,
+      "worst_credit_slack_capacity_holds": true,
       "worst_credit_split_mode": "new_middle_only",
       "worst_credit_split_pool_size": 3,
       "worst_credit_witness": [
@@ -71,8 +74,11 @@
       "worst_credit_new_middle_size": 13,
       "worst_credit_opposite_size": 0,
       "worst_credit_pool_size": 13,
+      "worst_credit_required_reserve_slack": 0,
       "worst_credit_reserve_new_disjoint": true,
       "worst_credit_reserve_size": 0,
+      "worst_credit_reserve_slack_surplus": 0,
+      "worst_credit_slack_capacity_holds": true,
       "worst_credit_split_mode": "new_middle_only",
       "worst_credit_split_pool_size": 13,
       "worst_credit_witness": [
@@ -190,7 +196,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T08:41:52.078152+00:00",
+  "generated_at": "2026-06-01T08:49:02.490287+00:00",
   "hall_checks": [
     {
       "N": 100,
