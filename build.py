@@ -315,7 +315,16 @@ def assert_gate(payload: dict) -> None:
             "worst_credit_deficit_allocation_shift_target_no_image_valid"
         ], item
         assert item[
+            "worst_credit_deficit_allocation_mate_target_no_image_valid"
+        ], item
+        assert item[
+            "worst_credit_deficit_allocation_last_target_upper_bound_valid"
+        ], item
+        assert item[
             "worst_credit_deficit_allocation_prefix_witness_edge_valid"
+        ], item
+        assert item[
+            "worst_credit_deficit_allocation_opposite_witness_valid"
         ], item
         assert len(item["worst_credit_deficit_allocation_reserve_witnesses"]) == item[
             "worst_credit_deficit"
@@ -414,7 +423,16 @@ def assert_gate(payload: dict) -> None:
                 "observed_max_credit_deficit_allocation_shift_target_no_image_valid"
             ], item
             assert item[
+                "observed_max_credit_deficit_allocation_mate_target_no_image_valid"
+            ], item
+            assert item[
+                "observed_max_credit_deficit_allocation_last_target_upper_bound_valid"
+            ], item
+            assert item[
                 "observed_max_credit_deficit_allocation_prefix_witness_edge_valid"
+            ], item
+            assert item[
+                "observed_max_credit_deficit_allocation_opposite_witness_valid"
             ], item
             assert len(
                 item["observed_max_credit_deficit_allocation_reserve_witnesses"]
