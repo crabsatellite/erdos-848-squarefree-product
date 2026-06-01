@@ -3941,6 +3941,12 @@ def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective
         OppositeFiniteOffsetSourceIndexShiftTarget k2 (offsetIndex k2) ->
       k1 = k2
 
+/-- Source-index valid matching package for the `18 mod 25` opposite block. -/
+def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid N offsetIndex /\
+  GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective N offsetIndex
+
 /--
 Opposite-side typed matching indexed only by the `18 mod 25` source index.
 The induced total mate uses `offsetIndex (CandidateClassIndex b)`.
@@ -3991,8 +3997,7 @@ Split certificate whose opposite block is indexed by `k` with source
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
   forall N : Nat, Exists fun offsetIndex : Nat -> OppositeFiniteOffsetCode =>
-    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid N offsetIndex /\
-    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective N offsetIndex /\
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching N offsetIndex /\
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity N
       (fun b => offsetIndex (CandidateClassIndex b))
 
@@ -4903,6 +4908,26 @@ theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeE
   intro k hkBox
   exact (hTargetValid k hkBox).2.2
 
+/-- The source-index valid matching package supplies target-valid data. -/
+theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid_of_validMatching
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hValidMatching :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching
+        N offsetIndex) :
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid
+      N offsetIndex :=
+  hValidMatching.1
+
+/-- The source-index valid matching package supplies shift injectivity. -/
+theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective_of_validMatching
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hValidMatching :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching
+        N offsetIndex) :
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective
+      N offsetIndex :=
+  hValidMatching.2
+
 /-- Source-index target-value squarefree edges supply the original edge form. -/
 theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge_of_targetValue
     {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
@@ -4981,7 +5006,17 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCredi
       GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate) :
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCertificate := by
   intro N
-  rcases h N with ⟨offsetIndex, hTargetValid, hShiftInjective, hCapacity⟩
+  rcases h N with ⟨offsetIndex, hValidMatching, hCapacity⟩
+  have hTargetValid :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid_of_validMatching
+      hValidMatching
+  have hShiftInjective :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective_of_validMatching
+      hValidMatching
   have hNonUnderflow :
       GlobalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow
         N offsetIndex :=

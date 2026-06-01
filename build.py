@@ -151,6 +151,8 @@ def assert_gate(payload: dict) -> None:
         assert set(item["value_offset_counts"]) <= set(item["allowed_value_offsets"]), item
         assert len(item["source_index_matching"]) == item["matched_count"], item
         assert len(item["typed_source_index_codes"]) == item["matched_count"], item
+        assert item["source_index_target_valid_count"] == item["matched_count"], item
+        assert item["source_index_target_valid_failures"] == [], item
         code_by_source = dict(item["typed_source_index_codes"])
         for source_index, target_index, shift in item["source_index_matching"]:
             assert target_index - source_index == shift, item

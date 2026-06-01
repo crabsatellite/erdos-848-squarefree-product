@@ -464,7 +464,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T07:17:26.631100+00:00",
+  "generated_at": "2026-06-01T07:23:02.972076+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -1318,6 +1318,8 @@
           -1
         ]
       ],
+      "source_index_target_valid_count": 4,
+      "source_index_target_valid_failures": [],
       "typed_source_index_codes": [
         [
           0,
@@ -1555,6 +1557,8 @@
           -2
         ]
       ],
+      "source_index_target_valid_count": 20,
+      "source_index_target_valid_failures": [],
       "typed_source_index_codes": [
         [
           0,
@@ -2037,6 +2041,8 @@
           -1
         ]
       ],
+      "source_index_target_valid_count": 40,
+      "source_index_target_valid_failures": [],
       "typed_source_index_codes": [
         [
           0,
@@ -2959,6 +2965,8 @@
           -2
         ]
       ],
+      "source_index_target_valid_count": 80,
+      "source_index_target_valid_failures": [],
       "typed_source_index_codes": [
         [
           0,
@@ -5123,6 +5131,8 @@
           -2
         ]
       ],
+      "source_index_target_valid_count": 200,
+      "source_index_target_valid_failures": [],
       "typed_source_index_codes": [
         [
           0,
@@ -5994,6 +6004,8 @@
           -1
         ]
       ],
+      "source_index_target_valid_count": 4,
+      "source_index_target_valid_failures": [],
       "typed_source_index_codes": [],
       "value_offset_counts": {
         "-36": 2,
@@ -6207,6 +6219,8 @@
           -17
         ]
       ],
+      "source_index_target_valid_count": 20,
+      "source_index_target_valid_failures": [],
       "typed_source_index_codes": [],
       "value_offset_counts": {
         "-436": 1,
@@ -6601,6 +6615,8 @@
           -1
         ]
       ],
+      "source_index_target_valid_count": 40,
+      "source_index_target_valid_failures": [],
       "typed_source_index_codes": [],
       "value_offset_counts": {
         "-36": 20,
@@ -7355,6 +7371,8 @@
           -78
         ]
       ],
+      "source_index_target_valid_count": 80,
+      "source_index_target_valid_failures": [],
       "typed_source_index_codes": [],
       "value_offset_counts": {
         "-1961": 1,
@@ -9192,6 +9210,8 @@
           -196
         ]
       ],
+      "source_index_target_valid_count": 200,
+      "source_index_target_valid_failures": [],
       "typed_source_index_codes": [],
       "value_offset_counts": {
         "-4911": 1,

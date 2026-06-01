@@ -25,6 +25,8 @@ class OppositeMatchingCertificate:
     matching: list[tuple[int, int]]
     source_index_matching: list[tuple[int, int, int]]
     typed_source_index_codes: list[tuple[int, int]]
+    source_index_target_valid_count: int
+    source_index_target_valid_failures: list[tuple[int, int, int, str]]
 
 
 def opposite_matching_certificate(
@@ -117,6 +119,33 @@ def opposite_matching_certificate(
         if index_bandwidth == 3
         else []
     )
+    source_index_target_valid_failures: list[tuple[int, int, int, str]] = []
+    source_index_target_valid_failure_sources: set[int] = set()
+    if index_bandwidth == 3:
+        for source_index, target_index, shift in source_index_matching:
+            source = 25 * source_index + opposite_residue
+            target = 25 * target_index + base_residue
+            non_underflow = (
+                (shift == -3 and source_index >= 3)
+                or (shift == -2 and source_index >= 2)
+                or (shift == -1 and source_index >= 1)
+                or shift >= 0
+            )
+            if not non_underflow:
+                source_index_target_valid_failure_sources.add(source_index)
+                source_index_target_valid_failures.append(
+                    (source_index, target_index, shift, "non_underflow")
+                )
+            if target_index > (N - base_residue) // 25:
+                source_index_target_valid_failure_sources.add(source_index)
+                source_index_target_valid_failures.append(
+                    (source_index, target_index, shift, "shift_upper_bound")
+                )
+            if not sf[target * source + 1]:
+                source_index_target_valid_failure_sources.add(source_index)
+                source_index_target_valid_failures.append(
+                    (source_index, target_index, shift, "target_value_squarefree_edge")
+                )
     index_gaps = [abs(shift) for shift in index_shifts]
     value_offsets = [a - b for b, a in matching]
     value_gaps = [abs(a - b) for b, a in matching]
@@ -147,6 +176,8 @@ def opposite_matching_certificate(
         matching=matching,
         source_index_matching=source_index_matching,
         typed_source_index_codes=typed_source_index_codes,
+        source_index_target_valid_count=matched - len(source_index_target_valid_failure_sources),
+        source_index_target_valid_failures=source_index_target_valid_failures,
     )
 
 

@@ -39,6 +39,7 @@ the source of truth and use this file only as a durable round index.
 | R059 | Replaced the live squarefree-edge block by a source-index target-value squarefree-edge block. Lean uses the non-underflow equality bridge to reconstruct the original `OppositeFiniteOffsetCodeValue` edge form. |
 | R060 | Replaced the target upper-bound block by a pure source-index shift-target upper-bound block `t <= (N - 7) / 25`. Lean reconstructs `25*t+7 <= N` using the division remainder bound and the source box lower bound. |
 | R061 | Packed the three local target conditions into `OppositeFiniteOffsetSourceIndexTargetValid`: non-underflow, shift-target upper bound, and target-value squarefree edge. Lean projects the prior blocks from this single local certificate surface. |
+| R062 | Packed target-valid data and source-index shift injectivity into `GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching`. The Python evidence gate now also checks the finite band matchings against the Lean target-valid conditions. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
