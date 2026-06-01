@@ -3888,6 +3888,12 @@ def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetUpperBound
   forall k : Nat, InBox N (EighteenSourceFromIndex k) ->
     OppositeFiniteOffsetSourceIndexTargetValue k (offsetIndex k) <= N
 
+/-- Target upper-bound data stated for the source-index shift target. -/
+def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftTargetUpperBound
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall k : Nat, InBox N (EighteenSourceFromIndex k) ->
+    OppositeFiniteOffsetSourceIndexShiftTarget k (offsetIndex k) <= (N - 7) / 25
+
 /-- Source-index squarefree edges for the `18 mod 25` opposite block. -/
 def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge
     (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
@@ -3971,7 +3977,7 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCre
     Prop :=
   forall N : Nat, Exists fun offsetIndex : Nat -> OppositeFiniteOffsetCode =>
     GlobalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow N offsetIndex /\
-    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetUpperBound N offsetIndex /\
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftTargetUpperBound N offsetIndex /\
     GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeEdge N offsetIndex /\
     GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective N offsetIndex /\
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity N
@@ -4823,6 +4829,34 @@ theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox_of_uppe
     unfold OppositeFiniteOffsetSourceIndexTargetValue
     omega, hUpper k hkBox⟩
 
+/-- A source-index shift-target upper bound supplies the target-value upper bound. -/
+theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetUpperBound_of_shiftTargetUpperBound
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hShiftUpper :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftTargetUpperBound
+        N offsetIndex) :
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetUpperBound
+      N offsetIndex := by
+  intro k hkBox
+  have hShift := hShiftUpper k hkBox
+  have hmul1 :
+      25 * OppositeFiniteOffsetSourceIndexShiftTarget k (offsetIndex k) <=
+        25 * ((N - 7) / 25) :=
+    Nat.mul_le_mul_left 25 hShift
+  have hmul2 : ((N - 7) / 25) * 25 <= N - 7 :=
+    Nat.div_mul_le_self (N - 7) 25
+  have hmul2' : 25 * ((N - 7) / 25) <= N - 7 := by
+    simpa [Nat.mul_comm] using hmul2
+  have hle :
+      25 * OppositeFiniteOffsetSourceIndexShiftTarget k (offsetIndex k) <=
+        N - 7 := by
+    omega
+  have hN7 : 7 <= N := by
+    unfold InBox EighteenSourceFromIndex at hkBox
+    omega
+  unfold OppositeFiniteOffsetSourceIndexTargetValue
+  omega
+
 /-- Source-index target-value squarefree edges supply the original edge form. -/
 theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge_of_targetValue
     {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
@@ -4901,13 +4935,18 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCredi
       GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate) :
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCertificate := by
   intro N
-  rcases h N with ⟨offsetIndex, hNonUnderflow, hTargetUpperBound, hTargetValueSquarefreeEdge,
+  rcases h N with ⟨offsetIndex, hNonUnderflow, hShiftTargetUpperBound, hTargetValueSquarefreeEdge,
     hShiftInjective, hCapacity⟩
   have hTargetCoherent :
       GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent
         N offsetIndex :=
     globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent_of_nonUnderflow
       hNonUnderflow
+  have hTargetUpperBound :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetUpperBound
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetUpperBound_of_shiftTargetUpperBound
+      hShiftTargetUpperBound
   have hTargetIndexBox :
       GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox
         N offsetIndex :=
