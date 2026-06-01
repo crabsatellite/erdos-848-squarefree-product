@@ -201,6 +201,8 @@ def assert_gate(payload: dict) -> None:
         assert item["search_max_depth"] <= item["outside_vertices"], item
         assert item["search_pruned_no_middle_tail"] >= 0, item
         assert item["search_pruned_no_middle_tail"] <= item["search_nodes"], item
+        assert item["search_pruned_defect_bound"] >= 0, item
+        assert item["search_pruned_defect_bound"] <= item["search_nodes"], item
         assert item["worst_credit_defect"] >= 0, item
         assert item["worst_credit_pool_size"] >= item["worst_credit_middle_size"], item
         assert len(item["worst_credit_matching"]) == item["worst_credit_middle_size"], item
@@ -234,7 +236,7 @@ def main() -> int:
     )
     print(
         "  active credit capacity checks: "
-        f"{[(x['N'], x['worst_credit_defect'], x['worst_credit_middle_size'], x['worst_credit_pool_size'], x['search_nodes'], x['search_pruned_no_middle_tail']) for x in payload['active_credit_checks']]}"
+        f"{[(x['N'], x['worst_credit_defect'], x['worst_credit_middle_size'], x['worst_credit_pool_size'], x['search_nodes'], x['search_pruned_no_middle_tail'], x['search_pruned_defect_bound']) for x in payload['active_credit_checks']]}"
     )
     print("  wrote data/results/latest.json")
     return 0

@@ -49,6 +49,7 @@ the source of truth and use this file only as a durable round index.
 | R069 | Emitted Lean constructor names for the period-six template and repair windows, and extended the generated band-matching evidence through `N=10000`. The Python gate now checks numeric repair codes against their Lean-facing names. |
 | R070 | Added active-credit search diagnostics. The finite active-capacity checker now records outside split sizes, search node count, maximum clique-search depth, and whether the search was exhaustive, with the build gate requiring exact exhaustion. |
 | R071 | Added a safe active-credit search prune for pure-opposite tails. Branches with no strict-middle vertex selected and no strict-middle candidate remaining are now stopped because they cannot trigger the active-credit obligation; this moves extended exact active-credit evidence to `N=1000`. |
+| R072 | Added an exact active-credit defect-bound prune. The checker now uses the fact that each remaining opposite vertex can remove at most its matched image from the current credit pool, while remaining middle vertices increase demand by at most their count. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.

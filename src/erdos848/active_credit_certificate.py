@@ -18,6 +18,7 @@ class ActiveCreditCertificate:
     search_nodes: int
     search_max_depth: int
     search_pruned_no_middle_tail: int
+    search_pruned_defect_bound: int
     search_exhausted: bool
     worst_credit_defect: int
     worst_credit_witness: list[int]
@@ -71,9 +72,12 @@ def active_credit_certificate(
     is_opposite = [b % 25 == opposite_residue for b in outside]
     outside_opposite_vertices = sum(1 for flag in is_opposite if flag)
     outside_middle_vertices = len(outside) - outside_opposite_vertices
+    opposite_candidate_mask = 0
     middle_candidate_mask = 0
     for i, opposite_flag in enumerate(is_opposite):
-        if not opposite_flag:
+        if opposite_flag:
+            opposite_candidate_mask |= 1 << i
+        else:
             middle_candidate_mask |= 1 << i
     neigh = [0] * len(outside)
     for i, b in enumerate(outside):
@@ -94,6 +98,7 @@ def active_credit_certificate(
     search_nodes = 0
     search_max_depth = 0
     search_pruned_no_middle_tail = 0
+    search_pruned_defect_bound = 0
     search_exhausted = True
 
     def expand(
@@ -116,6 +121,7 @@ def active_credit_certificate(
         nonlocal search_nodes
         nonlocal search_max_depth
         nonlocal search_pruned_no_middle_tail
+        nonlocal search_pruned_defect_bound
         nonlocal search_exhausted
 
         search_nodes += 1
@@ -132,17 +138,26 @@ def active_credit_certificate(
             reserve = opposite_neighbors & ~opposite_image
             new_middle = middle_neighbors & ~opposite_neighbors
             credit_pool = reserve | new_middle
-            credit_vertices = [base[i] for i in range(len(base)) if (credit_pool >> i) & 1]
-            defect = len(credit_vertices) - middle_size
+            credit_pool_size = credit_pool.bit_count()
+            defect = credit_pool_size - middle_size
             if defect < worst_credit_defect:
+                credit_vertices = [base[i] for i in range(len(base)) if (credit_pool >> i) & 1]
                 worst_credit_defect = defect
                 worst_credit_witness = [outside[i] for i in chosen]
                 worst_credit_opposite_size = opposite_size
                 worst_credit_middle_size = middle_size
-                worst_credit_pool_size = len(credit_vertices)
+                worst_credit_pool_size = credit_pool_size
                 worst_credit_reserve_size = reserve.bit_count()
                 worst_credit_new_middle_size = new_middle.bit_count()
                 worst_credit_matching = list(zip(middle_vertices, credit_vertices[:middle_size]))
+            remaining_middle_size = (P & middle_candidate_mask).bit_count()
+            remaining_opposite_size = (P & opposite_candidate_mask).bit_count()
+            lower_defect_bound = (
+                credit_pool_size - remaining_opposite_size - middle_size - remaining_middle_size
+            )
+            if lower_defect_bound >= worst_credit_defect:
+                search_pruned_defect_bound += 1
+                return
 
         while P and search_exhausted:
             lsb = P & -P
@@ -187,6 +202,7 @@ def active_credit_certificate(
         search_nodes=search_nodes,
         search_max_depth=search_max_depth,
         search_pruned_no_middle_tail=search_pruned_no_middle_tail,
+        search_pruned_defect_bound=search_pruned_defect_bound,
         search_exhausted=search_exhausted,
         worst_credit_defect=worst_credit_defect,
         worst_credit_witness=worst_credit_witness,

@@ -11,6 +11,7 @@
       "search_exhausted": true,
       "search_max_depth": 2,
       "search_nodes": 15,
+      "search_pruned_defect_bound": 8,
       "search_pruned_no_middle_tail": 3,
       "worst_credit_defect": 2,
       "worst_credit_matching": [
@@ -38,7 +39,8 @@
       "outside_vertices": 32,
       "search_exhausted": true,
       "search_max_depth": 9,
-      "search_nodes": 2135,
+      "search_nodes": 992,
+      "search_pruned_defect_bound": 218,
       "search_pruned_no_middle_tail": 661,
       "worst_credit_defect": 11,
       "worst_credit_matching": [
@@ -170,7 +172,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T08:00:02.778501+00:00",
+  "generated_at": "2026-06-01T08:03:23.170843+00:00",
   "hall_checks": [
     {
       "N": 100,
