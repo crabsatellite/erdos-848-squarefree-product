@@ -8352,6 +8352,23 @@ def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDefici
     ActiveStrictMiddleCreditDeficitReserveDominance
       N B decMid offsetIndex decReserve decNewMid
 
+/--
+Source-index active credit allocation as pure reserve dominance for every
+bounded outside clique.  The empty strict-middle case is discharged in Lean.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalReserveDominance
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall (B : Nat -> Prop)
+      (decMid : DecidablePred (StrictMiddlePart 7 B))
+      (decReserve : DecidablePred
+        (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex)))
+      (decNewMid : DecidablePred (IncrementalStrictMiddleNeighbor N 7 B)),
+    BoundedOutsideSet N 7 B ->
+    NonSquarefreeClique B ->
+    ActiveStrictMiddleCreditDeficitReserveDominance
+      N B decMid offsetIndex decReserve decNewMid
+
 /-- Source-index deficit capacity supplies source-index slack capacity. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditSlackCapacity_of_deficitCapacity
     {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
@@ -9153,6 +9170,17 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSele
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance N
       (OppositeFiniteOffsetListSelector codes)
 
+/--
+Source-index split certificate with total reserve dominance; the strict-middle
+empty branch is not part of the live oracle.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditTotalDeficitReserveDominanceCertificate :
+    Prop :=
+  forall N : Nat, Exists fun codes : List OppositeFiniteOffsetCode =>
+    OppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching N codes /\
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalReserveDominance N
+      (OppositeFiniteOffsetListSelector codes)
+
 /-- Current source-index split certificate, narrowed to template-window-repair form. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
@@ -9644,6 +9672,14 @@ Current source-index split certificate with gap-indexed local injectivity.
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitReserveDominanceCertificate :
     Prop :=
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditDeficitReserveDominanceCertificate
+
+/--
+Current source-index split certificate with gap-indexed local injectivity and
+total reserve dominance.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominanceCertificate :
+    Prop :=
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditTotalDeficitReserveDominanceCertificate
 
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
@@ -12288,6 +12324,56 @@ private theorem familySize_eq_zero_of_empty
   | succ n ih =>
       have hp : Not (P (n + 1)) := hEmpty (n + 1)
       simp [countUpTo, hp, ih]
+
+/-- If there is no strict-middle source, reserve dominance is the zero-count case. -/
+theorem activeStrictMiddleCreditDeficitReserveDominance_of_no_strictMiddle
+    {N : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart 7 B)}
+    {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    {decReserve :
+      DecidablePred
+        (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex))}
+    {decNewMid :
+      DecidablePred (IncrementalStrictMiddleNeighbor N 7 B)}
+    (hMidEmpty : forall b : Nat, Not (StrictMiddlePart 7 B b)) :
+    ActiveStrictMiddleCreditDeficitReserveDominance
+      N B decMid offsetIndex decReserve decNewMid := by
+  have hMidZero :
+      @familySize N (StrictMiddlePart 7 B) decMid = 0 := by
+    exact familySize_eq_zero_of_empty N (StrictMiddlePart 7 B) decMid hMidEmpty
+  unfold ActiveStrictMiddleCreditDeficitReserveDominance
+  rw [hMidZero]
+  omega
+
+/--
+The positive strict-middle reserve obligation extends to the total reserve
+obligation because Lean closes the empty strict-middle branch by count zero.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalReserveDominance_of_reserveDominance
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance
+        N offsetIndex) :
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalReserveDominance
+      N offsetIndex := by
+  intro B decMid decReserve decNewMid hB hClique
+  by_cases hMid : Exists fun b : Nat => StrictMiddlePart 7 B b
+  · exact h B decMid decReserve decNewMid hB hClique hMid
+  · apply activeStrictMiddleCreditDeficitReserveDominance_of_no_strictMiddle
+    intro b hb
+    exact hMid (Exists.intro b hb)
+
+/-- Total reserve dominance restricts back to the positive strict-middle form. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance_of_totalReserveDominance
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalReserveDominance
+        N offsetIndex) :
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance
+      N offsetIndex := by
+  intro B decMid decReserve decNewMid hB hClique _hMid
+  exact h B decMid decReserve decNewMid hB hClique
 
 private theorem familySize_add_le_of_disjoint_subsets
     (N : Nat) (P Q R : Nat -> Prop)
@@ -14944,6 +15030,38 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
           hPack.left)
         hPack.right)
 
+/--
+Positive strict-middle reserve dominance supplies the total reserve-dominance
+version of the gap-indexed list-selector certificate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominance_of_lengthTargetCoherentBoundaryBoxGapReserveDominance
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitReserveDominanceCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominanceCertificate := by
+  intro N
+  cases h N with
+  | intro codes hPack =>
+    exact Exists.intro codes
+      (And.intro hPack.left
+        (globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalReserveDominance_of_reserveDominance
+          hPack.right))
+
+/--
+Total reserve dominance restricts to the previous positive strict-middle
+gap-indexed list-selector certificate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitReserveDominance_of_totalReserveDominance
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominanceCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitReserveDominanceCertificate := by
+  intro N
+  cases h N with
+  | intro codes hPack =>
+    exact Exists.intro codes
+      (And.intro hPack.left
+        (globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance_of_totalReserveDominance
+          hPack.right))
+
 /-- Scalar reserve lower bound directly supplies source-index deficit capacity. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity_of_countUpperReserveLowerBoundAllocation
     {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
@@ -15276,6 +15394,19 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sou
   exact
     globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxLocalReserveDominance
       (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxLocalDeficitReserveDominance_of_lengthTargetCoherentBoundaryBoxGapListSelector
+        h)
+
+/--
+Total reserve-dominance gap-indexed finite list-selector data supplies decoded
+squarefree-boxed compression.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapTotalReserveDominance
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominanceCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate := by
+  exact
+    globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapReserveDominance
+      (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitReserveDominance_of_totalReserveDominance
         h)
 
 /-- Current reserve dominance directly supplies decoded squarefree-boxed compression. -/
@@ -16032,15 +16163,16 @@ certified only on the final bandwidth-three boundary.  Lean derives the
 non-boundary target bounds, global injectivity, target-value injectivity,
 packages the squarefree-boxed codes, and constructs the decoder.  The
 strict-middle side is the reserve-dominance active-credit count inequality for
-the simple typed mate.
+the simple typed mate, with the empty strict-middle reserve branch closed in
+Lean.
 -/
 axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitReserveDominanceCertificate
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominanceCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapReserveDominance
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapTotalReserveDominance
     finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
