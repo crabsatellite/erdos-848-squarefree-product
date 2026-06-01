@@ -14033,6 +14033,48 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
       globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditCapacity_of_splitCapacity
         h
 
+/-- Current reserve-lower-bound certificate directly supplies source-index credit capacity. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacity_of_countUpperReserveLowerBoundAllocation
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCountUpperReserveLowerBoundAllocationCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate := by
+  have hDeficit :=
+    globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacity_of_countUpperReserveLowerBoundAllocation
+      h
+  have hSlack :=
+    globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSlackCapacity_of_deficitCapacity
+      hDeficit
+  have hSplitCapacity :=
+    globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSplitCapacity_of_slackCapacity
+      hSlack
+  exact
+    globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacity_of_splitCapacity
+      hSplitCapacity
+
+/-- Current reserve-lower-bound certificate directly supplies decoded squarefree-boxed compression. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_countUpperReserveLowerBoundAllocation
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCountUpperReserveLowerBoundAllocationCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate := by
+  have hSourceIndex :=
+    globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacity_of_countUpperReserveLowerBoundAllocation
+      h
+  have hShiftIndex :=
+    globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex
+      hSourceIndex
+  have hSplitIndex :=
+    globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacity_of_shift
+      hShiftIndex
+  have hIndex :=
+    globalFiniteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacity_of_split
+      hSplitIndex
+  have hTypedMate :=
+    globalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacity_of_index
+      hIndex
+  exact
+    globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateCreditCapacity
+      hTypedMate
+
 /-- A partitioned opposite-block/strict-middle certificate implies the endpoint AP/Hall certificate. -/
 theorem squarefreeAPHallCertificate_of_partitioned
     (h : PartitionedSquarefreeAPHallCertificate) :
@@ -14781,34 +14823,9 @@ axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditC
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate := by
-  have hDeficit :=
-    globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacity_of_countUpperReserveLowerBoundAllocation
-      finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut
-  have hSlack :=
-    globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSlackCapacity_of_deficitCapacity
-      hDeficit
-  have hSplitCapacity :=
-    globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSplitCapacity_of_slackCapacity
-      hSlack
-  have hSourceIndex :=
-    globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacity_of_splitCapacity
-      hSplitCapacity
-  have hShiftIndex :=
-    globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex
-      hSourceIndex
-  have hSplitIndex :=
-    globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacity_of_shift
-      hShiftIndex
-  have hIndex :=
-    globalFiniteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacity_of_split
-      hSplitIndex
-  have hTypedMate :=
-    globalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacity_of_index
-      hIndex
-  exact
-    globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateCreditCapacity
-      hTypedMate
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_countUpperReserveLowerBoundAllocation
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
 theorem finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :
