@@ -18,6 +18,9 @@
       "search_pruned_no_middle_tail": 4,
       "search_pruned_nonnegative_bound": 0,
       "worst_credit_defect": 2,
+      "worst_credit_deficit": 0,
+      "worst_credit_deficit_capacity_holds": true,
+      "worst_credit_deficit_surplus": 0,
       "worst_credit_matching": [
         [
           41,
@@ -60,6 +63,9 @@
       "search_pruned_no_middle_tail": 20,
       "search_pruned_nonnegative_bound": 0,
       "worst_credit_defect": 11,
+      "worst_credit_deficit": 0,
+      "worst_credit_deficit_capacity_holds": true,
+      "worst_credit_deficit_surplus": 0,
       "worst_credit_matching": [
         [
           41,
@@ -196,7 +202,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T08:49:02.490287+00:00",
+  "generated_at": "2026-06-01T09:04:17.973097+00:00",
   "hall_checks": [
     {
       "N": 100,

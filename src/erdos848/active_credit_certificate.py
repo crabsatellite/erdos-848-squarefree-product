@@ -34,6 +34,9 @@ class ActiveCreditCertificate:
     worst_credit_pool_size: int
     worst_credit_reserve_size: int
     worst_credit_new_middle_size: int
+    worst_credit_deficit: int
+    worst_credit_deficit_surplus: int
+    worst_credit_deficit_capacity_holds: bool
     worst_credit_required_reserve_slack: int
     worst_credit_reserve_slack_surplus: int
     worst_credit_split_pool_size: int
@@ -58,9 +61,10 @@ def active_credit_certificate(
     * opposite neighbors of O not used by the opposite matching image, plus
     * strict-middle neighbors not already hit by O.
 
-    The live Lean cut now asks only for count-level credit capacity.  In finite
-    windows this is exactly `|credit_pool| >= |M|`; the sorted matching witness
-    remains in the JSON as diagnostic support.
+    The live Lean cut asks for the deterministic deficit inequality
+    `max(0, |M| - |new_middle|) <= |reserve|`.  The older count-level
+    `|credit_pool| >= |M|` and sorted matching witness remain in the JSON as
+    diagnostic support.
     """
     sf = squarefree_sieve(N * N + 1)
     base = [a for a in range(1, N + 1) if a % 25 == base_residue]
@@ -112,6 +116,9 @@ def active_credit_certificate(
     worst_credit_pool_size = 0
     worst_credit_reserve_size = 0
     worst_credit_new_middle_size = 0
+    worst_credit_deficit = 0
+    worst_credit_deficit_surplus = 0
+    worst_credit_deficit_capacity_holds = True
     worst_credit_required_reserve_slack = 0
     worst_credit_reserve_slack_surplus = 0
     worst_credit_split_pool_size = 0
@@ -143,6 +150,9 @@ def active_credit_certificate(
         nonlocal worst_credit_pool_size
         nonlocal worst_credit_reserve_size
         nonlocal worst_credit_new_middle_size
+        nonlocal worst_credit_deficit
+        nonlocal worst_credit_deficit_surplus
+        nonlocal worst_credit_deficit_capacity_holds
         nonlocal worst_credit_required_reserve_slack
         nonlocal worst_credit_reserve_slack_surplus
         nonlocal worst_credit_split_pool_size
@@ -174,8 +184,8 @@ def active_credit_certificate(
             reserve_size = reserve.bit_count()
             new_middle_size = new_middle.bit_count()
             split_pool_size = reserve_size + new_middle_size
-            required_reserve_slack = max(0, middle_size - new_middle_size)
-            reserve_slack_surplus = reserve_size - required_reserve_slack
+            credit_deficit = max(0, middle_size - new_middle_size)
+            deficit_surplus = reserve_size - credit_deficit
             reserve_new_disjoint = (reserve & new_middle) == 0
             defect = credit_pool_size - middle_size
             if defect < worst_credit_defect:
@@ -198,11 +208,14 @@ def active_credit_certificate(
                 worst_credit_pool_size = credit_pool_size
                 worst_credit_reserve_size = reserve_size
                 worst_credit_new_middle_size = new_middle_size
-                worst_credit_required_reserve_slack = required_reserve_slack
-                worst_credit_reserve_slack_surplus = reserve_slack_surplus
+                worst_credit_deficit = credit_deficit
+                worst_credit_deficit_surplus = deficit_surplus
+                worst_credit_deficit_capacity_holds = deficit_surplus >= 0
+                worst_credit_required_reserve_slack = credit_deficit
+                worst_credit_reserve_slack_surplus = deficit_surplus
                 worst_credit_split_pool_size = split_pool_size
                 worst_credit_reserve_new_disjoint = reserve_new_disjoint
-                worst_credit_slack_capacity_holds = reserve_slack_surplus >= 0
+                worst_credit_slack_capacity_holds = deficit_surplus >= 0
                 worst_credit_matching = list(zip(middle_vertices, credit_vertices[:middle_size]))
             remaining_middle_size = (P & middle_candidate_mask).bit_count()
             remaining_opposite_size = (P & opposite_candidate_mask).bit_count()
@@ -275,6 +288,9 @@ def active_credit_certificate(
         worst_credit_pool_size=worst_credit_pool_size,
         worst_credit_reserve_size=worst_credit_reserve_size,
         worst_credit_new_middle_size=worst_credit_new_middle_size,
+        worst_credit_deficit=worst_credit_deficit,
+        worst_credit_deficit_surplus=worst_credit_deficit_surplus,
+        worst_credit_deficit_capacity_holds=worst_credit_deficit_capacity_holds,
         worst_credit_required_reserve_slack=worst_credit_required_reserve_slack,
         worst_credit_reserve_slack_surplus=worst_credit_reserve_slack_surplus,
         worst_credit_split_pool_size=worst_credit_split_pool_size,

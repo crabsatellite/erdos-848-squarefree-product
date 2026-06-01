@@ -280,14 +280,27 @@ def assert_gate(payload: dict) -> None:
             item["worst_credit_reserve_size"] + item["worst_credit_new_middle_size"]
         ), item
         assert item["worst_credit_split_pool_size"] == item["worst_credit_pool_size"], item
+        assert item["worst_credit_deficit"] == max(
+            0,
+            item["worst_credit_middle_size"] - item["worst_credit_new_middle_size"],
+        ), item
+        assert item["worst_credit_deficit_surplus"] == (
+            item["worst_credit_reserve_size"] - item["worst_credit_deficit"]
+        ), item
+        assert item["worst_credit_deficit_capacity_holds"], item
+        assert item["worst_credit_deficit_surplus"] >= 0, item
         assert item["worst_credit_required_reserve_slack"] == max(
             0,
             item["worst_credit_middle_size"] - item["worst_credit_new_middle_size"],
         ), item
+        assert item["worst_credit_required_reserve_slack"] == item["worst_credit_deficit"], item
         assert item["worst_credit_reserve_slack_surplus"] == (
             item["worst_credit_reserve_size"] -
             item["worst_credit_required_reserve_slack"]
         ), item
+        assert item["worst_credit_reserve_slack_surplus"] == item[
+            "worst_credit_deficit_surplus"
+        ], item
         assert item["worst_credit_slack_capacity_holds"], item
         assert item["worst_credit_reserve_slack_surplus"] >= 0, item
         assert sum(item["worst_credit_witness_residue_counts"].values()) == len(
@@ -337,7 +350,7 @@ def main() -> int:
     )
     print(
         "  active credit capacity checks: "
-        f"{[(x['N'], x['exact_worst'], x['worst_credit_split_mode'], x['worst_credit_defect'], x['worst_credit_middle_size'], x['worst_credit_pool_size'], x['worst_credit_reserve_size'], x['worst_credit_new_middle_size'], x['worst_credit_required_reserve_slack'], x['worst_credit_reserve_slack_surplus'], x['search_nodes'], x['search_pruned_no_middle_tail'], x['search_pruned_defect_bound'], x['search_pruned_nonnegative_bound']) for x in payload['active_credit_checks']]}"
+        f"{[(x['N'], x['exact_worst'], x['worst_credit_split_mode'], x['worst_credit_defect'], x['worst_credit_middle_size'], x['worst_credit_pool_size'], x['worst_credit_reserve_size'], x['worst_credit_new_middle_size'], x['worst_credit_deficit'], x['worst_credit_deficit_surplus'], x['search_nodes'], x['search_pruned_no_middle_tail'], x['search_pruned_defect_bound'], x['search_pruned_nonnegative_bound']) for x in payload['active_credit_checks']]}"
     )
     print("  wrote data/results/latest.json")
     return 0

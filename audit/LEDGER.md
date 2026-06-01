@@ -60,6 +60,7 @@ the source of truth and use this file only as a durable round index.
 | R080 | Narrowed active-credit split capacity to a slack-capacity surface. Lean now proves that new-middle coverage plus a reserve-paid slack implies the prior reserve-plus-new-middle split capacity, matching the finite search defect accounting. |
 | R081 | Aligned active-credit finite evidence with the slack-capacity cut. The Python gate now records required reserve slack, reserve slack surplus, and explicitly checks the slack inequality used by the live Lean surface. |
 | R082 | Narrowed the live active-credit cut from existential slack capacity to deterministic deficit capacity. Lean now proves `middle - new_middle <= reserve` supplies the prior reserve-paid slack certificate before continuing the endpoint proof spine. |
+| R083 | Aligned active-credit finite evidence with the deterministic deficit cut. The Python gate now records `worst_credit_deficit`, deficit surplus, and a direct deficit-capacity boolean while keeping the old slack fields as aliases. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
