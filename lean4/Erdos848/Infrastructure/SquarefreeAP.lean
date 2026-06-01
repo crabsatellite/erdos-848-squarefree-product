@@ -3189,6 +3189,8 @@ def ActiveStrictMiddleCreditDeficitPairListAllocation
     (pairs.map Prod.snd).Nodup /\
     (forall pair : Nat × Nat, pair ∈ pairs -> StrictMiddlePart r B pair.fst) /\
     (forall pair : Nat × Nat, pair ∈ pairs ->
+      Exists fun i : Nat => i < pairs.length /\ pair.snd = 25 * i + r) /\
+    (forall pair : Nat × Nat, pair ∈ pairs ->
       ActiveStrictMiddleCreditReserve N r B mate pair.snd)
 
 /-- Deficit active credit capacity supplies slack active credit capacity. -/
@@ -5927,7 +5929,7 @@ theorem activeStrictMiddleCreditDeficitCapacity_of_pairListAllocation
   classical
   rcases hPairs with
     ⟨pairs, hMidPairs, _hPairLength, _hMiddleNodup, hReserveNodup,
-      _hMiddle, hReserve⟩
+      _hMiddle, _hReservePrefix, hReserve⟩
   let reserveList : List Nat := pairs.map Prod.snd
   have hReserveList :
       reserveList.length <=
