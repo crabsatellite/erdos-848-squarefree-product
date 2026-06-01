@@ -8,11 +8,11 @@ from .core import BitsetGraph, squarefree_sieve
 from .opposite_matching_certificate import opposite_matching_certificate
 
 
-DEFICIT_SEED_LOW_CUTOFF = 2500
+DEFICIT_SEED_EXCEPTIONS = {41, 515}
 
 
 def _is_deficit_seed(vertex: int) -> bool:
-    return vertex < DEFICIT_SEED_LOW_CUTOFF or vertex % 169 == 70
+    return vertex in DEFICIT_SEED_EXCEPTIONS or vertex % 169 == 70
 
 
 @dataclass
