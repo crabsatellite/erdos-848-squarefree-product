@@ -96,6 +96,7 @@ the source of truth and use this file only as a durable round index.
 | R116 | Replaced reserve-witness `OppositeOutsidePart` data with raw witness source membership; Lean derives the `18 mod 25` opposite-carrier fact from `EighteenSourceFromIndex`. |
 | R117 | Replaced the target no-image premise `OppositeOutsidePart 7 B (EighteenSourceFromIndex k)` with raw source membership `B (EighteenSourceFromIndex k)`. |
 | R118 | Replaced seed `StrictMiddlePart` evidence with seed membership plus `¬ CandidateCarrier 18`; Lean recovers `CandidateOutside 7` from `BoundedOutsideSet`. |
+| R119 | Replaced seed opposite-class exclusion with the canonical key residue condition `deficitSeedPrefixKey i % 25 ≠ 6`. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
