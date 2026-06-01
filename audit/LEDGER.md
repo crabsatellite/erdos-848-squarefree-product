@@ -113,6 +113,7 @@ the source of truth and use this file only as a durable round index.
 | R133 | Replaced seed membership plus key-residue exclusion with direct `StrictMiddlePart 7 B` seed certification. |
 | R134 | Replaced value-level opposite witnesses with source-indexed `25*k+18` opposite witnesses. |
 | R135 | Replaced list-level seed-key nodup in the live cut with prefix injectivity of the seed-key function. |
+| R136 | Replaced truncated count difference with additive count balance `StrictMiddle = NewMiddle + d`. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.

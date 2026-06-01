@@ -8,6 +8,7 @@
       "index_bandwidth": 3,
       "observed_deficit_pressure_complete": true,
       "observed_max_credit_deficit": 0,
+      "observed_max_credit_deficit_allocation_additive_count_valid": true,
       "observed_max_credit_deficit_allocation_exact_prefix_pairs": true,
       "observed_max_credit_deficit_allocation_generated_prefix_pairs": true,
       "observed_max_credit_deficit_allocation_last_target_upper_bound_valid": true,
@@ -58,6 +59,7 @@
       "search_pruned_nonnegative_bound": 0,
       "worst_credit_defect": 2,
       "worst_credit_deficit": 0,
+      "worst_credit_deficit_allocation_additive_count_valid": true,
       "worst_credit_deficit_allocation_exact_prefix_pairs": true,
       "worst_credit_deficit_allocation_generated_prefix_pairs": true,
       "worst_credit_deficit_allocation_last_target_upper_bound_valid": true,
@@ -119,6 +121,7 @@
       "index_bandwidth": 3,
       "observed_deficit_pressure_complete": true,
       "observed_max_credit_deficit": 1,
+      "observed_max_credit_deficit_allocation_additive_count_valid": true,
       "observed_max_credit_deficit_allocation_exact_prefix_pairs": true,
       "observed_max_credit_deficit_allocation_generated_prefix_pairs": true,
       "observed_max_credit_deficit_allocation_last_target_upper_bound_valid": true,
@@ -197,6 +200,7 @@
       "search_pruned_nonnegative_bound": 0,
       "worst_credit_defect": 11,
       "worst_credit_deficit": 0,
+      "worst_credit_deficit_allocation_additive_count_valid": true,
       "worst_credit_deficit_allocation_exact_prefix_pairs": true,
       "worst_credit_deficit_allocation_generated_prefix_pairs": true,
       "worst_credit_deficit_allocation_last_target_upper_bound_valid": true,
@@ -362,7 +366,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T16:06:02.659248+00:00",
+  "generated_at": "2026-06-01T16:16:47.917501+00:00",
   "hall_checks": [
     {
       "N": 100,
