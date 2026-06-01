@@ -13233,6 +13233,73 @@ theorem activeStrictMiddleCreditCapacity_of_splitCapacity
       exact hNew.right hReserve.left
   omega
 
+/-- Target-union active credit capacity splits into reserve plus new-middle capacity. -/
+theorem activeStrictMiddleCreditSplitCapacity_of_capacity
+    {N r : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart r B)}
+    {mate : Nat -> Nat}
+    {decReserve :
+      DecidablePred (ActiveStrictMiddleCreditReserve N r B mate)}
+    {decNewMid :
+      DecidablePred (IncrementalStrictMiddleNeighbor N r B)}
+    {decTarget : DecidablePred (ActiveStrictMiddleCreditTarget N r B mate)}
+    (hCapacity :
+      ActiveStrictMiddleCreditCapacity N r B decMid mate decTarget) :
+    ActiveStrictMiddleCreditSplitCapacity N r B decMid mate
+      decReserve decNewMid := by
+  unfold ActiveStrictMiddleCreditCapacity at hCapacity
+  unfold ActiveStrictMiddleCreditSplitCapacity
+  have hTargetSplit :
+      @familySize N (ActiveStrictMiddleCreditTarget N r B mate) decTarget <=
+        @familySize N (ActiveStrictMiddleCreditReserve N r B mate) decReserve +
+          @familySize N (IncrementalStrictMiddleNeighbor N r B) decNewMid := by
+    apply familySize_le_add_of_subset_or
+      N
+      (ActiveStrictMiddleCreditTarget N r B mate)
+      (ActiveStrictMiddleCreditReserve N r B mate)
+      (IncrementalStrictMiddleNeighbor N r B)
+      decTarget decReserve decNewMid
+    intro a ha
+    simpa [ActiveStrictMiddleCreditTarget, ActiveStrictMiddleCreditReserve]
+      using ha
+  omega
+
+/--
+Source-index target-union capacity supplies the reserve-dominance inequality
+used by the current deficit surface.
+-/
+theorem activeStrictMiddleCreditDeficitReserveDominance_of_capacity
+    {N : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart 7 B)}
+    {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    {decReserve :
+      DecidablePred
+        (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex))}
+    {decNewMid :
+      DecidablePred (IncrementalStrictMiddleNeighbor N 7 B)}
+    {decTarget :
+      DecidablePred
+        (ActiveStrictMiddleCreditTarget N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex))}
+    (hCapacity :
+      ActiveStrictMiddleCreditCapacity N 7 B decMid
+        (OppositeFiniteOffsetSourceIndexMate offsetIndex) decTarget) :
+    ActiveStrictMiddleCreditDeficitReserveDominance
+      N B decMid offsetIndex decReserve decNewMid := by
+  have hSplit :
+      ActiveStrictMiddleCreditSplitCapacity N 7 B decMid
+        (OppositeFiniteOffsetSourceIndexMate offsetIndex)
+        decReserve decNewMid :=
+    activeStrictMiddleCreditSplitCapacity_of_capacity
+      (N := N) (r := 7) (B := B) (decMid := decMid)
+      (mate := OppositeFiniteOffsetSourceIndexMate offsetIndex)
+      (decReserve := decReserve) (decNewMid := decNewMid)
+      (decTarget := decTarget) hCapacity
+  unfold ActiveStrictMiddleCreditDeficitReserveDominance
+  unfold ActiveStrictMiddleCreditSplitCapacity at hSplit
+  omega
+
 /-- Source-index split credit capacity supplies the current source-index capacity surface. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity_of_splitCapacity
     {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
@@ -13259,6 +13326,26 @@ theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCa
       (N := N) (r := 7) (B := B) (decMid := decMid)
       (mate := mate) (decReserve := decReserve)
       (decNewMid := decNewMid) (decTarget := decTarget) hLocal
+
+/-- Source-index target-union capacity supplies source-index reserve dominance. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance_of_capacity
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hCapacity :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity
+        N offsetIndex) :
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance
+      N offsetIndex := by
+  intro B decMid decReserve decNewMid hB hClique hMid
+  let decTarget : DecidablePred
+      (ActiveStrictMiddleCreditTarget N 7 B
+        (OppositeFiniteOffsetSourceIndexMate offsetIndex)) :=
+    fun a => Classical.propDecidable _
+  exact
+    activeStrictMiddleCreditDeficitReserveDominance_of_capacity
+      (N := N) (B := B) (decMid := decMid)
+      (offsetIndex := offsetIndex) (decReserve := decReserve)
+      (decNewMid := decNewMid) (decTarget := decTarget)
+      (hCapacity := hCapacity B decMid decTarget hB hClique hMid)
 
 /-- Source-index deficit allocation supplies source-index deficit capacity. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity_of_deficitAllocation
@@ -16064,6 +16151,28 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSele
     globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity_of_splitCapacity
       hSplit⟩
 
+/-- Direct selector capacity supplies direct selector reserve dominance. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditDeficitReserveDominance_of_capacity
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditCapacityCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditDeficitReserveDominanceCertificate := by
+  intro N
+  rcases h N with ⟨offsetIndex, hValidMatching, hCapacity⟩
+  exact ⟨offsetIndex, hValidMatching,
+    globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance_of_capacity
+      hCapacity⟩
+
+/-- Current selector capacity surface supplies the previous selector reserve-dominance surface. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSelectorDeficitReserveDominance_of_selectorCapacity
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditCapacityCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSelectorDeficitReserveDominanceCertificate := by
+  simpa [
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSelectorDeficitReserveDominanceCertificate]
+    using
+      globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditDeficitReserveDominance_of_capacity
+        h
+
 /-- Window-repair deficit-allocation certificate supplies the deficit-capacity certificate. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCapacity_of_deficitAllocation
     (h :
@@ -17201,23 +17310,20 @@ map is certified by local six-window no-collision, while target boxedness is
 certified only on the final bandwidth-three boundary.  Lean derives the
 non-boundary target bounds, global injectivity, target-value injectivity,
 packages the squarefree-boxed codes, and constructs the decoder.  The
-strict-middle side is the reserve-dominance active-credit count inequality for
-the simple typed mate, stated with count-additive generated prefix-pair indexed
-opposite witnesses carrying the target-prefix scalar bound; these imply
-indexed/existential source-witnesses, count-upper/target-prefix source
-witnesses, and the prefix reserve witness, with the empty strict-middle reserve
-branch closed in Lean.  The live surface is now direct source-index selector
-reserve dominance; finite list selectors, prefix witnesses, scalar lower
-bounds, seed keys, and indexed-opposite layers are retained as proved bridge
-nodes below this weaker obligation.
+strict-middle side is now the direct source-index selector active-credit
+capacity inequality for the simple typed mate.  Lean derives the split
+reserve/new-middle form and the reserve-dominance surface; finite list
+selectors, prefix witnesses, scalar lower bounds, seed keys, and
+indexed-opposite layers are retained as proved bridge nodes below this stronger
+capacity obligation.
 -/
 axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSelectorDeficitReserveDominanceCertificate
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditCapacityCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexSelectorReserveDominance
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexSelectorCapacity
     finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
