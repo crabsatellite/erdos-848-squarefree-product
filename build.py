@@ -155,6 +155,7 @@ def assert_gate(payload: dict) -> None:
         assert item["source_index_target_valid_failures"] == [], item
         assert item["period6_template"] == [0, 2, -1, -1, 1, -1], item
         assert item["period6_template_invalid_count"] <= item["period6_matching_deviation_count"], item
+        assert item["period6_repair_window_count"] <= item["period6_matching_deviation_count"], item
         code_by_source = dict(item["typed_source_index_codes"])
         for source_index, target_index, shift in item["source_index_matching"]:
             assert target_index - source_index == shift, item
