@@ -1069,6 +1069,42 @@ def ActiveStrictMiddleNewSelfFreshWitnessCreditCode.toSelfAntiEighteenWitnessCre
       code.noOppositeEdge
 
 /--
+Live-route new-middle credit code whose freshness is the exact
+`IncrementalStrictMiddleNeighbor` non-opposite-neighbor side.
+-/
+structure ActiveStrictMiddleNewSelfIncrementalWitnessCreditCode
+    (N : Nat) (B : Nat -> Prop) (b : Nat) where
+  value : Nat
+  valueBox : InBox N value
+  valueCarrier : CandidateCarrier 7 value
+  edge : ForbiddenSquarefreeEdge value b
+  notOppositeNeighbor :
+    Not (SquarefreeNeighborInCandidate N 7 (OppositeOutsidePart 7 B) value)
+
+/-- With the source restored, self-incremental data is a strict-middle new neighbor. -/
+def ActiveStrictMiddleNewSelfIncrementalWitnessCreditCode.toIncrementalStrictMiddleNeighbor
+    {N : Nat} {B : Nat -> Prop} {b : Nat}
+    (hb : StrictMiddlePart 7 B b)
+    (code : ActiveStrictMiddleNewSelfIncrementalWitnessCreditCode N B b) :
+    IncrementalStrictMiddleNeighbor N 7 B code.value :=
+  ⟨⟨code.valueBox, code.valueCarrier, ⟨b, hb, code.edge⟩⟩,
+    code.notOppositeNeighbor⟩
+
+/-- Self-incremental data supplies the previous self-fresh code. -/
+def ActiveStrictMiddleNewSelfIncrementalWitnessCreditCode.toSelfFreshWitnessCreditCode
+    {N : Nat} {B : Nat -> Prop} {b : Nat}
+    (code : ActiveStrictMiddleNewSelfIncrementalWitnessCreditCode N B b) :
+    ActiveStrictMiddleNewSelfFreshWitnessCreditCode N B b where
+  value := code.value
+  valueBox := code.valueBox
+  valueCarrier := code.valueCarrier
+  edge := code.edge
+  noOppositeEdge := by
+    intro c hc hedge
+    exact code.notOppositeNeighbor
+      ⟨code.valueBox, code.valueCarrier, ⟨c, hc, hedge⟩⟩
+
+/--
 Credit target as an explicit reserve/new-middle sum code, rather than an
 opaque disjunction.
 -/
@@ -1377,6 +1413,41 @@ def ActiveStrictMiddleCreditSelfFreshWitnessSumCode.toSelfAntiEighteenWitnessSum
       Sum.inl reserve
   | Sum.inr newMiddle =>
       Sum.inr newMiddle.toSelfAntiEighteenWitnessCreditCode
+
+/--
+Live-route credit target where the new-middle branch carries the exact
+non-opposite-neighbor half of `IncrementalStrictMiddleNeighbor`.
+-/
+def ActiveStrictMiddleCreditSelfIncrementalWitnessSumCode
+    (N : Nat) (B : Nat -> Prop) (mate : Nat -> Nat)
+    (oppositeDecoder : Nat -> Nat) (b : Nat) : Type :=
+  Sum (ActiveStrictMiddleReserveAntiEighteenWitnessCreditCode
+      N B mate oppositeDecoder)
+    (ActiveStrictMiddleNewSelfIncrementalWitnessCreditCode N B b)
+
+/-- Forget proof data and keep the target value of a self-incremental sum. -/
+def ActiveStrictMiddleCreditSelfIncrementalWitnessSumCode.value
+    {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {oppositeDecoder : Nat -> Nat} {b : Nat}
+    (code : ActiveStrictMiddleCreditSelfIncrementalWitnessSumCode
+      N B mate oppositeDecoder b) : Nat :=
+  match code with
+  | Sum.inl reserve => reserve.neighbor.value
+  | Sum.inr newMiddle => newMiddle.value
+
+/-- Self-incremental sums supply self-fresh sums. -/
+def ActiveStrictMiddleCreditSelfIncrementalWitnessSumCode.toSelfFreshWitnessSumCode
+    {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {oppositeDecoder : Nat -> Nat} {b : Nat}
+    (code : ActiveStrictMiddleCreditSelfIncrementalWitnessSumCode
+      N B mate oppositeDecoder b) :
+    ActiveStrictMiddleCreditSelfFreshWitnessSumCode
+      N B mate oppositeDecoder b :=
+  match code with
+  | Sum.inl reserve =>
+      Sum.inl reserve
+  | Sum.inr newMiddle =>
+      Sum.inr newMiddle.toSelfFreshWitnessCreditCode
 
 /-- Credit code carrying a decoder proof back to its strict-middle source. -/
 def DecodedActiveStrictMiddleCreditCode
@@ -1712,6 +1783,42 @@ def DecodedActiveStrictMiddleCreditSelfFreshWitnessSumCode.toDecodedSelfAntiEigh
         hdecode
 
 /--
+Decoded self-incremental witness sum code carrying a decoder proof back to its
+strict-middle source.
+-/
+def DecodedActiveStrictMiddleCreditSelfIncrementalWitnessSumCode
+    (N : Nat) (B : Nat -> Prop) (mate : Nat -> Nat)
+    (oppositeDecoder : Nat -> Nat) (creditDecoder : Nat -> Nat)
+    (b : Nat) : Type :=
+  { code : ActiveStrictMiddleCreditSelfIncrementalWitnessSumCode
+      N B mate oppositeDecoder b //
+    creditDecoder code.value = b }
+
+/-- Self-incremental decoded sums supply self-fresh decoded sums. -/
+def DecodedActiveStrictMiddleCreditSelfIncrementalWitnessSumCode.toDecodedSelfFreshWitnessSumCode
+    {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {oppositeDecoder creditDecoder : Nat -> Nat} {b : Nat}
+    (code :
+      DecodedActiveStrictMiddleCreditSelfIncrementalWitnessSumCode
+        N B mate oppositeDecoder creditDecoder b) :
+    DecodedActiveStrictMiddleCreditSelfFreshWitnessSumCode
+      N B mate oppositeDecoder creditDecoder b := by
+  refine ⟨ActiveStrictMiddleCreditSelfIncrementalWitnessSumCode.toSelfFreshWitnessSumCode
+    code.val, ?_⟩
+  rcases code with ⟨codeVal, hdecode⟩
+  cases codeVal with
+  | inl reserve =>
+      simpa [ActiveStrictMiddleCreditSelfIncrementalWitnessSumCode.value,
+        ActiveStrictMiddleCreditSelfIncrementalWitnessSumCode.toSelfFreshWitnessSumCode,
+        ActiveStrictMiddleCreditSelfFreshWitnessSumCode.value] using hdecode
+  | inr newMiddle =>
+      simpa [ActiveStrictMiddleCreditSelfIncrementalWitnessSumCode.value,
+        ActiveStrictMiddleCreditSelfIncrementalWitnessSumCode.toSelfFreshWitnessSumCode,
+        ActiveStrictMiddleCreditSelfFreshWitnessSumCode.value,
+        ActiveStrictMiddleNewSelfIncrementalWitnessCreditCode.toSelfFreshWitnessCreditCode] using
+        hdecode
+
+/--
 Active strict-middle matching with target membership and injectivity carried by
 source-indexed decoded credit codes.
 -/
@@ -2026,6 +2133,37 @@ theorem activeStrictMiddleDecodedCreditSelfAntiEighteenWitnessSumMatching_of_sel
   refine ⟨creditDecoder, ?_, trivial⟩
   intro b hb
   exact DecodedActiveStrictMiddleCreditSelfFreshWitnessSumCode.toDecodedSelfAntiEighteenWitnessSumCode
+    (credit b hb)
+
+/--
+Live-route active strict-middle decoded matching where any new-middle branch
+is certified by the existing incremental-neighbor predicate.
+-/
+def ActiveStrictMiddleDecodedCreditSelfIncrementalWitnessSumMatching
+    (N : Nat) (B : Nat -> Prop)
+    (_decMid : DecidablePred (StrictMiddlePart 7 B))
+    (mate : Nat -> Nat) (oppositeDecoder : Nat -> Nat) : Prop :=
+  Exists fun creditDecoder : Nat -> Nat =>
+  Exists fun _credit :
+      (forall b : Nat, StrictMiddlePart 7 B b ->
+        DecodedActiveStrictMiddleCreditSelfIncrementalWitnessSumCode
+          N B mate oppositeDecoder creditDecoder b) =>
+    True
+
+/-- Self-incremental matching supplies the previous self-fresh matching. -/
+theorem activeStrictMiddleDecodedCreditSelfFreshWitnessSumMatching_of_selfIncremental
+    {N : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart 7 B)}
+    {mate oppositeDecoder : Nat -> Nat}
+    (h :
+      ActiveStrictMiddleDecodedCreditSelfIncrementalWitnessSumMatching
+        N B decMid mate oppositeDecoder) :
+    ActiveStrictMiddleDecodedCreditSelfFreshWitnessSumMatching
+      N B decMid mate oppositeDecoder := by
+  rcases h with ⟨creditDecoder, credit, _⟩
+  refine ⟨creditDecoder, ?_, trivial⟩
+  intro b hb
+  exact DecodedActiveStrictMiddleCreditSelfIncrementalWitnessSumCode.toDecodedSelfFreshWitnessSumCode
     (credit b hb)
 
 /-- Count-level active strict-middle credit capacity for one fixed opposite mate. -/
@@ -2601,6 +2739,24 @@ def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfF
         (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset) decoder)
 
 /--
+Decoded squarefree-boxed certificate whose new-middle branch is expressed as
+an incremental strict-middle neighbor with the current source witness.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCertificate :
+    Prop :=
+  forall N : Nat, Exists fun decoder : Nat -> Nat =>
+  Exists fun offset :
+      (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b decoder) =>
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B)),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleDecodedCreditSelfIncrementalWitnessSumMatching N B decMid
+        (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset) decoder)
+
+/--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
 decoder certificate.
 -/
@@ -3173,6 +3329,18 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditS
   intro B decMid hB hClique hMid
   exact activeStrictMiddleDecodedCreditSelfAntiEighteenWitnessSumMatching_of_selfFresh
     (hCreditSelfFresh B decMid hB hClique hMid)
+
+/-- The self-incremental credit certificate supplies the previous self-fresh data. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCode_of_selfIncremental
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCertificate := by
+  intro N
+  rcases h N with ⟨decoder, offset, hCreditSelfIncremental⟩
+  refine ⟨decoder, offset, ?_⟩
+  intro B decMid hB hClique hMid
+  exact activeStrictMiddleDecodedCreditSelfFreshWitnessSumMatching_of_selfIncremental
+    (hCreditSelfIncremental B decMid hB hClique hMid)
 
 /-- The self-source credit certificate supplies the previous anti-`18 mod 25` data. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCode_of_self
@@ -4072,11 +4240,18 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 
 /--
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
-compression whose new-middle credit branch is a fresh neighbor of the current
-strict-middle source.
+compression whose new-middle credit branch carries the current strict-middle
+source and the exact non-opposite-neighbor side of
+`IncrementalStrictMiddleNeighbor`.
 -/
-axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCertificate
+axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCertificate
+
+/-- Current self-fresh certificate derived from self-incremental data. -/
+theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCode_of_selfIncremental
+    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut
 
 /-- Current self-source anti-`18 mod 25` certificate derived from self-fresh data. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCut :

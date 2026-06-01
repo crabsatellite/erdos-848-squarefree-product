@@ -16,7 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -75,11 +75,24 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit decoded squarefree-boxed `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies a decoder and source-indexed seven-offset codes carrying target boxedness, squarefree edge data, and decoder-hit proofs; the strict middle now supplies source-indexed decoded credit witness-sum codes whose reserve negative facts are concrete anti-`18 mod 25` decoder facts and whose new-middle branch is a fresh neighbor of the current strict-middle source. Lean derives the previous self-source anti-`18 mod 25`/anti-`18 mod 25`/carrier/source-anti-opposite/anti-neighbor/anti-image/witness/sum/code/matching/capacity surfaces before unpacking the decoder left-inverse, edge, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
+        "Replace finite Hall checks by one explicit decoded squarefree-boxed `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies a decoder and source-indexed seven-offset codes carrying target boxedness, squarefree edge data, and decoder-hit proofs; the strict middle now supplies source-indexed decoded credit witness-sum codes whose reserve negative facts are concrete anti-`18 mod 25` decoder facts and whose new-middle branch carries the current strict-middle source plus the exact non-opposite-neighbor side of `IncrementalStrictMiddleNeighbor`. Lean derives the previous self-fresh/self-source anti-`18 mod 25`/anti-`18 mod 25`/carrier/source-anti-opposite/anti-neighbor/anti-image/witness/sum/code/matching/capacity surfaces before unpacking the decoder left-inverse, edge, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
+        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut",
+        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCode_of_selfIncremental",
+        "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCertificate",
+        "Erdos848.activeStrictMiddleDecodedCreditSelfFreshWitnessSumMatching_of_selfIncremental",
+        "Erdos848.ActiveStrictMiddleDecodedCreditSelfIncrementalWitnessSumMatching",
+        "Erdos848.DecodedActiveStrictMiddleCreditSelfIncrementalWitnessSumCode",
+        "Erdos848.DecodedActiveStrictMiddleCreditSelfIncrementalWitnessSumCode.toDecodedSelfFreshWitnessSumCode",
+        "Erdos848.ActiveStrictMiddleCreditSelfIncrementalWitnessSumCode",
+        "Erdos848.ActiveStrictMiddleCreditSelfIncrementalWitnessSumCode.value",
+        "Erdos848.ActiveStrictMiddleCreditSelfIncrementalWitnessSumCode.toSelfFreshWitnessSumCode",
+        "Erdos848.ActiveStrictMiddleNewSelfIncrementalWitnessCreditCode",
+        "Erdos848.ActiveStrictMiddleNewSelfIncrementalWitnessCreditCode.toIncrementalStrictMiddleNeighbor",
+        "Erdos848.ActiveStrictMiddleNewSelfIncrementalWitnessCreditCode.toSelfFreshWitnessCreditCode",
         "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCode_of_selfFresh",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCertificate",
@@ -466,10 +479,10 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Prove the remaining decoded squarefree-boxed `18 mod 25` finite-offset middle-compression self-fresh credit-witness-sum-code cut: one opposite decoder, source-indexed seven-offset codes carrying target boxedness, squarefree edge data, decoder-hit proofs, and source-indexed decoded credit witness-sum codes whose reserve branch may use opposite reserve targets while the new-middle branch must use a fresh neighbor of the current strict-middle source.",
-        "Use Lean to show a fresh new-middle target makes the canonical opposite-source decoder non-`18 mod 25`, turn that into self-source anti-`18 mod 25` data, then into the previous anti-`18 mod 25`/carrier/source anti-opposite/source anti-neighbor/anti-image/witness/sum/code/matching/capacity surfaces before unpacking decoder hits, squarefree edge data, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
+        "Prove the remaining decoded squarefree-boxed `18 mod 25` finite-offset middle-compression self-incremental credit-witness-sum-code cut: one opposite decoder, source-indexed seven-offset codes carrying target boxedness, squarefree edge data, decoder-hit proofs, and source-indexed decoded credit witness-sum codes whose reserve branch may use opposite reserve targets while the new-middle branch must use the current strict-middle source and prove the target is not an opposite-neighbor candidate.",
+        "Use Lean to turn self-incremental new-middle data into self-fresh data, then into self-source anti-`18 mod 25` and the previous anti-`18 mod 25`/carrier/source anti-opposite/source anti-neighbor/anti-image/witness/sum/code/matching/capacity surfaces before unpacking decoder hits, squarefree edge data, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut`."
     },
     {
       id := "residue-certificate"
@@ -552,6 +565,24 @@ def config : ChainAudit.ProjectConfig := {
       keywords := [
         "SquarefreeAP",
         "squarefreeAPHall",
+        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut",
+        "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCode_of_selfIncremental",
+        "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCertificate",
+        "activeStrictMiddleDecodedCreditSelfFreshWitnessSumMatching_of_selfIncremental",
+        "ActiveStrictMiddleDecodedCreditSelfIncrementalWitnessSumMatching",
+        "DecodedActiveStrictMiddleCreditSelfIncrementalWitnessSumCode",
+        "ActiveStrictMiddleCreditSelfIncrementalWitnessSumCode",
+        "ActiveStrictMiddleNewSelfIncrementalWitnessCreditCode",
+        "IncrementalStrictMiddleNeighbor",
+        "notOppositeNeighbor",
+        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut",
+        "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCode_of_selfFresh",
+        "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCertificate",
+        "activeStrictMiddleDecodedCreditSelfAntiEighteenWitnessSumMatching_of_selfFresh",
+        "ActiveStrictMiddleDecodedCreditSelfFreshWitnessSumMatching",
+        "DecodedActiveStrictMiddleCreditSelfFreshWitnessSumCode",
+        "ActiveStrictMiddleCreditSelfFreshWitnessSumCode",
+        "ActiveStrictMiddleNewSelfFreshWitnessCreditCode",
         "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCode_of_self",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCertificate",
