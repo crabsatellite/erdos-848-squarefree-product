@@ -16,7 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetInjectiveSumCodeCut
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetDirectInjectiveSumCodeCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -75,17 +75,23 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit decoded squarefree-boxed `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies a decoder and source-indexed seven-offset codes carrying target boxedness, squarefree edge data, and decoder-hit proofs; the strict middle now supplies source-indexed credit sum codes with direct target-value injectivity, reserve negative facts as concrete anti-`18 mod 25` decoder facts, and a new-middle branch that reuses the existing `ActiveStrictMiddleNewCreditCode` target while identifying the current source through the canonical strict-middle source decoder. Lean constructs the previous credit decoder and derives the self-canonical/self-target/self-incremental/self-fresh/self-source anti-`18 mod 25`/anti-`18 mod 25`/carrier/source-anti-opposite/anti-neighbor/anti-image/witness/sum/code/matching/capacity surfaces before unpacking the decoder left-inverse, edge, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
+        "Replace finite Hall checks by one explicit decoded squarefree-boxed `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies a decoder and source-indexed seven-offset codes carrying target boxedness, squarefree edge data, and decoder-hit proofs; the strict middle now supplies source-indexed active credit sum codes with direct target-value injectivity, reserve credits carrying the original non-image fact, and a new-middle branch that reuses the existing `ActiveStrictMiddleNewCreditCode` target while identifying the current source through the canonical strict-middle source decoder. Lean derives the active credit matching directly, then unpacks decoder left-inverse, edge, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
-        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetInjectiveSumCodeCut",
+        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetDirectInjectiveSumCodeCut",
+        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_selfCanonicalTargetDirect",
+        "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetDirectInjectiveSumCodeCertificate",
+        "Erdos848.activeStrictMiddleCreditMatching_of_selfCanonicalTargetDirectInjective",
+        "Erdos848.ActiveStrictMiddleCreditSelfCanonicalTargetDirectInjectiveSumMatching",
+        "Erdos848.ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode",
+        "Erdos848.ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode.value",
+        "Erdos848.ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode.toCode",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCode_of_injective",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetInjectiveSumCodeCertificate",
         "Erdos848.activeStrictMiddleDecodedCreditSelfCanonicalTargetSumMatching_of_injective",
         "Erdos848.ActiveStrictMiddleCreditSelfCanonicalTargetInjectiveSumMatching",
-        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCode_of_selfCanonicalTarget",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCertificate",
         "Erdos848.activeStrictMiddleDecodedCreditSelfTargetSumMatching_of_selfCanonicalTarget",
@@ -97,7 +103,6 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.ActiveStrictMiddleCreditSelfCanonicalTargetSumCode.toSelfTargetSumCode",
         "Erdos848.ActiveStrictMiddleNewSelfCanonicalTargetCreditCode",
         "Erdos848.ActiveStrictMiddleNewSelfCanonicalTargetCreditCode.toSelfTargetCreditCode",
-        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCode_of_selfTarget",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCertificate",
         "Erdos848.activeStrictMiddleDecodedCreditSelfIncrementalWitnessSumMatching_of_selfTarget",
@@ -109,7 +114,6 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.ActiveStrictMiddleCreditSelfTargetSumCode.toSelfIncrementalWitnessSumCode",
         "Erdos848.ActiveStrictMiddleNewSelfTargetCreditCode",
         "Erdos848.ActiveStrictMiddleNewSelfTargetCreditCode.toSelfIncrementalWitnessCreditCode",
-        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCode_of_selfIncremental",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCertificate",
         "Erdos848.activeStrictMiddleDecodedCreditSelfFreshWitnessSumMatching_of_selfIncremental",
@@ -122,7 +126,6 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.ActiveStrictMiddleNewSelfIncrementalWitnessCreditCode",
         "Erdos848.ActiveStrictMiddleNewSelfIncrementalWitnessCreditCode.toIncrementalStrictMiddleNeighbor",
         "Erdos848.ActiveStrictMiddleNewSelfIncrementalWitnessCreditCode.toSelfFreshWitnessCreditCode",
-        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCode_of_selfFresh",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCertificate",
         "Erdos848.activeStrictMiddleDecodedCreditSelfAntiEighteenWitnessSumMatching_of_selfFresh",
@@ -135,7 +138,6 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.ActiveStrictMiddleNewSelfFreshWitnessCreditCode",
         "Erdos848.ActiveStrictMiddleNewSelfFreshWitnessCreditCode.toSelfAntiEighteenWitnessCreditCode",
         "Erdos848.squarefreeNeighborSourceDecoder_not_eighteen_of_no_opposite_edge",
-        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCode_of_self",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCertificate",
         "Erdos848.activeStrictMiddleDecodedCreditAntiEighteenWitnessSumMatching_of_self",
@@ -147,7 +149,6 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.ActiveStrictMiddleCreditSelfAntiEighteenWitnessSumCode.toAntiEighteenWitnessSumCode",
         "Erdos848.ActiveStrictMiddleNewSelfAntiEighteenWitnessCreditCode",
         "Erdos848.ActiveStrictMiddleNewSelfAntiEighteenWitnessCreditCode.toSourceAntiEighteenWitnessCreditCode",
-        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCode_of_antiEighteen",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCertificate",
         "Erdos848.activeStrictMiddleDecodedCreditCarrierWitnessSumMatching_of_antiEighteen",
@@ -162,7 +163,6 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.ActiveStrictMiddleNewSourceAntiEighteenWitnessCreditCode",
         "Erdos848.ActiveStrictMiddleNewSourceAntiEighteenWitnessCreditCode.toCarrierWitnessCreditCode",
         "Erdos848.not_oppositeCandidateCarrier_seven_of_not_candidate_eighteen",
-        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCode_of_carrier",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCertificate",
         "Erdos848.activeStrictMiddleDecodedCreditSourceAntiOppositeWitnessSumMatching_of_carrier",
@@ -176,7 +176,6 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.ActiveStrictMiddleReserveAntiCarrierWitnessCreditCode.toAntiImageWitnessCreditCode",
         "Erdos848.ActiveStrictMiddleNewSourceAntiCarrierWitnessCreditCode",
         "Erdos848.ActiveStrictMiddleNewSourceAntiCarrierWitnessCreditCode.toSourceAntiOppositeWitnessCreditCode",
-        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCode_of_sourceAntiOpposite",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCodeCertificate",
         "Erdos848.activeStrictMiddleDecodedCreditSourceAntiNeighborWitnessSumMatching_of_sourceAntiOpposite",
@@ -188,7 +187,6 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.ActiveStrictMiddleCreditSourceAntiOppositeWitnessSumCode.toSourceAntiNeighborWitnessSumCode",
         "Erdos848.ActiveStrictMiddleNewSourceAntiOppositeWitnessCreditCode",
         "Erdos848.ActiveStrictMiddleNewSourceAntiOppositeWitnessCreditCode.toSourceAntiNeighborWitnessCreditCode",
-        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCode_of_sourceAntiNeighbor",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCodeCertificate",
         "Erdos848.activeStrictMiddleDecodedCreditAntiImageWitnessSumMatching_of_sourceAntiNeighbor",
@@ -202,7 +200,6 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.ActiveStrictMiddleNewSourceAntiNeighborWitnessCreditCode.toNewWitnessCreditCode",
         "Erdos848.squarefreeNeighborSourceDecoder",
         "Erdos848.squarefreeNeighborSourceDecoder_spec",
-        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCode_of_antiImage",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCodeCertificate",
         "Erdos848.activeStrictMiddleDecodedCreditWitnessSumMatching_of_antiImage",
@@ -215,7 +212,6 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.ActiveStrictMiddleReserveAntiImageWitnessCreditCode",
         "Erdos848.ActiveStrictMiddleReserveAntiImageWitnessCreditCode.toReserveWitnessCode",
         "Erdos848.decodedSquarefreeBoxedOppositeFiniteOffsetMate_leftInverse",
-        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCode_of_witness",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCertificate",
         "Erdos848.activeStrictMiddleDecodedCreditSumMatching_of_witness",
@@ -231,7 +227,6 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.ActiveStrictMiddleNewWitnessCreditCode.toNewCode",
         "Erdos848.SquarefreeNeighborInCandidateWitnessCode",
         "Erdos848.squarefreeNeighborInCandidate_of_witnessCode",
-        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCode_of_sumCode",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCertificate",
         "Erdos848.activeStrictMiddleDecodedCreditMatching_of_sum",
@@ -244,7 +239,6 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.activeStrictMiddleCreditSumCode_target",
         "Erdos848.ActiveStrictMiddleReserveCreditCode",
         "Erdos848.ActiveStrictMiddleNewCreditCode",
-        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_creditCode",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCodeCertificate",
         "Erdos848.activeStrictMiddleCreditMatching_of_decoded",
@@ -508,10 +502,10 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Prove the remaining decoded squarefree-boxed `18 mod 25` finite-offset middle-compression self-canonical-target injective credit-sum-code cut: one opposite decoder, source-indexed seven-offset codes carrying target boxedness, squarefree edge data, decoder-hit proofs, and source-indexed credit sum codes whose values are directly injective, whose reserve branch may use opposite reserve targets, and whose new-middle branch must reuse an existing `ActiveStrictMiddleNewCreditCode` while proving that the canonical strict-middle source decoder returns the current strict-middle source.",
-        "Use Lean to construct the credit decoder from direct injectivity, then turn self-canonical-target data into self-target and self-incremental new-middle data, then into self-fresh, self-source anti-`18 mod 25`, and the previous anti-`18 mod 25`/carrier/source anti-opposite/source anti-neighbor/anti-image/witness/sum/code/matching/capacity surfaces before unpacking decoder hits, squarefree edge data, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
+        "Prove the remaining decoded squarefree-boxed `18 mod 25` finite-offset middle-compression self-canonical-target direct-injective credit-sum-code cut: one opposite decoder, source-indexed seven-offset codes carrying target boxedness, squarefree edge data, decoder-hit proofs, and source-indexed active credit sum codes whose values are directly injective, whose reserve branch carries the original non-image fact, and whose new-middle branch must reuse an existing `ActiveStrictMiddleNewCreditCode` while proving that the canonical strict-middle source decoder returns the current strict-middle source.",
+        "Use Lean to turn direct active credit codes into `ActiveStrictMiddleCreditMatching`, bypassing the intermediate anti-`18 mod 25`/carrier/source anti-opposite/source anti-neighbor/anti-image/witness/sum/code/decoded-matching layers before unpacking decoder hits, squarefree edge data, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetInjectiveSumCodeCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetDirectInjectiveSumCodeCut`."
     },
     {
       id := "residue-certificate"
@@ -594,13 +588,19 @@ def config : ChainAudit.ProjectConfig := {
       keywords := [
         "SquarefreeAP",
         "squarefreeAPHall",
-        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetInjectiveSumCodeCut",
+        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetDirectInjectiveSumCodeCut",
+        "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_selfCanonicalTargetDirect",
+        "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetDirectInjectiveSumCodeCertificate",
+        "activeStrictMiddleCreditMatching_of_selfCanonicalTargetDirectInjective",
+        "ActiveStrictMiddleCreditSelfCanonicalTargetDirectInjectiveSumMatching",
+        "ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode",
+        "ActiveStrictMiddleReserveWitnessCreditCode",
+        "notImage",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCode_of_injective",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetInjectiveSumCodeCertificate",
         "activeStrictMiddleDecodedCreditSelfCanonicalTargetSumMatching_of_injective",
         "ActiveStrictMiddleCreditSelfCanonicalTargetInjectiveSumMatching",
         "target-value injectivity",
-        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCode_of_selfCanonicalTarget",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCertificate",
         "activeStrictMiddleDecodedCreditSelfTargetSumMatching_of_selfCanonicalTarget",
@@ -609,7 +609,6 @@ def config : ChainAudit.ProjectConfig := {
         "ActiveStrictMiddleCreditSelfCanonicalTargetSumCode",
         "ActiveStrictMiddleNewSelfCanonicalTargetCreditCode",
         "sourceHit",
-        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCode_of_selfTarget",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCertificate",
         "activeStrictMiddleDecodedCreditSelfIncrementalWitnessSumMatching_of_selfTarget",
@@ -618,7 +617,6 @@ def config : ChainAudit.ProjectConfig := {
         "ActiveStrictMiddleCreditSelfTargetSumCode",
         "ActiveStrictMiddleNewSelfTargetCreditCode",
         "ActiveStrictMiddleNewCreditCode",
-        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCode_of_selfIncremental",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCertificate",
         "activeStrictMiddleDecodedCreditSelfFreshWitnessSumMatching_of_selfIncremental",
@@ -628,7 +626,6 @@ def config : ChainAudit.ProjectConfig := {
         "ActiveStrictMiddleNewSelfIncrementalWitnessCreditCode",
         "IncrementalStrictMiddleNeighbor",
         "notOppositeNeighbor",
-        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCode_of_selfFresh",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCertificate",
         "activeStrictMiddleDecodedCreditSelfAntiEighteenWitnessSumMatching_of_selfFresh",
@@ -636,7 +633,6 @@ def config : ChainAudit.ProjectConfig := {
         "DecodedActiveStrictMiddleCreditSelfFreshWitnessSumCode",
         "ActiveStrictMiddleCreditSelfFreshWitnessSumCode",
         "ActiveStrictMiddleNewSelfFreshWitnessCreditCode",
-        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCode_of_self",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCertificate",
         "activeStrictMiddleDecodedCreditAntiEighteenWitnessSumMatching_of_self",
@@ -644,7 +640,6 @@ def config : ChainAudit.ProjectConfig := {
         "DecodedActiveStrictMiddleCreditSelfAntiEighteenWitnessSumCode",
         "ActiveStrictMiddleCreditSelfAntiEighteenWitnessSumCode",
         "ActiveStrictMiddleNewSelfAntiEighteenWitnessCreditCode",
-        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCode_of_antiEighteen",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCertificate",
         "activeStrictMiddleDecodedCreditCarrierWitnessSumMatching_of_antiEighteen",
@@ -654,7 +649,6 @@ def config : ChainAudit.ProjectConfig := {
         "ActiveStrictMiddleReserveAntiEighteenWitnessCreditCode",
         "ActiveStrictMiddleNewSourceAntiEighteenWitnessCreditCode",
         "not_oppositeCandidateCarrier_seven_of_not_candidate_eighteen",
-        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCode_of_carrier",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCertificate",
         "activeStrictMiddleDecodedCreditSourceAntiOppositeWitnessSumMatching_of_carrier",
@@ -663,7 +657,6 @@ def config : ChainAudit.ProjectConfig := {
         "ActiveStrictMiddleCreditCarrierWitnessSumCode",
         "ActiveStrictMiddleReserveAntiCarrierWitnessCreditCode",
         "ActiveStrictMiddleNewSourceAntiCarrierWitnessCreditCode",
-        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCodeCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCode_of_sourceAntiOpposite",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCodeCertificate",
         "activeStrictMiddleDecodedCreditSourceAntiNeighborWitnessSumMatching_of_sourceAntiOpposite",
@@ -671,7 +664,6 @@ def config : ChainAudit.ProjectConfig := {
         "DecodedActiveStrictMiddleCreditSourceAntiOppositeWitnessSumCode",
         "ActiveStrictMiddleCreditSourceAntiOppositeWitnessSumCode",
         "ActiveStrictMiddleNewSourceAntiOppositeWitnessCreditCode",
-        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCodeCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCode_of_sourceAntiNeighbor",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCodeCertificate",
         "activeStrictMiddleDecodedCreditAntiImageWitnessSumMatching_of_sourceAntiNeighbor",
@@ -681,7 +673,6 @@ def config : ChainAudit.ProjectConfig := {
         "ActiveStrictMiddleNewSourceAntiNeighborWitnessCreditCode",
         "squarefreeNeighborSourceDecoder",
         "squarefreeNeighborSourceDecoder_spec",
-        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCodeCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCode_of_antiImage",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCodeCertificate",
         "activeStrictMiddleDecodedCreditWitnessSumMatching_of_antiImage",
@@ -690,7 +681,6 @@ def config : ChainAudit.ProjectConfig := {
         "ActiveStrictMiddleCreditAntiImageWitnessSumCode",
         "ActiveStrictMiddleReserveAntiImageWitnessCreditCode",
         "decodedSquarefreeBoxedOppositeFiniteOffsetMate_leftInverse",
-        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCode_of_witness",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCertificate",
         "activeStrictMiddleDecodedCreditSumMatching_of_witness",
@@ -701,7 +691,6 @@ def config : ChainAudit.ProjectConfig := {
         "ActiveStrictMiddleNewWitnessCreditCode",
         "SquarefreeNeighborInCandidateWitnessCode",
         "squarefreeNeighborInCandidate_of_witnessCode",
-        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCode_of_sumCode",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCertificate",
         "activeStrictMiddleDecodedCreditMatching_of_sum",
@@ -710,7 +699,6 @@ def config : ChainAudit.ProjectConfig := {
         "ActiveStrictMiddleCreditSumCode",
         "ActiveStrictMiddleReserveCreditCode",
         "ActiveStrictMiddleNewCreditCode",
-        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCodeCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_creditCode",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCodeCertificate",
         "activeStrictMiddleCreditMatching_of_decoded",

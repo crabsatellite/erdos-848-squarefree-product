@@ -1539,6 +1539,39 @@ def ActiveStrictMiddleCreditSelfCanonicalTargetSumCode.toSelfTargetSumCode
   | Sum.inr newMiddle =>
       Sum.inr newMiddle.toSelfTargetCreditCode
 
+/--
+Live-route credit target using the original reserve non-image fact and a
+canonical-source new-middle target.
+-/
+def ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode
+    (N : Nat) (B : Nat -> Prop) (mate : Nat -> Nat) (b : Nat) : Type :=
+  Sum (ActiveStrictMiddleReserveWitnessCreditCode N 7 B mate)
+    (ActiveStrictMiddleNewSelfCanonicalTargetCreditCode N B b)
+
+/-- Forget proof data and keep the target value of a direct self-canonical sum. -/
+def ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode.value
+    {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat} {b : Nat}
+    (code : ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode
+      N B mate b) : Nat :=
+  match code with
+  | Sum.inl reserve => reserve.neighbor.value
+  | Sum.inr newMiddle => newMiddle.target.val
+
+/-- Direct self-canonical sums are ordinary active credit codes. -/
+def ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode.toCode
+    {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat} {b : Nat}
+    (code : ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode
+      N B mate b) :
+    ActiveStrictMiddleCreditCode N 7 B mate :=
+  match code with
+  | Sum.inl reserve =>
+      ⟨reserve.neighbor.value,
+        Or.inl (And.intro
+          (squarefreeNeighborInCandidate_of_witnessCode reserve.neighbor)
+          reserve.notImage)⟩
+  | Sum.inr newMiddle =>
+      ⟨newMiddle.target.val, Or.inr newMiddle.target.property⟩
+
 /-- Forget proof data and keep the target value of a self-target sum. -/
 def ActiveStrictMiddleCreditSelfTargetSumCode.value
     {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
@@ -2444,6 +2477,63 @@ theorem activeStrictMiddleDecodedCreditSelfCanonicalTargetSumMatching_of_injecti
     simp [creditDecoder, hsource]]
   exact hinj (Classical.choose hsource) b hbchoose hb hvalue
 
+/--
+Live-route direct matching with original reserve non-image data and direct
+target-value injectivity.
+-/
+def ActiveStrictMiddleCreditSelfCanonicalTargetDirectInjectiveSumMatching
+    (N : Nat) (B : Nat -> Prop)
+    (_decMid : DecidablePred (StrictMiddlePart 7 B))
+    (mate : Nat -> Nat) : Prop :=
+  Exists fun credit :
+      (forall b : Nat, StrictMiddlePart 7 B b ->
+        ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode
+          N B mate b) =>
+    forall b1 b2 : Nat,
+      forall hb1 : StrictMiddlePart 7 B b1,
+      forall hb2 : StrictMiddlePart 7 B b2,
+        (credit b1 hb1).value = (credit b2 hb2).value ->
+          b1 = b2
+
+/-- Direct self-canonical injective matching supplies active credit matching. -/
+theorem activeStrictMiddleCreditMatching_of_selfCanonicalTargetDirectInjective
+    {N : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart 7 B)}
+    {mate : Nat -> Nat}
+    (h :
+      ActiveStrictMiddleCreditSelfCanonicalTargetDirectInjectiveSumMatching
+        N B decMid mate) :
+    ActiveStrictMiddleCreditMatching N 7 B decMid mate := by
+  rcases h with ⟨credit, hinj⟩
+  let creditValue : Nat -> Nat := fun b =>
+    haveI : Decidable (StrictMiddlePart 7 B b) := decMid b
+    if hb : StrictMiddlePart 7 B b then
+      (credit b hb).value
+    else
+      0
+  refine ⟨creditValue, ?_, ?_⟩
+  · intro b hb
+    cases hcredit : credit b hb with
+    | inl reserve =>
+        have htarget :
+            ActiveStrictMiddleCreditTarget N 7 B mate reserve.neighbor.value :=
+          Or.inl (And.intro
+            (squarefreeNeighborInCandidate_of_witnessCode reserve.neighbor)
+            reserve.notImage)
+        simpa [creditValue, hb, hcredit,
+          ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode.value] using
+          htarget
+    | inr newMiddle =>
+        have htarget :
+            ActiveStrictMiddleCreditTarget N 7 B mate newMiddle.target.val :=
+          Or.inr newMiddle.target.property
+        simpa [creditValue, hb, hcredit,
+          ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode.value] using
+          htarget
+  · intro b1 b2 hb1 hb2 hcredit
+    exact hinj b1 b2 hb1 hb2 (by
+      simpa [creditValue, hb1, hb2] using hcredit)
+
 /-- Self-canonical-target matching supplies the previous self-target matching. -/
 theorem activeStrictMiddleDecodedCreditSelfTargetSumMatching_of_selfCanonicalTarget
     {N : Nat} {B : Nat -> Prop}
@@ -3122,6 +3212,25 @@ def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfC
         (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset) decoder)
 
 /--
+Decoded squarefree-boxed certificate whose strict-middle credit side is already
+an active credit matching code: reserve credits carry original non-image data,
+and new-middle credits carry canonical source hits.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetDirectInjectiveSumCodeCertificate :
+    Prop :=
+  forall N : Nat, Exists fun decoder : Nat -> Nat =>
+  Exists fun offset :
+      (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b decoder) =>
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B)),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditSelfCanonicalTargetDirectInjectiveSumMatching N B decMid
+        (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset))
+
+/--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
 decoder certificate.
 -/
@@ -3742,6 +3851,18 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditS
   intro B decMid hB hClique hMid
   exact activeStrictMiddleDecodedCreditSelfCanonicalTargetSumMatching_of_injective
     (hCreditSelfCanonicalInjective B decMid hB hClique hMid)
+
+/-- The direct self-canonical certificate supplies the active credit matching data. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_selfCanonicalTargetDirect
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetDirectInjectiveSumCodeCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCertificate := by
+  intro N
+  rcases h N with ⟨decoder, offset, hCreditSelfCanonicalDirect⟩
+  refine ⟨decoder, offset, ?_⟩
+  intro B decMid hB hClique hMid
+  exact activeStrictMiddleCreditMatching_of_selfCanonicalTargetDirectInjective
+    (hCreditSelfCanonicalDirect B decMid hB hClique hMid)
 
 /-- The self-source credit certificate supplies the previous anti-`18 mod 25` data. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCode_of_self
@@ -4641,97 +4762,18 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 
 /--
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
-compression whose new-middle credit branch reuses the existing incremental
-target code and identifies the current source by the canonical strict-middle
-source decoder, with direct target-value injectivity replacing an explicit
-credit decoder.
+compression whose strict-middle credit side is already an active credit
+matching code: reserve credits carry original non-image data, and new-middle
+credits carry canonical source hits.
 -/
-axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetInjectiveSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetInjectiveSumCodeCertificate
+axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetDirectInjectiveSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetDirectInjectiveSumCodeCertificate
 
-/-- Current self-canonical-target certificate derived from injective data. -/
-theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCode_of_injective
-    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetInjectiveSumCodeCut
-
-/-- Current self-target certificate derived from self-canonical-target data. -/
-theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCode_of_selfCanonicalTarget
-    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetSumCodeCut
-
-/-- Current self-incremental certificate derived from self-target data. -/
-theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCode_of_selfTarget
-    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCut
-
-/-- Current self-fresh certificate derived from self-incremental data. -/
-theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCode_of_selfIncremental
-    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut
-
-/-- Current self-source anti-`18 mod 25` certificate derived from self-fresh data. -/
-theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCode_of_selfFresh
-    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut
-
-/-- Current anti-`18 mod 25` certificate derived from self-source data. -/
-theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCode_of_self
-    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCut
-
-/-- Current carrier-level certificate derived from concrete anti-`18 mod 25` data. -/
-theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCode_of_antiEighteen
-    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCut
-
-/-- Current source anti-opposite certificate derived from carrier-level data. -/
-theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCodeCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCode_of_carrier
-    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCut
-
-/-- Current source anti-neighbor certificate derived from source anti-opposite data. -/
-theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCodeCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCode_of_sourceAntiOpposite
-    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCodeCut
-
-/-- Current anti-image certificate derived from source anti-neighbor data. -/
-theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCodeCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCode_of_sourceAntiNeighbor
-    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCodeCut
-
-/-- Current witness-sum-code certificate derived from decoder-side anti-image data. -/
-theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCode_of_antiImage
-    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCodeCut
-
-/-- Current credit-sum-code certificate derived from explicit neighbor-witness codes. -/
-theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCode_of_witness
-    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditWitnessSumCodeCut
-
-/-- Current decoded credit-code certificate derived from reserve/new-middle sum codes. -/
-theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCodeCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCode_of_sumCode
-    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSumCodeCut
-
-/-- Current explicit credit-matching certificate derived from decoded credit codes. -/
+/-- Current explicit credit-matching certificate derived from direct active codes. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_creditCode
-    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCodeCut
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_selfCanonicalTargetDirect
+    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfCanonicalTargetDirectInjectiveSumCodeCut
 
 /-- Current decoded squarefree-boxed certificate with capacity derived from credit matching. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
