@@ -43,6 +43,15 @@ class ActiveCreditCertificate:
     worst_credit_reserve_new_disjoint: bool
     worst_credit_slack_capacity_holds: bool
     worst_credit_matching: list[tuple[int, int]]
+    observed_positive_deficit_nodes: int
+    observed_max_credit_deficit: int
+    observed_max_credit_deficit_surplus: int
+    observed_max_credit_deficit_witness: list[int]
+    observed_max_credit_deficit_residue_counts: dict[int, int]
+    observed_max_credit_deficit_middle_size: int
+    observed_max_credit_deficit_new_middle_size: int
+    observed_max_credit_deficit_reserve_size: int
+    observed_deficit_pressure_complete: bool
 
 
 def active_credit_certificate(
@@ -125,6 +134,14 @@ def active_credit_certificate(
     worst_credit_reserve_new_disjoint = True
     worst_credit_slack_capacity_holds = True
     worst_credit_matching: list[tuple[int, int]] = []
+    observed_positive_deficit_nodes = 0
+    observed_max_credit_deficit = 0
+    observed_max_credit_deficit_surplus = 0
+    observed_max_credit_deficit_witness: list[int] = []
+    observed_max_credit_deficit_residue_counts: dict[int, int] = {}
+    observed_max_credit_deficit_middle_size = 0
+    observed_max_credit_deficit_new_middle_size = 0
+    observed_max_credit_deficit_reserve_size = 0
     search_nodes = 0
     search_max_depth = 0
     search_pruned_no_middle_tail = 0
@@ -159,6 +176,14 @@ def active_credit_certificate(
         nonlocal worst_credit_reserve_new_disjoint
         nonlocal worst_credit_slack_capacity_holds
         nonlocal worst_credit_matching
+        nonlocal observed_positive_deficit_nodes
+        nonlocal observed_max_credit_deficit
+        nonlocal observed_max_credit_deficit_surplus
+        nonlocal observed_max_credit_deficit_witness
+        nonlocal observed_max_credit_deficit_residue_counts
+        nonlocal observed_max_credit_deficit_middle_size
+        nonlocal observed_max_credit_deficit_new_middle_size
+        nonlocal observed_max_credit_deficit_reserve_size
         nonlocal search_nodes
         nonlocal search_max_depth
         nonlocal search_pruned_no_middle_tail
@@ -188,6 +213,18 @@ def active_credit_certificate(
             deficit_surplus = reserve_size - credit_deficit
             reserve_new_disjoint = (reserve & new_middle) == 0
             defect = credit_pool_size - middle_size
+            if credit_deficit > 0:
+                observed_positive_deficit_nodes += 1
+                if credit_deficit > observed_max_credit_deficit:
+                    observed_max_credit_deficit = credit_deficit
+                    observed_max_credit_deficit_surplus = deficit_surplus
+                    observed_max_credit_deficit_witness = [outside[i] for i in chosen]
+                    observed_max_credit_deficit_residue_counts = dict(
+                        sorted(Counter(b % 25 for b in observed_max_credit_deficit_witness).items())
+                    )
+                    observed_max_credit_deficit_middle_size = middle_size
+                    observed_max_credit_deficit_new_middle_size = new_middle_size
+                    observed_max_credit_deficit_reserve_size = reserve_size
             if defect < worst_credit_defect:
                 credit_vertices = [base[i] for i in range(len(base)) if (credit_pool >> i) & 1]
                 worst_credit_defect = defect
@@ -297,6 +334,15 @@ def active_credit_certificate(
         worst_credit_reserve_new_disjoint=worst_credit_reserve_new_disjoint,
         worst_credit_slack_capacity_holds=worst_credit_slack_capacity_holds,
         worst_credit_matching=worst_credit_matching,
+        observed_positive_deficit_nodes=observed_positive_deficit_nodes,
+        observed_max_credit_deficit=observed_max_credit_deficit,
+        observed_max_credit_deficit_surplus=observed_max_credit_deficit_surplus,
+        observed_max_credit_deficit_witness=observed_max_credit_deficit_witness,
+        observed_max_credit_deficit_residue_counts=observed_max_credit_deficit_residue_counts,
+        observed_max_credit_deficit_middle_size=observed_max_credit_deficit_middle_size,
+        observed_max_credit_deficit_new_middle_size=observed_max_credit_deficit_new_middle_size,
+        observed_max_credit_deficit_reserve_size=observed_max_credit_deficit_reserve_size,
+        observed_deficit_pressure_complete=exact_worst,
     )
 
 

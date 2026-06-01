@@ -306,6 +306,28 @@ def assert_gate(payload: dict) -> None:
         assert sum(item["worst_credit_witness_residue_counts"].values()) == len(
             item["worst_credit_witness"]
         ), item
+        assert item["observed_positive_deficit_nodes"] >= 0, item
+        assert item["observed_positive_deficit_nodes"] <= item["search_nodes"], item
+        assert item["observed_max_credit_deficit"] >= 0, item
+        assert item["observed_deficit_pressure_complete"] == item["exact_worst"], item
+        if item["observed_positive_deficit_nodes"] == 0:
+            assert item["observed_max_credit_deficit"] == 0, item
+            assert item["observed_max_credit_deficit_witness"] == [], item
+            assert item["observed_max_credit_deficit_residue_counts"] == {}, item
+        else:
+            assert item["observed_max_credit_deficit"] > 0, item
+            assert item["observed_max_credit_deficit_surplus"] == (
+                item["observed_max_credit_deficit_reserve_size"] -
+                item["observed_max_credit_deficit"]
+            ), item
+            assert item["observed_max_credit_deficit"] == max(
+                0,
+                item["observed_max_credit_deficit_middle_size"] -
+                item["observed_max_credit_deficit_new_middle_size"],
+            ), item
+            assert sum(item["observed_max_credit_deficit_residue_counts"].values()) == len(
+                item["observed_max_credit_deficit_witness"]
+            ), item
         if item["worst_credit_split_pool_size"] == 0:
             assert item["worst_credit_split_mode"] == "empty", item
         elif item["worst_credit_reserve_size"] == 0:
@@ -350,7 +372,7 @@ def main() -> int:
     )
     print(
         "  active credit capacity checks: "
-        f"{[(x['N'], x['exact_worst'], x['worst_credit_split_mode'], x['worst_credit_defect'], x['worst_credit_middle_size'], x['worst_credit_pool_size'], x['worst_credit_reserve_size'], x['worst_credit_new_middle_size'], x['worst_credit_deficit'], x['worst_credit_deficit_surplus'], x['search_nodes'], x['search_pruned_no_middle_tail'], x['search_pruned_defect_bound'], x['search_pruned_nonnegative_bound']) for x in payload['active_credit_checks']]}"
+        f"{[(x['N'], x['exact_worst'], x['worst_credit_split_mode'], x['worst_credit_defect'], x['worst_credit_middle_size'], x['worst_credit_pool_size'], x['worst_credit_reserve_size'], x['worst_credit_new_middle_size'], x['worst_credit_deficit'], x['worst_credit_deficit_surplus'], x['observed_positive_deficit_nodes'], x['observed_max_credit_deficit'], x['observed_max_credit_deficit_surplus'], x['search_nodes'], x['search_pruned_no_middle_tail'], x['search_pruned_defect_bound'], x['search_pruned_nonnegative_bound']) for x in payload['active_credit_checks']]}"
     )
     print("  wrote data/results/latest.json")
     return 0

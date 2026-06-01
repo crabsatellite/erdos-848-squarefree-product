@@ -6,6 +6,15 @@
       "capacity_obligation": "reserve_plus_new_middle",
       "exact_worst": true,
       "index_bandwidth": 3,
+      "observed_deficit_pressure_complete": true,
+      "observed_max_credit_deficit": 0,
+      "observed_max_credit_deficit_middle_size": 0,
+      "observed_max_credit_deficit_new_middle_size": 0,
+      "observed_max_credit_deficit_reserve_size": 0,
+      "observed_max_credit_deficit_residue_counts": {},
+      "observed_max_credit_deficit_surplus": 0,
+      "observed_max_credit_deficit_witness": [],
+      "observed_positive_deficit_nodes": 0,
       "opposite_residue": 18,
       "outside_middle_vertices": 4,
       "outside_opposite_vertices": 4,
@@ -51,6 +60,26 @@
       "capacity_obligation": "reserve_plus_new_middle",
       "exact_worst": true,
       "index_bandwidth": 3,
+      "observed_deficit_pressure_complete": true,
+      "observed_max_credit_deficit": 1,
+      "observed_max_credit_deficit_middle_size": 2,
+      "observed_max_credit_deficit_new_middle_size": 1,
+      "observed_max_credit_deficit_reserve_size": 15,
+      "observed_max_credit_deficit_residue_counts": {
+        "12": 1,
+        "16": 1,
+        "18": 4
+      },
+      "observed_max_credit_deficit_surplus": 14,
+      "observed_max_credit_deficit_witness": [
+        41,
+        437,
+        43,
+        143,
+        243,
+        268
+      ],
+      "observed_positive_deficit_nodes": 22,
       "opposite_residue": 18,
       "outside_middle_vertices": 12,
       "outside_opposite_vertices": 20,
@@ -202,7 +231,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T09:04:17.973097+00:00",
+  "generated_at": "2026-06-01T09:18:27.587895+00:00",
   "hall_checks": [
     {
       "N": 100,
