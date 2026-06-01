@@ -16,7 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominanceCut
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -77,15 +77,19 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the live certificate is now a length-exact finite list-selector witness with target coherence, boundary boxedness, gap-indexed local injectivity, plus a generated-prefix seed allocation for the strict-middle deficit. Lean derives ordinary list matching, reserve dominance, active-credit capacity, the decoder, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
+        "Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the live certificate now separates code-independent incremental middle capacity from a length-exact finite list-selector witness with target coherence, boundary boxedness, and gap-indexed local injectivity. Lean derives reserve dominance, active-credit capacity, the decoder, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
-        "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominanceCut",
+        "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut",
+        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominance_of_incrementalCapacity",
+        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalReserveDominance_of_incrementalCapacity",
+        "Erdos848.activeStrictMiddleCreditSplitCapacity_of_partitionedIncrementalCapacity",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex",
         "Erdos848.globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex",
         "Erdos848.globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid_of_validMatching",
+        "Erdos848.globalOppositeFiniteOffsetEighteenTypedSourceIndexMateMap_of_validMatching",
         "Erdos848.globalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective_of_validMatching",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity_of_sourceIndexMate",
         "Erdos848.globalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow_of_targetValid",
@@ -1016,10 +1020,10 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Prove the remaining total reserve-dominance certificate: length-exact source-index list matching with target coherence, boundary boxedness, gap-indexed local injectivity, and enough reserve capacity to cover every strict-middle deficit; Lean now derives the prefix witness, generated-prefix, indexed/opposite, and target-prefix refinements.",
-        "Use Lean to assemble generated-prefix allocation into reserve dominance, active-credit capacity, decoded squarefree-boxed compression, and then unpack Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
+        "Prove the remaining code-independent incremental middle-capacity certificate and the length-exact source-index list matching with target coherence, boundary boxedness, and gap-indexed local injectivity.",
+        "Use Lean to assemble incremental capacity plus the source-index mate map into reserve dominance, active-credit capacity, decoded squarefree-boxed compression, and then unpack Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominanceCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut`."
     },
     {
       id := "residue-certificate"
@@ -1107,10 +1111,13 @@ def config : ChainAudit.ProjectConfig := {
       keywords := [
         "SquarefreeAP",
         "squarefreeAPHall",
-        "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominanceCut",
+        "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut",
+        "globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominance_of_incrementalCapacity",
+        "activeStrictMiddleCreditSplitCapacity_of_partitionedIncrementalCapacity",
         "globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex",
         "globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex",
         "globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid_of_validMatching",
+        "globalOppositeFiniteOffsetEighteenTypedSourceIndexMateMap_of_validMatching",
         "globalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective_of_validMatching",
         "globalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity_of_sourceIndexMate",
         "globalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow_of_targetValid",

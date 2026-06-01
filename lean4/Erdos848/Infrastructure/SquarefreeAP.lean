@@ -9346,6 +9346,16 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSele
       (OppositeFiniteOffsetListSelector codes)
 
 /--
+Source-index split certificate with the code-independent middle-region
+incremental capacity separated from the finite list-selector matching.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditIncrementalCapacityCertificate :
+    Prop :=
+  ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7 /\
+  forall N : Nat, Exists fun codes : List OppositeFiniteOffsetCode =>
+    OppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching N codes
+
+/--
 Source-index split certificate with a total scalar reserve lower-bound witness
 for the gap-indexed finite list certificate.
 -/
@@ -9920,6 +9930,14 @@ total reserve dominance.
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominanceCertificate :
     Prop :=
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditTotalDeficitReserveDominanceCertificate
+
+/--
+Current source-index split certificate with code-independent incremental
+middle capacity and gap-indexed finite list matching.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCertificate :
+    Prop :=
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditIncrementalCapacityCertificate
 
 /--
 Current source-index split certificate with a total scalar reserve lower-bound
@@ -11750,6 +11768,38 @@ private theorem familySize_le_of_bounded_injective_image
     exact familySize_mono N QB Q decQB decQ (fun a ha => ha.right)
   omega
 
+private theorem familySize_image_le_of_bounded_preimage
+    (N : Nat) (P Q : Nat -> Prop)
+    (decP : DecidablePred P) (decQ : DecidablePred Q)
+    (f : Nat -> Nat)
+    (hPBox : forall x : Nat, P x -> InBox N x)
+    (hQBox : forall y : Nat, Q y -> InBox N y)
+    (hPreimage : forall y : Nat, Q y -> Exists fun x : Nat => P x /\ f x = y) :
+    @familySize N Q decQ <= @familySize N P decP := by
+  classical
+  let sourceOfImage : Nat -> Nat := fun y =>
+    if hy : Q y then Classical.choose (hPreimage y hy) else 0
+  apply familySize_le_of_bounded_injective_image
+    N Q P decQ decP sourceOfImage
+  · exact hQBox
+  · intro y hy
+    have hspec := Classical.choose_spec (hPreimage y hy)
+    simpa [sourceOfImage, hy] using hPBox _ hspec.left
+  · intro y hy
+    have hspec := Classical.choose_spec (hPreimage y hy)
+    simpa [sourceOfImage, hy] using hspec.left
+  · intro y1 y2 hy1 hy2 hsource
+    have hspec1 := Classical.choose_spec (hPreimage y1 hy1)
+    have hspec2 := Classical.choose_spec (hPreimage y2 hy2)
+    have hf1 : f (sourceOfImage y1) = y1 := by
+      simpa [sourceOfImage, hy1] using hspec1.right
+    have hf2 : f (sourceOfImage y2) = y2 := by
+      simpa [sourceOfImage, hy2] using hspec2.right
+    calc
+      y1 = f (sourceOfImage y1) := hf1.symm
+      _ = f (sourceOfImage y2) := by rw [hsource]
+      _ = y2 := hf2
+
 /-- Active strict-middle credit targets are boxed candidate-side vertices. -/
 theorem activeStrictMiddleCreditTarget_inBox
     {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat} {a : Nat}
@@ -12175,6 +12225,68 @@ theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective_of_vali
     GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective
       N offsetIndex :=
   hValidMatching.2
+
+/--
+The source-index valid matching sends each `18 mod 25` opposite source in a
+bounded outside set to a candidate-side squarefree neighbor of the opposite
+part.
+-/
+theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexMateMap_of_validMatching
+    {N : Nat} {B : Nat -> Prop} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hValidMatching :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching
+        N offsetIndex)
+    (hB : BoundedOutsideSet N 7 B) :
+    forall b : Nat, OppositeOutsidePart 7 B b ->
+      SquarefreeNeighborInCandidate N 7 (OppositeOutsidePart 7 B)
+        (OppositeFiniteOffsetSourceIndexMate offsetIndex b) := by
+  intro b hbOpp
+  have hb18 : CandidateCarrier 18 b :=
+    candidateCarrier_eighteen_of_oppositeCandidateCarrier_seven hbOpp.right
+  have hsource := eighteenSourceFromIndex_candidateClassIndex hb18
+  have hbBox : InBox N b := (hB b hbOpp.left).left
+  have hbIndexBox :
+      InBox N (EighteenSourceFromIndex (CandidateClassIndex b)) := by
+    simpa [hsource] using hbBox
+  have hTargetValid :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid_of_validMatching
+      hValidMatching
+  have hShiftTargetUpper :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftTargetUpperBound
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexShiftTargetUpperBound_of_targetValid
+      hTargetValid
+  have hTargetUpper :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetUpperBound
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetUpperBound_of_shiftTargetUpperBound
+      hShiftTargetUpper
+  have hTargetIndexBox :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox_of_upperBound
+      hTargetUpper
+  have hMateBox : InBox N (OppositeFiniteOffsetSourceIndexMate offsetIndex b) := by
+    simpa [OppositeFiniteOffsetSourceIndexMate] using
+      hTargetIndexBox (CandidateClassIndex b) hbIndexBox
+  have hMateCarrier : CandidateCarrier 7
+      (OppositeFiniteOffsetSourceIndexMate offsetIndex b) := by
+    unfold CandidateCarrier OppositeFiniteOffsetSourceIndexMate
+      OppositeFiniteOffsetSourceIndexTargetValue
+    omega
+  have hEdgeSource :
+      ForbiddenSquarefreeEdge
+        (OppositeFiniteOffsetSourceIndexTargetValue
+          (CandidateClassIndex b) (offsetIndex (CandidateClassIndex b)))
+        (EighteenSourceFromIndex (CandidateClassIndex b)) :=
+    (hTargetValid (CandidateClassIndex b) hbIndexBox).2.2
+  have hEdge :
+      ForbiddenSquarefreeEdge
+        (OppositeFiniteOffsetSourceIndexMate offsetIndex b) b := by
+    simpa [OppositeFiniteOffsetSourceIndexMate, hsource] using hEdgeSource
+  exact ⟨hMateBox, hMateCarrier, ⟨b, hbOpp, hEdge⟩⟩
 
 /-- Source-index target-value squarefree edges supply the original edge form. -/
 theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge_of_targetValue
@@ -13490,6 +13602,67 @@ theorem activeStrictMiddleCreditSplitCapacity_of_capacity
   omega
 
 /--
+Partitioned incremental capacity plus an opposite-block mate map implies the
+split active-credit capacity: after removing the mate image from the opposite
+neighborhood, the remaining opposite neighbors are exactly reserve budget.
+-/
+theorem activeStrictMiddleCreditSplitCapacity_of_partitionedIncrementalCapacity
+    {N r : Nat} {B : Nat -> Prop}
+    {decOpp : DecidablePred (OppositeOutsidePart r B)}
+    {decMid : DecidablePred (StrictMiddlePart r B)}
+    {decOppNbr :
+      DecidablePred (SquarefreeNeighborInCandidate N r (OppositeOutsidePart r B))}
+    {mate : Nat -> Nat}
+    {decReserve : DecidablePred (ActiveStrictMiddleCreditReserve N r B mate)}
+    {decNewMid : DecidablePred (IncrementalStrictMiddleNeighbor N r B)}
+    (hB : BoundedOutsideSet N r B)
+    (hInc : PartitionedIncrementalCapacity N r B decOpp decMid decOppNbr decNewMid)
+    (hMateMap : forall b : Nat, OppositeOutsidePart r B b ->
+      SquarefreeNeighborInCandidate N r (OppositeOutsidePart r B) (mate b)) :
+    ActiveStrictMiddleCreditSplitCapacity N r B decMid mate
+      decReserve decNewMid := by
+  classical
+  let Opp : Nat -> Prop := OppositeOutsidePart r B
+  let Mid : Nat -> Prop := StrictMiddlePart r B
+  let OppNbr : Nat -> Prop := SquarefreeNeighborInCandidate N r Opp
+  let NewMid : Nat -> Prop := IncrementalStrictMiddleNeighbor N r B
+  let Image : Nat -> Prop := OppositeMatchingImage r B mate
+  let Reserve : Nat -> Prop := ActiveStrictMiddleCreditReserve N r B mate
+  let decImage : DecidablePred Image := fun a => Classical.propDecidable (Image a)
+  have hImageUpper :
+      @familySize N Image decImage <= @familySize N Opp decOpp := by
+    apply familySize_image_le_of_bounded_preimage N Opp Image decOpp decImage mate
+    · intro b hb
+      exact (hB b hb.left).left
+    · intro a ha
+      rcases ha with ⟨b, hbOpp, hmate⟩
+      have hMap := hMateMap b hbOpp
+      simpa [OppNbr, hmate] using hMap.left
+    · intro a ha
+      exact ha
+  have hOppNbrSplit :
+      @familySize N OppNbr decOppNbr <=
+        @familySize N Image decImage + @familySize N Reserve decReserve := by
+    apply familySize_le_add_of_subset_or
+      N OppNbr Image Reserve decOppNbr decImage decReserve
+    intro a ha
+    by_cases hImage : Image a
+    · exact Or.inl hImage
+    · exact Or.inr (by
+        simpa [Reserve, ActiveStrictMiddleCreditReserve, OppNbr, Image]
+          using And.intro ha hImage)
+  have hIncCount :
+      @familySize N Opp decOpp + @familySize N Mid decMid <=
+        @familySize N OppNbr decOppNbr + @familySize N NewMid decNewMid := by
+    simpa [PartitionedIncrementalCapacity, Opp, Mid, OppNbr, NewMid] using hInc
+  unfold ActiveStrictMiddleCreditSplitCapacity
+  have hfinal :
+      @familySize N Mid decMid <=
+        @familySize N Reserve decReserve + @familySize N NewMid decNewMid := by
+    omega
+  simpa [Mid, Reserve, NewMid] using hfinal
+
+/--
 Source-index target-union capacity supplies the reserve-dominance inequality
 used by the current deficit surface.
 -/
@@ -13524,6 +13697,93 @@ theorem activeStrictMiddleCreditDeficitReserveDominance_of_capacity
   unfold ActiveStrictMiddleCreditDeficitReserveDominance
   unfold ActiveStrictMiddleCreditSplitCapacity at hSplit
   omega
+
+/--
+Partitioned incremental capacity supplies the source-index reserve-dominance
+inequality once the source-index mate maps every opposite source into the
+opposite candidate neighborhood.
+-/
+theorem activeStrictMiddleCreditDeficitReserveDominance_of_partitionedIncrementalCapacity
+    {N : Nat} {B : Nat -> Prop}
+    {decOpp : DecidablePred (OppositeOutsidePart 7 B)}
+    {decMid : DecidablePred (StrictMiddlePart 7 B)}
+    {decOppNbr :
+      DecidablePred (SquarefreeNeighborInCandidate N 7 (OppositeOutsidePart 7 B))}
+    {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    {decReserve :
+      DecidablePred
+        (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex))}
+    {decNewMid :
+      DecidablePred (IncrementalStrictMiddleNeighbor N 7 B)}
+    (hB : BoundedOutsideSet N 7 B)
+    (hInc : PartitionedIncrementalCapacity N 7 B decOpp decMid decOppNbr decNewMid)
+    (hMateMap : forall b : Nat, OppositeOutsidePart 7 B b ->
+      SquarefreeNeighborInCandidate N 7 (OppositeOutsidePart 7 B)
+        (OppositeFiniteOffsetSourceIndexMate offsetIndex b)) :
+    ActiveStrictMiddleCreditDeficitReserveDominance
+      N B decMid offsetIndex decReserve decNewMid := by
+  have hSplit :
+      ActiveStrictMiddleCreditSplitCapacity N 7 B decMid
+        (OppositeFiniteOffsetSourceIndexMate offsetIndex) decReserve decNewMid :=
+    activeStrictMiddleCreditSplitCapacity_of_partitionedIncrementalCapacity
+      (N := N) (r := 7) (B := B)
+      (decOpp := decOpp) (decMid := decMid) (decOppNbr := decOppNbr)
+      (mate := OppositeFiniteOffsetSourceIndexMate offsetIndex)
+      (decReserve := decReserve) (decNewMid := decNewMid)
+      hB hInc hMateMap
+  unfold ActiveStrictMiddleCreditDeficitReserveDominance
+  unfold ActiveStrictMiddleCreditSplitCapacity at hSplit
+  omega
+
+/--
+Global incremental capacity, together with a source-index valid matching,
+supplies the positive strict-middle reserve-dominance surface.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance_of_incrementalCapacity
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hInc : ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7)
+    (hValidMatching :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching N offsetIndex) :
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance
+      N offsetIndex := by
+  intro B decMid decReserve decNewMid hB hClique hMid
+  classical
+  let Opp : Nat -> Prop := OppositeOutsidePart 7 B
+  let OppNbr : Nat -> Prop := SquarefreeNeighborInCandidate N 7 Opp
+  let decOpp : DecidablePred Opp := fun a => Classical.propDecidable (Opp a)
+  let decOppNbr : DecidablePred OppNbr := fun a => Classical.propDecidable (OppNbr a)
+  have hPartitioned :
+      PartitionedIncrementalCapacity N 7 B decOpp decMid decOppNbr decNewMid :=
+    hInc N B decOpp decMid decOppNbr decNewMid hB hClique hMid
+  have hMateMap :
+      forall b : Nat, OppositeOutsidePart 7 B b ->
+        SquarefreeNeighborInCandidate N 7 (OppositeOutsidePart 7 B)
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex b) :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexMateMap_of_validMatching
+      hValidMatching hB
+  exact
+    activeStrictMiddleCreditDeficitReserveDominance_of_partitionedIncrementalCapacity
+      (N := N) (B := B) (decOpp := decOpp) (decMid := decMid)
+      (decOppNbr := decOppNbr) (offsetIndex := offsetIndex)
+      (decReserve := decReserve) (decNewMid := decNewMid)
+      hB hPartitioned hMateMap
+
+/--
+Global incremental capacity, together with a source-index valid matching,
+supplies total reserve dominance; the empty strict-middle branch is closed in
+Lean.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalReserveDominance_of_incrementalCapacity
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hInc : ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7)
+    (hValidMatching :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching N offsetIndex) :
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalReserveDominance
+      N offsetIndex :=
+  globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalReserveDominance_of_reserveDominance
+    (globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitReserveDominance_of_incrementalCapacity
+      hInc hValidMatching)
 
 /-- Source-index split credit capacity supplies the current source-index capacity surface. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity_of_splitCapacity
@@ -16150,6 +16410,37 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
           hPack.right))
 
 /--
+Code-independent incremental middle capacity plus the gap-indexed list
+matching supplies the current total reserve-dominance certificate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominance_of_incrementalCapacity
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominanceCertificate := by
+  rcases h with ⟨hInc, hMatching⟩
+  intro N
+  rcases hMatching N with ⟨codes, hGap⟩
+  have hValidList :
+      OppositeFiniteOffsetListSelectorValidMatching N codes := by
+    exact
+      oppositeFiniteOffsetListSelectorValidMatching_of_lengthValidMatching
+        (oppositeFiniteOffsetListSelectorLengthValidMatching_of_lengthBoxFreeValidMatching
+          (oppositeFiniteOffsetListSelectorLengthBoxFreeValidMatching_of_targetBoxValidMatching
+            (oppositeFiniteOffsetListSelectorLengthTargetBoxValidMatching_of_targetCoherentBoxValidMatching
+              (oppositeFiniteOffsetListSelectorLengthTargetCoherentBoxValidMatching_of_localValidMatching
+                (oppositeFiniteOffsetListSelectorLengthTargetCoherentBoxLocalValidMatching_of_boundaryValidMatching
+                  (oppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxLocalValidMatching_of_gapValidMatching
+                    hGap))))))
+  have hValidSource :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching N
+        (OppositeFiniteOffsetListSelector codes) :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching_of_listSelectorValidMatching
+      hValidList
+  exact ⟨codes, hGap,
+    globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalReserveDominance_of_incrementalCapacity
+      hInc hValidSource⟩
+
+/--
 Total reserve dominance restricts to the previous positive strict-middle
 gap-indexed list-selector certificate.
 -/
@@ -17530,16 +17821,20 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
 compression whose open offset side is a finite source-index code list over
 `25*k+18`, with length exactly the boxed source count, target coherence,
-boundary boxedness, and gap-indexed local injectivity.  The live surface is now
-a generated-prefix seed allocation: count-additive consecutive seed keys name
-the strict-middle deficit, and the reserve payments are the target prefix
-`25*i+7` with indexed opposite witnesses and a source-index lower bound for the
-mate image.  Lean derives ordinary list matching, reserve dominance,
-active-credit capacity, target-value injectivity, packages the squarefree-boxed
-codes, and constructs the decoder.
+boundary boxedness, and gap-indexed local injectivity.  The middle-region side
+is now the code-independent incremental capacity certificate; Lean combines it
+with the source-index mate map to derive reserve dominance, active-credit
+capacity, target-value injectivity, packages the squarefree-boxed codes, and
+constructs the decoder.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominanceCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominanceCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCertificate
+
+/-- Current total reserve-dominance certificate derived from incremental capacity. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominanceCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominanceCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominance_of_incrementalCapacity
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut
 
 /-- Current decoded squarefree-boxed certificate from generated-prefix seed allocation. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
