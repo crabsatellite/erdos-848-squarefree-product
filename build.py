@@ -83,6 +83,7 @@ def run(mode: str) -> dict:
             (1000, True),
             (2000, True),
             (5000, True),
+            (6000, True),
             (10000, False),
             (20000, False),
         ]
@@ -290,6 +291,7 @@ def assert_gate(payload: dict) -> None:
         assert item["worst_credit_deficit_capacity_holds"], item
         assert item["worst_credit_deficit_surplus"] >= 0, item
         assert item["worst_credit_deficit_allocation_valid"], item
+        assert item["worst_credit_deficit_allocation_reserve_prefix"], item
         assert len(item["worst_credit_deficit_allocation_pairs"]) == item[
             "worst_credit_deficit"
         ], item
@@ -328,6 +330,7 @@ def assert_gate(payload: dict) -> None:
                 item["observed_max_credit_deficit"]
             ), item
             assert item["observed_max_credit_deficit_allocation_valid"], item
+            assert item["observed_max_credit_deficit_allocation_reserve_prefix"], item
             assert len(item["observed_max_credit_deficit_allocation_pairs"]) == item[
                 "observed_max_credit_deficit"
             ], item

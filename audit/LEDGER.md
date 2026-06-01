@@ -67,6 +67,7 @@ the source of truth and use this file only as a durable round index.
 | R087 | Narrowed the live active-credit cut to a pair-list deficit allocation. Lean now derives the reserve count bound from a concrete list of strict-middle/reserve pairs whose reserve endpoints are Nodup. |
 | R088 | Strengthened finite pair-list evidence validation. Allocation-pair validity now explicitly checks strict-middle-side membership, reserve-side membership, and reserve endpoint uniqueness. |
 | R089 | Tightened pair-list deficit allocation to exact deficit length. The live Lean certificate now requires the pair list length to equal `|Mid| - |NewMid|`, matching the generated finite allocation pairs. |
+| R090 | Added reserve-prefix diagnostics for active-credit pair allocations and raised the extended exact active-credit frontier to `N=6000`. The finite gate now requires observed deficit payments to use the initial `7 mod 25` reserve prefix. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
