@@ -87,6 +87,7 @@ the source of truth and use this file only as a durable round index.
 | R107 | Ordered the complete prefix-pair list by reserve prefix index, so `pairs[i]` is the canonical `(seedValue_i, 25*i+7)` witness. |
 | R108 | Replaced the explicit deficit pair-list witness by the generated list `List.range deficitLength` mapped through the prefix seed keys. |
 | R109 | Removed generated-list exactness/completeness/order fields from the live cut; Lean now derives them directly from `List.range`. |
+| R110 | Replaced generated-list length obligations by direct `deficitLength` obligations, with Lean deriving generated-pair list length. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
