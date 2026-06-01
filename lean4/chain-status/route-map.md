@@ -12,13 +12,13 @@ This file is generated.  Future agents should update Lean files, audit rules, or
 ## Next Agent Brief
 
 Research attack target:
-- Primary proof gap: `gap:G-squarefree-ap-hall-expansion` -- Replace finite Hall checks by one explicit decoded squarefree-boxed `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies a decoder and source-indexed seven-offset codes carrying target boxedness, squarefree edge data, and decoder-hit proofs; the strict middle now supplies source-indexed decoded credit witness-sum codes whose reserve negative facts are concrete anti-`18 mod 25` decoder facts and whose new-middle branch carries the current strict-middle source plus the exact non-opposite-neighbor side of `IncrementalStrictMiddleNeighbor`. Lean derives the previous self-fresh/self-source anti-`18 mod 25`/anti-`18 mod 25`/carrier/source-anti-opposite/anti-neighbor/anti-image/witness/sum/code/matching/capacity surfaces before unpacking the decoder left-inverse, edge, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band.
+- Primary proof gap: `gap:G-squarefree-ap-hall-expansion` -- Replace finite Hall checks by one explicit decoded squarefree-boxed `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies a decoder and source-indexed seven-offset codes carrying target boxedness, squarefree edge data, and decoder-hit proofs; the strict middle now supplies source-indexed decoded credit sum codes whose reserve negative facts are concrete anti-`18 mod 25` decoder facts and whose new-middle branch reuses the existing `ActiveStrictMiddleNewCreditCode` target plus a current-source squarefree edge. Lean derives the previous self-incremental/self-fresh/self-source anti-`18 mod 25`/anti-`18 mod 25`/carrier/source-anti-opposite/anti-neighbor/anti-image/witness/sum/code/matching/capacity surfaces before unpacking the decoder left-inverse, edge, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band.
 - Route owner(s): `chain:hall-expansion-compression`, `chain:main-full-close`
 - Current constructive attack route: `chain:hall-expansion-compression`.  Use it to replace the primary cut; do not route around the configured gap ledger.
-- Success criterion: A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut`.
+- Success criterion: A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCut`.
 
 Kernel cut ledger.  These are audit-visible unresolved constants on the endpoint closure; use the configured route/gap above to decide the next research attack, not this flat list alone:
-- `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
+- `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
 
 ## New Agent Attack Cards
 
@@ -26,9 +26,9 @@ Readiness verdict: **actionable**.  The main cut and replacement route are clear
 
 Current replacement plan:
 - Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.
-- Prove the remaining decoded squarefree-boxed `18 mod 25` finite-offset middle-compression self-incremental credit-witness-sum-code cut: one opposite decoder, source-indexed seven-offset codes carrying target boxedness, squarefree edge data, decoder-hit proofs, and source-indexed decoded credit witness-sum codes whose reserve branch may use opposite reserve targets while the new-middle branch must use the current strict-middle source and prove the target is not an opposite-neighbor candidate.
-- Use Lean to turn self-incremental new-middle data into self-fresh data, then into self-source anti-`18 mod 25` and the previous anti-`18 mod 25`/carrier/source anti-opposite/source anti-neighbor/anti-image/witness/sum/code/matching/capacity surfaces before unpacking decoder hits, squarefree edge data, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band.
-- Final success criterion: A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut`.
+- Prove the remaining decoded squarefree-boxed `18 mod 25` finite-offset middle-compression self-target credit-sum-code cut: one opposite decoder, source-indexed seven-offset codes carrying target boxedness, squarefree edge data, decoder-hit proofs, and source-indexed decoded credit sum codes whose reserve branch may use opposite reserve targets while the new-middle branch must reuse an existing `ActiveStrictMiddleNewCreditCode` and prove a squarefree edge from that target to the current strict-middle source.
+- Use Lean to turn self-target data into self-incremental new-middle data, then into self-fresh, self-source anti-`18 mod 25`, and the previous anti-`18 mod 25`/carrier/source anti-opposite/source anti-neighbor/anti-image/witness/sum/code/matching/capacity surfaces before unpacking decoder hits, squarefree edge data, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band.
+- Final success criterion: A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCut`.
 
 Do-not-attack inactive routes:
 | gap | reason | evidence files |
@@ -39,10 +39,10 @@ Do-not-attack inactive routes:
 
 | endpoint | mathematical cuts | full axiom count |
 |----------|-------------------|-----------------:|
-| `Erdos848.erdos848_main` | `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut` | 4 |
+| `Erdos848.erdos848_main` | `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCut` | 4 |
 
 Open mathematical cut ledger:
-- `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
+- `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
 
 ## Route Taxonomy
 
@@ -59,7 +59,7 @@ Open mathematical cut ledger:
 |-----|--------|--------------|--------------|-------|
 | `gap:G-hall-expansion-global` | closed-local | `chain:main-full-close` | `Erdos848.hallExpansionCut`, `Erdos848.atMostCandidateBound_of_current_cuts`, `Erdos848.erdos848_main` | on-chain: 3 |
 | `gap:G-candidate-p5-sharpness` | closed-local | `chain:main-full-close`, `chain:residue-certificate` | `Erdos848.squareDivides_five_mul_add_one_of_candidate_seven`, `Erdos848.squareDivides_five_mul_add_one_of_candidate_eighteen`, `Erdos848.not_squareDivides_five_mul_add_one_of_candidate_seven_eighteen`, +4 more | on-chain: 1 |
-| `gap:G-squarefree-ap-hall-expansion` | open | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut`, `Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCode_of_selfIncremental`, `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCertificate`, +316 more | cut: 1 |
+| `gap:G-squarefree-ap-hall-expansion` | open | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCut`, `Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCode_of_selfTarget`, `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCertificate`, +328 more | cut: 1 |
 | `gap:G-rough-square-divisor-unpacking` | closed-local | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.roughSquareDivisor`, `Erdos848.RoughSquareDivisorCertificate` | on-chain: 1 |
 | `gap:D-finite-search-only` | dead | `chain:finite-search-only` | - | (none) |
 

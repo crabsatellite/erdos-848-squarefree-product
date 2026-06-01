@@ -17,6 +17,7 @@ the source of truth and use this file only as a durable round index.
 | R037 | Strengthened the new-middle credit branch so its squarefree-edge witness source is the current strict-middle vertex; the only project mathematical cut is now `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCut`. |
 | R038 | Re-anchored the endpoint surface to literal #848 (`7 mod 25` sharpness and exact `candidateCount 7` bound) and replaced the new-middle decoder anti-`18 mod 25` obligation by direct freshness from every opposite source; the only project mathematical cut is now `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut`. |
 | R039 | Replaced pointwise new-middle freshness by the exact non-opposite-neighbor side of `IncrementalStrictMiddleNeighbor`; the only project mathematical cut is now `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfIncrementalWitnessSumCodeCut`. |
+| R040 | Reused the existing `ActiveStrictMiddleNewCreditCode` in the new-middle branch and kept only the current-source edge as extra self data; the only project mathematical cut is now `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCut`. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
