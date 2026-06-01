@@ -73,6 +73,7 @@ the source of truth and use this file only as a durable round index.
 | R093 | Proved the local `70 mod 169` middle obstruction in Lean: two such vertices force `13^2 | a*b+1`, so no squarefree coexistence edge can occur inside that residue class. |
 | R094 | Narrowed active-credit pair lists to seeded middle sources: each deficit payer is now either below `2500` or in the `70 mod 169` progression, with finite evidence gated against the same seed predicate. |
 | R095 | Compressed the low seed region to two explicit exceptions, `{41, 515}`, plus the `70 mod 169` progression. |
+| R096 | Compressed the infinite seed progression from `70 mod 169` to the canonical `239 mod 676` ladder and proved in Lean that this ladder lies inside the `13^2` obstruction class. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.

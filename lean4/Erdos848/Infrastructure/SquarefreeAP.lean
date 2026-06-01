@@ -3195,16 +3195,23 @@ def ActiveStrictMiddleCreditDeficitPairListAllocation
 
 /--
 Seed predicate for the current active-credit middle deficit sources: two finite
-low exceptional sources or the `70 mod 169` progression explained by the local
-`13^2` obstruction.
+low exceptional sources or the `239 mod 676` progression inside the local
+`70 mod 169` obstruction class.
 -/
 def ActiveStrictMiddleCreditDeficitSeed (b : Nat) : Prop :=
-  b = 41 \/ b = 515 \/ b % 169 = 70
+  b = 41 \/ b = 515 \/ b % 676 = 239
+
+/-- The canonical `239 mod 676` deficit progression lies in `70 mod 169`. -/
+theorem mod169_seventy_of_mod676_twoThirtyNine
+    {b : Nat} (hb : b % 676 = 239) :
+    b % 169 = 70 := by
+  have hdecomp := Nat.mod_add_div b 676
+  omega
 
 /--
 Seeded pair-list form of active-credit deficit allocation: this keeps the
 reserve-prefix payment list, while localizing each deficit middle source to a
-finite low exception `{41, 515}` or the `70 mod 169` progression.
+finite low exception `{41, 515}` or the `239 mod 676` progression.
 -/
 def ActiveStrictMiddleCreditDeficitSeedPairListAllocation
     (N r : Nat) (B : Nat -> Prop)
@@ -4385,7 +4392,7 @@ def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDefici
 
 /--
 Source-index active credit seeded pair-list allocation: deficit middle sources
-come from the finite low exceptions or the `70 mod 169` progression.
+come from the finite low exceptions or the `239 mod 676` progression.
 -/
 def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitSeedPairListAllocation
     (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=

@@ -12,7 +12,7 @@ DEFICIT_SEED_EXCEPTIONS = {41, 515}
 
 
 def _is_deficit_seed(vertex: int) -> bool:
-    return vertex in DEFICIT_SEED_EXCEPTIONS or vertex % 169 == 70
+    return vertex in DEFICIT_SEED_EXCEPTIONS or vertex % 676 == 239
 
 
 @dataclass
