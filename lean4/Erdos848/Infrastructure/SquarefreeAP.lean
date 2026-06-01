@@ -8536,6 +8536,24 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSele
         (OppositeFiniteOffsetSourceIndexMate
           (OppositeFiniteOffsetListSelector codes)))
 
+/--
+Source-index split certificate with a length-exact finite list selector,
+target coherence, boundary boxedness, gap-indexed local injectivity, and direct
+self-canonical credit matching.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate :
+    Prop :=
+  forall N : Nat, Exists fun codes : List OppositeFiniteOffsetCode =>
+    OppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching
+      N codes /\
+    (forall B : Nat -> Prop,
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching N B
+        (OppositeFiniteOffsetSourceIndexMate
+          (OppositeFiniteOffsetListSelector codes)))
+
 /-- Source-index split certificate with compact repair-window overrides. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditCapacityCertificate :
     Prop :=
@@ -12430,6 +12448,28 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSele
       globalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching_of_listSelectorValidMatching
         hValidList
   · exact hCredit
+
+/--
+Gap-indexed, boundary-boxed, length-exact list data supplies the finite
+list-selector direct credit certificate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCode_of_lengthTargetCoherentBoundaryBoxGapListSelector
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate := by
+  intro N
+  rcases h N with ⟨codes, hGapMatching, hCredit⟩
+  have hListMatching :
+      OppositeFiniteOffsetListSelectorValidMatching N codes :=
+    oppositeFiniteOffsetListSelectorValidMatching_of_lengthValidMatching
+      (oppositeFiniteOffsetListSelectorLengthValidMatching_of_lengthBoxFreeValidMatching
+        (oppositeFiniteOffsetListSelectorLengthBoxFreeValidMatching_of_targetBoxValidMatching
+          (oppositeFiniteOffsetListSelectorLengthTargetBoxValidMatching_of_targetCoherentBoxValidMatching
+            (oppositeFiniteOffsetListSelectorLengthTargetCoherentBoxValidMatching_of_localValidMatching
+              (oppositeFiniteOffsetListSelectorLengthTargetCoherentBoxLocalValidMatching_of_boundaryValidMatching
+                (oppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxLocalValidMatching_of_gapValidMatching
+                  hGapMatching))))))
+  exact ⟨codes, hListMatching, hCredit⟩
 
 /-- The source-index split certificate supplies the previous shift-index split certificate. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex
@@ -17495,15 +17535,17 @@ map is certified by local six-window no-collision, while target boxedness is
 certified only on the final bandwidth-three boundary.  Lean derives the
 non-boundary target bounds, global injectivity, target-value injectivity,
 packages the squarefree-boxed codes, and constructs the decoder.  The live
-surface is now a finite list selector with valid matching plus, for every
-compatible strict-middle clique, a self-canonical injective credit function
-into reserve or new-middle targets for the induced source-index mate.  Lean
-derives the source-index selector surface, typed target data, target-value
-injectivity, the typed-mate direct credit surface, count-level active-credit
-capacity, split reserve/new-middle, and reserve-dominance below it.
+surface is now a length-exact finite list selector with target coherence,
+boundary boxedness, gap-indexed local injectivity, and, for every compatible
+strict-middle clique, a self-canonical injective credit function into reserve
+or new-middle targets for the induced source-index mate.  Lean derives ordinary
+list matching, the source-index selector surface, typed target data,
+target-value injectivity, the typed-mate direct credit surface, count-level
+active-credit capacity, split reserve/new-middle, and reserve-dominance below
+it.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate
 
 /-- Current decoded squarefree-boxed certificate with explicit credit matching transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
@@ -17511,7 +17553,8 @@ theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateUniformSelfCanonicalTargetDirect
     (globalFiniteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCode_of_sourceIndexSelector
       (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCode_of_listSelector
-        finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut))
+        (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCode_of_lengthTargetCoherentBoundaryBoxGapListSelector
+          finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut)))
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
 theorem finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :
