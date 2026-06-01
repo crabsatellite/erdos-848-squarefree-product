@@ -83,6 +83,7 @@ class ActiveCreditCertificate:
     worst_credit_deficit_allocation_mate_target_no_image_valid: bool
     worst_credit_deficit_allocation_mate_target_lower_bound_valid: bool
     worst_credit_deficit_allocation_mate_source_index_lower_bound_valid: bool
+    worst_credit_deficit_allocation_target_prefix_box_bound_valid: bool
     worst_credit_deficit_allocation_last_target_upper_bound_valid: bool
     worst_credit_deficit_allocation_prefix_witness_edge_valid: bool
     worst_credit_deficit_allocation_opposite_witness_valid: bool
@@ -123,6 +124,7 @@ class ActiveCreditCertificate:
     observed_max_credit_deficit_allocation_mate_target_no_image_valid: bool
     observed_max_credit_deficit_allocation_mate_target_lower_bound_valid: bool
     observed_max_credit_deficit_allocation_mate_source_index_lower_bound_valid: bool
+    observed_max_credit_deficit_allocation_target_prefix_box_bound_valid: bool
     observed_max_credit_deficit_allocation_last_target_upper_bound_valid: bool
     observed_max_credit_deficit_allocation_prefix_witness_edge_valid: bool
     observed_max_credit_deficit_allocation_opposite_witness_valid: bool
@@ -223,6 +225,7 @@ def active_credit_certificate(
     worst_credit_deficit_allocation_mate_target_no_image_valid = True
     worst_credit_deficit_allocation_mate_target_lower_bound_valid = True
     worst_credit_deficit_allocation_mate_source_index_lower_bound_valid = True
+    worst_credit_deficit_allocation_target_prefix_box_bound_valid = True
     worst_credit_deficit_allocation_last_target_upper_bound_valid = True
     worst_credit_deficit_allocation_prefix_witness_edge_valid = True
     worst_credit_deficit_allocation_opposite_witness_valid = True
@@ -263,6 +266,7 @@ def active_credit_certificate(
     observed_max_credit_deficit_allocation_mate_target_no_image_valid = True
     observed_max_credit_deficit_allocation_mate_target_lower_bound_valid = True
     observed_max_credit_deficit_allocation_mate_source_index_lower_bound_valid = True
+    observed_max_credit_deficit_allocation_target_prefix_box_bound_valid = True
     observed_max_credit_deficit_allocation_last_target_upper_bound_valid = True
     observed_max_credit_deficit_allocation_prefix_witness_edge_valid = True
     observed_max_credit_deficit_allocation_opposite_witness_valid = True
@@ -498,6 +502,11 @@ def active_credit_certificate(
                         return False
                 return True
 
+            def allocation_target_prefix_box_bound_valid(
+                deficit_length: int,
+            ) -> bool:
+                return 25 * deficit_length <= N + (25 - base_residue)
+
             def allocation_last_target_upper_bound_valid(
                 deficit_length: int,
             ) -> bool:
@@ -729,6 +738,9 @@ def active_credit_certificate(
                             allocation_pairs
                         )
                     )
+                    observed_max_credit_deficit_allocation_target_prefix_box_bound_valid = (
+                        allocation_target_prefix_box_bound_valid(credit_deficit)
+                    )
                     observed_max_credit_deficit_allocation_last_target_upper_bound_valid = (
                         allocation_last_target_upper_bound_valid(credit_deficit)
                     )
@@ -845,6 +857,9 @@ def active_credit_certificate(
                 )
                 worst_credit_deficit_allocation_mate_source_index_lower_bound_valid = (
                     allocation_mate_source_index_lower_bound_valid(allocation_pairs)
+                )
+                worst_credit_deficit_allocation_target_prefix_box_bound_valid = (
+                    allocation_target_prefix_box_bound_valid(credit_deficit)
                 )
                 worst_credit_deficit_allocation_last_target_upper_bound_valid = (
                     allocation_last_target_upper_bound_valid(credit_deficit)
@@ -991,6 +1006,9 @@ def active_credit_certificate(
         worst_credit_deficit_allocation_mate_source_index_lower_bound_valid=(
             worst_credit_deficit_allocation_mate_source_index_lower_bound_valid
         ),
+        worst_credit_deficit_allocation_target_prefix_box_bound_valid=(
+            worst_credit_deficit_allocation_target_prefix_box_bound_valid
+        ),
         worst_credit_deficit_allocation_last_target_upper_bound_valid=(
             worst_credit_deficit_allocation_last_target_upper_bound_valid
         ),
@@ -1074,6 +1092,9 @@ def active_credit_certificate(
         ),
         observed_max_credit_deficit_allocation_mate_source_index_lower_bound_valid=(
             observed_max_credit_deficit_allocation_mate_source_index_lower_bound_valid
+        ),
+        observed_max_credit_deficit_allocation_target_prefix_box_bound_valid=(
+            observed_max_credit_deficit_allocation_target_prefix_box_bound_valid
         ),
         observed_max_credit_deficit_allocation_last_target_upper_bound_valid=(
             observed_max_credit_deficit_allocation_last_target_upper_bound_valid

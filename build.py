@@ -324,6 +324,9 @@ def assert_gate(payload: dict) -> None:
             "worst_credit_deficit_allocation_mate_source_index_lower_bound_valid"
         ], item
         assert item[
+            "worst_credit_deficit_allocation_target_prefix_box_bound_valid"
+        ], item
+        assert item[
             "worst_credit_deficit_allocation_last_target_upper_bound_valid"
         ], item
         assert item[
@@ -436,6 +439,9 @@ def assert_gate(payload: dict) -> None:
             ], item
             assert item[
                 "observed_max_credit_deficit_allocation_mate_source_index_lower_bound_valid"
+            ], item
+            assert item[
+                "observed_max_credit_deficit_allocation_target_prefix_box_bound_valid"
             ], item
             assert item[
                 "observed_max_credit_deficit_allocation_last_target_upper_bound_valid"
