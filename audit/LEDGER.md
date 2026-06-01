@@ -13,6 +13,7 @@ the source of truth and use this file only as a durable round index.
 | R033 | Moved new-middle non-opposite-neighbor data into a canonical source-decoder anti-neighbor certificate; the only project mathematical cut is now `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCodeCut`. |
 | R034 | Reduced new-middle anti-neighbor data to proving the canonical opposite-neighbor source is not an opposite source; the only project mathematical cut is now `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCodeCut`. |
 | R035 | Reduced reserve and new-middle negative credit data to carrier-only decoder facts; the only project mathematical cut is now `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCut`. |
+| R036 | Specialized the carrier-only credit negatives to concrete anti-`18 mod 25` decoder facts; the only project mathematical cut is now `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCut`. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.

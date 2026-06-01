@@ -1,13 +1,14 @@
 # Erdos848 -- all audit findings
 
 
-* total: **157**  *  FAIL: **0**  *  WARN: **157**
+* total: **160**  *  FAIL: **0**  *  WARN: **160**
 
 
-## W5.prop-def (WARN) -- 107
+## W5.prop-def (WARN) -- 109
 
 - Prop-valued definition `Erdos848.RoughSquareDivisorCertificate` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/RoughSquareDivisors.lean)
 - Prop-valued definition `Erdos848.IncrementalStrictMiddleNeighbor` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
+- Prop-valued definition `Erdos848.ActiveStrictMiddleDecodedCreditAntiEighteenWitnessSumMatching` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.GlobalOppositeFiniteOffsetMatchingImageAllocation` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.CandidateResidueSquarefreeAPHallCertificate` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.CandidateOutside` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
@@ -75,6 +76,7 @@
 - Prop-valued definition `Erdos848.NearbyAllocatedSplitIncrementalSquarefreeAPCapacityCertificate` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.GlobalOppositeNearbyMatchingImageAllocation` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.NonSquarefreeClique` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
+- Prop-valued definition `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCertificate` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.GlobalOppositeFiniteOffsetMatchingAPCertificateForResidue` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.OppositeNeighborAllocation` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.GlobalFiniteOffsetEighteenTypedTargetLeftInverse` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
@@ -114,7 +116,7 @@
 - Prop-valued definition `Erdos848.CandidateCarrier` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Basic.lean)
 - Prop-valued definition `Erdos848.SquareDivides` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Basic.lean)
 
-## W5.suspicious-prop-def (WARN) -- 50
+## W5.suspicious-prop-def (WARN) -- 51
 
 - Prop-valued definition `Erdos848.RoughSquareDivisorCertificate` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/RoughSquareDivisors.lean)
 - Prop-valued definition `Erdos848.CandidateResidueSquarefreeAPHallCertificate` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/SquarefreeAP.lean)
@@ -153,6 +155,7 @@
 - Prop-valued definition `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedDecoderCertificate` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCertificate` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.NearbyAllocatedSplitIncrementalSquarefreeAPCapacityCertificate` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/SquarefreeAP.lean)
+- Prop-valued definition `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCertificate` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.GlobalOppositeFiniteOffsetMatchingAPCertificateForResidue` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecoderCertificate` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.IncrementalPartitionedSquarefreeAPCapacityCertificateForResidue` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/SquarefreeAP.lean)

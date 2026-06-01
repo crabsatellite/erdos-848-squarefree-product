@@ -16,7 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCut
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -74,11 +74,26 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit decoded squarefree-boxed `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies a decoder and source-indexed seven-offset codes carrying target boxedness, squarefree edge data, and decoder-hit proofs; the strict middle now supplies source-indexed decoded credit witness-sum codes whose reserve and new-middle negative facts are carrier-only decoder facts, and Lean derives the previous source-anti-opposite/anti-neighbor/anti-image/witness/sum/code/matching/capacity surfaces before unpacking the decoder left-inverse, edge, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
+        "Replace finite Hall checks by one explicit decoded squarefree-boxed `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies a decoder and source-indexed seven-offset codes carrying target boxedness, squarefree edge data, and decoder-hit proofs; the strict middle now supplies source-indexed decoded credit witness-sum codes whose reserve and new-middle negative facts are concrete anti-`18 mod 25` decoder facts, and Lean derives the previous carrier/source-anti-opposite/anti-neighbor/anti-image/witness/sum/code/matching/capacity surfaces before unpacking the decoder left-inverse, edge, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
+        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCut",
+        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCode_of_antiEighteen",
+        "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCertificate",
+        "Erdos848.activeStrictMiddleDecodedCreditCarrierWitnessSumMatching_of_antiEighteen",
+        "Erdos848.ActiveStrictMiddleDecodedCreditAntiEighteenWitnessSumMatching",
+        "Erdos848.DecodedActiveStrictMiddleCreditAntiEighteenWitnessSumCode",
+        "Erdos848.DecodedActiveStrictMiddleCreditAntiEighteenWitnessSumCode.toDecodedCarrierWitnessSumCode",
+        "Erdos848.ActiveStrictMiddleCreditAntiEighteenWitnessSumCode",
+        "Erdos848.ActiveStrictMiddleCreditAntiEighteenWitnessSumCode.value",
+        "Erdos848.ActiveStrictMiddleCreditAntiEighteenWitnessSumCode.toCarrierWitnessSumCode",
+        "Erdos848.ActiveStrictMiddleReserveAntiEighteenWitnessCreditCode",
+        "Erdos848.ActiveStrictMiddleReserveAntiEighteenWitnessCreditCode.toCarrierWitnessCreditCode",
+        "Erdos848.ActiveStrictMiddleNewSourceAntiEighteenWitnessCreditCode",
+        "Erdos848.ActiveStrictMiddleNewSourceAntiEighteenWitnessCreditCode.toCarrierWitnessCreditCode",
+        "Erdos848.not_oppositeCandidateCarrier_seven_of_not_candidate_eighteen",
         "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCode_of_carrier",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCertificate",
@@ -425,10 +440,10 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Prove the remaining decoded squarefree-boxed `18 mod 25` finite-offset middle-compression carrier credit-witness-sum-code cut: one opposite decoder, source-indexed seven-offset codes carrying target boxedness, squarefree edge data, decoder-hit proofs, and source-indexed decoded credit witness-sum codes whose reserve and new-middle branches only prove carrier-level negative facts must hold for every compatible outside clique.",
-        "Use Lean to turn carrier-level negatives into source anti-opposite data, turn source anti-opposite data into source anti-neighbor data, turn source anti-neighbor data into direct new-middle non-neighbor data, turn decoder-side reserve anti-image into direct `Not (OppositeMatchingImage ...)`, erase the candidate-neighbor source witness, erase the reserve/new-middle branch into decoded credit codes, derive the strict-middle credit matching, derive credit-capacity from the matching, unpack decoder hits, squarefree edge data, and target boxedness from the offset code, derive the Nat-code bound from the seven-code type, derive pairwise injectivity from the decoder, reattach source box/residue facts, then use the opposite-carrier, target-residue, and offset-band theorems to recover the generic finite-offset certificate and derive direct partitioned capacity."
+        "Prove the remaining decoded squarefree-boxed `18 mod 25` finite-offset middle-compression anti-`18 mod 25` credit-witness-sum-code cut: one opposite decoder, source-indexed seven-offset codes carrying target boxedness, squarefree edge data, decoder-hit proofs, and source-indexed decoded credit witness-sum codes whose reserve and new-middle branches only prove their decoder-selected source is not `18 mod 25` must hold for every compatible outside clique.",
+        "Use Lean to turn concrete anti-`18 mod 25` negatives into carrier-level negatives, turn carrier-level negatives into source anti-opposite data, turn source anti-opposite data into source anti-neighbor data, turn source anti-neighbor data into direct new-middle non-neighbor data, turn decoder-side reserve anti-image into direct `Not (OppositeMatchingImage ...)`, erase the candidate-neighbor source witness, erase the reserve/new-middle branch into decoded credit codes, derive the strict-middle credit matching, derive credit-capacity from the matching, unpack decoder hits, squarefree edge data, and target boxedness from the offset code, derive the Nat-code bound from the seven-code type, derive pairwise injectivity from the decoder, reattach source box/residue facts, then use the opposite-carrier, target-residue, and offset-band theorems to recover the generic finite-offset certificate and derive direct partitioned capacity."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCut`."
     },
     {
       id := "residue-certificate"
@@ -509,6 +524,16 @@ def config : ChainAudit.ProjectConfig := {
       keywords := [
         "SquarefreeAP",
         "squarefreeAPHall",
+        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCut",
+        "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCode_of_antiEighteen",
+        "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCertificate",
+        "activeStrictMiddleDecodedCreditCarrierWitnessSumMatching_of_antiEighteen",
+        "ActiveStrictMiddleDecodedCreditAntiEighteenWitnessSumMatching",
+        "DecodedActiveStrictMiddleCreditAntiEighteenWitnessSumCode",
+        "ActiveStrictMiddleCreditAntiEighteenWitnessSumCode",
+        "ActiveStrictMiddleReserveAntiEighteenWitnessCreditCode",
+        "ActiveStrictMiddleNewSourceAntiEighteenWitnessCreditCode",
+        "not_oppositeCandidateCarrier_seven_of_not_candidate_eighteen",
         "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCode_of_carrier",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCertificate",
