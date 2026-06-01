@@ -329,6 +329,16 @@ def assert_gate(payload: dict) -> None:
                 item["observed_max_credit_deficit_reserve_size"] -
                 item["observed_max_credit_deficit"]
             ), item
+            assert len(item["observed_max_credit_deficit_middle_vertices"]) == item[
+                "observed_max_credit_deficit_middle_size"
+            ], item
+            assert sum(item["observed_max_credit_deficit_middle_mod169_counts"].values()) == item[
+                "observed_max_credit_deficit_middle_size"
+            ], item
+            if item["observed_max_credit_deficit_middle_size"] <= 1:
+                assert item["observed_max_credit_deficit_middle_step_gcd"] == 0, item
+            else:
+                assert item["observed_max_credit_deficit_middle_step_gcd"] > 0, item
             assert item["observed_max_credit_deficit_allocation_valid"], item
             assert item["observed_max_credit_deficit_allocation_reserve_prefix"], item
             assert len(item["observed_max_credit_deficit_allocation_pairs"]) == item[
@@ -390,6 +400,10 @@ def main() -> int:
     print(
         "  active credit capacity checks: "
         f"{[(x['N'], x['exact_worst'], x['worst_credit_split_mode'], x['worst_credit_defect'], x['worst_credit_middle_size'], x['worst_credit_pool_size'], x['worst_credit_reserve_size'], x['worst_credit_new_middle_size'], x['worst_credit_deficit'], x['worst_credit_deficit_surplus'], x['observed_positive_deficit_nodes'], x['observed_max_credit_deficit'], x['observed_max_credit_deficit_surplus'], x['search_nodes'], x['search_pruned_no_middle_tail'], x['search_pruned_defect_bound'], x['search_pruned_nonnegative_bound']) for x in payload['active_credit_checks']]}"
+    )
+    print(
+        "  active credit max-deficit middle gcds: "
+        f"{[(x['N'], x['observed_max_credit_deficit'], x['observed_max_credit_deficit_middle_step_gcd'], x['observed_max_credit_deficit_middle_mod169_counts']) for x in payload['active_credit_checks']]}"
     )
     print("  wrote data/results/latest.json")
     return 0

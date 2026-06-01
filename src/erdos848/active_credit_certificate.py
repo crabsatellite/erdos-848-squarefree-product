@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections import Counter
 from dataclasses import asdict, dataclass
+from math import gcd
 
 from .core import BitsetGraph, squarefree_sieve
 from .opposite_matching_certificate import opposite_matching_certificate
@@ -51,6 +52,9 @@ class ActiveCreditCertificate:
     observed_max_credit_deficit_surplus: int
     observed_max_credit_deficit_witness: list[int]
     observed_max_credit_deficit_residue_counts: dict[int, int]
+    observed_max_credit_deficit_middle_vertices: list[int]
+    observed_max_credit_deficit_middle_mod169_counts: dict[int, int]
+    observed_max_credit_deficit_middle_step_gcd: int
     observed_max_credit_deficit_middle_size: int
     observed_max_credit_deficit_new_middle_size: int
     observed_max_credit_deficit_reserve_size: int
@@ -148,6 +152,9 @@ def active_credit_certificate(
     observed_max_credit_deficit_surplus = 0
     observed_max_credit_deficit_witness: list[int] = []
     observed_max_credit_deficit_residue_counts: dict[int, int] = {}
+    observed_max_credit_deficit_middle_vertices: list[int] = []
+    observed_max_credit_deficit_middle_mod169_counts: dict[int, int] = {}
+    observed_max_credit_deficit_middle_step_gcd = 0
     observed_max_credit_deficit_middle_size = 0
     observed_max_credit_deficit_new_middle_size = 0
     observed_max_credit_deficit_reserve_size = 0
@@ -196,6 +203,9 @@ def active_credit_certificate(
         nonlocal observed_max_credit_deficit_surplus
         nonlocal observed_max_credit_deficit_witness
         nonlocal observed_max_credit_deficit_residue_counts
+        nonlocal observed_max_credit_deficit_middle_vertices
+        nonlocal observed_max_credit_deficit_middle_mod169_counts
+        nonlocal observed_max_credit_deficit_middle_step_gcd
         nonlocal observed_max_credit_deficit_middle_size
         nonlocal observed_max_credit_deficit_new_middle_size
         nonlocal observed_max_credit_deficit_reserve_size
@@ -247,6 +257,15 @@ def active_credit_certificate(
                     observed_max_credit_deficit_residue_counts = dict(
                         sorted(Counter(b % 25 for b in observed_max_credit_deficit_witness).items())
                     )
+                    observed_max_credit_deficit_middle_vertices = list(middle_vertices)
+                    observed_max_credit_deficit_middle_mod169_counts = dict(
+                        sorted(Counter(b % 169 for b in middle_vertices).items())
+                    )
+                    middle_sorted = sorted(middle_vertices)
+                    step_gcd = 0
+                    for left, right in zip(middle_sorted, middle_sorted[1:]):
+                        step_gcd = gcd(step_gcd, right - left)
+                    observed_max_credit_deficit_middle_step_gcd = step_gcd
                     observed_max_credit_deficit_middle_size = middle_size
                     observed_max_credit_deficit_new_middle_size = new_middle_size
                     observed_max_credit_deficit_reserve_size = reserve_size
@@ -392,6 +411,11 @@ def active_credit_certificate(
         observed_max_credit_deficit_surplus=observed_max_credit_deficit_surplus,
         observed_max_credit_deficit_witness=observed_max_credit_deficit_witness,
         observed_max_credit_deficit_residue_counts=observed_max_credit_deficit_residue_counts,
+        observed_max_credit_deficit_middle_vertices=observed_max_credit_deficit_middle_vertices,
+        observed_max_credit_deficit_middle_mod169_counts=(
+            observed_max_credit_deficit_middle_mod169_counts
+        ),
+        observed_max_credit_deficit_middle_step_gcd=observed_max_credit_deficit_middle_step_gcd,
         observed_max_credit_deficit_middle_size=observed_max_credit_deficit_middle_size,
         observed_max_credit_deficit_new_middle_size=observed_max_credit_deficit_new_middle_size,
         observed_max_credit_deficit_reserve_size=observed_max_credit_deficit_reserve_size,
