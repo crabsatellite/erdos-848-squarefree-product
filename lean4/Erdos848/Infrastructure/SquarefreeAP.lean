@@ -815,6 +815,30 @@ def ActiveStrictMiddleReserveAntiImageWitnessCreditCode.toReserveWitnessCode
       simpa [hmate] using hLeft b hbOpp
     exact code.decoderNotOpposite (by simpa [hDecode] using hbOpp)
 
+/--
+Reserve credit code whose non-image fact is certified by showing the opposite
+decoder does not land in the opposite carrier.
+-/
+structure ActiveStrictMiddleReserveAntiCarrierWitnessCreditCode
+    (N r : Nat) (B : Nat -> Prop) (mate : Nat -> Nat)
+    (oppositeDecoder : Nat -> Nat) where
+  neighbor : SquarefreeNeighborInCandidateWitnessCode N r (OppositeOutsidePart r B)
+  decoderNotOppositeCarrier :
+    Not (OppositeCandidateCarrier r (oppositeDecoder neighbor.value))
+
+/-- Carrier-only reserve data supplies decoder-side anti-image data. -/
+def ActiveStrictMiddleReserveAntiCarrierWitnessCreditCode.toAntiImageWitnessCreditCode
+    {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {oppositeDecoder : Nat -> Nat}
+    (code :
+      ActiveStrictMiddleReserveAntiCarrierWitnessCreditCode
+        N r B mate oppositeDecoder) :
+    ActiveStrictMiddleReserveAntiImageWitnessCreditCode N r B mate oppositeDecoder where
+  neighbor := code.neighbor
+  decoderNotOpposite := by
+    intro hOpp
+    exact code.decoderNotOppositeCarrier hOpp.right
+
 /-- Forget the explicit neighbor source and keep the old reserve credit code. -/
 def ActiveStrictMiddleReserveWitnessCreditCode.toReserveCode
     {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
@@ -889,6 +913,28 @@ def ActiveStrictMiddleNewSourceAntiOppositeWitnessCreditCode.toSourceAntiNeighbo
   decoderNotOppositeNeighbor := by
     intro hOppEdge
     exact code.decoderNotOpposite hOppEdge.left
+
+/--
+New-middle credit code whose anti-neighbor fact is certified at the carrier
+level for the canonical opposite-neighbor source.
+-/
+structure ActiveStrictMiddleNewSourceAntiCarrierWitnessCreditCode
+    (N r : Nat) (B : Nat -> Prop) where
+  neighbor : SquarefreeNeighborInCandidateWitnessCode N r (StrictMiddlePart r B)
+  decoderNotOppositeCarrier :
+    Not (OppositeCandidateCarrier r
+      (squarefreeNeighborSourceDecoder (OppositeOutsidePart r B)
+        neighbor.value))
+
+/-- Carrier-level new-middle data supplies source anti-opposite data. -/
+def ActiveStrictMiddleNewSourceAntiCarrierWitnessCreditCode.toSourceAntiOppositeWitnessCreditCode
+    {N r : Nat} {B : Nat -> Prop}
+    (code : ActiveStrictMiddleNewSourceAntiCarrierWitnessCreditCode N r B) :
+    ActiveStrictMiddleNewSourceAntiOppositeWitnessCreditCode N r B where
+  neighbor := code.neighbor
+  decoderNotOpposite := by
+    intro hOpp
+    exact code.decoderNotOppositeCarrier hOpp.right
 
 /--
 Credit target as an explicit reserve/new-middle sum code, rather than an
@@ -1058,6 +1104,41 @@ def ActiveStrictMiddleCreditSourceAntiOppositeWitnessSumCode.toSourceAntiNeighbo
       Sum.inl reserve
   | Sum.inr newMiddle =>
       Sum.inr newMiddle.toSourceAntiNeighborWitnessCreditCode
+
+/--
+Credit target as a witness sum where both negative facts are carrier-level
+certificates.
+-/
+def ActiveStrictMiddleCreditCarrierWitnessSumCode
+    (N r : Nat) (B : Nat -> Prop) (mate : Nat -> Nat)
+    (oppositeDecoder : Nat -> Nat) : Type :=
+  Sum (ActiveStrictMiddleReserveAntiCarrierWitnessCreditCode
+      N r B mate oppositeDecoder)
+    (ActiveStrictMiddleNewSourceAntiCarrierWitnessCreditCode N r B)
+
+/-- Forget proof data and keep the target value of a carrier witness sum. -/
+def ActiveStrictMiddleCreditCarrierWitnessSumCode.value
+    {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {oppositeDecoder : Nat -> Nat}
+    (code : ActiveStrictMiddleCreditCarrierWitnessSumCode
+      N r B mate oppositeDecoder) : Nat :=
+  match code with
+  | Sum.inl reserve => reserve.neighbor.value
+  | Sum.inr newMiddle => newMiddle.neighbor.value
+
+/-- Carrier witness sums supply source anti-opposite sums. -/
+def ActiveStrictMiddleCreditCarrierWitnessSumCode.toSourceAntiOppositeWitnessSumCode
+    {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {oppositeDecoder : Nat -> Nat}
+    (code : ActiveStrictMiddleCreditCarrierWitnessSumCode
+      N r B mate oppositeDecoder) :
+    ActiveStrictMiddleCreditSourceAntiOppositeWitnessSumCode
+      N r B mate oppositeDecoder :=
+  match code with
+  | Sum.inl reserve =>
+      Sum.inl reserve.toAntiImageWitnessCreditCode
+  | Sum.inr newMiddle =>
+      Sum.inr newMiddle.toSourceAntiOppositeWitnessCreditCode
 
 /-- Credit code carrying a decoder proof back to its strict-middle source. -/
 def DecodedActiveStrictMiddleCreditCode
@@ -1241,6 +1322,44 @@ def DecodedActiveStrictMiddleCreditSourceAntiOppositeWitnessSumCode.toDecodedSou
         ActiveStrictMiddleCreditSourceAntiOppositeWitnessSumCode.toSourceAntiNeighborWitnessSumCode,
         ActiveStrictMiddleCreditSourceAntiNeighborWitnessSumCode.value,
         ActiveStrictMiddleNewSourceAntiOppositeWitnessCreditCode.toSourceAntiNeighborWitnessCreditCode] using
+        hdecode
+
+/--
+Decoded carrier witness sum code carrying a decoder proof back to its
+strict-middle source.
+-/
+def DecodedActiveStrictMiddleCreditCarrierWitnessSumCode
+    (N r : Nat) (B : Nat -> Prop) (mate : Nat -> Nat)
+    (oppositeDecoder : Nat -> Nat) (creditDecoder : Nat -> Nat)
+    (b : Nat) : Type :=
+  { code : ActiveStrictMiddleCreditCarrierWitnessSumCode
+      N r B mate oppositeDecoder //
+    creditDecoder code.value = b }
+
+/-- Carrier decoded sums supply source anti-opposite decoded sums. -/
+def DecodedActiveStrictMiddleCreditCarrierWitnessSumCode.toDecodedSourceAntiOppositeWitnessSumCode
+    {N r : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {oppositeDecoder creditDecoder : Nat -> Nat} {b : Nat}
+    (code :
+      DecodedActiveStrictMiddleCreditCarrierWitnessSumCode
+        N r B mate oppositeDecoder creditDecoder b) :
+    DecodedActiveStrictMiddleCreditSourceAntiOppositeWitnessSumCode
+      N r B mate oppositeDecoder creditDecoder b := by
+  refine ⟨ActiveStrictMiddleCreditCarrierWitnessSumCode.toSourceAntiOppositeWitnessSumCode
+    code.val, ?_⟩
+  rcases code with ⟨codeVal, hdecode⟩
+  cases codeVal with
+  | inl reserve =>
+      simpa [ActiveStrictMiddleCreditCarrierWitnessSumCode.value,
+        ActiveStrictMiddleCreditCarrierWitnessSumCode.toSourceAntiOppositeWitnessSumCode,
+        ActiveStrictMiddleCreditSourceAntiOppositeWitnessSumCode.value,
+        ActiveStrictMiddleReserveAntiCarrierWitnessCreditCode.toAntiImageWitnessCreditCode] using
+        hdecode
+  | inr newMiddle =>
+      simpa [ActiveStrictMiddleCreditCarrierWitnessSumCode.value,
+        ActiveStrictMiddleCreditCarrierWitnessSumCode.toSourceAntiOppositeWitnessSumCode,
+        ActiveStrictMiddleCreditSourceAntiOppositeWitnessSumCode.value,
+        ActiveStrictMiddleNewSourceAntiCarrierWitnessCreditCode.toSourceAntiOppositeWitnessCreditCode] using
         hdecode
 
 /--
@@ -1434,6 +1553,37 @@ theorem activeStrictMiddleDecodedCreditSourceAntiNeighborWitnessSumMatching_of_s
   refine ⟨creditDecoder, ?_, trivial⟩
   intro b hb
   exact DecodedActiveStrictMiddleCreditSourceAntiOppositeWitnessSumCode.toDecodedSourceAntiNeighborWitnessSumCode
+    (credit b hb)
+
+/--
+Active strict-middle decoded matching whose credit-side negative facts are
+carrier-only certificates.
+-/
+def ActiveStrictMiddleDecodedCreditCarrierWitnessSumMatching
+    (N r : Nat) (B : Nat -> Prop)
+    (_decMid : DecidablePred (StrictMiddlePart r B))
+    (mate : Nat -> Nat) (oppositeDecoder : Nat -> Nat) : Prop :=
+  Exists fun creditDecoder : Nat -> Nat =>
+  Exists fun _credit :
+      (forall b : Nat, StrictMiddlePart r B b ->
+        DecodedActiveStrictMiddleCreditCarrierWitnessSumCode
+          N r B mate oppositeDecoder creditDecoder b) =>
+    True
+
+/-- Carrier-level matching supplies source anti-opposite matching. -/
+theorem activeStrictMiddleDecodedCreditSourceAntiOppositeWitnessSumMatching_of_carrier
+    {N r : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart r B)}
+    {mate oppositeDecoder : Nat -> Nat}
+    (h :
+      ActiveStrictMiddleDecodedCreditCarrierWitnessSumMatching
+        N r B decMid mate oppositeDecoder) :
+    ActiveStrictMiddleDecodedCreditSourceAntiOppositeWitnessSumMatching
+      N r B decMid mate oppositeDecoder := by
+  rcases h with ⟨creditDecoder, credit, _⟩
+  refine ⟨creditDecoder, ?_, trivial⟩
+  intro b hb
+  exact DecodedActiveStrictMiddleCreditCarrierWitnessSumCode.toDecodedSourceAntiOppositeWitnessSumCode
     (credit b hb)
 
 /-- Count-level active strict-middle credit capacity for one fixed opposite mate. -/
@@ -1934,6 +2084,24 @@ def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourc
       NonSquarefreeClique B ->
       (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
       ActiveStrictMiddleDecodedCreditSourceAntiOppositeWitnessSumMatching N 7 B decMid
+        (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset) decoder)
+
+/--
+Decoded squarefree-boxed certificate whose credit-side negative facts are
+carrier-only certificates.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCertificate :
+    Prop :=
+  forall N : Nat, Exists fun decoder : Nat -> Nat =>
+  Exists fun offset :
+      (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b decoder) =>
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B)),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleDecodedCreditCarrierWitnessSumMatching N 7 B decMid
         (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset) decoder)
 
 /--
@@ -2497,6 +2665,21 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditS
   intro B decMid hB hClique hMid
   exact activeStrictMiddleDecodedCreditSourceAntiNeighborWitnessSumMatching_of_sourceAntiOpposite
     (hCreditSourceAntiOpposite B decMid hB hClique hMid)
+
+/--
+The carrier-level credit certificate supplies the previous source anti-opposite
+witness-sum-code certificate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCode_of_carrier
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCodeCertificate := by
+  intro N
+  rcases h N with ⟨decoder, offset, hCreditCarrier⟩
+  refine ⟨decoder, offset, ?_⟩
+  intro B decMid hB hClique hMid
+  exact activeStrictMiddleDecodedCreditSourceAntiOppositeWitnessSumMatching_of_carrier
+    (hCreditCarrier B decMid hB hClique hMid)
 
 /--
 The decoded squarefree-boxed anti-image certificate supplies the previous
@@ -3357,11 +3540,17 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 
 /--
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
-compression with reserve non-image certified by the opposite decoder and the
-new-middle negative fact reduced to source anti-opposite data.
+compression with reserve and new-middle negative facts certified only at the
+opposite-candidate carrier level.
 -/
-axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCodeCertificate
+axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCertificate
+
+/-- Current source anti-opposite certificate derived from carrier-level data. -/
+theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCodeCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCode_of_carrier
+    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCut
 
 /-- Current source anti-neighbor certificate derived from source anti-opposite data. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCodeCut :
