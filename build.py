@@ -63,12 +63,24 @@ def run(mode: str) -> dict:
     extended = mode == "extended"
     exact_Ns = [100, 500, 1000] if not extended else [100, 500, 1000, 2000, 5000]
     hall_Ns = [100, 500] if not extended else [100, 500, 1000, 2000]
-    matching_Ns = [100, 500, 1000] if not extended else [100, 500, 1000, 2000, 5000, 10000]
+    matching_Ns = (
+        [100, 500, 1000]
+        if not extended
+        else [100, 500, 1000, 2000, 5000, 10000, 20000]
+    )
     partitioned_Ns = [100, 500]
     active_credit_jobs = (
         [(100, True), (500, True)]
         if not extended
-        else [(100, True), (500, True), (1000, True), (2000, True), (5000, True), (10000, False)]
+        else [
+            (100, True),
+            (500, True),
+            (1000, True),
+            (2000, True),
+            (5000, True),
+            (10000, False),
+            (20000, False),
+        ]
     )
 
     residue = residue_to_json(generate_residue_certificate([5, 13], run_prefix=extended))
