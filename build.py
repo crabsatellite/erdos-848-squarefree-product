@@ -65,7 +65,7 @@ def run(mode: str) -> dict:
     hall_Ns = [100, 500] if not extended else [100, 500, 1000, 2000]
     matching_Ns = [100, 500, 1000] if not extended else [100, 500, 1000, 2000, 5000, 10000]
     partitioned_Ns = [100, 500]
-    active_credit_Ns = [100, 500] if not extended else [100, 500, 1000]
+    active_credit_Ns = [100, 500] if not extended else [100, 500, 1000, 2000, 5000]
 
     residue = residue_to_json(generate_residue_certificate([5, 13], run_prefix=extended))
     exact = [exact_848_check(N) for N in exact_Ns]
@@ -195,6 +195,7 @@ def assert_gate(payload: dict) -> None:
         assert item["worst_incremental_defect"] >= 0, item
         assert item["worst_incremental_with_middle_defect"] >= 0, item
     for item in payload["active_credit_checks"]:
+        assert item["search_order"] == "middle_first_then_opposite", item
         assert item["search_exhausted"], item
         assert item["outside_opposite_vertices"] + item["outside_middle_vertices"] == item["outside_vertices"], item
         assert item["search_nodes"] > 0, item

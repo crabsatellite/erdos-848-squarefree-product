@@ -10,9 +10,10 @@
       "outside_vertices": 8,
       "search_exhausted": true,
       "search_max_depth": 2,
-      "search_nodes": 15,
-      "search_pruned_defect_bound": 8,
-      "search_pruned_no_middle_tail": 3,
+      "search_nodes": 14,
+      "search_order": "middle_first_then_opposite",
+      "search_pruned_defect_bound": 6,
+      "search_pruned_no_middle_tail": 4,
       "worst_credit_defect": 2,
       "worst_credit_matching": [
         [
@@ -38,32 +39,30 @@
       "outside_opposite_vertices": 20,
       "outside_vertices": 32,
       "search_exhausted": true,
-      "search_max_depth": 9,
-      "search_nodes": 992,
-      "search_pruned_defect_bound": 218,
-      "search_pruned_no_middle_tail": 661,
+      "search_max_depth": 6,
+      "search_nodes": 205,
+      "search_order": "middle_first_then_opposite",
+      "search_pruned_defect_bound": 158,
+      "search_pruned_no_middle_tail": 20,
       "worst_credit_defect": 11,
       "worst_credit_matching": [
         [
           41,
-          7
+          32
+        ],
+        [
+          437,
+          57
         ]
       ],
-      "worst_credit_middle_size": 1,
-      "worst_credit_new_middle_size": 0,
-      "worst_credit_opposite_size": 8,
-      "worst_credit_pool_size": 12,
-      "worst_credit_reserve_size": 12,
+      "worst_credit_middle_size": 2,
+      "worst_credit_new_middle_size": 13,
+      "worst_credit_opposite_size": 0,
+      "worst_credit_pool_size": 13,
+      "worst_credit_reserve_size": 0,
       "worst_credit_witness": [
         41,
-        43,
-        143,
-        168,
-        243,
-        268,
-        343,
-        443,
-        493
+        437
       ]
     },
     {
@@ -76,9 +75,10 @@
       "outside_vertices": 65,
       "search_exhausted": true,
       "search_max_depth": 18,
-      "search_nodes": 88828,
-      "search_pruned_defect_bound": 8912,
-      "search_pruned_no_middle_tail": 72178,
+      "search_nodes": 893,
+      "search_order": "middle_first_then_opposite",
+      "search_pruned_defect_bound": 783,
+      "search_pruned_no_middle_tail": 40,
       "worst_credit_defect": 22,
       "worst_credit_matching": [
         [
@@ -92,6 +92,7 @@
       "worst_credit_pool_size": 23,
       "worst_credit_reserve_size": 23,
       "worst_credit_witness": [
+        515,
         93,
         193,
         218,
@@ -100,7 +101,6 @@
         393,
         418,
         493,
-        515,
         593,
         643,
         693,
@@ -110,6 +110,66 @@
         868,
         893,
         993
+      ]
+    },
+    {
+      "N": 2000,
+      "base_residue": 7,
+      "index_bandwidth": 3,
+      "opposite_residue": 18,
+      "outside_middle_vertices": 48,
+      "outside_opposite_vertices": 80,
+      "outside_vertices": 128,
+      "search_exhausted": true,
+      "search_max_depth": 8,
+      "search_nodes": 5838,
+      "search_order": "middle_first_then_opposite",
+      "search_pruned_defect_bound": 5526,
+      "search_pruned_no_middle_tail": 80,
+      "worst_credit_defect": 47,
+      "worst_credit_matching": [
+        [
+          1303,
+          7
+        ]
+      ],
+      "worst_credit_middle_size": 1,
+      "worst_credit_new_middle_size": 48,
+      "worst_credit_opposite_size": 0,
+      "worst_credit_pool_size": 48,
+      "worst_credit_reserve_size": 0,
+      "worst_credit_witness": [
+        1303
+      ]
+    },
+    {
+      "N": 5000,
+      "base_residue": 7,
+      "index_bandwidth": 3,
+      "opposite_residue": 18,
+      "outside_middle_vertices": 125,
+      "outside_opposite_vertices": 200,
+      "outside_vertices": 325,
+      "search_exhausted": true,
+      "search_max_depth": 19,
+      "search_nodes": 626802,
+      "search_order": "middle_first_then_opposite",
+      "search_pruned_defect_bound": 615476,
+      "search_pruned_no_middle_tail": 200,
+      "worst_credit_defect": 122,
+      "worst_credit_matching": [
+        [
+          1303,
+          7
+        ]
+      ],
+      "worst_credit_middle_size": 1,
+      "worst_credit_new_middle_size": 123,
+      "worst_credit_opposite_size": 0,
+      "worst_credit_pool_size": 123,
+      "worst_credit_reserve_size": 0,
+      "worst_credit_witness": [
+        1303
       ]
     }
   ],
@@ -524,7 +584,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T08:04:31.611289+00:00",
+  "generated_at": "2026-06-01T08:10:17.763423+00:00",
   "hall_checks": [
     {
       "N": 100,

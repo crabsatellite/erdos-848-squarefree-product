@@ -12,6 +12,7 @@ class ActiveCreditCertificate:
     base_residue: int
     opposite_residue: int
     index_bandwidth: int
+    search_order: str
     outside_vertices: int
     outside_opposite_vertices: int
     outside_middle_vertices: int
@@ -52,11 +53,14 @@ def active_credit_certificate(
     sf = squarefree_sieve(N * N + 1)
     base = [a for a in range(1, N + 1) if a % 25 == base_residue]
     base_index = {a: i for i, a in enumerate(base)}
-    outside = [
-        b
-        for b in range(1, N + 1)
-        if b % 25 != base_residue and not sf[b * b + 1]
-    ]
+    outside = sorted(
+        (
+            b
+            for b in range(1, N + 1)
+            if b % 25 != base_residue and not sf[b * b + 1]
+        ),
+        key=lambda b: (b % 25 == opposite_residue, b),
+    )
 
     band_match = opposite_matching_certificate(
         N, base_residue, opposite_residue, index_bandwidth=index_bandwidth
@@ -196,6 +200,7 @@ def active_credit_certificate(
         base_residue=base_residue,
         opposite_residue=opposite_residue,
         index_bandwidth=index_bandwidth,
+        search_order="middle_first_then_opposite",
         outside_vertices=len(outside),
         outside_opposite_vertices=outside_opposite_vertices,
         outside_middle_vertices=outside_middle_vertices,
