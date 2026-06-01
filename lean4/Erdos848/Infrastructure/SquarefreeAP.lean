@@ -8322,6 +8322,23 @@ def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDefici
     ActiveStrictMiddleCreditDeficitCountUpperPrefixReserveAllocation
       N B decMid offsetIndex decReserve decNewMid
 
+/--
+Source-index active credit allocation as a total direct prefix reserve witness.
+The empty strict-middle branch is handled by a zero-length prefix.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalCountUpperPrefixReserveAllocation
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall (B : Nat -> Prop)
+      (decMid : DecidablePred (StrictMiddlePart 7 B))
+      (decReserve : DecidablePred
+        (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex)))
+      (decNewMid : DecidablePred (IncrementalStrictMiddleNeighbor N 7 B)),
+    BoundedOutsideSet N 7 B ->
+    NonSquarefreeClique B ->
+    ActiveStrictMiddleCreditDeficitCountUpperPrefixReserveAllocation
+      N B decMid offsetIndex decReserve decNewMid
+
 /-- Source-index active credit allocation as a scalar reserve lower bound. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCountUpperReserveLowerBoundAllocation
     (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
@@ -9210,6 +9227,17 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSele
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalCountUpperReserveLowerBoundAllocation N
       (OppositeFiniteOffsetListSelector codes)
 
+/--
+Source-index split certificate with a total prefix reserve witness for the
+gap-indexed finite list certificate.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditTotalDeficitCountUpperPrefixReserveAllocationCertificate :
+    Prop :=
+  forall N : Nat, Exists fun codes : List OppositeFiniteOffsetCode =>
+    OppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching N codes /\
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalCountUpperPrefixReserveAllocation N
+      (OppositeFiniteOffsetListSelector codes)
+
 /-- Current source-index split certificate, narrowed to template-window-repair form. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
@@ -9717,6 +9745,13 @@ witness.
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitCountUpperReserveLowerBoundAllocationCertificate :
     Prop :=
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditTotalDeficitCountUpperReserveLowerBoundAllocationCertificate
+
+/--
+Current source-index split certificate with a total prefix reserve witness.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitCountUpperPrefixReserveAllocationCertificate :
+    Prop :=
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditTotalDeficitCountUpperPrefixReserveAllocationCertificate
 
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
@@ -12405,6 +12440,53 @@ theorem activeStrictMiddleCreditDeficitCountUpperReserveLowerBoundAllocation_of_
     omega
   · omega
 
+/-- If there is no strict-middle source, the prefix reserve allocation is empty. -/
+theorem activeStrictMiddleCreditDeficitCountUpperPrefixReserveAllocation_of_no_strictMiddle
+    {N : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart 7 B)}
+    {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    {decReserve :
+      DecidablePred
+        (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex))}
+    {decNewMid :
+      DecidablePred (IncrementalStrictMiddleNeighbor N 7 B)}
+    (hMidEmpty : forall b : Nat, Not (StrictMiddlePart 7 B b)) :
+    ActiveStrictMiddleCreditDeficitCountUpperPrefixReserveAllocation
+      N B decMid offsetIndex decReserve decNewMid := by
+  refine ⟨0, ?_, ?_⟩
+  · have hMidZero :
+        @familySize N (StrictMiddlePart 7 B) decMid = 0 := by
+      exact familySize_eq_zero_of_empty N (StrictMiddlePart 7 B) decMid hMidEmpty
+    rw [hMidZero]
+    omega
+  · intro i hi
+    omega
+
+/-- Deficit capacity supplies the scalar reserve lower-bound allocation. -/
+theorem activeStrictMiddleCreditDeficitCountUpperReserveLowerBoundAllocation_of_deficitCapacity
+    {N : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart 7 B)}
+    {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    {decReserve :
+      DecidablePred
+        (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex))}
+    {decNewMid :
+      DecidablePred (IncrementalStrictMiddleNeighbor N 7 B)}
+    (h :
+      ActiveStrictMiddleCreditDeficitCapacity N 7 B decMid
+        (OppositeFiniteOffsetSourceIndexMate offsetIndex) decReserve decNewMid) :
+    ActiveStrictMiddleCreditDeficitCountUpperReserveLowerBoundAllocation
+      N B decMid offsetIndex decReserve decNewMid := by
+  refine ⟨
+    @familySize N (ActiveStrictMiddleCreditReserve N 7 B
+      (OppositeFiniteOffsetSourceIndexMate offsetIndex)) decReserve,
+    ?_, ?_⟩
+  · unfold ActiveStrictMiddleCreditDeficitCapacity at h
+    omega
+  · exact Nat.le_refl _
+
 /-- A scalar reserve lower-bound allocation implies the reserve-dominance inequality. -/
 theorem activeStrictMiddleCreditDeficitReserveDominance_of_countUpperReserveLowerBoundAllocation
     {N : Nat} {B : Nat -> Prop}
@@ -12469,6 +12551,24 @@ theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDe
   by_cases hMid : Exists fun b : Nat => StrictMiddlePart 7 B b
   · exact h B decMid decReserve decNewMid hB hClique hMid
   · apply activeStrictMiddleCreditDeficitCountUpperReserveLowerBoundAllocation_of_no_strictMiddle
+    intro b hb
+    exact hMid (Exists.intro b hb)
+
+/--
+The positive prefix reserve witness allocation extends to the total prefix
+allocation by giving the empty strict-middle branch a zero-length prefix.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalCountUpperPrefixReserveAllocation_of_countUpperPrefixReserveAllocation
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCountUpperPrefixReserveAllocation
+        N offsetIndex) :
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalCountUpperPrefixReserveAllocation
+      N offsetIndex := by
+  intro B decMid decReserve decNewMid hB hClique
+  by_cases hMid : Exists fun b : Nat => StrictMiddlePart 7 B b
+  · exact h B decMid decReserve decNewMid hB hClique hMid
+  · apply activeStrictMiddleCreditDeficitCountUpperPrefixReserveAllocation_of_no_strictMiddle
     intro b hb
     exact hMid (Exists.intro b hb)
 
@@ -14913,6 +15013,36 @@ theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDe
   unfold ActiveStrictMiddleCreditDeficitCapacity
   omega
 
+/--
+Total prefix reserve allocation supplies the total scalar reserve lower-bound
+allocation.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalCountUpperReserveLowerBoundAllocation_of_totalCountUpperPrefixReserveAllocation
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hPrefix :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalCountUpperPrefixReserveAllocation
+        N offsetIndex) :
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalCountUpperReserveLowerBoundAllocation
+      N offsetIndex := by
+  intro B decMid decReserve decNewMid hB hClique
+  by_cases hMid : Exists fun b : Nat => StrictMiddlePart 7 B b
+  · have hPositive :
+        GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCountUpperPrefixReserveAllocation
+          N offsetIndex := by
+      intro B decMid decReserve decNewMid hB hClique _hMid
+      exact hPrefix B decMid decReserve decNewMid hB hClique
+    have hDefGlobal :
+        GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity
+          N offsetIndex :=
+      globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity_of_countUpperPrefixReserveAllocation
+        hPositive
+    exact
+      activeStrictMiddleCreditDeficitCountUpperReserveLowerBoundAllocation_of_deficitCapacity
+        (hDefGlobal B decMid decReserve decNewMid hB hClique hMid)
+  · apply activeStrictMiddleCreditDeficitCountUpperReserveLowerBoundAllocation_of_no_strictMiddle
+    intro b hb
+    exact hMid (Exists.intro b hb)
+
 /-- Window-repair prefix reserve certificate directly supplies deficit capacity. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCapacity_of_countUpperPrefixReserveAllocation
     (h :
@@ -15217,6 +15347,22 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
     exact Exists.intro codes
       (And.intro hPack.left
         (globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalCountUpperReserveLowerBoundAllocation_of_totalReserveDominance
+          hPack.right))
+
+/--
+Total prefix reserve list-selector data supplies the total scalar lower-bound
+certificate.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitCountUpperReserveLowerBoundAllocation_of_totalCountUpperPrefixReserveAllocation
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitCountUpperPrefixReserveAllocationCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitCountUpperReserveLowerBoundAllocationCertificate := by
+  intro N
+  cases h N with
+  | intro codes hPack =>
+    exact Exists.intro codes
+      (And.intro hPack.left
+        (globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalCountUpperReserveLowerBoundAllocation_of_totalCountUpperPrefixReserveAllocation
           hPack.right))
 
 /-- Scalar reserve lower bound directly supplies source-index deficit capacity. -/
@@ -15577,6 +15723,19 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sou
   exact
     globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapTotalReserveDominance
       (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominance_of_totalCountUpperReserveLowerBoundAllocation
+        h)
+
+/--
+Total prefix reserve gap-indexed finite list-selector data supplies decoded
+squarefree-boxed compression.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapTotalCountUpperPrefixReserveAllocation
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitCountUpperPrefixReserveAllocationCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate := by
+  exact
+    globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapTotalCountUpperReserveLowerBoundAllocation
+      (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitCountUpperReserveLowerBoundAllocation_of_totalCountUpperPrefixReserveAllocation
         h)
 
 /-- Current reserve dominance directly supplies decoded squarefree-boxed compression. -/
@@ -16333,16 +16492,16 @@ certified only on the final bandwidth-three boundary.  Lean derives the
 non-boundary target bounds, global injectivity, target-value injectivity,
 packages the squarefree-boxed codes, and constructs the decoder.  The
 strict-middle side is the reserve-dominance active-credit count inequality for
-the simple typed mate, stated with an explicit scalar reserve lower-bound
-witness and with the empty strict-middle reserve branch closed in Lean.
+the simple typed mate, stated with an explicit prefix reserve witness and with
+the empty strict-middle reserve branch closed in Lean.
 -/
 axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitCountUpperReserveLowerBoundAllocationCertificate
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitCountUpperPrefixReserveAllocationCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapTotalCountUpperReserveLowerBoundAllocation
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapTotalCountUpperPrefixReserveAllocation
     finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
