@@ -17,6 +17,7 @@
       "observed_max_credit_deficit_allocation_reserve_witness_valid": true,
       "observed_max_credit_deficit_allocation_reserve_witnesses": [],
       "observed_max_credit_deficit_allocation_seed_keys": [],
+      "observed_max_credit_deficit_allocation_seed_keys_prefix_indexed": true,
       "observed_max_credit_deficit_allocation_seeded": true,
       "observed_max_credit_deficit_allocation_shift_target_no_image_valid": true,
       "observed_max_credit_deficit_allocation_source_index_no_image_valid": true,
@@ -53,6 +54,7 @@
       "worst_credit_deficit_allocation_reserve_witness_valid": true,
       "worst_credit_deficit_allocation_reserve_witnesses": [],
       "worst_credit_deficit_allocation_seed_keys": [],
+      "worst_credit_deficit_allocation_seed_keys_prefix_indexed": true,
       "worst_credit_deficit_allocation_seeded": true,
       "worst_credit_deficit_allocation_shift_target_no_image_valid": true,
       "worst_credit_deficit_allocation_source_index_no_image_valid": true,
@@ -111,6 +113,7 @@
       "observed_max_credit_deficit_allocation_seed_keys": [
         0
       ],
+      "observed_max_credit_deficit_allocation_seed_keys_prefix_indexed": true,
       "observed_max_credit_deficit_allocation_seeded": true,
       "observed_max_credit_deficit_allocation_shift_target_no_image_valid": true,
       "observed_max_credit_deficit_allocation_source_index_no_image_valid": true,
@@ -164,6 +167,7 @@
       "worst_credit_deficit_allocation_reserve_witness_valid": true,
       "worst_credit_deficit_allocation_reserve_witnesses": [],
       "worst_credit_deficit_allocation_seed_keys": [],
+      "worst_credit_deficit_allocation_seed_keys_prefix_indexed": true,
       "worst_credit_deficit_allocation_seeded": true,
       "worst_credit_deficit_allocation_shift_target_no_image_valid": true,
       "worst_credit_deficit_allocation_source_index_no_image_valid": true,
@@ -228,6 +232,7 @@
       "observed_max_credit_deficit_allocation_seed_keys": [
         0
       ],
+      "observed_max_credit_deficit_allocation_seed_keys_prefix_indexed": true,
       "observed_max_credit_deficit_allocation_seeded": true,
       "observed_max_credit_deficit_allocation_shift_target_no_image_valid": true,
       "observed_max_credit_deficit_allocation_source_index_no_image_valid": true,
@@ -290,6 +295,7 @@
       "worst_credit_deficit_allocation_seed_keys": [
         1
       ],
+      "worst_credit_deficit_allocation_seed_keys_prefix_indexed": true,
       "worst_credit_deficit_allocation_seeded": true,
       "worst_credit_deficit_allocation_shift_target_no_image_valid": true,
       "worst_credit_deficit_allocation_source_index_no_image_valid": true,
@@ -366,6 +372,7 @@
       "observed_max_credit_deficit_allocation_seed_keys": [
         0
       ],
+      "observed_max_credit_deficit_allocation_seed_keys_prefix_indexed": true,
       "observed_max_credit_deficit_allocation_seeded": true,
       "observed_max_credit_deficit_allocation_shift_target_no_image_valid": true,
       "observed_max_credit_deficit_allocation_source_index_no_image_valid": true,
@@ -414,6 +421,7 @@
       "worst_credit_deficit_allocation_reserve_witness_valid": true,
       "worst_credit_deficit_allocation_reserve_witnesses": [],
       "worst_credit_deficit_allocation_seed_keys": [],
+      "worst_credit_deficit_allocation_seed_keys_prefix_indexed": true,
       "worst_credit_deficit_allocation_seeded": true,
       "worst_credit_deficit_allocation_shift_target_no_image_valid": true,
       "worst_credit_deficit_allocation_source_index_no_image_valid": true,
@@ -486,6 +494,7 @@
         3,
         4
       ],
+      "observed_max_credit_deficit_allocation_seed_keys_prefix_indexed": true,
       "observed_max_credit_deficit_allocation_seeded": true,
       "observed_max_credit_deficit_allocation_shift_target_no_image_valid": true,
       "observed_max_credit_deficit_allocation_source_index_no_image_valid": true,
@@ -551,6 +560,7 @@
       "worst_credit_deficit_allocation_reserve_witness_valid": true,
       "worst_credit_deficit_allocation_reserve_witnesses": [],
       "worst_credit_deficit_allocation_seed_keys": [],
+      "worst_credit_deficit_allocation_seed_keys_prefix_indexed": true,
       "worst_credit_deficit_allocation_seeded": true,
       "worst_credit_deficit_allocation_shift_target_no_image_valid": true,
       "worst_credit_deficit_allocation_source_index_no_image_valid": true,
@@ -630,6 +640,7 @@
         4,
         5
       ],
+      "observed_max_credit_deficit_allocation_seed_keys_prefix_indexed": true,
       "observed_max_credit_deficit_allocation_seeded": true,
       "observed_max_credit_deficit_allocation_shift_target_no_image_valid": true,
       "observed_max_credit_deficit_allocation_source_index_no_image_valid": true,
@@ -698,6 +709,7 @@
       "worst_credit_deficit_allocation_reserve_witness_valid": true,
       "worst_credit_deficit_allocation_reserve_witnesses": [],
       "worst_credit_deficit_allocation_seed_keys": [],
+      "worst_credit_deficit_allocation_seed_keys_prefix_indexed": true,
       "worst_credit_deficit_allocation_seeded": true,
       "worst_credit_deficit_allocation_shift_target_no_image_valid": true,
       "worst_credit_deficit_allocation_source_index_no_image_valid": true,
@@ -745,6 +757,7 @@
       "observed_max_credit_deficit_allocation_reserve_witness_valid": true,
       "observed_max_credit_deficit_allocation_reserve_witnesses": [],
       "observed_max_credit_deficit_allocation_seed_keys": [],
+      "observed_max_credit_deficit_allocation_seed_keys_prefix_indexed": true,
       "observed_max_credit_deficit_allocation_seeded": true,
       "observed_max_credit_deficit_allocation_shift_target_no_image_valid": true,
       "observed_max_credit_deficit_allocation_source_index_no_image_valid": true,
@@ -781,6 +794,7 @@
       "worst_credit_deficit_allocation_reserve_witness_valid": true,
       "worst_credit_deficit_allocation_reserve_witnesses": [],
       "worst_credit_deficit_allocation_seed_keys": [],
+      "worst_credit_deficit_allocation_seed_keys_prefix_indexed": true,
       "worst_credit_deficit_allocation_seeded": true,
       "worst_credit_deficit_allocation_shift_target_no_image_valid": true,
       "worst_credit_deficit_allocation_source_index_no_image_valid": true,
@@ -828,6 +842,7 @@
       "observed_max_credit_deficit_allocation_reserve_witness_valid": true,
       "observed_max_credit_deficit_allocation_reserve_witnesses": [],
       "observed_max_credit_deficit_allocation_seed_keys": [],
+      "observed_max_credit_deficit_allocation_seed_keys_prefix_indexed": true,
       "observed_max_credit_deficit_allocation_seeded": true,
       "observed_max_credit_deficit_allocation_shift_target_no_image_valid": true,
       "observed_max_credit_deficit_allocation_source_index_no_image_valid": true,
@@ -864,6 +879,7 @@
       "worst_credit_deficit_allocation_reserve_witness_valid": true,
       "worst_credit_deficit_allocation_reserve_witnesses": [],
       "worst_credit_deficit_allocation_seed_keys": [],
+      "worst_credit_deficit_allocation_seed_keys_prefix_indexed": true,
       "worst_credit_deficit_allocation_seeded": true,
       "worst_credit_deficit_allocation_shift_target_no_image_valid": true,
       "worst_credit_deficit_allocation_source_index_no_image_valid": true,
@@ -1306,7 +1322,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T11:24:23.075734+00:00",
+  "generated_at": "2026-06-01T11:32:47.960025+00:00",
   "hall_checks": [
     {
       "N": 100,
