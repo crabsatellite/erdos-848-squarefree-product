@@ -36,6 +36,7 @@ the source of truth and use this file only as a durable round index.
 | R056 | Replaced the live value-level target-box block by source-index target-value coherence plus an index-value target-box block; Lean derives the prior `OppositeFiniteOffsetCodeValue` boxedness from these two pieces. |
 | R057 | Replaced source-index target-value coherence by a non-underflow inequality block. Lean proves the value equality from `3 <= k`, `2 <= k`, or `1 <= k` in the negative-offset cases and trivial positive-offset cases, then reuses the index-value target-box bridge. |
 | R058 | Replaced the source-index target-box block by a target upper-bound block. Lean proves the lower box bound automatically from the source-index target value `25*t+7`, then reconstructs the previous target-box data. |
+| R059 | Replaced the live squarefree-edge block by a source-index target-value squarefree-edge block. Lean uses the non-underflow equality bridge to reconstruct the original `OppositeFiniteOffsetCodeValue` edge form. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.

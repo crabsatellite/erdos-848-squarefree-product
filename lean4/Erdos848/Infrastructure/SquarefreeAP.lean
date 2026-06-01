@@ -3896,6 +3896,14 @@ def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge
       (OppositeFiniteOffsetCodeValue (EighteenSourceFromIndex k) (offsetIndex k))
       (EighteenSourceFromIndex k)
 
+/-- Source-index squarefree edges stated for the source-index target value. -/
+def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeEdge
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall k : Nat, InBox N (EighteenSourceFromIndex k) ->
+    ForbiddenSquarefreeEdge
+      (OppositeFiniteOffsetSourceIndexTargetValue k (offsetIndex k))
+      (EighteenSourceFromIndex k)
+
 /-- Source-index target map, split internally into target box and edge data. -/
 def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetMap
     (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
@@ -3964,7 +3972,7 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCre
   forall N : Nat, Exists fun offsetIndex : Nat -> OppositeFiniteOffsetCode =>
     GlobalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow N offsetIndex /\
     GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetUpperBound N offsetIndex /\
-    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge N offsetIndex /\
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeEdge N offsetIndex /\
     GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective N offsetIndex /\
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity N
       (fun b => offsetIndex (CandidateClassIndex b))
@@ -4815,6 +4823,21 @@ theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox_of_uppe
     unfold OppositeFiniteOffsetSourceIndexTargetValue
     omega, hUpper k hkBox⟩
 
+/-- Source-index target-value squarefree edges supply the original edge form. -/
+theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge_of_targetValue
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hCoherent :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent
+        N offsetIndex)
+    (hTargetValueEdge :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeEdge
+        N offsetIndex) :
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge
+      N offsetIndex := by
+  intro k hkBox
+  have hEq := hCoherent k hkBox
+  simpa [hEq] using hTargetValueEdge k hkBox
+
 /-- Source-index non-underflow supplies source-index target-value coherence. -/
 theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent_of_nonUnderflow
     {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
@@ -4878,7 +4901,7 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCredi
       GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate) :
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCertificate := by
   intro N
-  rcases h N with ⟨offsetIndex, hNonUnderflow, hTargetUpperBound, hSquarefreeEdge,
+  rcases h N with ⟨offsetIndex, hNonUnderflow, hTargetUpperBound, hTargetValueSquarefreeEdge,
     hShiftInjective, hCapacity⟩
   have hTargetCoherent :
       GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent
@@ -4894,6 +4917,11 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCredi
       GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox N offsetIndex :=
     globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox_of_indexBox
       hTargetCoherent hTargetIndexBox
+  have hSquarefreeEdge :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge_of_targetValue
+      hTargetCoherent hTargetValueSquarefreeEdge
   exact ⟨fun b => offsetIndex (CandidateClassIndex b),
     globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex
       ⟨⟨hTargetBox, hSquarefreeEdge⟩, hShiftInjective⟩,

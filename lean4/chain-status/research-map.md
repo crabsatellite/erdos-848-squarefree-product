@@ -195,7 +195,7 @@ Files:
 
 ### `G-squarefree-ap-hall-expansion` -- Squarefree AP Hall-neighborhood expansion
 
-Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the live certificate is split into source-index non-underflow, source-index target upper bound, squarefree-edge, shift-injectivity, and strict-middle typed-mate active credit capacity blocks. Lean derives target-value coherence from the non-underflow inequalities, derives full target boxedness from the upper bound because `25*t+7` is automatically positive, induces the total typed mate by `CandidateClassIndex`, derives target-index injectivity from explicit source-index shifts, derives target-value injectivity, packages squarefree-boxed codes, constructs the decoder, transfers active credit capacity to the decoded boxed mate, then unpacks Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band.
+Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the live certificate is split into source-index non-underflow, source-index target upper bound, target-value squarefree-edge, shift-injectivity, and strict-middle typed-mate active credit capacity blocks. Lean derives target-value coherence from the non-underflow inequalities, derives the original squarefree edge from the target-value edge, derives full target boxedness from the upper bound because `25*t+7` is automatically positive, induces the total typed mate by `CandidateClassIndex`, derives target-index injectivity from explicit source-index shifts, derives target-value injectivity, packages squarefree-boxed codes, constructs the decoder, transfers active credit capacity to the decoded boxed mate, then unpacks Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band.
 
 Declarations:
 - `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut`
@@ -203,6 +203,7 @@ Declarations:
 - `Erdos848.globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex`
 - `Erdos848.globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent_of_nonUnderflow`
 - `Erdos848.globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox_of_upperBound`
+- `Erdos848.globalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge_of_targetValue`
 - `Erdos848.globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox_of_indexBox`
 - `Erdos848.oppositeFiniteOffsetCodeValue_eighteenSource_eq_sourceIndexTargetValue_of_nonUnderflow`
 - `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate`
@@ -212,6 +213,7 @@ Declarations:
 - `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent`
 - `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox`
 - `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox`
+- `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueSquarefreeEdge`
 - `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge`
 - `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetMap`
 - `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective`
