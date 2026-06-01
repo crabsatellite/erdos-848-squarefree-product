@@ -14,10 +14,10 @@ graph TD
   propext{{ "propext" }}:::cut
   Classical_choice{{ "choice" }}:::cut
   Quot_sound{{ "sound" }}:::cut
-  Erdos848_finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCut{{ "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCut" }}:::cut
+  Erdos848_finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut{{ "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut" }}:::cut
   Erdos848_erdos848_main>"erdos848_main"]:::endpoint
   Erdos848_erdos848_main --> Classical_choice
-  Erdos848_erdos848_main --> Erdos848_finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCut
+  Erdos848_erdos848_main --> Erdos848_finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut
   Erdos848_erdos848_main --> Quot_sound
   Erdos848_erdos848_main --> propext
 ```

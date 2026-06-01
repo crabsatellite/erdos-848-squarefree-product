@@ -156,7 +156,7 @@ theorem hallExpansionCut :
       exact hA a b haBox hbB.left ha.left hbB.right.left hedge
   have hto7 : @familySize N A decA <= candidateCount 7 N := by
     omega
-  exact Nat.le_trans hto7 (Nat.le_max_left (candidateCount 7 N) (candidateCount 18 N))
+  exact hto7
 
 /-- Current bound theorem: all remaining mathematical weight is audit-visible above. -/
 theorem atMostCandidateBound_of_current_cuts : AtMostCandidateBound :=

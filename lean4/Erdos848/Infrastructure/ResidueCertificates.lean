@@ -87,6 +87,11 @@ theorem residueCandidateSharp : CandidateSharp := by
       subst r
       exact hsf 5 (by omega) (squareDivides_five_mul_add_one_of_candidate_eighteen ha hb)
 
+/-- The literal #848 sharpness construction is the `7 mod 25` residue class. -/
+theorem residueCandidateSevenSharp : CandidateSevenSharp := by
+  intro N
+  exact residueCandidateSharp N 7 (Or.inl rfl)
+
 /-- Kernel-local self-obstruction for the two candidate `5^2` root classes. -/
 theorem residueSecondLayer : ResidueSecondLayerCertificate := by
   intro a ha hsf

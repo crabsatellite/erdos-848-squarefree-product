@@ -5,16 +5,16 @@ Files whose declarations are transitively reached from `config.endpoints` (and a
 
 * on-chain: **5**  *  cut: **1**  *  total reached: **6**
 
-* closure constants: 1999  *  closure modules: 44
+* closure constants: 2024  *  closure modules: 43
 
 
 ## On-chain files
 
 | file | decls | on-chain decls (sample) |
 |------|------:|--------------------------|
-| `Erdos848/Basic.lean` | 14 | Squarefree, candidateCount, ForbiddenSquarefreeEdge (+11 more) |
+| `Erdos848/Basic.lean` | 15 | Squarefree, CandidateSevenSharp, candidateCount (+12 more) |
 | `Erdos848/Infrastructure/HallExpansion.lean` | 2 | atMostCandidateBound_of_current_cuts, hallExpansionCut |
-| `Erdos848/Infrastructure/ResidueCertificates.lean` | 7 | squareDivides_five_mul_add_one_of_candidate_eighteen, residueCandidateSharp, squareDivides_five_mul_add_one_of_candidate_seven |
+| `Erdos848/Infrastructure/ResidueCertificates.lean` | 8 | squareDivides_five_mul_add_one_of_candidate_eighteen, residueCandidateSharp, residueCandidateSevenSharp (+1 more) |
 | `Erdos848/Infrastructure/RoughSquareDivisors.lean` | 2 | roughSquareDivisor, RoughSquareDivisorCertificate |
 | `Erdos848/MainTheorem.lean` | 1 | erdos848_main |
 
@@ -22,4 +22,4 @@ Files whose declarations are transitively reached from `config.endpoints` (and a
 
 | file | decls | axioms |
 |------|------:|-------:|
-| `Erdos848/Infrastructure/SquarefreeAP.lean` | 540 | 1 |
+| `Erdos848/Infrastructure/SquarefreeAP.lean` | 576 | 1 |

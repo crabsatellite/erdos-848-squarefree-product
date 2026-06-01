@@ -3,8 +3,8 @@
 Lean-first infrastructure for attacking Erdos Problem #848:
 
 > Maximize `A subset {1,...,N}` subject to `ab + 1` never being squarefree
-> for all `a,b in A`. The conjectural extremizers are the residue classes
-> `7 mod 25` and `18 mod 25`.
+> for all `a,b in A`. The endpoint target is the literal #848 extremizer
+> `7 mod 25`; `18 mod 25` appears only as route support data.
 
 ## Source Of Truth
 

@@ -14,6 +14,6 @@ namespace Erdos848
 theorem erdos848_main : Erdos848FullClose := by
   exact And.intro
     atMostCandidateBound_of_current_cuts
-    residueCandidateSharp
+    residueCandidateSevenSharp
 
 end Erdos848

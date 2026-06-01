@@ -775,6 +775,27 @@ theorem squarefreeNeighborSourceDecoder_spec
     Classical.choose_spec hExists
   simpa [squarefreeNeighborSourceDecoder, hExists] using hchoose
 
+/--
+If a target has no opposite-source edge, then the canonical opposite-source
+decoder cannot land in the concrete `18 mod 25` class.
+-/
+theorem squarefreeNeighborSourceDecoder_not_eighteen_of_no_opposite_edge
+    {B : Nat -> Prop} {a : Nat}
+    (hNo :
+      forall c : Nat, OppositeOutsidePart 7 B c ->
+        Not (ForbiddenSquarefreeEdge a c)) :
+    Not (CandidateCarrier 18
+      (squarefreeNeighborSourceDecoder (OppositeOutsidePart 7 B) a)) := by
+  classical
+  unfold squarefreeNeighborSourceDecoder
+  by_cases hExists :
+      Exists fun c : Nat =>
+        OppositeOutsidePart 7 B c /\ ForbiddenSquarefreeEdge a c
+  · exact False.elim
+      ((hNo (Classical.choose hExists) (Classical.choose_spec hExists).left)
+        (Classical.choose_spec hExists).right)
+  · simp [hExists, CandidateCarrier]
+
 /-- Credit code for an unused opposite-neighbor reserve target. -/
 def ActiveStrictMiddleReserveCreditCode
     (N r : Nat) (B : Nat -> Prop) (mate : Nat -> Nat) : Type :=
@@ -1019,6 +1040,33 @@ def ActiveStrictMiddleNewSelfAntiEighteenWitnessCreditCode.toSourceAntiEighteenW
     edge := code.edge
   }
   decoderNotEighteen := code.decoderNotEighteen
+
+/--
+Live-route new-middle credit code whose target is fresh from every opposite
+source and whose source witness is the current strict-middle vertex.
+-/
+structure ActiveStrictMiddleNewSelfFreshWitnessCreditCode
+    (N : Nat) (B : Nat -> Prop) (b : Nat) where
+  value : Nat
+  valueBox : InBox N value
+  valueCarrier : CandidateCarrier 7 value
+  edge : ForbiddenSquarefreeEdge value b
+  noOppositeEdge :
+    forall c : Nat, OppositeOutsidePart 7 B c ->
+      Not (ForbiddenSquarefreeEdge value c)
+
+/-- Fresh self-source data supplies self-source anti-`18 mod 25` data. -/
+def ActiveStrictMiddleNewSelfFreshWitnessCreditCode.toSelfAntiEighteenWitnessCreditCode
+    {N : Nat} {B : Nat -> Prop} {b : Nat}
+    (code : ActiveStrictMiddleNewSelfFreshWitnessCreditCode N B b) :
+    ActiveStrictMiddleNewSelfAntiEighteenWitnessCreditCode N B b where
+  value := code.value
+  valueBox := code.valueBox
+  valueCarrier := code.valueCarrier
+  edge := code.edge
+  decoderNotEighteen :=
+    squarefreeNeighborSourceDecoder_not_eighteen_of_no_opposite_edge
+      code.noOppositeEdge
 
 /--
 Credit target as an explicit reserve/new-middle sum code, rather than an
@@ -1294,6 +1342,41 @@ def ActiveStrictMiddleCreditSelfAntiEighteenWitnessSumCode.toAntiEighteenWitness
       Sum.inl reserve
   | Sum.inr newMiddle =>
       Sum.inr (newMiddle.toSourceAntiEighteenWitnessCreditCode hb)
+
+/--
+Live-route credit target where the new-middle branch is a fresh neighbor of
+the current strict-middle source.
+-/
+def ActiveStrictMiddleCreditSelfFreshWitnessSumCode
+    (N : Nat) (B : Nat -> Prop) (mate : Nat -> Nat)
+    (oppositeDecoder : Nat -> Nat) (b : Nat) : Type :=
+  Sum (ActiveStrictMiddleReserveAntiEighteenWitnessCreditCode
+      N B mate oppositeDecoder)
+    (ActiveStrictMiddleNewSelfFreshWitnessCreditCode N B b)
+
+/-- Forget proof data and keep the target value of a self-fresh sum. -/
+def ActiveStrictMiddleCreditSelfFreshWitnessSumCode.value
+    {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {oppositeDecoder : Nat -> Nat} {b : Nat}
+    (code : ActiveStrictMiddleCreditSelfFreshWitnessSumCode
+      N B mate oppositeDecoder b) : Nat :=
+  match code with
+  | Sum.inl reserve => reserve.neighbor.value
+  | Sum.inr newMiddle => newMiddle.value
+
+/-- Self-fresh sums supply self-source anti-`18 mod 25` sums. -/
+def ActiveStrictMiddleCreditSelfFreshWitnessSumCode.toSelfAntiEighteenWitnessSumCode
+    {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {oppositeDecoder : Nat -> Nat} {b : Nat}
+    (code : ActiveStrictMiddleCreditSelfFreshWitnessSumCode
+      N B mate oppositeDecoder b) :
+    ActiveStrictMiddleCreditSelfAntiEighteenWitnessSumCode
+      N B mate oppositeDecoder b :=
+  match code with
+  | Sum.inl reserve =>
+      Sum.inl reserve
+  | Sum.inr newMiddle =>
+      Sum.inr newMiddle.toSelfAntiEighteenWitnessCreditCode
 
 /-- Credit code carrying a decoder proof back to its strict-middle source. -/
 def DecodedActiveStrictMiddleCreditCode
@@ -1593,6 +1676,42 @@ def DecodedActiveStrictMiddleCreditSelfAntiEighteenWitnessSumCode.toDecodedAntiE
         hdecode
 
 /--
+Decoded self-fresh witness sum code carrying a decoder proof back to its
+strict-middle source.
+-/
+def DecodedActiveStrictMiddleCreditSelfFreshWitnessSumCode
+    (N : Nat) (B : Nat -> Prop) (mate : Nat -> Nat)
+    (oppositeDecoder : Nat -> Nat) (creditDecoder : Nat -> Nat)
+    (b : Nat) : Type :=
+  { code : ActiveStrictMiddleCreditSelfFreshWitnessSumCode
+      N B mate oppositeDecoder b //
+    creditDecoder code.value = b }
+
+/-- Self-fresh decoded sums supply self-source anti-`18 mod 25` decoded sums. -/
+def DecodedActiveStrictMiddleCreditSelfFreshWitnessSumCode.toDecodedSelfAntiEighteenWitnessSumCode
+    {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    {oppositeDecoder creditDecoder : Nat -> Nat} {b : Nat}
+    (code :
+      DecodedActiveStrictMiddleCreditSelfFreshWitnessSumCode
+        N B mate oppositeDecoder creditDecoder b) :
+    DecodedActiveStrictMiddleCreditSelfAntiEighteenWitnessSumCode
+      N B mate oppositeDecoder creditDecoder b := by
+  refine ⟨ActiveStrictMiddleCreditSelfFreshWitnessSumCode.toSelfAntiEighteenWitnessSumCode
+    code.val, ?_⟩
+  rcases code with ⟨codeVal, hdecode⟩
+  cases codeVal with
+  | inl reserve =>
+      simpa [ActiveStrictMiddleCreditSelfFreshWitnessSumCode.value,
+        ActiveStrictMiddleCreditSelfFreshWitnessSumCode.toSelfAntiEighteenWitnessSumCode,
+        ActiveStrictMiddleCreditSelfAntiEighteenWitnessSumCode.value] using hdecode
+  | inr newMiddle =>
+      simpa [ActiveStrictMiddleCreditSelfFreshWitnessSumCode.value,
+        ActiveStrictMiddleCreditSelfFreshWitnessSumCode.toSelfAntiEighteenWitnessSumCode,
+        ActiveStrictMiddleCreditSelfAntiEighteenWitnessSumCode.value,
+        ActiveStrictMiddleNewSelfFreshWitnessCreditCode.toSelfAntiEighteenWitnessCreditCode] using
+        hdecode
+
+/--
 Active strict-middle matching with target membership and injectivity carried by
 source-indexed decoded credit codes.
 -/
@@ -1877,6 +1996,37 @@ theorem activeStrictMiddleDecodedCreditAntiEighteenWitnessSumMatching_of_self
   intro b hb
   exact DecodedActiveStrictMiddleCreditSelfAntiEighteenWitnessSumCode.toDecodedAntiEighteenWitnessSumCode
     hb (credit b hb)
+
+/--
+Live-route active strict-middle decoded matching where any new-middle branch is
+a fresh neighbor of the current strict-middle source.
+-/
+def ActiveStrictMiddleDecodedCreditSelfFreshWitnessSumMatching
+    (N : Nat) (B : Nat -> Prop)
+    (_decMid : DecidablePred (StrictMiddlePart 7 B))
+    (mate : Nat -> Nat) (oppositeDecoder : Nat -> Nat) : Prop :=
+  Exists fun creditDecoder : Nat -> Nat =>
+  Exists fun _credit :
+      (forall b : Nat, StrictMiddlePart 7 B b ->
+        DecodedActiveStrictMiddleCreditSelfFreshWitnessSumCode
+          N B mate oppositeDecoder creditDecoder b) =>
+    True
+
+/-- Self-fresh matching supplies the previous self-source anti-`18 mod 25` matching. -/
+theorem activeStrictMiddleDecodedCreditSelfAntiEighteenWitnessSumMatching_of_selfFresh
+    {N : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart 7 B)}
+    {mate oppositeDecoder : Nat -> Nat}
+    (h :
+      ActiveStrictMiddleDecodedCreditSelfFreshWitnessSumMatching
+        N B decMid mate oppositeDecoder) :
+    ActiveStrictMiddleDecodedCreditSelfAntiEighteenWitnessSumMatching
+      N B decMid mate oppositeDecoder := by
+  rcases h with ⟨creditDecoder, credit, _⟩
+  refine ⟨creditDecoder, ?_, trivial⟩
+  intro b hb
+  exact DecodedActiveStrictMiddleCreditSelfFreshWitnessSumCode.toDecodedSelfAntiEighteenWitnessSumCode
+    (credit b hb)
 
 /-- Count-level active strict-middle credit capacity for one fixed opposite mate. -/
 def ActiveStrictMiddleCreditCapacity
@@ -2430,6 +2580,24 @@ def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfA
       NonSquarefreeClique B ->
       (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
       ActiveStrictMiddleDecodedCreditSelfAntiEighteenWitnessSumMatching N B decMid
+        (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset) decoder)
+
+/--
+Decoded squarefree-boxed certificate whose new-middle branch uses a fresh
+neighbor of the current strict-middle source.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCertificate :
+    Prop :=
+  forall N : Nat, Exists fun decoder : Nat -> Nat =>
+  Exists fun offset :
+      (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b decoder) =>
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B)),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleDecodedCreditSelfFreshWitnessSumMatching N B decMid
         (decodedSquarefreeBoxedOppositeFiniteOffsetMate N offset) decoder)
 
 /--
@@ -2993,6 +3161,18 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditS
   intro B decMid hB hClique hMid
   exact activeStrictMiddleDecodedCreditSourceAntiNeighborWitnessSumMatching_of_sourceAntiOpposite
     (hCreditSourceAntiOpposite B decMid hB hClique hMid)
+
+/-- The self-fresh credit certificate supplies the previous self-source data. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCode_of_selfFresh
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCertificate := by
+  intro N
+  rcases h N with ⟨decoder, offset, hCreditSelfFresh⟩
+  refine ⟨decoder, offset, ?_⟩
+  intro B decMid hB hClique hMid
+  exact activeStrictMiddleDecodedCreditSelfAntiEighteenWitnessSumMatching_of_selfFresh
+    (hCreditSelfFresh B decMid hB hClique hMid)
 
 /-- The self-source credit certificate supplies the previous anti-`18 mod 25` data. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCode_of_self
@@ -3892,11 +4072,17 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 
 /--
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
-compression whose new-middle credit branch uses the current strict-middle
-source and whose negative facts are concrete anti-`18 mod 25` data.
+compression whose new-middle credit branch is a fresh neighbor of the current
+strict-middle source.
 -/
-axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCertificate
+axiom finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCertificate
+
+/-- Current self-source anti-`18 mod 25` certificate derived from self-fresh data. -/
+theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCode_of_selfFresh
+    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut
 
 /-- Current anti-`18 mod 25` certificate derived from self-source data. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCut :

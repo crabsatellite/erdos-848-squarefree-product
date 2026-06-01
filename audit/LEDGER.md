@@ -15,6 +15,7 @@ the source of truth and use this file only as a durable round index.
 | R035 | Reduced reserve and new-middle negative credit data to carrier-only decoder facts; the only project mathematical cut is now `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCarrierWitnessSumCodeCut`. |
 | R036 | Specialized the carrier-only credit negatives to concrete anti-`18 mod 25` decoder facts; the only project mathematical cut is now `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCodeCut`. |
 | R037 | Strengthened the new-middle credit branch so its squarefree-edge witness source is the current strict-middle vertex; the only project mathematical cut is now `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCut`. |
+| R038 | Re-anchored the endpoint surface to literal #848 (`7 mod 25` sharpness and exact `candidateCount 7` bound) and replaced the new-middle decoder anti-`18 mod 25` obligation by direct freshness from every opposite source; the only project mathematical cut is now `Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut`. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.

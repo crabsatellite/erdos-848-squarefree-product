@@ -16,7 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCut
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -56,7 +56,7 @@ def config : ChainAudit.ProjectConfig := {
       title := "Candidate 5-square sharpness"
       status := "closed-local"
       summary :=
-        "Kernel-checked residue algebra: if both factors lie in `7 mod 25` or both lie in `18 mod 25`, then `5^2` divides `a*b+1`; hence the two candidate classes are #848-admissible and the sharpness side is no longer an axiom."
+        "Kernel-checked residue algebra: if both factors lie in `7 mod 25` then `5^2` divides `a*b+1`; hence the literal #848 `7 mod 25` sharpness side is no longer an axiom.  The parallel `18 mod 25` root-class fact remains support data for the compression route, not the endpoint target."
       files := [
         "Erdos848/Infrastructure/ResidueCertificates.lean"
       ]
@@ -66,6 +66,7 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.not_squareDivides_five_mul_add_one_of_candidate_seven_eighteen",
         "Erdos848.not_squareDivides_five_mul_add_one_of_candidate_eighteen_seven",
         "Erdos848.residueSecondLayer",
+        "Erdos848.residueCandidateSevenSharp",
         "Erdos848.residueCandidateSharp"
       ]
     },
@@ -74,11 +75,24 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit decoded squarefree-boxed `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies a decoder and source-indexed seven-offset codes carrying target boxedness, squarefree edge data, and decoder-hit proofs; the strict middle now supplies source-indexed decoded credit witness-sum codes whose reserve and new-middle negative facts are concrete anti-`18 mod 25` decoder facts, and whose new-middle branch is forced to use the current strict-middle source. Lean derives the previous anti-`18 mod 25`/carrier/source-anti-opposite/anti-neighbor/anti-image/witness/sum/code/matching/capacity surfaces before unpacking the decoder left-inverse, edge, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
+        "Replace finite Hall checks by one explicit decoded squarefree-boxed `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies a decoder and source-indexed seven-offset codes carrying target boxedness, squarefree edge data, and decoder-hit proofs; the strict middle now supplies source-indexed decoded credit witness-sum codes whose reserve negative facts are concrete anti-`18 mod 25` decoder facts and whose new-middle branch is a fresh neighbor of the current strict-middle source. Lean derives the previous self-source anti-`18 mod 25`/anti-`18 mod 25`/carrier/source-anti-opposite/anti-neighbor/anti-image/witness/sum/code/matching/capacity surfaces before unpacking the decoder left-inverse, edge, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
+        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut",
+        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCode_of_selfFresh",
+        "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCertificate",
+        "Erdos848.activeStrictMiddleDecodedCreditSelfAntiEighteenWitnessSumMatching_of_selfFresh",
+        "Erdos848.ActiveStrictMiddleDecodedCreditSelfFreshWitnessSumMatching",
+        "Erdos848.DecodedActiveStrictMiddleCreditSelfFreshWitnessSumCode",
+        "Erdos848.DecodedActiveStrictMiddleCreditSelfFreshWitnessSumCode.toDecodedSelfAntiEighteenWitnessSumCode",
+        "Erdos848.ActiveStrictMiddleCreditSelfFreshWitnessSumCode",
+        "Erdos848.ActiveStrictMiddleCreditSelfFreshWitnessSumCode.value",
+        "Erdos848.ActiveStrictMiddleCreditSelfFreshWitnessSumCode.toSelfAntiEighteenWitnessSumCode",
+        "Erdos848.ActiveStrictMiddleNewSelfFreshWitnessCreditCode",
+        "Erdos848.ActiveStrictMiddleNewSelfFreshWitnessCreditCode.toSelfAntiEighteenWitnessCreditCode",
+        "Erdos848.squarefreeNeighborSourceDecoder_not_eighteen_of_no_opposite_edge",
         "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCode_of_self",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCertificate",
@@ -406,7 +420,7 @@ def config : ChainAudit.ProjectConfig := {
       kind := "main"
       status := "open"
       summary :=
-        "Endpoint chain proving the exact extremal bound and sharpness of the `7 mod 25` and `18 mod 25` constructions.  The outer Hall compression is kernel-closed; the open endpoint input is the squarefree AP/Hall-neighborhood expansion."
+        "Endpoint chain proving the exact #848 extremal bound and sharpness of the `7 mod 25` construction.  The `18 mod 25` residue class is retained only as support data inside the compression route.  The outer Hall compression is kernel-closed; the open endpoint input is the squarefree AP/Hall-neighborhood expansion."
       files := [
         "Erdos848/Basic.lean",
         "Erdos848/MainTheorem.lean"
@@ -452,10 +466,10 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Prove the remaining decoded squarefree-boxed `18 mod 25` finite-offset middle-compression self-source anti-`18 mod 25` credit-witness-sum-code cut: one opposite decoder, source-indexed seven-offset codes carrying target boxedness, squarefree edge data, decoder-hit proofs, and source-indexed decoded credit witness-sum codes whose reserve branch may use opposite reserve targets while the new-middle branch must use the current strict-middle source and prove the decoder-selected opposite source is not `18 mod 25`.",
-        "Use Lean to turn self-source new-middle data into the previous anti-`18 mod 25` witness data, turn concrete anti-`18 mod 25` negatives into carrier-level negatives, turn carrier-level negatives into source anti-opposite data, turn source anti-opposite data into source anti-neighbor data, turn source anti-neighbor data into direct new-middle non-neighbor data, turn decoder-side reserve anti-image into direct `Not (OppositeMatchingImage ...)`, erase the candidate-neighbor source witness, erase the reserve/new-middle branch into decoded credit codes, derive the strict-middle credit matching, derive credit-capacity from the matching, unpack decoder hits, squarefree edge data, and target boxedness from the offset code, derive the Nat-code bound from the seven-code type, derive pairwise injectivity from the decoder, reattach source box/residue facts, then use the opposite-carrier, target-residue, and offset-band theorems to recover the generic finite-offset certificate and derive direct partitioned capacity."
+        "Prove the remaining decoded squarefree-boxed `18 mod 25` finite-offset middle-compression self-fresh credit-witness-sum-code cut: one opposite decoder, source-indexed seven-offset codes carrying target boxedness, squarefree edge data, decoder-hit proofs, and source-indexed decoded credit witness-sum codes whose reserve branch may use opposite reserve targets while the new-middle branch must use a fresh neighbor of the current strict-middle source.",
+        "Use Lean to show a fresh new-middle target makes the canonical opposite-source decoder non-`18 mod 25`, turn that into self-source anti-`18 mod 25` data, then into the previous anti-`18 mod 25`/carrier/source anti-opposite/source anti-neighbor/anti-image/witness/sum/code/matching/capacity surfaces before unpacking decoder hits, squarefree edge data, target boxedness, Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfAntiEighteenWitnessSumCodeCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfFreshWitnessSumCodeCut`."
     },
     {
       id := "residue-certificate"
@@ -463,7 +477,7 @@ def config : ChainAudit.ProjectConfig := {
       kind := "support"
       status := "closed-local"
       summary :=
-        "Kernel-local `5^2` residue algebra proves candidate admissibility and records that the cross-pair candidate classes are not killed by the same `5^2` obstruction.  The broader Python `25*13^2` evidence remains diagnostic support for designing the Hall route, but the endpoint no longer consumes it as an axiom."
+        "Kernel-local `5^2` residue algebra proves the literal `7 mod 25` sharpness construction and records the parallel `18 mod 25` support class plus cross-pair diagnostics.  The broader Python `25*13^2` evidence remains diagnostic support for designing the Hall route, but the endpoint no longer consumes it as an axiom."
       files := [
         "Erdos848/Infrastructure/ResidueCertificates.lean"
       ]
@@ -473,16 +487,17 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.not_squareDivides_five_mul_add_one_of_candidate_seven_eighteen",
         "Erdos848.not_squareDivides_five_mul_add_one_of_candidate_eighteen_seven",
         "Erdos848.residueSecondLayer",
+        "Erdos848.residueCandidateSevenSharp",
         "Erdos848.residueCandidateSharp"
       ]
       gapIds := [
         "G-candidate-p5-sharpness"
       ]
       attackPlan := [
-        "Keep the candidate sharpness theorem imported through the endpoint.",
+        "Keep the `7 mod 25` candidate sharpness theorem imported through the endpoint.",
         "Use the broader JSON residue output only as design evidence until a separate checker is added."
       ]
-      successCriterion := "Candidate sharpness remains theorem-backed and no candidate-sharpness axiom appears in `cuts.md`."
+      successCriterion := "The `7 mod 25` candidate sharpness remains theorem-backed and no candidate-sharpness axiom appears in `cuts.md`."
     },
     {
       id := "finite-search-only"
@@ -522,6 +537,7 @@ def config : ChainAudit.ProjectConfig := {
       keywords := [
         "ResidueCertificates",
         "residueSecondLayer",
+        "residueCandidateSevenSharp",
         "residueCandidateSharp",
         "25*13^2",
         "modulo",

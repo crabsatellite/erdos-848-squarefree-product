@@ -60,9 +60,14 @@ def candidateCount (r N : Nat) : Nat :=
 def AtMostCandidateBound : Prop :=
   forall (N : Nat) (A : Nat -> Prop) (decA : DecidablePred A),
     Admissible848 A N ->
-    @familySize N A decA <= Nat.max (candidateCount 7 N) (candidateCount 18 N)
+    @familySize N A decA <= candidateCount 7 N
 
-/-- Sharpness side: the two residue classes are admissible extremal examples. -/
+/-- Sharpness side for the literal #848 extremizer `n = 7 mod 25`. -/
+def CandidateSevenSharp : Prop :=
+  forall N : Nat,
+    Admissible848 (CandidateCarrier 7) N
+
+/-- Support fact: the two `5^2` root classes are admissible examples. -/
 def CandidateSharp : Prop :=
   forall N r : Nat,
     (r = 7 \/ r = 18) ->
@@ -70,6 +75,6 @@ def CandidateSharp : Prop :=
 
 /-- Full theorem surface for Erdos problem #848. -/
 def Erdos848FullClose : Prop :=
-  AtMostCandidateBound /\ CandidateSharp
+  AtMostCandidateBound /\ CandidateSevenSharp
 
 end Erdos848
