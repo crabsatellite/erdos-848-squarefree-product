@@ -6,7 +6,7 @@ Equivalent to running `#print axioms <endpoint>` for each endpoint.
 ## `Erdos848.erdos848_main`
 
 - `Classical.choice`
-- `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut`
+- `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCut`
 - `Quot.sound`
 - `propext`
 

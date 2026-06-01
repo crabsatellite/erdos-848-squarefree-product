@@ -3531,6 +3531,35 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTarge
         (fun b => OppositeFiniteOffsetCodeValue b (offset b)))
 
 /--
+Typed-offset capacity certificate whose strict-middle side is only the
+count-level active credit inequality against the simple typed mate.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCertificate :
+    Prop :=
+  forall N : Nat, Exists fun offset : Nat -> OppositeFiniteOffsetCode =>
+  Exists fun _hMap :
+      (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        GlobalOppositeFiniteOffsetEighteenTypedTargetNeighbor N b (offset b)) =>
+    (forall b1 b2 : Nat,
+      forall _hb1Box : InBox N b1,
+      forall _hb1Residue : CandidateCarrier 18 b1,
+      forall _hb2Box : InBox N b2,
+      forall _hb2Residue : CandidateCarrier 18 b2,
+        OppositeFiniteOffsetCodeValue b1 (offset b1) =
+          OppositeFiniteOffsetCodeValue b2 (offset b2) ->
+        b1 = b2) /\
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B))
+        (decTarget : DecidablePred
+          (ActiveStrictMiddleCreditTarget N 7 B
+            (fun b => OppositeFiniteOffsetCodeValue b (offset b)))),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditCapacity N 7 B decMid
+        (fun b => OppositeFiniteOffsetCodeValue b (offset b)) decTarget)
+
+/--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
 decoder certificate.
 -/
@@ -4063,6 +4092,59 @@ theorem activeStrictMiddleCreditCapacity_of_creditMatching
     exact hCreditInjective b1 b2 hb1 hb2 hcredit
 
 /--
+Active credit targets are monotone across mates that agree on every opposite
+source of the outside set. Only the reserve non-image branch mentions `mate`.
+-/
+theorem activeStrictMiddleCreditTarget_mono_mate
+    {N r : Nat} {B : Nat -> Prop} {mateOld mateNew : Nat -> Nat}
+    (hMate :
+      forall b : Nat, OppositeOutsidePart r B b ->
+        mateOld b = mateNew b) :
+    forall a : Nat,
+      ActiveStrictMiddleCreditTarget N r B mateOld a ->
+      ActiveStrictMiddleCreditTarget N r B mateNew a := by
+  intro a hTarget
+  rcases hTarget with hReserve | hNew
+  · refine Or.inl ⟨hReserve.left, ?_⟩
+    intro hImageNew
+    rcases hImageNew with ⟨b, hbOpp, hmateNew⟩
+    have hmateOld : mateOld b = a := by
+      calc
+        mateOld b = mateNew b := hMate b hbOpp
+        _ = a := hmateNew
+    exact hReserve.right ⟨b, hbOpp, hmateOld⟩
+  · exact Or.inr hNew
+
+/--
+Count-level active credit capacity transfers across mates that agree on every
+opposite source of the outside set.
+-/
+theorem activeStrictMiddleCreditCapacity_mono_mate
+    {N r : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart r B)}
+    {mateOld mateNew : Nat -> Nat}
+    {decTargetOld :
+      DecidablePred (ActiveStrictMiddleCreditTarget N r B mateOld)}
+    {decTargetNew :
+      DecidablePred (ActiveStrictMiddleCreditTarget N r B mateNew)}
+    (hMate :
+      forall b : Nat, OppositeOutsidePart r B b ->
+        mateOld b = mateNew b)
+    (hCapacity :
+      ActiveStrictMiddleCreditCapacity N r B decMid mateOld decTargetOld) :
+    ActiveStrictMiddleCreditCapacity N r B decMid mateNew decTargetNew := by
+  unfold ActiveStrictMiddleCreditCapacity at hCapacity ⊢
+  have hTargetLe :
+      @familySize N (ActiveStrictMiddleCreditTarget N r B mateOld) decTargetOld <=
+        @familySize N (ActiveStrictMiddleCreditTarget N r B mateNew) decTargetNew := by
+    exact familySize_mono N
+      (ActiveStrictMiddleCreditTarget N r B mateOld)
+      (ActiveStrictMiddleCreditTarget N r B mateNew)
+      decTargetOld decTargetNew
+      (activeStrictMiddleCreditTarget_mono_mate hMate)
+  omega
+
+/--
 The source-anti-neighbor certificate supplies the previous anti-image
 witness-sum-code certificate.
 -/
@@ -4267,6 +4349,65 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_
       boxedOppositeFiniteOffsetCodeOfTyped, boxedOppositeFiniteOffsetCodeValue,
       OppositeFiniteOffsetCodeValue, hsrc]
   · exact hCreditTyped B hB hClique hMid
+
+/--
+The typed-mate count-level capacity certificate supplies the decoded
+squarefree-boxed capacity certificate; Lean packages typed targets as
+squarefree-boxed codes and transfers the target count across the mate equality.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateCreditCapacity
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate := by
+  intro N
+  rcases h N with ⟨offset, hMap, hInjective, hCapacityTyped⟩
+  let squarefreeOffset :
+      forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        SquarefreeBoxedOppositeFiniteOffsetCode N b :=
+    fun b hbBox hb18 =>
+      squarefreeBoxedOppositeFiniteOffsetCodeOfTyped offset hMap b hbBox hb18
+  have hInjectiveBoxed : SquarefreeBoxedOffsetInjective N squarefreeOffset := by
+    intro b1 b2 hb1Box hb1Residue hb2Box hb2Residue hvalue
+    exact hInjective b1 b2 hb1Box hb1Residue hb2Box hb2Residue (by
+      simpa [squarefreeOffset,
+        squarefreeBoxedOppositeFiniteOffsetCodeOfTyped,
+        boxedOppositeFiniteOffsetCodeOfTyped,
+        boxedOppositeFiniteOffsetCodeValue,
+        OppositeFiniteOffsetCodeValue] using hvalue)
+  let decoder : Nat -> Nat := squarefreeBoxedOffsetDecoder N squarefreeOffset
+  let decodedOffset :
+      forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        DecodedSquarefreeBoxedOppositeFiniteOffsetCode N b decoder :=
+    fun b hbBox hb18 =>
+      decodedSquarefreeBoxedOffset_of_injective
+        (N := N) (offset := squarefreeOffset) hInjectiveBoxed hbBox hb18
+  refine ⟨decoder, decodedOffset, ?_⟩
+  intro B decMid decTarget hB hClique hMid
+  let typedMate : Nat -> Nat :=
+    fun b => OppositeFiniteOffsetCodeValue b (offset b)
+  let decTargetTyped :
+      DecidablePred (ActiveStrictMiddleCreditTarget N 7 B typedMate) :=
+    fun a => Classical.propDecidable
+      (ActiveStrictMiddleCreditTarget N 7 B typedMate a)
+  apply activeStrictMiddleCreditCapacity_mono_mate
+    (mateOld := typedMate)
+    (mateNew := decodedSquarefreeBoxedOppositeFiniteOffsetMate N decodedOffset)
+    (decTargetOld := decTargetTyped)
+    (decTargetNew := decTarget)
+  · intro b hbOpp
+    have hbBox : InBox N b := (hB b hbOpp.left).left
+    have hb18 : CandidateCarrier 18 b :=
+      candidateCarrier_eighteen_of_oppositeCandidateCarrier_seven hbOpp.right
+    have hsrc : InBox N b /\ CandidateCarrier 18 b := And.intro hbBox hb18
+    simp [typedMate, decodedSquarefreeBoxedOppositeFiniteOffsetMate,
+      boxedOppositeFiniteOffsetMate, boxedOppositeFiniteOffsetRawCode,
+      decodedOffset, decodedSquarefreeBoxedOffset_of_injective,
+      DecodedSquarefreeBoxedOppositeFiniteOffsetCode.toSquarefreeBoxed,
+      SquarefreeBoxedOppositeFiniteOffsetCode.toBoxed,
+      squarefreeOffset, squarefreeBoxedOppositeFiniteOffsetCodeOfTyped,
+      boxedOppositeFiniteOffsetCodeOfTyped, boxedOppositeFiniteOffsetCodeValue,
+      OppositeFiniteOffsetCodeValue, hsrc]
+  · exact hCapacityTyped B decMid decTargetTyped hB hClique hMid
 
 /-- The self-source credit certificate supplies the previous anti-`18 mod 25` data. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiEighteenWitnessSumCode_of_self
@@ -5168,23 +5309,17 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
 compression whose open offset side is a total typed seven-offset map with
 target boxedness, squarefree edge data, and target injectivity.  Lean packages
-the squarefree-boxed codes and constructs the decoder; the strict-middle credit
-side uses the simple typed mate and Lean transfers it to the boxed mate.
+the squarefree-boxed codes and constructs the decoder; the strict-middle side
+is now only the count-level active credit capacity for the simple typed mate.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCertificate
 
-/-- Current explicit credit-matching certificate derived from direct active codes. -/
-theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_typedMateUniformSelfCanonicalTargetDirect
-    finiteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut
-
-/-- Current decoded squarefree-boxed certificate with capacity derived from credit matching. -/
+/-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_credit
-    finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCut
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateCreditCapacity
+    finiteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCut
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
 theorem finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :

@@ -16,7 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -75,12 +75,16 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies a total typed offset map with target boxedness, squarefree edge data, and target-value injectivity from which Lean packages squarefree-boxed codes and constructs the decoder; the strict middle supplies `decMid`-independent source-indexed active credit sum codes against the simple typed mate, with direct target-value injectivity, reserve credits carrying the original non-image fact, and a new-middle branch that reuses the existing `ActiveStrictMiddleNewCreditCode` target while identifying the current source through the canonical strict-middle source decoder. Lean transfers the credit side to the boxed mate, totalizes using `decMid`, then unpacks Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
+        "Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the opposite block supplies a total typed offset map with target boxedness, squarefree edge data, and target-value injectivity from which Lean packages squarefree-boxed codes and constructs the decoder; the strict middle now supplies only the count-level active credit capacity against the simple typed mate. Lean transfers that capacity to the decoded boxed mate, then unpacks Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
-        "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut",
+        "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCut",
+        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateCreditCapacity",
+        "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCertificate",
+        "Erdos848.activeStrictMiddleCreditCapacity_mono_mate",
+        "Erdos848.activeStrictMiddleCreditTarget_mono_mate",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_typedMateUniformSelfCanonicalTargetDirect",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate",
         "Erdos848.activeStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching_congr_mate",
@@ -271,7 +275,6 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.ActiveStrictMiddleCreditCode",
         "Erdos848.ActiveStrictMiddleCreditCode.value",
         "Erdos848.activeStrictMiddleCreditCode_target",
-        "Erdos848.finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_credit",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCertificate",
         "Erdos848.activeStrictMiddleCreditCapacity_of_creditMatching",
@@ -524,10 +527,10 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Prove the remaining typed-mate seven-offset `18 mod 25` finite-offset middle-compression self-canonical-target uniform direct-injective credit-sum-code cut: one total offset map into the seven constructors, target boxedness and squarefree edge data for every boxed `18 mod 25` source, opposite target-value injectivity sufficient for Lean to construct the decoder, and source-indexed active credit sum codes against `fun b => OppositeFiniteOffsetCodeValue b (offset b)`, independent of the strict-middle decidability instance, whose values are directly injective, whose reserve branch carries the original non-image fact, and whose new-middle branch must reuse an existing `ActiveStrictMiddleNewCreditCode` while proving that the canonical strict-middle source decoder returns the current strict-middle source.",
-        "Use Lean to transfer typed-mate reserve non-image facts to the boxed mate, package typed offsets into squarefree-boxed codes, build decoded offset data from target injectivity, then totalize the uniform direct active credit codes into `ActiveStrictMiddleCreditMatching`, bypassing the intermediate anti-`18 mod 25`/carrier/source anti-opposite/source anti-neighbor/anti-image/witness/sum/code/decoded-matching layers before unpacking Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
+        "Prove the remaining typed-mate seven-offset `18 mod 25` finite-offset middle-compression active credit capacity cut: one total offset map into the seven constructors, target boxedness and squarefree edge data for every boxed `18 mod 25` source, opposite target-value injectivity sufficient for Lean to construct the decoder, and the count-level active credit capacity against `fun b => OppositeFiniteOffsetCodeValue b (offset b)` for every compatible outside clique with nonempty strict middle.",
+        "Use Lean to transfer typed-mate active credit capacity to the boxed decoded mate, package typed offsets into squarefree-boxed codes, build decoded offset data from target injectivity, then unpack Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCut`."
     },
     {
       id := "residue-certificate"
@@ -610,7 +613,11 @@ def config : ChainAudit.ProjectConfig := {
       keywords := [
         "SquarefreeAP",
         "squarefreeAPHall",
-        "finiteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCut",
+        "finiteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCut",
+        "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateCreditCapacity",
+        "GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCertificate",
+        "activeStrictMiddleCreditCapacity_mono_mate",
+        "activeStrictMiddleCreditTarget_mono_mate",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_of_typedMateUniformSelfCanonicalTargetDirect",
         "GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate",
         "activeStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching_congr_mate",
@@ -746,7 +753,6 @@ def config : ChainAudit.ProjectConfig := {
         "ActiveStrictMiddleDecodedCreditMatching",
         "DecodedActiveStrictMiddleCreditCode",
         "activeStrictMiddleCreditCode_target",
-        "finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_credit",
         "GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditCertificate",
         "activeStrictMiddleCreditCapacity_of_creditMatching",
