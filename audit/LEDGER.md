@@ -99,6 +99,7 @@ the source of truth and use this file only as a durable round index.
 | R119 | Replaced seed opposite-class exclusion with the canonical key residue condition `deficitSeedPrefixKey i % 25 ≠ 6`. |
 | R120 | Restricted source no-image evidence to boxed `18 mod 25` source indices; Lean derives boxedness from `BoundedOutsideSet` and source membership. |
 | R121 | Replaced explicit reserve witness indices, source membership, and prefix edge fields with candidate-neighbor existentials; Lean reconstructs witness indices by `CandidateClassIndex`. |
+| R122 | Removed the scalar prefix upper-bound field; Lean derives it from boxedness of the last generated candidate-neighbor target. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
