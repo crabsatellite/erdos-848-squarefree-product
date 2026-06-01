@@ -57,6 +57,7 @@ the source of truth and use this file only as a durable round index.
 | R077 | Narrowed the live active-credit obligation to split capacity. Lean now proves that reserve-plus-new-middle capacity implies the old active-credit target capacity, so the remaining cut matches the capacity-only checker’s actual pool decomposition. |
 | R078 | Aligned the active-credit evidence schema with the new split-capacity cut. The Python gate now records and verifies reserve/new-middle disjointness, split-pool size, and equality with the credit pool used in the finite search. |
 | R079 | Added active-credit witness classification. The finite evidence now records worst-witness residue counts and whether the split-capacity witness is reserve-only, new-middle-only, mixed, or empty, so the next Lean reduction can target the right branch. |
+| R080 | Narrowed active-credit split capacity to a slack-capacity surface. Lean now proves that new-middle coverage plus a reserve-paid slack implies the prior reserve-plus-new-middle split capacity, matching the finite search defect accounting. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
