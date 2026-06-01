@@ -1,10 +1,10 @@
 # Erdos848 -- all audit findings
 
 
-* total: **213**  *  FAIL: **0**  *  WARN: **213**
+* total: **215**  *  FAIL: **0**  *  WARN: **215**
 
 
-## W5.prop-def (WARN) -- 146
+## W5.prop-def (WARN) -- 148
 
 - Prop-valued definition `Erdos848.RoughSquareDivisorCertificate` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/RoughSquareDivisors.lean)
 - Prop-valued definition `Erdos848.IncrementalStrictMiddleNeighbor` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
@@ -20,6 +20,7 @@
 - Prop-valued definition `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSelfTargetSumCodeCertificate` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiOppositeWitnessSumCodeCertificate` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.ActiveStrictMiddleCreditSelfCanonicalTargetInjectiveSumMatching` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
+- Prop-valued definition `Erdos848.OppositeFiniteOffsetSourceIndexCodeNonUnderflow` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.ActiveStrictMiddleDecodedCreditSelfFreshWitnessSumMatching` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.PartitionedSquarefreeAPCapacityCertificate` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
@@ -137,6 +138,7 @@
 - Prop-valued definition `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditAntiImageWitnessSumCodeCertificate` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.OppositeNearbyNeighborAllocation` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTargetCertificate` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
+- Prop-valued definition `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.OppositeSquarefreeAPCapacityCertificateForResidue` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCreditSourceAntiNeighborWitnessSumCodeCertificate` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.BoundedOutsideSet` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)

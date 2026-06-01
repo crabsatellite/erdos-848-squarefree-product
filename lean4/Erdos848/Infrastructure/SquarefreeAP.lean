@@ -332,6 +332,45 @@ def OppositeFiniteOffsetSourceIndexTargetValue
     (k : Nat) (code : OppositeFiniteOffsetCode) : Nat :=
   25 * OppositeFiniteOffsetSourceIndexShiftTarget k code + 7
 
+/-- The source index is large enough that the typed negative offset does not underflow. -/
+def OppositeFiniteOffsetSourceIndexCodeNonUnderflow
+    (k : Nat) : OppositeFiniteOffsetCode -> Prop
+  | OppositeFiniteOffsetCode.neg86 => 3 <= k
+  | OppositeFiniteOffsetCode.neg61 => 2 <= k
+  | OppositeFiniteOffsetCode.neg36 => 1 <= k
+  | OppositeFiniteOffsetCode.neg11 => True
+  | OppositeFiniteOffsetCode.pos14 => True
+  | OppositeFiniteOffsetCode.pos39 => True
+  | OppositeFiniteOffsetCode.pos64 => True
+
+/--
+Non-underflow is enough to identify the original finite-offset target value
+with the source-index target value.
+-/
+theorem oppositeFiniteOffsetCodeValue_eighteenSource_eq_sourceIndexTargetValue_of_nonUnderflow
+    {k : Nat} {code : OppositeFiniteOffsetCode}
+    (h : OppositeFiniteOffsetSourceIndexCodeNonUnderflow k code) :
+    OppositeFiniteOffsetCodeValue (EighteenSourceFromIndex k) code =
+      OppositeFiniteOffsetSourceIndexTargetValue k code := by
+  cases code
+  · simp [OppositeFiniteOffsetSourceIndexCodeNonUnderflow] at h
+    change 25 * k + 18 - 86 = 25 * (k - 3) + 7
+    omega
+  · simp [OppositeFiniteOffsetSourceIndexCodeNonUnderflow] at h
+    change 25 * k + 18 - 61 = 25 * (k - 2) + 7
+    omega
+  · simp [OppositeFiniteOffsetSourceIndexCodeNonUnderflow] at h
+    change 25 * k + 18 - 36 = 25 * (k - 1) + 7
+    omega
+  · change 25 * k + 18 - 11 = 25 * k + 7
+    omega
+  · change 25 * k + 18 + 14 = 25 * (k + 1) + 7
+    omega
+  · change 25 * k + 18 + 39 = 25 * (k + 2) + 7
+    omega
+  · change 25 * k + 18 + 64 = 25 * (k + 3) + 7
+    omega
+
 /-- The synthetic source `25*k+18` lies in the `18 mod 25` residue class. -/
 theorem candidateCarrier_eighteenSourceFromIndex (k : Nat) :
     CandidateCarrier 18 (EighteenSourceFromIndex k) := by
@@ -3831,6 +3870,12 @@ def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent
     OppositeFiniteOffsetCodeValue (EighteenSourceFromIndex k) (offsetIndex k) =
       OppositeFiniteOffsetSourceIndexTargetValue k (offsetIndex k)
 
+/-- Source-index non-underflow data for every boxed `18 mod 25` source. -/
+def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall k : Nat, InBox N (EighteenSourceFromIndex k) ->
+    OppositeFiniteOffsetSourceIndexCodeNonUnderflow k (offsetIndex k)
+
 /-- Target-box data stated directly for the source-index target value. -/
 def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox
     (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
@@ -3911,7 +3956,7 @@ Split certificate whose opposite block is indexed by `k` with source
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
   forall N : Nat, Exists fun offsetIndex : Nat -> OppositeFiniteOffsetCode =>
-    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent N offsetIndex /\
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow N offsetIndex /\
     GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox N offsetIndex /\
     GlobalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge N offsetIndex /\
     GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective N offsetIndex /\
@@ -4752,6 +4797,19 @@ theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox_of_indexBox
   have hEq := hCoherent k hkBox
   simpa [hEq] using hIndexBox k hkBox
 
+/-- Source-index non-underflow supplies source-index target-value coherence. -/
+theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent_of_nonUnderflow
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hNonUnderflow :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexCodeNonUnderflow
+        N offsetIndex) :
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent
+      N offsetIndex := by
+  intro k hkBox
+  exact
+    oppositeFiniteOffsetCodeValue_eighteenSource_eq_sourceIndexTargetValue_of_nonUnderflow
+      (hNonUnderflow k hkBox)
+
 /--
 The source-indexed shift matching induces the previous total `b`-indexed
 shift matching by reading the offset at `CandidateClassIndex b`.
@@ -4802,8 +4860,13 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCredi
       GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate) :
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCertificate := by
   intro N
-  rcases h N with ⟨offsetIndex, hTargetCoherent, hTargetIndexBox, hSquarefreeEdge,
+  rcases h N with ⟨offsetIndex, hNonUnderflow, hTargetIndexBox, hSquarefreeEdge,
     hShiftInjective, hCapacity⟩
+  have hTargetCoherent :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent
+        N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent_of_nonUnderflow
+      hNonUnderflow
   have hTargetBox :
       GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox N offsetIndex :=
     globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox_of_indexBox
