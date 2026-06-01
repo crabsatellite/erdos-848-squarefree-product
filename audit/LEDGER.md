@@ -100,6 +100,7 @@ the source of truth and use this file only as a durable round index.
 | R120 | Restricted source no-image evidence to boxed `18 mod 25` source indices; Lean derives boxedness from `BoundedOutsideSet` and source membership. |
 | R121 | Replaced explicit reserve witness indices, source membership, and prefix edge fields with candidate-neighbor existentials; Lean reconstructs witness indices by `CandidateClassIndex`. |
 | R122 | Removed the scalar prefix upper-bound field; Lean derives it from boxedness of the last generated candidate-neighbor target. |
+| R123 | Replaced boxed source-index no-image evidence with direct no-image over actual `18 mod 25` sources in `B`; Lean recovers the source index by `CandidateClassIndex`. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
