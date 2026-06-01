@@ -354,6 +354,36 @@ def OppositeFiniteOffsetTemplateRepairCode
   | some code => code
   | none => OppositeFiniteOffsetPeriodSixTemplateCode k
 
+/-- One compact source-index repair window: start index plus consecutive codes. -/
+structure OppositeFiniteOffsetRepairWindow where
+  start : Nat
+  codes : List OppositeFiniteOffsetCode
+
+/-- Read the repair code supplied by one window, if the source index lies in it. -/
+def OppositeFiniteOffsetRepairWindow.code?
+    (window : OppositeFiniteOffsetRepairWindow)
+    (k : Nat) : Option OppositeFiniteOffsetCode :=
+  if window.start <= k then
+    window.codes.get? (k - window.start)
+  else
+    none
+
+/-- Read the first repair code supplied by a list of compact windows. -/
+def OppositeFiniteOffsetRepairWindowsCode? :
+    List OppositeFiniteOffsetRepairWindow -> Nat -> Option OppositeFiniteOffsetCode
+  | [], _ => none
+  | window :: windows, k =>
+      match OppositeFiniteOffsetRepairWindow.code? window k with
+      | some code => some code
+      | none => OppositeFiniteOffsetRepairWindowsCode? windows k
+
+/-- Apply compact repair windows over the period-six default template. -/
+def OppositeFiniteOffsetTemplateWindowRepairCode
+    (windows : List OppositeFiniteOffsetRepairWindow)
+    (k : Nat) : OppositeFiniteOffsetCode :=
+  OppositeFiniteOffsetTemplateRepairCode
+    (OppositeFiniteOffsetRepairWindowsCode? windows) k
+
 /-- Total mate induced by a source-index code assignment. -/
 def OppositeFiniteOffsetSourceIndexMate
     (offsetIndex : Nat -> OppositeFiniteOffsetCode) (b : Nat) : Nat :=
@@ -3998,6 +4028,27 @@ theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching_of_templ
     using h
 
 /--
+Source-index valid matching stated as compact repair windows over the period-six
+template.
+-/
+def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateWindowRepairValidMatching
+    (N : Nat) (windows : List OppositeFiniteOffsetRepairWindow) : Prop :=
+  GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateRepairValidMatching
+    N (OppositeFiniteOffsetRepairWindowsCode? windows)
+
+/-- Window-repair valid matching projects to the template-repair package. -/
+theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateRepairValidMatching_of_windowRepair
+    {N : Nat} {windows : List OppositeFiniteOffsetRepairWindow}
+    (h :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateWindowRepairValidMatching
+        N windows) :
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateRepairValidMatching
+      N (OppositeFiniteOffsetRepairWindowsCode? windows) := by
+  simpa [
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateWindowRepairValidMatching]
+    using h
+
+/--
 Opposite-side typed matching indexed only by the `18 mod 25` source index.
 The induced total mate uses `offsetIndex (CandidateClassIndex b)`.
 -/
@@ -4067,10 +4118,19 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity N
       (OppositeFiniteOffsetTemplateRepairCode repair)
 
-/-- Current source-index split certificate, narrowed to template-repair form. -/
+/-- Source-index split certificate with compact repair-window overrides. -/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditCapacityCertificate :
+    Prop :=
+  forall N : Nat, Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateWindowRepairValidMatching
+      N windows /\
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity N
+      (OppositeFiniteOffsetTemplateWindowRepairCode windows)
+
+/-- Current source-index split certificate, narrowed to template-window-repair form. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateRepairCreditCapacityCertificate
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditCapacityCertificate
 
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
@@ -5138,9 +5198,17 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCredi
       GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate) :
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCertificate := by
   intro N
-  rcases h N with ⟨repair, hTemplateMatching, hCapacityTemplate⟩
+  rcases h N with ⟨windows, hWindowMatching, hCapacityWindow⟩
+  let repair : Nat -> Option OppositeFiniteOffsetCode :=
+    OppositeFiniteOffsetRepairWindowsCode? windows
   let offsetIndex : Nat -> OppositeFiniteOffsetCode :=
     OppositeFiniteOffsetTemplateRepairCode repair
+  have hTemplateMatching :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateRepairValidMatching
+        N repair := by
+    simpa [repair] using
+      globalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateRepairValidMatching_of_windowRepair
+        hWindowMatching
   have hValidMatching :
       GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching
         N offsetIndex := by
@@ -5150,7 +5218,8 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCredi
   have hCapacitySource :
       GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditCapacity
         N offsetIndex := by
-    simpa [offsetIndex] using hCapacityTemplate
+    simpa [offsetIndex, repair, OppositeFiniteOffsetTemplateWindowRepairCode]
+      using hCapacityWindow
   have hTargetValid :
       GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValid
         N offsetIndex :=
@@ -6195,8 +6264,8 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 /--
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
 compression whose open offset side is a source-indexed typed seven-offset map
-over `25*k+18`, represented as a period-six template with local repair
-overrides.  Lean induces the total typed mate from `CandidateClassIndex`,
+over `25*k+18`, represented as a period-six template with compact local repair
+windows.  Lean induces the total typed mate from `CandidateClassIndex`,
 derives target-index injectivity, target-value injectivity, packages the
 squarefree-boxed codes, and constructs the decoder; the strict-middle side is
 the count-level active credit capacity for the simple typed mate.

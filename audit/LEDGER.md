@@ -45,6 +45,7 @@ the source of truth and use this file only as a durable round index.
 | R065 | Added period-6 repair-window diagnostics. Matching deviations are now clustered into source-index windows, exposing the intended default-template-plus-local-overrides certificate shape. |
 | R066 | Added compact period-6 repair code windows. The Python gate now reconstructs the full source-index matching from the default template plus local override codes and checks it against every matched source. |
 | R067 | Narrowed the live source-index split certificate to a period-six template-repair representation. Lean now projects the compact repair-coded offset map back into the ordinary source-index valid matching before continuing the existing endpoint proof spine. |
+| R068 | Added the Lean-side repair-window representation used by the generated evidence. The live source-index cut now asks for a list of compact windows, derives the repair map from those windows, and then projects back into the existing proof spine. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
