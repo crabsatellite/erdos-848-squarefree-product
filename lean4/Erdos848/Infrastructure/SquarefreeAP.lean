@@ -292,6 +292,15 @@ def OppositeFiniteOffsetCodeValue
     (b : Nat) (code : OppositeFiniteOffsetCode) : Nat :=
   OppositeFiniteOffsetValue b (OppositeFiniteOffsetCode.toNat code)
 
+/-- Index of a value inside its residue class modulo `25`. -/
+def CandidateClassIndex (a : Nat) : Nat :=
+  a / 25
+
+/-- Residue-class index of a typed finite-offset target value. -/
+def OppositeFiniteOffsetCodeTargetIndex
+    (b : Nat) (code : OppositeFiniteOffsetCode) : Nat :=
+  CandidateClassIndex (OppositeFiniteOffsetCodeValue b code)
+
 /-- A finite-offset code packaged with the proof that its target remains boxed. -/
 def BoxedOppositeFiniteOffsetCode (N b : Nat) : Type :=
   { code : OppositeFiniteOffsetCode //
@@ -3560,6 +3569,35 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCertificat
         (fun b => OppositeFiniteOffsetCodeValue b (offset b)) decTarget)
 
 /--
+Typed-mate capacity certificate whose opposite injectivity is stated at the
+residue-class target-index level.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacityCertificate :
+    Prop :=
+  forall N : Nat, Exists fun offset : Nat -> OppositeFiniteOffsetCode =>
+  Exists fun _hMap :
+      (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+        GlobalOppositeFiniteOffsetEighteenTypedTargetNeighbor N b (offset b)) =>
+    (forall b1 b2 : Nat,
+      forall _hb1Box : InBox N b1,
+      forall _hb1Residue : CandidateCarrier 18 b1,
+      forall _hb2Box : InBox N b2,
+      forall _hb2Residue : CandidateCarrier 18 b2,
+        OppositeFiniteOffsetCodeTargetIndex b1 (offset b1) =
+          OppositeFiniteOffsetCodeTargetIndex b2 (offset b2) ->
+        b1 = b2) /\
+    (forall (B : Nat -> Prop)
+        (decMid : DecidablePred (StrictMiddlePart 7 B))
+        (decTarget : DecidablePred
+          (ActiveStrictMiddleCreditTarget N 7 B
+            (fun b => OppositeFiniteOffsetCodeValue b (offset b)))),
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditCapacity N 7 B decMid
+        (fun b => OppositeFiniteOffsetCodeValue b (offset b)) decTarget)
+
+/--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
 decoder certificate.
 -/
@@ -4349,6 +4387,22 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_
       boxedOppositeFiniteOffsetCodeOfTyped, boxedOppositeFiniteOffsetCodeValue,
       OppositeFiniteOffsetCodeValue, hsrc]
   · exact hCreditTyped B hB hClique hMid
+
+/--
+Target-index injectivity supplies the previous target-value injectivity because
+equal target values have equal residue-class indices.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacity_of_index
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacityCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCertificate := by
+  intro N
+  rcases h N with ⟨offset, hMap, hIndexInjective, hCapacity⟩
+  refine ⟨offset, hMap, ?_, hCapacity⟩
+  intro b1 b2 hb1Box hb1Residue hb2Box hb2Residue hvalue
+  exact hIndexInjective b1 b2 hb1Box hb1Residue hb2Box hb2Residue (by
+    simpa [OppositeFiniteOffsetCodeTargetIndex] using
+      congrArg CandidateClassIndex hvalue)
 
 /--
 The typed-mate count-level capacity certificate supplies the decoded
@@ -5308,18 +5362,20 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 /--
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
 compression whose open offset side is a total typed seven-offset map with
-target boxedness, squarefree edge data, and target injectivity.  Lean packages
-the squarefree-boxed codes and constructs the decoder; the strict-middle side
-is now only the count-level active credit capacity for the simple typed mate.
+target boxedness, squarefree edge data, and target-index injectivity.  Lean
+derives target-value injectivity, packages the squarefree-boxed codes, and
+constructs the decoder; the strict-middle side is the count-level active credit
+capacity for the simple typed mate.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacityCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacityCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
   globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateCreditCapacity
-    finiteOffsetMiddleCompressionEighteenTypedMateCreditCapacityCut
+    (globalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacity_of_index
+      finiteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacityCut)
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
 theorem finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :
