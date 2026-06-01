@@ -105,6 +105,7 @@ the source of truth and use this file only as a durable round index.
 | R125 | Restated no-image directly over `OppositeOutsidePart 7 B` using the b-indexed shift target; Lean recovers the source-index form. |
 | R126 | Restated no-image at the mate target-value level; Lean lowers target-value avoidance back to b-indexed shift no-image. |
 | R127 | Replaced final generated-target boxedness with the final generated-target upper bound; Lean reconstructs `InBox` from positivity of `25*(d-1)+7`. |
+| R128 | Replaced per-target opposite-edge existentials with an explicit opposite-witness function; Lean recovers the existential edge field. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
