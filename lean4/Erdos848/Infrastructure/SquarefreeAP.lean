@@ -3597,6 +3597,44 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacityCerti
       ActiveStrictMiddleCreditCapacity N 7 B decMid
         (fun b => OppositeFiniteOffsetCodeValue b (offset b)) decTarget)
 
+/-- Opposite-side typed finite-offset index matching for the concrete `18 mod 25` block. -/
+def GlobalOppositeFiniteOffsetEighteenTypedIndexMatching
+    (N : Nat) (offset : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  (forall b : Nat, InBox N b -> CandidateCarrier 18 b ->
+    GlobalOppositeFiniteOffsetEighteenTypedTargetNeighbor N b (offset b)) /\
+  (forall b1 b2 : Nat,
+    forall _hb1Box : InBox N b1,
+    forall _hb1Residue : CandidateCarrier 18 b1,
+    forall _hb2Box : InBox N b2,
+    forall _hb2Residue : CandidateCarrier 18 b2,
+      OppositeFiniteOffsetCodeTargetIndex b1 (offset b1) =
+        OppositeFiniteOffsetCodeTargetIndex b2 (offset b2) ->
+      b1 = b2)
+
+/-- Strict-middle active credit capacity against the simple typed finite-offset mate. -/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity
+    (N : Nat) (offset : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall (B : Nat -> Prop)
+      (decMid : DecidablePred (StrictMiddlePart 7 B))
+      (decTarget : DecidablePred
+        (ActiveStrictMiddleCreditTarget N 7 B
+          (fun b => OppositeFiniteOffsetCodeValue b (offset b)))),
+    BoundedOutsideSet N 7 B ->
+    NonSquarefreeClique B ->
+    (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+    ActiveStrictMiddleCreditCapacity N 7 B decMid
+      (fun b => OppositeFiniteOffsetCodeValue b (offset b)) decTarget
+
+/--
+Split certificate for the current route: one typed opposite index matching and
+one strict-middle active credit capacity obligation.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacityCertificate :
+    Prop :=
+  forall N : Nat, Exists fun offset : Nat -> OppositeFiniteOffsetCode =>
+    GlobalOppositeFiniteOffsetEighteenTypedIndexMatching N offset /\
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity N offset
+
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
 decoder certificate.
@@ -4387,6 +4425,16 @@ theorem globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCredit_
       boxedOppositeFiniteOffsetCodeOfTyped, boxedOppositeFiniteOffsetCodeValue,
       OppositeFiniteOffsetCodeValue, hsrc]
   · exact hCreditTyped B hB hClique hMid
+
+/-- The split opposite-index plus middle-capacity certificate supplies the previous index form. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacity_of_split
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacityCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacityCertificate := by
+  intro N
+  rcases h N with ⟨offset, hOpposite, hCapacity⟩
+  rcases hOpposite with ⟨hMap, hIndexInjective⟩
+  exact ⟨offset, hMap, hIndexInjective, hCapacity⟩
 
 /--
 Target-index injectivity supplies the previous target-value injectivity because
@@ -5367,15 +5415,16 @@ derives target-value injectivity, packages the squarefree-boxed codes, and
 constructs the decoder; the strict-middle side is the count-level active credit
 capacity for the simple typed mate.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacityCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacityCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacityCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
   globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateCreditCapacity
     (globalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacity_of_index
-      finiteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacityCut)
+      (globalFiniteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacity_of_split
+        finiteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacityCut))
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
 theorem finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :
