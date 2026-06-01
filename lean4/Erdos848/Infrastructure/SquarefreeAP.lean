@@ -312,6 +312,51 @@ def OppositeFiniteOffsetCodeShiftTargetIndex
   | OppositeFiniteOffsetCode.pos39 => CandidateClassIndex b + 2
   | OppositeFiniteOffsetCode.pos64 => CandidateClassIndex b + 3
 
+/-- The `18 mod 25` source represented by its residue-class index. -/
+def EighteenSourceFromIndex (k : Nat) : Nat :=
+  25 * k + 18
+
+/-- Shift target index expressed directly from the source-class index. -/
+def OppositeFiniteOffsetSourceIndexShiftTarget
+    (k : Nat) : OppositeFiniteOffsetCode -> Nat
+  | OppositeFiniteOffsetCode.neg86 => k - 3
+  | OppositeFiniteOffsetCode.neg61 => k - 2
+  | OppositeFiniteOffsetCode.neg36 => k - 1
+  | OppositeFiniteOffsetCode.neg11 => k
+  | OppositeFiniteOffsetCode.pos14 => k + 1
+  | OppositeFiniteOffsetCode.pos39 => k + 2
+  | OppositeFiniteOffsetCode.pos64 => k + 3
+
+/-- The synthetic source `25*k+18` lies in the `18 mod 25` residue class. -/
+theorem candidateCarrier_eighteenSourceFromIndex (k : Nat) :
+    CandidateCarrier 18 (EighteenSourceFromIndex k) := by
+  unfold CandidateCarrier EighteenSourceFromIndex
+  omega
+
+/-- The residue-class index of `25*k+18` is exactly `k`. -/
+theorem candidateClassIndex_eighteenSourceFromIndex (k : Nat) :
+    CandidateClassIndex (EighteenSourceFromIndex k) = k := by
+  unfold CandidateClassIndex EighteenSourceFromIndex
+  rw [Nat.mul_add_div (by omega : 0 < 25) k 18]
+  omega
+
+/-- Every `18 mod 25` source is recovered from its residue-class index. -/
+theorem eighteenSourceFromIndex_candidateClassIndex
+    {b : Nat} (hb18 : CandidateCarrier 18 b) :
+    EighteenSourceFromIndex (CandidateClassIndex b) = b := by
+  unfold CandidateCarrier at hb18
+  unfold EighteenSourceFromIndex CandidateClassIndex
+  have h := Nat.mod_add_div b 25
+  omega
+
+/-- The `b`-indexed shift target is the same target expressed from the source index. -/
+theorem oppositeFiniteOffsetCodeShiftTargetIndex_eq_sourceIndexShift
+    (b : Nat)
+    (code : OppositeFiniteOffsetCode) :
+    OppositeFiniteOffsetCodeShiftTargetIndex b code =
+      OppositeFiniteOffsetSourceIndexShiftTarget (CandidateClassIndex b) code := by
+  cases code <;> rfl
+
 /--
 For boxed targets from an `18 mod 25` source, the target residue-class index is
 the explicit source-index shift attached to the typed finite-offset code.
@@ -3761,6 +3806,22 @@ def GlobalOppositeFiniteOffsetEighteenTypedShiftIndexMatching
         OppositeFiniteOffsetCodeShiftTargetIndex b2 (offset b2) ->
       b1 = b2)
 
+/--
+Opposite-side typed matching indexed only by the `18 mod 25` source index.
+The induced total mate uses `offsetIndex (CandidateClassIndex b)`.
+-/
+def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftMatching
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  (forall k : Nat, InBox N (EighteenSourceFromIndex k) ->
+    GlobalOppositeFiniteOffsetEighteenTypedTargetNeighbor N
+      (EighteenSourceFromIndex k) (offsetIndex k)) /\
+  (forall k1 k2 : Nat,
+    InBox N (EighteenSourceFromIndex k1) ->
+    InBox N (EighteenSourceFromIndex k2) ->
+      OppositeFiniteOffsetSourceIndexShiftTarget k1 (offsetIndex k1) =
+        OppositeFiniteOffsetSourceIndexShiftTarget k2 (offsetIndex k2) ->
+      k1 = k2)
+
 /-- Strict-middle active credit capacity against the simple typed finite-offset mate. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity
     (N : Nat) (offset : Nat -> OppositeFiniteOffsetCode) : Prop :=
@@ -3794,6 +3855,17 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCap
   forall N : Nat, Exists fun offset : Nat -> OppositeFiniteOffsetCode =>
     GlobalOppositeFiniteOffsetEighteenTypedShiftIndexMatching N offset /\
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity N offset
+
+/--
+Split certificate whose opposite block is indexed by `k` with source
+`25*k+18`; the existing typed mate is induced by `CandidateClassIndex`.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
+    Prop :=
+  forall N : Nat, Exists fun offsetIndex : Nat -> OppositeFiniteOffsetCode =>
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftMatching N offsetIndex /\
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity N
+      (fun b => offsetIndex (CandidateClassIndex b))
 
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
@@ -4614,6 +4686,59 @@ theorem globalOppositeFiniteOffsetEighteenTypedIndexMatching_of_shift
         oppositeFiniteOffsetCodeTargetIndex_eq_shiftTargetIndex
           hb2Residue (hMap b2 hb2Box hb2Residue).left] at hIndex
     exact hIndex)
+
+/--
+The source-indexed shift matching induces the previous total `b`-indexed
+shift matching by reading the offset at `CandidateClassIndex b`.
+-/
+theorem globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (h :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftMatching
+        N offsetIndex) :
+    GlobalOppositeFiniteOffsetEighteenTypedShiftIndexMatching N
+      (fun b => offsetIndex (CandidateClassIndex b)) := by
+  rcases h with ⟨hMapIndex, hIndexInjective⟩
+  refine ⟨?_, ?_⟩
+  · intro b hbBox hb18
+    have hsource := eighteenSourceFromIndex_candidateClassIndex hb18
+    have hbIndexBox : InBox N (EighteenSourceFromIndex (CandidateClassIndex b)) := by
+      simpa [hsource] using hbBox
+    simpa [hsource] using hMapIndex (CandidateClassIndex b) hbIndexBox
+  · intro b1 b2 hb1Box hb1Residue hb2Box hb2Residue hShift
+    have hsource1 := eighteenSourceFromIndex_candidateClassIndex hb1Residue
+    have hsource2 := eighteenSourceFromIndex_candidateClassIndex hb2Residue
+    have hb1IndexBox : InBox N (EighteenSourceFromIndex (CandidateClassIndex b1)) := by
+      simpa [hsource1] using hb1Box
+    have hb2IndexBox : InBox N (EighteenSourceFromIndex (CandidateClassIndex b2)) := by
+      simpa [hsource2] using hb2Box
+    have hShiftIndex :
+        OppositeFiniteOffsetSourceIndexShiftTarget (CandidateClassIndex b1)
+          (offsetIndex (CandidateClassIndex b1)) =
+        OppositeFiniteOffsetSourceIndexShiftTarget (CandidateClassIndex b2)
+          (offsetIndex (CandidateClassIndex b2)) := by
+      simpa [
+        oppositeFiniteOffsetCodeShiftTargetIndex_eq_sourceIndexShift
+          b1 (offsetIndex (CandidateClassIndex b1)),
+        oppositeFiniteOffsetCodeShiftTargetIndex_eq_sourceIndexShift
+          b2 (offsetIndex (CandidateClassIndex b2))] using hShift
+    have hindex :
+        CandidateClassIndex b1 = CandidateClassIndex b2 :=
+      hIndexInjective (CandidateClassIndex b1) (CandidateClassIndex b2)
+        hb1IndexBox hb2IndexBox hShiftIndex
+    rw [← hsource1, hindex, hsource2]
+
+/-- The source-index split certificate supplies the previous shift-index split certificate. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCertificate := by
+  intro N
+  rcases h N with ⟨offsetIndex, hOpposite, hCapacity⟩
+  exact ⟨fun b => offsetIndex (CandidateClassIndex b),
+    globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex
+      hOpposite,
+    hCapacity⟩
 
 /-- The split shift-index certificate supplies the previous split target-index certificate. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacity_of_shift
@@ -5599,15 +5724,16 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
 
 /--
 Open analytic cut: decoded squarefree-boxed `18 mod 25` finite-offset middle
-compression whose open offset side is a total typed seven-offset map with
-target boxedness, squarefree edge data, and explicit source-index shift
-injectivity.  Lean derives target-index injectivity, target-value injectivity,
-packages the squarefree-boxed codes, and constructs the decoder; the
-strict-middle side is the count-level active credit capacity for the simple
-typed mate.
+compression whose open offset side is a source-indexed typed seven-offset map
+over `25*k+18`, with target boxedness, squarefree edge data, and explicit
+source-index shift injectivity.  Lean induces the total typed mate from
+`CandidateClassIndex`, derives target-index injectivity, target-value
+injectivity, packages the squarefree-boxed codes, and constructs the decoder;
+the strict-middle side is the count-level active credit capacity for the
+simple typed mate.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
@@ -5616,7 +5742,8 @@ theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
     (globalFiniteOffsetMiddleCompressionEighteenTypedMateCreditCapacity_of_index
       (globalFiniteOffsetMiddleCompressionEighteenTypedMateIndexCreditCapacity_of_split
         (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacity_of_shift
-          finiteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCut)))
+          (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex
+            finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut))))
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
 theorem finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :
