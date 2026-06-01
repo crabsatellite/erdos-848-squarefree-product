@@ -327,6 +327,11 @@ def OppositeFiniteOffsetSourceIndexShiftTarget
   | OppositeFiniteOffsetCode.pos39 => k + 2
   | OppositeFiniteOffsetCode.pos64 => k + 3
 
+/-- Target value expressed from the source-index target. -/
+def OppositeFiniteOffsetSourceIndexTargetValue
+    (k : Nat) (code : OppositeFiniteOffsetCode) : Nat :=
+  25 * OppositeFiniteOffsetSourceIndexShiftTarget k code + 7
+
 /-- The synthetic source `25*k+18` lies in the `18 mod 25` residue class. -/
 theorem candidateCarrier_eighteenSourceFromIndex (k : Nat) :
     CandidateCarrier 18 (EighteenSourceFromIndex k) := by
@@ -3816,6 +3821,22 @@ def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox
     InBox N (OppositeFiniteOffsetCodeValue
       (EighteenSourceFromIndex k) (offsetIndex k))
 
+/--
+The source-index target value agrees with the original finite-offset value.
+This excludes underflow in the negative shift cases.
+-/
+def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall k : Nat, InBox N (EighteenSourceFromIndex k) ->
+    OppositeFiniteOffsetCodeValue (EighteenSourceFromIndex k) (offsetIndex k) =
+      OppositeFiniteOffsetSourceIndexTargetValue k (offsetIndex k)
+
+/-- Target-box data stated directly for the source-index target value. -/
+def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall k : Nat, InBox N (EighteenSourceFromIndex k) ->
+    InBox N (OppositeFiniteOffsetSourceIndexTargetValue k (offsetIndex k))
+
 /-- Source-index squarefree edges for the `18 mod 25` opposite block. -/
 def GlobalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge
     (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
@@ -3890,7 +3911,8 @@ Split certificate whose opposite block is indexed by `k` with source
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
   forall N : Nat, Exists fun offsetIndex : Nat -> OppositeFiniteOffsetCode =>
-    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox N offsetIndex /\
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent N offsetIndex /\
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox N offsetIndex /\
     GlobalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge N offsetIndex /\
     GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftInjective N offsetIndex /\
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateActiveCreditCapacity N
@@ -4716,6 +4738,20 @@ theorem globalOppositeFiniteOffsetEighteenTypedIndexMatching_of_shift
           hb2Residue (hMap b2 hb2Box hb2Residue).left] at hIndex
     exact hIndex)
 
+/-- Source-index target coherence plus index-box data supplies the value-level target box. -/
+theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox_of_indexBox
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hCoherent :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent
+        N offsetIndex)
+    (hIndexBox :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox
+        N offsetIndex) :
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox N offsetIndex := by
+  intro k hkBox
+  have hEq := hCoherent k hkBox
+  simpa [hEq] using hIndexBox k hkBox
+
 /--
 The source-indexed shift matching induces the previous total `b`-indexed
 shift matching by reading the offset at `CandidateClassIndex b`.
@@ -4766,8 +4802,12 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCredi
       GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate) :
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacityCertificate := by
   intro N
-  rcases h N with ⟨offsetIndex, hTargetBox, hSquarefreeEdge,
+  rcases h N with ⟨offsetIndex, hTargetCoherent, hTargetIndexBox, hSquarefreeEdge,
     hShiftInjective, hCapacity⟩
+  have hTargetBox :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox N offsetIndex :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox_of_indexBox
+      hTargetCoherent hTargetIndexBox
   exact ⟨fun b => offsetIndex (CandidateClassIndex b),
     globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex
       ⟨⟨hTargetBox, hSquarefreeEdge⟩, hShiftInjective⟩,

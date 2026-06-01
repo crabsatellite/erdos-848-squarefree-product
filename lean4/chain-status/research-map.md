@@ -195,13 +195,16 @@ Files:
 
 ### `G-squarefree-ap-hall-expansion` -- Squarefree AP Hall-neighborhood expansion
 
-Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the live certificate is split into source-indexed target-box, squarefree-edge, shift-injectivity, and strict-middle typed-mate active credit capacity blocks. Lean induces the total typed mate by `CandidateClassIndex`, derives target-index injectivity from explicit source-index shifts, derives target-value injectivity, packages squarefree-boxed codes, constructs the decoder, transfers active credit capacity to the decoded boxed mate, then unpacks Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band.
+Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: the live certificate is split into source-index target-value coherence, source-index target-box, squarefree-edge, shift-injectivity, and strict-middle typed-mate active credit capacity blocks. Lean derives value-level target boxedness from the index-value box, induces the total typed mate by `CandidateClassIndex`, derives target-index injectivity from explicit source-index shifts, derives target-value injectivity, packages squarefree-boxed codes, constructs the decoder, transfers active credit capacity to the decoded boxed mate, then unpacks Nat-code bound, pairwise injectivity, source box/residue facts, target `7 mod 25` residue, and the `86` value band.
 
 Declarations:
 - `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut`
 - `Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitShiftIndexCreditCapacity_of_sourceIndex`
 - `Erdos848.globalOppositeFiniteOffsetEighteenTypedShiftIndexMatching_of_sourceIndex`
+- `Erdos848.globalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox_of_indexBox`
 - `Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate`
+- `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetValueCoherent`
+- `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetIndexBox`
 - `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetBox`
 - `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexSquarefreeEdge`
 - `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTargetMap`
@@ -209,6 +212,7 @@ Declarations:
 - `Erdos848.GlobalOppositeFiniteOffsetEighteenTypedSourceIndexShiftMatching`
 - `Erdos848.EighteenSourceFromIndex`
 - `Erdos848.OppositeFiniteOffsetSourceIndexShiftTarget`
+- `Erdos848.OppositeFiniteOffsetSourceIndexTargetValue`
 - `Erdos848.eighteenSourceFromIndex_candidateClassIndex`
 - `Erdos848.candidateClassIndex_eighteenSourceFromIndex`
 - `Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitIndexCreditCapacity_of_shift`

@@ -33,6 +33,7 @@ the source of truth and use this file only as a durable round index.
 | R053 | Split the source-index opposite matching surface into a target-map obligation and a shift-injectivity obligation, leaving strict-middle active credit capacity as the third independent block. The only project mathematical cut remains `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut`, now with three explicit subgoals. |
 | R054 | Updated the Python matching infra to emit source-index certificate data (`source_index_matching` and `typed_source_index_codes`) and gate it against the current Lean source-index code surface. This gives finite-window evidence directly aligned with the target-map and shift-injectivity subgoals. |
 | R055 | Split the source-index target-map obligation into target-box and squarefree-edge obligations. The live cut still has one audited axiom name, but its source-index certificate now exposes four independent blocks: target box, squarefree edge, shift injectivity, and active strict-middle credit capacity. |
+| R056 | Replaced the live value-level target-box block by source-index target-value coherence plus an index-value target-box block; Lean derives the prior `OppositeFiniteOffsetCodeValue` boxedness from these two pieces. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
