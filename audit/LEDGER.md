@@ -119,6 +119,7 @@ the source of truth and use this file only as a durable round index.
 | R139 | Removed the explicit target-prefix box bound; Lean derives it from boundedness of the last consecutive seed value. |
 | R140 | Replaced indexed opposite-witness membership with source membership; Lean derives the opposite carrier from `25*k+18`. |
 | R141 | Replaced the live source-witness function with prefix-wise existential source witnesses; Lean chooses the indexed function internally. |
+| R142 | Weakened the live deficit count from additive equality to count upper bound and routed it directly to active-credit deficit capacity. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.

@@ -9,6 +9,7 @@
       "observed_deficit_pressure_complete": true,
       "observed_max_credit_deficit": 0,
       "observed_max_credit_deficit_allocation_additive_count_valid": true,
+      "observed_max_credit_deficit_allocation_count_upper_valid": true,
       "observed_max_credit_deficit_allocation_exact_prefix_pairs": true,
       "observed_max_credit_deficit_allocation_exists_source_witness_valid": true,
       "observed_max_credit_deficit_allocation_generated_prefix_pairs": true,
@@ -66,6 +67,7 @@
       "worst_credit_defect": 2,
       "worst_credit_deficit": 0,
       "worst_credit_deficit_allocation_additive_count_valid": true,
+      "worst_credit_deficit_allocation_count_upper_valid": true,
       "worst_credit_deficit_allocation_exact_prefix_pairs": true,
       "worst_credit_deficit_allocation_exists_source_witness_valid": true,
       "worst_credit_deficit_allocation_generated_prefix_pairs": true,
@@ -134,6 +136,7 @@
       "observed_deficit_pressure_complete": true,
       "observed_max_credit_deficit": 1,
       "observed_max_credit_deficit_allocation_additive_count_valid": true,
+      "observed_max_credit_deficit_allocation_count_upper_valid": true,
       "observed_max_credit_deficit_allocation_exact_prefix_pairs": true,
       "observed_max_credit_deficit_allocation_exists_source_witness_valid": true,
       "observed_max_credit_deficit_allocation_generated_prefix_pairs": true,
@@ -219,6 +222,7 @@
       "worst_credit_defect": 11,
       "worst_credit_deficit": 0,
       "worst_credit_deficit_allocation_additive_count_valid": true,
+      "worst_credit_deficit_allocation_count_upper_valid": true,
       "worst_credit_deficit_allocation_exact_prefix_pairs": true,
       "worst_credit_deficit_allocation_exists_source_witness_valid": true,
       "worst_credit_deficit_allocation_generated_prefix_pairs": true,
@@ -390,7 +394,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T17:09:52.084229+00:00",
+  "generated_at": "2026-06-01T17:24:48.569154+00:00",
   "hall_checks": [
     {
       "N": 100,

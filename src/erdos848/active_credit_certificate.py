@@ -66,6 +66,7 @@ class ActiveCreditCertificate:
     worst_credit_deficit_allocation_pairs: list[tuple[int, int]]
     worst_credit_deficit_allocation_valid: bool
     worst_credit_deficit_allocation_additive_count_valid: bool
+    worst_credit_deficit_allocation_count_upper_valid: bool
     worst_credit_deficit_allocation_reserve_prefix: bool
     worst_credit_deficit_allocation_seeded: bool
     worst_credit_deficit_allocation_seed_keys: list[int]
@@ -117,6 +118,7 @@ class ActiveCreditCertificate:
     observed_max_credit_deficit_allocation_pairs: list[tuple[int, int]]
     observed_max_credit_deficit_allocation_valid: bool
     observed_max_credit_deficit_allocation_additive_count_valid: bool
+    observed_max_credit_deficit_allocation_count_upper_valid: bool
     observed_max_credit_deficit_allocation_reserve_prefix: bool
     observed_max_credit_deficit_allocation_seeded: bool
     observed_max_credit_deficit_allocation_seed_keys: list[int]
@@ -228,6 +230,7 @@ def active_credit_certificate(
     worst_credit_deficit_allocation_pairs: list[tuple[int, int]] = []
     worst_credit_deficit_allocation_valid = True
     worst_credit_deficit_allocation_additive_count_valid = True
+    worst_credit_deficit_allocation_count_upper_valid = True
     worst_credit_deficit_allocation_reserve_prefix = True
     worst_credit_deficit_allocation_seeded = True
     worst_credit_deficit_allocation_seed_keys: list[int] = []
@@ -279,6 +282,7 @@ def active_credit_certificate(
     observed_max_credit_deficit_allocation_pairs: list[tuple[int, int]] = []
     observed_max_credit_deficit_allocation_valid = True
     observed_max_credit_deficit_allocation_additive_count_valid = True
+    observed_max_credit_deficit_allocation_count_upper_valid = True
     observed_max_credit_deficit_allocation_reserve_prefix = True
     observed_max_credit_deficit_allocation_seeded = True
     observed_max_credit_deficit_allocation_seed_keys: list[int] = []
@@ -431,6 +435,9 @@ def active_credit_certificate(
 
             def allocation_additive_count_valid(deficit_length: int) -> bool:
                 return middle_size == new_middle_size + deficit_length
+
+            def allocation_count_upper_valid(deficit_length: int) -> bool:
+                return middle_size <= new_middle_size + deficit_length
 
             def allocation_reserve_witnesses(
                 allocation_pairs: list[tuple[int, int]],
@@ -804,6 +811,9 @@ def active_credit_certificate(
                     observed_max_credit_deficit_allocation_additive_count_valid = (
                         allocation_additive_count_valid(credit_deficit)
                     )
+                    observed_max_credit_deficit_allocation_count_upper_valid = (
+                        allocation_count_upper_valid(credit_deficit)
+                    )
                     observed_max_credit_deficit_allocation_reserve_prefix = (
                         [pay for _middle, pay in allocation_pairs] == base[:credit_deficit]
                     )
@@ -980,6 +990,9 @@ def active_credit_certificate(
                 )
                 worst_credit_deficit_allocation_additive_count_valid = (
                     allocation_additive_count_valid(credit_deficit)
+                )
+                worst_credit_deficit_allocation_count_upper_valid = (
+                    allocation_count_upper_valid(credit_deficit)
                 )
                 worst_credit_deficit_allocation_reserve_prefix = (
                     [pay for _middle, pay in allocation_pairs] == base[:credit_deficit]
@@ -1199,6 +1212,9 @@ def active_credit_certificate(
         worst_credit_deficit_allocation_additive_count_valid=(
             worst_credit_deficit_allocation_additive_count_valid
         ),
+        worst_credit_deficit_allocation_count_upper_valid=(
+            worst_credit_deficit_allocation_count_upper_valid
+        ),
         worst_credit_deficit_allocation_reserve_prefix=worst_credit_deficit_allocation_reserve_prefix,
         worst_credit_deficit_allocation_seeded=worst_credit_deficit_allocation_seeded,
         worst_credit_deficit_allocation_seed_keys=worst_credit_deficit_allocation_seed_keys,
@@ -1309,6 +1325,9 @@ def active_credit_certificate(
         observed_max_credit_deficit_allocation_valid=observed_max_credit_deficit_allocation_valid,
         observed_max_credit_deficit_allocation_additive_count_valid=(
             observed_max_credit_deficit_allocation_additive_count_valid
+        ),
+        observed_max_credit_deficit_allocation_count_upper_valid=(
+            observed_max_credit_deficit_allocation_count_upper_valid
         ),
         observed_max_credit_deficit_allocation_reserve_prefix=(
             observed_max_credit_deficit_allocation_reserve_prefix
