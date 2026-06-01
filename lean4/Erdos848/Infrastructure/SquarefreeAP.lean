@@ -3166,6 +3166,28 @@ def ActiveStrictMiddleCreditDeficitAllocation
     (forall b1 b2 : Nat,
       Deficit b1 -> Deficit b2 -> reservePay b1 = reservePay b2 -> b1 = b2)
 
+/--
+Pair-list form of active-credit deficit allocation: each pair records one
+strict-middle deficit payer and one distinct reserve payment.
+-/
+def ActiveStrictMiddleCreditDeficitPairListAllocation
+    (N r : Nat) (B : Nat -> Prop)
+    (decMid : DecidablePred (StrictMiddlePart r B))
+    (mate : Nat -> Nat)
+    (_decReserve :
+      DecidablePred (ActiveStrictMiddleCreditReserve N r B mate))
+    (decNewMid :
+      DecidablePred (IncrementalStrictMiddleNeighbor N r B)) : Prop :=
+  Exists fun pairs : List (Nat × Nat) =>
+    @familySize N (StrictMiddlePart r B) decMid <=
+        @familySize N (IncrementalStrictMiddleNeighbor N r B) decNewMid +
+          pairs.length /\
+    (pairs.map Prod.fst).Nodup /\
+    (pairs.map Prod.snd).Nodup /\
+    (forall pair : Nat × Nat, pair ∈ pairs -> StrictMiddlePart r B pair.fst) /\
+    (forall pair : Nat × Nat, pair ∈ pairs ->
+      ActiveStrictMiddleCreditReserve N r B mate pair.snd)
+
 /-- Deficit active credit capacity supplies slack active credit capacity. -/
 theorem activeStrictMiddleCreditSlackCapacity_of_deficitCapacity
     {N r : Nat} {B : Nat -> Prop}
@@ -4279,6 +4301,24 @@ def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDefici
     ActiveStrictMiddleCreditDeficitAllocation N 7 B decMid
       (OppositeFiniteOffsetSourceIndexMate offsetIndex) decReserve decNewMid
 
+/--
+Source-index active credit pair-list allocation: the deficit payment is a list
+of strict-middle/reserve pairs.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitPairListAllocation
+    (N : Nat) (offsetIndex : Nat -> OppositeFiniteOffsetCode) : Prop :=
+  forall (B : Nat -> Prop)
+      (decMid : DecidablePred (StrictMiddlePart 7 B))
+      (decReserve : DecidablePred
+        (ActiveStrictMiddleCreditReserve N 7 B
+          (OppositeFiniteOffsetSourceIndexMate offsetIndex)))
+      (decNewMid : DecidablePred (IncrementalStrictMiddleNeighbor N 7 B)),
+    BoundedOutsideSet N 7 B ->
+    NonSquarefreeClique B ->
+    (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+    ActiveStrictMiddleCreditDeficitPairListAllocation N 7 B decMid
+      (OppositeFiniteOffsetSourceIndexMate offsetIndex) decReserve decNewMid
+
 /-- Source-index deficit capacity supplies source-index slack capacity. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditSlackCapacity_of_deficitCapacity
     {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
@@ -4381,6 +4421,15 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitAllocation N
       (OppositeFiniteOffsetTemplateWindowRepairCode windows)
 
+/-- Source-index split certificate with compact repair windows and pair-list deficit allocation. -/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitPairListAllocationCertificate :
+    Prop :=
+  forall N : Nat, Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateWindowRepairValidMatching
+      N windows /\
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitPairListAllocation N
+      (OppositeFiniteOffsetTemplateWindowRepairCode windows)
+
 /-- Current source-index split certificate, narrowed to template-window-repair form. -/
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCertificate :
     Prop :=
@@ -4417,6 +4466,14 @@ deficit allocation into reserve.
 def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitAllocationCertificate :
     Prop :=
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitAllocationCertificate
+
+/--
+Current source-index split certificate with active credit stated as a pair-list
+deficit allocation into reserve.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitPairListAllocationCertificate :
+    Prop :=
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitPairListAllocationCertificate
 
 /--
 The decoded squarefree-boxed certificate supplies the previous squarefree-boxed
@@ -4847,6 +4904,43 @@ private theorem list_nodup_map_of_inj_on
   change (l.map f).Pairwise (fun x y => x ≠ y)
   rw [List.pairwise_map]
   exact hnd.imp_of_mem (fun hx hy hne hxy => hne (hinj _ _ hx hy hxy))
+
+private theorem list_length_le_familySize_of_nodup_boxed
+    (N : Nat) (Q : Nat -> Prop) (decQ : DecidablePred Q)
+    (l : List Nat)
+    (hnd : l.Nodup)
+    (hBox : forall a : Nat, a ∈ l -> InBox N a)
+    (hQ : forall a : Nat, a ∈ l -> Q a) :
+    l.length <= @familySize N Q decQ := by
+  classical
+  let U : List Nat := List.range (N + 1)
+  let QB : Nat -> Prop := fun a => InBox N a /\ Q a
+  let decQB : DecidablePred QB := fun a => Classical.propDecidable (QB a)
+  let LQB : List Nat := U.filter (fun a => decide (QB a))
+  have hQBzero : Not (QB 0) := by
+    intro h
+    exact Nat.not_succ_le_zero 0 h.left.left
+  have hQBcount :
+      @familySize N QB decQB = LQB.length := by
+    have h :=
+      familySize_eq_countP_range_succ N QB decQB hQBzero
+    simp [LQB, U, List.countP_eq_length_filter] at h
+    exact h
+  have hsub : l ⊆ LQB := by
+    intro a ha
+    have haBox := hBox a ha
+    have haU : a ∈ U := by
+      have haLe : a <= N := haBox.right
+      simp [U, List.mem_range]
+      omega
+    have haQB : QB a := And.intro haBox (hQ a ha)
+    exact List.mem_filter.mpr ⟨haU, decide_eq_true haQB⟩
+  have hlen : l.length <= LQB.length :=
+    list_length_le_of_nodup_subset hnd hsub
+  have hmono :
+      @familySize N QB decQB <= @familySize N Q decQ := by
+    exact familySize_mono N QB Q decQB decQ (fun a ha => ha.right)
+  omega
 
 private theorem familySize_le_of_bounded_injective_image
     (N : Nat) (P Q : Nat -> Prop)
@@ -5813,6 +5907,43 @@ private theorem familySize_add_le_of_disjoint_subsets
           · simp [countUpTo, hp, hq, hr]
             omega
 
+/-- A pair-list deficit allocation gives the deterministic deficit-capacity inequality. -/
+theorem activeStrictMiddleCreditDeficitCapacity_of_pairListAllocation
+    {N r : Nat} {B : Nat -> Prop}
+    {decMid : DecidablePred (StrictMiddlePart r B)}
+    {mate : Nat -> Nat}
+    {decReserve :
+      DecidablePred (ActiveStrictMiddleCreditReserve N r B mate)}
+    {decNewMid :
+      DecidablePred (IncrementalStrictMiddleNeighbor N r B)}
+    (hPairs :
+      ActiveStrictMiddleCreditDeficitPairListAllocation N r B decMid mate
+        decReserve decNewMid) :
+    ActiveStrictMiddleCreditDeficitCapacity N r B decMid mate
+      decReserve decNewMid := by
+  classical
+  rcases hPairs with
+    ⟨pairs, hMidPairs, _hMiddleNodup, hReserveNodup, _hMiddle, hReserve⟩
+  let reserveList : List Nat := pairs.map Prod.snd
+  have hReserveList :
+      reserveList.length <=
+        @familySize N (ActiveStrictMiddleCreditReserve N r B mate) decReserve := by
+    apply list_length_le_familySize_of_nodup_boxed
+      N (ActiveStrictMiddleCreditReserve N r B mate) decReserve reserveList
+    · simpa [reserveList] using hReserveNodup
+    · intro a ha
+      rcases List.mem_map.mp ha with ⟨pair, hpair, hpa⟩
+      have hPay := hReserve pair hpair
+      simpa [hpa] using hPay.left.left
+    · intro a ha
+      rcases List.mem_map.mp ha with ⟨pair, hpair, hpa⟩
+      have hPay := hReserve pair hpair
+      simpa [hpa] using hPay
+  have hLength : pairs.length = reserveList.length := by
+    simp [reserveList]
+  unfold ActiveStrictMiddleCreditDeficitCapacity
+  omega
+
 /-- A deficit allocation gives the deterministic deficit-capacity inequality. -/
 theorem activeStrictMiddleCreditDeficitCapacity_of_deficitAllocation
     {N r : Nat} {B : Nat -> Prop}
@@ -5917,6 +6048,41 @@ theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDe
   intro B decMid decReserve decNewMid hB hClique hMid
   exact activeStrictMiddleCreditDeficitCapacity_of_deficitAllocation
     (hAlloc B decMid decReserve decNewMid hB hClique hMid)
+
+/-- Source-index pair-list allocation supplies source-index deficit capacity. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity_of_pairListAllocation
+    {N : Nat} {offsetIndex : Nat -> OppositeFiniteOffsetCode}
+    (hPairs :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitPairListAllocation
+        N offsetIndex) :
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity
+      N offsetIndex := by
+  intro B decMid decReserve decNewMid hB hClique hMid
+  exact activeStrictMiddleCreditDeficitCapacity_of_pairListAllocation
+    (hPairs B decMid decReserve decNewMid hB hClique hMid)
+
+/-- Window-repair pair-list certificate supplies the deficit-capacity certificate. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCapacity_of_pairListAllocation
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitPairListAllocationCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCapacityCertificate := by
+  intro N
+  rcases h N with ⟨windows, hValid, hPairs⟩
+  exact ⟨windows, hValid,
+    globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitCapacity_of_pairListAllocation
+      hPairs⟩
+
+/-- Pair-list current source-index certificate supplies the deficit-capacity certificate. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacity_of_pairListAllocation
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitPairListAllocationCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacityCertificate := by
+  simpa [
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitPairListAllocationCertificate,
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacityCertificate]
+    using
+      globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCapacity_of_pairListAllocation
+        h
 
 /-- Window-repair deficit-allocation certificate supplies the deficit-capacity certificate. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitCapacity_of_deficitAllocation
@@ -6754,7 +6920,7 @@ squarefree-boxed codes, and constructs the decoder; the strict-middle side is
 the count-level active credit capacity for the simple typed mate.
 -/
 axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitAllocationCertificate
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitPairListAllocationCertificate
 
 /-- Current decoded squarefree-boxed certificate with typed-mate capacity transferred in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
@@ -6767,7 +6933,7 @@ theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
           (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacity_of_splitCapacity
             (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSplitCapacity_of_slackCapacity
               (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditSlackCapacity_of_deficitCapacity
-                (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacity_of_deficitAllocation
+                (globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditDeficitCapacity_of_pairListAllocation
                   finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditCapacityCut))))))))
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
