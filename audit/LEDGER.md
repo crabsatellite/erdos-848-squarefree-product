@@ -134,6 +134,7 @@ the source of truth and use this file only as a durable round index.
 | R154 | Replaced the live non-underflow clause with typed finite-offset/source-index target coherence. |
 | R155 | Replaced global target-index injectivity in the live list certificate with local six-window no-collision. |
 | R156 | Restricted live target-value boxedness to the final bandwidth-three boundary; Lean derives non-boundary bounds. |
+| R157 | Replaced ordered local no-collision with gap-indexed checks for gaps `1..6`. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
