@@ -25,6 +25,7 @@
       "observed_max_credit_deficit_allocation_prefix_pairs_ordered": true,
       "observed_max_credit_deficit_allocation_prefix_reserve_valid": true,
       "observed_max_credit_deficit_allocation_prefix_witness_edge_valid": true,
+      "observed_max_credit_deficit_allocation_reserve_lower_bound_valid": true,
       "observed_max_credit_deficit_allocation_reserve_prefix": true,
       "observed_max_credit_deficit_allocation_reserve_witness_indices": [],
       "observed_max_credit_deficit_allocation_reserve_witness_prefix_indexed": true,
@@ -84,6 +85,7 @@
       "worst_credit_deficit_allocation_prefix_pairs_ordered": true,
       "worst_credit_deficit_allocation_prefix_reserve_valid": true,
       "worst_credit_deficit_allocation_prefix_witness_edge_valid": true,
+      "worst_credit_deficit_allocation_reserve_lower_bound_valid": true,
       "worst_credit_deficit_allocation_reserve_prefix": true,
       "worst_credit_deficit_allocation_reserve_witness_indices": [],
       "worst_credit_deficit_allocation_reserve_witness_prefix_indexed": true,
@@ -159,6 +161,7 @@
       "observed_max_credit_deficit_allocation_prefix_pairs_ordered": true,
       "observed_max_credit_deficit_allocation_prefix_reserve_valid": true,
       "observed_max_credit_deficit_allocation_prefix_witness_edge_valid": true,
+      "observed_max_credit_deficit_allocation_reserve_lower_bound_valid": true,
       "observed_max_credit_deficit_allocation_reserve_prefix": true,
       "observed_max_credit_deficit_allocation_reserve_witness_indices": [
         1
@@ -241,6 +244,7 @@
       "worst_credit_deficit_allocation_prefix_pairs_ordered": true,
       "worst_credit_deficit_allocation_prefix_reserve_valid": true,
       "worst_credit_deficit_allocation_prefix_witness_edge_valid": true,
+      "worst_credit_deficit_allocation_reserve_lower_bound_valid": true,
       "worst_credit_deficit_allocation_reserve_prefix": true,
       "worst_credit_deficit_allocation_reserve_witness_indices": [],
       "worst_credit_deficit_allocation_reserve_witness_prefix_indexed": true,
@@ -398,7 +402,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-01T17:38:53.477030+00:00",
+  "generated_at": "2026-06-01T17:48:34.621222+00:00",
   "hall_checks": [
     {
       "N": 100,

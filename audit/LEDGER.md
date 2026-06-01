@@ -122,6 +122,7 @@ the source of truth and use this file only as a durable round index.
 | R142 | Weakened the live deficit count from additive equality to count upper bound and routed it directly to active-credit deficit capacity. |
 | R143 | Removed seed-key and strict-middle carrier data from the live deficit cut; Lean now uses only the scalar target-prefix bound for reserve boxing. |
 | R144 | Replaced prefix-bound, source-witness, and mate-lower fields with direct prefix reserve membership in the live deficit cut. |
+| R145 | Compressed prefix reserve membership to a scalar reserve lower-bound witness for the live deficit cut. |
 
 For the current frontier, run `lake exe erdos848_status` and regenerate
 `lean4/chain-status/`; `cuts.md` is the live cut ledger.
