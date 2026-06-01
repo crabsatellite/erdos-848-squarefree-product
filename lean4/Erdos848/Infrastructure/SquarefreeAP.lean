@@ -396,6 +396,13 @@ def OppositeFiniteOffsetListSelector
   | some code => code
   | none => OppositeFiniteOffsetCode.neg11
 
+/-- Truncate a template-window repair assignment to the boxed `18 mod 25` source count. -/
+def OppositeFiniteOffsetWindowRepairCodeList
+    (N : Nat) (windows : List OppositeFiniteOffsetRepairWindow) :
+    List OppositeFiniteOffsetCode :=
+  List.ofFn (fun k : Fin (OppositeFiniteOffsetSourceCount N) =>
+    OppositeFiniteOffsetTemplateWindowRepairCode windows k.val)
+
 /-- Total mate induced by a source-index code assignment. -/
 def OppositeFiniteOffsetSourceIndexMate
     (offsetIndex : Nat -> OppositeFiniteOffsetCode) (b : Nat) : Nat :=
@@ -744,6 +751,38 @@ def OppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatch
   OppositeFiniteOffsetListSelectorLengthTargetCoherentEdgeValid N codes /\
   OppositeFiniteOffsetListSelectorLengthTargetBoundaryBoxValid N codes /\
   OppositeFiniteOffsetListSelectorLengthGapShiftInjective N codes
+
+/-- The truncated repair-code list agrees with the repair assignment on covered indices. -/
+theorem oppositeFiniteOffsetListSelector_windowRepairCodeList_eq
+    {N k : Nat} {windows : List OppositeFiniteOffsetRepairWindow}
+    (h : k < OppositeFiniteOffsetSourceCount N) :
+    OppositeFiniteOffsetListSelector
+        (OppositeFiniteOffsetWindowRepairCodeList N windows) k =
+      OppositeFiniteOffsetTemplateWindowRepairCode windows k := by
+  simp [OppositeFiniteOffsetListSelector, OppositeFiniteOffsetWindowRepairCodeList,
+    List.getElem?_ofFn, h]
+
+/-- Every source index below the boxed `18 mod 25` source count is in the box. -/
+theorem inBox_eighteenSourceFromIndex_of_lt_sourceCount
+    {N k : Nat}
+    (h : k < OppositeFiniteOffsetSourceCount N) :
+    InBox N (EighteenSourceFromIndex k) := by
+  unfold InBox EighteenSourceFromIndex
+  by_cases hN : N < 18
+  case pos =>
+    unfold OppositeFiniteOffsetSourceCount at h
+    simp [hN] at h
+  case neg =>
+    unfold OppositeFiniteOffsetSourceCount at h
+    simp [hN] at h
+    constructor
+    case left =>
+      omega
+    case right =>
+      have hle : k <= (N - 18) / 25 := by omega
+      have hmul : k * 25 <= N - 18 := by
+        exact (Nat.le_div_iff_mul_le (by decide : 0 < 25)).1 hle
+      omega
 
 /-- A target-index collision for bandwidth-three codes has source gap at most six. -/
 theorem oppositeFiniteOffsetSourceIndexShiftTarget_collision_gap_le_six
@@ -7335,6 +7374,102 @@ theorem globalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateRepairValidMat
     using h
 
 /--
+Compact template-window repair matching supplies the finite gap-indexed
+list-selector matching by truncating the total repair assignment to the boxed
+`18 mod 25` source count.
+-/
+theorem oppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching_of_windowRepair
+    {N : Nat} {windows : List OppositeFiniteOffsetRepairWindow}
+    (h :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateWindowRepairValidMatching
+        N windows) :
+    OppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching
+      N (OppositeFiniteOffsetWindowRepairCodeList N windows) := by
+  have hTemplate :=
+    globalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateRepairValidMatching_of_windowRepair
+      h
+  have hSource :
+      GlobalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching N
+        (OppositeFiniteOffsetTemplateWindowRepairCode windows) := by
+    simpa [OppositeFiniteOffsetTemplateWindowRepairCode] using
+      globalOppositeFiniteOffsetEighteenTypedSourceIndexValidMatching_of_templateRepair
+        hTemplate
+  cases hSource with
+  | intro hTarget hInjective =>
+    constructor
+    case left =>
+      simp [OppositeFiniteOffsetWindowRepairCodeList]
+    case right =>
+      constructor
+      case left =>
+        intro k hk
+        have hkCount : k < OppositeFiniteOffsetSourceCount N := by
+          simpa [OppositeFiniteOffsetWindowRepairCodeList] using hk
+        have hEq :=
+          oppositeFiniteOffsetListSelector_windowRepairCodeList_eq
+            (N := N) (windows := windows) hkCount
+        have hBox :=
+          inBox_eighteenSourceFromIndex_of_lt_sourceCount
+            (N := N) (k := k) hkCount
+        have hValid := hTarget k hBox
+        rw [hEq]
+        exact And.intro
+          (oppositeFiniteOffsetCodeValue_eighteenSource_eq_sourceIndexTargetValue_of_nonUnderflow
+            hValid.left)
+          hValid.right.right
+      case right =>
+        constructor
+        case left =>
+          intro k hk _hBoundary
+          have hkCount : k < OppositeFiniteOffsetSourceCount N := by
+            simpa [OppositeFiniteOffsetWindowRepairCodeList] using hk
+          have hEq :=
+            oppositeFiniteOffsetListSelector_windowRepairCodeList_eq
+              (N := N) (windows := windows) hkCount
+          have hBox :=
+            inBox_eighteenSourceFromIndex_of_lt_sourceCount
+              (N := N) (k := k) hkCount
+          have hValid := hTarget k hBox
+          rw [hEq]
+          have hUpper := hBox.right
+          unfold EighteenSourceFromIndex at hUpper
+          have hN7 : 7 <= N := by omega
+          have hmul :
+              OppositeFiniteOffsetSourceIndexShiftTarget k
+                  (OppositeFiniteOffsetTemplateWindowRepairCode windows k) * 25 <=
+                N - 7 := by
+            exact (Nat.le_div_iff_mul_le (by decide : 0 < 25)).1
+              hValid.right.left
+          unfold OppositeFiniteOffsetSourceIndexTargetValue
+          omega
+        case right =>
+          intro k d hdpos hdle hkd
+          intro hShift
+          have hLen :
+              (OppositeFiniteOffsetWindowRepairCodeList N windows).length =
+                OppositeFiniteOffsetSourceCount N := by
+            simp [OppositeFiniteOffsetWindowRepairCodeList]
+          have hkCount : k < OppositeFiniteOffsetSourceCount N := by
+            omega
+          have hkdCount : k + d < OppositeFiniteOffsetSourceCount N := by
+            omega
+          have hEq1 :=
+            oppositeFiniteOffsetListSelector_windowRepairCodeList_eq
+              (N := N) (windows := windows) hkCount
+          have hEq2 :=
+            oppositeFiniteOffsetListSelector_windowRepairCodeList_eq
+              (N := N) (windows := windows) hkdCount
+          rw [hEq1, hEq2] at hShift
+          have hBox1 :=
+            inBox_eighteenSourceFromIndex_of_lt_sourceCount
+              (N := N) (k := k) hkCount
+          have hBox2 :=
+            inBox_eighteenSourceFromIndex_of_lt_sourceCount
+              (N := N) (k := k + d) hkdCount
+          have hSame := hInjective k (k + d) hBox1 hBox2 hShift
+          omega
+
+/--
 Opposite-side typed matching indexed only by the `18 mod 25` source index.
 The induced total mate uses `offsetIndex (CandidateClassIndex b)`.
 -/
@@ -9350,6 +9485,13 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSele
     Prop :=
   forall N : Nat, Exists fun codes : List OppositeFiniteOffsetCode =>
     OppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching N codes
+
+/-- Template-window repair matching certificate, separated from middle capacity. -/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairMatchingCertificate :
+    Prop :=
+  forall N : Nat, Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
+    GlobalOppositeFiniteOffsetEighteenTypedSourceIndexTemplateWindowRepairValidMatching
+      N windows
 
 /--
 Source-index split certificate with the code-independent middle-region
@@ -16555,6 +16697,19 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
         (globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitTotalReserveDominance_of_reserveDominance
           hPack.right))
 
+/-- Template-window repair matching supplies gap-indexed finite list matching. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatching_of_templateWindowRepairMatching
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairMatchingCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCertificate := by
+  intro N
+  cases h N with
+  | intro windows hWindow =>
+    exact Exists.intro
+      (OppositeFiniteOffsetWindowRepairCodeList N windows)
+      (oppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching_of_windowRepair
+        hWindow)
+
 /--
 Code-independent incremental middle capacity plus the gap-indexed list
 matching supplies the current split incremental-capacity certificate.
@@ -18065,8 +18220,14 @@ reserve dominance before deriving the endpoint Hall expansion.
 axiom activeStrictMiddleIncrementalCapacityCut :
   ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7
 
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairMatchingCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairMatchingCertificate
+
+/-- Current gap-indexed finite list-selector matching from template-window repair matching. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatching_of_templateWindowRepairMatching
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairMatchingCut
 
 /-- Current split incremental-capacity certificate from the two active cuts. -/
 theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut :

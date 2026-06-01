@@ -10,7 +10,7 @@ This is the research base view.  Endpoint closure, route labels, and route state
 
 Open mathematical cut(s):
 - `Erdos848.activeStrictMiddleIncrementalCapacityCut` at `Erdos848/Infrastructure/SquarefreeAP.lean`
-- `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCut` at `Erdos848/Infrastructure/SquarefreeAP.lean`
+- `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairMatchingCut` at `Erdos848/Infrastructure/SquarefreeAP.lean`
 
 Active route(s) to work on:
 - `hall-expansion-compression` (active): gaps `G-squarefree-ap-hall-expansion`, `G-rough-square-divisor-unpacking`
@@ -200,10 +200,13 @@ Files:
 
 ### `G-squarefree-ap-hall-expansion` -- Squarefree AP Hall-neighborhood expansion
 
-Replace finite Hall checks by two explicit typed seven-offset `18 mod 25` finite-offset middle-compression cuts for the endpoint-consumed `7 mod 25` progression: a code-independent active strict-middle incremental-capacity certificate and a gap-indexed finite list-selector code certificate. Lean combines these two pieces into total reserve dominance and derives the endpoint Hall expansion.
+Replace finite Hall checks by two explicit typed seven-offset `18 mod 25` finite-offset middle-compression cuts for the endpoint-consumed `7 mod 25` progression: a code-independent active strict-middle incremental-capacity certificate and a compact period-six template-window repair matching certificate. Lean truncates the repair assignment to a gap-indexed finite list-selector certificate, combines the two pieces into total reserve dominance, and derives the endpoint Hall expansion.
 
 Declarations:
 - `Erdos848.activeStrictMiddleIncrementalCapacityCut`
+- `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairMatchingCut`
+- `Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatching_of_templateWindowRepairMatching`
+- `Erdos848.oppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching_of_windowRepair`
 - `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCut`
 - `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut`
 - `Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacity_of_activeStrictMiddleIncrementalCapacity_and_matching`
