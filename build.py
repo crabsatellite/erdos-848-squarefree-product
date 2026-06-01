@@ -139,6 +139,9 @@ def assert_gate(payload: dict) -> None:
     for item in payload["opposite_matching_checks"]:
         assert item["perfect"], item
         assert item["matched_count"] == item["opposite_size"], item
+        assert len(item["source_index_matching"]) == item["matched_count"], item
+        for source_index, target_index, shift in item["source_index_matching"]:
+            assert target_index - source_index == shift, item
     for item in payload["opposite_band_matching_checks"]:
         assert item["perfect"], item
         assert item["matched_count"] == item["opposite_size"], item
@@ -146,6 +149,13 @@ def assert_gate(payload: dict) -> None:
         assert item["max_value_gap"] <= 86, item
         assert item["allowed_value_offsets"] == [-86, -61, -36, -11, 14, 39, 64], item
         assert set(item["value_offset_counts"]) <= set(item["allowed_value_offsets"]), item
+        assert len(item["source_index_matching"]) == item["matched_count"], item
+        assert len(item["typed_source_index_codes"]) == item["matched_count"], item
+        code_by_source = dict(item["typed_source_index_codes"])
+        for source_index, target_index, shift in item["source_index_matching"]:
+            assert target_index - source_index == shift, item
+            assert -3 <= shift <= 3, item
+            assert code_by_source[source_index] == shift + 3, item
     for item in payload["partitioned_hall_checks"]:
         assert item["worst_opposite_defect"] >= 0, item
         assert item["worst_middle_defect"] >= 0, item

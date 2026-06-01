@@ -23,6 +23,8 @@ class OppositeMatchingCertificate:
     value_offset_counts: dict[int, int]
     index_shift_counts: dict[int, int]
     matching: list[tuple[int, int]]
+    source_index_matching: list[tuple[int, int, int]]
+    typed_source_index_codes: list[tuple[int, int]]
 
 
 def opposite_matching_certificate(
@@ -102,6 +104,19 @@ def opposite_matching_certificate(
         ((a - base_residue) // 25) - ((b - opposite_residue) // 25)
         for b, a in matching
     ]
+    source_index_matching = [
+        (
+            (b - opposite_residue) // 25,
+            (a - base_residue) // 25,
+            ((a - base_residue) // 25) - ((b - opposite_residue) // 25),
+        )
+        for b, a in matching
+    ]
+    typed_source_index_codes = (
+        [(source_index, shift + 3) for source_index, _target_index, shift in source_index_matching]
+        if index_bandwidth == 3
+        else []
+    )
     index_gaps = [abs(shift) for shift in index_shifts]
     value_offsets = [a - b for b, a in matching]
     value_gaps = [abs(a - b) for b, a in matching]
@@ -130,6 +145,8 @@ def opposite_matching_certificate(
         value_offset_counts=dict(sorted(Counter(value_offsets).items())),
         index_shift_counts=dict(sorted(Counter(index_shifts).items())),
         matching=matching,
+        source_index_matching=source_index_matching,
+        typed_source_index_codes=typed_source_index_codes,
     )
 
 
