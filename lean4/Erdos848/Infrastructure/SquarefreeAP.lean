@@ -886,6 +886,52 @@ def OppositeFiniteOffsetTemplateWindowRepairLengthTargetBoundaryBoxValid
       OppositeFiniteOffsetSourceIndexTargetValue k
         (OppositeFiniteOffsetTemplateWindowRepairCode windows k) <= N
 
+/-- Boundary boxedness for explicitly touched repair indices. -/
+def OppositeFiniteOffsetTemplateWindowRepairLengthTouchedTargetBoundaryBoxValid
+    (N : Nat) (windows : List OppositeFiniteOffsetRepairWindow) : Prop :=
+  forall k : Nat,
+    k < OppositeFiniteOffsetSourceCount N ->
+    OppositeFiniteOffsetSourceCount N <= k + 3 ->
+    OppositeFiniteOffsetRepairWindowsTouches windows k ->
+      OppositeFiniteOffsetSourceIndexTargetValue k
+        (OppositeFiniteOffsetTemplateWindowRepairCode windows k) <= N
+
+/-- Boundary boxedness for untouched indices using the period-six default code. -/
+def OppositeFiniteOffsetTemplateWindowRepairLengthUntouchedPeriodSixTargetBoundaryBoxValid
+    (N : Nat) (windows : List OppositeFiniteOffsetRepairWindow) : Prop :=
+  forall k : Nat,
+    k < OppositeFiniteOffsetSourceCount N ->
+    OppositeFiniteOffsetSourceCount N <= k + 3 ->
+    Not (OppositeFiniteOffsetRepairWindowsTouches windows k) ->
+      OppositeFiniteOffsetSourceIndexTargetValue k
+        (OppositeFiniteOffsetPeriodSixTemplateCode k) <= N
+
+/-- Split boundary boxedness for touched repairs and untouched period-six targets. -/
+def OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultTargetBoundaryBoxValid
+    (N : Nat) (windows : List OppositeFiniteOffsetRepairWindow) : Prop :=
+  OppositeFiniteOffsetTemplateWindowRepairLengthTouchedTargetBoundaryBoxValid
+    N windows /\
+  OppositeFiniteOffsetTemplateWindowRepairLengthUntouchedPeriodSixTargetBoundaryBoxValid
+    N windows
+
+/-- Split touched/default boundary boxedness supplies the previous boundary package. -/
+theorem oppositeFiniteOffsetTemplateWindowRepairLengthTargetBoundaryBoxValid_of_touchedDefault
+    {N : Nat} {windows : List OppositeFiniteOffsetRepairWindow}
+    (h :
+      OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultTargetBoundaryBoxValid
+        N windows) :
+    OppositeFiniteOffsetTemplateWindowRepairLengthTargetBoundaryBoxValid
+      N windows := by
+  rcases h with ⟨hTouched, hUntouched⟩
+  intro k hk hBoundary
+  by_cases hTouch : OppositeFiniteOffsetRepairWindowsTouches windows k
+  · exact hTouched k hk hBoundary hTouch
+  · have hEq :=
+      oppositeFiniteOffsetTemplateWindowRepairCode_eq_periodSix_of_not_touched
+        (windows := windows) (k := k) hTouch
+    rw [hEq]
+    exact hUntouched k hk hBoundary hTouch
+
 /-- Gap-indexed local no-collision condition for a template-window repair map. -/
 def OppositeFiniteOffsetTemplateWindowRepairLengthGapShiftInjective
     (N : Nat) (windows : List OppositeFiniteOffsetRepairWindow) : Prop :=
@@ -979,6 +1025,32 @@ def OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultBoundaryBoxTouch
     N windows /\
   OppositeFiniteOffsetTemplateWindowRepairLengthTargetBoundaryBoxValid N windows /\
   OppositeFiniteOffsetTemplateWindowRepairLengthTouchedGapShiftInjective N windows
+
+/--
+Local template-window matching with both edge and final-boundary boxedness split
+between repair-touched and untouched period-six indices.
+-/
+def OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
+    (N : Nat) (windows : List OppositeFiniteOffsetRepairWindow) : Prop :=
+  OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultTargetCoherentEdgeValid
+    N windows /\
+  OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultTargetBoundaryBoxValid
+    N windows /\
+  OppositeFiniteOffsetTemplateWindowRepairLengthTouchedGapShiftInjective N windows
+
+/-- Split edge/boundary matching supplies the previous split-edge touched-gap package. -/
+theorem oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultBoundaryBoxTouchedGapValidMatching_of_edgeBoundary
+    {N : Nat} {windows : List OppositeFiniteOffsetRepairWindow}
+    (h :
+      OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
+        N windows) :
+    OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultBoundaryBoxTouchedGapValidMatching
+      N windows := by
+  rcases h with ⟨hEdge, hBoundary, hGap⟩
+  exact ⟨hEdge,
+    oppositeFiniteOffsetTemplateWindowRepairLengthTargetBoundaryBoxValid_of_touchedDefault
+      hBoundary,
+    hGap⟩
 
 /-- Split touched/default matching supplies the previous touched-gap local package. -/
 theorem oppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentBoundaryBoxTouchedGapValidMatching_of_touchedDefault
@@ -9656,6 +9728,31 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
       N windows /\
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation N
       (OppositeFiniteOffsetTemplateWindowRepairCode windows)
+
+/--
+Source-index split certificate with touched/default edge and boundary
+obligations, touched-gap checking, and generated-prefix active-deficit data.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate :
+    Prop :=
+  forall N : Nat, Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
+    OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
+      N windows /\
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation N
+      (OppositeFiniteOffsetTemplateWindowRepairCode windows)
+
+/-- Split edge/boundary source-index data supplies the previous touched/default local certificate. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultLocalCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_edgeBoundaryLocal
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultLocalCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate := by
+  intro N
+  rcases h N with ⟨windows, hLocal, hActive⟩
+  exact Exists.intro windows
+    (And.intro
+      (oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultBoundaryBoxTouchedGapValidMatching_of_edgeBoundary
+        hLocal)
+      hActive)
 
 /-- Touched/default local source-index data supplies the previous touched-gap local certificate. -/
 theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedGapLocalCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_touchedDefaultLocal
@@ -18704,12 +18801,18 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
 /--
 Open analytic cut for decoded squarefree-boxed `18 mod 25` finite-offset middle
 compression: touched repair indices carry full edge data, untouched indices use
-period-six target coherence, gap checks are restricted to repair-touched pairs,
-and generated prefix-pair active-deficit allocation is packaged with the same
-windows.
+period-six target coherence, final-boundary boxedness and gap checks are split
+between repair-touched and untouched period-six indices, and generated
+prefix-pair active-deficit allocation is packaged with the same windows.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultLocalGeneratedPrefixPairCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultLocalCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalGeneratedPrefixPairCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate
+
+/-- Split edge/boundary repair-local cut supplies the previous touched/default cut surface. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultLocalGeneratedPrefixPairCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultLocalCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultLocalCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_edgeBoundaryLocal
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalGeneratedPrefixPairCut
 
 /-- Touched/default repair-local cut supplies the previous touched-gap cut surface. -/
 theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedGapLocalGeneratedPrefixPairCut :
