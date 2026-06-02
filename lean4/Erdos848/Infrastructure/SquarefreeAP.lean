@@ -359,6 +359,103 @@ theorem forbiddenSquarefreeEdge_seven_eighteen :
   rw [h]
   exact squarefree_oneTwentySeven
 
+/-- The concrete edge value `7 * 43 + 1 = 302` is squarefree. -/
+theorem squarefree_threeHundredTwo : Squarefree 302 := by
+  intro p hp hdiv
+  match hdiv with
+  | Exists.intro k hk =>
+      if hbig : 18 <= p then
+        cases k with
+        | zero => omega
+        | succ k =>
+            have hsq : 18 * 18 <= p * p := Nat.mul_le_mul hbig hbig
+            have hprod : p * p <= p * p * Nat.succ k := by
+              exact Nat.le_mul_of_pos_right (p * p) (Nat.succ_pos k)
+            have hc : p * p * Nat.succ k = 302 := hk.symm
+            omega
+      else
+        have hple : p <= 17 := by omega
+        match p with
+        | 0 => omega
+        | 1 => omega
+        | 2 => omega
+        | 3 => omega
+        | 4 => omega
+        | 5 => omega
+        | 6 => omega
+        | 7 => omega
+        | 8 => omega
+        | 9 => omega
+        | 10 => omega
+        | 11 => omega
+        | 12 => omega
+        | 13 => omega
+        | 14 => omega
+        | 15 => omega
+        | 16 => omega
+        | 17 => omega
+        | _ + 18 => omega
+
+/-- The second boxed opposite source maps to `7` by a squarefree edge. -/
+theorem forbiddenSquarefreeEdge_seven_fortyThree :
+    ForbiddenSquarefreeEdge 7 43 := by
+  unfold ForbiddenSquarefreeEdge
+  have h : 7 * 43 + 1 = 302 := by omega
+  rw [h]
+  exact squarefree_threeHundredTwo
+
+/-- The concrete edge value `32 * 18 + 1 = 577` is squarefree. -/
+theorem squarefree_fiveHundredSeventySeven : Squarefree 577 := by
+  intro p hp hdiv
+  match hdiv with
+  | Exists.intro k hk =>
+      if hbig : 25 <= p then
+        cases k with
+        | zero => omega
+        | succ k =>
+            have hsq : 25 * 25 <= p * p := Nat.mul_le_mul hbig hbig
+            have hprod : p * p <= p * p * Nat.succ k := by
+              exact Nat.le_mul_of_pos_right (p * p) (Nat.succ_pos k)
+            have hc : p * p * Nat.succ k = 577 := hk.symm
+            omega
+      else
+        have hple : p <= 24 := by omega
+        match p with
+        | 0 => omega
+        | 1 => omega
+        | 2 => omega
+        | 3 => omega
+        | 4 => omega
+        | 5 => omega
+        | 6 => omega
+        | 7 => omega
+        | 8 => omega
+        | 9 => omega
+        | 10 => omega
+        | 11 => omega
+        | 12 => omega
+        | 13 => omega
+        | 14 => omega
+        | 15 => omega
+        | 16 => omega
+        | 17 => omega
+        | 18 => omega
+        | 19 => omega
+        | 20 => omega
+        | 21 => omega
+        | 22 => omega
+        | 23 => omega
+        | 24 => omega
+        | _ + 25 => omega
+
+/-- The first boxed opposite source can be repaired to target `32`. -/
+theorem forbiddenSquarefreeEdge_thirtyTwo_eighteen :
+    ForbiddenSquarefreeEdge 32 18 := by
+  unfold ForbiddenSquarefreeEdge
+  have h : 32 * 18 + 1 = 577 := by omega
+  rw [h]
+  exact squarefree_fiveHundredSeventySeven
+
 /-- Shift target index expressed directly from the source-class index. -/
 def OppositeFiniteOffsetSourceIndexShiftTarget
     (k : Nat) : OppositeFiniteOffsetCode -> Nat
@@ -1167,6 +1264,187 @@ theorem oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundary
   · intro k d hdpos _hdle hkd _hTouch
     rw [hCount] at hkd
     omega
+
+/-- Two-source boundary repair: move indices `0, 1` to target indices `1, 0`. -/
+def OppositeFiniteOffsetSourceCountTwoRepairWindows :
+    List OppositeFiniteOffsetRepairWindow :=
+  [{ start := 0,
+     codes := [OppositeFiniteOffsetCode.pos14, OppositeFiniteOffsetCode.neg36] }]
+
+/-- Two boxed `18 mod 25` sources force `N` past the target `32`. -/
+theorem fortyThree_le_of_oppositeFiniteOffsetSourceCount_eq_two
+    {N : Nat}
+    (hCount : OppositeFiniteOffsetSourceCount N = 2) :
+    43 <= N := by
+  unfold OppositeFiniteOffsetSourceCount at hCount
+  by_cases hlt : N < 18
+  case pos =>
+    simp [hlt] at hCount
+  case neg =>
+    simp [hlt] at hCount
+    have hdiv : 1 <= (N - 18) / 25 := by omega
+    have hmul : 1 * 25 <= N - 18 :=
+      (Nat.le_div_iff_mul_le (by decide : 0 < 25)).1 hdiv
+    omega
+
+/--
+If there are exactly two boxed `18 mod 25` sources, a two-code repair window
+closes the local matching.  The repaired target indices are `1` and `0`, so
+the only gap pair is injective.
+-/
+theorem oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching_twoWindow_of_sourceCount_eq_two
+    {N : Nat}
+    (hCount : OppositeFiniteOffsetSourceCount N = 2) :
+    OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
+      N OppositeFiniteOffsetSourceCountTwoRepairWindows := by
+  refine And.intro ?edge (And.intro ?boundary ?gap)
+  case edge =>
+    refine And.intro ?touched ?untouched
+    case touched =>
+      intro k hk _hTouch
+      have hkCases : Or (k = 0) (k = 1) := by
+        rw [hCount] at hk
+        omega
+      cases hkCases with
+      | inl hk0 =>
+          subst k
+          constructor
+          case left =>
+            simp [OppositeFiniteOffsetSourceCountTwoRepairWindows,
+              OppositeFiniteOffsetTemplateWindowRepairCode,
+              OppositeFiniteOffsetTemplateRepairCode,
+              OppositeFiniteOffsetRepairWindowsCode?,
+              OppositeFiniteOffsetRepairWindow.code?,
+              OppositeFiniteOffsetSourceIndexTargetCoherent,
+              OppositeFiniteOffsetCodeValue, OppositeFiniteOffsetCode.toNat,
+              OppositeFiniteOffsetValue, EighteenSourceFromIndex,
+              OppositeFiniteOffsetSourceIndexTargetValue,
+              OppositeFiniteOffsetSourceIndexShiftTarget]
+          case right =>
+            simpa [OppositeFiniteOffsetSourceCountTwoRepairWindows,
+              OppositeFiniteOffsetTemplateWindowRepairCode,
+              OppositeFiniteOffsetTemplateRepairCode,
+              OppositeFiniteOffsetRepairWindowsCode?,
+              OppositeFiniteOffsetRepairWindow.code?,
+              OppositeFiniteOffsetSourceIndexTargetValue,
+              OppositeFiniteOffsetSourceIndexShiftTarget,
+              EighteenSourceFromIndex] using
+              forbiddenSquarefreeEdge_thirtyTwo_eighteen
+      | inr hk1 =>
+          subst k
+          constructor
+          case left =>
+            simp [OppositeFiniteOffsetSourceCountTwoRepairWindows,
+              OppositeFiniteOffsetTemplateWindowRepairCode,
+              OppositeFiniteOffsetTemplateRepairCode,
+              OppositeFiniteOffsetRepairWindowsCode?,
+              OppositeFiniteOffsetRepairWindow.code?,
+              OppositeFiniteOffsetSourceIndexTargetCoherent,
+              OppositeFiniteOffsetCodeValue, OppositeFiniteOffsetCode.toNat,
+              OppositeFiniteOffsetValue, EighteenSourceFromIndex,
+              OppositeFiniteOffsetSourceIndexTargetValue,
+              OppositeFiniteOffsetSourceIndexShiftTarget]
+          case right =>
+            simpa [OppositeFiniteOffsetSourceCountTwoRepairWindows,
+              OppositeFiniteOffsetTemplateWindowRepairCode,
+              OppositeFiniteOffsetTemplateRepairCode,
+              OppositeFiniteOffsetRepairWindowsCode?,
+              OppositeFiniteOffsetRepairWindow.code?,
+              OppositeFiniteOffsetSourceIndexTargetValue,
+              OppositeFiniteOffsetSourceIndexShiftTarget,
+              EighteenSourceFromIndex] using
+              forbiddenSquarefreeEdge_seven_fortyThree
+    case untouched =>
+      intro k hk hNotTouch
+      have hkCases : Or (k = 0) (k = 1) := by
+        rw [hCount] at hk
+        omega
+      cases hkCases with
+      | inl hk0 =>
+          subst k
+          exact False.elim
+            (hNotTouch
+              (Exists.intro OppositeFiniteOffsetCode.pos14 (by
+                simp [OppositeFiniteOffsetSourceCountTwoRepairWindows,
+                  OppositeFiniteOffsetRepairWindowsCode?,
+                  OppositeFiniteOffsetRepairWindow.code?])))
+      | inr hk1 =>
+          subst k
+          exact False.elim
+            (hNotTouch
+              (Exists.intro OppositeFiniteOffsetCode.neg36 (by
+                simp [OppositeFiniteOffsetSourceCountTwoRepairWindows,
+                  OppositeFiniteOffsetRepairWindowsCode?,
+                  OppositeFiniteOffsetRepairWindow.code?])))
+  case boundary =>
+    refine And.intro ?touched ?untouched
+    case touched =>
+      intro k hk _hBoundary _hTouch
+      have hN : 43 <= N :=
+        fortyThree_le_of_oppositeFiniteOffsetSourceCount_eq_two hCount
+      have hkCases : Or (k = 0) (k = 1) := by
+        rw [hCount] at hk
+        omega
+      cases hkCases with
+      | inl hk0 =>
+          subst k
+          simp [OppositeFiniteOffsetSourceCountTwoRepairWindows,
+            OppositeFiniteOffsetTemplateWindowRepairCode,
+            OppositeFiniteOffsetTemplateRepairCode,
+            OppositeFiniteOffsetRepairWindowsCode?,
+            OppositeFiniteOffsetRepairWindow.code?,
+            OppositeFiniteOffsetSourceIndexTargetValue,
+            OppositeFiniteOffsetSourceIndexShiftTarget]
+          omega
+      | inr hk1 =>
+          subst k
+          simp [OppositeFiniteOffsetSourceCountTwoRepairWindows,
+            OppositeFiniteOffsetTemplateWindowRepairCode,
+            OppositeFiniteOffsetTemplateRepairCode,
+            OppositeFiniteOffsetRepairWindowsCode?,
+            OppositeFiniteOffsetRepairWindow.code?,
+            OppositeFiniteOffsetSourceIndexTargetValue,
+            OppositeFiniteOffsetSourceIndexShiftTarget]
+          omega
+    case untouched =>
+      intro k hk _hBoundary hNotTouch
+      have hkCases : Or (k = 0) (k = 1) := by
+        rw [hCount] at hk
+        omega
+      cases hkCases with
+      | inl hk0 =>
+          subst k
+          exact False.elim
+            (hNotTouch
+              (Exists.intro OppositeFiniteOffsetCode.pos14 (by
+                simp [OppositeFiniteOffsetSourceCountTwoRepairWindows,
+                  OppositeFiniteOffsetRepairWindowsCode?,
+                  OppositeFiniteOffsetRepairWindow.code?])))
+      | inr hk1 =>
+          subst k
+          exact False.elim
+            (hNotTouch
+              (Exists.intro OppositeFiniteOffsetCode.neg36 (by
+                simp [OppositeFiniteOffsetSourceCountTwoRepairWindows,
+                  OppositeFiniteOffsetRepairWindowsCode?,
+                  OppositeFiniteOffsetRepairWindow.code?])))
+  case gap =>
+    intro k d hdpos _hdle hkd _hTouch
+    have hk0 : k = 0 := by
+      rw [hCount] at hkd
+      omega
+    have hd1 : d = 1 := by
+      rw [hCount] at hkd
+      omega
+    subst k
+    subst d
+    intro hShift
+    simp [OppositeFiniteOffsetSourceCountTwoRepairWindows,
+      OppositeFiniteOffsetTemplateWindowRepairCode,
+      OppositeFiniteOffsetTemplateRepairCode,
+      OppositeFiniteOffsetRepairWindowsCode?,
+      OppositeFiniteOffsetRepairWindow.code?,
+      OppositeFiniteOffsetSourceIndexShiftTarget] at hShift
 
 /-- Split edge/boundary matching supplies the previous split-edge touched-gap package. -/
 theorem oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultBoundaryBoxTouchedGapValidMatching_of_edgeBoundary
@@ -10327,6 +10605,18 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
         N windows
 
 /--
+Large split edge/boundary local matching certificate.  Lean closes the empty,
+one-source, and two-source boundary cases, so the open finite-window surface
+starts only at three boxed `18 mod 25` sources.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryThreeOrMoreLocalMatchingCertificate :
+    Prop :=
+  forall N : Nat, 2 < OppositeFiniteOffsetSourceCount N ->
+    Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
+      OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
+        N windows
+
+/--
 Active strict-middle credit for any split edge/boundary local repair
 certificate, reduced to pointwise decoded direct codes for each strict-middle
 source.
@@ -17606,6 +17896,23 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexList
         hWindow)
 
 /--
+The three-or-more local matching certificate supplies the nontrivial surface:
+the two-source boundary case is closed by the explicit two-code repair window.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNontrivialLocalMatching_of_threeOrMore
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryThreeOrMoreLocalMatchingCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNontrivialLocalMatchingCertificate := by
+  intro N hNontrivial
+  by_cases hTwo : OppositeFiniteOffsetSourceCount N = 2
+  · exact Exists.intro OppositeFiniteOffsetSourceCountTwoRepairWindows
+      (oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching_twoWindow_of_sourceCount_eq_two
+        hTwo)
+  · have hLarge : 2 < OppositeFiniteOffsetSourceCount N := by
+      omega
+    exact h N hLarge
+
+/--
 The nontrivial local matching certificate supplies the old nonempty surface:
 the one-source boundary case is closed by the empty repair list.
 -/
@@ -19316,12 +19623,18 @@ axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWind
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCertificate
 
 /--
-Open analytic cut for nontrivial split edge/boundary local template-window
+Open analytic cut for three-or-more split edge/boundary local template-window
 matching in the decoded squarefree-boxed `18 mod 25` finite-offset compression.
-Lean closes the empty and one-source cases.
+Lean closes the empty, one-source, and two-source cases.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNontrivialLocalMatchingCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNontrivialLocalMatchingCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryThreeOrMoreLocalMatchingCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryThreeOrMoreLocalMatchingCertificate
+
+/-- Current nontrivial local matching certificate from the three-or-more cut. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNontrivialLocalMatchingCut :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNontrivialLocalMatchingCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNontrivialLocalMatching_of_threeOrMore
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryThreeOrMoreLocalMatchingCut
 
 /-- Current nonempty local matching certificate from the nontrivial cut. -/
 theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatchingCut :

@@ -5,7 +5,7 @@ Files whose declarations are transitively reached from `config.endpoints` (and a
 
 * on-chain: **5**  *  cut: **1**  *  total reached: **6**
 
-* closure constants: 2303  *  closure modules: 57
+* closure constants: 2321  *  closure modules: 57
 
 
 ## On-chain files
@@ -22,4 +22,4 @@ Files whose declarations are transitively reached from `config.endpoints` (and a
 
 | file | decls | axioms |
 |------|------:|-------:|
-| `Erdos848/Infrastructure/SquarefreeAP.lean` | 1629 | 3 |
+| `Erdos848/Infrastructure/SquarefreeAP.lean` | 1646 | 3 |

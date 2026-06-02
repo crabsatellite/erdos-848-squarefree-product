@@ -7,7 +7,7 @@ Equivalent to running `#print axioms <endpoint>` for each endpoint.
 
 - `Classical.choice`
 - `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCut`
-- `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNontrivialLocalMatchingCut`
+- `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryThreeOrMoreLocalMatchingCut`
 - `Quot.sound`
 - `propext`
 
