@@ -590,6 +590,193 @@ theorem forbiddenSquarefreeEdge_thirtyTwo_sixtyEight :
   rw [h]
   exact squarefree_twoThousandOneHundredSeventySeven
 
+/-- The concrete edge value `82 * 43 + 1 = 3527` is squarefree. -/
+theorem squarefree_threeThousandFiveHundredTwentySeven : Squarefree 3527 := by
+  intro p hp hdiv
+  match hdiv with
+  | Exists.intro k hk =>
+      if hbig : 60 <= p then
+        cases k with
+        | zero => omega
+        | succ k =>
+            have hsq : 60 * 60 <= p * p := Nat.mul_le_mul hbig hbig
+            have hprod : p * p <= p * p * Nat.succ k := by
+              exact Nat.le_mul_of_pos_right (p * p) (Nat.succ_pos k)
+            have hc : p * p * Nat.succ k = 3527 := hk.symm
+            omega
+      else
+        have hple : p <= 59 := by omega
+        match p with
+        | 0 => omega
+        | 1 => omega
+        | 2 => omega
+        | 3 => omega
+        | 4 => omega
+        | 5 => omega
+        | 6 => omega
+        | 7 => omega
+        | 8 => omega
+        | 9 => omega
+        | 10 => omega
+        | 11 => omega
+        | 12 => omega
+        | 13 => omega
+        | 14 => omega
+        | 15 => omega
+        | 16 => omega
+        | 17 => omega
+        | 18 => omega
+        | 19 => omega
+        | 20 => omega
+        | 21 => omega
+        | 22 => omega
+        | 23 => omega
+        | 24 => omega
+        | 25 => omega
+        | 26 => omega
+        | 27 => omega
+        | 28 => omega
+        | 29 => omega
+        | 30 => omega
+        | 31 => omega
+        | 32 => omega
+        | 33 => omega
+        | 34 => omega
+        | 35 => omega
+        | 36 => omega
+        | 37 => omega
+        | 38 => omega
+        | 39 => omega
+        | 40 => omega
+        | 41 => omega
+        | 42 => omega
+        | 43 => omega
+        | 44 => omega
+        | 45 => omega
+        | 46 => omega
+        | 47 => omega
+        | 48 => omega
+        | 49 => omega
+        | 50 => omega
+        | 51 => omega
+        | 52 => omega
+        | 53 => omega
+        | 54 => omega
+        | 55 => omega
+        | 56 => omega
+        | 57 => omega
+        | 58 => omega
+        | 59 => omega
+        | _ + 60 => omega
+
+/-- The second boxed opposite source maps to target `82` by a squarefree edge. -/
+theorem forbiddenSquarefreeEdge_eightyTwo_fortyThree :
+    ForbiddenSquarefreeEdge 82 43 := by
+  unfold ForbiddenSquarefreeEdge
+  have h : 82 * 43 + 1 = 3527 := by omega
+  rw [h]
+  exact squarefree_threeThousandFiveHundredTwentySeven
+
+/-- The concrete edge value `57 * 93 + 1 = 5302` is squarefree. -/
+theorem squarefree_fiveThousandThreeHundredTwo : Squarefree 5302 := by
+  intro p hp hdiv
+  match hdiv with
+  | Exists.intro k hk =>
+      if hbig : 73 <= p then
+        cases k with
+        | zero => omega
+        | succ k =>
+            have hsq : 73 * 73 <= p * p := Nat.mul_le_mul hbig hbig
+            have hprod : p * p <= p * p * Nat.succ k := by
+              exact Nat.le_mul_of_pos_right (p * p) (Nat.succ_pos k)
+            have hc : p * p * Nat.succ k = 5302 := hk.symm
+            omega
+      else
+        have hple : p <= 72 := by omega
+        match p with
+        | 0 => omega
+        | 1 => omega
+        | 2 => omega
+        | 3 => omega
+        | 4 => omega
+        | 5 => omega
+        | 6 => omega
+        | 7 => omega
+        | 8 => omega
+        | 9 => omega
+        | 10 => omega
+        | 11 => omega
+        | 12 => omega
+        | 13 => omega
+        | 14 => omega
+        | 15 => omega
+        | 16 => omega
+        | 17 => omega
+        | 18 => omega
+        | 19 => omega
+        | 20 => omega
+        | 21 => omega
+        | 22 => omega
+        | 23 => omega
+        | 24 => omega
+        | 25 => omega
+        | 26 => omega
+        | 27 => omega
+        | 28 => omega
+        | 29 => omega
+        | 30 => omega
+        | 31 => omega
+        | 32 => omega
+        | 33 => omega
+        | 34 => omega
+        | 35 => omega
+        | 36 => omega
+        | 37 => omega
+        | 38 => omega
+        | 39 => omega
+        | 40 => omega
+        | 41 => omega
+        | 42 => omega
+        | 43 => omega
+        | 44 => omega
+        | 45 => omega
+        | 46 => omega
+        | 47 => omega
+        | 48 => omega
+        | 49 => omega
+        | 50 => omega
+        | 51 => omega
+        | 52 => omega
+        | 53 => omega
+        | 54 => omega
+        | 55 => omega
+        | 56 => omega
+        | 57 => omega
+        | 58 => omega
+        | 59 => omega
+        | 60 => omega
+        | 61 => omega
+        | 62 => omega
+        | 63 => omega
+        | 64 => omega
+        | 65 => omega
+        | 66 => omega
+        | 67 => omega
+        | 68 => omega
+        | 69 => omega
+        | 70 => omega
+        | 71 => omega
+        | 72 => omega
+        | _ + 73 => omega
+
+/-- The fourth boxed opposite source maps to target `57` by a squarefree edge. -/
+theorem forbiddenSquarefreeEdge_fiftySeven_ninetyThree :
+    ForbiddenSquarefreeEdge 57 93 := by
+  unfold ForbiddenSquarefreeEdge
+  have h : 57 * 93 + 1 = 5302 := by omega
+  rw [h]
+  exact squarefree_fiveThousandThreeHundredTwo
+
 /-- Shift target index expressed directly from the source-class index. -/
 def OppositeFiniteOffsetSourceIndexShiftTarget
     (k : Nat) : OppositeFiniteOffsetCode -> Nat
@@ -1848,6 +2035,130 @@ theorem oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundary
                   OppositeFiniteOffsetRepairWindowsCode?,
                   OppositeFiniteOffsetRepairWindow.code?,
                   OppositeFiniteOffsetSourceIndexShiftTarget] at hShift
+
+/-- Four boxed `18 mod 25` sources force `N` past the target `82`. -/
+theorem ninetyThree_le_of_oppositeFiniteOffsetSourceCount_eq_four
+    {N : Nat}
+    (hCount : OppositeFiniteOffsetSourceCount N = 4) :
+    93 <= N := by
+  unfold OppositeFiniteOffsetSourceCount at hCount
+  by_cases hlt : N < 18
+  case pos =>
+    simp [hlt] at hCount
+  case neg =>
+    simp [hlt] at hCount
+    have hdiv : 3 <= (N - 18) / 25 := by omega
+    have hmul : 3 * 25 <= N - 18 :=
+      (Nat.le_div_iff_mul_le (by decide : 0 < 25)).1 hdiv
+    omega
+
+/--
+If there are exactly four boxed `18 mod 25` sources, the period-six default
+template already closes the local matching with no repair window.
+-/
+theorem oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching_nil_of_sourceCount_eq_four
+    {N : Nat}
+    (hCount : OppositeFiniteOffsetSourceCount N = 4) :
+    OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
+      N [] := by
+  refine And.intro ?edge (And.intro ?boundary ?gap)
+  case edge =>
+    refine And.intro ?touched ?untouched
+    case touched =>
+      intro k _hk hTouch
+      cases hTouch with
+      | intro code hcode =>
+          simp [OppositeFiniteOffsetRepairWindowsCode?] at hcode
+    case untouched =>
+      intro k hk _hNotTouch
+      have hkCases : Or (k = 0) (Or (k = 1) (Or (k = 2) (k = 3))) := by
+        rw [hCount] at hk
+        omega
+      cases hkCases with
+      | inl hk0 =>
+          subst k
+          simpa [OppositeFiniteOffsetPeriodSixTemplateCode,
+            OppositeFiniteOffsetSourceIndexTargetValue,
+            OppositeFiniteOffsetSourceIndexShiftTarget,
+            EighteenSourceFromIndex] using
+            forbiddenSquarefreeEdge_seven_eighteen
+      | inr hrest =>
+          cases hrest with
+          | inl hk1 =>
+              subst k
+              simpa [OppositeFiniteOffsetPeriodSixTemplateCode,
+                OppositeFiniteOffsetSourceIndexTargetValue,
+                OppositeFiniteOffsetSourceIndexShiftTarget,
+                EighteenSourceFromIndex] using
+                forbiddenSquarefreeEdge_eightyTwo_fortyThree
+          | inr hrest2 =>
+              cases hrest2 with
+              | inl hk2 =>
+                  subst k
+                  simpa [OppositeFiniteOffsetPeriodSixTemplateCode,
+                    OppositeFiniteOffsetSourceIndexTargetValue,
+                    OppositeFiniteOffsetSourceIndexShiftTarget,
+                    EighteenSourceFromIndex] using
+                    forbiddenSquarefreeEdge_thirtyTwo_sixtyEight
+              | inr hk3 =>
+                  subst k
+                  simpa [OppositeFiniteOffsetPeriodSixTemplateCode,
+                    OppositeFiniteOffsetSourceIndexTargetValue,
+                    OppositeFiniteOffsetSourceIndexShiftTarget,
+                    EighteenSourceFromIndex] using
+                    forbiddenSquarefreeEdge_fiftySeven_ninetyThree
+  case boundary =>
+    refine And.intro ?touched ?untouched
+    case touched =>
+      intro k _hk _hBoundary hTouch
+      cases hTouch with
+      | intro code hcode =>
+          simp [OppositeFiniteOffsetRepairWindowsCode?] at hcode
+    case untouched =>
+      intro k hk hBoundary _hNotTouch
+      have hN : 93 <= N :=
+        ninetyThree_le_of_oppositeFiniteOffsetSourceCount_eq_four hCount
+      have hkCases : Or (k = 0) (Or (k = 1) (Or (k = 2) (k = 3))) := by
+        rw [hCount] at hk
+        omega
+      cases hkCases with
+      | inl hk0 =>
+          subst k
+          rw [hCount] at hBoundary
+          omega
+      | inr hrest =>
+          cases hrest with
+          | inl hk1 =>
+              subst k
+              simp [OppositeFiniteOffsetPeriodSixTemplateCode,
+                OppositeFiniteOffsetSourceIndexTargetValue,
+                OppositeFiniteOffsetSourceIndexShiftTarget]
+              omega
+          | inr hrest2 =>
+              cases hrest2 with
+              | inl hk2 =>
+                  subst k
+                  simp [OppositeFiniteOffsetPeriodSixTemplateCode,
+                    OppositeFiniteOffsetSourceIndexTargetValue,
+                    OppositeFiniteOffsetSourceIndexShiftTarget]
+                  omega
+              | inr hk3 =>
+                  subst k
+                  simp [OppositeFiniteOffsetPeriodSixTemplateCode,
+                    OppositeFiniteOffsetSourceIndexTargetValue,
+                    OppositeFiniteOffsetSourceIndexShiftTarget]
+                  omega
+  case gap =>
+    intro k d _hdpos _hdle _hkd hTouch
+    cases hTouch with
+    | inl hLeft =>
+        cases hLeft with
+        | intro code hcode =>
+            simp [OppositeFiniteOffsetRepairWindowsCode?] at hcode
+    | inr hRight =>
+        cases hRight with
+        | intro code hcode =>
+            simp [OppositeFiniteOffsetRepairWindowsCode?] at hcode
 
 /-- Split edge/boundary matching supplies the previous split-edge touched-gap package. -/
 theorem oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultBoundaryBoxTouchedGapValidMatching_of_edgeBoundary
@@ -11032,6 +11343,18 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
         N windows
 
 /--
+Five-or-more split edge/boundary local matching certificate.  Lean closes the
+empty through four-source boundary cases, so the open finite-window surface
+starts only at five boxed `18 mod 25` sources.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryFiveOrMoreLocalMatchingCertificate :
+    Prop :=
+  forall N : Nat, 4 < OppositeFiniteOffsetSourceCount N ->
+    Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
+      OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
+        N windows
+
+/--
 Active strict-middle credit for any split edge/boundary local repair
 certificate, reduced to pointwise decoded direct codes for each strict-middle
 source.
@@ -18311,6 +18634,23 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexList
         hWindow)
 
 /--
+The five-or-more local matching certificate supplies the four-or-more surface:
+the four-source boundary case is closed by the period-six default template.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryFourOrMoreLocalMatching_of_fiveOrMore
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryFiveOrMoreLocalMatchingCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryFourOrMoreLocalMatchingCertificate := by
+  intro N hFourOrMore
+  by_cases hFour : OppositeFiniteOffsetSourceCount N = 4
+  · exact Exists.intro []
+      (oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching_nil_of_sourceCount_eq_four
+        hFour)
+  · have hLarge : 4 < OppositeFiniteOffsetSourceCount N := by
+      omega
+    exact h N hLarge
+
+/--
 The four-or-more local matching certificate supplies the three-or-more surface:
 the three-source boundary case is closed by the explicit three-code repair
 window.
@@ -20056,12 +20396,18 @@ axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWind
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCertificate
 
 /--
-Open analytic cut for four-or-more split edge/boundary local template-window
+Open analytic cut for five-or-more split edge/boundary local template-window
 matching in the decoded squarefree-boxed `18 mod 25` finite-offset compression.
-Lean closes the empty, one-source, two-source, and three-source cases.
+Lean closes the empty through four-source cases.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryFourOrMoreLocalMatchingCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryFourOrMoreLocalMatchingCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryFiveOrMoreLocalMatchingCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryFiveOrMoreLocalMatchingCertificate
+
+/-- Current four-or-more local matching certificate from the five-or-more cut. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryFourOrMoreLocalMatchingCut :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryFourOrMoreLocalMatchingCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryFourOrMoreLocalMatching_of_fiveOrMore
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryFiveOrMoreLocalMatchingCut
 
 /-- Current three-or-more local matching certificate from the four-or-more cut. -/
 theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryThreeOrMoreLocalMatchingCut :
