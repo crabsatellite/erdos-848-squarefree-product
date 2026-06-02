@@ -10084,6 +10084,23 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
         N windows
 
 /--
+Active strict-middle credit for any split edge/boundary local repair certificate,
+stated as direct self-canonical target matching against the template-window mate.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDirectCertificate :
+    Prop :=
+  forall (N : Nat) (windows : List OppositeFiniteOffsetRepairWindow),
+    OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
+      N windows ->
+    forall B : Nat -> Prop,
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching N B
+        (OppositeFiniteOffsetSourceIndexMate
+          (OppositeFiniteOffsetTemplateWindowRepairCode windows))
+
+/--
 Source-index split certificate with code-independent middle-region incremental
 capacity and split edge/boundary local template-window matching.
 -/
@@ -17356,6 +17373,77 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexList
         hWindow)
 
 /--
+Template-window direct credit data transfers to the finite list-selector
+obtained by truncating the repair assignment to the boxed source count.
+-/
+theorem activeStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching_of_windowRepairCodeList
+    {N : Nat} {windows : List OppositeFiniteOffsetRepairWindow}
+    {B : Nat -> Prop}
+    (hB : BoundedOutsideSet N 7 B)
+    (h :
+      ActiveStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching N B
+        (OppositeFiniteOffsetSourceIndexMate
+          (OppositeFiniteOffsetTemplateWindowRepairCode windows))) :
+    ActiveStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching N B
+      (OppositeFiniteOffsetSourceIndexMate
+        (OppositeFiniteOffsetListSelector
+          (OppositeFiniteOffsetWindowRepairCodeList N windows))) := by
+  apply activeStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching_congr_mate
+    (mateOld :=
+      OppositeFiniteOffsetSourceIndexMate
+        (OppositeFiniteOffsetTemplateWindowRepairCode windows))
+    (mateNew :=
+      OppositeFiniteOffsetSourceIndexMate
+        (OppositeFiniteOffsetListSelector
+          (OppositeFiniteOffsetWindowRepairCodeList N windows)))
+  · intro b hbOpp
+    have hbBox : InBox N b := (hB b hbOpp.left).left
+    have hb18 : CandidateCarrier 18 b :=
+      candidateCarrier_eighteen_of_oppositeCandidateCarrier_seven hbOpp.right
+    have hk :
+        CandidateClassIndex b < OppositeFiniteOffsetSourceCount N :=
+      candidateClassIndex_lt_oppositeFiniteOffsetSourceCount_of_inBox_candidate_eighteen
+        hbBox hb18
+    have hEq :=
+      oppositeFiniteOffsetListSelector_windowRepairCodeList_eq
+        (N := N) (windows := windows) (k := CandidateClassIndex b) hk
+    simp [OppositeFiniteOffsetSourceIndexMate, hEq]
+  · exact h
+
+/--
+Split edge/boundary local matching plus template-window direct active credit
+supplies the gap-indexed list-selector direct credit certificate consumed by
+the decoded squarefree-boxed route.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditSelfCanonicalTargetUniformDirectInjectiveSumCode_of_touchedDefaultEdgeBoundaryLocalActiveCredit
+    (hMatching :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCertificate)
+    (hActive :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDirectCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate := by
+  intro N
+  rcases hMatching N with ⟨windows, hLocal⟩
+  let codes := OppositeFiniteOffsetWindowRepairCodeList N windows
+  have hWindow :
+      OppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentBoundaryBoxGapValidMatching
+        N windows :=
+    oppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentBoundaryBoxGapValidMatching_of_touchedGap
+      (oppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentBoundaryBoxTouchedGapValidMatching_of_touchedDefault
+        (oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultBoundaryBoxTouchedGapValidMatching_of_edgeBoundary
+          hLocal))
+  have hGap :
+      OppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching
+        N codes :=
+    oppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching_of_templateWindowRepairLocalMatching
+      hWindow
+  refine Exists.intro codes (And.intro hGap ?_)
+  intro B hB hClique hMid
+  exact
+    activeStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching_of_windowRepairCodeList
+      (N := N) (windows := windows) (B := B) hB
+      (hActive N windows hLocal B hB hClique hMid)
+
+/--
 Code-independent incremental middle capacity plus the gap-indexed list
 matching supplies the current split incremental-capacity certificate.
 -/
@@ -18888,12 +18976,21 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
     globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_windowRepairCodeList
       hActive⟩
 
-/--
-Open analytic cut for the code-independent active middle incremental capacity
-needed by the decoded squarefree-boxed `18 mod 25` finite-offset compression.
+/-!
+The legacy incremental-capacity cut is kept for the older reserve-dominance
+route below.  The endpoint path now uses the direct self-canonical active-credit
+cut immediately following it.
 -/
 axiom finiteOffsetMiddleCompressionEighteenActiveStrictMiddleIncrementalCapacityCut :
   ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7
+
+/--
+Open analytic cut for template-window local active credit, stated as direct
+self-canonical target matching against the same repair windows as the local
+matching cut.
+-/
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDirectCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDirectCertificate
 
 /--
 Open analytic cut for nonempty-source split edge/boundary local template-window
@@ -18928,6 +19025,31 @@ theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelect
     globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatching_of_templateWindowRepairLocalMatching
       finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut
 
+/-- Current gap-indexed list-selector direct active-credit certificate. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditSelfCanonicalTargetDirectCut :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditSelfCanonicalTargetUniformDirectInjectiveSumCode_of_touchedDefaultEdgeBoundaryLocalActiveCredit
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCut
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDirectCut
+
+/-- Current finite list-selector direct active-credit certificate. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorCreditSelfCanonicalTargetDirectCut :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCode_of_lengthTargetCoherentBoundaryBoxGapListSelector
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapCreditSelfCanonicalTargetDirectCut
+
+/-- Current source-index selector direct active-credit certificate. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditSelfCanonicalTargetDirectCut :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditSelfCanonicalTargetUniformDirectInjectiveSumCode_of_listSelector
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorCreditSelfCanonicalTargetDirectCut
+
+/-- Current typed-mate direct active-credit certificate. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetDirectCut :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCodeCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetUniformDirectInjectiveSumCode_of_sourceIndexSelector
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexSelectorCreditSelfCanonicalTargetDirectCut
+
 /-- Current split incremental-capacity certificate from active capacity and finite matching. -/
 theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut :
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCertificate :=
@@ -18938,8 +19060,8 @@ theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelect
 /-- Current decoded squarefree-boxed certificate from incremental capacity and finite matching. -/
 theorem finiteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCut :
   GlobalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxedCertificate :=
-  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacity
-    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut
+  globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_typedMateUniformSelfCanonicalTargetDirect
+    finiteOffsetMiddleCompressionEighteenTypedMateCreditSelfCanonicalTargetDirectCut
 
 /-- Current squarefree-boxed decoder certificate with decoder hits carried by codes. -/
 theorem finiteOffsetMiddleCompressionEighteenSquarefreeBoxedDecoderCut :
