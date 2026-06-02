@@ -6,8 +6,7 @@ Equivalent to running `#print axioms <endpoint>` for each endpoint.
 ## `Erdos848.erdos848_main`
 
 - `Classical.choice`
-- `Erdos848.activeStrictMiddleNewNeighborAllocationCut`
-- `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut`
+- `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapGeneratedPrefixPairCut`
 - `Quot.sound`
 - `propext`
 

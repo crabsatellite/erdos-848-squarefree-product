@@ -16,8 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.activeStrictMiddleNewNeighborAllocationCut,
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapGeneratedPrefixPairCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -78,22 +77,15 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by two explicit typed seven-offset `18 mod 25` finite-offset middle-compression cuts for the endpoint-consumed `7 mod 25` progression: a code-independent active strict-middle new-neighbor allocation certificate and a compact period-six template-window local repair matching certificate. Lean turns the active allocation into incremental capacity, truncates the local repair assignment to a gap-indexed finite list-selector certificate, combines the two pieces into total reserve dominance, and derives the endpoint Hall expansion."
+        "Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: a gap-indexed finite list-selector matching packaged with generated prefix-pair active-deficit allocation. Lean projects the matching component, folds the generated prefix-pair allocation into decoded squarefree-boxed compression, and derives the endpoint Hall expansion."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
-        "Erdos848.activeStrictMiddleNewNeighborAllocationCut",
-        "Erdos848.activeStrictMiddleIncrementalCapacityCut",
-        "Erdos848.activeStrictMiddleIncrementalCapacity_of_newNeighborAllocation",
-        "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut",
-        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatching_of_templateWindowRepairLocalMatching",
-        "Erdos848.oppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching_of_templateWindowRepairLocalMatching",
-        "Erdos848.OppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentBoundaryBoxGapValidMatching",
+        "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapGeneratedPrefixPairCut",
+        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation",
         "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCut",
-        "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut",
-        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacity_of_activeStrictMiddleIncrementalCapacity_and_matching",
-        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacity",
+        "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominance_of_incrementalCapacity",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapTotalReserveDominance",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_consecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation",
@@ -866,7 +858,6 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.oppositeSquarefreeAPAllocation_of_nearby",
         "Erdos848.incrementalPartitionedSquarefreeAPCapacity_of_partitionedCapacity",
         "Erdos848.incrementalPartitionedSquarefreeAPCapacityCut",
-        "Erdos848.activeStrictMiddleIncrementalCapacityCut",
         "Erdos848.squarefreeAPHallCut",
         "Erdos848.PartitionedSquarefreeAPCapacityCertificate",
         "Erdos848.PartitionedSquarefreeAPCapacityCertificateForResidue",
@@ -1041,11 +1032,10 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Prove the active strict-middle new-neighbor allocation certificate.",
-        "Prove the compact period-six template-window local repair matching certificate.",
-        "Use Lean to truncate local template-window repair matching to the gap-indexed finite list-selector certificate, combine it with incremental capacity into total reserve dominance, then assemble decoded squarefree-boxed compression for the endpoint Hall expansion."
+        "Prove the gap-indexed finite list-selector matching and generated prefix-pair active-deficit allocation certificate.",
+        "Use Lean to project matching, fold generated prefix-pair allocation into decoded squarefree-boxed compression, then assemble the endpoint Hall expansion."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `activeStrictMiddleNewNeighborAllocationCut` and without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapGeneratedPrefixPairCut`."
     },
     {
       id := "residue-certificate"
@@ -1133,16 +1123,10 @@ def config : ChainAudit.ProjectConfig := {
       keywords := [
         "SquarefreeAP",
         "squarefreeAPHall",
-        "activeStrictMiddleNewNeighborAllocationCut",
-        "activeStrictMiddleIncrementalCapacityCut",
-        "activeStrictMiddleIncrementalCapacity_of_newNeighborAllocation",
-        "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut",
-        "globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatching_of_templateWindowRepairLocalMatching",
-        "oppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching_of_templateWindowRepairLocalMatching",
+        "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapGeneratedPrefixPairCut",
+        "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation",
         "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCut",
-        "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut",
-        "globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacity_of_activeStrictMiddleIncrementalCapacity_and_matching",
-        "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacity",
+        "GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate",
         "globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominance_of_incrementalCapacity",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapTotalReserveDominance",
         "globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_consecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation",
