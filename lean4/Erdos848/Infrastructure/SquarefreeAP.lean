@@ -18330,8 +18330,14 @@ middle-capacity certificate, and the offset side is a gap-indexed finite
 list-selector code certificate.  Lean combines these two pieces into total
 reserve dominance before deriving the endpoint Hall expansion.
 -/
-axiom activeStrictMiddleIncrementalCapacityCut :
-  ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7
+axiom activeStrictMiddleNewNeighborAllocationCut :
+  ActiveStrictMiddleNewNeighborAllocationCertificateForResidue 7
+
+/-- Current active strict-middle incremental capacity from explicit new-neighbor allocation. -/
+theorem activeStrictMiddleIncrementalCapacityCut :
+  ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7 :=
+  activeStrictMiddleIncrementalCapacity_of_newNeighborAllocation
+    activeStrictMiddleNewNeighborAllocationCut
 
 axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut :
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCertificate

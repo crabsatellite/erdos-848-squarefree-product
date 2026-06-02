@@ -11,13 +11,13 @@ This file is generated.  Future agents should update Lean files, audit rules, or
 ## Next Agent Brief
 
 Research attack target:
-- Primary proof gap: `gap:G-squarefree-ap-hall-expansion` -- Replace finite Hall checks by two explicit typed seven-offset `18 mod 25` finite-offset middle-compression cuts for the endpoint-consumed `7 mod 25` progression: a code-independent active strict-middle incremental-capacity certificate and a compact period-six template-window local repair matching certificate. Lean truncates the local repair assignment to a gap-indexed finite list-selector certificate, combines the two pieces into total reserve dominance, and derives the endpoint Hall expansion.
+- Primary proof gap: `gap:G-squarefree-ap-hall-expansion` -- Replace finite Hall checks by two explicit typed seven-offset `18 mod 25` finite-offset middle-compression cuts for the endpoint-consumed `7 mod 25` progression: a code-independent active strict-middle new-neighbor allocation certificate and a compact period-six template-window local repair matching certificate. Lean turns the active allocation into incremental capacity, truncates the local repair assignment to a gap-indexed finite list-selector certificate, combines the two pieces into total reserve dominance, and derives the endpoint Hall expansion.
 - Route owner(s): `chain:hall-expansion-compression`, `chain:main-full-close`
 - Current constructive attack route: `chain:hall-expansion-compression`.  Use it to replace the primary cut; do not route around the configured gap ledger.
-- Success criterion: A theorem of the shape `SquarefreeAPHallCertificate` is proved without `activeStrictMiddleIncrementalCapacityCut` and without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut`.
+- Success criterion: A theorem of the shape `SquarefreeAPHallCertificate` is proved without `activeStrictMiddleNewNeighborAllocationCut` and without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut`.
 
 Kernel cut ledger.  These are audit-visible unresolved constants on the endpoint closure; use the configured route/gap above to decide the next research attack, not this flat list alone:
-- `Erdos848.activeStrictMiddleIncrementalCapacityCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
+- `Erdos848.activeStrictMiddleNewNeighborAllocationCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
 - `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
 
 ## New Agent Attack Cards
@@ -26,10 +26,10 @@ Readiness verdict: **actionable**.  The main cut and replacement route are clear
 
 Current replacement plan:
 - Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.
-- Prove the active strict-middle incremental-capacity certificate.
+- Prove the active strict-middle new-neighbor allocation certificate.
 - Prove the compact period-six template-window local repair matching certificate.
 - Use Lean to truncate local template-window repair matching to the gap-indexed finite list-selector certificate, combine it with incremental capacity into total reserve dominance, then assemble decoded squarefree-boxed compression for the endpoint Hall expansion.
-- Final success criterion: A theorem of the shape `SquarefreeAPHallCertificate` is proved without `activeStrictMiddleIncrementalCapacityCut` and without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut`.
+- Final success criterion: A theorem of the shape `SquarefreeAPHallCertificate` is proved without `activeStrictMiddleNewNeighborAllocationCut` and without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut`.
 
 Do-not-attack inactive routes:
 | gap | reason | evidence files |
@@ -40,10 +40,10 @@ Do-not-attack inactive routes:
 
 | endpoint | mathematical cuts | full axiom count |
 |----------|-------------------|-----------------:|
-| `Erdos848.erdos848_main` | `Erdos848.activeStrictMiddleIncrementalCapacityCut`, `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut` | 5 |
+| `Erdos848.erdos848_main` | `Erdos848.activeStrictMiddleNewNeighborAllocationCut`, `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut` | 5 |
 
 Open mathematical cut ledger:
-- `Erdos848.activeStrictMiddleIncrementalCapacityCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
+- `Erdos848.activeStrictMiddleNewNeighborAllocationCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
 - `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut` in `Erdos848/Infrastructure/SquarefreeAP.lean`
 
 ## Route Taxonomy
@@ -61,7 +61,7 @@ Open mathematical cut ledger:
 |-----|--------|--------------|--------------|-------|
 | `gap:G-hall-expansion-global` | closed-local | `chain:main-full-close` | `Erdos848.hallExpansionCut`, `Erdos848.atMostCandidateBound_of_current_cuts`, `Erdos848.erdos848_main` | on-chain: 3 |
 | `gap:G-candidate-p5-sharpness` | closed-local | `chain:main-full-close`, `chain:residue-certificate` | `Erdos848.squareDivides_five_mul_add_one_of_candidate_seven`, `Erdos848.squareDivides_five_mul_add_one_of_candidate_eighteen`, `Erdos848.not_squareDivides_five_mul_add_one_of_candidate_seven_eighteen`, +6 more | on-chain: 1 |
-| `gap:G-squarefree-ap-hall-expansion` | open | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.activeStrictMiddleIncrementalCapacityCut`, `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut`, `Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatching_of_templateWindowRepairLocalMatching`, +873 more | cut: 1 |
+| `gap:G-squarefree-ap-hall-expansion` | open | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.activeStrictMiddleNewNeighborAllocationCut`, `Erdos848.activeStrictMiddleIncrementalCapacityCut`, `Erdos848.activeStrictMiddleIncrementalCapacity_of_newNeighborAllocation`, +875 more | cut: 1 |
 | `gap:G-rough-square-divisor-unpacking` | closed-local | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.roughSquareDivisor`, `Erdos848.RoughSquareDivisorCertificate` | on-chain: 1 |
 | `gap:D-finite-search-only` | dead | `chain:finite-search-only` | - | (none) |
 
