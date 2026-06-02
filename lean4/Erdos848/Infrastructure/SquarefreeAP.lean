@@ -3050,6 +3050,18 @@ def ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectMatching
           N B mate b) =>
     True
 
+/--
+Pointwise decoded direct active-credit data.  This is the smallest local
+surface needed to assemble the decoded direct matching: every strict-middle
+source has at least one decoded direct code.
+-/
+def ActiveStrictMiddleCreditSelfCanonicalTargetPointwiseDecodedDirect
+    (N : Nat) (B : Nat -> Prop) (mate : Nat -> Nat) : Prop :=
+  forall b : Nat, StrictMiddlePart 7 B b ->
+    Nonempty
+      (ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectSumCode
+        N B mate b)
+
 /-- Forget proof data and keep the target value of a self-target sum. -/
 def ActiveStrictMiddleCreditSelfTargetSumCode.value
     {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
@@ -4072,6 +4084,18 @@ theorem activeStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching_congr
         ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode.value] using
         hvalue
   exact hinj b1 b2 hb1 hb2 hvalueOld
+
+/-- Pointwise decoded direct codes assemble into a decoded direct matching. -/
+theorem activeStrictMiddleCreditSelfCanonicalTargetDecodedDirectMatching_of_pointwise
+    {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    (h :
+      ActiveStrictMiddleCreditSelfCanonicalTargetPointwiseDecodedDirect
+        N B mate) :
+    ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectMatching
+      N B mate := by
+  classical
+  refine Exists.intro (fun b hb => Classical.choice (h b hb)) ?_
+  trivial
 
 /--
 Canonical source hits close the injectivity part of the direct active-credit
@@ -10194,6 +10218,24 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
     Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
       OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
         N windows
+
+/--
+Active strict-middle credit for any split edge/boundary local repair
+certificate, reduced to pointwise decoded direct codes for each strict-middle
+source.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCertificate :
+    Prop :=
+  forall (N : Nat) (windows : List OppositeFiniteOffsetRepairWindow),
+    OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
+      N windows ->
+    forall B : Nat -> Prop,
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditSelfCanonicalTargetPointwiseDecodedDirect N B
+        (OppositeFiniteOffsetSourceIndexMate
+          (OppositeFiniteOffsetTemplateWindowRepairCode windows))
 
 /--
 Active strict-middle credit for any split edge/boundary local repair
@@ -17541,6 +17583,19 @@ theorem activeStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching_of_wi
   · exact h
 
 /--
+Pointwise decoded direct local active-credit data supplies the decoded direct
+matching certificate by assembling the pointwise codes.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDecodedDirect_of_pointwise
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDecodedDirectCertificate := by
+  intro N windows hWindow B hB hClique hMid
+  exact
+    activeStrictMiddleCreditSelfCanonicalTargetDecodedDirectMatching_of_pointwise
+      (h N windows hWindow B hB hClique hMid)
+
+/--
 Decoded direct local active-credit data supplies the previous direct matching
 certificate, with injectivity proved from the canonical source hits.
 -/
@@ -19128,12 +19183,13 @@ axiom finiteOffsetMiddleCompressionEighteenActiveStrictMiddleIncrementalCapacity
   ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7
 
 /--
-Open analytic cut for template-window local active credit, stated as decoded
-direct self-canonical target codes.  Lean derives the injectivity required by
-the endpoint route from the canonical source-hit field.
+Open analytic cut for template-window local active credit, stated pointwise:
+each strict-middle source has a decoded direct self-canonical target code.
+Lean assembles the global credit function and derives injectivity from the
+canonical source-hit field.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDecodedDirectCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDecodedDirectCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCertificate
 
 /--
 Open analytic cut for nonempty-source split edge/boundary local template-window
@@ -19160,6 +19216,12 @@ theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWi
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCertificate :=
   globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatching_of_touchedDefaultEdgeBoundaryLocalMatching
     finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCut
+
+/-- Current template-window decoded direct active-credit certificate from pointwise codes. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDecodedDirectCut :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDecodedDirectCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDecodedDirect_of_pointwise
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCut
 
 /-- Current template-window direct active-credit certificate from decoded direct codes. -/
 theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDirectCut :
