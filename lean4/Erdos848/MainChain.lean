@@ -16,7 +16,8 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalIncrementalCapacityCut
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenActiveStrictMiddleIncrementalCapacityCut,
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -77,7 +78,7 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: code-independent active middle incremental capacity is paired with repair-window local matching where repair-touched indices carry full edge data, untouched indices use period-six target coherence, and final-boundary boxedness plus gap checks are split between repair-touched and untouched period-six indices. Lean projects the windows to the boxed source-count list-selector matching, folds incremental capacity into reserve dominance, and derives the endpoint Hall expansion."
+        "Replace finite Hall checks by two explicit typed seven-offset `18 mod 25` finite-offset middle-compression cuts for the endpoint-consumed `7 mod 25` progression: code-independent active middle incremental capacity, and repair-window local matching where repair-touched indices carry full edge data, untouched indices use period-six target coherence, and final-boundary boxedness plus gap checks are split between repair-touched and untouched period-six indices. Lean pairs these cuts, projects the windows to the boxed source-count list-selector matching, folds incremental capacity into reserve dominance, and derives the endpoint Hall expansion."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
@@ -1044,7 +1045,7 @@ def config : ChainAudit.ProjectConfig := {
         "Prove code-independent active middle incremental capacity and the split edge/boundary repair-window matching certificate.",
         "Use Lean to project matching, fold incremental capacity into decoded squarefree-boxed compression, then assemble the endpoint Hall expansion."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalIncrementalCapacityCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenActiveStrictMiddleIncrementalCapacityCut` and without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCut`."
     },
     {
       id := "residue-certificate"

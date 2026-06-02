@@ -18830,22 +18830,25 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
       hActive⟩
 
 /--
-Open analytic cut for decoded squarefree-boxed `18 mod 25` finite-offset middle
-compression: code-independent active middle incremental capacity is paired with
-split edge/boundary local template-window matching.
+Open analytic cut for the code-independent active middle incremental capacity
+needed by the decoded squarefree-boxed `18 mod 25` finite-offset compression.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalIncrementalCapacityCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalIncrementalCapacityCertificate
+axiom finiteOffsetMiddleCompressionEighteenActiveStrictMiddleIncrementalCapacityCut :
+  ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7
 
-/-- Current code-independent active middle incremental capacity. -/
-theorem finiteOffsetMiddleCompressionEighteenActiveStrictMiddleIncrementalCapacityCut :
-  ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7 :=
-  finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalIncrementalCapacityCut.left
+/--
+Open analytic cut for split edge/boundary local template-window matching in the
+decoded squarefree-boxed `18 mod 25` finite-offset compression.
+-/
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCertificate
 
-/-- Current split edge/boundary repair-local matching cut. -/
-theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCertificate :=
-  finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalIncrementalCapacityCut.right
+/-- Current combined active-capacity/local-matching certificate. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalIncrementalCapacityCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalIncrementalCapacityCertificate :=
+  And.intro
+    finiteOffsetMiddleCompressionEighteenActiveStrictMiddleIncrementalCapacityCut
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCut
 
 /-- Current split edge/boundary repair-local matching projected to the full local matching surface. -/
 theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut :
