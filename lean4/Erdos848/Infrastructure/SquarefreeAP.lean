@@ -1038,6 +1038,41 @@ def OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouc
     N windows /\
   OppositeFiniteOffsetTemplateWindowRepairLengthTouchedGapShiftInjective N windows
 
+/-- If there are no boxed `18 mod 25` sources, the empty repair list is a local matching. -/
+theorem oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching_nil_of_sourceCount_eq_zero
+    {N : Nat}
+    (hCount : OppositeFiniteOffsetSourceCount N = 0) :
+    OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
+      N [] := by
+  refine ⟨?_, ?_, ?_⟩
+  · refine ⟨?_, ?_⟩
+    · intro k hk _hTouch
+      have hk0 : k < 0 := by
+        rw [hCount] at hk
+        exact hk
+      omega
+    · intro k hk _hNotTouch
+      have hk0 : k < 0 := by
+        rw [hCount] at hk
+        exact hk
+      omega
+  · refine ⟨?_, ?_⟩
+    · intro k hk _hBoundary _hTouch
+      have hk0 : k < 0 := by
+        rw [hCount] at hk
+        exact hk
+      omega
+    · intro k hk _hBoundary _hNotTouch
+      have hk0 : k < 0 := by
+        rw [hCount] at hk
+        exact hk
+      omega
+  · intro k d _hdpos _hdle hkd _hTouch
+    have hkd0 : k + d < 0 := by
+      rw [hCount] at hkd
+      exact hkd
+    omega
+
 /-- Split edge/boundary matching supplies the previous split-edge touched-gap package. -/
 theorem oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultBoundaryBoxTouchedGapValidMatching_of_edgeBoundary
     {N : Nat} {windows : List OppositeFiniteOffsetRepairWindow}
@@ -10040,6 +10075,14 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
     OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
       N windows
 
+/-- Nonempty-source local matching certificate; Lean closes the empty-source case. -/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatchingCertificate :
+    Prop :=
+  forall N : Nat, 0 < OppositeFiniteOffsetSourceCount N ->
+    Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
+      OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
+        N windows
+
 /--
 Source-index split certificate with code-independent middle-region incremental
 capacity and split edge/boundary local template-window matching.
@@ -17269,6 +17312,22 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexList
 /--
 Local template-window repair matching supplies gap-indexed finite list matching.
 -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatching_of_nonempty
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatchingCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCertificate := by
+  intro N
+  by_cases hPos : 0 < OppositeFiniteOffsetSourceCount N
+  · exact h N hPos
+  · have hCount : OppositeFiniteOffsetSourceCount N = 0 :=
+      Nat.eq_zero_of_not_pos hPos
+    exact Exists.intro []
+      (oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching_nil_of_sourceCount_eq_zero
+        hCount)
+
+/--
+Local template-window repair matching supplies gap-indexed finite list matching.
+-/
 theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatching_of_touchedDefaultEdgeBoundaryLocalMatching
     (h :
       GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCertificate) :
@@ -18837,11 +18896,17 @@ axiom finiteOffsetMiddleCompressionEighteenActiveStrictMiddleIncrementalCapacity
   ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7
 
 /--
-Open analytic cut for split edge/boundary local template-window matching in the
-decoded squarefree-boxed `18 mod 25` finite-offset compression.
+Open analytic cut for nonempty-source split edge/boundary local template-window
+matching in the decoded squarefree-boxed `18 mod 25` finite-offset compression.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatchingCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatchingCertificate
+
+/-- Current split edge/boundary repair-local matching, with empty-source cases closed in Lean. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatching_of_nonempty
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatchingCut
 
 /-- Current combined active-capacity/local-matching certificate. -/
 theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalIncrementalCapacityCut :

@@ -17,7 +17,7 @@ def config : ChainAudit.ProjectConfig := {
   ]
   openAxioms := [
     ``Erdos848.finiteOffsetMiddleCompressionEighteenActiveStrictMiddleIncrementalCapacityCut,
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCut
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatchingCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -78,13 +78,15 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by two explicit typed seven-offset `18 mod 25` finite-offset middle-compression cuts for the endpoint-consumed `7 mod 25` progression: code-independent active middle incremental capacity, and repair-window local matching where repair-touched indices carry full edge data, untouched indices use period-six target coherence, and final-boundary boxedness plus gap checks are split between repair-touched and untouched period-six indices. Lean pairs these cuts, projects the windows to the boxed source-count list-selector matching, folds incremental capacity into reserve dominance, and derives the endpoint Hall expansion."
+        "Replace finite Hall checks by two explicit typed seven-offset `18 mod 25` finite-offset middle-compression cuts for the endpoint-consumed `7 mod 25` progression: code-independent active middle incremental capacity, and nonempty-source repair-window local matching where repair-touched indices carry full edge data, untouched indices use period-six target coherence, and final-boundary boxedness plus gap checks are split between repair-touched and untouched period-six indices. Lean closes the empty-source case, pairs these cuts, projects the windows to the boxed source-count list-selector matching, folds incremental capacity into reserve dominance, and derives the endpoint Hall expansion."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
         "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalIncrementalCapacityCut",
         "Erdos848.finiteOffsetMiddleCompressionEighteenActiveStrictMiddleIncrementalCapacityCut",
+        "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatchingCut",
+        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatching_of_nonempty",
         "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatching_of_touchedDefaultEdgeBoundaryLocalMatching",
         "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut",
@@ -94,6 +96,7 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalIncrementalCapacityCertificate",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCertificate",
+        "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatchingCertificate",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCertificate",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominance_of_incrementalCapacity",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacity",
@@ -1045,7 +1048,7 @@ def config : ChainAudit.ProjectConfig := {
         "Prove code-independent active middle incremental capacity and the split edge/boundary repair-window matching certificate.",
         "Use Lean to project matching, fold incremental capacity into decoded squarefree-boxed compression, then assemble the endpoint Hall expansion."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenActiveStrictMiddleIncrementalCapacityCut` and without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenActiveStrictMiddleIncrementalCapacityCut` and without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatchingCut`."
     },
     {
       id := "residue-certificate"
@@ -1135,6 +1138,8 @@ def config : ChainAudit.ProjectConfig := {
         "squarefreeAPHall",
         "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalIncrementalCapacityCut",
         "finiteOffsetMiddleCompressionEighteenActiveStrictMiddleIncrementalCapacityCut",
+        "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatchingCut",
+        "globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatching_of_nonempty",
         "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCut",
         "globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatching_of_touchedDefaultEdgeBoundaryLocalMatching",
         "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCut",
@@ -1144,6 +1149,7 @@ def config : ChainAudit.ProjectConfig := {
         "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCut",
         "GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalIncrementalCapacityCertificate",
         "GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCertificate",
+        "GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatchingCertificate",
         "GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacityCertificate",
         "globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominance_of_incrementalCapacity",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapIncrementalCapacity",
