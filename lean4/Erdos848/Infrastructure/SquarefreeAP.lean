@@ -320,6 +320,45 @@ def EighteenSourceFromIndex (k : Nat) : Nat :=
 def OppositeFiniteOffsetSourceCount (N : Nat) : Nat :=
   if N < 18 then 0 else (N - 18) / 25 + 1
 
+/-- The concrete edge `7 * 18 + 1 = 127` is squarefree. -/
+theorem squarefree_oneTwentySeven : Squarefree 127 := by
+  intro p hp hdiv
+  match hdiv with
+  | Exists.intro k hk =>
+      if hbig : 12 <= p then
+        cases k with
+        | zero => omega
+        | succ k =>
+            have hsq : 12 * 12 <= p * p := Nat.mul_le_mul hbig hbig
+            have hprod : p * p <= p * p * Nat.succ k := by
+              exact Nat.le_mul_of_pos_right (p * p) (Nat.succ_pos k)
+            have hc : p * p * Nat.succ k = 127 := hk.symm
+            omega
+      else
+        have hple : p <= 11 := by omega
+        rcases p with _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | p
+        case zero => omega
+        case succ.zero => omega
+        case succ.succ.zero => omega
+        case succ.succ.succ.zero => omega
+        case succ.succ.succ.succ.zero => omega
+        case succ.succ.succ.succ.succ.zero => omega
+        case succ.succ.succ.succ.succ.succ.zero => omega
+        case succ.succ.succ.succ.succ.succ.succ.zero => omega
+        case succ.succ.succ.succ.succ.succ.succ.succ.zero => omega
+        case succ.succ.succ.succ.succ.succ.succ.succ.succ.zero => omega
+        case succ.succ.succ.succ.succ.succ.succ.succ.succ.succ.zero => omega
+        case succ.succ.succ.succ.succ.succ.succ.succ.succ.succ.succ.zero => omega
+        case succ.succ.succ.succ.succ.succ.succ.succ.succ.succ.succ.succ => omega
+
+/-- The first opposite source maps to the first base candidate by a squarefree edge. -/
+theorem forbiddenSquarefreeEdge_seven_eighteen :
+    ForbiddenSquarefreeEdge 7 18 := by
+  unfold ForbiddenSquarefreeEdge
+  have h : 7 * 18 + 1 = 127 := by omega
+  rw [h]
+  exact squarefree_oneTwentySeven
+
 /-- Shift target index expressed directly from the source-class index. -/
 def OppositeFiniteOffsetSourceIndexShiftTarget
     (k : Nat) : OppositeFiniteOffsetCode -> Nat
@@ -1071,6 +1110,62 @@ theorem oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundary
     have hkd0 : k + d < 0 := by
       rw [hCount] at hkd
       exact hkd
+    omega
+
+/-- A single boxed `18 mod 25` source forces `N` past the first target `7`. -/
+theorem seven_le_of_oppositeFiniteOffsetSourceCount_eq_one
+    {N : Nat}
+    (hCount : OppositeFiniteOffsetSourceCount N = 1) :
+    7 <= N := by
+  unfold OppositeFiniteOffsetSourceCount at hCount
+  by_cases hlt : N < 18
+  case pos =>
+    simp [hlt] at hCount
+  case neg =>
+    omega
+
+/--
+If there is exactly one boxed `18 mod 25` source, the empty repair list is a
+local matching.  The only edge is the concrete `7`--`18` squarefree edge, and
+all gap obligations are vacuous.
+-/
+theorem oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching_nil_of_sourceCount_eq_one
+    {N : Nat}
+    (hCount : OppositeFiniteOffsetSourceCount N = 1) :
+    OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
+      N [] := by
+  refine ⟨?_, ?_, ?_⟩
+  · refine ⟨?_, ?_⟩
+    · intro k _hk hTouch
+      rcases hTouch with ⟨code, hcode⟩
+      simp [OppositeFiniteOffsetRepairWindowsCode?] at hcode
+    · intro k hk _hNotTouch
+      have hk0 : k = 0 := by
+        rw [hCount] at hk
+        omega
+      subst k
+      simpa [OppositeFiniteOffsetPeriodSixTemplateCode,
+        OppositeFiniteOffsetSourceIndexTargetValue,
+        OppositeFiniteOffsetSourceIndexShiftTarget,
+        EighteenSourceFromIndex] using
+        forbiddenSquarefreeEdge_seven_eighteen
+  · refine ⟨?_, ?_⟩
+    · intro k _hk _hBoundary hTouch
+      rcases hTouch with ⟨code, hcode⟩
+      simp [OppositeFiniteOffsetRepairWindowsCode?] at hcode
+    · intro k hk _hBoundary _hNotTouch
+      have hk0 : k = 0 := by
+        rw [hCount] at hk
+        omega
+      subst k
+      have hN7 : 7 <= N :=
+        seven_le_of_oppositeFiniteOffsetSourceCount_eq_one hCount
+      simpa [OppositeFiniteOffsetPeriodSixTemplateCode,
+        OppositeFiniteOffsetSourceIndexTargetValue,
+        OppositeFiniteOffsetSourceIndexShiftTarget] using
+        hN7
+  · intro k d hdpos _hdle hkd _hTouch
+    rw [hCount] at hkd
     omega
 
 /-- Split edge/boundary matching supplies the previous split-edge touched-gap package. -/
@@ -10220,6 +10315,18 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
         N windows
 
 /--
+Nontrivial split edge/boundary local matching certificate.  Lean closes the
+empty and one-source cases, so the open finite-window surface starts only at
+two boxed `18 mod 25` sources.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNontrivialLocalMatchingCertificate :
+    Prop :=
+  forall N : Nat, 1 < OppositeFiniteOffsetSourceCount N ->
+    Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
+      OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
+        N windows
+
+/--
 Active strict-middle credit for any split edge/boundary local repair
 certificate, reduced to pointwise decoded direct codes for each strict-middle
 source.
@@ -17499,6 +17606,23 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexList
         hWindow)
 
 /--
+The nontrivial local matching certificate supplies the old nonempty surface:
+the one-source boundary case is closed by the empty repair list.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatching_of_nontrivial
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNontrivialLocalMatchingCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatchingCertificate := by
+  intro N hPos
+  by_cases hOne : OppositeFiniteOffsetSourceCount N = 1
+  · exact Exists.intro []
+      (oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching_nil_of_sourceCount_eq_one
+        hOne)
+  · have hMulti : 1 < OppositeFiniteOffsetSourceCount N := by
+      omega
+    exact h N hMulti
+
+/--
 Local template-window repair matching supplies gap-indexed finite list matching.
 -/
 theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatching_of_nonempty
@@ -19192,13 +19316,20 @@ axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWind
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCertificate
 
 /--
-Open analytic cut for nonempty-source split edge/boundary local template-window
+Open analytic cut for nontrivial split edge/boundary local template-window
 matching in the decoded squarefree-boxed `18 mod 25` finite-offset compression.
+Lean closes the empty and one-source cases.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatchingCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatchingCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNontrivialLocalMatchingCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNontrivialLocalMatchingCertificate
 
-/-- Current split edge/boundary repair-local matching, with empty-source cases closed in Lean. -/
+/-- Current nonempty local matching certificate from the nontrivial cut. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatchingCut :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatchingCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatching_of_nontrivial
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNontrivialLocalMatchingCut
+
+/-- Current split edge/boundary repair-local matching, with empty/one-source cases closed in Lean. -/
 theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCut :
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCertificate :=
   globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatching_of_nonempty
