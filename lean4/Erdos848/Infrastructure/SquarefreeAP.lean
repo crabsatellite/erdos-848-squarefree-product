@@ -2978,6 +2978,78 @@ def ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode.transferMate
   | Sum.inr newMiddle =>
       Sum.inr newMiddle
 
+/--
+Reserve direct credit whose value also canonically decodes to the current
+strict-middle source.  This is the reserve analogue of the new-middle
+`sourceHit` field.
+-/
+structure ActiveStrictMiddleReserveSelfCanonicalTargetCreditCode
+    (N : Nat) (B : Nat -> Prop) (mate : Nat -> Nat) (b : Nat) where
+  reserve : ActiveStrictMiddleReserveWitnessCreditCode N 7 B mate
+  sourceHit :
+    squarefreeNeighborSourceDecoder (StrictMiddlePart 7 B)
+      reserve.neighbor.value = b
+
+/--
+Direct credit code with a canonical strict-middle source decoder hit in both
+branches.  The decoder hit, not a separate injectivity premise, will prove that
+equal target values come from equal strict-middle sources.
+-/
+def ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectSumCode
+    (N : Nat) (B : Nat -> Prop) (mate : Nat -> Nat) (b : Nat) : Type :=
+  Sum (ActiveStrictMiddleReserveSelfCanonicalTargetCreditCode N B mate b)
+    (ActiveStrictMiddleNewSelfCanonicalTargetCreditCode N B b)
+
+/-- Forget proof data and keep the target value of a decoded direct code. -/
+def ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectSumCode.value
+    {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat} {b : Nat}
+    (code : ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectSumCode
+      N B mate b) : Nat :=
+  match code with
+  | Sum.inl reserve => reserve.reserve.neighbor.value
+  | Sum.inr newMiddle => newMiddle.target.val
+
+/-- The canonical strict-middle source decoder returns the indexed source. -/
+theorem ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectSumCode.sourceHit
+    {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat} {b : Nat}
+    (code : ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectSumCode
+      N B mate b) :
+    squarefreeNeighborSourceDecoder (StrictMiddlePart 7 B) code.value = b := by
+  cases code with
+  | inl reserve =>
+      exact reserve.sourceHit
+  | inr newMiddle =>
+      exact newMiddle.sourceHit
+
+/-- Forget the canonical reserve source hit and keep the live direct code. -/
+def ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectSumCode.toDirectSumCode
+    {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat} {b : Nat}
+    (code : ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectSumCode
+      N B mate b) :
+    ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode N B mate b :=
+  match code with
+  | Sum.inl reserve =>
+      Sum.inl reserve.reserve
+  | Sum.inr newMiddle =>
+      Sum.inr newMiddle
+
+/-- Forgetting the decoder hit preserves the underlying target value. -/
+theorem ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectSumCode.toDirectSumCode_value
+    {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat} {b : Nat}
+    (code : ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectSumCode
+      N B mate b) :
+    code.toDirectSumCode.value = code.value := by
+  cases code <;> rfl
+
+/-- Per-source decoded direct codes, without a separate injectivity field. -/
+def ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectMatching
+    (N : Nat) (B : Nat -> Prop) (mate : Nat -> Nat) : Prop :=
+  Exists fun _credit :
+      (forall b : Nat, StrictMiddlePart 7 B b ->
+        ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectSumCode
+          N B mate b) =>
+    True
+
 /-- Forget proof data and keep the target value of a self-target sum. -/
 def ActiveStrictMiddleCreditSelfTargetSumCode.value
     {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
@@ -4000,6 +4072,46 @@ theorem activeStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching_congr
         ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode.value] using
         hvalue
   exact hinj b1 b2 hb1 hb2 hvalueOld
+
+/--
+Canonical source hits close the injectivity part of the direct active-credit
+matching: if two credit values are equal, applying the strict-middle source
+decoder to both sides recovers the two original sources.
+-/
+theorem activeStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching_of_decodedDirect
+    {N : Nat} {B : Nat -> Prop} {mate : Nat -> Nat}
+    (h :
+      ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectMatching
+        N B mate) :
+    ActiveStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching
+      N B mate := by
+  rcases h with ⟨decodedCredit, _⟩
+  let credit :
+      forall b : Nat, StrictMiddlePart 7 B b ->
+        ActiveStrictMiddleCreditSelfCanonicalTargetDirectSumCode
+          N B mate b :=
+    fun b hb => (decodedCredit b hb).toDirectSumCode
+  refine Exists.intro credit ?_
+  intro b1 b2 hb1 hb2 hvalue
+  have hvalueDecoded :
+      (decodedCredit b1 hb1).value = (decodedCredit b2 hb2).value := by
+    simpa [credit,
+      ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectSumCode.toDirectSumCode_value] using
+      hvalue
+  have hhit1 :=
+    ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectSumCode.sourceHit
+      (decodedCredit b1 hb1)
+  have hhit2 :=
+    ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectSumCode.sourceHit
+      (decodedCredit b2 hb2)
+  calc
+    b1 =
+        squarefreeNeighborSourceDecoder (StrictMiddlePart 7 B)
+          ((decodedCredit b1 hb1).value) := hhit1.symm
+    _ =
+        squarefreeNeighborSourceDecoder (StrictMiddlePart 7 B)
+          ((decodedCredit b2 hb2).value) := by rw [hvalueDecoded]
+    _ = b2 := hhit2
 
 /-- Self-canonical-target matching supplies the previous self-target matching. -/
 theorem activeStrictMiddleDecodedCreditSelfTargetSumMatching_of_selfCanonicalTarget
@@ -10082,6 +10194,24 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
     Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
       OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
         N windows
+
+/--
+Active strict-middle credit for any split edge/boundary local repair
+certificate, with direct injectivity certified by canonical strict-middle source
+decoder hits rather than by a separate injectivity premise.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDecodedDirectCertificate :
+    Prop :=
+  forall (N : Nat) (windows : List OppositeFiniteOffsetRepairWindow),
+    OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
+      N windows ->
+    forall B : Nat -> Prop,
+      BoundedOutsideSet N 7 B ->
+      NonSquarefreeClique B ->
+      (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
+      ActiveStrictMiddleCreditSelfCanonicalTargetDecodedDirectMatching N B
+        (OppositeFiniteOffsetSourceIndexMate
+          (OppositeFiniteOffsetTemplateWindowRepairCode windows))
 
 /--
 Active strict-middle credit for any split edge/boundary local repair certificate,
@@ -17411,6 +17541,19 @@ theorem activeStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching_of_wi
   · exact h
 
 /--
+Decoded direct local active-credit data supplies the previous direct matching
+certificate, with injectivity proved from the canonical source hits.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDirect_of_decodedDirect
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDecodedDirectCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDirectCertificate := by
+  intro N windows hWindow B hB hClique hMid
+  exact
+    activeStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching_of_decodedDirect
+      (h N windows hWindow B hB hClique hMid)
+
+/--
 Split edge/boundary local matching plus template-window direct active credit
 supplies the gap-indexed list-selector direct credit certificate consumed by
 the decoded squarefree-boxed route.
@@ -18985,12 +19128,12 @@ axiom finiteOffsetMiddleCompressionEighteenActiveStrictMiddleIncrementalCapacity
   ActiveStrictMiddleIncrementalCapacityCertificateForResidue 7
 
 /--
-Open analytic cut for template-window local active credit, stated as direct
-self-canonical target matching against the same repair windows as the local
-matching cut.
+Open analytic cut for template-window local active credit, stated as decoded
+direct self-canonical target codes.  Lean derives the injectivity required by
+the endpoint route from the canonical source-hit field.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDirectCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDirectCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDecodedDirectCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDecodedDirectCertificate
 
 /--
 Open analytic cut for nonempty-source split edge/boundary local template-window
@@ -19017,6 +19160,12 @@ theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWi
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatchingCertificate :=
   globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalMatching_of_touchedDefaultEdgeBoundaryLocalMatching
     finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalMatchingCut
+
+/-- Current template-window direct active-credit certificate from decoded direct codes. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDirectCut :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDirectCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDirect_of_decodedDirect
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDecodedDirectCut
 
 /-- Current gap-indexed finite list-selector matching projected from the template-window cut. -/
 theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCut :
