@@ -17,7 +17,7 @@ def config : ChainAudit.ProjectConfig := {
   ]
   openAxioms := [
     ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCut,
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundarySixOrMoreLocalMatchingCut
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundarySevenOrMoreLocalMatchingCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -78,7 +78,7 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by two explicit typed seven-offset `18 mod 25` finite-offset middle-compression cuts for the endpoint-consumed `7 mod 25` progression: pointwise decoded direct self-canonical active credit for the local repair-window mate, and six-or-more-source repair-window local matching where repair-touched indices carry full edge data, untouched indices use period-six target coherence, and final-boundary boxedness plus gap checks are split between repair-touched and untouched period-six indices. Lean closes the empty through five-source matching cases, assembles the active-credit function from pointwise codes, derives direct active-credit injectivity from canonical source hits, transfers template-window active credit to the boxed source-count list-selector, and derives the endpoint Hall expansion through the decoded squarefree-boxed direct-credit route."
+        "Replace finite Hall checks by two explicit typed seven-offset `18 mod 25` finite-offset middle-compression cuts for the endpoint-consumed `7 mod 25` progression: pointwise decoded direct self-canonical active credit for the local repair-window mate, and seven-or-more-source repair-window local matching where repair-touched indices carry full edge data, untouched indices use period-six target coherence, and final-boundary boxedness plus gap checks are split between repair-touched and untouched period-six indices. Lean closes the empty through six-source matching cases, assembles the active-credit function from pointwise codes, derives direct active-credit injectivity from canonical source hits, transfers template-window active credit to the boxed source-count list-selector, and derives the endpoint Hall expansion through the decoded squarefree-boxed direct-credit route."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
@@ -134,6 +134,15 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundarySixOrMoreLocalMatchingCut",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundarySixOrMoreLocalMatchingCertificate",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryFiveOrMoreLocalMatching_of_sixOrMore",
+        "Erdos848.squarefree_fifteenThousandFiveHundredSeventySeven",
+        "Erdos848.forbiddenSquarefreeEdge_oneHundredThirtyTwo_oneHundredEighteen",
+        "Erdos848.squarefree_fifteenThousandThreeHundredTwo",
+        "Erdos848.forbiddenSquarefreeEdge_oneHundredSeven_oneHundredFortyThree",
+        "Erdos848.oneHundredFortyThree_le_of_oppositeFiniteOffsetSourceCount_eq_six",
+        "Erdos848.oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching_nil_of_sourceCount_eq_six",
+        "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundarySevenOrMoreLocalMatchingCut",
+        "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundarySevenOrMoreLocalMatchingCertificate",
+        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundarySixOrMoreLocalMatching_of_sevenOrMore",
         "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNontrivialLocalMatchingCut",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNontrivialLocalMatchingCertificate",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNonemptyLocalMatching_of_nontrivial",
@@ -1100,7 +1109,7 @@ def config : ChainAudit.ProjectConfig := {
         "Prove direct self-canonical active credit for the local repair-window mate and the split edge/boundary repair-window matching certificate.",
         "Use Lean to project matching, transfer active credit to the list-selector mate, then assemble the endpoint Hall expansion through the decoded squarefree-boxed direct-credit route."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCut` and without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundarySixOrMoreLocalMatchingCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCut` and without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundarySevenOrMoreLocalMatchingCut`."
     },
     {
       id := "residue-certificate"
@@ -1193,6 +1202,9 @@ def config : ChainAudit.ProjectConfig := {
         "activeStrictMiddleCreditSelfCanonicalTargetDecodedDirectMatching_of_pointwise",
         "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetDirectCut",
         "activeStrictMiddleCreditSelfCanonicalTargetDirectInjectiveMatching_of_decodedDirect",
+        "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundarySevenOrMoreLocalMatchingCut",
+        "oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching_nil_of_sourceCount_eq_six",
+        "globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundarySixOrMoreLocalMatching_of_sevenOrMore",
         "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundarySixOrMoreLocalMatchingCut",
         "oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching_fiveWindow_of_sourceCount_eq_five",
         "globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryFiveOrMoreLocalMatching_of_sixOrMore",
