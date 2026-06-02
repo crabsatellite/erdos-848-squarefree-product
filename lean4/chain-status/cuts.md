@@ -8,6 +8,6 @@ open by design; non-whitelisted cuts are I1 hard-failures.
 |-------|------|--------|
 | `Classical.choice` | `Init/Prelude.lean` | OPEN (whitelisted) |
 | `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCut` | `Erdos848/Infrastructure/SquarefreeAP.lean` | OPEN (whitelisted) |
-| `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNineOrMoreLocalMatchingCut` | `Erdos848/Infrastructure/SquarefreeAP.lean` | OPEN (whitelisted) |
+| `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryTenOrMoreLocalMatchingCut` | `Erdos848/Infrastructure/SquarefreeAP.lean` | OPEN (whitelisted) |
 | `Quot.sound` | `Init/Core.lean` | OPEN (whitelisted) |
 | `propext` | `Init/Core.lean` | OPEN (whitelisted) |
