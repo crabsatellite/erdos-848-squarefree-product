@@ -1491,6 +1491,367 @@ theorem forbiddenSquarefreeEdge_oneHundredFiftySeven_oneHundredSixtyEight :
   rw [h]
   exact squarefree_twentySixThousandThreeHundredSeventySeven
 
+/-- The concrete edge value `182 * 118 + 1 = 21477` is squarefree. -/
+theorem squarefree_twentyOneThousandFourHundredSeventySeven : Squarefree 21477 := by
+  intro p hp hdiv
+  match hdiv with
+  | Exists.intro k hk =>
+      if hbig : 147 <= p then
+        cases k with
+        | zero => omega
+        | succ k =>
+            have hsq : 147 * 147 <= p * p := Nat.mul_le_mul hbig hbig
+            have hprod : p * p <= p * p * Nat.succ k := by
+              exact Nat.le_mul_of_pos_right (p * p) (Nat.succ_pos k)
+            have hc : p * p * Nat.succ k = 21477 := hk.symm
+            omega
+      else
+        have hple : p <= 146 := by omega
+        match p with
+        | 0 => omega
+        | 1 => omega
+        | 2 => omega
+        | 3 => omega
+        | 4 => omega
+        | 5 => omega
+        | 6 => omega
+        | 7 => omega
+        | 8 => omega
+        | 9 => omega
+        | 10 => omega
+        | 11 => omega
+        | 12 => omega
+        | 13 => omega
+        | 14 => omega
+        | 15 => omega
+        | 16 => omega
+        | 17 => omega
+        | 18 => omega
+        | 19 => omega
+        | 20 => omega
+        | 21 => omega
+        | 22 => omega
+        | 23 => omega
+        | 24 => omega
+        | 25 => omega
+        | 26 => omega
+        | 27 => omega
+        | 28 => omega
+        | 29 => omega
+        | 30 => omega
+        | 31 => omega
+        | 32 => omega
+        | 33 => omega
+        | 34 => omega
+        | 35 => omega
+        | 36 => omega
+        | 37 => omega
+        | 38 => omega
+        | 39 => omega
+        | 40 => omega
+        | 41 => omega
+        | 42 => omega
+        | 43 => omega
+        | 44 => omega
+        | 45 => omega
+        | 46 => omega
+        | 47 => omega
+        | 48 => omega
+        | 49 => omega
+        | 50 => omega
+        | 51 => omega
+        | 52 => omega
+        | 53 => omega
+        | 54 => omega
+        | 55 => omega
+        | 56 => omega
+        | 57 => omega
+        | 58 => omega
+        | 59 => omega
+        | 60 => omega
+        | 61 => omega
+        | 62 => omega
+        | 63 => omega
+        | 64 => omega
+        | 65 => omega
+        | 66 => omega
+        | 67 => omega
+        | 68 => omega
+        | 69 => omega
+        | 70 => omega
+        | 71 => omega
+        | 72 => omega
+        | 73 => omega
+        | 74 => omega
+        | 75 => omega
+        | 76 => omega
+        | 77 => omega
+        | 78 => omega
+        | 79 => omega
+        | 80 => omega
+        | 81 => omega
+        | 82 => omega
+        | 83 => omega
+        | 84 => omega
+        | 85 => omega
+        | 86 => omega
+        | 87 => omega
+        | 88 => omega
+        | 89 => omega
+        | 90 => omega
+        | 91 => omega
+        | 92 => omega
+        | 93 => omega
+        | 94 => omega
+        | 95 => omega
+        | 96 => omega
+        | 97 => omega
+        | 98 => omega
+        | 99 => omega
+        | 100 => omega
+        | 101 => omega
+        | 102 => omega
+        | 103 => omega
+        | 104 => omega
+        | 105 => omega
+        | 106 => omega
+        | 107 => omega
+        | 108 => omega
+        | 109 => omega
+        | 110 => omega
+        | 111 => omega
+        | 112 => omega
+        | 113 => omega
+        | 114 => omega
+        | 115 => omega
+        | 116 => omega
+        | 117 => omega
+        | 118 => omega
+        | 119 => omega
+        | 120 => omega
+        | 121 => omega
+        | 122 => omega
+        | 123 => omega
+        | 124 => omega
+        | 125 => omega
+        | 126 => omega
+        | 127 => omega
+        | 128 => omega
+        | 129 => omega
+        | 130 => omega
+        | 131 => omega
+        | 132 => omega
+        | 133 => omega
+        | 134 => omega
+        | 135 => omega
+        | 136 => omega
+        | 137 => omega
+        | 138 => omega
+        | 139 => omega
+        | 140 => omega
+        | 141 => omega
+        | 142 => omega
+        | 143 => omega
+        | 144 => omega
+        | 145 => omega
+        | 146 => omega
+        | _ + 147 => omega
+
+/-- The fifth source in the eight-source repair can target `182`. -/
+theorem forbiddenSquarefreeEdge_oneHundredEightyTwo_oneHundredEighteen :
+    ForbiddenSquarefreeEdge 182 118 := by
+  unfold ForbiddenSquarefreeEdge
+  have h : 182 * 118 + 1 = 21477 := by omega
+  rw [h]
+  exact squarefree_twentyOneThousandFourHundredSeventySeven
+
+/-- The concrete edge value `132 * 193 + 1 = 25477` is squarefree. -/
+theorem squarefree_twentyFiveThousandFourHundredSeventySeven : Squarefree 25477 := by
+  intro p hp hdiv
+  match hdiv with
+  | Exists.intro k hk =>
+      if hbig : 160 <= p then
+        cases k with
+        | zero => omega
+        | succ k =>
+            have hsq : 160 * 160 <= p * p := Nat.mul_le_mul hbig hbig
+            have hprod : p * p <= p * p * Nat.succ k := by
+              exact Nat.le_mul_of_pos_right (p * p) (Nat.succ_pos k)
+            have hc : p * p * Nat.succ k = 25477 := hk.symm
+            omega
+      else
+        have hple : p <= 159 := by omega
+        match p with
+        | 0 => omega
+        | 1 => omega
+        | 2 => omega
+        | 3 => omega
+        | 4 => omega
+        | 5 => omega
+        | 6 => omega
+        | 7 => omega
+        | 8 => omega
+        | 9 => omega
+        | 10 => omega
+        | 11 => omega
+        | 12 => omega
+        | 13 => omega
+        | 14 => omega
+        | 15 => omega
+        | 16 => omega
+        | 17 => omega
+        | 18 => omega
+        | 19 => omega
+        | 20 => omega
+        | 21 => omega
+        | 22 => omega
+        | 23 => omega
+        | 24 => omega
+        | 25 => omega
+        | 26 => omega
+        | 27 => omega
+        | 28 => omega
+        | 29 => omega
+        | 30 => omega
+        | 31 => omega
+        | 32 => omega
+        | 33 => omega
+        | 34 => omega
+        | 35 => omega
+        | 36 => omega
+        | 37 => omega
+        | 38 => omega
+        | 39 => omega
+        | 40 => omega
+        | 41 => omega
+        | 42 => omega
+        | 43 => omega
+        | 44 => omega
+        | 45 => omega
+        | 46 => omega
+        | 47 => omega
+        | 48 => omega
+        | 49 => omega
+        | 50 => omega
+        | 51 => omega
+        | 52 => omega
+        | 53 => omega
+        | 54 => omega
+        | 55 => omega
+        | 56 => omega
+        | 57 => omega
+        | 58 => omega
+        | 59 => omega
+        | 60 => omega
+        | 61 => omega
+        | 62 => omega
+        | 63 => omega
+        | 64 => omega
+        | 65 => omega
+        | 66 => omega
+        | 67 => omega
+        | 68 => omega
+        | 69 => omega
+        | 70 => omega
+        | 71 => omega
+        | 72 => omega
+        | 73 => omega
+        | 74 => omega
+        | 75 => omega
+        | 76 => omega
+        | 77 => omega
+        | 78 => omega
+        | 79 => omega
+        | 80 => omega
+        | 81 => omega
+        | 82 => omega
+        | 83 => omega
+        | 84 => omega
+        | 85 => omega
+        | 86 => omega
+        | 87 => omega
+        | 88 => omega
+        | 89 => omega
+        | 90 => omega
+        | 91 => omega
+        | 92 => omega
+        | 93 => omega
+        | 94 => omega
+        | 95 => omega
+        | 96 => omega
+        | 97 => omega
+        | 98 => omega
+        | 99 => omega
+        | 100 => omega
+        | 101 => omega
+        | 102 => omega
+        | 103 => omega
+        | 104 => omega
+        | 105 => omega
+        | 106 => omega
+        | 107 => omega
+        | 108 => omega
+        | 109 => omega
+        | 110 => omega
+        | 111 => omega
+        | 112 => omega
+        | 113 => omega
+        | 114 => omega
+        | 115 => omega
+        | 116 => omega
+        | 117 => omega
+        | 118 => omega
+        | 119 => omega
+        | 120 => omega
+        | 121 => omega
+        | 122 => omega
+        | 123 => omega
+        | 124 => omega
+        | 125 => omega
+        | 126 => omega
+        | 127 => omega
+        | 128 => omega
+        | 129 => omega
+        | 130 => omega
+        | 131 => omega
+        | 132 => omega
+        | 133 => omega
+        | 134 => omega
+        | 135 => omega
+        | 136 => omega
+        | 137 => omega
+        | 138 => omega
+        | 139 => omega
+        | 140 => omega
+        | 141 => omega
+        | 142 => omega
+        | 143 => omega
+        | 144 => omega
+        | 145 => omega
+        | 146 => omega
+        | 147 => omega
+        | 148 => omega
+        | 149 => omega
+        | 150 => omega
+        | 151 => omega
+        | 152 => omega
+        | 153 => omega
+        | 154 => omega
+        | 155 => omega
+        | 156 => omega
+        | 157 => omega
+        | 158 => omega
+        | 159 => omega
+        | _ + 160 => omega
+
+/-- The eighth source in the eight-source repair can target `132`. -/
+theorem forbiddenSquarefreeEdge_oneHundredThirtyTwo_oneHundredNinetyThree :
+    ForbiddenSquarefreeEdge 132 193 := by
+  unfold ForbiddenSquarefreeEdge
+  have h : 132 * 193 + 1 = 25477 := by omega
+  rw [h]
+  exact squarefree_twentyFiveThousandFourHundredSeventySeven
+
 /-- Shift target index expressed directly from the source-class index. -/
 def OppositeFiniteOffsetSourceIndexShiftTarget
     (k : Nat) : OppositeFiniteOffsetCode -> Nat
@@ -3493,6 +3854,350 @@ theorem oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundary
         cases hRight with
         | intro code hcode =>
             simp [OppositeFiniteOffsetRepairWindowsCode?] at hcode
+
+/--
+Eight-source boundary repair: keep the period-six template except moving index
+`4` to target index `7` and index `7` to target index `5`.
+-/
+def OppositeFiniteOffsetSourceCountEightRepairWindows :
+    List OppositeFiniteOffsetRepairWindow :=
+  [{ start := 4, codes := [OppositeFiniteOffsetCode.pos64] },
+   { start := 7, codes := [OppositeFiniteOffsetCode.neg61] }]
+
+/-- Eight boxed `18 mod 25` sources force `N` past the repaired targets. -/
+theorem oneHundredNinetyThree_le_of_oppositeFiniteOffsetSourceCount_eq_eight
+    {N : Nat}
+    (hCount : OppositeFiniteOffsetSourceCount N = 8) :
+    193 <= N := by
+  unfold OppositeFiniteOffsetSourceCount at hCount
+  by_cases hlt : N < 18
+  case pos =>
+    simp [hlt] at hCount
+  case neg =>
+    simp [hlt] at hCount
+    have hdiv : 7 <= (N - 18) / 25 := by omega
+    have hmul : 7 * 25 <= N - 18 :=
+      (Nat.le_div_iff_mul_le (by decide : 0 < 25)).1 hdiv
+    omega
+
+/-- The eight-source repair target-index map is gap-injective. -/
+theorem oppositeFiniteOffsetSourceCountEightRepairWindows_gapShiftInjective
+    {k d : Nat}
+    (hdpos : 1 <= d) (hdle : d <= 6)
+    (hkd : k + d < 8) :
+    Not (
+      OppositeFiniteOffsetSourceIndexShiftTarget k
+          (OppositeFiniteOffsetTemplateWindowRepairCode
+            OppositeFiniteOffsetSourceCountEightRepairWindows k) =
+        OppositeFiniteOffsetSourceIndexShiftTarget (k + d)
+          (OppositeFiniteOffsetTemplateWindowRepairCode
+            OppositeFiniteOffsetSourceCountEightRepairWindows (k + d))) := by
+  have hkCases :
+      Or (k = 0)
+        (Or (k = 1)
+          (Or (k = 2)
+            (Or (k = 3)
+              (Or (k = 4)
+                (Or (k = 5) (Or (k = 6) (k = 7))))))) := by
+    omega
+  have hdCases :
+      Or (d = 1) (Or (d = 2) (Or (d = 3) (Or (d = 4) (Or (d = 5) (d = 6))))) := by
+    omega
+  rcases hkCases with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
+  all_goals
+    rcases hdCases with rfl | rfl | rfl | rfl | rfl | rfl
+    all_goals
+      first
+      | omega
+      | intro hShift
+        simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+          OppositeFiniteOffsetTemplateWindowRepairCode,
+          OppositeFiniteOffsetTemplateRepairCode,
+          OppositeFiniteOffsetRepairWindowsCode?,
+          OppositeFiniteOffsetRepairWindow.code?,
+          OppositeFiniteOffsetPeriodSixTemplateCode,
+          OppositeFiniteOffsetSourceIndexShiftTarget] at hShift
+
+/--
+If there are exactly eight boxed `18 mod 25` sources, two one-code repair
+windows close the local matching.
+-/
+theorem oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching_eightWindow_of_sourceCount_eq_eight
+    {N : Nat}
+    (hCount : OppositeFiniteOffsetSourceCount N = 8) :
+    OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
+      N OppositeFiniteOffsetSourceCountEightRepairWindows := by
+  refine And.intro ?edge (And.intro ?boundary ?gap)
+  case edge =>
+    refine And.intro ?touched ?untouched
+    case touched =>
+      intro k hk hTouch
+      match k with
+      | 0 =>
+          cases hTouch with
+          | intro code hcode =>
+              simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+                OppositeFiniteOffsetRepairWindowsCode?,
+                OppositeFiniteOffsetRepairWindow.code?] at hcode
+      | 1 =>
+          cases hTouch with
+          | intro code hcode =>
+              simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+                OppositeFiniteOffsetRepairWindowsCode?,
+                OppositeFiniteOffsetRepairWindow.code?] at hcode
+      | 2 =>
+          cases hTouch with
+          | intro code hcode =>
+              simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+                OppositeFiniteOffsetRepairWindowsCode?,
+                OppositeFiniteOffsetRepairWindow.code?] at hcode
+      | 3 =>
+          cases hTouch with
+          | intro code hcode =>
+              simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+                OppositeFiniteOffsetRepairWindowsCode?,
+                OppositeFiniteOffsetRepairWindow.code?] at hcode
+      | 4 =>
+          constructor
+          case left =>
+            simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+              OppositeFiniteOffsetTemplateWindowRepairCode,
+              OppositeFiniteOffsetTemplateRepairCode,
+              OppositeFiniteOffsetRepairWindowsCode?,
+              OppositeFiniteOffsetRepairWindow.code?,
+              OppositeFiniteOffsetSourceIndexTargetCoherent,
+              OppositeFiniteOffsetCodeValue, OppositeFiniteOffsetCode.toNat,
+              OppositeFiniteOffsetValue, EighteenSourceFromIndex,
+              OppositeFiniteOffsetSourceIndexTargetValue,
+              OppositeFiniteOffsetSourceIndexShiftTarget]
+          case right =>
+            simpa [OppositeFiniteOffsetSourceCountEightRepairWindows,
+              OppositeFiniteOffsetTemplateWindowRepairCode,
+              OppositeFiniteOffsetTemplateRepairCode,
+              OppositeFiniteOffsetRepairWindowsCode?,
+              OppositeFiniteOffsetRepairWindow.code?,
+              OppositeFiniteOffsetSourceIndexTargetValue,
+              OppositeFiniteOffsetSourceIndexShiftTarget,
+              EighteenSourceFromIndex] using
+              forbiddenSquarefreeEdge_oneHundredEightyTwo_oneHundredEighteen
+      | 5 =>
+          cases hTouch with
+          | intro code hcode =>
+              simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+                OppositeFiniteOffsetRepairWindowsCode?,
+                OppositeFiniteOffsetRepairWindow.code?] at hcode
+      | 6 =>
+          cases hTouch with
+          | intro code hcode =>
+              simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+                OppositeFiniteOffsetRepairWindowsCode?,
+                OppositeFiniteOffsetRepairWindow.code?] at hcode
+      | 7 =>
+          constructor
+          case left =>
+            simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+              OppositeFiniteOffsetTemplateWindowRepairCode,
+              OppositeFiniteOffsetTemplateRepairCode,
+              OppositeFiniteOffsetRepairWindowsCode?,
+              OppositeFiniteOffsetRepairWindow.code?,
+              OppositeFiniteOffsetSourceIndexTargetCoherent,
+              OppositeFiniteOffsetCodeValue, OppositeFiniteOffsetCode.toNat,
+              OppositeFiniteOffsetValue, EighteenSourceFromIndex,
+              OppositeFiniteOffsetSourceIndexTargetValue,
+              OppositeFiniteOffsetSourceIndexShiftTarget]
+          case right =>
+            simpa [OppositeFiniteOffsetSourceCountEightRepairWindows,
+              OppositeFiniteOffsetTemplateWindowRepairCode,
+              OppositeFiniteOffsetTemplateRepairCode,
+              OppositeFiniteOffsetRepairWindowsCode?,
+              OppositeFiniteOffsetRepairWindow.code?,
+              OppositeFiniteOffsetSourceIndexTargetValue,
+              OppositeFiniteOffsetSourceIndexShiftTarget,
+              EighteenSourceFromIndex] using
+              forbiddenSquarefreeEdge_oneHundredThirtyTwo_oneHundredNinetyThree
+      | _ + 8 =>
+          rw [hCount] at hk
+          omega
+    case untouched =>
+      intro k hk hNotTouch
+      match k with
+      | 0 =>
+          simpa [OppositeFiniteOffsetPeriodSixTemplateCode,
+            OppositeFiniteOffsetSourceIndexTargetValue,
+            OppositeFiniteOffsetSourceIndexShiftTarget,
+            EighteenSourceFromIndex] using
+            forbiddenSquarefreeEdge_seven_eighteen
+      | 1 =>
+          simpa [OppositeFiniteOffsetPeriodSixTemplateCode,
+            OppositeFiniteOffsetSourceIndexTargetValue,
+            OppositeFiniteOffsetSourceIndexShiftTarget,
+            EighteenSourceFromIndex] using
+            forbiddenSquarefreeEdge_eightyTwo_fortyThree
+      | 2 =>
+          simpa [OppositeFiniteOffsetPeriodSixTemplateCode,
+            OppositeFiniteOffsetSourceIndexTargetValue,
+            OppositeFiniteOffsetSourceIndexShiftTarget,
+            EighteenSourceFromIndex] using
+            forbiddenSquarefreeEdge_thirtyTwo_sixtyEight
+      | 3 =>
+          simpa [OppositeFiniteOffsetPeriodSixTemplateCode,
+            OppositeFiniteOffsetSourceIndexTargetValue,
+            OppositeFiniteOffsetSourceIndexShiftTarget,
+            EighteenSourceFromIndex] using
+            forbiddenSquarefreeEdge_fiftySeven_ninetyThree
+      | 4 =>
+          exact False.elim
+            (hNotTouch
+              (Exists.intro OppositeFiniteOffsetCode.pos64 (by
+                simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+                  OppositeFiniteOffsetRepairWindowsCode?,
+                  OppositeFiniteOffsetRepairWindow.code?])))
+      | 5 =>
+          simpa [OppositeFiniteOffsetPeriodSixTemplateCode,
+            OppositeFiniteOffsetSourceIndexTargetValue,
+            OppositeFiniteOffsetSourceIndexShiftTarget,
+            EighteenSourceFromIndex] using
+            forbiddenSquarefreeEdge_oneHundredSeven_oneHundredFortyThree
+      | 6 =>
+          simpa [OppositeFiniteOffsetPeriodSixTemplateCode,
+            OppositeFiniteOffsetSourceIndexTargetValue,
+            OppositeFiniteOffsetSourceIndexShiftTarget,
+            EighteenSourceFromIndex] using
+            forbiddenSquarefreeEdge_oneHundredFiftySeven_oneHundredSixtyEight
+      | 7 =>
+          exact False.elim
+            (hNotTouch
+              (Exists.intro OppositeFiniteOffsetCode.neg61 (by
+                simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+                  OppositeFiniteOffsetRepairWindowsCode?,
+                  OppositeFiniteOffsetRepairWindow.code?])))
+      | _ + 8 =>
+          rw [hCount] at hk
+          omega
+  case boundary =>
+    refine And.intro ?touched ?untouched
+    case touched =>
+      intro k hk _hBoundary hTouch
+      have hN : 193 <= N :=
+        oneHundredNinetyThree_le_of_oppositeFiniteOffsetSourceCount_eq_eight
+          hCount
+      match k with
+      | 0 =>
+          cases hTouch with
+          | intro code hcode =>
+              simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+                OppositeFiniteOffsetRepairWindowsCode?,
+                OppositeFiniteOffsetRepairWindow.code?] at hcode
+      | 1 =>
+          cases hTouch with
+          | intro code hcode =>
+              simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+                OppositeFiniteOffsetRepairWindowsCode?,
+                OppositeFiniteOffsetRepairWindow.code?] at hcode
+      | 2 =>
+          cases hTouch with
+          | intro code hcode =>
+              simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+                OppositeFiniteOffsetRepairWindowsCode?,
+                OppositeFiniteOffsetRepairWindow.code?] at hcode
+      | 3 =>
+          cases hTouch with
+          | intro code hcode =>
+              simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+                OppositeFiniteOffsetRepairWindowsCode?,
+                OppositeFiniteOffsetRepairWindow.code?] at hcode
+      | 4 =>
+          simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+            OppositeFiniteOffsetTemplateWindowRepairCode,
+            OppositeFiniteOffsetTemplateRepairCode,
+            OppositeFiniteOffsetRepairWindowsCode?,
+            OppositeFiniteOffsetRepairWindow.code?,
+            OppositeFiniteOffsetSourceIndexTargetValue,
+            OppositeFiniteOffsetSourceIndexShiftTarget]
+          omega
+      | 5 =>
+          cases hTouch with
+          | intro code hcode =>
+              simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+                OppositeFiniteOffsetRepairWindowsCode?,
+                OppositeFiniteOffsetRepairWindow.code?] at hcode
+      | 6 =>
+          cases hTouch with
+          | intro code hcode =>
+              simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+                OppositeFiniteOffsetRepairWindowsCode?,
+                OppositeFiniteOffsetRepairWindow.code?] at hcode
+      | 7 =>
+          simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+            OppositeFiniteOffsetTemplateWindowRepairCode,
+            OppositeFiniteOffsetTemplateRepairCode,
+            OppositeFiniteOffsetRepairWindowsCode?,
+            OppositeFiniteOffsetRepairWindow.code?,
+            OppositeFiniteOffsetSourceIndexTargetValue,
+            OppositeFiniteOffsetSourceIndexShiftTarget]
+          omega
+      | _ + 8 =>
+          rw [hCount] at hk
+          omega
+    case untouched =>
+      intro k hk _hBoundary hNotTouch
+      have hN : 193 <= N :=
+        oneHundredNinetyThree_le_of_oppositeFiniteOffsetSourceCount_eq_eight
+          hCount
+      match k with
+      | 0 =>
+          simp [OppositeFiniteOffsetPeriodSixTemplateCode,
+            OppositeFiniteOffsetSourceIndexTargetValue,
+            OppositeFiniteOffsetSourceIndexShiftTarget]
+          omega
+      | 1 =>
+          simp [OppositeFiniteOffsetPeriodSixTemplateCode,
+            OppositeFiniteOffsetSourceIndexTargetValue,
+            OppositeFiniteOffsetSourceIndexShiftTarget]
+          omega
+      | 2 =>
+          simp [OppositeFiniteOffsetPeriodSixTemplateCode,
+            OppositeFiniteOffsetSourceIndexTargetValue,
+            OppositeFiniteOffsetSourceIndexShiftTarget]
+          omega
+      | 3 =>
+          simp [OppositeFiniteOffsetPeriodSixTemplateCode,
+            OppositeFiniteOffsetSourceIndexTargetValue,
+            OppositeFiniteOffsetSourceIndexShiftTarget]
+          omega
+      | 4 =>
+          exact False.elim
+            (hNotTouch
+              (Exists.intro OppositeFiniteOffsetCode.pos64 (by
+                simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+                  OppositeFiniteOffsetRepairWindowsCode?,
+                  OppositeFiniteOffsetRepairWindow.code?])))
+      | 5 =>
+          simp [OppositeFiniteOffsetPeriodSixTemplateCode,
+            OppositeFiniteOffsetSourceIndexTargetValue,
+            OppositeFiniteOffsetSourceIndexShiftTarget]
+          omega
+      | 6 =>
+          simp [OppositeFiniteOffsetPeriodSixTemplateCode,
+            OppositeFiniteOffsetSourceIndexTargetValue,
+            OppositeFiniteOffsetSourceIndexShiftTarget]
+          omega
+      | 7 =>
+          exact False.elim
+            (hNotTouch
+              (Exists.intro OppositeFiniteOffsetCode.neg61 (by
+                simp [OppositeFiniteOffsetSourceCountEightRepairWindows,
+                  OppositeFiniteOffsetRepairWindowsCode?,
+                  OppositeFiniteOffsetRepairWindow.code?])))
+      | _ + 8 =>
+          rw [hCount] at hk
+          omega
+  case gap =>
+    intro k d hdpos hdle hkd _hTouch
+    rw [hCount] at hkd
+    exact
+      oppositeFiniteOffsetSourceCountEightRepairWindows_gapShiftInjective
+        hdpos hdle hkd
 
 /-- Split edge/boundary matching supplies the previous split-edge touched-gap package. -/
 theorem oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultBoundaryBoxTouchedGapValidMatching_of_edgeBoundary
@@ -12722,6 +13427,17 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
         N windows
 
 /--
+Nine-or-more split edge/boundary local matching certificate.  Lean closes the
+empty through eight-source boundary cases.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNineOrMoreLocalMatchingCertificate :
+    Prop :=
+  forall N : Nat, 8 < OppositeFiniteOffsetSourceCount N ->
+    Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
+      OppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching
+        N windows
+
+/--
 Active strict-middle credit for any split edge/boundary local repair
 certificate, reduced to pointwise decoded direct codes for each strict-middle
 source.
@@ -20001,6 +20717,23 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexList
         hWindow)
 
 /--
+The nine-or-more local matching certificate supplies the eight-or-more surface:
+the eight-source boundary case is closed by two one-code repair windows.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryEightOrMoreLocalMatching_of_nineOrMore
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNineOrMoreLocalMatchingCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryEightOrMoreLocalMatchingCertificate := by
+  intro N hEightOrMore
+  by_cases hEight : OppositeFiniteOffsetSourceCount N = 8
+  · exact Exists.intro OppositeFiniteOffsetSourceCountEightRepairWindows
+      (oppositeFiniteOffsetTemplateWindowRepairLengthTouchedDefaultEdgeBoundaryTouchedGapValidMatching_eightWindow_of_sourceCount_eq_eight
+        hEight)
+  · have hLarge : 8 < OppositeFiniteOffsetSourceCount N := by
+      omega
+    exact h N hLarge
+
+/--
 The eight-or-more local matching certificate supplies the seven-or-more surface:
 the seven-source boundary case is closed by the period-six default template.
 -/
@@ -21814,12 +22547,18 @@ axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWind
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCertificate
 
 /--
-Open analytic cut for eight-or-more split edge/boundary local template-window
+Open analytic cut for nine-or-more split edge/boundary local template-window
 matching in the decoded squarefree-boxed `18 mod 25` finite-offset compression.
-Lean closes the empty through seven-source cases.
+Lean closes the empty through eight-source cases.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryEightOrMoreLocalMatchingCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryEightOrMoreLocalMatchingCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNineOrMoreLocalMatchingCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNineOrMoreLocalMatchingCertificate
+
+/-- Current eight-or-more local matching certificate from the nine-or-more cut. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryEightOrMoreLocalMatchingCut :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryEightOrMoreLocalMatchingCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryEightOrMoreLocalMatching_of_nineOrMore
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNineOrMoreLocalMatchingCut
 
 /-- Current seven-or-more local matching certificate from the eight-or-more cut. -/
 theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundarySevenOrMoreLocalMatchingCut :
