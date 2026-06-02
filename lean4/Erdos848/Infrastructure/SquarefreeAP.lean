@@ -381,6 +381,12 @@ def OppositeFiniteOffsetRepairWindowsCode? :
       | some code => some code
       | none => OppositeFiniteOffsetRepairWindowsCode? windows k
 
+/-- A source index is explicitly overridden by one of the compact repair windows. -/
+def OppositeFiniteOffsetRepairWindowsTouches
+    (windows : List OppositeFiniteOffsetRepairWindow) (k : Nat) : Prop :=
+  Exists fun code : OppositeFiniteOffsetCode =>
+    OppositeFiniteOffsetRepairWindowsCode? windows k = some code
+
 /-- Apply compact repair windows over the period-six default template. -/
 def OppositeFiniteOffsetTemplateWindowRepairCode
     (windows : List OppositeFiniteOffsetRepairWindow)
@@ -402,6 +408,46 @@ def OppositeFiniteOffsetWindowRepairCodeList
     List OppositeFiniteOffsetCode :=
   List.ofFn (fun k : Fin (OppositeFiniteOffsetSourceCount N) =>
     OppositeFiniteOffsetTemplateWindowRepairCode windows k.val)
+
+/-- Untouched window-repair indices are exactly the period-six default template. -/
+theorem oppositeFiniteOffsetTemplateWindowRepairCode_eq_periodSix_of_not_touched
+    {windows : List OppositeFiniteOffsetRepairWindow} {k : Nat}
+    (h : Not (OppositeFiniteOffsetRepairWindowsTouches windows k)) :
+    OppositeFiniteOffsetTemplateWindowRepairCode windows k =
+      OppositeFiniteOffsetPeriodSixTemplateCode k := by
+  unfold OppositeFiniteOffsetTemplateWindowRepairCode
+  unfold OppositeFiniteOffsetTemplateRepairCode
+  cases hcode : OppositeFiniteOffsetRepairWindowsCode? windows k with
+  | none =>
+      rfl
+  | some code =>
+      exact False.elim (h (Exists.intro code hcode))
+
+/-- The period-six default target-index template is locally injective on gaps up to six. -/
+theorem oppositeFiniteOffsetPeriodSixTemplate_gapShiftInjective
+    (k d : Nat) (hdpos : 1 <= d) (hdle : d <= 6) :
+    Not (
+      OppositeFiniteOffsetSourceIndexShiftTarget k
+          (OppositeFiniteOffsetPeriodSixTemplateCode k) =
+        OppositeFiniteOffsetSourceIndexShiftTarget (k + d)
+          (OppositeFiniteOffsetPeriodSixTemplateCode (k + d))) := by
+  have hkCases :
+      Or ((k % 6) = 0)
+        (Or ((k % 6) = 1)
+          (Or ((k % 6) = 2)
+            (Or ((k % 6) = 3)
+              (Or ((k % 6) = 4) ((k % 6) = 5))))) := by
+    have hlt : k % 6 < 6 := Nat.mod_lt k (by omega : 0 < 6)
+    omega
+  have hdCases :
+      Or (d = 1) (Or (d = 2) (Or (d = 3) (Or (d = 4) (Or (d = 5) (d = 6))))) := by
+    omega
+  rcases hkCases with hk0 | hk1 | hk2 | hk3 | hk4 | hk5
+  all_goals
+    rcases hdCases with rfl | rfl | rfl | rfl | rfl | rfl
+    all_goals
+      simp [OppositeFiniteOffsetPeriodSixTemplateCode,
+        OppositeFiniteOffsetSourceIndexShiftTarget, Nat.add_mod, *] <;> omega
 
 /-- Total mate induced by a source-index code assignment. -/
 def OppositeFiniteOffsetSourceIndexMate
@@ -778,8 +824,58 @@ def OppositeFiniteOffsetTemplateWindowRepairLengthGapShiftInjective
       Not (
         OppositeFiniteOffsetSourceIndexShiftTarget k
             (OppositeFiniteOffsetTemplateWindowRepairCode windows k) =
+        OppositeFiniteOffsetSourceIndexShiftTarget (k + d)
+            (OppositeFiniteOffsetTemplateWindowRepairCode windows (k + d)))
+
+/--
+Repair-local gap no-collision: only pairs where at least one endpoint is
+explicitly overridden need to be checked; untouched pairs fall back to the
+period-six default template.
+-/
+def OppositeFiniteOffsetTemplateWindowRepairLengthTouchedGapShiftInjective
+    (N : Nat) (windows : List OppositeFiniteOffsetRepairWindow) : Prop :=
+  forall k d : Nat,
+    1 <= d ->
+    d <= 6 ->
+    k + d < OppositeFiniteOffsetSourceCount N ->
+    (OppositeFiniteOffsetRepairWindowsTouches windows k \/
+      OppositeFiniteOffsetRepairWindowsTouches windows (k + d)) ->
+      Not (
+        OppositeFiniteOffsetSourceIndexShiftTarget k
+            (OppositeFiniteOffsetTemplateWindowRepairCode windows k) =
           OppositeFiniteOffsetSourceIndexShiftTarget (k + d)
             (OppositeFiniteOffsetTemplateWindowRepairCode windows (k + d)))
+
+/-- Touched-gap checking plus the period-six default gap theorem gives full repair gap injectivity. -/
+theorem oppositeFiniteOffsetTemplateWindowRepairLengthGapShiftInjective_of_touched
+    {N : Nat} {windows : List OppositeFiniteOffsetRepairWindow}
+    (hTouched :
+      OppositeFiniteOffsetTemplateWindowRepairLengthTouchedGapShiftInjective
+        N windows) :
+    OppositeFiniteOffsetTemplateWindowRepairLengthGapShiftInjective N windows := by
+  intro k d hdpos hdle hkd
+  by_cases hTouch :
+      OppositeFiniteOffsetRepairWindowsTouches windows k \/
+        OppositeFiniteOffsetRepairWindowsTouches windows (k + d)
+  · exact hTouched k d hdpos hdle hkd hTouch
+  · have hNotLeft : Not (OppositeFiniteOffsetRepairWindowsTouches windows k) := by
+      intro hLeft
+      exact hTouch (Or.inl hLeft)
+    have hNotRight :
+        Not (OppositeFiniteOffsetRepairWindowsTouches windows (k + d)) := by
+      intro hRight
+      exact hTouch (Or.inr hRight)
+    have hLeftEq :=
+      oppositeFiniteOffsetTemplateWindowRepairCode_eq_periodSix_of_not_touched
+        (windows := windows) (k := k) hNotLeft
+    have hRightEq :=
+      oppositeFiniteOffsetTemplateWindowRepairCode_eq_periodSix_of_not_touched
+        (windows := windows) (k := k + d) hNotRight
+    intro hShift
+    rw [hLeftEq, hRightEq] at hShift
+    exact
+      (oppositeFiniteOffsetPeriodSixTemplate_gapShiftInjective k d hdpos hdle)
+        hShift
 
 /--
 Local template-window matching package: target edge validity, final-boundary
@@ -790,6 +886,29 @@ def OppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentBoundaryBoxGapVa
   OppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentEdgeValid N windows /\
   OppositeFiniteOffsetTemplateWindowRepairLengthTargetBoundaryBoxValid N windows /\
   OppositeFiniteOffsetTemplateWindowRepairLengthGapShiftInjective N windows
+
+/--
+Local template-window matching where the gap obligation only mentions repair-
+touched pairs; untouched gaps are discharged by the period-six template theorem.
+-/
+def OppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentBoundaryBoxTouchedGapValidMatching
+    (N : Nat) (windows : List OppositeFiniteOffsetRepairWindow) : Prop :=
+  OppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentEdgeValid N windows /\
+  OppositeFiniteOffsetTemplateWindowRepairLengthTargetBoundaryBoxValid N windows /\
+  OppositeFiniteOffsetTemplateWindowRepairLengthTouchedGapShiftInjective N windows
+
+/-- Touched-gap local matching supplies the previous full-gap local package. -/
+theorem oppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentBoundaryBoxGapValidMatching_of_touchedGap
+    {N : Nat} {windows : List OppositeFiniteOffsetRepairWindow}
+    (h :
+      OppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentBoundaryBoxTouchedGapValidMatching
+        N windows) :
+    OppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentBoundaryBoxGapValidMatching
+      N windows := by
+  rcases h with ⟨hEdge, hBoundary, hTouched⟩
+  exact ⟨hEdge, hBoundary,
+    oppositeFiniteOffsetTemplateWindowRepairLengthGapShiftInjective_of_touched
+      hTouched⟩
 
 /-- The truncated repair-code list agrees with the repair assignment on covered indices. -/
 theorem oppositeFiniteOffsetListSelector_windowRepairCodeList_eq
@@ -9414,6 +9533,32 @@ def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplate
       N windows /\
     GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation N
       (OppositeFiniteOffsetTemplateWindowRepairCode windows)
+
+/--
+Source-index split certificate with local template-window matching whose gap
+checks are restricted to repair-touched pairs; untouched pairs are discharged
+from the period-six default template.
+-/
+def GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedGapLocalCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate :
+    Prop :=
+  forall N : Nat, Exists fun windows : List OppositeFiniteOffsetRepairWindow =>
+    OppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentBoundaryBoxTouchedGapValidMatching
+      N windows /\
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation N
+      (OppositeFiniteOffsetTemplateWindowRepairCode windows)
+
+/-- Touched-gap local source-index data supplies the previous full-gap local certificate. -/
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_touchedGapLocal
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedGapLocalCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate := by
+  intro N
+  rcases h N with ⟨windows, hLocal, hActive⟩
+  exact Exists.intro windows
+    (And.intro
+      (oppositeFiniteOffsetTemplateWindowRepairLengthTargetCoherentBoundaryBoxGapValidMatching_of_touchedGap
+        hLocal)
+      hActive)
 
 /--
 Source-index split certificate without an explicit target-prefix box bound.
@@ -18435,11 +18580,17 @@ theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShif
 
 /--
 Open analytic cut for decoded squarefree-boxed `18 mod 25` finite-offset middle
-compression: local template-window matching packaged with generated prefix-pair
-active-deficit allocation.
+compression: local template-window matching with gap checks restricted to repair-
+touched pairs, packaged with generated prefix-pair active-deficit allocation.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalGeneratedPrefixPairCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedGapLocalGeneratedPrefixPairCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedGapLocalCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate
+
+/-- Touched-gap repair-local cut supplies the previous full-gap local cut surface. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalGeneratedPrefixPairCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairLocalCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_touchedGapLocal
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedGapLocalGeneratedPrefixPairCut
 
 /-- Current finite list-selector certificate projected from the template-window cut. -/
 theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapGeneratedPrefixPairCut :
