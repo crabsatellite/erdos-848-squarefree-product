@@ -1063,6 +1063,31 @@ theorem eighteenSourceFromIndex_candidateClassIndex
   have h := Nat.mod_add_div b 25
   omega
 
+/-- A boxed `18 mod 25` source has a source index below the boxed source count. -/
+theorem candidateClassIndex_lt_oppositeFiniteOffsetSourceCount_of_inBox_candidate_eighteen
+    {N b : Nat} (hbBox : InBox N b) (hb18 : CandidateCarrier 18 b) :
+    CandidateClassIndex b < OppositeFiniteOffsetSourceCount N := by
+  have hsource := eighteenSourceFromIndex_candidateClassIndex hb18
+  unfold OppositeFiniteOffsetSourceCount
+  by_cases hN : N < 18
+  · simp [hN]
+    have hbge : 18 <= b := by
+      have hsrc : 25 * CandidateClassIndex b + 18 = b := by
+        simpa [EighteenSourceFromIndex] using hsource
+      omega
+    exact False.elim (by
+      have hbN := hbBox.right
+      omega)
+  · simp [hN]
+    have hsrc : 25 * CandidateClassIndex b + 18 = b := by
+      simpa [EighteenSourceFromIndex] using hsource
+    have hmul : CandidateClassIndex b * 25 <= N - 18 := by
+      have hbN := hbBox.right
+      omega
+    have hdiv : CandidateClassIndex b <= (N - 18) / 25 := by
+      exact (Nat.le_div_iff_mul_le (by decide : 0 < 25)).2 hmul
+    omega
+
 /-- The `b`-indexed shift target is the same target expressed from the source index. -/
 theorem oppositeFiniteOffsetCodeShiftTargetIndex_eq_sourceIndexShift
     (b : Nat)
@@ -8445,6 +8470,46 @@ def GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDefici
     (Exists fun b : Nat => StrictMiddlePart 7 B b) ->
     ActiveStrictMiddleCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
       N B decMid offsetIndex decReserve decNewMid
+
+/--
+Template-window active-deficit data transfers to the finite list-selector
+obtained by truncating the window assignment to the boxed source count.
+-/
+theorem globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_windowRepairCodeList
+    {N : Nat} {windows : List OppositeFiniteOffsetRepairWindow}
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+        N (OppositeFiniteOffsetTemplateWindowRepairCode windows)) :
+    GlobalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation
+      N (OppositeFiniteOffsetListSelector
+        (OppositeFiniteOffsetWindowRepairCodeList N windows)) := by
+  intro B decMid decReserve decNewMid hB hClique hMid
+  let decReserveTemplate : DecidablePred
+      (ActiveStrictMiddleCreditReserve N 7 B
+        (OppositeFiniteOffsetSourceIndexMate
+          (OppositeFiniteOffsetTemplateWindowRepairCode windows))) :=
+    fun a => Classical.propDecidable
+      (ActiveStrictMiddleCreditReserve N 7 B
+        (OppositeFiniteOffsetSourceIndexMate
+          (OppositeFiniteOffsetTemplateWindowRepairCode windows)) a)
+  rcases h B decMid decReserveTemplate decNewMid hB hClique hMid with
+    ⟨deficitLength, deficitSeedStartKey, oppositeWitnessSourceIndex,
+      hCount, hSeedStrict, hTargetPrefix, hOppWitness, hMateLower⟩
+  refine ⟨deficitLength, deficitSeedStartKey, oppositeWitnessSourceIndex,
+    hCount, hSeedStrict, hTargetPrefix, hOppWitness, ?_⟩
+  intro b hbOpp
+  have hbBox : InBox N b := (hB b hbOpp.left).left
+  have hb18 : CandidateCarrier 18 b :=
+    candidateCarrier_eighteen_of_oppositeCandidateCarrier_seven hbOpp.right
+  have hk :
+      CandidateClassIndex b < OppositeFiniteOffsetSourceCount N :=
+    candidateClassIndex_lt_oppositeFiniteOffsetSourceCount_of_inBox_candidate_eighteen
+      hbBox hb18
+  have hEq :=
+    oppositeFiniteOffsetListSelector_windowRepairCodeList_eq
+      (N := N) (windows := windows) (k := CandidateClassIndex b) hk
+  have hLower := hMateLower b hbOpp
+  simpa [hEq] using hLower
 
 /--
 Source-index active credit allocation without an explicit target-prefix box
@@ -18324,12 +18389,34 @@ theorem squarefreeAPHallCertificate_of_partitionedCapacity
   simpa [APHallExpansionForOutsideSet, Nbr] using hfinal
 
 /--
-Open analytic cut for decoded squarefree-boxed `18 mod 25` finite-offset middle
-compression: a gap-indexed finite list-selector matching packaged together
-with generated prefix-pair active-deficit allocation.
+Template-window generated-prefix active data supplies the current gap-indexed
+finite list-selector certificate by truncating each window assignment.
 -/
-axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapGeneratedPrefixPairCut :
-  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate
+theorem globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_templateWindowRepair
+    (h :
+      GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate) :
+    GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate := by
+  intro N
+  rcases h N with ⟨windows, hValid, hActive⟩
+  exact ⟨OppositeFiniteOffsetWindowRepairCodeList N windows,
+    oppositeFiniteOffsetListSelectorLengthTargetCoherentBoundaryBoxGapValidMatching_of_windowRepair
+      hValid,
+    globalFiniteOffsetMiddleCompressionEighteenSourceIndexMateActiveCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_windowRepairCodeList
+      hActive⟩
+
+/--
+Open analytic cut for decoded squarefree-boxed `18 mod 25` finite-offset middle
+compression: compact template-window matching packaged with generated
+prefix-pair active-deficit allocation.
+-/
+axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairGeneratedPrefixPairCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate
+
+/-- Current finite list-selector certificate projected from the template-window cut. -/
+theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapGeneratedPrefixPairCut :
+  GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate :=
+  globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_templateWindowRepair
+    finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairGeneratedPrefixPairCut
 
 /-- Current gap-indexed finite list-selector matching projected from the combined certificate. -/
 theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCut :

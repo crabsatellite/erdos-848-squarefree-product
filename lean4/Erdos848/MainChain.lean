@@ -16,7 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapGeneratedPrefixPairCut
+    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairGeneratedPrefixPairCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -77,14 +77,17 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: a gap-indexed finite list-selector matching packaged with generated prefix-pair active-deficit allocation. Lean projects the matching component, folds the generated prefix-pair allocation into decoded squarefree-boxed compression, and derives the endpoint Hall expansion."
+        "Replace finite Hall checks by one explicit typed seven-offset `18 mod 25` finite-offset middle-compression cut for the endpoint-consumed `7 mod 25` progression: compact template-window matching packaged with generated prefix-pair active-deficit allocation. Lean truncates the windows to the boxed source-count list-selector, folds the generated prefix-pair allocation into decoded squarefree-boxed compression, and derives the endpoint Hall expansion."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
+        "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairGeneratedPrefixPairCut",
+        "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_templateWindowRepair",
         "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapGeneratedPrefixPairCut",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation",
         "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCut",
+        "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominance_of_incrementalCapacity",
         "Erdos848.globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapTotalReserveDominance",
@@ -1035,7 +1038,7 @@ def config : ChainAudit.ProjectConfig := {
         "Prove the gap-indexed finite list-selector matching and generated prefix-pair active-deficit allocation certificate.",
         "Use Lean to project matching, fold generated prefix-pair allocation into decoded squarefree-boxed compression, then assemble the endpoint Hall expansion."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapGeneratedPrefixPairCut`."
+      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairGeneratedPrefixPairCut`."
     },
     {
       id := "residue-certificate"
@@ -1123,9 +1126,12 @@ def config : ChainAudit.ProjectConfig := {
       keywords := [
         "SquarefreeAP",
         "squarefreeAPHall",
+        "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairGeneratedPrefixPairCut",
+        "globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation_of_templateWindowRepair",
         "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapGeneratedPrefixPairCut",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocation",
         "finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapMatchingCut",
+        "GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairCreditDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate",
         "GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapDeficitConsecutiveSeedKeyCarrierFreeCountAdditiveUpperFreeSeedStrictMiddleTargetPrefixBoxBoundIndexedOppositeWitnessMateSourceIndexLowerBoundLengthGeneratedPrefixPairSeedValuePrefixEdgeShiftTargetNoImagePairListAllocationCertificate",
         "globalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexShiftCreditListSelectorLengthTargetCoherentBoundaryBoxGapTotalDeficitReserveDominance_of_incrementalCapacity",
         "globalFiniteOffsetMiddleCompressionEighteenDecodedSquarefreeBoxed_of_sourceIndexListSelectorLengthTargetCoherentBoundaryBoxGapTotalReserveDominance",
