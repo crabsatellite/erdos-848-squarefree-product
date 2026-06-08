@@ -77,14 +77,18 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve Hall argument.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.  The active cut is therefore the global Hall certificate itself, not a bounded-offset local matching or coverage variant."
+        "Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve rectangle bound.  A Hall defect is now kernel-reduced to a rectangle `B x T` where `B` is an outside non-squarefree clique and `T` is candidate-side with no squarefree cross-edge from `B`; the cut is to prove `|B| + |T| <= |C_7|`.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
         "Erdos848.globalSquareSieveHallCut",
         "Erdos848.GlobalSquareSieveHallCertificate",
+        "Erdos848.SquareSieveHallDefectRectangleCertificate",
+        "Erdos848.SquareSieveHallDefectRectangleBoundForResidue",
+        "Erdos848.CandidateNonNeighborOfOutsideSet",
         "Erdos848.squarefreeAPHallCertificate_of_globalSquareSieve",
+        "Erdos848.squarefreeAPHallCertificate_of_squareSieveHallDefectRectangle",
         "Erdos848.crtNoSevenOffsetSourceIndex_no_typed_edge",
         "Erdos848.crtNoSevenOffsetTargetIndex_no_typed_edge",
         "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCut",
@@ -1137,7 +1141,7 @@ def config : ChainAudit.ProjectConfig := {
       ]
       attackPlan := [
         "Use `crtNoSevenOffsetSourceIndex_no_typed_edge` and `crtNoSevenOffsetTargetIndex_no_typed_edge` as no-return certificates for bounded seven-offset source or target local finite-window routes.",
-        "Prove the endpoint Hall expansion directly: any Hall-defect outside set would force too many pairs `(x,y)` with `x*y+1` divisible by some square.",
+        "Attack the active rectangle bound directly: for every Hall-defect rectangle `B x T`, all cross pairs and all pairs inside `B` require square divisors of `x*y+1`.",
         "Split the square-sieve cover into small-prime congruence classes and large-prime counting tails, then derive `SquarefreeAPHallCertificate` without finite-offset local matching."
       ]
       successCriterion := "`Erdos848.squarefreeAPHallCut` checks without `Erdos848.globalSquareSieveHallCut`, so `Erdos848.erdos848_main` has no non-kernel mathematical cuts."

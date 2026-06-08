@@ -199,12 +199,16 @@ Files:
 
 ### `G-squarefree-ap-hall-expansion` -- Squarefree AP Hall-neighborhood expansion
 
-Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve Hall argument.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.  The active cut is therefore the global Hall certificate itself, not a bounded-offset local matching or coverage variant.
+Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve rectangle bound.  A Hall defect is now kernel-reduced to a rectangle `B x T` where `B` is an outside non-squarefree clique and `T` is candidate-side with no squarefree cross-edge from `B`; the cut is to prove `|B| + |T| <= |C_7|`.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.
 
 Declarations:
 - `Erdos848.globalSquareSieveHallCut`
 - `Erdos848.GlobalSquareSieveHallCertificate`
+- `Erdos848.SquareSieveHallDefectRectangleCertificate`
+- `Erdos848.SquareSieveHallDefectRectangleBoundForResidue`
+- `Erdos848.CandidateNonNeighborOfOutsideSet`
 - `Erdos848.squarefreeAPHallCertificate_of_globalSquareSieve`
+- `Erdos848.squarefreeAPHallCertificate_of_squareSieveHallDefectRectangle`
 - `Erdos848.crtNoSevenOffsetSourceIndex_no_typed_edge`
 - `Erdos848.crtNoSevenOffsetTargetIndex_no_typed_edge`
 - `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCut`

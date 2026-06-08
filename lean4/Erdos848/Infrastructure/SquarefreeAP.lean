@@ -15190,20 +15190,40 @@ def CandidateResidueSquarefreeAPHallCertificate : Prop :=
 def SquarefreeAPHallCertificate : Prop :=
   SquarefreeAPHallCertificateForResidue 7
 
+/-- Candidate vertices not hit by any squarefree edge from the outside set. -/
+def CandidateNonNeighborOfOutsideSet
+    (N r : Nat) (B : Nat -> Prop) (a : Nat) : Prop :=
+  CandidateCarrier r a /\
+    Not (SquarefreeNeighborInCandidate N r B a)
+
+/--
+Square-sieve Hall-defect rectangle bound.
+
+If `B` is a compatible outside clique and `T` is a candidate-side set with no
+squarefree cross-edge from `B`, then `B` plus `T` cannot beat the candidate
+class.  A Hall defect would produce exactly such a rectangle.
+-/
+def SquareSieveHallDefectRectangleBoundForResidue (r : Nat) : Prop :=
+  forall (N : Nat) (B T : Nat -> Prop)
+    (decB : DecidablePred B) (decT : DecidablePred T),
+    BoundedOutsideSet N r B ->
+    NonSquarefreeClique B ->
+    (forall a : Nat, T a ->
+      CandidateCarrier r a /\
+        Not (SquarefreeNeighborInCandidate N r B a)) ->
+    @familySize N B decB + @familySize N T decT <= candidateCount r N
+
+/-- Endpoint square-sieve rectangle target for the `7 mod 25` candidate class. -/
+def SquareSieveHallDefectRectangleCertificate : Prop :=
+  SquareSieveHallDefectRectangleBoundForResidue 7
+
 /--
 Replacement analytic target after the seven-offset local-matching route was
-disproved by a CRT obstruction.  This is deliberately the endpoint Hall
-obligation itself, to be attacked by a global square-sieve Hall argument rather
-than by a false bounded-offset matching.
+disproved by CRT obstructions.  The active analytic target is now the
+square-sieve rectangle bound that rules out Hall-defect rectangles directly.
 -/
 def GlobalSquareSieveHallCertificate : Prop :=
-  SquarefreeAPHallCertificate
-
-/-- The global square-sieve Hall certificate is exactly the endpoint Hall input. -/
-theorem squarefreeAPHallCertificate_of_globalSquareSieve
-    (h : GlobalSquareSieveHallCertificate) :
-    SquarefreeAPHallCertificate :=
-  h
+  SquareSieveHallDefectRectangleCertificate
 
 /-- A two-residue AP/Hall certificate implies the endpoint one-residue certificate. -/
 theorem squarefreeAPHallCertificate_of_candidateResidues
@@ -15267,6 +15287,45 @@ private theorem familySize_mono
           omega
         · simp [countUpTo, hp, hq]
           omega
+
+/--
+The square-sieve rectangle bound is enough for the endpoint Hall expansion:
+take `T` to be the candidate-side vertices not hit by `B`.
+-/
+theorem squarefreeAPHallCertificate_of_squareSieveHallDefectRectangle
+    (hRect : SquareSieveHallDefectRectangleCertificate) :
+    SquarefreeAPHallCertificate := by
+  intro N B decB decNbr hB hClique
+  classical
+  let Bad : Nat -> Prop := CandidateNonNeighborOfOutsideSet N 7 B
+  let decBad : DecidablePred Bad := fun a => Classical.propDecidable (Bad a)
+  have hCandidateSplit :
+      candidateCount 7 N <=
+        @familySize N (SquarefreeNeighborInCandidate N 7 B) decNbr +
+          @familySize N Bad decBad := by
+    unfold candidateCount
+    apply familySize_le_add_of_subset_or
+      N (CandidateCarrier 7)
+      (SquarefreeNeighborInCandidate N 7 B)
+      Bad inferInstance decNbr decBad
+    intro a haCand
+    by_cases hNbr : SquarefreeNeighborInCandidate N 7 B a
+    · exact Or.inl hNbr
+    · exact Or.inr (And.intro haCand hNbr)
+  have hRectBound :
+      @familySize N B decB + @familySize N Bad decBad <= candidateCount 7 N := by
+    exact hRect N B Bad decB decBad hB hClique (fun a ha => ha)
+  have hHall :
+      @familySize N B decB <=
+        @familySize N (SquarefreeNeighborInCandidate N 7 B) decNbr := by
+    omega
+  simpa [APHallExpansionForOutsideSet] using hHall
+
+/-- The global square-sieve rectangle certificate supplies the endpoint Hall input. -/
+theorem squarefreeAPHallCertificate_of_globalSquareSieve
+    (h : GlobalSquareSieveHallCertificate) :
+    SquarefreeAPHallCertificate :=
+  squarefreeAPHallCertificate_of_squareSieveHallDefectRectangle h
 
 private theorem familySize_eq_countP_range_succ
     (N : Nat) (P : Nat -> Prop) (decP : DecidablePred P)
