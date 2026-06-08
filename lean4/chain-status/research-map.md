@@ -199,7 +199,7 @@ Files:
 
 ### `G-squarefree-ap-hall-expansion` -- Squarefree AP Hall-neighborhood expansion
 
-Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut only covers the nonempty case by choosing a pivot in `B` and explicit prime-indexed CRT residue classes `(p, residue)` counted with budget `N/(25*p^2)+1`, with `p = 5` kernel-excluded for outside pivots.  Lean maps these prime classes to the older `25*p^2` residue cover, proves the budgets match, and exposes the bridge from candidate non-neighbors to square-divisor residue covers.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.
+Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut only covers the nonempty case by choosing a pivot in `B` and explicit prime-indexed CRT residue classes `(p, residue)` counted with budget `N/(25*p^2)+1`, with `p = 5` kernel-excluded for outside pivots.  Lean maps these prime classes to the older `25*p^2` residue cover, proves the budgets match, records fixed-prime residue uniqueness, and exposes the exact `p=2,3` skeleton budgets for the next tail-bound attack.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.
 
 Declarations:
 - `Erdos848.globalSquareSieveHallCut`
@@ -209,6 +209,9 @@ Declarations:
 - `Erdos848.SquareSievePivotPrimeResidueCover`
 - `Erdos848.SquareSievePrimeResidueCoverBudget`
 - `Erdos848.SquareSievePrimeResidueClassBudget`
+- `Erdos848.squareSievePrimeResidueClassBudget_two`
+- `Erdos848.squareSievePrimeResidueClassBudget_three`
+- `Erdos848.squareSievePrimeResidueCoverBudget_two_three`
 - `Erdos848.SquareSievePrimeResidueClasses`
 - `Erdos848.SquareSieveNonemptyPivotResidueCoverCertificate`
 - `Erdos848.SquareSieveNonemptyPivotResidueCoverBoundForResidue`
@@ -218,6 +221,8 @@ Declarations:
 - `Erdos848.SquareSieveResidueCoverBudget`
 - `Erdos848.SquareSieveCoveredByResidueClasses`
 - `Erdos848.SquareSieveOffDiagonalClassValid`
+- `Erdos848.squareSieveResidueClass_residue_mod_eq`
+- `Erdos848.squareSieveOffDiagonalClassValid_residue_mod_unique`
 - `Erdos848.SquareSievePivotResidueCover`
 - `Erdos848.SquareSieveHallDefectRectangleCertificate`
 - `Erdos848.SquareSieveHallDefectRectangleBoundForResidue`

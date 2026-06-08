@@ -15307,6 +15307,23 @@ def SquareSievePrimeResidueCoverBudget (N : Nat) : List (Nat × Nat) -> Nat
       SquareSievePrimeResidueClassBudget N cls.fst +
         SquareSievePrimeResidueCoverBudget N rest
 
+/-- The `p = 2` square-sieve class has the exact counted modulus `100`. -/
+theorem squareSievePrimeResidueClassBudget_two (N : Nat) :
+    SquareSievePrimeResidueClassBudget N 2 = N / 100 + 1 := by
+  rfl
+
+/-- The `p = 3` square-sieve class has the exact counted modulus `225`. -/
+theorem squareSievePrimeResidueClassBudget_three (N : Nat) :
+    SquareSievePrimeResidueClassBudget N 3 = N / 225 + 1 := by
+  rfl
+
+/-- Exact additive budget for the `p = 2, 3` square-sieve skeleton. -/
+theorem squareSievePrimeResidueCoverBudget_two_three
+    (N r2 r3 : Nat) :
+    SquareSievePrimeResidueCoverBudget N [(2, r2), (3, r3)] =
+      N / 100 + 1 + (N / 225 + 1) := by
+  rfl
+
 /-- Convert prime-indexed classes to the residue classes used by the count lemma. -/
 def SquareSievePrimeResidueClasses (classes : List (Nat × Nat)) :
     List (Nat × Nat) :=
@@ -15390,6 +15407,28 @@ def SquareSieveOffDiagonalClassValid
     CandidateCarrier r a ->
     SquareDivides p (a * b + 1) ->
     SquareSieveResidueClass (25 * p * p) residue a
+
+/-- Two residues containing the same target in the same modulus agree modulo that modulus. -/
+theorem squareSieveResidueClass_residue_mod_eq
+    {modulus residue₁ residue₂ a : Nat}
+    (h₁ : SquareSieveResidueClass modulus residue₁ a)
+    (h₂ : SquareSieveResidueClass modulus residue₂ a) :
+    residue₁ % modulus = residue₂ % modulus := by
+  unfold SquareSieveResidueClass at h₁ h₂
+  omega
+
+/--
+For a fixed pivot and square prime, any two valid off-diagonal CRT classes
+that cover an actual target are the same class modulo `25*p^2`.
+-/
+theorem squareSieveOffDiagonalClassValid_residue_mod_unique
+    {r b p residue₁ residue₂ a : Nat}
+    (h₁ : SquareSieveOffDiagonalClassValid r b p residue₁)
+    (h₂ : SquareSieveOffDiagonalClassValid r b p residue₂)
+    (ha : CandidateCarrier r a)
+    (hdiv : SquareDivides p (a * b + 1)) :
+    residue₁ % (25 * p * p) = residue₂ % (25 * p * p) :=
+  squareSieveResidueClass_residue_mod_eq (h₁ a ha hdiv) (h₂ a ha hdiv)
 
 /--
 Replacement analytic target after the seven-offset local-matching route was

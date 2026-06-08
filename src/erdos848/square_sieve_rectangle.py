@@ -49,6 +49,27 @@ class SquareSieveIntersectionDecayScan:
     min_target_drop: int
 
 
+@dataclass
+class SquareSieveResidualTailScan:
+    N: int
+    base_residue: int
+    skeleton_primes: list[int]
+    checked_pivots: int
+    candidate_count: int
+    worst_tail_slack: int
+    worst_pivot: int
+    worst_total_target_count: int
+    worst_skeleton_target_count: int
+    worst_tail_target_count: int
+    worst_skeleton_prime_class_count: int
+    worst_tail_prime_class_count: int
+    worst_skeleton_prime_cover_budget: int
+    worst_tail_prime_cover_budget: int
+    worst_total_prime_cover_budget: int
+    worst_skeleton_prime_classes: list[tuple[int, int]]
+    worst_tail_prime_classes: list[tuple[int, int]]
+
+
 def _least_square_divisor_prime(n: int) -> int:
     for p in range(2, isqrt(n) + 1):
         if n % (p * p) == 0:
@@ -62,6 +83,33 @@ def _crt_coprime(r1: int, m1: int, r2: int, m2: int) -> int:
     inv = pow(m1, -1, m2)
     k = ((r2 - r1) * inv) % m2
     return (r1 + m1 * k) % (m1 * m2)
+
+
+def _square_divides_prime(p: int, n: int) -> bool:
+    return n % (p * p) == 0
+
+
+def _prime_residue_class_for_target(
+    base_residue: int,
+    pivot: int,
+    target: int,
+    p: int,
+) -> tuple[int, int, int]:
+    if p == 5:
+        raise ValueError(("p=5", target, pivot))
+    p2 = p * p
+    if not _square_divides_prime(p, target * pivot + 1):
+        raise ValueError(("not-square-dividing", p, target, pivot))
+    modulus = 25 * p2
+    if gcd(pivot, p2) != 1:
+        raise ValueError((pivot, p2))
+    square_residue = (-pow(pivot, -1, p2)) % p2
+    if target % p2 != square_residue:
+        raise ValueError((target, pivot, p, square_residue))
+    residue = _crt_coprime(base_residue % 25, 25, square_residue, p2)
+    if target % modulus != residue:
+        raise ValueError((target, modulus, residue))
+    return p, modulus, residue
 
 
 def _candidate_nonneighbor_targets(
@@ -139,19 +187,10 @@ def square_sieve_pivot_cover_example(
         p = _least_square_divisor_prime(value)
         if p == 5:
             raise ValueError(("p=5", target, pivot))
+        p, modulus, residue = _prime_residue_class_for_target(
+            base_residue, pivot, target, p
+        )
         p2 = p * p
-        modulus = 25 * p2
-        if gcd(25, p2) == 1:
-            if gcd(pivot, p2) != 1:
-                raise ValueError((pivot, p2))
-            square_residue = (-pow(pivot, -1, p2)) % p2
-            if target % p2 != square_residue:
-                raise ValueError((target, pivot, p, square_residue))
-            residue = _crt_coprime(base_residue % 25, 25, square_residue, p2)
-        else:
-            residue = target % modulus
-        if target % modulus != residue:
-            raise ValueError((target, modulus, residue))
         witnesses.append((target, p, p2, modulus, residue))
         classes.add((modulus, residue))
         prime_classes.add((p, residue))
@@ -308,6 +347,113 @@ def square_sieve_intersection_decay_scan(
         all_prime_budgets_nonincreasing=budget_monotone,
         min_budget_drop=0 if min_budget_drop is None else min_budget_drop,
         min_target_drop=0 if min_target_drop is None else min_target_drop,
+    )
+
+
+def square_sieve_residual_tail_scan(
+    N: int,
+    base_residue: int = 7,
+    skeleton_primes: tuple[int, ...] = (2, 3),
+) -> SquareSieveResidualTailScan:
+    if any(p < 2 or p == 5 for p in skeleton_primes):
+        raise ValueError(skeleton_primes)
+    sf = squarefree_sieve(N * N + 1)
+    candidate_total = candidate_count(N, base_residue)
+    checked = 0
+    worst_key: tuple[int, int, int, int, int] | None = None
+    worst_payload: dict | None = None
+    for pivot in range(1, N + 1):
+        if pivot % 25 == base_residue % 25:
+            continue
+        if sf[pivot * pivot + 1]:
+            continue
+        checked += 1
+        targets = _candidate_nonneighbor_targets(N, [pivot], base_residue, sf)
+        skeleton_classes: set[tuple[int, int]] = set()
+        skeleton_targets: set[int] = set()
+        tail_targets: list[int] = []
+        for target in targets:
+            covered_by_skeleton = False
+            value = target * pivot + 1
+            for p in skeleton_primes:
+                if _square_divides_prime(p, value):
+                    _p, _modulus, residue = _prime_residue_class_for_target(
+                        base_residue, pivot, target, p
+                    )
+                    skeleton_classes.add((p, residue))
+                    skeleton_targets.add(target)
+                    covered_by_skeleton = True
+            if not covered_by_skeleton:
+                tail_targets.append(target)
+        tail_cert = square_sieve_pivot_cover_example(
+            N,
+            pivot,
+            tail_targets,
+            base_residue=base_residue,
+            outside_size=1,
+            outside_witness=[pivot],
+            target_mode="singleton_tail_after_skeleton",
+        )
+        skeleton_prime_classes = sorted(skeleton_classes)
+        tail_prime_classes = sorted(tail_cert.prime_residue_classes)
+        skeleton_budget = sum(
+            N // (25 * p * p) + 1 for p, _residue in skeleton_prime_classes
+        )
+        tail_budget = tail_cert.prime_cover_budget
+        total_budget = skeleton_budget + tail_budget
+        tail_slack = candidate_total - 1 - total_budget
+        key = (
+            tail_slack,
+            pivot,
+            len(tail_targets),
+            tail_budget,
+            len(tail_prime_classes),
+        )
+        if worst_key is None or key < worst_key:
+            worst_key = key
+            worst_payload = {
+                "pivot": pivot,
+                "total_target_count": len(targets),
+                "skeleton_target_count": len(skeleton_targets),
+                "tail_target_count": len(tail_targets),
+                "skeleton_prime_classes": skeleton_prime_classes,
+                "tail_prime_classes": tail_prime_classes,
+                "skeleton_budget": skeleton_budget,
+                "tail_budget": tail_budget,
+                "total_budget": total_budget,
+                "tail_slack": tail_slack,
+            }
+    if worst_payload is None:
+        worst_payload = {
+            "pivot": 0,
+            "total_target_count": 0,
+            "skeleton_target_count": 0,
+            "tail_target_count": 0,
+            "skeleton_prime_classes": [],
+            "tail_prime_classes": [],
+            "skeleton_budget": 0,
+            "tail_budget": 0,
+            "total_budget": 0,
+            "tail_slack": candidate_total - 1,
+        }
+    return SquareSieveResidualTailScan(
+        N=N,
+        base_residue=base_residue,
+        skeleton_primes=list(skeleton_primes),
+        checked_pivots=checked,
+        candidate_count=candidate_total,
+        worst_tail_slack=worst_payload["tail_slack"],
+        worst_pivot=worst_payload["pivot"],
+        worst_total_target_count=worst_payload["total_target_count"],
+        worst_skeleton_target_count=worst_payload["skeleton_target_count"],
+        worst_tail_target_count=worst_payload["tail_target_count"],
+        worst_skeleton_prime_class_count=len(worst_payload["skeleton_prime_classes"]),
+        worst_tail_prime_class_count=len(worst_payload["tail_prime_classes"]),
+        worst_skeleton_prime_cover_budget=worst_payload["skeleton_budget"],
+        worst_tail_prime_cover_budget=worst_payload["tail_budget"],
+        worst_total_prime_cover_budget=worst_payload["total_budget"],
+        worst_skeleton_prime_classes=worst_payload["skeleton_prime_classes"],
+        worst_tail_prime_classes=worst_payload["tail_prime_classes"],
     )
 
 

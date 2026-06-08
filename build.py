@@ -44,6 +44,7 @@ from erdos848.square_sieve_rectangle import (
     square_sieve_nonneighbor_pivot_cover_example,
     square_sieve_intersection_decay_scan,
     square_sieve_pivot_cover_example,
+    square_sieve_residual_tail_scan,
     square_sieve_singleton_budget_scan,
 )
 
@@ -188,6 +189,10 @@ def run(mode: str) -> dict:
         ]
         if item["exact_worst"] and len(witness) >= 2
     ]
+    square_sieve_residual_tail_scans = [
+        square_sieve_pivot_cover_to_json(square_sieve_residual_tail_scan(N))
+        for N in singleton_scan_Ns
+    ]
 
     refs = {
         "327": {
@@ -217,6 +222,7 @@ def run(mode: str) -> dict:
         "square_sieve_pivot_covers": square_sieve_pivot_covers,
         "square_sieve_singleton_budget_scans": square_sieve_singleton_budget_scans,
         "square_sieve_intersection_decay_scans": square_sieve_intersection_decay_scans,
+        "square_sieve_residual_tail_scans": square_sieve_residual_tail_scans,
         "partitioned_hall_checks": partitioned,
         "active_credit_checks": active_credit,
         "reference_problem_templates": refs,
@@ -427,6 +433,43 @@ def assert_gate(payload: dict) -> None:
             assert item["worst_target_count"] >= 0, item
             assert item["worst_prime_class_count"] >= 0, item
             assert item["worst_prime_cover_budget"] >= item["worst_prime_class_count"], item
+    for item in payload["square_sieve_residual_tail_scans"]:
+        assert item["checked_pivots"] >= 0, item
+        assert item["candidate_count"] == candidate_count(item["N"], item["base_residue"]), item
+        assert all(p >= 2 and p != 5 for p in item["skeleton_primes"]), item
+        assert len(set(item["skeleton_primes"])) == len(item["skeleton_primes"]), item
+        assert item["worst_tail_slack"] >= 0, item
+        assert item["worst_total_prime_cover_budget"] == (
+            item["worst_skeleton_prime_cover_budget"] +
+            item["worst_tail_prime_cover_budget"]
+        ), item
+        assert item["worst_total_prime_cover_budget"] + 1 <= item["candidate_count"], item
+        assert item["worst_total_target_count"] >= item["worst_skeleton_target_count"], item
+        assert item["worst_total_target_count"] >= item["worst_tail_target_count"], item
+        assert item["worst_skeleton_prime_cover_budget"] == sum(
+            item["N"] // (25 * p * p) + 1
+            for p, _residue in item["worst_skeleton_prime_classes"]
+        ), item
+        assert item["worst_tail_prime_cover_budget"] == sum(
+            item["N"] // (25 * p * p) + 1
+            for p, _residue in item["worst_tail_prime_classes"]
+        ), item
+        assert item["worst_skeleton_prime_class_count"] == len(
+            item["worst_skeleton_prime_classes"]
+        ), item
+        assert item["worst_tail_prime_class_count"] == len(
+            item["worst_tail_prime_classes"]
+        ), item
+        assert all(
+            p in item["skeleton_primes"]
+            for p, _residue in item["worst_skeleton_prime_classes"]
+        ), item
+        assert all(
+            p not in item["skeleton_primes"] and p != 5
+            for p, _residue in item["worst_tail_prime_classes"]
+        ), item
+        if item["checked_pivots"] > 0:
+            assert item["worst_pivot"] % 25 != item["base_residue"] % 25, item
     for item in payload["square_sieve_intersection_decay_scans"]:
         assert item["outside_witness"], item
         assert all(
@@ -818,6 +861,10 @@ def main() -> int:
     print(
         "  square-sieve singleton budget scans: "
         f"{[(x['N'], x['checked_pivots'], x['worst_slack'], x['worst_pivot'], x['worst_target_count'], x['worst_prime_class_count'], x['worst_prime_cover_budget']) for x in payload['square_sieve_singleton_budget_scans']]}"
+    )
+    print(
+        "  square-sieve residual tail scans: "
+        f"{[(x['N'], x['checked_pivots'], x['skeleton_primes'], x['worst_tail_slack'], x['worst_pivot'], x['worst_skeleton_target_count'], x['worst_tail_target_count'], x['worst_skeleton_prime_cover_budget'], x['worst_tail_prime_cover_budget']) for x in payload['square_sieve_residual_tail_scans']]}"
     )
     print(
         "  square-sieve intersection decay scans: "
