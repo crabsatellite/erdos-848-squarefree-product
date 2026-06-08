@@ -586,6 +586,9 @@ def assert_gate(payload: dict) -> None:
         assert len(item["best_tail_prime_quotient_witnesses"]) == item[
             "best_tail_target_count"
         ], item
+        assert len(item["best_pair_target_other_square_witnesses"]) == item[
+            "best_pair_target_count"
+        ], item
         assert all(
             p in item["skeleton_primes"]
             for p, _residue in item["best_skeleton_prime_classes"]
@@ -607,6 +610,16 @@ def assert_gate(payload: dict) -> None:
         tail_classes = set(tuple(cls) for cls in item["best_tail_prime_classes"])
         pivot = item["best_pair"][0]
         other = item["best_pair"][1]
+        other_square_targets = set()
+        for target, other_p, other_quotient in item[
+            "best_pair_target_other_square_witnesses"
+        ]:
+            assert 1 <= target <= item["N"], item
+            assert target % 25 == item["base_residue"] % 25, item
+            assert other_p >= 2 and other_p != 5, item
+            assert other_quotient >= 1, item
+            assert target * other + 1 == other_p * other_p * other_quotient, item
+            other_square_targets.add(target)
         for target, p, quotient, residue in item[
             "best_tail_prime_quotient_witnesses"
         ]:
@@ -616,7 +629,7 @@ def assert_gate(payload: dict) -> None:
             assert quotient >= 1, item
             assert (p, residue) in tail_classes, item
             assert target * pivot + 1 == p * p * quotient, item
-            assert has_square_divisor(target * other + 1), item
+            assert target in other_square_targets, item
     for item in payload["square_sieve_intersection_decay_scans"]:
         assert item["outside_witness"], item
         assert all(

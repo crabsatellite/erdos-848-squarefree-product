@@ -406,7 +406,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-08T12:09:29.463550+00:00",
+  "generated_at": "2026-06-08T12:57:25.152611+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -3805,6 +3805,13 @@
       ],
       "best_pair_rectangle_slack": 17,
       "best_pair_target_count": 1,
+      "best_pair_target_other_square_witnesses": [
+        [
+          107,
+          2,
+          1097
+        ]
+      ],
       "best_skeleton_prime_classes": [
         [
           11,

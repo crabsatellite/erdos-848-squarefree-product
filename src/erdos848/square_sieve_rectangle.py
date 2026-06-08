@@ -113,6 +113,7 @@ class SquareSieveTwoPivotQuotientScan:
     best_tail_min_quotient: int
     best_tail_max_quotient: int
     best_tail_prime_quotient_witnesses: list[tuple[int, int, int, int]]
+    best_pair_target_other_square_witnesses: list[tuple[int, int, int]]
     best_skeleton_prime_classes: list[tuple[int, int]]
     best_tail_prime_classes: list[tuple[int, int]]
 
@@ -122,6 +123,11 @@ def _least_square_divisor_prime(n: int) -> int:
         if n % (p * p) == 0:
             return p
     raise ValueError(f"no square divisor found for {n}")
+
+
+def _least_square_divisor_quotient(n: int) -> tuple[int, int]:
+    p = _least_square_divisor_prime(n)
+    return p, n // (p * p)
 
 
 def _crt_coprime(r1: int, m1: int, r2: int, m2: int) -> int:
@@ -686,6 +692,15 @@ def square_sieve_two_pivot_quotient_scan(
                 skeleton_primes,
                 target_mode="two_pivot_intersection_tail_after_medium_skeleton",
             )
+            other_square_witnesses: list[tuple[int, int, int]] = []
+            for target in targets:
+                other_value = target * other + 1
+                other_p, other_quotient = _least_square_divisor_quotient(other_value)
+                if other_p == 5:
+                    raise ValueError(
+                        ("bad-other-square-prime", N, pivot, other, target, other_p)
+                    )
+                other_square_witnesses.append((target, other_p, other_quotient))
             pair_slack = candidate_total - 2 - payload["total_budget"]
             full_slack = (
                 candidate_total - len(outside_witness) - payload["total_budget"]
@@ -703,6 +718,7 @@ def square_sieve_two_pivot_quotient_scan(
                     **payload,
                     "pair": (pivot, other),
                     "pair_target_count": len(targets),
+                    "other_square_witnesses": other_square_witnesses,
                     "pair_slack": pair_slack,
                     "full_slack": full_slack,
                 }
@@ -729,6 +745,9 @@ def square_sieve_two_pivot_quotient_scan(
         best_tail_min_quotient=best_payload["min_quotient"],
         best_tail_max_quotient=best_payload["max_quotient"],
         best_tail_prime_quotient_witnesses=best_payload["tail_witnesses"],
+        best_pair_target_other_square_witnesses=best_payload[
+            "other_square_witnesses"
+        ],
         best_skeleton_prime_classes=best_payload["skeleton_prime_classes"],
         best_tail_prime_classes=best_payload["tail_prime_classes"],
     )

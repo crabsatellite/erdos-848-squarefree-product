@@ -1706,7 +1706,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-08T12:17:43.026667+00:00",
+  "generated_at": "2026-06-08T12:58:41.647631+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -49137,6 +49137,13 @@
       ],
       "best_pair_rectangle_slack": 17,
       "best_pair_target_count": 1,
+      "best_pair_target_other_square_witnesses": [
+        [
+          107,
+          2,
+          1097
+        ]
+      ],
       "best_skeleton_prime_classes": [
         [
           11,
@@ -49186,6 +49193,13 @@
       ],
       "best_pair_rectangle_slack": 33,
       "best_pair_target_count": 1,
+      "best_pair_target_other_square_witnesses": [
+        [
+          257,
+          2,
+          9188
+        ]
+      ],
       "best_skeleton_prime_classes": [
         [
           3,
@@ -49233,6 +49247,7 @@
       ],
       "best_pair_rectangle_slack": 78,
       "best_pair_target_count": 0,
+      "best_pair_target_other_square_witnesses": [],
       "best_skeleton_prime_classes": [],
       "best_skeleton_prime_cover_budget": 0,
       "best_skeleton_target_count": 0,
@@ -49275,6 +49290,58 @@
       ],
       "best_pair_rectangle_slack": 140,
       "best_pair_target_count": 10,
+      "best_pair_target_other_square_witnesses": [
+        [
+          257,
+          7,
+          15698
+        ],
+        [
+          457,
+          3,
+          151978
+        ],
+        [
+          1257,
+          17,
+          13018
+        ],
+        [
+          1357,
+          3,
+          451278
+        ],
+        [
+          2257,
+          3,
+          750578
+        ],
+        [
+          2307,
+          2,
+          1726213
+        ],
+        [
+          3107,
+          2,
+          2324813
+        ],
+        [
+          3157,
+          3,
+          1049878
+        ],
+        [
+          4057,
+          3,
+          1349178
+        ],
+        [
+          4957,
+          3,
+          1648478
+        ]
+      ],
       "best_skeleton_prime_classes": [
         [
           2,
@@ -49339,6 +49406,68 @@
       ],
       "best_pair_rectangle_slack": 170,
       "best_pair_target_count": 12,
+      "best_pair_target_other_square_witnesses": [
+        [
+          257,
+          7,
+          15698
+        ],
+        [
+          457,
+          3,
+          151978
+        ],
+        [
+          1257,
+          17,
+          13018
+        ],
+        [
+          1357,
+          3,
+          451278
+        ],
+        [
+          2257,
+          3,
+          750578
+        ],
+        [
+          2307,
+          2,
+          1726213
+        ],
+        [
+          3107,
+          2,
+          2324813
+        ],
+        [
+          3157,
+          3,
+          1049878
+        ],
+        [
+          4057,
+          3,
+          1349178
+        ],
+        [
+          4957,
+          3,
+          1648478
+        ],
+        [
+          5157,
+          7,
+          314998
+        ],
+        [
+          5857,
+          3,
+          1947778
+        ]
+      ],
       "best_skeleton_prime_classes": [
         [
           2,

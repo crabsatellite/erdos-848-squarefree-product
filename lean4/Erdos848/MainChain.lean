@@ -77,7 +77,7 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut only covers the nonempty case by choosing a pivot in `B` and explicit prime-indexed CRT residue classes `(p, residue)` counted with budget `N/(25*p^2)+1`, with `p = 5` kernel-excluded for outside pivots.  Lean maps these prime classes to the older `25*p^2` residue cover, proves the budgets match, records fixed-prime residue uniqueness, exposes exact `p=2,3` and medium `{2,3,7,11,13,17,19,23}` skeleton budgets, proves the finite small-prime index split below `29`, and now has dedicated singleton and nonempty medium-skeleton prime-qualified quotient-tail targets with bridges back to the active one-list and nonempty prime-cover targets.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows."
+        "Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut only covers the nonempty case by choosing a pivot in `B` and explicit prime-indexed CRT residue classes `(p, residue)` counted with budget `N/(25*p^2)+1`, with `p = 5` kernel-excluded for outside pivots.  Lean maps these prime classes to the older `25*p^2` residue cover, proves the budgets match, records fixed-prime residue uniqueness, exposes exact `p=2,3` and medium `{2,3,7,11,13,17,19,23}` skeleton budgets, proves the finite small-prime index split below `29`, and now has dedicated singleton, nonempty, and two-pivot hybrid medium-skeleton prime-qualified quotient-tail targets with bridges back to the active one-list and nonempty prime-cover targets.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
@@ -89,7 +89,12 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.SquareSievePivotPrimeResidueCover",
         "Erdos848.SquareSievePivotPrimeResidueQuotientCover",
         "Erdos848.SquareSievePivotPrimeResiduePrimeQuotientCover",
+        "Erdos848.SquareSieveTwoPivotPrimeResiduePrimeQuotientCover",
+        "Erdos848.SquareSieveHybridPivotPrimeResiduePrimeQuotientCover",
         "Erdos848.squareSievePivotPrimeResidueQuotientCover_of_primeQuotientCover",
+        "Erdos848.squareSievePivotPrimeResiduePrimeQuotientCover_of_twoPivot",
+        "Erdos848.squareSievePivotPrimeResiduePrimeQuotientCover_of_hybrid",
+        "Erdos848.squareSieveTwoPivotQuotient_identity_of_le",
         "Erdos848.squareSievePivotPrimeResidueCover_of_quotientCover",
         "Erdos848.SquareSievePrimeIndex",
         "Erdos848.squareSievePrimeIndex_two_le",
@@ -123,7 +128,11 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.squareSieveSingletonPivotPrimeResidueCover_of_primeQuotientTail",
         "Erdos848.SquareSieveNonemptyMediumSkeletonPrimeQuotientTailCertificate",
         "Erdos848.SquareSieveNonemptyMediumSkeletonPrimeQuotientTailBoundForResidue",
+        "Erdos848.SquareSieveNonemptyTwoPivotMediumSkeletonPrimeQuotientTailCertificate",
+        "Erdos848.SquareSieveNonemptyTwoPivotMediumSkeletonPrimeQuotientTailBoundForResidue",
+        "Erdos848.squareSieveNonemptyMediumSkeletonPrimeQuotientTail_of_twoPivot",
         "Erdos848.squareSieveNonemptyPivotPrimeResidueCover_of_mediumPrimeQuotientTail",
+        "Erdos848.squareSieveNonemptyPivotPrimeResidueCover_of_twoPivotMediumPrimeQuotientTail",
         "Erdos848.SquareSieveNonemptyPivotResidueCoverCertificate",
         "Erdos848.SquareSieveNonemptyPivotResidueCoverBoundForResidue",
         "Erdos848.SquareSieveResidueCoverCertificate",
@@ -134,6 +143,8 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.SquareSieveOffDiagonalClassValid",
         "Erdos848.squareSieveResidueClass_residue_mod_eq",
         "Erdos848.squareSieveOffDiagonalClassValid_residue_mod_unique",
+        "Erdos848.squareSieveTwoPivotSquareDivisors_of_nonNeighbor",
+        "Erdos848.squareSieveTwoPivotSquareDivisors_ne_five_of_nonNeighbor_seven",
         "Erdos848.SquareSievePivotResidueCover",
         "Erdos848.SquareSieveHallDefectRectangleCertificate",
         "Erdos848.SquareSieveHallDefectRectangleBoundForResidue",

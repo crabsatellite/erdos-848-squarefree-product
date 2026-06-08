@@ -15582,6 +15582,85 @@ def SquareSievePivotPrimeResiduePrimeQuotientCover
               List.Mem (p, residue) classes /\
                 SquareSieveResidueClass (25 * p * p) residue a
 
+/--
+Two-pivot prime-indexed cover.  It keeps the existing quotient witness against
+the primary pivot, and also records a square-divisor witness against the second
+pivot.  The second witness is the extra arithmetic pressure used by the active
+large-tail attack.
+-/
+def SquareSieveTwoPivotPrimeResiduePrimeQuotientCover
+    (N r : Nat) (T : Nat -> Prop) (pivot other : Nat)
+    (classes : List (Nat × Nat)) : Prop :=
+  forall a : Nat, InBox N a -> T a ->
+    CandidateCarrier r a /\
+      Exists fun p : Nat =>
+      Exists fun residue : Nat =>
+      Exists fun q : Nat =>
+        SquareSievePrimeIndex p /\
+          p ≠ 5 /\
+            a * pivot + 1 = p * p * q /\
+              List.Mem (p, residue) classes /\
+                SquareSieveResidueClass (25 * p * p) residue a /\
+                  Exists fun otherPrime : Nat =>
+                    2 <= otherPrime /\
+                      otherPrime ≠ 5 /\
+                        SquareDivides otherPrime (a * other + 1)
+
+/--
+Hybrid cover used by the nonempty target.  Singleton `B` may use the existing
+one-pivot cover, while the genuinely non-singleton branch carries a second
+pivot and the corresponding square-divisor pressure.
+-/
+def SquareSieveHybridPivotPrimeResiduePrimeQuotientCover
+    (N r : Nat) (T : Nat -> Prop) (pivot other : Nat)
+    (classes : List (Nat × Nat)) : Prop :=
+  SquareSievePivotPrimeResiduePrimeQuotientCover N r T pivot classes \/
+    (pivot ≠ other /\
+      SquareSieveTwoPivotPrimeResiduePrimeQuotientCover
+        N r T pivot other classes)
+
+/-- Forget the second pivot and recover the existing one-pivot cover. -/
+theorem squareSievePivotPrimeResiduePrimeQuotientCover_of_twoPivot
+    {N r pivot other : Nat} {T : Nat -> Prop}
+    {classes : List (Nat × Nat)}
+    (h : SquareSieveTwoPivotPrimeResiduePrimeQuotientCover
+      N r T pivot other classes) :
+    SquareSievePivotPrimeResiduePrimeQuotientCover N r T pivot classes := by
+  intro a haBox haT
+  rcases h a haBox haT with
+    ⟨ha, p, residue, q, hpPrime, hpNeFive, hquotient,
+      hmem, hclass, _hOther⟩
+  exact ⟨ha, p, residue, q, hpPrime, hpNeFive, hquotient, hmem, hclass⟩
+
+/-- A hybrid cover is consumed by the existing one-pivot surface. -/
+theorem squareSievePivotPrimeResiduePrimeQuotientCover_of_hybrid
+    {N r pivot other : Nat} {T : Nat -> Prop}
+    {classes : List (Nat × Nat)}
+    (h : SquareSieveHybridPivotPrimeResiduePrimeQuotientCover
+      N r T pivot other classes) :
+    SquareSievePivotPrimeResiduePrimeQuotientCover N r T pivot classes := by
+  rcases h with hOne | hTwo
+  · exact hOne
+  · exact squareSievePivotPrimeResiduePrimeQuotientCover_of_twoPivot hTwo.right
+
+/--
+The two-pivot quotient identity in Nat form.  If the two square quotient
+equations hold and `pivot <= other`, then the quotient payloads satisfy the
+exact defect identity used by the large-tail compression.
+-/
+theorem squareSieveTwoPivotQuotient_identity_of_le
+    {a pivot other p q quotientPivot quotientOther : Nat}
+    (hPivot : a * pivot + 1 = p * p * quotientPivot)
+    (hOther : a * other + 1 = q * q * quotientOther)
+    (hle : pivot <= other) :
+    other * (p * p * quotientPivot) =
+      pivot * (q * q * quotientOther) + (other - pivot) := by
+  rw [<- hPivot, <- hOther]
+  simp only [Nat.mul_add, Nat.add_mul, Nat.mul_one, Nat.one_mul]
+  rw [show other * (a * pivot) = pivot * (a * other) by
+    simp [Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm]]
+  omega
+
 /-- Forgetting formal prime-index witnesses gives a quotient cover. -/
 theorem squareSievePivotPrimeResidueQuotientCover_of_primeQuotientCover
     {N r pivot : Nat} {T : Nat -> Prop} {classes : List (Nat × Nat)}
@@ -15941,6 +16020,74 @@ def SquareSieveNonemptyMediumSkeletonPrimeQuotientTailCertificate : Prop :=
   SquareSieveNonemptyMediumSkeletonPrimeQuotientTailBoundForResidue 7
 
 /--
+Two-pivot strengthened version of the nonempty Hall target.  It keeps the same
+medium skeleton and budget inequality, but the cover may be supplied through a
+hybrid one/two-pivot surface.  This is the next direct attack surface for the
+large-prime tail.
+-/
+def SquareSieveNonemptyTwoPivotMediumSkeletonPrimeQuotientTailBoundForResidue
+    (r : Nat) : Prop :=
+  forall (N : Nat) (B T : Nat -> Prop)
+    (decB : DecidablePred B) (_decT : DecidablePred T),
+    BoundedOutsideSet N r B ->
+    NonSquarefreeClique B ->
+    (forall a : Nat, T a ->
+      CandidateCarrier r a /\
+        Not (SquarefreeNeighborInCandidate N r B a)) ->
+    1 <= @familySize N B decB ->
+    Exists fun pivot : Nat =>
+    Exists fun other : Nat =>
+    Exists fun r2 : Nat =>
+    Exists fun r3 : Nat =>
+    Exists fun r7 : Nat =>
+    Exists fun r11 : Nat =>
+    Exists fun r13 : Nat =>
+    Exists fun r17 : Nat =>
+    Exists fun r19 : Nat =>
+    Exists fun r23 : Nat =>
+    Exists fun tailClasses : List (Nat × Nat) =>
+      B pivot /\
+        B other /\
+          (forall cls : Nat × Nat, List.Mem cls tailClasses -> 29 <= cls.fst) /\
+            (forall cls : Nat × Nat,
+              List.Mem cls
+                (SquareSieveMediumSkeletonPrimeClasses
+                  r2 r3 r7 r11 r13 r17 r19 r23 ++ tailClasses) ->
+              2 <= cls.fst /\ cls.fst ≠ 5) /\
+              SquareSieveHybridPivotPrimeResiduePrimeQuotientCover N r T pivot other
+                (SquareSieveMediumSkeletonPrimeClasses
+                  r2 r3 r7 r11 r13 r17 r19 r23 ++ tailClasses) /\
+                @familySize N B decB +
+                    SquareSievePrimeResidueCoverBudget N
+                      (SquareSieveMediumSkeletonPrimeClasses
+                        r2 r3 r7 r11 r13 r17 r19 r23 ++ tailClasses) <=
+                  candidateCount r N
+
+/-- Endpoint two-pivot medium-skeleton prime-quotient tail target. -/
+def SquareSieveNonemptyTwoPivotMediumSkeletonPrimeQuotientTailCertificate : Prop :=
+  SquareSieveNonemptyTwoPivotMediumSkeletonPrimeQuotientTailBoundForResidue 7
+
+/--
+The two-pivot strengthened target supplies the existing nonempty target by
+forgetting the second pivot data.
+-/
+theorem squareSieveNonemptyMediumSkeletonPrimeQuotientTail_of_twoPivot
+    (h :
+      SquareSieveNonemptyTwoPivotMediumSkeletonPrimeQuotientTailBoundForResidue 7) :
+    SquareSieveNonemptyMediumSkeletonPrimeQuotientTailCertificate := by
+  intro N B T decB decT hB hClique hT hNonempty
+  rcases h N B T decB decT hB hClique hT hNonempty with
+    ⟨pivot, other, r2, r3, r7, r11, r13, r17, r19, r23, tailClasses,
+      hpivot, _hother, hTailLarge, hPos, hHybridCover, hBudget⟩
+  exact
+    ⟨pivot, r2, r3, r7, r11, r13, r17, r19, r23, tailClasses,
+      hpivot,
+      hTailLarge,
+      hPos,
+      squareSievePivotPrimeResiduePrimeQuotientCover_of_hybrid hHybridCover,
+      hBudget⟩
+
+/--
 The nonempty prime-qualified quotient-tail target supplies the active
 nonempty-pivot prime-residue cover certificate.
 -/
@@ -15961,6 +16108,17 @@ theorem squareSieveNonemptyPivotPrimeResidueCover_of_mediumPrimeQuotientTail
         (squareSievePivotPrimeResidueQuotientCover_of_primeQuotientCover
           hPrimeCover),
       hBudget⟩
+
+/--
+Direct bridge from the two-pivot strengthened target to the active nonempty
+prime-residue cover surface.
+-/
+theorem squareSieveNonemptyPivotPrimeResidueCover_of_twoPivotMediumPrimeQuotientTail
+    (h :
+      SquareSieveNonemptyTwoPivotMediumSkeletonPrimeQuotientTailBoundForResidue 7) :
+    SquareSieveNonemptyPivotPrimeResidueCoverCertificate :=
+  squareSieveNonemptyPivotPrimeResidueCover_of_mediumPrimeQuotientTail
+    (squareSieveNonemptyMediumSkeletonPrimeQuotientTail_of_twoPivot h)
 
 /--
 Nonempty-pivot version of the square-sieve target.  Lean closes the empty
@@ -16416,6 +16574,24 @@ theorem squareSievePivotSquareDivisor_of_nonNeighbor
   unfold ForbiddenSquarefreeEdge at hNotEdge
   exact roughSquareDivisor a pivot hNotEdge
 
+/--
+Every target in a Hall-defect rectangle has square-divisor witnesses against
+any two chosen outside pivots.
+-/
+theorem squareSieveTwoPivotSquareDivisors_of_nonNeighbor
+    {N r : Nat} {B T : Nat -> Prop}
+    (hT : forall a : Nat, T a ->
+      CandidateCarrier r a /\
+        Not (SquarefreeNeighborInCandidate N r B a))
+    {pivot other a : Nat}
+    (hpivot : B pivot) (hother : B other)
+    (haBox : InBox N a) (haT : T a) :
+    (Exists fun p : Nat => 2 <= p /\ SquareDivides p (a * pivot + 1)) /\
+      (Exists fun q : Nat => 2 <= q /\ SquareDivides q (a * other + 1)) := by
+  exact
+    ⟨squareSievePivotSquareDivisor_of_nonNeighbor hT hpivot haBox haT,
+      squareSievePivotSquareDivisor_of_nonNeighbor hT hother haBox haT⟩
+
 /-- Pivot-local residue witnesses supply the residue cover used by the budget lemma. -/
 theorem squareSieveResidueCover_of_pivotResidueCover
     {N r pivot : Nat} {T : Nat -> Prop} {classes : List (Nat × Nat)}
@@ -16452,6 +16628,39 @@ theorem squareSievePrime_ne_five_of_boundedOutsidePivot_seven
     p ≠ 5 :=
   squareSievePrime_ne_five_of_candidateOutside_seven
     ha (hB pivot hpivot).right hdiv
+
+/--
+For the active `7 mod 25` rectangle, two chosen outside pivots give square
+divisors against the target, and neither square index can be `5`.
+-/
+theorem squareSieveTwoPivotSquareDivisors_ne_five_of_nonNeighbor_seven
+    {N : Nat} {B T : Nat -> Prop}
+    (hB : BoundedOutsideSet N 7 B)
+    (hT : forall a : Nat, T a ->
+      CandidateCarrier 7 a /\
+        Not (SquarefreeNeighborInCandidate N 7 B a))
+    {pivot other a : Nat}
+    (hpivot : B pivot) (hother : B other)
+    (haBox : InBox N a) (haT : T a) :
+    (Exists fun p : Nat =>
+      2 <= p /\ p ≠ 5 /\ SquareDivides p (a * pivot + 1)) /\
+      (Exists fun q : Nat =>
+        2 <= q /\ q ≠ 5 /\ SquareDivides q (a * other + 1)) := by
+  rcases squareSieveTwoPivotSquareDivisors_of_nonNeighbor
+    hT hpivot hother haBox haT with
+    ⟨hPivot, hOther⟩
+  rcases hPivot with ⟨p, hp2, hdivP⟩
+  rcases hOther with ⟨q, hq2, hdivQ⟩
+  have haCand : CandidateCarrier 7 a := (hT a haT).left
+  exact
+    ⟨⟨p, hp2,
+        squareSievePrime_ne_five_of_boundedOutsidePivot_seven
+          hB hpivot haCand hdivP,
+        hdivP⟩,
+      ⟨q, hq2,
+        squareSievePrime_ne_five_of_boundedOutsidePivot_seven
+          hB hother haCand hdivQ,
+        hdivQ⟩⟩
 
 /-- Prime-indexed budgets are exactly the old residue budgets after mapping. -/
 theorem squareSieveResidueCoverBudget_primeResidueClasses
