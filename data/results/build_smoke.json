@@ -406,7 +406,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-08T06:26:21.373901+00:00",
+  "generated_at": "2026-06-08T07:04:28.256184+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -3167,6 +3167,9 @@
       "candidate_count": 4,
       "cover_budget": 3,
       "outside_size": 1,
+      "outside_witness": [
+        43
+      ],
       "pivot": 43,
       "rectangle_budget_holds": true,
       "residue_classes": [
@@ -3206,6 +3209,9 @@
       "candidate_count": 20,
       "cover_budget": 11,
       "outside_size": 1,
+      "outside_witness": [
+        493
+      ],
       "pivot": 493,
       "rectangle_budget_holds": true,
       "residue_classes": [
@@ -3310,6 +3316,56 @@
         457,
         482
       ]
+    },
+    {
+      "N": 100,
+      "base_residue": 7,
+      "candidate_count": 4,
+      "cover_budget": 2,
+      "outside_size": 1,
+      "outside_witness": [
+        41
+      ],
+      "pivot": 41,
+      "rectangle_budget_holds": true,
+      "residue_classes": [
+        [
+          100,
+          7
+        ]
+      ],
+      "target_witnesses": [
+        [
+          7,
+          2,
+          4,
+          100,
+          7
+        ]
+      ],
+      "targets": [
+        7
+      ]
+    },
+    {
+      "N": 500,
+      "base_residue": 7,
+      "candidate_count": 20,
+      "cover_budget": 0,
+      "outside_size": 6,
+      "outside_witness": [
+        41,
+        437,
+        43,
+        143,
+        243,
+        268
+      ],
+      "pivot": 41,
+      "rectangle_budget_holds": true,
+      "residue_classes": [],
+      "target_witnesses": [],
+      "targets": []
     }
   ]
 }

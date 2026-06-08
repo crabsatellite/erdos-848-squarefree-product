@@ -4,6 +4,7 @@ import argparse
 import json
 import sys
 from datetime import datetime, timezone
+from math import isqrt
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -39,7 +40,10 @@ from erdos848.residue_certificate import generate_residue_certificate
 from erdos848.square_sieve_rectangle import (
     certificate_to_jsonable as square_sieve_pivot_cover_to_json,
 )
-from erdos848.square_sieve_rectangle import square_sieve_pivot_cover_example
+from erdos848.square_sieve_rectangle import (
+    square_sieve_nonneighbor_pivot_cover_example,
+    square_sieve_pivot_cover_example,
+)
 
 
 def exact_848_check(N: int) -> dict:
@@ -68,6 +72,13 @@ def exact_848_check(N: int) -> dict:
 def write_json(path: Path, payload: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def has_square_divisor(n: int) -> bool:
+    for p in range(2, isqrt(n) + 1):
+        if n % (p * p) == 0:
+            return True
+    return False
 
 
 def run(mode: str) -> dict:
@@ -144,6 +155,17 @@ def run(mode: str) -> dict:
             )
         ),
     ]
+    square_sieve_pivot_covers.extend(
+        square_sieve_pivot_cover_to_json(
+            square_sieve_nonneighbor_pivot_cover_example(
+                item["N"],
+                item["observed_max_credit_deficit_witness"]
+                or item["worst_credit_witness"],
+            )
+        )
+        for item in active_credit
+        if item["observed_max_credit_deficit_witness"] or item["worst_credit_witness"]
+    )
 
     refs = {
         "327": {
@@ -318,6 +340,8 @@ def assert_gate(payload: dict) -> None:
         assert target_obstruction["target_value"] * source_value + 1 == square_prime * square_prime * quotient, target_obstruction
     for item in payload["square_sieve_pivot_covers"]:
         assert item["outside_size"] >= 1, item
+        assert len(item["outside_witness"]) == item["outside_size"], item
+        assert item["pivot"] in item["outside_witness"], item
         assert item["rectangle_budget_holds"], item
         assert item["outside_size"] + item["cover_budget"] <= item["candidate_count"], item
         assert item["cover_budget"] == sum(
@@ -325,8 +349,12 @@ def assert_gate(payload: dict) -> None:
             for modulus, _residue in item["residue_classes"]
         ), item
         classes = set(map(tuple, item["residue_classes"]))
-        assert classes, item
+        if item["targets"]:
+            assert classes, item
         assert len(item["target_witnesses"]) == len(item["targets"]), item
+        for target in item["targets"]:
+            for outside in item["outside_witness"]:
+                assert has_square_divisor(target * outside + 1), item
         for target, p, p2, modulus, residue in item["target_witnesses"]:
             assert target in item["targets"], item
             assert 1 <= target <= item["N"], item
@@ -687,6 +715,10 @@ def main() -> int:
     print(
         "  partitioned capacity checks: "
         f"{[(x['N'], x['worst_opposite_defect'], x['worst_middle_defect'], x['worst_new_middle_defect'], x['worst_incremental_defect'], x['worst_incremental_with_middle_defect']) for x in payload['partitioned_hall_checks']]}"
+    )
+    print(
+        "  square-sieve pivot covers: "
+        f"{[(x['N'], x['outside_size'], len(x['targets']), x['pivot'], len(x['residue_classes']), x['cover_budget'], x['candidate_count']) for x in payload['square_sieve_pivot_covers']]}"
     )
     print(
         "  active credit capacity checks: "

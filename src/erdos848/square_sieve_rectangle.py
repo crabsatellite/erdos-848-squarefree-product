@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from math import gcd, isqrt
 
-from .core import candidate_count
+from .core import candidate_count, squarefree_sieve
 
 
 @dataclass
@@ -11,6 +11,7 @@ class SquareSievePivotCoverExample:
     N: int
     base_residue: int
     pivot: int
+    outside_witness: list[int]
     targets: list[int]
     target_witnesses: list[tuple[int, int, int, int, int]]
     residue_classes: list[tuple[int, int]]
@@ -41,6 +42,7 @@ def square_sieve_pivot_cover_example(
     targets: list[int],
     base_residue: int = 7,
     outside_size: int = 1,
+    outside_witness: list[int] | None = None,
 ) -> SquareSievePivotCoverExample:
     """Build a concrete CRT residue-cover example for one Hall-defect pivot.
 
@@ -60,15 +62,16 @@ def square_sieve_pivot_cover_example(
         value = target * pivot + 1
         p = _least_square_divisor_prime(value)
         p2 = p * p
-        if gcd(pivot, p2) != 1:
-            raise ValueError((pivot, p2))
-        if gcd(25, p2) != 1:
-            raise ValueError((25, p2))
-        square_residue = (-pow(pivot, -1, p2)) % p2
-        if target % p2 != square_residue:
-            raise ValueError((target, pivot, p, square_residue))
         modulus = 25 * p2
-        residue = _crt_coprime(base_residue % 25, 25, square_residue, p2)
+        if gcd(25, p2) == 1:
+            if gcd(pivot, p2) != 1:
+                raise ValueError((pivot, p2))
+            square_residue = (-pow(pivot, -1, p2)) % p2
+            if target % p2 != square_residue:
+                raise ValueError((target, pivot, p, square_residue))
+            residue = _crt_coprime(base_residue % 25, 25, square_residue, p2)
+        else:
+            residue = target % modulus
         if target % modulus != residue:
             raise ValueError((target, modulus, residue))
         witnesses.append((target, p, p2, modulus, residue))
@@ -81,6 +84,7 @@ def square_sieve_pivot_cover_example(
         N=N,
         base_residue=base_residue,
         pivot=pivot,
+        outside_witness=outside_witness if outside_witness is not None else [pivot],
         targets=targets,
         target_witnesses=witnesses,
         residue_classes=residue_classes,
@@ -89,6 +93,56 @@ def square_sieve_pivot_cover_example(
         candidate_count=c_count,
         rectangle_budget_holds=outside_size + cover_budget <= c_count,
     )
+
+
+def square_sieve_nonneighbor_pivot_cover_example(
+    N: int,
+    outside_witness: list[int],
+    base_residue: int = 7,
+) -> SquareSievePivotCoverExample:
+    """Build a pivot cover for the true candidate non-neighbor set of `B`.
+
+    For a Hall-defect outside witness `B`, the target side is the set of
+    candidate vertices `a` such that every `a*b+1` with `b in B` is
+    non-squarefree.  Any pivot in `B` has a square divisor against every target;
+    this routine chooses the pivot with the smallest additive residue budget.
+    """
+
+    if not outside_witness:
+        raise ValueError("outside_witness must be nonempty")
+    if any(b < 1 or b > N for b in outside_witness):
+        raise ValueError((N, outside_witness))
+
+    sf = squarefree_sieve(N * N + 1)
+    candidates = [a for a in range(1, N + 1) if a % 25 == base_residue % 25]
+    targets = [
+        a
+        for a in candidates
+        if all(not sf[a * b + 1] for b in outside_witness)
+    ]
+
+    best: SquareSievePivotCoverExample | None = None
+    best_key: tuple[int, int, int, int] | None = None
+    for pivot in outside_witness:
+        cert = square_sieve_pivot_cover_example(
+            N,
+            pivot,
+            targets,
+            base_residue=base_residue,
+            outside_size=len(outside_witness),
+            outside_witness=list(outside_witness),
+        )
+        key = (
+            cert.outside_size + cert.cover_budget,
+            cert.cover_budget,
+            len(cert.residue_classes),
+            pivot,
+        )
+        if best is None or key < best_key:
+            best = cert
+            best_key = key
+    assert best is not None
+    return best
 
 
 def certificate_to_jsonable(cert: SquareSievePivotCoverExample) -> dict:
