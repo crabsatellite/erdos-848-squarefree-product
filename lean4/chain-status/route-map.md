@@ -12,7 +12,7 @@ This file is generated.  Future agents should update Lean files, audit rules, or
 ## Next Agent Brief
 
 Research attack target:
-- Primary proof gap: `gap:G-squarefree-ap-hall-expansion` -- Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`, and the active cut is now to cover `T` by explicit CRT residue classes, typically modulo `25 * p^2`, whose additive budget plus `|B|` is at most `|C_7|`.  Lean proves this residue-cover certificate implies the rectangle bound and now also exposes the pivot-local witness bridge from candidate non-neighbors to square-divisor residue covers.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.
+- Primary proof gap: `gap:G-squarefree-ap-hall-expansion` -- Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut only covers the nonempty case by choosing a pivot in `B` and explicit CRT residue classes, typically modulo `25 * p^2`, whose additive budget plus `|B|` is at most `|C_7|`.  Lean proves this nonempty pivot-cover certificate implies the rectangle bound and exposes the bridge from candidate non-neighbors to square-divisor residue covers.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.
 - Route owner(s): `chain:hall-expansion-compression`, `chain:main-full-close`
 - Current constructive attack route: `chain:hall-expansion-compression`.  Use it to replace the primary cut; do not route around the configured gap ledger.
 - Success criterion: `Erdos848.squarefreeAPHallCut` checks without `Erdos848.globalSquareSieveHallCut`, so `Erdos848.erdos848_main` has no non-kernel mathematical cuts.
@@ -59,7 +59,7 @@ Open mathematical cut ledger:
 |-----|--------|--------------|--------------|-------|
 | `gap:G-hall-expansion-global` | closed-local | `chain:main-full-close` | `Erdos848.hallExpansionCut`, `Erdos848.atMostCandidateBound_of_current_cuts`, `Erdos848.erdos848_main` | on-chain: 3 |
 | `gap:G-candidate-p5-sharpness` | closed-local | `chain:main-full-close`, `chain:residue-certificate` | `Erdos848.squareDivides_five_mul_add_one_of_candidate_seven`, `Erdos848.squareDivides_five_mul_add_one_of_candidate_eighteen`, `Erdos848.not_squareDivides_five_mul_add_one_of_candidate_seven_eighteen`, +6 more | on-chain: 1 |
-| `gap:G-squarefree-ap-hall-expansion` | open | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.globalSquareSieveHallCut`, `Erdos848.GlobalSquareSieveHallCertificate`, `Erdos848.SquareSieveResidueCoverCertificate`, +987 more | cut: 1 |
+| `gap:G-squarefree-ap-hall-expansion` | open | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.globalSquareSieveHallCut`, `Erdos848.GlobalSquareSieveHallCertificate`, `Erdos848.SquareSieveNonemptyPivotResidueCoverCertificate`, +990 more | cut: 1 |
 | `gap:G-rough-square-divisor-unpacking` | closed-local | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.roughSquareDivisor`, `Erdos848.RoughSquareDivisorCertificate` | on-chain: 1 |
 | `gap:D-finite-search-only` | dead | `chain:finite-search-only` | - | (none) |
 

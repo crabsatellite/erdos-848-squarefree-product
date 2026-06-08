@@ -15279,14 +15279,6 @@ def SquareSieveResidueCoverBoundForResidue (r : Nat) : Prop :=
 def SquareSieveResidueCoverCertificate : Prop :=
   SquareSieveResidueCoverBoundForResidue 7
 
-/-- Fixed-`b` off-diagonal square class: `p^2 | a*b+1` forces this residue. -/
-def SquareSieveOffDiagonalClassValid
-    (r b p residue : Nat) : Prop :=
-  forall a : Nat,
-    CandidateCarrier r a ->
-    SquareDivides p (a * b + 1) ->
-    SquareSieveResidueClass (25 * p * p) residue a
-
 /--
 Pivot-local witness interface for generated square-sieve covers.  A certificate
 may choose one outside pivot `b`; every covered target `a` must provide a square
@@ -15305,12 +15297,47 @@ def SquareSievePivotResidueCover
               SquareSieveResidueClass (25 * p * p) residue a
 
 /--
+Nonempty-pivot version of the square-sieve target.  Lean closes the empty
+outside-set branch locally; the remaining analytic certificate only has to
+choose a pivot from a nonempty Hall-defect outside set and provide residue
+witnesses for the target side.
+-/
+def SquareSieveNonemptyPivotResidueCoverBoundForResidue (r : Nat) : Prop :=
+  forall (N : Nat) (B T : Nat -> Prop)
+    (decB : DecidablePred B) (_decT : DecidablePred T),
+    BoundedOutsideSet N r B ->
+    NonSquarefreeClique B ->
+    (forall a : Nat, T a ->
+      CandidateCarrier r a /\
+        Not (SquarefreeNeighborInCandidate N r B a)) ->
+    1 <= @familySize N B decB ->
+    Exists fun pivot : Nat =>
+    Exists fun classes : List (Nat × Nat) =>
+      B pivot /\
+        (forall cls : Nat × Nat, List.Mem cls classes -> 0 < cls.fst) /\
+          SquareSievePivotResidueCover N r T pivot classes /\
+            @familySize N B decB +
+                SquareSieveResidueCoverBudget N classes <= candidateCount r N
+
+/-- Endpoint nonempty-pivot square-sieve target for the `7 mod 25` class. -/
+def SquareSieveNonemptyPivotResidueCoverCertificate : Prop :=
+  SquareSieveNonemptyPivotResidueCoverBoundForResidue 7
+
+/-- Fixed-`b` off-diagonal square class: `p^2 | a*b+1` forces this residue. -/
+def SquareSieveOffDiagonalClassValid
+    (r b p residue : Nat) : Prop :=
+  forall a : Nat,
+    CandidateCarrier r a ->
+    SquareDivides p (a * b + 1) ->
+    SquareSieveResidueClass (25 * p * p) residue a
+
+/--
 Replacement analytic target after the seven-offset local-matching route was
 disproved by CRT obstructions.  The active analytic target is now the
 square-sieve residue-cover bound that rules out Hall-defect rectangles directly.
 -/
 def GlobalSquareSieveHallCertificate : Prop :=
-  SquareSieveResidueCoverCertificate
+  SquareSieveNonemptyPivotResidueCoverCertificate
 
 /-- A two-residue AP/Hall certificate implies the endpoint one-residue certificate. -/
 theorem squarefreeAPHallCertificate_of_candidateResidues
@@ -15712,6 +15739,35 @@ theorem squareSieveResidueCover_of_pivotResidueCover
   exact ⟨haBox, ⟨(25 * p * p, residue), hmem, hclass⟩⟩
 
 /--
+The nonempty-pivot square-sieve target implies the rectangle bound.  The empty
+outside-set case is closed directly by the fact that `T` is boxed-counted only
+inside the candidate carrier.
+-/
+theorem squareSieveHallDefectRectangle_of_nonemptyPivotResidueCover
+    (hPivotCover : SquareSieveNonemptyPivotResidueCoverCertificate) :
+    SquareSieveHallDefectRectangleCertificate := by
+  intro N B T decB decT hB hClique hT
+  by_cases hNonempty : 1 <= @familySize N B decB
+  · rcases hPivotCover N B T decB decT hB hClique hT hNonempty with
+      ⟨_pivot, classes, _hpivot, hPos, hPivotResidueCover, hBudget⟩
+    have hResidueCover : SquareSieveResidueCover N T classes :=
+      squareSieveResidueCover_of_pivotResidueCover hPivotResidueCover
+    have hTle :
+        @familySize N T decT <= SquareSieveResidueCoverBudget N classes :=
+      familySize_le_squareSieveResidueCoverBudget
+        N T decT classes hPos hResidueCover
+    omega
+  · have hBzero : @familySize N B decB = 0 := by
+      omega
+    have hTle :
+        @familySize N T decT <= candidateCount 7 N := by
+      unfold candidateCount
+      apply familySize_le_of_boxed_imp N T (CandidateCarrier 7) decT inferInstance
+      intro a _haBox haT
+      exact (hT a haT).left
+    omega
+
+/--
 Residue-cover square-sieve data implies the previous Hall-defect rectangle
 bound consumed by the endpoint Hall assembly.
 -/
@@ -15732,7 +15788,7 @@ theorem squarefreeAPHallCertificate_of_globalSquareSieve
     (h : GlobalSquareSieveHallCertificate) :
     SquarefreeAPHallCertificate :=
   squarefreeAPHallCertificate_of_squareSieveHallDefectRectangle
-    (squareSieveHallDefectRectangle_of_residueCover h)
+    (squareSieveHallDefectRectangle_of_nonemptyPivotResidueCover h)
 
 /--
 Upper-free neighbor-form allocation supplies the previous scalar upper bound

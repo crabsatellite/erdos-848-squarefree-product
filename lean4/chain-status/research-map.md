@@ -199,11 +199,13 @@ Files:
 
 ### `G-squarefree-ap-hall-expansion` -- Squarefree AP Hall-neighborhood expansion
 
-Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`, and the active cut is now to cover `T` by explicit CRT residue classes, typically modulo `25 * p^2`, whose additive budget plus `|B|` is at most `|C_7|`.  Lean proves this residue-cover certificate implies the rectangle bound and now also exposes the pivot-local witness bridge from candidate non-neighbors to square-divisor residue covers.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.
+Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut only covers the nonempty case by choosing a pivot in `B` and explicit CRT residue classes, typically modulo `25 * p^2`, whose additive budget plus `|B|` is at most `|C_7|`.  Lean proves this nonempty pivot-cover certificate implies the rectangle bound and exposes the bridge from candidate non-neighbors to square-divisor residue covers.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.
 
 Declarations:
 - `Erdos848.globalSquareSieveHallCut`
 - `Erdos848.GlobalSquareSieveHallCertificate`
+- `Erdos848.SquareSieveNonemptyPivotResidueCoverCertificate`
+- `Erdos848.SquareSieveNonemptyPivotResidueCoverBoundForResidue`
 - `Erdos848.SquareSieveResidueCoverCertificate`
 - `Erdos848.SquareSieveResidueCoverBoundForResidue`
 - `Erdos848.SquareSieveResidueCover`
@@ -217,6 +219,7 @@ Declarations:
 - `Erdos848.squarefreeAPHallCertificate_of_globalSquareSieve`
 - `Erdos848.squarefreeAPHallCertificate_of_squareSieveHallDefectRectangle`
 - `Erdos848.squareSieveHallDefectRectangle_of_residueCover`
+- `Erdos848.squareSieveHallDefectRectangle_of_nonemptyPivotResidueCover`
 - `Erdos848.familySize_le_squareSieveResidueCoverBudget`
 - `Erdos848.squareSievePivotSquareDivisor_of_nonNeighbor`
 - `Erdos848.squareSieveResidueCover_of_pivotResidueCover`
