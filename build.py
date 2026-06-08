@@ -342,6 +342,7 @@ def assert_gate(payload: dict) -> None:
         assert item["outside_size"] >= 1, item
         assert len(item["outside_witness"]) == item["outside_size"], item
         assert item["pivot"] in item["outside_witness"], item
+        assert item["target_mode"] in {"manual_subset", "nonneighbor_exact"}, item
         assert item["rectangle_budget_holds"], item
         assert item["outside_size"] + item["cover_budget"] <= item["candidate_count"], item
         assert item["cover_budget"] == sum(
@@ -351,6 +352,17 @@ def assert_gate(payload: dict) -> None:
         classes = set(map(tuple, item["residue_classes"]))
         if item["targets"]:
             assert classes, item
+        if item["target_mode"] == "nonneighbor_exact":
+            exact_targets = [
+                a
+                for a in range(1, item["N"] + 1)
+                if a % 25 == item["base_residue"] % 25
+                and all(
+                    has_square_divisor(a * outside + 1)
+                    for outside in item["outside_witness"]
+                )
+            ]
+            assert exact_targets == item["targets"], item
         assert len(item["target_witnesses"]) == len(item["targets"]), item
         for target in item["targets"]:
             for outside in item["outside_witness"]:

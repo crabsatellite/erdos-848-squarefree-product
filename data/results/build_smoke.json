@@ -406,7 +406,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-08T07:04:28.256184+00:00",
+  "generated_at": "2026-06-08T07:08:15.437708+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -3182,6 +3182,7 @@
           32
         ]
       ],
+      "target_mode": "manual_subset",
       "target_witnesses": [
         [
           32,
@@ -3232,6 +3233,7 @@
           157
         ]
       ],
+      "target_mode": "manual_subset",
       "target_witnesses": [
         [
           7,
@@ -3334,6 +3336,7 @@
           7
         ]
       ],
+      "target_mode": "nonneighbor_exact",
       "target_witnesses": [
         [
           7,
@@ -3364,6 +3367,7 @@
       "pivot": 41,
       "rectangle_budget_holds": true,
       "residue_classes": [],
+      "target_mode": "nonneighbor_exact",
       "target_witnesses": [],
       "targets": []
     }

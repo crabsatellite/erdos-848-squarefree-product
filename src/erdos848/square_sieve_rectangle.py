@@ -12,6 +12,7 @@ class SquareSievePivotCoverExample:
     base_residue: int
     pivot: int
     outside_witness: list[int]
+    target_mode: str
     targets: list[int]
     target_witnesses: list[tuple[int, int, int, int, int]]
     residue_classes: list[tuple[int, int]]
@@ -43,6 +44,7 @@ def square_sieve_pivot_cover_example(
     base_residue: int = 7,
     outside_size: int = 1,
     outside_witness: list[int] | None = None,
+    target_mode: str = "manual_subset",
 ) -> SquareSievePivotCoverExample:
     """Build a concrete CRT residue-cover example for one Hall-defect pivot.
 
@@ -85,6 +87,7 @@ def square_sieve_pivot_cover_example(
         base_residue=base_residue,
         pivot=pivot,
         outside_witness=outside_witness if outside_witness is not None else [pivot],
+        target_mode=target_mode,
         targets=targets,
         target_witnesses=witnesses,
         residue_classes=residue_classes,
@@ -131,6 +134,7 @@ def square_sieve_nonneighbor_pivot_cover_example(
             base_residue=base_residue,
             outside_size=len(outside_witness),
             outside_witness=list(outside_witness),
+            target_mode="nonneighbor_exact",
         )
         key = (
             cert.outside_size + cert.cover_budget,
