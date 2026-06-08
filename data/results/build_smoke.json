@@ -406,7 +406,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-08T07:08:15.437708+00:00",
+  "generated_at": "2026-06-08T07:20:10.158460+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -3171,6 +3171,17 @@
         43
       ],
       "pivot": 43,
+      "prime_cover_budget": 3,
+      "prime_residue_classes": [
+        [
+          2,
+          57
+        ],
+        [
+          3,
+          32
+        ]
+      ],
       "rectangle_budget_holds": true,
       "residue_classes": [
         [
@@ -3214,6 +3225,25 @@
         493
       ],
       "pivot": 493,
+      "prime_cover_budget": 11,
+      "prime_residue_classes": [
+        [
+          2,
+          7
+        ],
+        [
+          3,
+          32
+        ],
+        [
+          7,
+          457
+        ],
+        [
+          13,
+          157
+        ]
+      ],
       "rectangle_budget_holds": true,
       "residue_classes": [
         [
@@ -3329,6 +3359,13 @@
         41
       ],
       "pivot": 41,
+      "prime_cover_budget": 2,
+      "prime_residue_classes": [
+        [
+          2,
+          7
+        ]
+      ],
       "rectangle_budget_holds": true,
       "residue_classes": [
         [
@@ -3365,6 +3402,8 @@
         268
       ],
       "pivot": 41,
+      "prime_cover_budget": 0,
+      "prime_residue_classes": [],
       "rectangle_budget_holds": true,
       "residue_classes": [],
       "target_mode": "nonneighbor_exact",

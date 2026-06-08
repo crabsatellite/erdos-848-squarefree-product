@@ -1706,7 +1706,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-08T07:10:07.546494+00:00",
+  "generated_at": "2026-06-08T07:22:32.068937+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -43222,6 +43222,17 @@
         43
       ],
       "pivot": 43,
+      "prime_cover_budget": 3,
+      "prime_residue_classes": [
+        [
+          2,
+          57
+        ],
+        [
+          3,
+          32
+        ]
+      ],
       "rectangle_budget_holds": true,
       "residue_classes": [
         [
@@ -43265,6 +43276,25 @@
         493
       ],
       "pivot": 493,
+      "prime_cover_budget": 11,
+      "prime_residue_classes": [
+        [
+          2,
+          7
+        ],
+        [
+          3,
+          32
+        ],
+        [
+          7,
+          457
+        ],
+        [
+          13,
+          157
+        ]
+      ],
       "rectangle_budget_holds": true,
       "residue_classes": [
         [
@@ -43380,6 +43410,13 @@
         41
       ],
       "pivot": 41,
+      "prime_cover_budget": 2,
+      "prime_residue_classes": [
+        [
+          2,
+          7
+        ]
+      ],
       "rectangle_budget_holds": true,
       "residue_classes": [
         [
@@ -43416,6 +43453,8 @@
         268
       ],
       "pivot": 41,
+      "prime_cover_budget": 0,
+      "prime_residue_classes": [],
       "rectangle_budget_holds": true,
       "residue_classes": [],
       "target_mode": "nonneighbor_exact",
@@ -43435,6 +43474,8 @@
         268
       ],
       "pivot": 41,
+      "prime_cover_budget": 0,
+      "prime_residue_classes": [],
       "rectangle_budget_holds": true,
       "residue_classes": [],
       "target_mode": "nonneighbor_exact",
@@ -43454,6 +43495,8 @@
         168
       ],
       "pivot": 41,
+      "prime_cover_budget": 0,
+      "prime_residue_classes": [],
       "rectangle_budget_holds": true,
       "residue_classes": [],
       "target_mode": "nonneighbor_exact",
@@ -43478,6 +43521,21 @@
         2993
       ],
       "pivot": 2993,
+      "prime_cover_budget": 29,
+      "prime_residue_classes": [
+        [
+          3,
+          7
+        ],
+        [
+          7,
+          257
+        ],
+        [
+          17,
+          1257
+        ]
+      ],
       "rectangle_budget_holds": true,
       "residue_classes": [
         [
@@ -43582,6 +43640,21 @@
         2993
       ],
       "pivot": 2993,
+      "prime_cover_budget": 33,
+      "prime_residue_classes": [
+        [
+          3,
+          7
+        ],
+        [
+          7,
+          257
+        ],
+        [
+          17,
+          1257
+        ]
+      ],
       "rectangle_budget_holds": true,
       "residue_classes": [
         [
@@ -43693,6 +43766,49 @@
         4831
       ],
       "pivot": 4831,
+      "prime_cover_budget": 169,
+      "prime_residue_classes": [
+        [
+          2,
+          57
+        ],
+        [
+          3,
+          32
+        ],
+        [
+          7,
+          1007
+        ],
+        [
+          11,
+          632
+        ],
+        [
+          13,
+          1282
+        ],
+        [
+          17,
+          1082
+        ],
+        [
+          19,
+          6532
+        ],
+        [
+          23,
+          8532
+        ],
+        [
+          31,
+          3807
+        ],
+        [
+          43,
+          5782
+        ]
+      ],
       "rectangle_budget_holds": true,
       "residue_classes": [
         [
@@ -44960,6 +45076,69 @@
         6031
       ],
       "pivot": 6031,
+      "prime_cover_budget": 334,
+      "prime_residue_classes": [
+        [
+          2,
+          57
+        ],
+        [
+          3,
+          107
+        ],
+        [
+          7,
+          257
+        ],
+        [
+          11,
+          1382
+        ],
+        [
+          13,
+          1132
+        ],
+        [
+          17,
+          1407
+        ],
+        [
+          19,
+          957
+        ],
+        [
+          23,
+          2907
+        ],
+        [
+          29,
+          17807
+        ],
+        [
+          41,
+          18132
+        ],
+        [
+          43,
+          15132
+        ],
+        [
+          47,
+          9707
+        ],
+        [
+          59,
+          11632
+        ],
+        [
+          61,
+          16432
+        ],
+        [
+          67,
+          15007
+        ]
+      ],
       "rectangle_budget_holds": true,
       "residue_classes": [
         [

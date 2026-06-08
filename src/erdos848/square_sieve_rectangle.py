@@ -15,7 +15,9 @@ class SquareSievePivotCoverExample:
     target_mode: str
     targets: list[int]
     target_witnesses: list[tuple[int, int, int, int, int]]
+    prime_residue_classes: list[tuple[int, int]]
     residue_classes: list[tuple[int, int]]
+    prime_cover_budget: int
     cover_budget: int
     outside_size: int
     candidate_count: int
@@ -56,6 +58,7 @@ def square_sieve_pivot_cover_example(
 
     witnesses: list[tuple[int, int, int, int, int]] = []
     classes: set[tuple[int, int]] = set()
+    prime_classes: set[tuple[int, int]] = set()
     for target in targets:
         if not (1 <= target <= N):
             raise ValueError((N, target))
@@ -78,8 +81,13 @@ def square_sieve_pivot_cover_example(
             raise ValueError((target, modulus, residue))
         witnesses.append((target, p, p2, modulus, residue))
         classes.add((modulus, residue))
+        prime_classes.add((p, residue))
 
+    prime_residue_classes = sorted(prime_classes)
     residue_classes = sorted(classes)
+    prime_cover_budget = sum(
+        N // (25 * p * p) + 1 for p, _residue in prime_residue_classes
+    )
     cover_budget = sum(N // modulus + 1 for modulus, _residue in residue_classes)
     c_count = candidate_count(N, base_residue)
     return SquareSievePivotCoverExample(
@@ -90,7 +98,9 @@ def square_sieve_pivot_cover_example(
         target_mode=target_mode,
         targets=targets,
         target_witnesses=witnesses,
+        prime_residue_classes=prime_residue_classes,
         residue_classes=residue_classes,
+        prime_cover_budget=prime_cover_budget,
         cover_budget=cover_budget,
         outside_size=outside_size,
         candidate_count=c_count,

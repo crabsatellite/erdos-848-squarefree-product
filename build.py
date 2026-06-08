@@ -345,11 +345,21 @@ def assert_gate(payload: dict) -> None:
         assert item["target_mode"] in {"manual_subset", "nonneighbor_exact"}, item
         assert item["rectangle_budget_holds"], item
         assert item["outside_size"] + item["cover_budget"] <= item["candidate_count"], item
+        assert item["prime_cover_budget"] == item["cover_budget"], item
+        assert item["prime_cover_budget"] == sum(
+            item["N"] // (25 * p * p) + 1
+            for p, _residue in item["prime_residue_classes"]
+        ), item
         assert item["cover_budget"] == sum(
             item["N"] // modulus + 1
             for modulus, _residue in item["residue_classes"]
         ), item
+        assert {
+            (25 * p * p, residue)
+            for p, residue in item["prime_residue_classes"]
+        } == set(map(tuple, item["residue_classes"])), item
         classes = set(map(tuple, item["residue_classes"]))
+        prime_classes = set(map(tuple, item["prime_residue_classes"]))
         if item["targets"]:
             assert classes, item
         if item["target_mode"] == "nonneighbor_exact":
@@ -374,6 +384,7 @@ def assert_gate(payload: dict) -> None:
             assert p2 == p * p, item
             assert modulus == 25 * p2, item
             assert (modulus, residue) in classes, item
+            assert (p, residue) in prime_classes, item
             assert target % modulus == residue, item
             assert (target * item["pivot"] + 1) % p2 == 0, item
     for item in payload["partitioned_hall_checks"]:
@@ -730,7 +741,7 @@ def main() -> int:
     )
     print(
         "  square-sieve pivot covers: "
-        f"{[(x['N'], x['outside_size'], len(x['targets']), x['pivot'], len(x['residue_classes']), x['cover_budget'], x['candidate_count']) for x in payload['square_sieve_pivot_covers']]}"
+        f"{[(x['N'], x['outside_size'], len(x['targets']), x['pivot'], len(x['prime_residue_classes']), x['prime_cover_budget'], x['candidate_count']) for x in payload['square_sieve_pivot_covers']]}"
     )
     print(
         "  active credit capacity checks: "
