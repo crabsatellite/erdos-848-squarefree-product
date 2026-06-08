@@ -1,5 +1,6 @@
 import Init.Data.List.Count
 import Erdos848.Infrastructure.ResidueCertificates
+import Erdos848.Infrastructure.RoughSquareDivisors
 
 /-!
 # Squarefree arithmetic-progression / Hall-neighborhood layer
@@ -15287,6 +15288,23 @@ def SquareSieveOffDiagonalClassValid
     SquareSieveResidueClass (25 * p * p) residue a
 
 /--
+Pivot-local witness interface for generated square-sieve covers.  A certificate
+may choose one outside pivot `b`; every covered target `a` must provide a square
+divisor `p^2 | a*b+1` and prove that the target lies in one listed CRT class.
+-/
+def SquareSievePivotResidueCover
+    (N r : Nat) (T : Nat -> Prop) (pivot : Nat)
+    (classes : List (Nat × Nat)) : Prop :=
+  forall a : Nat, InBox N a -> T a ->
+    CandidateCarrier r a /\
+      Exists fun p : Nat =>
+      Exists fun residue : Nat =>
+        2 <= p /\
+          SquareDivides p (a * pivot + 1) /\
+            List.Mem (25 * p * p, residue) classes /\
+              SquareSieveResidueClass (25 * p * p) residue a
+
+/--
 Replacement analytic target after the seven-offset local-matching route was
 disproved by CRT obstructions.  The active analytic target is now the
 square-sieve residue-cover bound that rules out Hall-defect rectangles directly.
@@ -15663,6 +15681,35 @@ theorem familySize_le_squareSieveResidueCoverBudget
       familySize_squareSieveCoveredByResidueClasses_le_budget
         N classes hPos decCovered
   omega
+
+/--
+If a candidate target is not a squarefree neighbor of a chosen outside pivot,
+then that target has an explicit square divisor against the pivot.
+-/
+theorem squareSievePivotSquareDivisor_of_nonNeighbor
+    {N r : Nat} {B T : Nat -> Prop}
+    (hT : forall a : Nat, T a ->
+      CandidateCarrier r a /\
+        Not (SquarefreeNeighborInCandidate N r B a))
+    {pivot a : Nat}
+    (hpivot : B pivot) (haBox : InBox N a) (haT : T a) :
+    Exists fun p : Nat => 2 <= p /\ SquareDivides p (a * pivot + 1) := by
+  have haInfo := hT a haT
+  have hNotEdge : Not (ForbiddenSquarefreeEdge a pivot) := by
+    intro hEdge
+    exact haInfo.right ⟨haBox, haInfo.left, ⟨pivot, hpivot, hEdge⟩⟩
+  unfold ForbiddenSquarefreeEdge at hNotEdge
+  exact roughSquareDivisor a pivot hNotEdge
+
+/-- Pivot-local residue witnesses supply the residue cover used by the budget lemma. -/
+theorem squareSieveResidueCover_of_pivotResidueCover
+    {N r pivot : Nat} {T : Nat -> Prop} {classes : List (Nat × Nat)}
+    (hPivot : SquareSievePivotResidueCover N r T pivot classes) :
+    SquareSieveResidueCover N T classes := by
+  intro a haBox haT
+  rcases (hPivot a haBox haT).right with
+    ⟨p, residue, _hp, _hdiv, hmem, hclass⟩
+  exact ⟨haBox, ⟨(25 * p * p, residue), hmem, hclass⟩⟩
 
 /--
 Residue-cover square-sieve data implies the previous Hall-defect rectangle

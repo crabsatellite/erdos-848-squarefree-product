@@ -77,7 +77,7 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`, and the active cut is now to cover `T` by explicit CRT residue classes, typically modulo `25 * p^2`, whose additive budget plus `|B|` is at most `|C_7|`.  Lean proves this residue-cover certificate implies the rectangle bound and then the Hall expansion.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows."
+        "Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`, and the active cut is now to cover `T` by explicit CRT residue classes, typically modulo `25 * p^2`, whose additive budget plus `|B|` is at most `|C_7|`.  Lean proves this residue-cover certificate implies the rectangle bound and now also exposes the pivot-local witness bridge from candidate non-neighbors to square-divisor residue covers.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
@@ -90,6 +90,7 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.SquareSieveResidueCoverBudget",
         "Erdos848.SquareSieveCoveredByResidueClasses",
         "Erdos848.SquareSieveOffDiagonalClassValid",
+        "Erdos848.SquareSievePivotResidueCover",
         "Erdos848.SquareSieveHallDefectRectangleCertificate",
         "Erdos848.SquareSieveHallDefectRectangleBoundForResidue",
         "Erdos848.CandidateNonNeighborOfOutsideSet",
@@ -97,6 +98,8 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.squarefreeAPHallCertificate_of_squareSieveHallDefectRectangle",
         "Erdos848.squareSieveHallDefectRectangle_of_residueCover",
         "Erdos848.familySize_le_squareSieveResidueCoverBudget",
+        "Erdos848.squareSievePivotSquareDivisor_of_nonNeighbor",
+        "Erdos848.squareSieveResidueCover_of_pivotResidueCover",
         "Erdos848.crtNoSevenOffsetSourceIndex_no_typed_edge",
         "Erdos848.crtNoSevenOffsetTargetIndex_no_typed_edge",
         "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCut",
