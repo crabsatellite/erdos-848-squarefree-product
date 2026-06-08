@@ -15307,6 +15307,19 @@ def SquareSievePrimeResidueCoverBudget (N : Nat) : List (Nat × Nat) -> Nat
       SquareSievePrimeResidueClassBudget N cls.fst +
         SquareSievePrimeResidueCoverBudget N rest
 
+/-- Prime-indexed square-sieve budgets are additive under list append. -/
+theorem squareSievePrimeResidueCoverBudget_append
+    (N : Nat) (left right : List (Nat × Nat)) :
+    SquareSievePrimeResidueCoverBudget N (left ++ right) =
+      SquareSievePrimeResidueCoverBudget N left +
+        SquareSievePrimeResidueCoverBudget N right := by
+  induction left with
+  | nil =>
+      simp [SquareSievePrimeResidueCoverBudget]
+  | cons cls rest ih =>
+      simp [SquareSievePrimeResidueCoverBudget, ih]
+      omega
+
 /-- The `p = 2` square-sieve class has the exact counted modulus `100`. -/
 theorem squareSievePrimeResidueClassBudget_two (N : Nat) :
     SquareSievePrimeResidueClassBudget N 2 = N / 100 + 1 := by
@@ -15323,6 +15336,15 @@ theorem squareSievePrimeResidueCoverBudget_two_three
     SquareSievePrimeResidueCoverBudget N [(2, r2), (3, r3)] =
       N / 100 + 1 + (N / 225 + 1) := by
   rfl
+
+/-- Exact additive budget for the `p = 2, 3` skeleton followed by a tail. -/
+theorem squareSievePrimeResidueCoverBudget_two_three_append
+    (N r2 r3 : Nat) (tail : List (Nat × Nat)) :
+    SquareSievePrimeResidueCoverBudget N ([(2, r2), (3, r3)] ++ tail) =
+      N / 100 + 1 + (N / 225 + 1) +
+        SquareSievePrimeResidueCoverBudget N tail := by
+  rw [squareSievePrimeResidueCoverBudget_append,
+    squareSievePrimeResidueCoverBudget_two_three]
 
 /-- Convert prime-indexed classes to the residue classes used by the count lemma. -/
 def SquareSievePrimeResidueClasses (classes : List (Nat × Nat)) :
@@ -15372,6 +15394,66 @@ def SquareSieveNonemptyPivotPrimeResidueCoverBoundForResidue (r : Nat) : Prop :=
 /-- Endpoint prime-indexed nonempty-pivot square-sieve target. -/
 def SquareSieveNonemptyPivotPrimeResidueCoverCertificate : Prop :=
   SquareSieveNonemptyPivotPrimeResidueCoverBoundForResidue 7
+
+/--
+Singleton pivot square-sieve target.  This is the sharp base case for the
+nonempty-pivot Hall cut: one outside pivot must pay for all candidate-side
+non-neighbors with a prime-indexed cover.
+-/
+def SquareSieveSingletonPivotPrimeResidueCoverBoundForResidue (r : Nat) : Prop :=
+  forall (N pivot : Nat) (T : Nat -> Prop)
+    (_decT : DecidablePred T),
+    InBox N pivot ->
+    CandidateOutside r pivot ->
+    Not (ForbiddenSquarefreeEdge pivot pivot) ->
+    (forall a : Nat, T a ->
+      CandidateCarrier r a /\ Not (ForbiddenSquarefreeEdge a pivot)) ->
+    Exists fun classes : List (Nat × Nat) =>
+      (forall cls : Nat × Nat, List.Mem cls classes ->
+        2 <= cls.fst /\ cls.fst ≠ 5) /\
+        SquareSievePivotPrimeResidueCover N r T pivot classes /\
+          1 + SquareSievePrimeResidueCoverBudget N classes <= candidateCount r N
+
+/-- Endpoint singleton pivot square-sieve target for the `7 mod 25` class. -/
+def SquareSieveSingletonPivotPrimeResidueCoverCertificate : Prop :=
+  SquareSieveSingletonPivotPrimeResidueCoverBoundForResidue 7
+
+/--
+Skeleton-tail singleton target.  The cover is split into explicit small-prime
+classes and a residual tail; proving this is the next direct attack on the
+singleton sharp case.
+-/
+def SquareSieveSingletonSkeletonTailBoundForResidue (r : Nat) : Prop :=
+  forall (N pivot : Nat) (T : Nat -> Prop)
+    (_decT : DecidablePred T),
+    InBox N pivot ->
+    CandidateOutside r pivot ->
+    Not (ForbiddenSquarefreeEdge pivot pivot) ->
+    (forall a : Nat, T a ->
+      CandidateCarrier r a /\ Not (ForbiddenSquarefreeEdge a pivot)) ->
+    Exists fun skeletonClasses : List (Nat × Nat) =>
+    Exists fun tailClasses : List (Nat × Nat) =>
+      (forall cls : Nat × Nat, List.Mem cls (skeletonClasses ++ tailClasses) ->
+        2 <= cls.fst /\ cls.fst ≠ 5) /\
+        SquareSievePivotPrimeResidueCover N r T pivot
+          (skeletonClasses ++ tailClasses) /\
+          1 +
+              SquareSievePrimeResidueCoverBudget N
+                (skeletonClasses ++ tailClasses) <=
+            candidateCount r N
+
+/-- Endpoint skeleton-tail singleton target for the `7 mod 25` class. -/
+def SquareSieveSingletonSkeletonTailCertificate : Prop :=
+  SquareSieveSingletonSkeletonTailBoundForResidue 7
+
+/-- A skeleton-tail singleton certificate supplies the one-list singleton target. -/
+theorem squareSieveSingletonPivotPrimeResidueCover_of_skeletonTail
+    (h : SquareSieveSingletonSkeletonTailBoundForResidue 7) :
+    SquareSieveSingletonPivotPrimeResidueCoverCertificate := by
+  intro N pivot T decT hbox houtside hself hT
+  rcases h N pivot T decT hbox houtside hself hT with
+    ⟨skeletonClasses, tailClasses, hPos, hCover, hBudget⟩
+  exact ⟨skeletonClasses ++ tailClasses, hPos, hCover, hBudget⟩
 
 /--
 Nonempty-pivot version of the square-sieve target.  Lean closes the empty

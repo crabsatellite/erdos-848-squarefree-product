@@ -114,6 +114,10 @@ def run(mode: str) -> dict:
         if not extended
         else [100, 500, 1000, 2000, 5000]
     )
+    square_sieve_skeleton_prime_profiles = [
+        (2, 3),
+        (2, 3, 7, 11, 13, 19, 23),
+    ]
 
     residue = residue_to_json(generate_residue_certificate([5, 13], run_prefix=extended))
     exact = [exact_848_check(N) for N in exact_Ns]
@@ -190,8 +194,11 @@ def run(mode: str) -> dict:
         if item["exact_worst"] and len(witness) >= 2
     ]
     square_sieve_residual_tail_scans = [
-        square_sieve_pivot_cover_to_json(square_sieve_residual_tail_scan(N))
+        square_sieve_pivot_cover_to_json(
+            square_sieve_residual_tail_scan(N, skeleton_primes=skeleton_primes)
+        )
         for N in singleton_scan_Ns
+        for skeleton_primes in square_sieve_skeleton_prime_profiles
     ]
 
     refs = {

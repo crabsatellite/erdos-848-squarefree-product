@@ -1706,7 +1706,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-08T10:05:37.828790+00:00",
+  "generated_at": "2026-06-08T10:19:55.255018+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -48067,6 +48067,42 @@
       "worst_total_target_count": 1
     },
     {
+      "N": 100,
+      "base_residue": 7,
+      "candidate_count": 4,
+      "checked_pivots": 8,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        19,
+        23
+      ],
+      "worst_pivot": 41,
+      "worst_skeleton_prime_class_count": 2,
+      "worst_skeleton_prime_classes": [
+        [
+          2,
+          7
+        ],
+        [
+          3,
+          7
+        ]
+      ],
+      "worst_skeleton_prime_cover_budget": 3,
+      "worst_skeleton_target_count": 1,
+      "worst_tail_prime_class_count": 0,
+      "worst_tail_prime_classes": [],
+      "worst_tail_prime_cover_budget": 0,
+      "worst_tail_slack": 0,
+      "worst_tail_target_count": 0,
+      "worst_total_prime_cover_budget": 3,
+      "worst_total_target_count": 1
+    },
+    {
       "N": 500,
       "base_residue": 7,
       "candidate_count": 20,
@@ -48105,6 +48141,54 @@
       "worst_tail_target_count": 2,
       "worst_total_prime_cover_budget": 11,
       "worst_total_target_count": 9
+    },
+    {
+      "N": 500,
+      "base_residue": 7,
+      "candidate_count": 20,
+      "checked_pivots": 32,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        19,
+        23
+      ],
+      "worst_pivot": 493,
+      "worst_skeleton_prime_class_count": 5,
+      "worst_skeleton_prime_classes": [
+        [
+          2,
+          7
+        ],
+        [
+          3,
+          32
+        ],
+        [
+          7,
+          457
+        ],
+        [
+          11,
+          457
+        ],
+        [
+          13,
+          157
+        ]
+      ],
+      "worst_skeleton_prime_cover_budget": 12,
+      "worst_skeleton_target_count": 10,
+      "worst_tail_prime_class_count": 0,
+      "worst_tail_prime_classes": [],
+      "worst_tail_prime_cover_budget": 0,
+      "worst_tail_slack": 7,
+      "worst_tail_target_count": 0,
+      "worst_total_prime_cover_budget": 12,
+      "worst_total_target_count": 10
     },
     {
       "N": 1000,
@@ -48151,6 +48235,59 @@
       "worst_tail_prime_cover_budget": 4,
       "worst_tail_slack": 19,
       "worst_tail_target_count": 4,
+      "worst_total_prime_cover_budget": 20,
+      "worst_total_target_count": 18
+    },
+    {
+      "N": 1000,
+      "base_residue": 7,
+      "candidate_count": 40,
+      "checked_pivots": 65,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        19,
+        23
+      ],
+      "worst_pivot": 593,
+      "worst_skeleton_prime_class_count": 5,
+      "worst_skeleton_prime_classes": [
+        [
+          2,
+          7
+        ],
+        [
+          3,
+          82
+        ],
+        [
+          7,
+          382
+        ],
+        [
+          11,
+          232
+        ],
+        [
+          13,
+          957
+        ]
+      ],
+      "worst_skeleton_prime_cover_budget": 19,
+      "worst_skeleton_target_count": 17,
+      "worst_tail_prime_class_count": 1,
+      "worst_tail_prime_classes": [
+        [
+          31,
+          457
+        ]
+      ],
+      "worst_tail_prime_cover_budget": 1,
+      "worst_tail_slack": 19,
+      "worst_tail_target_count": 1,
       "worst_total_prime_cover_budget": 20,
       "worst_total_target_count": 18
     },
@@ -48207,6 +48344,67 @@
       "worst_tail_prime_cover_budget": 7,
       "worst_tail_slack": 42,
       "worst_tail_target_count": 6,
+      "worst_total_prime_cover_budget": 37,
+      "worst_total_target_count": 33
+    },
+    {
+      "N": 2000,
+      "base_residue": 7,
+      "candidate_count": 80,
+      "checked_pivots": 128,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        19,
+        23
+      ],
+      "worst_pivot": 1543,
+      "worst_skeleton_prime_class_count": 6,
+      "worst_skeleton_prime_classes": [
+        [
+          2,
+          57
+        ],
+        [
+          3,
+          182
+        ],
+        [
+          7,
+          982
+        ],
+        [
+          11,
+          1932
+        ],
+        [
+          13,
+          1882
+        ],
+        [
+          19,
+          1382
+        ]
+      ],
+      "worst_skeleton_prime_cover_budget": 35,
+      "worst_skeleton_target_count": 31,
+      "worst_tail_prime_class_count": 2,
+      "worst_tail_prime_classes": [
+        [
+          31,
+          1032
+        ],
+        [
+          67,
+          1507
+        ]
+      ],
+      "worst_tail_prime_cover_budget": 2,
+      "worst_tail_slack": 42,
+      "worst_tail_target_count": 2,
       "worst_total_prime_cover_budget": 37,
       "worst_total_target_count": 33
     },
@@ -48271,6 +48469,75 @@
       "worst_tail_prime_cover_budget": 14,
       "worst_tail_slack": 111,
       "worst_tail_target_count": 10,
+      "worst_total_prime_cover_budget": 88,
+      "worst_total_target_count": 76
+    },
+    {
+      "N": 5000,
+      "base_residue": 7,
+      "candidate_count": 200,
+      "checked_pivots": 325,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        19,
+        23
+      ],
+      "worst_pivot": 3323,
+      "worst_skeleton_prime_class_count": 7,
+      "worst_skeleton_prime_classes": [
+        [
+          2,
+          57
+        ],
+        [
+          3,
+          157
+        ],
+        [
+          7,
+          207
+        ],
+        [
+          11,
+          2232
+        ],
+        [
+          13,
+          1607
+        ],
+        [
+          19,
+          4532
+        ],
+        [
+          23,
+          4832
+        ]
+      ],
+      "worst_skeleton_prime_cover_budget": 85,
+      "worst_skeleton_target_count": 73,
+      "worst_tail_prime_class_count": 3,
+      "worst_tail_prime_classes": [
+        [
+          29,
+          2482
+        ],
+        [
+          61,
+          3132
+        ],
+        [
+          461,
+          1407
+        ]
+      ],
+      "worst_tail_prime_cover_budget": 3,
+      "worst_tail_slack": 111,
+      "worst_tail_target_count": 3,
       "worst_total_prime_cover_budget": 88,
       "worst_total_target_count": 76
     }
