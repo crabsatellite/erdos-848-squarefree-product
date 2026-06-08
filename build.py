@@ -25,6 +25,7 @@ from erdos848.opposite_matching_certificate import (
     opposite_band_matching_sparse_summary,
     opposite_matching_certificate,
     seven_offset_crt_obstruction,
+    seven_offset_target_crt_obstruction,
     crt_obstruction_to_jsonable,
     sparse_summary_to_jsonable as opposite_sparse_summary_to_json,
 )
@@ -124,6 +125,9 @@ def run(mode: str) -> dict:
         for N in large_sparse_matching_Ns
     ]
     seven_offset_crt = crt_obstruction_to_jsonable(seven_offset_crt_obstruction())
+    seven_offset_target_crt = crt_obstruction_to_jsonable(
+        seven_offset_target_crt_obstruction()
+    )
 
     refs = {
         "327": {
@@ -149,6 +153,7 @@ def run(mode: str) -> dict:
         "opposite_band_matching_checks": opposite_band_matching,
         "opposite_band_matching_large_summaries": opposite_band_matching_large_summaries,
         "seven_offset_crt_obstruction": seven_offset_crt,
+        "seven_offset_target_crt_obstruction": seven_offset_target_crt,
         "partitioned_hall_checks": partitioned,
         "active_credit_checks": active_credit,
         "reference_problem_templates": refs,
@@ -283,6 +288,17 @@ def assert_gate(payload: dict) -> None:
         assert target_value == 25 * target_index + 7, obstruction
         assert 1 <= target_value <= obstruction["endpoint_N"], obstruction
         assert target_value * obstruction["source_value"] + 1 == square_prime * square_prime * quotient, obstruction
+    target_obstruction = payload["seven_offset_target_crt_obstruction"]
+    assert target_obstruction["target_index"] == 10_616_429_230_084, target_obstruction
+    assert target_obstruction["target_value"] == 25 * target_obstruction["target_index"] + 7, target_obstruction
+    assert target_obstruction["endpoint_N"] == 25 * (target_obstruction["target_index"] + 3) + 18, target_obstruction
+    assert len(target_obstruction["shift_square_witnesses"]) == 7, target_obstruction
+    assert sorted(w[0] for w in target_obstruction["shift_square_witnesses"]) == list(range(-3, 4)), target_obstruction
+    for shift, source_index, source_value, square_prime, quotient in target_obstruction["shift_square_witnesses"]:
+        assert source_index == target_obstruction["target_index"] + shift, target_obstruction
+        assert source_value == 25 * source_index + 18, target_obstruction
+        assert 1 <= source_value <= target_obstruction["endpoint_N"], target_obstruction
+        assert target_obstruction["target_value"] * source_value + 1 == square_prime * square_prime * quotient, target_obstruction
     for item in payload["partitioned_hall_checks"]:
         assert item["worst_opposite_defect"] >= 0, item
         assert item["worst_middle_defect"] >= 0, item
@@ -625,6 +641,11 @@ def main() -> int:
     print(
         "  seven-offset CRT obstruction: "
         f"{(obstruction['source_index'], obstruction['source_value'], obstruction['endpoint_N'], [(x[0], x[3]) for x in obstruction['shift_square_witnesses']])}"
+    )
+    target_obstruction = payload["seven_offset_target_crt_obstruction"]
+    print(
+        "  seven-offset target CRT obstruction: "
+        f"{(target_obstruction['target_index'], target_obstruction['target_value'], target_obstruction['endpoint_N'], [(x[0], x[3]) for x in target_obstruction['shift_square_witnesses']])}"
     )
     print(
         "  partitioned capacity checks: "

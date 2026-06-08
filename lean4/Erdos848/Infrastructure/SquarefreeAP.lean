@@ -316,6 +316,10 @@ def OppositeFiniteOffsetCodeShiftTargetIndex
 def EighteenSourceFromIndex (k : Nat) : Nat :=
   25 * k + 18
 
+/-- The `7 mod 25` target represented by its residue-class index. -/
+def SevenTargetFromIndex (k : Nat) : Nat :=
+  25 * k + 7
+
 /-- Number of boxed `18 mod 25` source indices in `{1, ..., N}`. -/
 def OppositeFiniteOffsetSourceCount (N : Nat) : Nat :=
   if N < 18 then 0 else (N - 18) / 25 + 1
@@ -2108,6 +2112,22 @@ def OppositeFiniteOffsetSourceIndexTargetValue
     (k : Nat) (code : OppositeFiniteOffsetCode) : Nat :=
   25 * OppositeFiniteOffsetSourceIndexShiftTarget k code + 7
 
+/-- Source index expressed directly from the target-class index. -/
+def OppositeFiniteOffsetTargetIndexShiftSource
+    (k : Nat) : OppositeFiniteOffsetCode -> Nat
+  | OppositeFiniteOffsetCode.neg86 => k - 3
+  | OppositeFiniteOffsetCode.neg61 => k - 2
+  | OppositeFiniteOffsetCode.neg36 => k - 1
+  | OppositeFiniteOffsetCode.neg11 => k
+  | OppositeFiniteOffsetCode.pos14 => k + 1
+  | OppositeFiniteOffsetCode.pos39 => k + 2
+  | OppositeFiniteOffsetCode.pos64 => k + 3
+
+/-- Source value expressed from a target index and a seven-offset source code. -/
+def OppositeFiniteOffsetTargetIndexSourceValue
+    (k : Nat) (code : OppositeFiniteOffsetCode) : Nat :=
+  25 * OppositeFiniteOffsetTargetIndexShiftSource k code + 18
+
 /--
 CRT obstruction to the retired seven-offset local-matching route.
 
@@ -2153,6 +2173,51 @@ theorem crtNoSevenOffsetSourceIndex_no_typed_edge
       OppositeFiniteOffsetSourceIndexShiftTarget, EighteenSourceFromIndex] at hsf
     exact hsf 7 (by omega)
       (Exists.intro 4522049534370035298 (by omega))
+
+/--
+CRT obstruction to reversing the retired seven-offset window direction.
+
+For the target index `10616429230084`, every typed source offset in the
+band `d in {-3, ..., 3}` is killed by an explicit square divisor of
+`target * source + 1`.  Thus the failed finite-window idea cannot be salvaged
+by covering each target from a nearby opposite source.
+-/
+theorem crtNoSevenOffsetTargetIndex_no_typed_edge
+    (code : OppositeFiniteOffsetCode) :
+    Not (ForbiddenSquarefreeEdge
+      (SevenTargetFromIndex 10616429230084)
+      (OppositeFiniteOffsetTargetIndexSourceValue 10616429230084 code)) := by
+  intro hsf
+  unfold ForbiddenSquarefreeEdge at hsf
+  cases code
+  · simp [SevenTargetFromIndex, OppositeFiniteOffsetTargetIndexSourceValue,
+      OppositeFiniteOffsetTargetIndexShiftSource] at hsf
+    exact hsf 7 (by omega)
+      (Exists.intro 1437609306088784695818710298 (by omega))
+  · simp [SevenTargetFromIndex, OppositeFiniteOffsetTargetIndexSourceValue,
+      OppositeFiniteOffsetTargetIndexShiftSource] at hsf
+    exact hsf 13 (by omega)
+      (Exists.intro 416821633126373286173879333 (by omega))
+  · simp [SevenTargetFromIndex, OppositeFiniteOffsetTargetIndexSourceValue,
+      OppositeFiniteOffsetTargetIndexShiftSource] at hsf
+    exact hsf 2 (by omega)
+      (Exists.intro 17610713999590930157913602488 (by omega))
+  · simp [SevenTargetFromIndex, OppositeFiniteOffsetTargetIndexSourceValue,
+      OppositeFiniteOffsetTargetIndexShiftSource] at hsf
+    exact hsf 3 (by omega)
+      (Exists.intro 7826983999818928433324801403 (by omega))
+  · simp [SevenTargetFromIndex, OppositeFiniteOffsetTargetIndexSourceValue,
+      OppositeFiniteOffsetTargetIndexShiftSource] at hsf
+    exact hsf 11 (by omega)
+      (Exists.intro 582172363622950340232991862 (by omega))
+  · simp [SevenTargetFromIndex, OppositeFiniteOffsetTargetIndexSourceValue,
+      OppositeFiniteOffsetTargetIndexShiftSource] at hsf
+    exact hsf 29 (by omega)
+      (Exists.intro 83760827584284930364400497 (by omega))
+  · simp [SevenTargetFromIndex, OppositeFiniteOffsetTargetIndexSourceValue,
+      OppositeFiniteOffsetTargetIndexShiftSource] at hsf
+    exact hsf 19 (by omega)
+      (Exists.intro 195132565092493799736093132 (by omega))
 
 /--
 Default period-six source-index template found by the middle-compression search.

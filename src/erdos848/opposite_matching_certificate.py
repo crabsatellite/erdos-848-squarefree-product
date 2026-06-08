@@ -93,6 +93,14 @@ class SevenOffsetCRTObstruction:
     shift_square_witnesses: list[tuple[int, int, int, int, int]]
 
 
+@dataclass
+class SevenOffsetTargetCRTObstruction:
+    target_index: int
+    target_value: int
+    endpoint_N: int
+    shift_square_witnesses: list[tuple[int, int, int, int, int]]
+
+
 def seven_offset_crt_obstruction() -> SevenOffsetCRTObstruction:
     """CRT obstruction to the retired seven-offset local matching route.
 
@@ -123,6 +131,41 @@ def seven_offset_crt_obstruction() -> SevenOffsetCRTObstruction:
     return SevenOffsetCRTObstruction(
         source_index=source_index,
         source_value=source_value,
+        endpoint_N=endpoint_N,
+        shift_square_witnesses=shift_square_witnesses,
+    )
+
+
+def seven_offset_target_crt_obstruction() -> SevenOffsetTargetCRTObstruction:
+    """CRT obstruction to reversing the seven-offset window direction.
+
+    Each witness is `(shift, source_index, source_value, square_prime, quotient)`,
+    certifying `target_value * source_value + 1 = square_prime^2 * quotient`.
+    """
+
+    target_index = 10_616_429_230_084
+    target_value = 25 * target_index + 7
+    witnesses = [
+        (-3, 7, 1_437_609_306_088_784_695_818_710_298),
+        (-2, 13, 416_821_633_126_373_286_173_879_333),
+        (-1, 2, 17_610_713_999_590_930_157_913_602_488),
+        (0, 3, 7_826_983_999_818_928_433_324_801_403),
+        (1, 11, 582_172_363_622_950_340_232_991_862),
+        (2, 29, 83_760_827_584_284_930_364_400_497),
+        (3, 19, 195_132_565_092_493_799_736_093_132),
+    ]
+    shift_square_witnesses = []
+    for shift, prime, quotient in witnesses:
+        source_index = target_index + shift
+        source_value = 25 * source_index + 18
+        assert target_value * source_value + 1 == prime * prime * quotient
+        shift_square_witnesses.append(
+            (shift, source_index, source_value, prime, quotient)
+        )
+    endpoint_N = 25 * (target_index + 3) + 18
+    return SevenOffsetTargetCRTObstruction(
+        target_index=target_index,
+        target_value=target_value,
         endpoint_N=endpoint_N,
         shift_square_witnesses=shift_square_witnesses,
     )
@@ -520,5 +563,7 @@ def sparse_summary_to_jsonable(cert: OppositeBandMatchingSparseSummary) -> dict:
     return asdict(cert)
 
 
-def crt_obstruction_to_jsonable(cert: SevenOffsetCRTObstruction) -> dict:
+def crt_obstruction_to_jsonable(
+    cert: SevenOffsetCRTObstruction | SevenOffsetTargetCRTObstruction,
+) -> dict:
     return asdict(cert)

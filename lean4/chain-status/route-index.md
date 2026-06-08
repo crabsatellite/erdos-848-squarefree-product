@@ -11,7 +11,7 @@ This file is generated.  Future agents should update Lean files, audit rules, or
 ## Next Agent Brief
 
 Research attack target:
-- Primary proof gap: `gap:G-squarefree-ap-hall-expansion` -- Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve Hall argument.  The former seven-offset local repair-matching route is retired: Lean records a CRT obstruction at source index `595423111`, where every typed offset in `{-3, ..., 3}` is killed by an explicit square divisor.  The active cut is therefore the global Hall certificate itself, not a bounded-offset local matching variant.
+- Primary proof gap: `gap:G-squarefree-ap-hall-expansion` -- Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve Hall argument.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.  The active cut is therefore the global Hall certificate itself, not a bounded-offset local matching or coverage variant.
 - Route owner(s): `chain:hall-expansion-compression`, `chain:main-full-close`
 - Current constructive attack route: `chain:hall-expansion-compression`.  Use it to replace the primary cut; do not route around the configured gap ledger.
 - Success criterion: `Erdos848.squarefreeAPHallCut` checks without `Erdos848.globalSquareSieveHallCut`, so `Erdos848.erdos848_main` has no non-kernel mathematical cuts.
@@ -24,7 +24,7 @@ Kernel cut ledger.  These are audit-visible unresolved constants on the endpoint
 Readiness verdict: **actionable**.  The main cut and replacement route are clear.  Start from the priority gap cards below.
 
 Current replacement plan:
-- Use `crtNoSevenOffsetSourceIndex_no_typed_edge` as the no-return certificate for the retired local finite-offset route.
+- Use `crtNoSevenOffsetSourceIndex_no_typed_edge` and `crtNoSevenOffsetTargetIndex_no_typed_edge` as no-return certificates for bounded seven-offset source or target local finite-window routes.
 - Prove the endpoint Hall expansion directly: any Hall-defect outside set would force too many pairs `(x,y)` with `x*y+1` divisible by some square.
 - Split the square-sieve cover into small-prime congruence classes and large-prime counting tails, then derive `SquarefreeAPHallCertificate` without finite-offset local matching.
 - Final success criterion: `Erdos848.squarefreeAPHallCut` checks without `Erdos848.globalSquareSieveHallCut`, so `Erdos848.erdos848_main` has no non-kernel mathematical cuts.
@@ -58,7 +58,7 @@ Open mathematical cut ledger:
 |-----|--------|--------------|--------------|-------|
 | `gap:G-hall-expansion-global` | closed-local | `chain:main-full-close` | `Erdos848.hallExpansionCut`, `Erdos848.atMostCandidateBound_of_current_cuts`, `Erdos848.erdos848_main` | on-chain: 3 |
 | `gap:G-candidate-p5-sharpness` | closed-local | `chain:main-full-close`, `chain:residue-certificate` | `Erdos848.squareDivides_five_mul_add_one_of_candidate_seven`, `Erdos848.squareDivides_five_mul_add_one_of_candidate_eighteen`, `Erdos848.not_squareDivides_five_mul_add_one_of_candidate_seven_eighteen`, +6 more | on-chain: 1 |
-| `gap:G-squarefree-ap-hall-expansion` | open | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.globalSquareSieveHallCut`, `Erdos848.GlobalSquareSieveHallCertificate`, `Erdos848.squarefreeAPHallCertificate_of_globalSquareSieve`, +971 more | cut: 1 |
+| `gap:G-squarefree-ap-hall-expansion` | open | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.globalSquareSieveHallCut`, `Erdos848.GlobalSquareSieveHallCertificate`, `Erdos848.squarefreeAPHallCertificate_of_globalSquareSieve`, +972 more | cut: 1 |
 | `gap:G-rough-square-divisor-unpacking` | closed-local | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.roughSquareDivisor`, `Erdos848.RoughSquareDivisorCertificate` | on-chain: 1 |
 | `gap:D-finite-search-only` | dead | `chain:finite-search-only` | - | (none) |
 
