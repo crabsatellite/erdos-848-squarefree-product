@@ -77,7 +77,7 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut only covers the nonempty case by choosing a pivot in `B` and explicit prime-indexed CRT residue classes `(p, residue)` counted with budget `N/(25*p^2)+1`, with `p = 5` kernel-excluded for outside pivots.  Lean maps these prime classes to the older `25*p^2` residue cover, proves the budgets match, records fixed-prime residue uniqueness, exposes exact `p=2,3` and medium `{2,3,7,11,13,19,23}` skeleton budgets, and now has dedicated singleton skeleton-tail and medium-skeleton-tail targets with bridges back to the one-list singleton prime-cover target.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows."
+        "Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut only covers the nonempty case by choosing a pivot in `B` and explicit prime-indexed CRT residue classes `(p, residue)` counted with budget `N/(25*p^2)+1`, with `p = 5` kernel-excluded for outside pivots.  Lean maps these prime classes to the older `25*p^2` residue cover, proves the budgets match, records fixed-prime residue uniqueness, exposes exact `p=2,3` and medium `{2,3,7,11,13,19,23}` skeleton budgets, and now has dedicated singleton skeleton-tail, medium-skeleton-tail, and quotient-tail targets with bridges back to the one-list singleton prime-cover target.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
@@ -87,6 +87,8 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.SquareSieveNonemptyPivotPrimeResidueCoverCertificate",
         "Erdos848.SquareSieveNonemptyPivotPrimeResidueCoverBoundForResidue",
         "Erdos848.SquareSievePivotPrimeResidueCover",
+        "Erdos848.SquareSievePivotPrimeResidueQuotientCover",
+        "Erdos848.squareSievePivotPrimeResidueCover_of_quotientCover",
         "Erdos848.SquareSievePrimeResidueCoverBudget",
         "Erdos848.squareSievePrimeResidueCoverBudget_append",
         "Erdos848.SquareSievePrimeResidueClassBudget",
@@ -104,6 +106,9 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.SquareSieveSingletonSkeletonTailBoundForResidue",
         "Erdos848.SquareSieveSingletonMediumSkeletonTailCertificate",
         "Erdos848.SquareSieveSingletonMediumSkeletonTailBoundForResidue",
+        "Erdos848.SquareSieveSingletonMediumSkeletonQuotientTailCertificate",
+        "Erdos848.SquareSieveSingletonMediumSkeletonQuotientTailBoundForResidue",
+        "Erdos848.squareSieveSingletonMediumSkeletonTail_of_quotientTail",
         "Erdos848.squareSieveSingletonSkeletonTail_of_mediumSkeletonTail",
         "Erdos848.squareSieveSingletonPivotPrimeResidueCover_of_skeletonTail",
         "Erdos848.SquareSieveNonemptyPivotResidueCoverCertificate",

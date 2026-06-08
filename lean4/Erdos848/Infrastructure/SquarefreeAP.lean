@@ -15407,6 +15407,35 @@ def SquareSievePivotPrimeResidueCover
                 SquareSieveResidueClass (25 * p * p) residue a
 
 /--
+Prime-indexed pivot cover with the square quotient made explicit:
+`a*pivot+1 = p^2*q`.  This is the shape needed for the next tail compression
+after the medium small-prime skeleton.
+-/
+def SquareSievePivotPrimeResidueQuotientCover
+    (N r : Nat) (T : Nat -> Prop) (pivot : Nat)
+    (classes : List (Nat × Nat)) : Prop :=
+  forall a : Nat, InBox N a -> T a ->
+    CandidateCarrier r a /\
+      Exists fun p : Nat =>
+      Exists fun residue : Nat =>
+      Exists fun q : Nat =>
+        2 <= p /\
+          p ≠ 5 /\
+            a * pivot + 1 = p * p * q /\
+              List.Mem (p, residue) classes /\
+                SquareSieveResidueClass (25 * p * p) residue a
+
+/-- Forgetting quotient witnesses gives the existing prime residue cover. -/
+theorem squareSievePivotPrimeResidueCover_of_quotientCover
+    {N r pivot : Nat} {T : Nat -> Prop} {classes : List (Nat × Nat)}
+    (h : SquareSievePivotPrimeResidueQuotientCover N r T pivot classes) :
+    SquareSievePivotPrimeResidueCover N r T pivot classes := by
+  intro a hbox hT
+  rcases h a hbox hT with
+    ⟨ha, p, residue, q, hp, hp5, hquotient, hmem, hclass⟩
+  exact ⟨ha, p, residue, hp, hp5, ⟨q, hquotient⟩, hmem, hclass⟩
+
+/--
 Prime-indexed nonempty-pivot square-sieve target.  The certificate lists square
 primes rather than arbitrary moduli.
 -/
@@ -15520,6 +15549,67 @@ def SquareSieveSingletonMediumSkeletonTailBoundForResidue (r : Nat) : Prop :=
 /-- Endpoint medium-skeleton singleton target for the `7 mod 25` class. -/
 def SquareSieveSingletonMediumSkeletonTailCertificate : Prop :=
   SquareSieveSingletonMediumSkeletonTailBoundForResidue 7
+
+/--
+Quotient-tail medium-skeleton singleton target.  The fixed skeleton removes
+`2,3,7,11,13,19,23`; every remaining tail class is forced to have `p >= 29`,
+and each covered target carries an explicit quotient witness.
+-/
+def SquareSieveSingletonMediumSkeletonQuotientTailBoundForResidue
+    (r : Nat) : Prop :=
+  forall (N pivot : Nat) (T : Nat -> Prop)
+    (_decT : DecidablePred T),
+    InBox N pivot ->
+    CandidateOutside r pivot ->
+    Not (ForbiddenSquarefreeEdge pivot pivot) ->
+    (forall a : Nat, T a ->
+      CandidateCarrier r a /\ Not (ForbiddenSquarefreeEdge a pivot)) ->
+    Exists fun r2 : Nat =>
+    Exists fun r3 : Nat =>
+    Exists fun r7 : Nat =>
+    Exists fun r11 : Nat =>
+    Exists fun r13 : Nat =>
+    Exists fun r19 : Nat =>
+    Exists fun r23 : Nat =>
+    Exists fun tailClasses : List (Nat × Nat) =>
+      (forall cls : Nat × Nat, List.Mem cls tailClasses -> 29 <= cls.fst) /\
+        (forall cls : Nat × Nat,
+          List.Mem cls
+            (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23 ++
+              tailClasses) ->
+          2 <= cls.fst /\ cls.fst ≠ 5) /\
+          SquareSievePivotPrimeResidueQuotientCover N r T pivot
+            (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23 ++
+              tailClasses) /\
+            1 +
+                SquareSievePrimeResidueCoverBudget N
+                  (SquareSieveMediumSkeletonPrimeClasses
+                    r2 r3 r7 r11 r13 r19 r23 ++ tailClasses) <=
+              candidateCount r N
+
+/--
+Endpoint quotient-tail medium-skeleton singleton target for the `7 mod 25`
+class.
+-/
+def SquareSieveSingletonMediumSkeletonQuotientTailCertificate : Prop :=
+  SquareSieveSingletonMediumSkeletonQuotientTailBoundForResidue 7
+
+/--
+A quotient-tail medium-skeleton certificate supplies the medium-skeleton
+singleton target by forgetting quotient witnesses and the tail lower-bound tag.
+-/
+theorem squareSieveSingletonMediumSkeletonTail_of_quotientTail
+    (h : SquareSieveSingletonMediumSkeletonQuotientTailBoundForResidue 7) :
+    SquareSieveSingletonMediumSkeletonTailCertificate := by
+  intro N pivot T decT hbox houtside hself hT
+  rcases h N pivot T decT hbox houtside hself hT with
+    ⟨r2, r3, r7, r11, r13, r19, r23, tailClasses,
+      _hTailLarge, hPos, hQCover, hBudget⟩
+  exact
+    ⟨r2, r3, r7, r11, r13, r19, r23, tailClasses,
+      hPos,
+      squareSievePivotPrimeResidueCover_of_quotientCover hQCover,
+      hBudget⟩
 
 /-- A medium-skeleton singleton certificate supplies the general skeleton-tail target. -/
 theorem squareSieveSingletonSkeletonTail_of_mediumSkeletonTail
