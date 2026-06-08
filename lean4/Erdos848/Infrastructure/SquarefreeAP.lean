@@ -15296,6 +15296,64 @@ def SquareSievePivotResidueCover
             List.Mem (25 * p * p, residue) classes /\
               SquareSieveResidueClass (25 * p * p) residue a
 
+/-- Budget for a prime-indexed residue class `(p, residue)`. -/
+def SquareSievePrimeResidueClassBudget (N p : Nat) : Nat :=
+  N / (25 * p * p) + 1
+
+/-- Additive budget for prime-indexed square-sieve classes. -/
+def SquareSievePrimeResidueCoverBudget (N : Nat) : List (Nat × Nat) -> Nat
+  | [] => 0
+  | cls :: rest =>
+      SquareSievePrimeResidueClassBudget N cls.fst +
+        SquareSievePrimeResidueCoverBudget N rest
+
+/-- Convert prime-indexed classes to the residue classes used by the count lemma. -/
+def SquareSievePrimeResidueClasses (classes : List (Nat × Nat)) :
+    List (Nat × Nat) :=
+  classes.map (fun cls : Nat × Nat => (25 * cls.fst * cls.fst, cls.snd))
+
+/--
+Prime-indexed pivot cover.  This is the certificate shape used by the active
+cut: each target supplies the square prime `p`, and Lean fixes the counted
+modulus to `25*p^2`.
+-/
+def SquareSievePivotPrimeResidueCover
+    (N r : Nat) (T : Nat -> Prop) (pivot : Nat)
+    (classes : List (Nat × Nat)) : Prop :=
+  forall a : Nat, InBox N a -> T a ->
+    CandidateCarrier r a /\
+      Exists fun p : Nat =>
+      Exists fun residue : Nat =>
+        2 <= p /\
+          SquareDivides p (a * pivot + 1) /\
+            List.Mem (p, residue) classes /\
+              SquareSieveResidueClass (25 * p * p) residue a
+
+/--
+Prime-indexed nonempty-pivot square-sieve target.  The certificate lists square
+primes rather than arbitrary moduli.
+-/
+def SquareSieveNonemptyPivotPrimeResidueCoverBoundForResidue (r : Nat) : Prop :=
+  forall (N : Nat) (B T : Nat -> Prop)
+    (decB : DecidablePred B) (_decT : DecidablePred T),
+    BoundedOutsideSet N r B ->
+    NonSquarefreeClique B ->
+    (forall a : Nat, T a ->
+      CandidateCarrier r a /\
+        Not (SquarefreeNeighborInCandidate N r B a)) ->
+    1 <= @familySize N B decB ->
+    Exists fun pivot : Nat =>
+    Exists fun classes : List (Nat × Nat) =>
+      B pivot /\
+        (forall cls : Nat × Nat, List.Mem cls classes -> 2 <= cls.fst) /\
+          SquareSievePivotPrimeResidueCover N r T pivot classes /\
+            @familySize N B decB +
+                SquareSievePrimeResidueCoverBudget N classes <= candidateCount r N
+
+/-- Endpoint prime-indexed nonempty-pivot square-sieve target. -/
+def SquareSieveNonemptyPivotPrimeResidueCoverCertificate : Prop :=
+  SquareSieveNonemptyPivotPrimeResidueCoverBoundForResidue 7
+
 /--
 Nonempty-pivot version of the square-sieve target.  Lean closes the empty
 outside-set branch locally; the remaining analytic certificate only has to
@@ -15337,7 +15395,7 @@ disproved by CRT obstructions.  The active analytic target is now the
 square-sieve residue-cover bound that rules out Hall-defect rectangles directly.
 -/
 def GlobalSquareSieveHallCertificate : Prop :=
-  SquareSieveNonemptyPivotResidueCoverCertificate
+  SquareSieveNonemptyPivotPrimeResidueCoverCertificate
 
 /-- A two-residue AP/Hall certificate implies the endpoint one-residue certificate. -/
 theorem squarefreeAPHallCertificate_of_candidateResidues
@@ -15738,6 +15796,57 @@ theorem squareSieveResidueCover_of_pivotResidueCover
     ⟨p, residue, _hp, _hdiv, hmem, hclass⟩
   exact ⟨haBox, ⟨(25 * p * p, residue), hmem, hclass⟩⟩
 
+/-- Prime-indexed budgets are exactly the old residue budgets after mapping. -/
+theorem squareSieveResidueCoverBudget_primeResidueClasses
+    (N : Nat) (classes : List (Nat × Nat)) :
+    SquareSieveResidueCoverBudget N
+        (SquareSievePrimeResidueClasses classes) =
+      SquareSievePrimeResidueCoverBudget N classes := by
+  induction classes with
+  | nil =>
+      simp [SquareSievePrimeResidueClasses, SquareSieveResidueCoverBudget,
+        SquareSievePrimeResidueCoverBudget]
+  | cons cls rest ih =>
+      simp [SquareSievePrimeResidueClasses, SquareSieveResidueCoverBudget,
+        SquareSievePrimeResidueCoverBudget, SquareSieveResidueClassBudget,
+        SquareSievePrimeResidueClassBudget, ih]
+      simpa [SquareSievePrimeResidueClasses] using ih
+
+/-- Prime-indexed pivot witnesses supply the older residue-class pivot cover. -/
+theorem squareSievePivotResidueCover_of_primeResidueCover
+    {N r pivot : Nat} {T : Nat -> Prop} {classes : List (Nat × Nat)}
+    (hPrime : SquareSievePivotPrimeResidueCover N r T pivot classes) :
+    SquareSievePivotResidueCover N r T pivot
+      (SquareSievePrimeResidueClasses classes) := by
+  intro a haBox haT
+  rcases hPrime a haBox haT with
+    ⟨haCand, p, residue, hp, hdiv, hmem, hclass⟩
+  refine ⟨haCand, p, residue, hp, hdiv, ?_, hclass⟩
+  exact List.mem_map.mpr ⟨(p, residue), hmem, rfl⟩
+
+/-- Prime-indexed nonempty-pivot certificates imply the older nonempty-pivot surface. -/
+theorem squareSieveNonemptyPivotResidueCover_of_primeResidueCover
+    (hPrime : SquareSieveNonemptyPivotPrimeResidueCoverCertificate) :
+    SquareSieveNonemptyPivotResidueCoverCertificate := by
+  intro N B T decB decT hB hClique hT hNonempty
+  rcases hPrime N B T decB decT hB hClique hT hNonempty with
+    ⟨pivot, primeClasses, hpivot, hPrimePos, hPrimeCover, hPrimeBudget⟩
+  let classes := SquareSievePrimeResidueClasses primeClasses
+  refine ⟨pivot, classes, hpivot, ?_, ?_, ?_⟩
+  · intro cls hcls
+    rcases List.mem_map.mp hcls with ⟨primeCls, hPrimeMem, hEq⟩
+    subst cls
+    have hp : 2 <= primeCls.fst := hPrimePos primeCls hPrimeMem
+    have hpPos : 0 < primeCls.fst := by omega
+    exact Nat.mul_pos (Nat.mul_pos (by omega) hpPos) hpPos
+  · exact squareSievePivotResidueCover_of_primeResidueCover hPrimeCover
+  · have hBudgetEq :
+        SquareSieveResidueCoverBudget N classes =
+          SquareSievePrimeResidueCoverBudget N primeClasses := by
+      simpa [classes] using
+        squareSieveResidueCoverBudget_primeResidueClasses N primeClasses
+    omega
+
 /--
 The nonempty-pivot square-sieve target implies the rectangle bound.  The empty
 outside-set case is closed directly by the fact that `T` is boxed-counted only
@@ -15788,7 +15897,8 @@ theorem squarefreeAPHallCertificate_of_globalSquareSieve
     (h : GlobalSquareSieveHallCertificate) :
     SquarefreeAPHallCertificate :=
   squarefreeAPHallCertificate_of_squareSieveHallDefectRectangle
-    (squareSieveHallDefectRectangle_of_nonemptyPivotResidueCover h)
+    (squareSieveHallDefectRectangle_of_nonemptyPivotResidueCover
+      (squareSieveNonemptyPivotResidueCover_of_primeResidueCover h))
 
 /--
 Upper-free neighbor-form allocation supplies the previous scalar upper bound

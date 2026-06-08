@@ -77,13 +77,19 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut only covers the nonempty case by choosing a pivot in `B` and explicit CRT residue classes, typically modulo `25 * p^2`, whose additive budget plus `|B|` is at most `|C_7|`.  Lean proves this nonempty pivot-cover certificate implies the rectangle bound and exposes the bridge from candidate non-neighbors to square-divisor residue covers.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows."
+        "Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut only covers the nonempty case by choosing a pivot in `B` and explicit prime-indexed CRT residue classes `(p, residue)` counted with budget `N/(25*p^2)+1`.  Lean maps these prime classes to the older `25*p^2` residue cover, proves the budgets match, and exposes the bridge from candidate non-neighbors to square-divisor residue covers.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
         "Erdos848.globalSquareSieveHallCut",
         "Erdos848.GlobalSquareSieveHallCertificate",
+        "Erdos848.SquareSieveNonemptyPivotPrimeResidueCoverCertificate",
+        "Erdos848.SquareSieveNonemptyPivotPrimeResidueCoverBoundForResidue",
+        "Erdos848.SquareSievePivotPrimeResidueCover",
+        "Erdos848.SquareSievePrimeResidueCoverBudget",
+        "Erdos848.SquareSievePrimeResidueClassBudget",
+        "Erdos848.SquareSievePrimeResidueClasses",
         "Erdos848.SquareSieveNonemptyPivotResidueCoverCertificate",
         "Erdos848.SquareSieveNonemptyPivotResidueCoverBoundForResidue",
         "Erdos848.SquareSieveResidueCoverCertificate",
@@ -100,6 +106,9 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.squarefreeAPHallCertificate_of_squareSieveHallDefectRectangle",
         "Erdos848.squareSieveHallDefectRectangle_of_residueCover",
         "Erdos848.squareSieveHallDefectRectangle_of_nonemptyPivotResidueCover",
+        "Erdos848.squareSieveNonemptyPivotResidueCover_of_primeResidueCover",
+        "Erdos848.squareSievePivotResidueCover_of_primeResidueCover",
+        "Erdos848.squareSieveResidueCoverBudget_primeResidueClasses",
         "Erdos848.familySize_le_squareSieveResidueCoverBudget",
         "Erdos848.squareSievePivotSquareDivisor_of_nonNeighbor",
         "Erdos848.squareSieveResidueCover_of_pivotResidueCover",
