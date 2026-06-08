@@ -15389,6 +15389,21 @@ def SquareSievePrimeResidueClasses (classes : List (Nat × Nat)) :
   classes.map (fun cls : Nat × Nat => (25 * cls.fst * cls.fst, cls.snd))
 
 /--
+Self-contained prime-index predicate for square-sieve certificates.  It rules
+out composite square indices by requiring that no smaller `d >= 2` has
+`d^2 | p^2`.
+-/
+def SquareSievePrimeIndex (p : Nat) : Prop :=
+  2 <= p /\
+    forall d : Nat, 2 <= d -> d < p -> Not (SquareDivides d (p * p))
+
+/-- A square-sieve prime index is at least two. -/
+theorem squareSievePrimeIndex_two_le {p : Nat}
+    (h : SquareSievePrimeIndex p) :
+    2 <= p := by
+  exact h.left
+
+/--
 Prime-indexed pivot cover.  This is the certificate shape used by the active
 cut: each target supplies the square prime `p`, and Lean fixes the counted
 modulus to `25*p^2`.
@@ -15424,6 +15439,36 @@ def SquareSievePivotPrimeResidueQuotientCover
             a * pivot + 1 = p * p * q /\
               List.Mem (p, residue) classes /\
                 SquareSieveResidueClass (25 * p * p) residue a
+
+/--
+Quotient cover whose square indices are formally prime indices, not just
+arbitrary natural numbers at least two.
+-/
+def SquareSievePivotPrimeResiduePrimeQuotientCover
+    (N r : Nat) (T : Nat -> Prop) (pivot : Nat)
+    (classes : List (Nat × Nat)) : Prop :=
+  forall a : Nat, InBox N a -> T a ->
+    CandidateCarrier r a /\
+      Exists fun p : Nat =>
+      Exists fun residue : Nat =>
+      Exists fun q : Nat =>
+        SquareSievePrimeIndex p /\
+          p ≠ 5 /\
+            a * pivot + 1 = p * p * q /\
+              List.Mem (p, residue) classes /\
+                SquareSieveResidueClass (25 * p * p) residue a
+
+/-- Forgetting formal prime-index witnesses gives a quotient cover. -/
+theorem squareSievePivotPrimeResidueQuotientCover_of_primeQuotientCover
+    {N r pivot : Nat} {T : Nat -> Prop} {classes : List (Nat × Nat)}
+    (h : SquareSievePivotPrimeResiduePrimeQuotientCover N r T pivot classes) :
+    SquareSievePivotPrimeResidueQuotientCover N r T pivot classes := by
+  intro a hbox hT
+  rcases h a hbox hT with
+    ⟨ha, p, residue, q, hpPrime, hp5, hquotient, hmem, hclass⟩
+  exact
+    ⟨ha, p, residue, q, squareSievePrimeIndex_two_le hpPrime,
+      hp5, hquotient, hmem, hclass⟩
 
 /-- Forgetting quotient witnesses gives the existing prime residue cover. -/
 theorem squareSievePivotPrimeResidueCover_of_quotientCover
@@ -15593,6 +15638,69 @@ class.
 -/
 def SquareSieveSingletonMediumSkeletonQuotientTailCertificate : Prop :=
   SquareSieveSingletonMediumSkeletonQuotientTailBoundForResidue 7
+
+/--
+Prime-index quotient-tail medium-skeleton singleton target.  This is the
+same quotient-tail target, but every square index is also certified by
+`SquareSievePrimeIndex`.
+-/
+def SquareSieveSingletonMediumSkeletonPrimeQuotientTailBoundForResidue
+    (r : Nat) : Prop :=
+  forall (N pivot : Nat) (T : Nat -> Prop)
+    (_decT : DecidablePred T),
+    InBox N pivot ->
+    CandidateOutside r pivot ->
+    Not (ForbiddenSquarefreeEdge pivot pivot) ->
+    (forall a : Nat, T a ->
+      CandidateCarrier r a /\ Not (ForbiddenSquarefreeEdge a pivot)) ->
+    Exists fun r2 : Nat =>
+    Exists fun r3 : Nat =>
+    Exists fun r7 : Nat =>
+    Exists fun r11 : Nat =>
+    Exists fun r13 : Nat =>
+    Exists fun r19 : Nat =>
+    Exists fun r23 : Nat =>
+    Exists fun tailClasses : List (Nat × Nat) =>
+      (forall cls : Nat × Nat, List.Mem cls tailClasses -> 29 <= cls.fst) /\
+        (forall cls : Nat × Nat,
+          List.Mem cls
+            (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23 ++
+              tailClasses) ->
+          2 <= cls.fst /\ cls.fst ≠ 5) /\
+          SquareSievePivotPrimeResiduePrimeQuotientCover N r T pivot
+            (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23 ++
+              tailClasses) /\
+            1 +
+                SquareSievePrimeResidueCoverBudget N
+                  (SquareSieveMediumSkeletonPrimeClasses
+                    r2 r3 r7 r11 r13 r19 r23 ++ tailClasses) <=
+              candidateCount r N
+
+/--
+Endpoint prime-index quotient-tail medium-skeleton singleton target for the
+`7 mod 25` class.
+-/
+def SquareSieveSingletonMediumSkeletonPrimeQuotientTailCertificate : Prop :=
+  SquareSieveSingletonMediumSkeletonPrimeQuotientTailBoundForResidue 7
+
+/--
+A prime-index quotient-tail certificate supplies the quotient-tail target by
+forgetting the formal prime-index evidence.
+-/
+theorem squareSieveSingletonMediumSkeletonQuotientTail_of_primeQuotientTail
+    (h : SquareSieveSingletonMediumSkeletonPrimeQuotientTailBoundForResidue 7) :
+    SquareSieveSingletonMediumSkeletonQuotientTailCertificate := by
+  intro N pivot T decT hbox houtside hself hT
+  rcases h N pivot T decT hbox houtside hself hT with
+    ⟨r2, r3, r7, r11, r13, r19, r23, tailClasses,
+      hTailLarge, hPos, hPrimeCover, hBudget⟩
+  exact
+    ⟨r2, r3, r7, r11, r13, r19, r23, tailClasses,
+      hTailLarge,
+      hPos,
+      squareSievePivotPrimeResidueQuotientCover_of_primeQuotientCover
+        hPrimeCover,
+      hBudget⟩
 
 /--
 A quotient-tail medium-skeleton certificate supplies the medium-skeleton
