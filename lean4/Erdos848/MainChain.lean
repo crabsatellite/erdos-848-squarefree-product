@@ -118,6 +118,7 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.squareSieveSingletonMediumSkeletonTail_of_quotientTail",
         "Erdos848.squareSieveSingletonSkeletonTail_of_mediumSkeletonTail",
         "Erdos848.squareSieveSingletonPivotPrimeResidueCover_of_skeletonTail",
+        "Erdos848.squareSieveSingletonPivotPrimeResidueCover_of_primeQuotientTail",
         "Erdos848.SquareSieveNonemptyPivotResidueCoverCertificate",
         "Erdos848.SquareSieveNonemptyPivotResidueCoverBoundForResidue",
         "Erdos848.SquareSieveResidueCoverCertificate",

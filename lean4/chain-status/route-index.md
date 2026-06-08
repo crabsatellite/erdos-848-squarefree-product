@@ -58,7 +58,7 @@ Open mathematical cut ledger:
 |-----|--------|--------------|--------------|-------|
 | `gap:G-hall-expansion-global` | closed-local | `chain:main-full-close` | `Erdos848.hallExpansionCut`, `Erdos848.atMostCandidateBound_of_current_cuts`, `Erdos848.erdos848_main` | on-chain: 3 |
 | `gap:G-candidate-p5-sharpness` | closed-local | `chain:main-full-close`, `chain:residue-certificate` | `Erdos848.squareDivides_five_mul_add_one_of_candidate_seven`, `Erdos848.squareDivides_five_mul_add_one_of_candidate_eighteen`, `Erdos848.not_squareDivides_five_mul_add_one_of_candidate_seven_eighteen`, +6 more | on-chain: 1 |
-| `gap:G-squarefree-ap-hall-expansion` | open | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.globalSquareSieveHallCut`, `Erdos848.GlobalSquareSieveHallCertificate`, `Erdos848.SquareSieveNonemptyPivotPrimeResidueCoverCertificate`, +1032 more | cut: 1 |
+| `gap:G-squarefree-ap-hall-expansion` | open | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.globalSquareSieveHallCut`, `Erdos848.GlobalSquareSieveHallCertificate`, `Erdos848.SquareSieveNonemptyPivotPrimeResidueCoverCertificate`, +1033 more | cut: 1 |
 | `gap:G-rough-square-divisor-unpacking` | closed-local | `chain:hall-expansion-compression`, `chain:main-full-close` | `Erdos848.roughSquareDivisor`, `Erdos848.RoughSquareDivisorCertificate` | on-chain: 1 |
 | `gap:D-finite-search-only` | dead | `chain:finite-search-only` | - | (none) |
 

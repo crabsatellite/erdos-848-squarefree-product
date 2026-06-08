@@ -15755,6 +15755,18 @@ theorem squareSieveSingletonPivotPrimeResidueCover_of_skeletonTail
   exact ⟨skeletonClasses ++ tailClasses, hPos, hCover, hBudget⟩
 
 /--
+Direct bridge from the strongest current singleton tail target back to the
+one-list singleton prime-cover target.
+-/
+theorem squareSieveSingletonPivotPrimeResidueCover_of_primeQuotientTail
+    (h : SquareSieveSingletonMediumSkeletonPrimeQuotientTailBoundForResidue 7) :
+    SquareSieveSingletonPivotPrimeResidueCoverCertificate :=
+  squareSieveSingletonPivotPrimeResidueCover_of_skeletonTail
+    (squareSieveSingletonSkeletonTail_of_mediumSkeletonTail
+      (squareSieveSingletonMediumSkeletonTail_of_quotientTail
+        (squareSieveSingletonMediumSkeletonQuotientTail_of_primeQuotientTail h)))
+
+/--
 Nonempty-pivot version of the square-sieve target.  Lean closes the empty
 outside-set branch locally; the remaining analytic certificate only has to
 choose a pivot from a nonempty Hall-defect outside set and provide residue
