@@ -1706,7 +1706,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-08T10:50:54.203855+00:00",
+  "generated_at": "2026-06-08T12:17:43.026667+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -48077,6 +48077,7 @@
         7,
         11,
         13,
+        17,
         19,
         23
       ],
@@ -48153,6 +48154,7 @@
         7,
         11,
         13,
+        17,
         19,
         23
       ],
@@ -48249,6 +48251,7 @@
         7,
         11,
         13,
+        17,
         19,
         23
       ],
@@ -48358,11 +48361,12 @@
         7,
         11,
         13,
+        17,
         19,
         23
       ],
       "worst_pivot": 1543,
-      "worst_skeleton_prime_class_count": 6,
+      "worst_skeleton_prime_class_count": 7,
       "worst_skeleton_prime_classes": [
         [
           2,
@@ -48385,11 +48389,15 @@
           1882
         ],
         [
+          17,
+          982
+        ],
+        [
           19,
           1382
         ]
       ],
-      "worst_skeleton_prime_cover_budget": 35,
+      "worst_skeleton_prime_cover_budget": 36,
       "worst_skeleton_target_count": 31,
       "worst_tail_prime_class_count": 2,
       "worst_tail_prime_classes": [
@@ -48403,9 +48411,9 @@
         ]
       ],
       "worst_tail_prime_cover_budget": 2,
-      "worst_tail_slack": 42,
+      "worst_tail_slack": 41,
       "worst_tail_target_count": 2,
-      "worst_total_prime_cover_budget": 37,
+      "worst_total_prime_cover_budget": 38,
       "worst_total_target_count": 33
     },
     {
@@ -48483,11 +48491,12 @@
         7,
         11,
         13,
+        17,
         19,
         23
       ],
-      "worst_pivot": 3323,
-      "worst_skeleton_prime_class_count": 7,
+      "worst_pivot": 743,
+      "worst_skeleton_prime_class_count": 8,
       "worst_skeleton_prime_classes": [
         [
           2,
@@ -48495,51 +48504,51 @@
         ],
         [
           3,
-          157
+          7
         ],
         [
           7,
-          207
+          1182
         ],
         [
           11,
-          2232
+          1032
         ],
         [
           13,
-          1607
+          3607
+        ],
+        [
+          17,
+          7
         ],
         [
           19,
-          4532
+          4607
         ],
         [
           23,
-          4832
+          1807
         ]
       ],
-      "worst_skeleton_prime_cover_budget": 85,
-      "worst_skeleton_target_count": 73,
-      "worst_tail_prime_class_count": 3,
+      "worst_skeleton_prime_cover_budget": 86,
+      "worst_skeleton_target_count": 72,
+      "worst_tail_prime_class_count": 2,
       "worst_tail_prime_classes": [
         [
-          29,
-          2482
+          47,
+          2982
         ],
         [
-          61,
-          3132
-        ],
-        [
-          461,
-          1407
+          73,
+          1707
         ]
       ],
-      "worst_tail_prime_cover_budget": 3,
+      "worst_tail_prime_cover_budget": 2,
       "worst_tail_slack": 111,
-      "worst_tail_target_count": 3,
+      "worst_tail_target_count": 2,
       "worst_total_prime_cover_budget": 88,
-      "worst_total_target_count": 76
+      "worst_total_target_count": 74
     }
   ],
   "square_sieve_singleton_budget_scans": [
@@ -48632,6 +48641,7 @@
         7,
         11,
         13,
+        17,
         19,
         23
       ],
@@ -48701,6 +48711,7 @@
         7,
         11,
         13,
+        17,
         19,
         23
       ],
@@ -48790,6 +48801,7 @@
         7,
         11,
         13,
+        17,
         19,
         23
       ],
@@ -48911,6 +48923,7 @@
         7,
         11,
         13,
+        17,
         19,
         23
       ],
@@ -48945,7 +48958,7 @@
           1507
         ]
       ],
-      "worst_tail_slack": 42,
+      "worst_tail_slack": 41,
       "worst_tail_target_count": 2
     },
     {
@@ -49074,52 +49087,312 @@
         7,
         11,
         13,
+        17,
         19,
         23
       ],
-      "worst_pivot": 3323,
-      "worst_tail_max_prime": 461,
-      "worst_tail_max_quotient": 9807,
-      "worst_tail_min_prime": 29,
-      "worst_tail_min_quotient": 22,
-      "worst_tail_prime_class_count": 3,
+      "worst_pivot": 743,
+      "worst_tail_max_prime": 73,
+      "worst_tail_max_quotient": 1003,
+      "worst_tail_min_prime": 47,
+      "worst_tail_min_quotient": 238,
+      "worst_tail_prime_class_count": 2,
       "worst_tail_prime_classes": [
         [
-          29,
-          2482
+          47,
+          2982
         ],
         [
-          61,
-          3132
-        ],
-        [
-          461,
-          1407
+          73,
+          1707
         ]
       ],
-      "worst_tail_prime_cover_budget": 3,
+      "worst_tail_prime_cover_budget": 2,
       "worst_tail_prime_quotient_witnesses": [
         [
-          1407,
-          461,
-          22,
-          1407
+          1707,
+          73,
+          238,
+          1707
         ],
         [
-          2482,
-          29,
-          9807,
-          2482
-        ],
-        [
-          3132,
-          61,
-          2797,
-          3132
+          2982,
+          47,
+          1003,
+          2982
         ]
       ],
       "worst_tail_slack": 111,
-      "worst_tail_target_count": 3
+      "worst_tail_target_count": 2
+    }
+  ],
+  "square_sieve_two_pivot_quotient_scans": [
+    {
+      "N": 500,
+      "base_residue": 7,
+      "best_full_rectangle_slack": 13,
+      "best_pair": [
+        268,
+        41
+      ],
+      "best_pair_rectangle_slack": 17,
+      "best_pair_target_count": 1,
+      "best_skeleton_prime_classes": [
+        [
+          11,
+          107
+        ]
+      ],
+      "best_skeleton_prime_cover_budget": 1,
+      "best_skeleton_target_count": 1,
+      "best_tail_max_prime": 0,
+      "best_tail_max_quotient": 0,
+      "best_tail_min_prime": 0,
+      "best_tail_min_quotient": 0,
+      "best_tail_prime_classes": [],
+      "best_tail_prime_cover_budget": 0,
+      "best_tail_prime_quotient_witnesses": [],
+      "best_tail_target_count": 0,
+      "best_total_prime_cover_budget": 1,
+      "candidate_count": 20,
+      "outside_size": 6,
+      "outside_witness": [
+        41,
+        437,
+        43,
+        143,
+        243,
+        268
+      ],
+      "pair_count": 30,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23
+      ]
+    },
+    {
+      "N": 1000,
+      "base_residue": 7,
+      "best_full_rectangle_slack": 31,
+      "best_pair": [
+        268,
+        143
+      ],
+      "best_pair_rectangle_slack": 33,
+      "best_pair_target_count": 1,
+      "best_skeleton_prime_classes": [
+        [
+          3,
+          32
+        ]
+      ],
+      "best_skeleton_prime_cover_budget": 5,
+      "best_skeleton_target_count": 1,
+      "best_tail_max_prime": 0,
+      "best_tail_max_quotient": 0,
+      "best_tail_min_prime": 0,
+      "best_tail_min_quotient": 0,
+      "best_tail_prime_classes": [],
+      "best_tail_prime_cover_budget": 0,
+      "best_tail_prime_quotient_witnesses": [],
+      "best_tail_target_count": 0,
+      "best_total_prime_cover_budget": 5,
+      "candidate_count": 40,
+      "outside_size": 4,
+      "outside_witness": [
+        41,
+        437,
+        143,
+        268
+      ],
+      "pair_count": 12,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23
+      ]
+    },
+    {
+      "N": 2000,
+      "base_residue": 7,
+      "best_full_rectangle_slack": 76,
+      "best_pair": [
+        43,
+        168
+      ],
+      "best_pair_rectangle_slack": 78,
+      "best_pair_target_count": 0,
+      "best_skeleton_prime_classes": [],
+      "best_skeleton_prime_cover_budget": 0,
+      "best_skeleton_target_count": 0,
+      "best_tail_max_prime": 0,
+      "best_tail_max_quotient": 0,
+      "best_tail_min_prime": 0,
+      "best_tail_min_quotient": 0,
+      "best_tail_prime_classes": [],
+      "best_tail_prime_cover_budget": 0,
+      "best_tail_prime_quotient_witnesses": [],
+      "best_tail_target_count": 0,
+      "best_total_prime_cover_budget": 0,
+      "candidate_count": 80,
+      "outside_size": 4,
+      "outside_witness": [
+        41,
+        43,
+        143,
+        168
+      ],
+      "pair_count": 12,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23
+      ]
+    },
+    {
+      "N": 5000,
+      "base_residue": 7,
+      "best_full_rectangle_slack": 133,
+      "best_pair": [
+        4971,
+        2993
+      ],
+      "best_pair_rectangle_slack": 140,
+      "best_pair_target_count": 10,
+      "best_skeleton_prime_classes": [
+        [
+          2,
+          57
+        ],
+        [
+          7,
+          657
+        ],
+        [
+          17,
+          2307
+        ],
+        [
+          23,
+          1257
+        ]
+      ],
+      "best_skeleton_prime_cover_budget": 58,
+      "best_skeleton_target_count": 10,
+      "best_tail_max_prime": 0,
+      "best_tail_max_quotient": 0,
+      "best_tail_min_prime": 0,
+      "best_tail_min_quotient": 0,
+      "best_tail_prime_classes": [],
+      "best_tail_prime_cover_budget": 0,
+      "best_tail_prime_quotient_witnesses": [],
+      "best_tail_target_count": 0,
+      "best_total_prime_cover_budget": 58,
+      "candidate_count": 200,
+      "outside_size": 9,
+      "outside_witness": [
+        239,
+        915,
+        1591,
+        2267,
+        3619,
+        4295,
+        4971,
+        2943,
+        2993
+      ],
+      "pair_count": 72,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23
+      ]
+    },
+    {
+      "N": 6000,
+      "base_residue": 7,
+      "best_full_rectangle_slack": 162,
+      "best_pair": [
+        4971,
+        2993
+      ],
+      "best_pair_rectangle_slack": 170,
+      "best_pair_target_count": 12,
+      "best_skeleton_prime_classes": [
+        [
+          2,
+          57
+        ],
+        [
+          7,
+          657
+        ],
+        [
+          17,
+          2307
+        ],
+        [
+          23,
+          1257
+        ]
+      ],
+      "best_skeleton_prime_cover_budget": 68,
+      "best_skeleton_target_count": 12,
+      "best_tail_max_prime": 0,
+      "best_tail_max_quotient": 0,
+      "best_tail_min_prime": 0,
+      "best_tail_min_quotient": 0,
+      "best_tail_prime_classes": [],
+      "best_tail_prime_cover_budget": 0,
+      "best_tail_prime_quotient_witnesses": [],
+      "best_tail_target_count": 0,
+      "best_total_prime_cover_budget": 68,
+      "candidate_count": 240,
+      "outside_size": 10,
+      "outside_witness": [
+        239,
+        915,
+        1591,
+        2267,
+        3619,
+        4295,
+        4971,
+        5647,
+        2943,
+        2993
+      ],
+      "pair_count": 90,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23
+      ]
     }
   ]
 }

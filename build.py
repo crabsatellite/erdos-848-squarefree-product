@@ -47,6 +47,7 @@ from erdos848.square_sieve_rectangle import (
     square_sieve_residual_tail_scan,
     square_sieve_singleton_budget_scan,
     square_sieve_tail_quotient_profile_scan,
+    square_sieve_two_pivot_quotient_scan,
 )
 
 
@@ -117,7 +118,7 @@ def run(mode: str) -> dict:
     )
     square_sieve_skeleton_prime_profiles = [
         (2, 3),
-        (2, 3, 7, 11, 13, 19, 23),
+        (2, 3, 7, 11, 13, 17, 19, 23),
     ]
 
     residue = residue_to_json(generate_residue_certificate([5, 13], run_prefix=extended))
@@ -210,6 +211,21 @@ def run(mode: str) -> dict:
         for N in singleton_scan_Ns
         for skeleton_primes in square_sieve_skeleton_prime_profiles
     ]
+    square_sieve_two_pivot_quotient_scans = [
+        square_sieve_pivot_cover_to_json(
+            square_sieve_two_pivot_quotient_scan(
+                item["N"],
+                witness,
+                skeleton_primes=square_sieve_skeleton_prime_profiles[-1],
+            )
+        )
+        for item in active_credit
+        for witness in [
+            item["observed_max_credit_deficit_witness"]
+            or item["worst_credit_witness"]
+        ]
+        if item["exact_worst"] and len(witness) >= 2
+    ]
 
     refs = {
         "327": {
@@ -243,6 +259,7 @@ def run(mode: str) -> dict:
         "square_sieve_tail_quotient_profile_scans": (
             square_sieve_tail_quotient_profile_scans
         ),
+        "square_sieve_two_pivot_quotient_scans": square_sieve_two_pivot_quotient_scans,
         "partitioned_hall_checks": partitioned,
         "active_credit_checks": active_credit,
         "reference_problem_templates": refs,
@@ -533,6 +550,73 @@ def assert_gate(payload: dict) -> None:
             assert quotient >= 1, item
             assert (p, residue) in tail_classes, item
             assert target * item["worst_pivot"] + 1 == p * p * quotient, item
+    for item in payload["square_sieve_two_pivot_quotient_scans"]:
+        assert len(item["outside_witness"]) >= 2, item
+        assert item["outside_size"] == len(item["outside_witness"]), item
+        assert item["pair_count"] == item["outside_size"] * (item["outside_size"] - 1), item
+        assert item["candidate_count"] == candidate_count(item["N"], item["base_residue"]), item
+        assert all(p >= 2 and p != 5 for p in item["skeleton_primes"]), item
+        assert len(set(item["skeleton_primes"])) == len(item["skeleton_primes"]), item
+        assert item["best_pair"][0] in item["outside_witness"], item
+        assert item["best_pair"][1] in item["outside_witness"], item
+        assert item["best_pair"][0] != item["best_pair"][1], item
+        assert item["best_skeleton_prime_cover_budget"] == sum(
+            item["N"] // (25 * p * p) + 1
+            for p, _residue in item["best_skeleton_prime_classes"]
+        ), item
+        assert item["best_tail_prime_cover_budget"] == sum(
+            item["N"] // (25 * p * p) + 1
+            for p, _residue in item["best_tail_prime_classes"]
+        ), item
+        assert item["best_total_prime_cover_budget"] == (
+            item["best_skeleton_prime_cover_budget"] +
+            item["best_tail_prime_cover_budget"]
+        ), item
+        assert item["best_pair_rectangle_slack"] == (
+            item["candidate_count"] - 2 - item["best_total_prime_cover_budget"]
+        ), item
+        assert item["best_full_rectangle_slack"] == (
+            item["candidate_count"] -
+            item["outside_size"] -
+            item["best_total_prime_cover_budget"]
+        ), item
+        assert item["best_pair_rectangle_slack"] >= item["best_full_rectangle_slack"], item
+        assert item["best_pair_target_count"] >= item["best_skeleton_target_count"], item
+        assert item["best_pair_target_count"] >= item["best_tail_target_count"], item
+        assert len(item["best_tail_prime_quotient_witnesses"]) == item[
+            "best_tail_target_count"
+        ], item
+        assert all(
+            p in item["skeleton_primes"]
+            for p, _residue in item["best_skeleton_prime_classes"]
+        ), item
+        assert all(
+            p not in item["skeleton_primes"] and p != 5
+            for p, _residue in item["best_tail_prime_classes"]
+        ), item
+        if item["best_tail_target_count"] == 0:
+            assert item["best_tail_min_prime"] == 0, item
+            assert item["best_tail_max_prime"] == 0, item
+            assert item["best_tail_min_quotient"] == 0, item
+            assert item["best_tail_max_quotient"] == 0, item
+        else:
+            assert item["best_tail_min_prime"] >= 2, item
+            assert item["best_tail_max_prime"] >= item["best_tail_min_prime"], item
+            assert item["best_tail_min_quotient"] >= 1, item
+            assert item["best_tail_max_quotient"] >= item["best_tail_min_quotient"], item
+        tail_classes = set(tuple(cls) for cls in item["best_tail_prime_classes"])
+        pivot = item["best_pair"][0]
+        other = item["best_pair"][1]
+        for target, p, quotient, residue in item[
+            "best_tail_prime_quotient_witnesses"
+        ]:
+            assert 1 <= target <= item["N"], item
+            assert target % 25 == item["base_residue"] % 25, item
+            assert p not in item["skeleton_primes"] and p != 5, item
+            assert quotient >= 1, item
+            assert (p, residue) in tail_classes, item
+            assert target * pivot + 1 == p * p * quotient, item
+            assert has_square_divisor(target * other + 1), item
     for item in payload["square_sieve_intersection_decay_scans"]:
         assert item["outside_witness"], item
         assert all(
@@ -932,6 +1016,10 @@ def main() -> int:
     print(
         "  square-sieve tail quotient profiles: "
         f"{[(x['N'], x['skeleton_primes'], x['worst_tail_target_count'], x['worst_tail_prime_cover_budget'], x['worst_tail_min_prime'], x['worst_tail_max_prime'], x['worst_tail_min_quotient'], x['worst_tail_max_quotient']) for x in payload['square_sieve_tail_quotient_profile_scans']]}"
+    )
+    print(
+        "  square-sieve two-pivot quotient scans: "
+        f"{[(x['N'], x['outside_size'], x['best_pair'], x['best_pair_target_count'], x['best_skeleton_target_count'], x['best_tail_target_count'], x['best_total_prime_cover_budget'], x['best_pair_rectangle_slack'], x['best_full_rectangle_slack'], x['best_tail_min_prime'], x['best_tail_max_prime']) for x in payload['square_sieve_two_pivot_quotient_scans']]}"
     )
     print(
         "  square-sieve intersection decay scans: "

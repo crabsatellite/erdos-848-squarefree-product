@@ -15348,19 +15348,21 @@ theorem squareSievePrimeResidueCoverBudget_two_three_append
 
 /-- The medium square-sieve skeleton exposed by the current quotient scans. -/
 def SquareSieveMediumSkeletonPrimeClasses
-    (r2 r3 r7 r11 r13 r19 r23 : Nat) : List (Nat × Nat) :=
-  [(2, r2), (3, r3), (7, r7), (11, r11), (13, r13), (19, r19), (23, r23)]
+    (r2 r3 r7 r11 r13 r17 r19 r23 : Nat) : List (Nat × Nat) :=
+  [(2, r2), (3, r3), (7, r7), (11, r11), (13, r13), (17, r17), (19, r19),
+    (23, r23)]
 
 /-- Exact additive budget for the medium square-sieve skeleton. -/
 theorem squareSievePrimeResidueCoverBudget_mediumSkeleton
-    (N r2 r3 r7 r11 r13 r19 r23 : Nat) :
+    (N r2 r3 r7 r11 r13 r17 r19 r23 : Nat) :
     SquareSievePrimeResidueCoverBudget N
-        (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23) =
+        (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r17 r19 r23) =
       SquareSievePrimeResidueClassBudget N 2 +
         SquareSievePrimeResidueClassBudget N 3 +
         SquareSievePrimeResidueClassBudget N 7 +
         SquareSievePrimeResidueClassBudget N 11 +
         SquareSievePrimeResidueClassBudget N 13 +
+        SquareSievePrimeResidueClassBudget N 17 +
         SquareSievePrimeResidueClassBudget N 19 +
         SquareSievePrimeResidueClassBudget N 23 := by
   simp [SquareSieveMediumSkeletonPrimeClasses,
@@ -15369,14 +15371,15 @@ theorem squareSievePrimeResidueCoverBudget_mediumSkeleton
 
 /-- Exact additive budget for the medium skeleton followed by a tail. -/
 theorem squareSievePrimeResidueCoverBudget_mediumSkeleton_append
-    (N r2 r3 r7 r11 r13 r19 r23 : Nat) (tail : List (Nat × Nat)) :
+    (N r2 r3 r7 r11 r13 r17 r19 r23 : Nat) (tail : List (Nat × Nat)) :
     SquareSievePrimeResidueCoverBudget N
-        (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23 ++ tail) =
+        (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r17 r19 r23 ++ tail) =
       SquareSievePrimeResidueClassBudget N 2 +
         SquareSievePrimeResidueClassBudget N 3 +
         SquareSievePrimeResidueClassBudget N 7 +
         SquareSievePrimeResidueClassBudget N 11 +
         SquareSievePrimeResidueClassBudget N 13 +
+        SquareSievePrimeResidueClassBudget N 17 +
         SquareSievePrimeResidueClassBudget N 19 +
         SquareSievePrimeResidueClassBudget N 23 +
         SquareSievePrimeResidueCoverBudget N tail := by
@@ -15402,6 +15405,127 @@ theorem squareSievePrimeIndex_two_le {p : Nat}
     (h : SquareSievePrimeIndex p) :
     2 <= p := by
   exact h.left
+
+/-- The formal small prime-index alternatives below `29`, with `5` excluded. -/
+def SquareSieveSmallPrimeIndexBelowTwentyNine (p : Nat) : Prop :=
+  p = 2 \/ p = 3 \/ p = 7 \/ p = 11 \/ p = 13 \/ p = 17 \/ p = 19 \/ p = 23
+
+private theorem squareSievePrimeIndex_ne_composite_square_witness
+    {p d m k : Nat} (hp : SquareSievePrimeIndex p)
+    (hd : 2 <= d) (hdm : d < m) (hm : m * m = d * d * k) :
+    Not (p = m) := by
+  intro hpm
+  have hdlt : d < p := by omega
+  have hbad := hp.right d hd hdlt
+  apply hbad
+  rw [hpm]
+  exact Exists.intro k hm
+
+/-- A square-sieve prime index below `29`, excluding `5`, is one of the skeleton primes. -/
+theorem squareSievePrimeIndex_smallBelowTwentyNine_cases
+    {p : Nat} (hp : SquareSievePrimeIndex p) (hp5 : Not (p = 5))
+    (hlt : p < 29) :
+    SquareSieveSmallPrimeIndexBelowTwentyNine p := by
+  have hp2 : 2 <= p := hp.left
+  have h4 : Not (p = 4) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 2) (m := 4) (k := 4) (by omega) (by omega) (by omega)
+  have h6 : Not (p = 6) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 2) (m := 6) (k := 9) (by omega) (by omega) (by omega)
+  have h8 : Not (p = 8) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 2) (m := 8) (k := 16) (by omega) (by omega) (by omega)
+  have h9 : Not (p = 9) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 3) (m := 9) (k := 9) (by omega) (by omega) (by omega)
+  have h10 : Not (p = 10) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 2) (m := 10) (k := 25) (by omega) (by omega) (by omega)
+  have h12 : Not (p = 12) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 2) (m := 12) (k := 36) (by omega) (by omega) (by omega)
+  have h14 : Not (p = 14) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 2) (m := 14) (k := 49) (by omega) (by omega) (by omega)
+  have h15 : Not (p = 15) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 3) (m := 15) (k := 25) (by omega) (by omega) (by omega)
+  have h16 : Not (p = 16) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 2) (m := 16) (k := 64) (by omega) (by omega) (by omega)
+  have h18 : Not (p = 18) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 2) (m := 18) (k := 81) (by omega) (by omega) (by omega)
+  have h20 : Not (p = 20) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 2) (m := 20) (k := 100) (by omega) (by omega) (by omega)
+  have h21 : Not (p = 21) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 3) (m := 21) (k := 49) (by omega) (by omega) (by omega)
+  have h22 : Not (p = 22) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 2) (m := 22) (k := 121) (by omega) (by omega) (by omega)
+  have h24 : Not (p = 24) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 2) (m := 24) (k := 144) (by omega) (by omega) (by omega)
+  have h25 : Not (p = 25) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 5) (m := 25) (k := 25) (by omega) (by omega) (by omega)
+  have h26 : Not (p = 26) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 2) (m := 26) (k := 169) (by omega) (by omega) (by omega)
+  have h27 : Not (p = 27) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 3) (m := 27) (k := 81) (by omega) (by omega) (by omega)
+  have h28 : Not (p = 28) :=
+    squareSievePrimeIndex_ne_composite_square_witness hp
+      (d := 2) (m := 28) (k := 196) (by omega) (by omega) (by omega)
+  by_cases h2 : p = 2
+  case pos =>
+    unfold SquareSieveSmallPrimeIndexBelowTwentyNine
+    exact Or.inl h2
+  case neg =>
+    by_cases h3 : p = 3
+    case pos =>
+      unfold SquareSieveSmallPrimeIndexBelowTwentyNine
+      exact Or.inr (Or.inl h3)
+    case neg =>
+      by_cases h7 : p = 7
+      case pos =>
+        unfold SquareSieveSmallPrimeIndexBelowTwentyNine
+        exact Or.inr (Or.inr (Or.inl h7))
+      case neg =>
+        by_cases h11 : p = 11
+        case pos =>
+          unfold SquareSieveSmallPrimeIndexBelowTwentyNine
+          exact Or.inr (Or.inr (Or.inr (Or.inl h11)))
+        case neg =>
+          by_cases h13 : p = 13
+          case pos =>
+            unfold SquareSieveSmallPrimeIndexBelowTwentyNine
+            exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h13))))
+          case neg =>
+            by_cases h17 : p = 17
+            case pos =>
+              unfold SquareSieveSmallPrimeIndexBelowTwentyNine
+              exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h17)))))
+            case neg =>
+              by_cases h19 : p = 19
+              case pos =>
+                unfold SquareSieveSmallPrimeIndexBelowTwentyNine
+                exact Or.inr
+                  (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h19))))))
+              case neg =>
+                by_cases h23 : p = 23
+                case pos =>
+                  unfold SquareSieveSmallPrimeIndexBelowTwentyNine
+                  exact Or.inr
+                    (Or.inr
+                      (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr h23))))))
+                case neg =>
+                  exfalso
+                  omega
 
 /--
 Prime-indexed pivot cover.  This is the certificate shape used by the active
@@ -15559,7 +15683,7 @@ def SquareSieveSingletonSkeletonTailCertificate : Prop :=
 
 /--
 Medium-skeleton singleton target.  This fixes the skeleton primes to
-`2,3,7,11,13,19,23` and leaves only the residual tail to be closed.
+`2,3,7,11,13,17,19,23` and leaves only the residual tail to be closed.
 -/
 def SquareSieveSingletonMediumSkeletonTailBoundForResidue (r : Nat) : Prop :=
   forall (N pivot : Nat) (T : Nat -> Prop)
@@ -15574,20 +15698,21 @@ def SquareSieveSingletonMediumSkeletonTailBoundForResidue (r : Nat) : Prop :=
     Exists fun r7 : Nat =>
     Exists fun r11 : Nat =>
     Exists fun r13 : Nat =>
+    Exists fun r17 : Nat =>
     Exists fun r19 : Nat =>
     Exists fun r23 : Nat =>
     Exists fun tailClasses : List (Nat × Nat) =>
       (forall cls : Nat × Nat,
         List.Mem cls
-          (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23 ++
+          (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r17 r19 r23 ++
             tailClasses) ->
         2 <= cls.fst /\ Not (cls.fst = 5)) /\
         SquareSievePivotPrimeResidueCover N r T pivot
-          (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23 ++
+          (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r17 r19 r23 ++
             tailClasses) /\
           1 +
               SquareSievePrimeResidueCoverBudget N
-                (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23 ++
+                (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r17 r19 r23 ++
                   tailClasses) <=
             candidateCount r N
 
@@ -15597,7 +15722,7 @@ def SquareSieveSingletonMediumSkeletonTailCertificate : Prop :=
 
 /--
 Quotient-tail medium-skeleton singleton target.  The fixed skeleton removes
-`2,3,7,11,13,19,23`; every remaining tail class is forced to have `p >= 29`,
+`2,3,7,11,13,17,19,23`; every remaining tail class is forced to have `p >= 29`,
 and each covered target carries an explicit quotient witness.
 -/
 def SquareSieveSingletonMediumSkeletonQuotientTailBoundForResidue
@@ -15614,22 +15739,23 @@ def SquareSieveSingletonMediumSkeletonQuotientTailBoundForResidue
     Exists fun r7 : Nat =>
     Exists fun r11 : Nat =>
     Exists fun r13 : Nat =>
+    Exists fun r17 : Nat =>
     Exists fun r19 : Nat =>
     Exists fun r23 : Nat =>
     Exists fun tailClasses : List (Nat × Nat) =>
       (forall cls : Nat × Nat, List.Mem cls tailClasses -> 29 <= cls.fst) /\
         (forall cls : Nat × Nat,
           List.Mem cls
-            (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23 ++
+            (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r17 r19 r23 ++
               tailClasses) ->
           2 <= cls.fst /\ cls.fst ≠ 5) /\
           SquareSievePivotPrimeResidueQuotientCover N r T pivot
-            (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23 ++
+            (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r17 r19 r23 ++
               tailClasses) /\
             1 +
                 SquareSievePrimeResidueCoverBudget N
                   (SquareSieveMediumSkeletonPrimeClasses
-                    r2 r3 r7 r11 r13 r19 r23 ++ tailClasses) <=
+                    r2 r3 r7 r11 r13 r17 r19 r23 ++ tailClasses) <=
               candidateCount r N
 
 /--
@@ -15658,22 +15784,23 @@ def SquareSieveSingletonMediumSkeletonPrimeQuotientTailBoundForResidue
     Exists fun r7 : Nat =>
     Exists fun r11 : Nat =>
     Exists fun r13 : Nat =>
+    Exists fun r17 : Nat =>
     Exists fun r19 : Nat =>
     Exists fun r23 : Nat =>
     Exists fun tailClasses : List (Nat × Nat) =>
       (forall cls : Nat × Nat, List.Mem cls tailClasses -> 29 <= cls.fst) /\
         (forall cls : Nat × Nat,
           List.Mem cls
-            (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23 ++
+            (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r17 r19 r23 ++
               tailClasses) ->
           2 <= cls.fst /\ cls.fst ≠ 5) /\
           SquareSievePivotPrimeResiduePrimeQuotientCover N r T pivot
-            (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23 ++
+            (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r17 r19 r23 ++
               tailClasses) /\
             1 +
                 SquareSievePrimeResidueCoverBudget N
                   (SquareSieveMediumSkeletonPrimeClasses
-                    r2 r3 r7 r11 r13 r19 r23 ++ tailClasses) <=
+                    r2 r3 r7 r11 r13 r17 r19 r23 ++ tailClasses) <=
               candidateCount r N
 
 /--
@@ -15692,10 +15819,10 @@ theorem squareSieveSingletonMediumSkeletonQuotientTail_of_primeQuotientTail
     SquareSieveSingletonMediumSkeletonQuotientTailCertificate := by
   intro N pivot T decT hbox houtside hself hT
   rcases h N pivot T decT hbox houtside hself hT with
-    ⟨r2, r3, r7, r11, r13, r19, r23, tailClasses,
+    ⟨r2, r3, r7, r11, r13, r17, r19, r23, tailClasses,
       hTailLarge, hPos, hPrimeCover, hBudget⟩
   exact
-    ⟨r2, r3, r7, r11, r13, r19, r23, tailClasses,
+    ⟨r2, r3, r7, r11, r13, r17, r19, r23, tailClasses,
       hTailLarge,
       hPos,
       squareSievePivotPrimeResidueQuotientCover_of_primeQuotientCover
@@ -15711,10 +15838,10 @@ theorem squareSieveSingletonMediumSkeletonTail_of_quotientTail
     SquareSieveSingletonMediumSkeletonTailCertificate := by
   intro N pivot T decT hbox houtside hself hT
   rcases h N pivot T decT hbox houtside hself hT with
-    ⟨r2, r3, r7, r11, r13, r19, r23, tailClasses,
+    ⟨r2, r3, r7, r11, r13, r17, r19, r23, tailClasses,
       _hTailLarge, hPos, hQCover, hBudget⟩
   exact
-    ⟨r2, r3, r7, r11, r13, r19, r23, tailClasses,
+    ⟨r2, r3, r7, r11, r13, r17, r19, r23, tailClasses,
       hPos,
       squareSievePivotPrimeResidueCover_of_quotientCover hQCover,
       hBudget⟩
@@ -15735,15 +15862,17 @@ theorem squareSieveSingletonSkeletonTail_of_mediumSkeletonTail
                   cases h11 with
                   | intro r13 h13 =>
                       cases h13 with
-                      | intro r19 h19 =>
-                          cases h19 with
-                          | intro r23 h23 =>
-                              cases h23 with
-                              | intro tailClasses hTail =>
-                                  exact Exists.intro
-                                    (SquareSieveMediumSkeletonPrimeClasses
-                                      r2 r3 r7 r11 r13 r19 r23)
-                                    (Exists.intro tailClasses hTail)
+                      | intro r17 h17 =>
+                          cases h17 with
+                          | intro r19 h19 =>
+                              cases h19 with
+                              | intro r23 h23 =>
+                                  cases h23 with
+                                  | intro tailClasses hTail =>
+                                      exact Exists.intro
+                                        (SquareSieveMediumSkeletonPrimeClasses
+                                          r2 r3 r7 r11 r13 r17 r19 r23)
+                                        (Exists.intro tailClasses hTail)
 
 /-- A skeleton-tail singleton certificate supplies the one-list singleton target. -/
 theorem squareSieveSingletonPivotPrimeResidueCover_of_skeletonTail
@@ -15765,6 +15894,73 @@ theorem squareSieveSingletonPivotPrimeResidueCover_of_primeQuotientTail
     (squareSieveSingletonSkeletonTail_of_mediumSkeletonTail
       (squareSieveSingletonMediumSkeletonTail_of_quotientTail
         (squareSieveSingletonMediumSkeletonQuotientTail_of_primeQuotientTail h)))
+
+/--
+Nonempty-Hall version of the strongest current square-sieve target.  This is
+the target shape that actually pays the full outside set `B`, not just one
+singleton pivot.
+-/
+def SquareSieveNonemptyMediumSkeletonPrimeQuotientTailBoundForResidue
+    (r : Nat) : Prop :=
+  forall (N : Nat) (B T : Nat -> Prop)
+    (decB : DecidablePred B) (_decT : DecidablePred T),
+    BoundedOutsideSet N r B ->
+    NonSquarefreeClique B ->
+    (forall a : Nat, T a ->
+      CandidateCarrier r a /\
+        Not (SquarefreeNeighborInCandidate N r B a)) ->
+    1 <= @familySize N B decB ->
+    Exists fun pivot : Nat =>
+    Exists fun r2 : Nat =>
+    Exists fun r3 : Nat =>
+    Exists fun r7 : Nat =>
+    Exists fun r11 : Nat =>
+    Exists fun r13 : Nat =>
+    Exists fun r17 : Nat =>
+    Exists fun r19 : Nat =>
+    Exists fun r23 : Nat =>
+    Exists fun tailClasses : List (Nat × Nat) =>
+      B pivot /\
+        (forall cls : Nat × Nat, List.Mem cls tailClasses -> 29 <= cls.fst) /\
+          (forall cls : Nat × Nat,
+            List.Mem cls
+              (SquareSieveMediumSkeletonPrimeClasses
+                r2 r3 r7 r11 r13 r17 r19 r23 ++ tailClasses) ->
+            2 <= cls.fst /\ cls.fst ≠ 5) /\
+            SquareSievePivotPrimeResiduePrimeQuotientCover N r T pivot
+              (SquareSieveMediumSkeletonPrimeClasses
+                r2 r3 r7 r11 r13 r17 r19 r23 ++ tailClasses) /\
+              @familySize N B decB +
+                  SquareSievePrimeResidueCoverBudget N
+                    (SquareSieveMediumSkeletonPrimeClasses
+                      r2 r3 r7 r11 r13 r17 r19 r23 ++ tailClasses) <=
+                candidateCount r N
+
+/-- Endpoint nonempty medium-skeleton prime-quotient tail target. -/
+def SquareSieveNonemptyMediumSkeletonPrimeQuotientTailCertificate : Prop :=
+  SquareSieveNonemptyMediumSkeletonPrimeQuotientTailBoundForResidue 7
+
+/--
+The nonempty prime-qualified quotient-tail target supplies the active
+nonempty-pivot prime-residue cover certificate.
+-/
+theorem squareSieveNonemptyPivotPrimeResidueCover_of_mediumPrimeQuotientTail
+    (h : SquareSieveNonemptyMediumSkeletonPrimeQuotientTailBoundForResidue 7) :
+    SquareSieveNonemptyPivotPrimeResidueCoverCertificate := by
+  intro N B T decB decT hB hClique hT hNonempty
+  rcases h N B T decB decT hB hClique hT hNonempty with
+    ⟨pivot, r2, r3, r7, r11, r13, r17, r19, r23, tailClasses,
+      hpivot, _hTailLarge, hPos, hPrimeCover, hBudget⟩
+  exact
+    ⟨pivot,
+      SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r17 r19 r23 ++
+        tailClasses,
+      hpivot,
+      hPos,
+      squareSievePivotPrimeResidueCover_of_quotientCover
+        (squareSievePivotPrimeResidueQuotientCover_of_primeQuotientCover
+          hPrimeCover),
+      hBudget⟩
 
 /--
 Nonempty-pivot version of the square-sieve target.  Lean closes the empty

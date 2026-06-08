@@ -199,7 +199,7 @@ Files:
 
 ### `G-squarefree-ap-hall-expansion` -- Squarefree AP Hall-neighborhood expansion
 
-Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut only covers the nonempty case by choosing a pivot in `B` and explicit prime-indexed CRT residue classes `(p, residue)` counted with budget `N/(25*p^2)+1`, with `p = 5` kernel-excluded for outside pivots.  Lean maps these prime classes to the older `25*p^2` residue cover, proves the budgets match, records fixed-prime residue uniqueness, exposes exact `p=2,3` and medium `{2,3,7,11,13,19,23}` skeleton budgets, and now has dedicated singleton skeleton-tail, medium-skeleton-tail, quotient-tail, and prime-qualified quotient-tail targets with bridges back to the one-list singleton prime-cover target.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.
+Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut only covers the nonempty case by choosing a pivot in `B` and explicit prime-indexed CRT residue classes `(p, residue)` counted with budget `N/(25*p^2)+1`, with `p = 5` kernel-excluded for outside pivots.  Lean maps these prime classes to the older `25*p^2` residue cover, proves the budgets match, records fixed-prime residue uniqueness, exposes exact `p=2,3` and medium `{2,3,7,11,13,17,19,23}` skeleton budgets, proves the finite small-prime index split below `29`, and now has dedicated singleton and nonempty medium-skeleton prime-qualified quotient-tail targets with bridges back to the active one-list and nonempty prime-cover targets.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.
 
 Declarations:
 - `Erdos848.globalSquareSieveHallCut`
@@ -213,6 +213,8 @@ Declarations:
 - `Erdos848.squareSievePivotPrimeResidueCover_of_quotientCover`
 - `Erdos848.SquareSievePrimeIndex`
 - `Erdos848.squareSievePrimeIndex_two_le`
+- `Erdos848.SquareSieveSmallPrimeIndexBelowTwentyNine`
+- `Erdos848.squareSievePrimeIndex_smallBelowTwentyNine_cases`
 - `Erdos848.SquareSievePrimeResidueCoverBudget`
 - `Erdos848.squareSievePrimeResidueCoverBudget_append`
 - `Erdos848.SquareSievePrimeResidueClassBudget`
@@ -239,6 +241,9 @@ Declarations:
 - `Erdos848.squareSieveSingletonSkeletonTail_of_mediumSkeletonTail`
 - `Erdos848.squareSieveSingletonPivotPrimeResidueCover_of_skeletonTail`
 - `Erdos848.squareSieveSingletonPivotPrimeResidueCover_of_primeQuotientTail`
+- `Erdos848.SquareSieveNonemptyMediumSkeletonPrimeQuotientTailCertificate`
+- `Erdos848.SquareSieveNonemptyMediumSkeletonPrimeQuotientTailBoundForResidue`
+- `Erdos848.squareSieveNonemptyPivotPrimeResidueCover_of_mediumPrimeQuotientTail`
 - `Erdos848.SquareSieveNonemptyPivotResidueCoverCertificate`
 - `Erdos848.SquareSieveNonemptyPivotResidueCoverBoundForResidue`
 - `Erdos848.SquareSieveResidueCoverCertificate`

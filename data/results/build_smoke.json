@@ -406,7 +406,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-08T10:44:23.780548+00:00",
+  "generated_at": "2026-06-08T12:09:29.463550+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -3534,6 +3534,7 @@
         7,
         11,
         13,
+        17,
         19,
         23
       ],
@@ -3610,6 +3611,7 @@
         7,
         11,
         13,
+        17,
         19,
         23
       ],
@@ -3705,6 +3707,7 @@
         7,
         11,
         13,
+        17,
         19,
         23
       ],
@@ -3774,6 +3777,7 @@
         7,
         11,
         13,
+        17,
         19,
         23
       ],
@@ -3788,6 +3792,57 @@
       "worst_tail_prime_quotient_witnesses": [],
       "worst_tail_slack": 7,
       "worst_tail_target_count": 0
+    }
+  ],
+  "square_sieve_two_pivot_quotient_scans": [
+    {
+      "N": 500,
+      "base_residue": 7,
+      "best_full_rectangle_slack": 13,
+      "best_pair": [
+        268,
+        41
+      ],
+      "best_pair_rectangle_slack": 17,
+      "best_pair_target_count": 1,
+      "best_skeleton_prime_classes": [
+        [
+          11,
+          107
+        ]
+      ],
+      "best_skeleton_prime_cover_budget": 1,
+      "best_skeleton_target_count": 1,
+      "best_tail_max_prime": 0,
+      "best_tail_max_quotient": 0,
+      "best_tail_min_prime": 0,
+      "best_tail_min_quotient": 0,
+      "best_tail_prime_classes": [],
+      "best_tail_prime_cover_budget": 0,
+      "best_tail_prime_quotient_witnesses": [],
+      "best_tail_target_count": 0,
+      "best_total_prime_cover_budget": 1,
+      "candidate_count": 20,
+      "outside_size": 6,
+      "outside_witness": [
+        41,
+        437,
+        43,
+        143,
+        243,
+        268
+      ],
+      "pair_count": 30,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23
+      ]
     }
   ]
 }
