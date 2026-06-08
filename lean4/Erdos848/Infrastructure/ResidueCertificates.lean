@@ -29,6 +29,29 @@ private theorem mod25_zero_of_squareDivides_five {n : Nat} (hdiv : SquareDivides
       rw [hk]
       omega
 
+private theorem mod25_right_seven_of_left_seven_mul_add_one_zero
+    {x : Nat} (hx : x < 25) (hzero : (7 * x + 1) % 25 = 0) :
+    x = 7 :=
+  (by decide : forall x : Nat, x < 25 -> (7 * x + 1) % 25 = 0 -> x = 7)
+    x hx hzero
+
+/-- If `a` is in the `7 mod 25` candidate class and `5^2 | a*b+1`, then so is `b`. -/
+theorem candidateCarrier_right_seven_of_candidate_left_seven_squareDivides_five
+    {a b : Nat} (ha : CandidateCarrier 7 a)
+    (hdiv : SquareDivides 5 (a * b + 1)) :
+    CandidateCarrier 7 b := by
+  have hzero : (a * b + 1) % 25 = 0 :=
+    mod25_zero_of_squareDivides_five hdiv
+  unfold CandidateCarrier at ha
+  unfold CandidateCarrier
+  have hb_lt : b % 25 < 25 := Nat.mod_lt b (by omega)
+  have hzero' : (7 * (b % 25) + 1) % 25 = 0 := by
+    rw [Nat.add_mod, Nat.mul_mod, ha] at hzero
+    simpa using hzero
+  have hb : b % 25 = 7 :=
+    mod25_right_seven_of_left_seven_mul_add_one_zero hb_lt hzero'
+  simpa using hb
+
 /-- Convert a modulo-`169` zero certificate into the local `13^2` divisor form. -/
 private theorem squareDivides_thirteen_of_mod169_zero {n : Nat} (hmod : n % 169 = 0) :
     SquareDivides 13 n := by

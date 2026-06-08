@@ -199,7 +199,7 @@ Files:
 
 ### `G-squarefree-ap-hall-expansion` -- Squarefree AP Hall-neighborhood expansion
 
-Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut only covers the nonempty case by choosing a pivot in `B` and explicit prime-indexed CRT residue classes `(p, residue)` counted with budget `N/(25*p^2)+1`.  Lean maps these prime classes to the older `25*p^2` residue cover, proves the budgets match, and exposes the bridge from candidate non-neighbors to square-divisor residue covers.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.
+Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut only covers the nonempty case by choosing a pivot in `B` and explicit prime-indexed CRT residue classes `(p, residue)` counted with budget `N/(25*p^2)+1`, with `p = 5` kernel-excluded for outside pivots.  Lean maps these prime classes to the older `25*p^2` residue cover, proves the budgets match, and exposes the bridge from candidate non-neighbors to square-divisor residue covers.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.
 
 Declarations:
 - `Erdos848.globalSquareSieveHallCut`
@@ -229,6 +229,9 @@ Declarations:
 - `Erdos848.squareSieveNonemptyPivotResidueCover_of_primeResidueCover`
 - `Erdos848.squareSievePivotResidueCover_of_primeResidueCover`
 - `Erdos848.squareSieveResidueCoverBudget_primeResidueClasses`
+- `Erdos848.squareSievePrime_ne_five_of_candidateOutside_seven`
+- `Erdos848.squareSievePrime_ne_five_of_boundedOutsidePivot_seven`
+- `Erdos848.candidateCarrier_right_seven_of_candidate_left_seven_squareDivides_five`
 - `Erdos848.familySize_le_squareSieveResidueCoverBudget`
 - `Erdos848.squareSievePivotSquareDivisor_of_nonNeighbor`
 - `Erdos848.squareSieveResidueCover_of_pivotResidueCover`

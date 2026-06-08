@@ -42,7 +42,9 @@ from erdos848.square_sieve_rectangle import (
 )
 from erdos848.square_sieve_rectangle import (
     square_sieve_nonneighbor_pivot_cover_example,
+    square_sieve_intersection_decay_scan,
     square_sieve_pivot_cover_example,
+    square_sieve_singleton_budget_scan,
 )
 
 
@@ -106,6 +108,11 @@ def run(mode: str) -> dict:
             (20000, False),
         ]
     )
+    singleton_scan_Ns = (
+        [100, 500]
+        if not extended
+        else [100, 500, 1000, 2000, 5000]
+    )
 
     residue = residue_to_json(generate_residue_certificate([5, 13], run_prefix=extended))
     exact = [exact_848_check(N) for N in exact_Ns]
@@ -166,6 +173,21 @@ def run(mode: str) -> dict:
         for item in active_credit
         if item["observed_max_credit_deficit_witness"] or item["worst_credit_witness"]
     )
+    square_sieve_singleton_budget_scans = [
+        square_sieve_pivot_cover_to_json(square_sieve_singleton_budget_scan(N))
+        for N in singleton_scan_Ns
+    ]
+    square_sieve_intersection_decay_scans = [
+        square_sieve_pivot_cover_to_json(
+            square_sieve_intersection_decay_scan(item["N"], witness)
+        )
+        for item in active_credit
+        for witness in [
+            item["observed_max_credit_deficit_witness"]
+            or item["worst_credit_witness"]
+        ]
+        if item["exact_worst"] and len(witness) >= 2
+    ]
 
     refs = {
         "327": {
@@ -193,6 +215,8 @@ def run(mode: str) -> dict:
         "seven_offset_crt_obstruction": seven_offset_crt,
         "seven_offset_target_crt_obstruction": seven_offset_target_crt,
         "square_sieve_pivot_covers": square_sieve_pivot_covers,
+        "square_sieve_singleton_budget_scans": square_sieve_singleton_budget_scans,
+        "square_sieve_intersection_decay_scans": square_sieve_intersection_decay_scans,
         "partitioned_hall_checks": partitioned,
         "active_credit_checks": active_credit,
         "reference_problem_templates": refs,
@@ -342,6 +366,10 @@ def assert_gate(payload: dict) -> None:
         assert item["outside_size"] >= 1, item
         assert len(item["outside_witness"]) == item["outside_size"], item
         assert item["pivot"] in item["outside_witness"], item
+        assert all(
+            outside % 25 != item["base_residue"] % 25
+            for outside in item["outside_witness"]
+        ), item
         assert item["target_mode"] in {"manual_subset", "nonneighbor_exact"}, item
         assert item["rectangle_budget_holds"], item
         assert item["outside_size"] + item["cover_budget"] <= item["candidate_count"], item
@@ -350,6 +378,7 @@ def assert_gate(payload: dict) -> None:
             item["N"] // (25 * p * p) + 1
             for p, _residue in item["prime_residue_classes"]
         ), item
+        assert all(p != 5 for p, _residue in item["prime_residue_classes"]), item
         assert item["cover_budget"] == sum(
             item["N"] // modulus + 1
             for modulus, _residue in item["residue_classes"]
@@ -382,11 +411,54 @@ def assert_gate(payload: dict) -> None:
             assert 1 <= target <= item["N"], item
             assert target % 25 == item["base_residue"] % 25, item
             assert p2 == p * p, item
+            assert p != 5, item
             assert modulus == 25 * p2, item
             assert (modulus, residue) in classes, item
             assert (p, residue) in prime_classes, item
             assert target % modulus == residue, item
             assert (target * item["pivot"] + 1) % p2 == 0, item
+    for item in payload["square_sieve_singleton_budget_scans"]:
+        assert item["checked_pivots"] >= 0, item
+        assert item["candidate_count"] == candidate_count(item["N"], item["base_residue"]), item
+        assert item["worst_slack"] >= 0, item
+        assert item["worst_prime_cover_budget"] + 1 <= item["candidate_count"], item
+        if item["checked_pivots"] > 0:
+            assert item["worst_pivot"] % 25 != item["base_residue"] % 25, item
+            assert item["worst_target_count"] >= 0, item
+            assert item["worst_prime_class_count"] >= 0, item
+            assert item["worst_prime_cover_budget"] >= item["worst_prime_class_count"], item
+    for item in payload["square_sieve_intersection_decay_scans"]:
+        assert item["outside_witness"], item
+        assert all(
+            outside % 25 != item["base_residue"] % 25
+            for outside in item["outside_witness"]
+        ), item
+        assert item["all_target_counts_nonincreasing"], item
+        assert item["all_prime_budgets_nonincreasing"], item
+        assert len(item["steps"]) == len(item["outside_witness"]), item
+        previous_target_count = None
+        previous_prime_budget = None
+        for step in item["steps"]:
+            assert 1 <= step["prefix_len"] <= len(item["outside_witness"]), item
+            assert step["pivot"] in item["outside_witness"][: step["prefix_len"]], item
+            assert step["target_count"] >= 0, item
+            assert step["prime_class_count"] >= 0, item
+            assert step["prime_cover_budget"] >= step["prime_class_count"], item
+            assert step["rectangle_slack"] >= 0, item
+            assert (
+                step["prefix_len"] + step["prime_cover_budget"]
+                <= candidate_count(item["N"], item["base_residue"])
+            ), item
+            if previous_target_count is None:
+                assert step["target_drop"] == 0, item
+                assert step["budget_drop"] == 0, item
+            else:
+                assert step["target_drop"] == previous_target_count - step["target_count"], item
+                assert step["budget_drop"] == previous_prime_budget - step["prime_cover_budget"], item
+                assert step["target_drop"] >= 0, item
+                assert step["budget_drop"] >= 0, item
+            previous_target_count = step["target_count"]
+            previous_prime_budget = step["prime_cover_budget"]
     for item in payload["partitioned_hall_checks"]:
         assert item["worst_opposite_defect"] >= 0, item
         assert item["worst_middle_defect"] >= 0, item
@@ -742,6 +814,14 @@ def main() -> int:
     print(
         "  square-sieve pivot covers: "
         f"{[(x['N'], x['outside_size'], len(x['targets']), x['pivot'], len(x['prime_residue_classes']), x['prime_cover_budget'], x['candidate_count']) for x in payload['square_sieve_pivot_covers']]}"
+    )
+    print(
+        "  square-sieve singleton budget scans: "
+        f"{[(x['N'], x['checked_pivots'], x['worst_slack'], x['worst_pivot'], x['worst_target_count'], x['worst_prime_class_count'], x['worst_prime_cover_budget']) for x in payload['square_sieve_singleton_budget_scans']]}"
+    )
+    print(
+        "  square-sieve intersection decay scans: "
+        f"{[(x['N'], len(x['outside_witness']), x['all_target_counts_nonincreasing'], x['all_prime_budgets_nonincreasing'], x['steps'][-1]['rectangle_slack'] if x['steps'] else 0) for x in payload['square_sieve_intersection_decay_scans']]}"
     )
     print(
         "  active credit capacity checks: "

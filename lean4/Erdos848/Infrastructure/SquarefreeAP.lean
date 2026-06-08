@@ -15325,9 +15325,10 @@ def SquareSievePivotPrimeResidueCover
       Exists fun p : Nat =>
       Exists fun residue : Nat =>
         2 <= p /\
-          SquareDivides p (a * pivot + 1) /\
-            List.Mem (p, residue) classes /\
-              SquareSieveResidueClass (25 * p * p) residue a
+          p ≠ 5 /\
+            SquareDivides p (a * pivot + 1) /\
+              List.Mem (p, residue) classes /\
+                SquareSieveResidueClass (25 * p * p) residue a
 
 /--
 Prime-indexed nonempty-pivot square-sieve target.  The certificate lists square
@@ -15345,7 +15346,8 @@ def SquareSieveNonemptyPivotPrimeResidueCoverBoundForResidue (r : Nat) : Prop :=
     Exists fun pivot : Nat =>
     Exists fun classes : List (Nat × Nat) =>
       B pivot /\
-        (forall cls : Nat × Nat, List.Mem cls classes -> 2 <= cls.fst) /\
+        (forall cls : Nat × Nat, List.Mem cls classes ->
+          2 <= cls.fst /\ cls.fst ≠ 5) /\
           SquareSievePivotPrimeResidueCover N r T pivot classes /\
             @familySize N B decB +
                 SquareSievePrimeResidueCoverBudget N classes <= candidateCount r N
@@ -15796,6 +15798,33 @@ theorem squareSieveResidueCover_of_pivotResidueCover
     ⟨p, residue, _hp, _hdiv, hmem, hclass⟩
   exact ⟨haBox, ⟨(25 * p * p, residue), hmem, hclass⟩⟩
 
+/-- A `7 mod 25` candidate target cannot use the square prime `5` against an outside pivot. -/
+theorem squareSievePrime_ne_five_of_candidateOutside_seven
+    {a pivot p : Nat}
+    (ha : CandidateCarrier 7 a)
+    (hpivotOutside : CandidateOutside 7 pivot)
+    (hdiv : SquareDivides p (a * pivot + 1)) :
+    p ≠ 5 := by
+  intro hp5
+  subst p
+  exact hpivotOutside
+    (candidateCarrier_right_seven_of_candidate_left_seven_squareDivides_five
+      ha hdiv)
+
+/--
+The bounded outside-set hypotheses used by the active Hall rectangle also rule
+out `p = 5` for every pivot square-divisor witness.
+-/
+theorem squareSievePrime_ne_five_of_boundedOutsidePivot_seven
+    {N : Nat} {B : Nat -> Prop} {a pivot p : Nat}
+    (hB : BoundedOutsideSet N 7 B)
+    (hpivot : B pivot)
+    (ha : CandidateCarrier 7 a)
+    (hdiv : SquareDivides p (a * pivot + 1)) :
+    p ≠ 5 :=
+  squareSievePrime_ne_five_of_candidateOutside_seven
+    ha (hB pivot hpivot).right hdiv
+
 /-- Prime-indexed budgets are exactly the old residue budgets after mapping. -/
 theorem squareSieveResidueCoverBudget_primeResidueClasses
     (N : Nat) (classes : List (Nat × Nat)) :
@@ -15820,7 +15849,7 @@ theorem squareSievePivotResidueCover_of_primeResidueCover
       (SquareSievePrimeResidueClasses classes) := by
   intro a haBox haT
   rcases hPrime a haBox haT with
-    ⟨haCand, p, residue, hp, hdiv, hmem, hclass⟩
+    ⟨haCand, p, residue, hp, _hpNeFive, hdiv, hmem, hclass⟩
   refine ⟨haCand, p, residue, hp, hdiv, ?_, hclass⟩
   exact List.mem_map.mpr ⟨(p, residue), hmem, rfl⟩
 
@@ -15836,7 +15865,7 @@ theorem squareSieveNonemptyPivotResidueCover_of_primeResidueCover
   · intro cls hcls
     rcases List.mem_map.mp hcls with ⟨primeCls, hPrimeMem, hEq⟩
     subst cls
-    have hp : 2 <= primeCls.fst := hPrimePos primeCls hPrimeMem
+    have hp : 2 <= primeCls.fst := (hPrimePos primeCls hPrimeMem).left
     have hpPos : 0 < primeCls.fst := by omega
     exact Nat.mul_pos (Nat.mul_pos (by omega) hpPos) hpPos
   · exact squareSievePivotResidueCover_of_primeResidueCover hPrimeCover
