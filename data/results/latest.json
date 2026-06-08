@@ -1706,7 +1706,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-08T10:19:55.255018+00:00",
+  "generated_at": "2026-06-08T10:50:54.203855+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -48597,6 +48597,529 @@
       "worst_prime_cover_budget": 88,
       "worst_slack": 111,
       "worst_target_count": 76
+    }
+  ],
+  "square_sieve_tail_quotient_profile_scans": [
+    {
+      "N": 100,
+      "base_residue": 7,
+      "candidate_count": 4,
+      "checked_pivots": 8,
+      "skeleton_primes": [
+        2,
+        3
+      ],
+      "worst_pivot": 41,
+      "worst_tail_max_prime": 0,
+      "worst_tail_max_quotient": 0,
+      "worst_tail_min_prime": 0,
+      "worst_tail_min_quotient": 0,
+      "worst_tail_prime_class_count": 0,
+      "worst_tail_prime_classes": [],
+      "worst_tail_prime_cover_budget": 0,
+      "worst_tail_prime_quotient_witnesses": [],
+      "worst_tail_slack": 0,
+      "worst_tail_target_count": 0
+    },
+    {
+      "N": 100,
+      "base_residue": 7,
+      "candidate_count": 4,
+      "checked_pivots": 8,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        19,
+        23
+      ],
+      "worst_pivot": 41,
+      "worst_tail_max_prime": 0,
+      "worst_tail_max_quotient": 0,
+      "worst_tail_min_prime": 0,
+      "worst_tail_min_quotient": 0,
+      "worst_tail_prime_class_count": 0,
+      "worst_tail_prime_classes": [],
+      "worst_tail_prime_cover_budget": 0,
+      "worst_tail_prime_quotient_witnesses": [],
+      "worst_tail_slack": 0,
+      "worst_tail_target_count": 0
+    },
+    {
+      "N": 500,
+      "base_residue": 7,
+      "candidate_count": 20,
+      "checked_pivots": 32,
+      "skeleton_primes": [
+        2,
+        3
+      ],
+      "worst_pivot": 143,
+      "worst_tail_max_prime": 19,
+      "worst_tail_max_quotient": 823,
+      "worst_tail_min_prime": 7,
+      "worst_tail_min_quotient": 82,
+      "worst_tail_prime_class_count": 2,
+      "worst_tail_prime_classes": [
+        [
+          7,
+          282
+        ],
+        [
+          19,
+          207
+        ]
+      ],
+      "worst_tail_prime_cover_budget": 2,
+      "worst_tail_prime_quotient_witnesses": [
+        [
+          207,
+          19,
+          82,
+          207
+        ],
+        [
+          282,
+          7,
+          823,
+          282
+        ]
+      ],
+      "worst_tail_slack": 8,
+      "worst_tail_target_count": 2
+    },
+    {
+      "N": 500,
+      "base_residue": 7,
+      "candidate_count": 20,
+      "checked_pivots": 32,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        19,
+        23
+      ],
+      "worst_pivot": 493,
+      "worst_tail_max_prime": 0,
+      "worst_tail_max_quotient": 0,
+      "worst_tail_min_prime": 0,
+      "worst_tail_min_quotient": 0,
+      "worst_tail_prime_class_count": 0,
+      "worst_tail_prime_classes": [],
+      "worst_tail_prime_cover_budget": 0,
+      "worst_tail_prime_quotient_witnesses": [],
+      "worst_tail_slack": 7,
+      "worst_tail_target_count": 0
+    },
+    {
+      "N": 1000,
+      "base_residue": 7,
+      "candidate_count": 40,
+      "checked_pivots": 65,
+      "skeleton_primes": [
+        2,
+        3
+      ],
+      "worst_pivot": 593,
+      "worst_tail_max_prime": 31,
+      "worst_tail_max_quotient": 4623,
+      "worst_tail_min_prime": 7,
+      "worst_tail_min_quotient": 282,
+      "worst_tail_prime_class_count": 4,
+      "worst_tail_prime_classes": [
+        [
+          7,
+          382
+        ],
+        [
+          11,
+          232
+        ],
+        [
+          13,
+          957
+        ],
+        [
+          31,
+          457
+        ]
+      ],
+      "worst_tail_prime_cover_budget": 4,
+      "worst_tail_prime_quotient_witnesses": [
+        [
+          232,
+          11,
+          1137,
+          232
+        ],
+        [
+          382,
+          7,
+          4623,
+          382
+        ],
+        [
+          457,
+          31,
+          282,
+          457
+        ],
+        [
+          957,
+          13,
+          3358,
+          957
+        ]
+      ],
+      "worst_tail_slack": 19,
+      "worst_tail_target_count": 4
+    },
+    {
+      "N": 1000,
+      "base_residue": 7,
+      "candidate_count": 40,
+      "checked_pivots": 65,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        19,
+        23
+      ],
+      "worst_pivot": 593,
+      "worst_tail_max_prime": 31,
+      "worst_tail_max_quotient": 282,
+      "worst_tail_min_prime": 31,
+      "worst_tail_min_quotient": 282,
+      "worst_tail_prime_class_count": 1,
+      "worst_tail_prime_classes": [
+        [
+          31,
+          457
+        ]
+      ],
+      "worst_tail_prime_cover_budget": 1,
+      "worst_tail_prime_quotient_witnesses": [
+        [
+          457,
+          31,
+          282,
+          457
+        ]
+      ],
+      "worst_tail_slack": 19,
+      "worst_tail_target_count": 1
+    },
+    {
+      "N": 2000,
+      "base_residue": 7,
+      "candidate_count": 80,
+      "checked_pivots": 128,
+      "skeleton_primes": [
+        2,
+        3
+      ],
+      "worst_pivot": 1543,
+      "worst_tail_max_prime": 67,
+      "worst_tail_max_quotient": 30923,
+      "worst_tail_min_prime": 7,
+      "worst_tail_min_quotient": 518,
+      "worst_tail_prime_class_count": 6,
+      "worst_tail_prime_classes": [
+        [
+          7,
+          982
+        ],
+        [
+          11,
+          1932
+        ],
+        [
+          13,
+          1882
+        ],
+        [
+          19,
+          1382
+        ],
+        [
+          31,
+          1032
+        ],
+        [
+          67,
+          1507
+        ]
+      ],
+      "worst_tail_prime_cover_budget": 7,
+      "worst_tail_prime_quotient_witnesses": [
+        [
+          982,
+          7,
+          30923,
+          982
+        ],
+        [
+          1032,
+          31,
+          1657,
+          1032
+        ],
+        [
+          1382,
+          19,
+          5907,
+          1382
+        ],
+        [
+          1507,
+          67,
+          518,
+          1507
+        ],
+        [
+          1882,
+          13,
+          17183,
+          1882
+        ],
+        [
+          1932,
+          11,
+          24637,
+          1932
+        ]
+      ],
+      "worst_tail_slack": 42,
+      "worst_tail_target_count": 6
+    },
+    {
+      "N": 2000,
+      "base_residue": 7,
+      "candidate_count": 80,
+      "checked_pivots": 128,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        19,
+        23
+      ],
+      "worst_pivot": 1543,
+      "worst_tail_max_prime": 67,
+      "worst_tail_max_quotient": 1657,
+      "worst_tail_min_prime": 31,
+      "worst_tail_min_quotient": 518,
+      "worst_tail_prime_class_count": 2,
+      "worst_tail_prime_classes": [
+        [
+          31,
+          1032
+        ],
+        [
+          67,
+          1507
+        ]
+      ],
+      "worst_tail_prime_cover_budget": 2,
+      "worst_tail_prime_quotient_witnesses": [
+        [
+          1032,
+          31,
+          1657,
+          1032
+        ],
+        [
+          1507,
+          67,
+          518,
+          1507
+        ]
+      ],
+      "worst_tail_slack": 42,
+      "worst_tail_target_count": 2
+    },
+    {
+      "N": 5000,
+      "base_residue": 7,
+      "candidate_count": 200,
+      "checked_pivots": 325,
+      "skeleton_primes": [
+        2,
+        3
+      ],
+      "worst_pivot": 3323,
+      "worst_tail_max_prime": 461,
+      "worst_tail_max_quotient": 263263,
+      "worst_tail_min_prime": 7,
+      "worst_tail_min_quotient": 22,
+      "worst_tail_prime_class_count": 8,
+      "worst_tail_prime_classes": [
+        [
+          7,
+          207
+        ],
+        [
+          11,
+          2232
+        ],
+        [
+          13,
+          1607
+        ],
+        [
+          19,
+          4532
+        ],
+        [
+          23,
+          4832
+        ],
+        [
+          29,
+          2482
+        ],
+        [
+          61,
+          3132
+        ],
+        [
+          461,
+          1407
+        ]
+      ],
+      "worst_tail_prime_cover_budget": 14,
+      "worst_tail_prime_quotient_witnesses": [
+        [
+          207,
+          7,
+          14038,
+          207
+        ],
+        [
+          1407,
+          461,
+          22,
+          1407
+        ],
+        [
+          1432,
+          7,
+          97113,
+          207
+        ],
+        [
+          1607,
+          13,
+          31598,
+          1607
+        ],
+        [
+          2232,
+          11,
+          61297,
+          2232
+        ],
+        [
+          2482,
+          29,
+          9807,
+          2482
+        ],
+        [
+          3132,
+          61,
+          2797,
+          3132
+        ],
+        [
+          3882,
+          7,
+          263263,
+          207
+        ],
+        [
+          4532,
+          19,
+          41717,
+          4532
+        ],
+        [
+          4832,
+          23,
+          30353,
+          4832
+        ]
+      ],
+      "worst_tail_slack": 111,
+      "worst_tail_target_count": 10
+    },
+    {
+      "N": 5000,
+      "base_residue": 7,
+      "candidate_count": 200,
+      "checked_pivots": 325,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        19,
+        23
+      ],
+      "worst_pivot": 3323,
+      "worst_tail_max_prime": 461,
+      "worst_tail_max_quotient": 9807,
+      "worst_tail_min_prime": 29,
+      "worst_tail_min_quotient": 22,
+      "worst_tail_prime_class_count": 3,
+      "worst_tail_prime_classes": [
+        [
+          29,
+          2482
+        ],
+        [
+          61,
+          3132
+        ],
+        [
+          461,
+          1407
+        ]
+      ],
+      "worst_tail_prime_cover_budget": 3,
+      "worst_tail_prime_quotient_witnesses": [
+        [
+          1407,
+          461,
+          22,
+          1407
+        ],
+        [
+          2482,
+          29,
+          9807,
+          2482
+        ],
+        [
+          3132,
+          61,
+          2797,
+          3132
+        ]
+      ],
+      "worst_tail_slack": 111,
+      "worst_tail_target_count": 3
     }
   ]
 }

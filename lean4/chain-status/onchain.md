@@ -22,4 +22,4 @@ Files whose declarations are transitively reached from `config.endpoints` (and a
 
 | file | decls | axioms |
 |------|------:|-------:|
-| `Erdos848/Infrastructure/SquarefreeAP.lean` | 1831 | 4 |
+| `Erdos848/Infrastructure/SquarefreeAP.lean` | 1838 | 4 |

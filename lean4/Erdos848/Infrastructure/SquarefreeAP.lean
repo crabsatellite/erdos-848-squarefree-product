@@ -15346,6 +15346,43 @@ theorem squareSievePrimeResidueCoverBudget_two_three_append
   rw [squareSievePrimeResidueCoverBudget_append,
     squareSievePrimeResidueCoverBudget_two_three]
 
+/-- The medium square-sieve skeleton exposed by the current quotient scans. -/
+def SquareSieveMediumSkeletonPrimeClasses
+    (r2 r3 r7 r11 r13 r19 r23 : Nat) : List (Nat × Nat) :=
+  [(2, r2), (3, r3), (7, r7), (11, r11), (13, r13), (19, r19), (23, r23)]
+
+/-- Exact additive budget for the medium square-sieve skeleton. -/
+theorem squareSievePrimeResidueCoverBudget_mediumSkeleton
+    (N r2 r3 r7 r11 r13 r19 r23 : Nat) :
+    SquareSievePrimeResidueCoverBudget N
+        (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23) =
+      SquareSievePrimeResidueClassBudget N 2 +
+        SquareSievePrimeResidueClassBudget N 3 +
+        SquareSievePrimeResidueClassBudget N 7 +
+        SquareSievePrimeResidueClassBudget N 11 +
+        SquareSievePrimeResidueClassBudget N 13 +
+        SquareSievePrimeResidueClassBudget N 19 +
+        SquareSievePrimeResidueClassBudget N 23 := by
+  simp [SquareSieveMediumSkeletonPrimeClasses,
+    SquareSievePrimeResidueCoverBudget]
+  omega
+
+/-- Exact additive budget for the medium skeleton followed by a tail. -/
+theorem squareSievePrimeResidueCoverBudget_mediumSkeleton_append
+    (N r2 r3 r7 r11 r13 r19 r23 : Nat) (tail : List (Nat × Nat)) :
+    SquareSievePrimeResidueCoverBudget N
+        (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23 ++ tail) =
+      SquareSievePrimeResidueClassBudget N 2 +
+        SquareSievePrimeResidueClassBudget N 3 +
+        SquareSievePrimeResidueClassBudget N 7 +
+        SquareSievePrimeResidueClassBudget N 11 +
+        SquareSievePrimeResidueClassBudget N 13 +
+        SquareSievePrimeResidueClassBudget N 19 +
+        SquareSievePrimeResidueClassBudget N 23 +
+        SquareSievePrimeResidueCoverBudget N tail := by
+  rw [squareSievePrimeResidueCoverBudget_append,
+    squareSievePrimeResidueCoverBudget_mediumSkeleton]
+
 /-- Convert prime-indexed classes to the residue classes used by the count lemma. -/
 def SquareSievePrimeResidueClasses (classes : List (Nat × Nat)) :
     List (Nat × Nat) :=
@@ -15445,6 +15482,70 @@ def SquareSieveSingletonSkeletonTailBoundForResidue (r : Nat) : Prop :=
 /-- Endpoint skeleton-tail singleton target for the `7 mod 25` class. -/
 def SquareSieveSingletonSkeletonTailCertificate : Prop :=
   SquareSieveSingletonSkeletonTailBoundForResidue 7
+
+/--
+Medium-skeleton singleton target.  This fixes the skeleton primes to
+`2,3,7,11,13,19,23` and leaves only the residual tail to be closed.
+-/
+def SquareSieveSingletonMediumSkeletonTailBoundForResidue (r : Nat) : Prop :=
+  forall (N pivot : Nat) (T : Nat -> Prop)
+    (_decT : DecidablePred T),
+    InBox N pivot ->
+    CandidateOutside r pivot ->
+    Not (ForbiddenSquarefreeEdge pivot pivot) ->
+    (forall a : Nat, T a ->
+      CandidateCarrier r a /\ Not (ForbiddenSquarefreeEdge a pivot)) ->
+    Exists fun r2 : Nat =>
+    Exists fun r3 : Nat =>
+    Exists fun r7 : Nat =>
+    Exists fun r11 : Nat =>
+    Exists fun r13 : Nat =>
+    Exists fun r19 : Nat =>
+    Exists fun r23 : Nat =>
+    Exists fun tailClasses : List (Nat × Nat) =>
+      (forall cls : Nat × Nat,
+        List.Mem cls
+          (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23 ++
+            tailClasses) ->
+        2 <= cls.fst /\ Not (cls.fst = 5)) /\
+        SquareSievePivotPrimeResidueCover N r T pivot
+          (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23 ++
+            tailClasses) /\
+          1 +
+              SquareSievePrimeResidueCoverBudget N
+                (SquareSieveMediumSkeletonPrimeClasses r2 r3 r7 r11 r13 r19 r23 ++
+                  tailClasses) <=
+            candidateCount r N
+
+/-- Endpoint medium-skeleton singleton target for the `7 mod 25` class. -/
+def SquareSieveSingletonMediumSkeletonTailCertificate : Prop :=
+  SquareSieveSingletonMediumSkeletonTailBoundForResidue 7
+
+/-- A medium-skeleton singleton certificate supplies the general skeleton-tail target. -/
+theorem squareSieveSingletonSkeletonTail_of_mediumSkeletonTail
+    (h : SquareSieveSingletonMediumSkeletonTailBoundForResidue 7) :
+    SquareSieveSingletonSkeletonTailCertificate := by
+  intro N pivot T decT hbox houtside hself hT
+  cases h N pivot T decT hbox houtside hself hT with
+  | intro r2 h2 =>
+      cases h2 with
+      | intro r3 h3 =>
+          cases h3 with
+          | intro r7 h7 =>
+              cases h7 with
+              | intro r11 h11 =>
+                  cases h11 with
+                  | intro r13 h13 =>
+                      cases h13 with
+                      | intro r19 h19 =>
+                          cases h19 with
+                          | intro r23 h23 =>
+                              cases h23 with
+                              | intro tailClasses hTail =>
+                                  exact Exists.intro
+                                    (SquareSieveMediumSkeletonPrimeClasses
+                                      r2 r3 r7 r11 r13 r19 r23)
+                                    (Exists.intro tailClasses hTail)
 
 /-- A skeleton-tail singleton certificate supplies the one-list singleton target. -/
 theorem squareSieveSingletonPivotPrimeResidueCover_of_skeletonTail
