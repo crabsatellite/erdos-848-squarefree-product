@@ -199,16 +199,24 @@ Files:
 
 ### `G-squarefree-ap-hall-expansion` -- Squarefree AP Hall-neighborhood expansion
 
-Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve rectangle bound.  A Hall defect is now kernel-reduced to a rectangle `B x T` where `B` is an outside non-squarefree clique and `T` is candidate-side with no squarefree cross-edge from `B`; the cut is to prove `|B| + |T| <= |C_7|`.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.
+Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`, and the active cut is now to cover `T` by explicit CRT residue classes, typically modulo `25 * p^2`, whose additive budget plus `|B|` is at most `|C_7|`.  Lean proves this residue-cover certificate implies the rectangle bound and then the Hall expansion.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.
 
 Declarations:
 - `Erdos848.globalSquareSieveHallCut`
 - `Erdos848.GlobalSquareSieveHallCertificate`
+- `Erdos848.SquareSieveResidueCoverCertificate`
+- `Erdos848.SquareSieveResidueCoverBoundForResidue`
+- `Erdos848.SquareSieveResidueCover`
+- `Erdos848.SquareSieveResidueCoverBudget`
+- `Erdos848.SquareSieveCoveredByResidueClasses`
+- `Erdos848.SquareSieveOffDiagonalClassValid`
 - `Erdos848.SquareSieveHallDefectRectangleCertificate`
 - `Erdos848.SquareSieveHallDefectRectangleBoundForResidue`
 - `Erdos848.CandidateNonNeighborOfOutsideSet`
 - `Erdos848.squarefreeAPHallCertificate_of_globalSquareSieve`
 - `Erdos848.squarefreeAPHallCertificate_of_squareSieveHallDefectRectangle`
+- `Erdos848.squareSieveHallDefectRectangle_of_residueCover`
+- `Erdos848.familySize_le_squareSieveResidueCoverBudget`
 - `Erdos848.crtNoSevenOffsetSourceIndex_no_typed_edge`
 - `Erdos848.crtNoSevenOffsetTargetIndex_no_typed_edge`
 - `Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCut`

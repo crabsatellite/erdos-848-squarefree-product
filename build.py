@@ -36,6 +36,10 @@ from erdos848.partitioned_hall_certificate import partitioned_hall_certificate
 from erdos848.problem_specs import PROBLEMS, problem327_max_set, problem727_scan
 from erdos848.residue_certificate import certificate_to_jsonable as residue_to_json
 from erdos848.residue_certificate import generate_residue_certificate
+from erdos848.square_sieve_rectangle import (
+    certificate_to_jsonable as square_sieve_pivot_cover_to_json,
+)
+from erdos848.square_sieve_rectangle import square_sieve_pivot_cover_example
 
 
 def exact_848_check(N: int) -> dict:
@@ -128,6 +132,18 @@ def run(mode: str) -> dict:
     seven_offset_target_crt = crt_obstruction_to_jsonable(
         seven_offset_target_crt_obstruction()
     )
+    square_sieve_pivot_covers = [
+        square_sieve_pivot_cover_to_json(
+            square_sieve_pivot_cover_example(100, 43, [32, 57])
+        ),
+        square_sieve_pivot_cover_to_json(
+            square_sieve_pivot_cover_example(
+                500,
+                493,
+                [7, 32, 107, 157, 207, 257, 307, 407, 457, 482],
+            )
+        ),
+    ]
 
     refs = {
         "327": {
@@ -154,6 +170,7 @@ def run(mode: str) -> dict:
         "opposite_band_matching_large_summaries": opposite_band_matching_large_summaries,
         "seven_offset_crt_obstruction": seven_offset_crt,
         "seven_offset_target_crt_obstruction": seven_offset_target_crt,
+        "square_sieve_pivot_covers": square_sieve_pivot_covers,
         "partitioned_hall_checks": partitioned,
         "active_credit_checks": active_credit,
         "reference_problem_templates": refs,
@@ -299,6 +316,26 @@ def assert_gate(payload: dict) -> None:
         assert source_value == 25 * source_index + 18, target_obstruction
         assert 1 <= source_value <= target_obstruction["endpoint_N"], target_obstruction
         assert target_obstruction["target_value"] * source_value + 1 == square_prime * square_prime * quotient, target_obstruction
+    for item in payload["square_sieve_pivot_covers"]:
+        assert item["outside_size"] >= 1, item
+        assert item["rectangle_budget_holds"], item
+        assert item["outside_size"] + item["cover_budget"] <= item["candidate_count"], item
+        assert item["cover_budget"] == sum(
+            item["N"] // modulus + 1
+            for modulus, _residue in item["residue_classes"]
+        ), item
+        classes = set(map(tuple, item["residue_classes"]))
+        assert classes, item
+        assert len(item["target_witnesses"]) == len(item["targets"]), item
+        for target, p, p2, modulus, residue in item["target_witnesses"]:
+            assert target in item["targets"], item
+            assert 1 <= target <= item["N"], item
+            assert target % 25 == item["base_residue"] % 25, item
+            assert p2 == p * p, item
+            assert modulus == 25 * p2, item
+            assert (modulus, residue) in classes, item
+            assert target % modulus == residue, item
+            assert (target * item["pivot"] + 1) % p2 == 0, item
     for item in payload["partitioned_hall_checks"]:
         assert item["worst_opposite_defect"] >= 0, item
         assert item["worst_middle_defect"] >= 0, item

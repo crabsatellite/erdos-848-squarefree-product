@@ -15217,13 +15217,82 @@ def SquareSieveHallDefectRectangleBoundForResidue (r : Nat) : Prop :=
 def SquareSieveHallDefectRectangleCertificate : Prop :=
   SquareSieveHallDefectRectangleBoundForResidue 7
 
+/-- One residue class used by a square-sieve cover. -/
+def SquareSieveResidueClass (modulus residue a : Nat) : Prop :=
+  a % modulus = residue % modulus
+
+/-- Boxed version of one square-sieve residue class. -/
+def SquareSieveBoxedResidueClass (N modulus residue a : Nat) : Prop :=
+  InBox N a /\ SquareSieveResidueClass modulus residue a
+
+/-- Trivial interval budget for one residue class modulo `modulus`. -/
+def SquareSieveResidueClassBudget (N modulus : Nat) : Nat :=
+  N / modulus + 1
+
+/-- Additive budget for a finite list of square-sieve residue classes. -/
+def SquareSieveResidueCoverBudget (N : Nat) : List (Nat × Nat) -> Nat
+  | [] => 0
+  | cls :: rest =>
+      SquareSieveResidueClassBudget N cls.fst +
+        SquareSieveResidueCoverBudget N rest
+
+/-- Candidate-side values covered by a finite list of square-sieve residue classes. -/
+def SquareSieveCoveredByResidueClasses
+    (N : Nat) (classes : List (Nat × Nat)) (a : Nat) : Prop :=
+  InBox N a /\
+    Exists fun cls : Nat × Nat =>
+      List.Mem cls classes /\
+        SquareSieveResidueClass cls.fst cls.snd a
+
+/--
+The candidate-side set `T` is covered, on the counted interval, by explicit
+square-sieve residue classes.  In generated certificates these classes are CRT
+classes modulo `25 * p^2`, preserving the candidate-class density.
+-/
+def SquareSieveResidueCover
+    (N : Nat) (T : Nat -> Prop) (classes : List (Nat × Nat)) : Prop :=
+  forall a : Nat, InBox N a -> T a ->
+    SquareSieveCoveredByResidueClasses N classes a
+
+/--
+Concrete square-sieve replacement for the Hall-defect rectangle bound.  A
+certificate must cover the candidate-side non-neighbor set by explicit residue
+classes and show that the outside part plus the cover budget fits inside the
+candidate count.
+-/
+def SquareSieveResidueCoverBoundForResidue (r : Nat) : Prop :=
+  forall (N : Nat) (B T : Nat -> Prop)
+    (decB : DecidablePred B) (_decT : DecidablePred T),
+    BoundedOutsideSet N r B ->
+    NonSquarefreeClique B ->
+    (forall a : Nat, T a ->
+      CandidateCarrier r a /\
+        Not (SquarefreeNeighborInCandidate N r B a)) ->
+    Exists fun classes : List (Nat × Nat) =>
+      (forall cls : Nat × Nat, List.Mem cls classes -> 0 < cls.fst) /\
+        SquareSieveResidueCover N T classes /\
+          @familySize N B decB +
+              SquareSieveResidueCoverBudget N classes <= candidateCount r N
+
+/-- Endpoint square-sieve residue-cover target for the `7 mod 25` class. -/
+def SquareSieveResidueCoverCertificate : Prop :=
+  SquareSieveResidueCoverBoundForResidue 7
+
+/-- Fixed-`b` off-diagonal square class: `p^2 | a*b+1` forces this residue. -/
+def SquareSieveOffDiagonalClassValid
+    (r b p residue : Nat) : Prop :=
+  forall a : Nat,
+    CandidateCarrier r a ->
+    SquareDivides p (a * b + 1) ->
+    SquareSieveResidueClass (25 * p * p) residue a
+
 /--
 Replacement analytic target after the seven-offset local-matching route was
 disproved by CRT obstructions.  The active analytic target is now the
-square-sieve rectangle bound that rules out Hall-defect rectangles directly.
+square-sieve residue-cover bound that rules out Hall-defect rectangles directly.
 -/
 def GlobalSquareSieveHallCertificate : Prop :=
-  SquareSieveHallDefectRectangleCertificate
+  SquareSieveResidueCoverCertificate
 
 /-- A two-residue AP/Hall certificate implies the endpoint one-residue certificate. -/
 theorem squarefreeAPHallCertificate_of_candidateResidues
@@ -15321,12 +15390,6 @@ theorem squarefreeAPHallCertificate_of_squareSieveHallDefectRectangle
     omega
   simpa [APHallExpansionForOutsideSet] using hHall
 
-/-- The global square-sieve rectangle certificate supplies the endpoint Hall input. -/
-theorem squarefreeAPHallCertificate_of_globalSquareSieve
-    (h : GlobalSquareSieveHallCertificate) :
-    SquarefreeAPHallCertificate :=
-  squarefreeAPHallCertificate_of_squareSieveHallDefectRectangle h
-
 private theorem familySize_eq_countP_range_succ
     (N : Nat) (P : Nat -> Prop) (decP : DecidablePred P)
     (hzero : Not (P 0)) :
@@ -15379,6 +15442,250 @@ private theorem list_nodup_map_of_inj_on
   change (l.map f).Pairwise (fun x y => x ≠ y)
   rw [List.pairwise_map]
   exact hnd.imp_of_mem (fun hx hy hne hxy => hne (hinj _ _ hx hy hxy))
+
+/-- The explicit list `[1, ..., N]` used by the square-sieve count lemmas. -/
+private def squareSieveOneToN (N : Nat) : List Nat :=
+  (List.range N).map (fun i : Nat => i + 1)
+
+private theorem squareSieveOneToN_succ (n : Nat) :
+    squareSieveOneToN (n + 1) = squareSieveOneToN n ++ [n + 1] := by
+  simp [squareSieveOneToN, List.range_succ, List.map_append]
+
+private theorem familySize_eq_filter_squareSieveOneToN_length
+    (N : Nat) (P : Nat -> Prop) (decP : DecidablePred P) :
+    @familySize N P decP =
+      List.length ((squareSieveOneToN N).filter (fun a => decide (P a))) := by
+  unfold familySize
+  induction N with
+  | zero =>
+      simp [countUpTo, squareSieveOneToN]
+  | succ n ih =>
+      rw [squareSieveOneToN_succ]
+      by_cases hp : P (n + 1)
+      · rw [List.filter_append]
+        simp [countUpTo, ih, hp]
+      · rw [List.filter_append]
+        simp [countUpTo, ih, hp]
+
+private theorem squareSieveOneToN_nodup (N : Nat) :
+    (squareSieveOneToN N).Nodup := by
+  unfold squareSieveOneToN
+  apply list_nodup_map_of_inj_on (List.nodup_range N)
+  intro x y _hx _hy hxy
+  omega
+
+private theorem familySize_eq_zero_of_empty_squareSieve
+    (N : Nat) (P : Nat -> Prop) (decP : DecidablePred P)
+    (hEmpty : forall a : Nat, Not (P a)) :
+    @familySize N P decP = 0 := by
+  unfold familySize
+  induction N with
+  | zero =>
+      simp [countUpTo]
+  | succ n ih =>
+      have hp : Not (P (n + 1)) := hEmpty (n + 1)
+      simp [countUpTo, hp, ih]
+
+/-- A single residue class modulo `modulus` contributes at most `N / modulus + 1`. -/
+theorem familySize_squareSieveBoxedResidueClass_le_budget
+    (N modulus residue : Nat) (hmod : 0 < modulus)
+    (decC : DecidablePred (SquareSieveBoxedResidueClass N modulus residue)) :
+    @familySize N (SquareSieveBoxedResidueClass N modulus residue) decC <=
+      SquareSieveResidueClassBudget N modulus := by
+  classical
+  let C : Nat -> Prop := SquareSieveBoxedResidueClass N modulus residue
+  let L : List Nat := (squareSieveOneToN N).filter (fun a => decide (C a))
+  let I : List Nat := List.range (N / modulus + 1)
+  have hCount : @familySize N C decC = List.length L := by
+    simpa [L, C] using
+      familySize_eq_filter_squareSieveOneToN_length N C decC
+  have hLnodup : L.Nodup := by
+    apply List.Nodup.sublist (List.filter_sublist (squareSieveOneToN N))
+    exact squareSieveOneToN_nodup N
+  have hMapNodup : (L.map (fun a : Nat => a / modulus)).Nodup := by
+    apply list_nodup_map_of_inj_on hLnodup
+    intro x y hx hy hdiv
+    have hxInfo := List.mem_filter.mp hx
+    have hyInfo := List.mem_filter.mp hy
+    have hxC : C x := of_decide_eq_true hxInfo.right
+    have hyC : C y := of_decide_eq_true hyInfo.right
+    have hxmod : x % modulus = residue % modulus := hxC.right
+    have hymod : y % modulus = residue % modulus := hyC.right
+    have hmods : x % modulus = y % modulus := by omega
+    calc
+      x = x % modulus + modulus * (x / modulus) := by
+        rw [Nat.mod_add_div]
+      _ = y % modulus + modulus * (y / modulus) := by
+        rw [hmods, hdiv]
+      _ = y := by
+        rw [Nat.mod_add_div]
+  have hMapSub :
+      forall q : Nat, q ∈ L.map (fun a : Nat => a / modulus) -> q ∈ I := by
+    intro q hq
+    rcases List.mem_map.mp hq with ⟨a, haL, hqeq⟩
+    have haInfo := List.mem_filter.mp haL
+    have haC : C a := of_decide_eq_true haInfo.right
+    have hale : a <= N := haC.left.right
+    have hmul_le : (a / modulus) * modulus <= N := by
+      have hself := Nat.div_mul_le_self a modulus
+      omega
+    have hdivle : a / modulus <= N / modulus :=
+      (Nat.le_div_iff_mul_le hmod).2 hmul_le
+    have hqRange : q < N / modulus + 1 := by omega
+    change q ∈ List.range (N / modulus + 1)
+    exact List.mem_range.mpr hqRange
+  have hLenMap :
+      (L.map (fun a : Nat => a / modulus)).length <= I.length :=
+    list_length_le_of_nodup_subset hMapNodup hMapSub
+  have hLenL : L.length = (L.map (fun a : Nat => a / modulus)).length := by
+    simp
+  have hFinal : L.length <= N / modulus + 1 := by
+    rw [hLenL]
+    simpa [I] using hLenMap
+  have hOrigCount :
+      @familySize N (SquareSieveBoxedResidueClass N modulus residue) decC =
+        L.length := by
+    simpa [C] using hCount
+  rw [hOrigCount]
+  simpa [SquareSieveResidueClassBudget] using hFinal
+
+private theorem countUpTo_le_of_boxed_imp
+    (M n : Nat) (P Q : Nat -> Prop)
+    (decP : DecidablePred P) (decQ : DecidablePred Q)
+    (hn : n <= M)
+    (hPQ : forall a : Nat, InBox M a -> P a -> Q a) :
+    @countUpTo P decP n <= @countUpTo Q decQ n := by
+  induction n with
+  | zero =>
+      simp [countUpTo]
+  | succ k ih =>
+      have hkM : k <= M := by omega
+      have ihk := ih hkM
+      by_cases hp : P (k + 1)
+      · have hbox : InBox M (k + 1) := by
+          constructor <;> omega
+        have hq : Q (k + 1) := hPQ (k + 1) hbox hp
+        simp [countUpTo, hp, hq]
+        omega
+      · by_cases hq : Q (k + 1)
+        · simp [countUpTo, hp, hq]
+          omega
+        · simp [countUpTo, hp, hq]
+          omega
+
+private theorem familySize_le_of_boxed_imp
+    (N : Nat) (P Q : Nat -> Prop)
+    (decP : DecidablePred P) (decQ : DecidablePred Q)
+    (hPQ : forall a : Nat, InBox N a -> P a -> Q a) :
+    @familySize N P decP <= @familySize N Q decQ := by
+  unfold familySize
+  exact countUpTo_le_of_boxed_imp N N P Q decP decQ (by omega) hPQ
+
+private theorem familySize_squareSieveCoveredByResidueClasses_le_budget
+    (N : Nat) (classes : List (Nat × Nat))
+    (hPos : forall cls : Nat × Nat, cls ∈ classes -> 0 < cls.fst)
+    (decCovered :
+      DecidablePred (SquareSieveCoveredByResidueClasses N classes)) :
+    @familySize N (SquareSieveCoveredByResidueClasses N classes) decCovered <=
+      SquareSieveResidueCoverBudget N classes := by
+  classical
+  induction classes with
+  | nil =>
+      have hEmpty :
+          forall a : Nat, Not (SquareSieveCoveredByResidueClasses N [] a) := by
+        intro a ha
+        rcases ha with ⟨_hbox, cls, hmem, _hres⟩
+        cases hmem
+      have hZero :
+          @familySize N (SquareSieveCoveredByResidueClasses N []) decCovered = 0 :=
+        familySize_eq_zero_of_empty_squareSieve N
+          (SquareSieveCoveredByResidueClasses N []) decCovered hEmpty
+      simp [SquareSieveResidueCoverBudget, hZero]
+  | cons cls rest ih =>
+      let Covered : Nat -> Prop :=
+        SquareSieveCoveredByResidueClasses N (cls :: rest)
+      let Head : Nat -> Prop :=
+        SquareSieveBoxedResidueClass N cls.fst cls.snd
+      let Tail : Nat -> Prop :=
+        SquareSieveCoveredByResidueClasses N rest
+      let decHead : DecidablePred Head := fun a => Classical.propDecidable (Head a)
+      let decTail : DecidablePred Tail := fun a => Classical.propDecidable (Tail a)
+      have hSplit :
+          @familySize N Covered decCovered <=
+            @familySize N Head decHead + @familySize N Tail decTail := by
+        apply familySize_le_add_of_subset_or N Covered Head Tail
+          decCovered decHead decTail
+        intro a ha
+        rcases ha with ⟨hbox, witness, hmem, hres⟩
+        rcases (List.mem_cons.mp hmem) with hwitness | htail
+        · exact Or.inl (And.intro hbox (by simpa [hwitness] using hres))
+        · exact Or.inr
+            (And.intro hbox
+              (Exists.intro witness (And.intro htail hres)))
+      have hHead :
+          @familySize N Head decHead <=
+            SquareSieveResidueClassBudget N cls.fst := by
+        exact familySize_squareSieveBoxedResidueClass_le_budget
+          N cls.fst cls.snd (hPos cls (List.mem_cons_self cls rest)) decHead
+      have hTail :
+          @familySize N Tail decTail <=
+            SquareSieveResidueCoverBudget N rest := by
+        apply ih
+        intro c hc
+        exact hPos c (List.mem_cons_of_mem cls hc)
+      have hFinal :
+          @familySize N Covered decCovered <=
+            SquareSieveResidueClassBudget N cls.fst +
+              SquareSieveResidueCoverBudget N rest := by
+        omega
+      simpa [Covered, SquareSieveResidueCoverBudget] using hFinal
+
+/-- A finite residue cover gives its additive square-sieve upper bound. -/
+theorem familySize_le_squareSieveResidueCoverBudget
+    (N : Nat) (T : Nat -> Prop) (decT : DecidablePred T)
+    (classes : List (Nat × Nat))
+    (hPos : forall cls : Nat × Nat, cls ∈ classes -> 0 < cls.fst)
+    (hCover : SquareSieveResidueCover N T classes) :
+    @familySize N T decT <= SquareSieveResidueCoverBudget N classes := by
+  classical
+  let Covered : Nat -> Prop := SquareSieveCoveredByResidueClasses N classes
+  let decCovered : DecidablePred Covered :=
+    fun a => Classical.propDecidable (Covered a)
+  have hTle :
+      @familySize N T decT <= @familySize N Covered decCovered := by
+    apply familySize_le_of_boxed_imp N T Covered decT decCovered
+    intro a hbox ha
+    exact hCover a hbox ha
+  have hCovered :
+      @familySize N Covered decCovered <=
+        SquareSieveResidueCoverBudget N classes := by
+    simpa [Covered] using
+      familySize_squareSieveCoveredByResidueClasses_le_budget
+        N classes hPos decCovered
+  omega
+
+/--
+Residue-cover square-sieve data implies the previous Hall-defect rectangle
+bound consumed by the endpoint Hall assembly.
+-/
+theorem squareSieveHallDefectRectangle_of_residueCover
+    (hCover : SquareSieveResidueCoverCertificate) :
+    SquareSieveHallDefectRectangleCertificate := by
+  intro N B T decB decT hB hClique hT
+  rcases hCover N B T decB decT hB hClique hT with
+    ⟨classes, hPos, hResidueCover, hBudget⟩
+  have hTle :
+      @familySize N T decT <= SquareSieveResidueCoverBudget N classes :=
+    familySize_le_squareSieveResidueCoverBudget
+      N T decT classes hPos hResidueCover
+  omega
+
+/-- The global square-sieve residue-cover certificate supplies the endpoint Hall input. -/
+theorem squarefreeAPHallCertificate_of_globalSquareSieve
+    (h : GlobalSquareSieveHallCertificate) :
+    SquarefreeAPHallCertificate :=
+  squarefreeAPHallCertificate_of_squareSieveHallDefectRectangle
+    (squareSieveHallDefectRectangle_of_residueCover h)
 
 /--
 Upper-free neighbor-form allocation supplies the previous scalar upper bound
