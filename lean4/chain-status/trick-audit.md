@@ -2,7 +2,7 @@
 
 Focused audit for proof-engineering escape hatches: unapproved axioms, direct assumption-as-goal theorems, vacuous Prop placeholders, and Prop-valued definitions that may hide stronger premises. Scope is audit-visible Lean modules; W3 on-disk-orphan files must be imported or quarantined before their declarations can be inspected.
 
-* findings: **741**  *  FAIL: **0**  *  WARN: **741**
+* findings: **743**  *  FAIL: **0**  *  WARN: **743**
 * hard trick failures: **none detected**
 * review priority: hard failures, then `W5.suspicious-prop-def`, then the full `W5.prop-def` ledger
 
@@ -16,7 +16,7 @@ Focused audit for proof-engineering escape hatches: unapproved axioms, direct as
 - `W5.suspicious-prop-def`: `def : Prop` name suggests hypothesis/strengthening/placeholder risk.
 - `W6.vacuous-theorem`: off-chain theorem with a literal True/Unit-style conclusion.
 
-## W5.suspicious-prop-def (WARN) -- 251
+## W5.suspicious-prop-def (WARN) -- 252
 
 - Prop-valued definition `Erdos848.ResidueSecondLayerCertificate` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/ResidueCertificates.lean)
 - Prop-valued definition `Erdos848.RoughSquareDivisorCertificate` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/RoughSquareDivisors.lean)
@@ -242,6 +242,7 @@ Focused audit for proof-engineering escape hatches: unapproved axioms, direct as
 - Prop-valued definition `Erdos848.GlobalFiniteOffsetSplitCreditCertificateForResidue` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.GlobalOppositeFiniteOffsetMatchingAPCertificateForResidue` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.GlobalOppositeNearbyMatchingAPCertificateForResidue` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/SquarefreeAP.lean)
+- Prop-valued definition `Erdos848.GlobalSquareSieveHallCertificate` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.IncrementalPartitionedSquarefreeAPCapacityCertificateForResidue` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.IncrementalPartitionedSquarefreeAPCapacityCertificate` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.NearbyAllocatedSplitIncrementalSquarefreeAPCapacityCertificateForResidue` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/SquarefreeAP.lean)
@@ -270,7 +271,7 @@ Focused audit for proof-engineering escape hatches: unapproved axioms, direct as
 - Prop-valued definition `Erdos848.SquarefreeAPHallCertificate` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.StrictMiddleAPHallCertificateForResidue` has a hypothesis/strengthening/vacuous-style name; verify it is not a stronger premise or placeholder  (Erdos848/Infrastructure/SquarefreeAP.lean)
 
-## W5.prop-def (WARN) -- 490
+## W5.prop-def (WARN) -- 491
 
 - Prop-valued definition `Erdos848.Admissible848` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Basic.lean)
 - Prop-valued definition `Erdos848.AtMostCandidateBound` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Basic.lean)
@@ -684,6 +685,7 @@ Focused audit for proof-engineering escape hatches: unapproved axioms, direct as
 - Prop-valued definition `Erdos848.GlobalOppositeNearbyMatchingAPCertificateForResidue` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.GlobalOppositeNearbyMatchingImageAllocation` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.GlobalOppositeNearbyNeighbor` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
+- Prop-valued definition `Erdos848.GlobalSquareSieveHallCertificate` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.IncrementalPartitionedSquarefreeAPCapacityCertificateForResidue` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.IncrementalPartitionedSquarefreeAPCapacityCertificate` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)
 - Prop-valued definition `Erdos848.IncrementalStrictMiddleNeighbor` is audit-visible; ensure it is definitional infrastructure, not a hidden axiom surface  (Erdos848/Infrastructure/SquarefreeAP.lean)

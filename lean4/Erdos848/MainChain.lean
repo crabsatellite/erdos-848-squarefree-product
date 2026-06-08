@@ -16,8 +16,7 @@ def config : ChainAudit.ProjectConfig := {
     ``Erdos848.erdos848_main
   ]
   openAxioms := [
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCut,
-    ``Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryTenOrMoreLocalMatchingCut
+    ``Erdos848.globalSquareSieveHallCut
   ]
   infraFiles := [
     "Erdos848.lean",
@@ -78,11 +77,15 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Replace finite Hall checks by two explicit typed seven-offset `18 mod 25` finite-offset middle-compression cuts for the endpoint-consumed `7 mod 25` progression: pointwise decoded direct self-canonical active credit for the local repair-window mate, and ten-or-more-source repair-window local matching where repair-touched indices carry full edge data, untouched indices use period-six target coherence, and final-boundary boxedness plus gap checks are split between repair-touched and untouched period-six indices. Lean closes the empty through nine-source matching cases, assembles the active-credit function from pointwise codes, derives direct active-credit injectivity from canonical source hits, transfers template-window active credit to the boxed source-count list-selector, and derives the endpoint Hall expansion through the decoded squarefree-boxed direct-credit route."
+        "Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve Hall argument.  The former seven-offset local repair-matching route is retired: Lean records a CRT obstruction at source index `595423111`, where every typed offset in `{-3, ..., 3}` is killed by an explicit square divisor.  The active cut is therefore the global Hall certificate itself, not a bounded-offset local matching variant."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
       decls := [
+        "Erdos848.globalSquareSieveHallCut",
+        "Erdos848.GlobalSquareSieveHallCertificate",
+        "Erdos848.squarefreeAPHallCertificate_of_globalSquareSieve",
+        "Erdos848.crtNoSevenOffsetSourceIndex_no_typed_edge",
         "Erdos848.finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCut",
         "Erdos848.GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCertificate",
         "Erdos848.ActiveStrictMiddleCreditSelfCanonicalTargetPointwiseDecodedDirect",
@@ -1132,11 +1135,11 @@ def config : ChainAudit.ProjectConfig := {
         "residue-certificate"
       ]
       attackPlan := [
-        "Use the proved bipartite-neighborhood assembly as the exact replacement for the endpoint bound.",
-        "Prove direct self-canonical active credit for the local repair-window mate and the split edge/boundary repair-window matching certificate.",
-        "Use Lean to project matching, transfer active credit to the list-selector mate, then assemble the endpoint Hall expansion through the decoded squarefree-boxed direct-credit route."
+        "Use `crtNoSevenOffsetSourceIndex_no_typed_edge` as the no-return certificate for the retired local finite-offset route.",
+        "Prove the endpoint Hall expansion directly: any Hall-defect outside set would force too many pairs `(x,y)` with `x*y+1` divisible by some square.",
+        "Split the square-sieve cover into small-prime congruence classes and large-prime counting tails, then derive `SquarefreeAPHallCertificate` without finite-offset local matching."
       ]
-      successCriterion := "A theorem of the shape `SquarefreeAPHallCertificate` is proved without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryLocalActiveCreditSelfCanonicalTargetPointwiseDecodedDirectCut` and without `finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryTenOrMoreLocalMatchingCut`."
+      successCriterion := "`Erdos848.squarefreeAPHallCut` checks without `Erdos848.globalSquareSieveHallCut`, so `Erdos848.erdos848_main` has no non-kernel mathematical cuts."
     },
     {
       id := "residue-certificate"

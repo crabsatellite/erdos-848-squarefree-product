@@ -85,6 +85,49 @@ class OppositeBandMatchingSparseSummary:
     stores_full_matching: bool
 
 
+@dataclass
+class SevenOffsetCRTObstruction:
+    source_index: int
+    source_value: int
+    endpoint_N: int
+    shift_square_witnesses: list[tuple[int, int, int, int, int]]
+
+
+def seven_offset_crt_obstruction() -> SevenOffsetCRTObstruction:
+    """CRT obstruction to the retired seven-offset local matching route.
+
+    Each witness is `(shift, target_index, target_value, square_prime, quotient)`,
+    certifying `target_value * source_value + 1 = square_prime^2 * quotient`.
+    """
+
+    source_index = 595_423_111
+    source_value = 25 * source_index + 18
+    witnesses = [
+        (-3, 53, 78_882_315_753_398_028),
+        (-2, 31, 230_572_763_083_698_757),
+        (-1, 11, 1_831_243_187_566_726_862),
+        (0, 3, 24_620_047_340_857_043_903),
+        (1, 2, 55_395_106_609_963_209_988),
+        (2, 13, 1_311_126_785_869_776_833),
+        (3, 7, 4_522_049_534_370_035_298),
+    ]
+    shift_square_witnesses = []
+    for shift, prime, quotient in witnesses:
+        target_index = source_index + shift
+        target_value = 25 * target_index + 7
+        assert target_value * source_value + 1 == prime * prime * quotient
+        shift_square_witnesses.append(
+            (shift, target_index, target_value, prime, quotient)
+        )
+    endpoint_N = 25 * (source_index + 3) + 7
+    return SevenOffsetCRTObstruction(
+        source_index=source_index,
+        source_value=source_value,
+        endpoint_N=endpoint_N,
+        shift_square_witnesses=shift_square_witnesses,
+    )
+
+
 def _prime_sieve(limit: int) -> list[int]:
     if limit < 2:
         return []
@@ -474,4 +517,8 @@ def certificate_to_jsonable(cert: OppositeMatchingCertificate) -> dict:
 
 
 def sparse_summary_to_jsonable(cert: OppositeBandMatchingSparseSummary) -> dict:
+    return asdict(cert)
+
+
+def crt_obstruction_to_jsonable(cert: SevenOffsetCRTObstruction) -> dict:
     return asdict(cert)

@@ -2109,6 +2109,52 @@ def OppositeFiniteOffsetSourceIndexTargetValue
   25 * OppositeFiniteOffsetSourceIndexShiftTarget k code + 7
 
 /--
+CRT obstruction to the retired seven-offset local-matching route.
+
+For the source index `595423111`, every typed offset target in the
+band `d in {-3, ..., 3}` is killed by an explicit square divisor of
+`target * source + 1`.  Hence the endpoint cannot be closed by proving the
+old `TenOrMoreLocalMatchingCut`: the stated local finite-offset certificate is
+mathematically false.
+-/
+theorem crtNoSevenOffsetSourceIndex_no_typed_edge
+    (code : OppositeFiniteOffsetCode) :
+    Not (ForbiddenSquarefreeEdge
+      (OppositeFiniteOffsetSourceIndexTargetValue 595423111 code)
+      (EighteenSourceFromIndex 595423111)) := by
+  intro hsf
+  unfold ForbiddenSquarefreeEdge at hsf
+  cases code
+  · simp [OppositeFiniteOffsetSourceIndexTargetValue,
+      OppositeFiniteOffsetSourceIndexShiftTarget, EighteenSourceFromIndex] at hsf
+    exact hsf 53 (by omega)
+      (Exists.intro 78882315753398028 (by omega))
+  · simp [OppositeFiniteOffsetSourceIndexTargetValue,
+      OppositeFiniteOffsetSourceIndexShiftTarget, EighteenSourceFromIndex] at hsf
+    exact hsf 31 (by omega)
+      (Exists.intro 230572763083698757 (by omega))
+  · simp [OppositeFiniteOffsetSourceIndexTargetValue,
+      OppositeFiniteOffsetSourceIndexShiftTarget, EighteenSourceFromIndex] at hsf
+    exact hsf 11 (by omega)
+      (Exists.intro 1831243187566726862 (by omega))
+  · simp [OppositeFiniteOffsetSourceIndexTargetValue,
+      OppositeFiniteOffsetSourceIndexShiftTarget, EighteenSourceFromIndex] at hsf
+    exact hsf 3 (by omega)
+      (Exists.intro 24620047340857043903 (by omega))
+  · simp [OppositeFiniteOffsetSourceIndexTargetValue,
+      OppositeFiniteOffsetSourceIndexShiftTarget, EighteenSourceFromIndex] at hsf
+    exact hsf 2 (by omega)
+      (Exists.intro 55395106609963209988 (by omega))
+  · simp [OppositeFiniteOffsetSourceIndexTargetValue,
+      OppositeFiniteOffsetSourceIndexShiftTarget, EighteenSourceFromIndex] at hsf
+    exact hsf 13 (by omega)
+      (Exists.intro 1311126785869776833 (by omega))
+  · simp [OppositeFiniteOffsetSourceIndexTargetValue,
+      OppositeFiniteOffsetSourceIndexShiftTarget, EighteenSourceFromIndex] at hsf
+    exact hsf 7 (by omega)
+      (Exists.intro 4522049534370035298 (by omega))
+
+/--
 Default period-six source-index template found by the middle-compression search.
 The values correspond to shifts `[0, 2, -1, -1, 1, -1]`.
 -/
@@ -15079,6 +15125,21 @@ def CandidateResidueSquarefreeAPHallCertificate : Prop :=
 def SquarefreeAPHallCertificate : Prop :=
   SquarefreeAPHallCertificateForResidue 7
 
+/--
+Replacement analytic target after the seven-offset local-matching route was
+disproved by a CRT obstruction.  This is deliberately the endpoint Hall
+obligation itself, to be attacked by a global square-sieve Hall argument rather
+than by a false bounded-offset matching.
+-/
+def GlobalSquareSieveHallCertificate : Prop :=
+  SquarefreeAPHallCertificate
+
+/-- The global square-sieve Hall certificate is exactly the endpoint Hall input. -/
+theorem squarefreeAPHallCertificate_of_globalSquareSieve
+    (h : GlobalSquareSieveHallCertificate) :
+    SquarefreeAPHallCertificate :=
+  h
+
 /-- A two-residue AP/Hall certificate implies the endpoint one-residue certificate. -/
 theorem squarefreeAPHallCertificate_of_candidateResidues
     (h : CandidateResidueSquarefreeAPHallCertificate) :
@@ -23213,6 +23274,14 @@ Lean closes the empty through nine-source cases.
 axiom finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryTenOrMoreLocalMatchingCut :
   GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryTenOrMoreLocalMatchingCertificate
 
+/--
+Open global square-sieve Hall cut.  This replaces the retired seven-offset
+local-matching endpoint route: the CRT theorem
+`crtNoSevenOffsetSourceIndex_no_typed_edge` shows that no proof of the old
+ten-or-more local finite-offset matching statement can exist.
+-/
+axiom globalSquareSieveHallCut : GlobalSquareSieveHallCertificate
+
 /-- Current nine-or-more local matching certificate from the ten-or-more cut. -/
 theorem finiteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNineOrMoreLocalMatchingCut :
     GlobalFiniteOffsetMiddleCompressionEighteenTypedMateSplitSourceIndexTemplateWindowRepairTouchedDefaultEdgeBoundaryNineOrMoreLocalMatchingCertificate :=
@@ -23415,8 +23484,8 @@ theorem activeStrictMiddleIncrementalCapacity_of_partitionedCapacityCut :
   exact incrementalPartitionedSquarefreeAPCapacityCut
     N B decOpp decMid decOppNbr decNewMid hB hClique
 
-/-- Current endpoint AP/Hall certificate derived from the structured partitioned capacity cut. -/
+/-- Current endpoint AP/Hall certificate from the global square-sieve Hall cut. -/
 theorem squarefreeAPHallCut : SquarefreeAPHallCertificate :=
-  squarefreeAPHallCertificate_of_partitionedCapacity partitionedSquarefreeAPCapacityCut
+  squarefreeAPHallCertificate_of_globalSquareSieve globalSquareSieveHallCut
 
 end Erdos848
