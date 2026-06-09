@@ -1706,7 +1706,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-08T12:58:41.647631+00:00",
+  "generated_at": "2026-06-09T00:56:11.339115+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -43636,6 +43636,201 @@
       ]
     }
   ],
+  "square_sieve_pair_pressure_scans": [
+    {
+      "N": 500,
+      "base_residue": 7,
+      "best_pair": [
+        268,
+        41
+      ],
+      "candidate_count": 20,
+      "different_large_pair_classes": [],
+      "different_large_pair_cover_budget": 0,
+      "different_large_target_count": 0,
+      "other_skeleton_target_count": 0,
+      "outside_size": 6,
+      "outside_witness": [
+        41,
+        437,
+        43,
+        143,
+        243,
+        268
+      ],
+      "pair_pressure_full_slack": 14,
+      "pair_pressure_tail_budget": 0,
+      "pair_target_count": 1,
+      "primary_skeleton_target_count": 1,
+      "same_large_gap_square_witnesses": [],
+      "same_large_target_count": 0,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23
+      ]
+    },
+    {
+      "N": 1000,
+      "base_residue": 7,
+      "best_pair": [
+        268,
+        143
+      ],
+      "candidate_count": 40,
+      "different_large_pair_classes": [],
+      "different_large_pair_cover_budget": 0,
+      "different_large_target_count": 0,
+      "other_skeleton_target_count": 0,
+      "outside_size": 4,
+      "outside_witness": [
+        41,
+        437,
+        143,
+        268
+      ],
+      "pair_pressure_full_slack": 36,
+      "pair_pressure_tail_budget": 0,
+      "pair_target_count": 1,
+      "primary_skeleton_target_count": 1,
+      "same_large_gap_square_witnesses": [],
+      "same_large_target_count": 0,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23
+      ]
+    },
+    {
+      "N": 2000,
+      "base_residue": 7,
+      "best_pair": [
+        43,
+        168
+      ],
+      "candidate_count": 80,
+      "different_large_pair_classes": [],
+      "different_large_pair_cover_budget": 0,
+      "different_large_target_count": 0,
+      "other_skeleton_target_count": 0,
+      "outside_size": 4,
+      "outside_witness": [
+        41,
+        43,
+        143,
+        168
+      ],
+      "pair_pressure_full_slack": 76,
+      "pair_pressure_tail_budget": 0,
+      "pair_target_count": 0,
+      "primary_skeleton_target_count": 0,
+      "same_large_gap_square_witnesses": [],
+      "same_large_target_count": 0,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23
+      ]
+    },
+    {
+      "N": 5000,
+      "base_residue": 7,
+      "best_pair": [
+        4971,
+        2993
+      ],
+      "candidate_count": 200,
+      "different_large_pair_classes": [],
+      "different_large_pair_cover_budget": 0,
+      "different_large_target_count": 0,
+      "other_skeleton_target_count": 0,
+      "outside_size": 9,
+      "outside_witness": [
+        239,
+        915,
+        1591,
+        2267,
+        3619,
+        4295,
+        4971,
+        2943,
+        2993
+      ],
+      "pair_pressure_full_slack": 191,
+      "pair_pressure_tail_budget": 0,
+      "pair_target_count": 10,
+      "primary_skeleton_target_count": 10,
+      "same_large_gap_square_witnesses": [],
+      "same_large_target_count": 0,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23
+      ]
+    },
+    {
+      "N": 6000,
+      "base_residue": 7,
+      "best_pair": [
+        4971,
+        2993
+      ],
+      "candidate_count": 240,
+      "different_large_pair_classes": [],
+      "different_large_pair_cover_budget": 0,
+      "different_large_target_count": 0,
+      "other_skeleton_target_count": 0,
+      "outside_size": 10,
+      "outside_witness": [
+        239,
+        915,
+        1591,
+        2267,
+        3619,
+        4295,
+        4971,
+        5647,
+        2943,
+        2993
+      ],
+      "pair_pressure_full_slack": 230,
+      "pair_pressure_tail_budget": 0,
+      "pair_target_count": 12,
+      "primary_skeleton_target_count": 12,
+      "same_large_gap_square_witnesses": [],
+      "same_large_target_count": 0,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23
+      ]
+    }
+  ],
   "square_sieve_pivot_covers": [
     {
       "N": 100,
@@ -48606,6 +48801,571 @@
       "worst_prime_cover_budget": 88,
       "worst_slack": 111,
       "worst_target_count": 76
+    }
+  ],
+  "square_sieve_skeleton_optimizer_scans": [
+    {
+      "N": 500,
+      "base_residue": 7,
+      "best_different_large_target_count": 0,
+      "best_other_skeleton_target_count": 0,
+      "best_pair": [
+        268,
+        41
+      ],
+      "best_pair_pressure_full_slack": 14,
+      "best_pair_pressure_tail_budget": 0,
+      "best_primary_skeleton_target_count": 1,
+      "best_same_large_target_count": 0,
+      "best_skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23,
+        29,
+        31,
+        37,
+        41,
+        43,
+        47,
+        53,
+        59,
+        61,
+        67,
+        71,
+        73
+      ],
+      "candidate_count": 20,
+      "candidate_profiles": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29,
+          31
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29,
+          31,
+          37,
+          41,
+          43,
+          47
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29,
+          31,
+          37,
+          41,
+          43,
+          47,
+          53,
+          59,
+          61,
+          67,
+          71,
+          73
+        ]
+      ],
+      "outside_size": 6,
+      "outside_witness": [
+        41,
+        437,
+        43,
+        143,
+        243,
+        268
+      ]
+    },
+    {
+      "N": 1000,
+      "base_residue": 7,
+      "best_different_large_target_count": 0,
+      "best_other_skeleton_target_count": 0,
+      "best_pair": [
+        268,
+        143
+      ],
+      "best_pair_pressure_full_slack": 36,
+      "best_pair_pressure_tail_budget": 0,
+      "best_primary_skeleton_target_count": 1,
+      "best_same_large_target_count": 0,
+      "best_skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23,
+        29,
+        31,
+        37,
+        41,
+        43,
+        47,
+        53,
+        59,
+        61,
+        67,
+        71,
+        73
+      ],
+      "candidate_count": 40,
+      "candidate_profiles": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29,
+          31
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29,
+          31,
+          37,
+          41,
+          43,
+          47
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29,
+          31,
+          37,
+          41,
+          43,
+          47,
+          53,
+          59,
+          61,
+          67,
+          71,
+          73
+        ]
+      ],
+      "outside_size": 4,
+      "outside_witness": [
+        41,
+        437,
+        143,
+        268
+      ]
+    },
+    {
+      "N": 2000,
+      "base_residue": 7,
+      "best_different_large_target_count": 0,
+      "best_other_skeleton_target_count": 0,
+      "best_pair": [
+        43,
+        168
+      ],
+      "best_pair_pressure_full_slack": 76,
+      "best_pair_pressure_tail_budget": 0,
+      "best_primary_skeleton_target_count": 0,
+      "best_same_large_target_count": 0,
+      "best_skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23,
+        29,
+        31,
+        37,
+        41,
+        43,
+        47,
+        53,
+        59,
+        61,
+        67,
+        71,
+        73
+      ],
+      "candidate_count": 80,
+      "candidate_profiles": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29,
+          31
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29,
+          31,
+          37,
+          41,
+          43,
+          47
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29,
+          31,
+          37,
+          41,
+          43,
+          47,
+          53,
+          59,
+          61,
+          67,
+          71,
+          73
+        ]
+      ],
+      "outside_size": 4,
+      "outside_witness": [
+        41,
+        43,
+        143,
+        168
+      ]
+    },
+    {
+      "N": 5000,
+      "base_residue": 7,
+      "best_different_large_target_count": 0,
+      "best_other_skeleton_target_count": 0,
+      "best_pair": [
+        4971,
+        2993
+      ],
+      "best_pair_pressure_full_slack": 191,
+      "best_pair_pressure_tail_budget": 0,
+      "best_primary_skeleton_target_count": 10,
+      "best_same_large_target_count": 0,
+      "best_skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23,
+        29,
+        31,
+        37,
+        41,
+        43,
+        47,
+        53,
+        59,
+        61,
+        67,
+        71,
+        73
+      ],
+      "candidate_count": 200,
+      "candidate_profiles": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29,
+          31
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29,
+          31,
+          37,
+          41,
+          43,
+          47
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29,
+          31,
+          37,
+          41,
+          43,
+          47,
+          53,
+          59,
+          61,
+          67,
+          71,
+          73
+        ]
+      ],
+      "outside_size": 9,
+      "outside_witness": [
+        239,
+        915,
+        1591,
+        2267,
+        3619,
+        4295,
+        4971,
+        2943,
+        2993
+      ]
+    },
+    {
+      "N": 6000,
+      "base_residue": 7,
+      "best_different_large_target_count": 0,
+      "best_other_skeleton_target_count": 0,
+      "best_pair": [
+        4971,
+        2993
+      ],
+      "best_pair_pressure_full_slack": 230,
+      "best_pair_pressure_tail_budget": 0,
+      "best_primary_skeleton_target_count": 12,
+      "best_same_large_target_count": 0,
+      "best_skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23,
+        29,
+        31,
+        37,
+        41,
+        43,
+        47,
+        53,
+        59,
+        61,
+        67,
+        71,
+        73
+      ],
+      "candidate_count": 240,
+      "candidate_profiles": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29,
+          31
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29,
+          31,
+          37,
+          41,
+          43,
+          47
+        ],
+        [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29,
+          31,
+          37,
+          41,
+          43,
+          47,
+          53,
+          59,
+          61,
+          67,
+          71,
+          73
+        ]
+      ],
+      "outside_size": 10,
+      "outside_witness": [
+        239,
+        915,
+        1591,
+        2267,
+        3619,
+        4295,
+        4971,
+        5647,
+        2943,
+        2993
+      ]
     }
   ],
   "square_sieve_tail_quotient_profile_scans": [

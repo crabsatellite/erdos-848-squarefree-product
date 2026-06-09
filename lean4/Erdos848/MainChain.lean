@@ -77,7 +77,7 @@ def config : ChainAudit.ProjectConfig := {
       title := "Squarefree AP Hall-neighborhood expansion"
       status := "open"
       summary :=
-        "Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut only covers the nonempty case by choosing a pivot in `B` and explicit prime-indexed CRT residue classes `(p, residue)` counted with budget `N/(25*p^2)+1`, with `p = 5` kernel-excluded for outside pivots.  Lean maps these prime classes to the older `25*p^2` residue cover, proves the budgets match, records fixed-prime residue uniqueness, exposes exact `p=2,3` and medium `{2,3,7,11,13,17,19,23}` skeleton budgets, proves the finite small-prime index split below `29`, and now has dedicated singleton, nonempty, and two-pivot hybrid medium-skeleton prime-qualified quotient-tail targets with bridges back to the active one-list and nonempty prime-cover targets.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows."
+        "Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut only covers the nonempty case by choosing a pivot in `B` and explicit prime-indexed CRT residue classes `(p, residue)` counted with budget `N/(25*p^2)+1`, with `p = 5` kernel-excluded for outside pivots.  Lean maps these prime classes to the older `25*p^2` residue cover, proves the budgets match, records fixed-prime residue uniqueness, exposes exact `p=2,3` and medium `{2,3,7,11,13,17,19,23}` skeleton budgets, proves the finite small-prime index split below `29`, and now has dedicated singleton, nonempty, two-pivot hybrid, and pair-sieve medium-skeleton prime-qualified quotient-tail targets with bridges back to the active one-list and nonempty prime-cover targets.  The pair-sieve surface records same-large gap pressure and different-large pair-CRT classes for the large-prime tail.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows."
       files := [
         "Erdos848/Infrastructure/SquarefreeAP.lean"
       ]
@@ -95,6 +95,11 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.squareSievePivotPrimeResiduePrimeQuotientCover_of_twoPivot",
         "Erdos848.squareSievePivotPrimeResiduePrimeQuotientCover_of_hybrid",
         "Erdos848.squareSieveTwoPivotQuotient_identity_of_le",
+        "Erdos848.SquareSievePairPrimeResidueClass",
+        "Erdos848.SquareSievePairPrimeResidueClassBudget",
+        "Erdos848.SquareSievePairPrimeResidueCoverBudget",
+        "Erdos848.squareSievePairPrimeResidueCoverBudget_append",
+        "Erdos848.SquareSieveTwoPivotLargeTailPressure",
         "Erdos848.squareSievePivotPrimeResidueCover_of_quotientCover",
         "Erdos848.SquareSievePrimeIndex",
         "Erdos848.squareSievePrimeIndex_two_le",
@@ -133,6 +138,10 @@ def config : ChainAudit.ProjectConfig := {
         "Erdos848.squareSieveNonemptyMediumSkeletonPrimeQuotientTail_of_twoPivot",
         "Erdos848.squareSieveNonemptyPivotPrimeResidueCover_of_mediumPrimeQuotientTail",
         "Erdos848.squareSieveNonemptyPivotPrimeResidueCover_of_twoPivotMediumPrimeQuotientTail",
+        "Erdos848.SquareSieveNonemptyPairSieveMediumSkeletonPrimeQuotientTailCertificate",
+        "Erdos848.SquareSieveNonemptyPairSieveMediumSkeletonPrimeQuotientTailBoundForResidue",
+        "Erdos848.squareSieveNonemptyTwoPivotMediumSkeletonPrimeQuotientTail_of_pairSieve",
+        "Erdos848.squareSieveNonemptyPivotPrimeResidueCover_of_pairSieveMediumPrimeQuotientTail",
         "Erdos848.SquareSieveNonemptyPivotResidueCoverCertificate",
         "Erdos848.SquareSieveNonemptyPivotResidueCoverBoundForResidue",
         "Erdos848.SquareSieveResidueCoverCertificate",

@@ -15661,6 +15661,69 @@ theorem squareSieveTwoPivotQuotient_identity_of_le
     simp [Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm]]
   omega
 
+/-- A pair-CRT class for the two-pivot large-prime tail. -/
+structure SquareSievePairPrimeResidueClass where
+  p : Nat
+  q : Nat
+  residue : Nat
+
+/-- Pair-CRT budget for one two-pivot large-large residue class. -/
+def SquareSievePairPrimeResidueClassBudget (N p q : Nat) : Nat :=
+  N / (25 * p * p * q * q) + 1
+
+/-- Additive pair-CRT budget for a list of large-large classes. -/
+def SquareSievePairPrimeResidueCoverBudget
+    (N : Nat) : List SquareSievePairPrimeResidueClass -> Nat
+  | [] => 0
+  | cls :: rest =>
+      SquareSievePairPrimeResidueClassBudget N cls.p cls.q +
+        SquareSievePairPrimeResidueCoverBudget N rest
+
+/-- Pair-CRT budgets are additive under append. -/
+theorem squareSievePairPrimeResidueCoverBudget_append
+    (N : Nat)
+    (left right : List SquareSievePairPrimeResidueClass) :
+    SquareSievePairPrimeResidueCoverBudget N (left ++ right) =
+      SquareSievePairPrimeResidueCoverBudget N left +
+        SquareSievePairPrimeResidueCoverBudget N right := by
+  induction left with
+  | nil =>
+      simp [SquareSievePairPrimeResidueCoverBudget]
+  | cons cls rest ih =>
+      simp [SquareSievePairPrimeResidueCoverBudget, ih]
+      omega
+
+/--
+Large-tail pressure supplied by a second pivot.  Same-prime large tails must
+carry a square divisor of the pivot gap; different-prime large tails are placed
+in a pair-CRT class of modulus `25*p^2*q^2`.
+-/
+def SquareSieveTwoPivotLargeTailPressure
+    (N r : Nat) (T : Nat -> Prop) (pivot other : Nat)
+    (pairClasses : List SquareSievePairPrimeResidueClass) : Prop :=
+  forall a : Nat, InBox N a -> T a ->
+    CandidateCarrier r a /\
+      Exists fun p : Nat =>
+      Exists fun q : Nat =>
+      Exists fun quotientPivot : Nat =>
+      Exists fun quotientOther : Nat =>
+        SquareSievePrimeIndex p /\
+          SquareSievePrimeIndex q /\
+            p ≠ 5 /\
+              q ≠ 5 /\
+                a * pivot + 1 = p * p * quotientPivot /\
+                  a * other + 1 = q * q * quotientOther /\
+                    ((p = q /\
+                        (SquareDivides p (other - pivot) \/
+                          SquareDivides p (pivot - other))) \/
+                      (p ≠ q /\
+                        Exists fun cls : SquareSievePairPrimeResidueClass =>
+                          List.Mem cls pairClasses /\
+                            cls.p = p /\
+                              cls.q = q /\
+                                SquareSieveResidueClass
+                                  (25 * p * p * q * q) cls.residue a))
+
 /-- Forgetting formal prime-index witnesses gives a quotient cover. -/
 theorem squareSievePivotPrimeResidueQuotientCover_of_primeQuotientCover
     {N r pivot : Nat} {T : Nat -> Prop} {classes : List (Nat × Nat)}
@@ -16119,6 +16182,82 @@ theorem squareSieveNonemptyPivotPrimeResidueCover_of_twoPivotMediumPrimeQuotient
     SquareSieveNonemptyPivotPrimeResidueCoverCertificate :=
   squareSieveNonemptyPivotPrimeResidueCover_of_mediumPrimeQuotientTail
     (squareSieveNonemptyMediumSkeletonPrimeQuotientTail_of_twoPivot h)
+
+/--
+Pair-sieve strengthened version of the two-pivot target.  Besides the hybrid
+one/two-pivot cover consumed by the current route, it records pair-CRT classes
+and same-large gap pressure for the large-prime tail.
+-/
+def SquareSieveNonemptyPairSieveMediumSkeletonPrimeQuotientTailBoundForResidue
+    (r : Nat) : Prop :=
+  forall (N : Nat) (B T : Nat -> Prop)
+    (decB : DecidablePred B) (_decT : DecidablePred T),
+    BoundedOutsideSet N r B ->
+    NonSquarefreeClique B ->
+    (forall a : Nat, T a ->
+      CandidateCarrier r a /\
+        Not (SquarefreeNeighborInCandidate N r B a)) ->
+    1 <= @familySize N B decB ->
+    Exists fun pivot : Nat =>
+    Exists fun other : Nat =>
+    Exists fun r2 : Nat =>
+    Exists fun r3 : Nat =>
+    Exists fun r7 : Nat =>
+    Exists fun r11 : Nat =>
+    Exists fun r13 : Nat =>
+    Exists fun r17 : Nat =>
+    Exists fun r19 : Nat =>
+    Exists fun r23 : Nat =>
+    Exists fun tailClasses : List (Nat × Nat) =>
+    Exists fun pairClasses : List SquareSievePairPrimeResidueClass =>
+      B pivot /\
+        B other /\
+          (forall cls : Nat × Nat, List.Mem cls tailClasses -> 29 <= cls.fst) /\
+            (forall cls : Nat × Nat,
+              List.Mem cls
+                (SquareSieveMediumSkeletonPrimeClasses
+                  r2 r3 r7 r11 r13 r17 r19 r23 ++ tailClasses) ->
+              2 <= cls.fst /\ cls.fst ≠ 5) /\
+              SquareSieveHybridPivotPrimeResiduePrimeQuotientCover N r T pivot other
+                (SquareSieveMediumSkeletonPrimeClasses
+                  r2 r3 r7 r11 r13 r17 r19 r23 ++ tailClasses) /\
+                SquareSieveTwoPivotLargeTailPressure N r T pivot other pairClasses /\
+                  SquareSievePairPrimeResidueCoverBudget N pairClasses <=
+                    SquareSievePrimeResidueCoverBudget N tailClasses /\
+                    @familySize N B decB +
+                        SquareSievePrimeResidueCoverBudget N
+                          (SquareSieveMediumSkeletonPrimeClasses
+                            r2 r3 r7 r11 r13 r17 r19 r23 ++ tailClasses) <=
+                      candidateCount r N
+
+/-- Endpoint pair-sieve medium-skeleton prime-quotient tail target. -/
+def SquareSieveNonemptyPairSieveMediumSkeletonPrimeQuotientTailCertificate : Prop :=
+  SquareSieveNonemptyPairSieveMediumSkeletonPrimeQuotientTailBoundForResidue 7
+
+/--
+The pair-sieve strengthened target supplies the existing two-pivot target by
+forgetting the pair-tail pressure data.
+-/
+theorem squareSieveNonemptyTwoPivotMediumSkeletonPrimeQuotientTail_of_pairSieve
+    (h :
+      SquareSieveNonemptyPairSieveMediumSkeletonPrimeQuotientTailBoundForResidue 7) :
+    SquareSieveNonemptyTwoPivotMediumSkeletonPrimeQuotientTailCertificate := by
+  intro N B T decB decT hB hClique hT hNonempty
+  rcases h N B T decB decT hB hClique hT hNonempty with
+    ⟨pivot, other, r2, r3, r7, r11, r13, r17, r19, r23,
+      tailClasses, pairClasses, hpivot, hother, hTailLarge, hPos,
+      hHybridCover, _hPressure, _hPairBudget, hBudget⟩
+  exact
+    ⟨pivot, other, r2, r3, r7, r11, r13, r17, r19, r23, tailClasses,
+      hpivot, hother, hTailLarge, hPos, hHybridCover, hBudget⟩
+
+/-- Direct bridge from the pair-sieve target to the active prime-residue surface. -/
+theorem squareSieveNonemptyPivotPrimeResidueCover_of_pairSieveMediumPrimeQuotientTail
+    (h :
+      SquareSieveNonemptyPairSieveMediumSkeletonPrimeQuotientTailBoundForResidue 7) :
+    SquareSieveNonemptyPivotPrimeResidueCoverCertificate :=
+  squareSieveNonemptyPivotPrimeResidueCover_of_twoPivotMediumPrimeQuotientTail
+    (squareSieveNonemptyTwoPivotMediumSkeletonPrimeQuotientTail_of_pairSieve h)
 
 /--
 Nonempty-pivot version of the square-sieve target.  Lean closes the empty

@@ -118,6 +118,45 @@ class SquareSieveTwoPivotQuotientScan:
     best_tail_prime_classes: list[tuple[int, int]]
 
 
+@dataclass
+class SquareSievePairPressureScan:
+    N: int
+    base_residue: int
+    skeleton_primes: list[int]
+    outside_witness: list[int]
+    outside_size: int
+    candidate_count: int
+    best_pair: tuple[int, int]
+    pair_target_count: int
+    primary_skeleton_target_count: int
+    other_skeleton_target_count: int
+    same_large_target_count: int
+    different_large_target_count: int
+    same_large_gap_square_witnesses: list[tuple[int, int, int, int]]
+    different_large_pair_classes: list[tuple[int, int, int, int]]
+    different_large_pair_cover_budget: int
+    pair_pressure_tail_budget: int
+    pair_pressure_full_slack: int
+
+
+@dataclass
+class SquareSieveSkeletonOptimizerScan:
+    N: int
+    base_residue: int
+    outside_witness: list[int]
+    outside_size: int
+    candidate_count: int
+    candidate_profiles: list[list[int]]
+    best_skeleton_primes: list[int]
+    best_pair: tuple[int, int]
+    best_primary_skeleton_target_count: int
+    best_other_skeleton_target_count: int
+    best_same_large_target_count: int
+    best_different_large_target_count: int
+    best_pair_pressure_tail_budget: int
+    best_pair_pressure_full_slack: int
+
+
 def _least_square_divisor_prime(n: int) -> int:
     for p in range(2, isqrt(n) + 1):
         if n % (p * p) == 0:
@@ -128,6 +167,27 @@ def _least_square_divisor_prime(n: int) -> int:
 def _least_square_divisor_quotient(n: int) -> tuple[int, int]:
     p = _least_square_divisor_prime(n)
     return p, n // (p * p)
+
+
+def _is_prime(n: int) -> bool:
+    if n < 2:
+        return False
+    for d in range(2, isqrt(n) + 1):
+        if n % d == 0:
+            return False
+    return True
+
+
+def _prime_profiles_upto(max_prime: int) -> tuple[tuple[int, ...], ...]:
+    checkpoints = [3, 23, 31, 47, 73, max_prime]
+    profiles: list[tuple[int, ...]] = []
+    for bound in checkpoints:
+        if bound > max_prime:
+            continue
+        profile = tuple(p for p in range(2, bound + 1) if p != 5 and _is_prime(p))
+        if profile and profile not in profiles:
+            profiles.append(profile)
+    return tuple(profiles)
 
 
 def _crt_coprime(r1: int, m1: int, r2: int, m2: int) -> int:
@@ -275,6 +335,162 @@ def _skeleton_tail_payload(
         "min_quotient": min(quotients) if quotients else 0,
         "max_quotient": max(quotients) if quotients else 0,
     }
+
+
+def _candidate_nonneighbor_targets_for_pair(
+    N: int,
+    pivot: int,
+    other: int,
+    base_residue: int,
+    sf: bytearray | None = None,
+) -> list[int]:
+    if sf is None:
+        sf = squarefree_sieve(N * N + 1)
+    return _candidate_nonneighbor_targets(N, [pivot, other], base_residue, sf)
+
+
+def _covered_by_skeleton(value: int, skeleton_primes: tuple[int, ...]) -> bool:
+    return any(_square_divides_prime(p, value) for p in skeleton_primes)
+
+
+def _pair_crt_residue(
+    target: int,
+    base_residue: int,
+    p: int,
+    q: int,
+) -> tuple[int, int]:
+    if p == q or p == 5 or q == 5:
+        raise ValueError((target, base_residue, p, q))
+    m25 = 25
+    mp = p * p
+    mq = q * q
+    residue_25p = _crt_coprime(base_residue % m25, m25, target % mp, mp)
+    residue = _crt_coprime(residue_25p, m25 * mp, target % mq, mq)
+    return 25 * mp * mq, residue
+
+
+def square_sieve_pair_pressure_scan(
+    N: int,
+    outside_witness: list[int],
+    base_residue: int = 7,
+    skeleton_primes: tuple[int, ...] = (2, 3, 7, 11, 13, 17, 19, 23),
+) -> SquareSievePairPressureScan:
+    two_pivot = square_sieve_two_pivot_quotient_scan(
+        N,
+        outside_witness,
+        base_residue=base_residue,
+        skeleton_primes=skeleton_primes,
+    )
+    pivot, other = two_pivot.best_pair
+    sf = squarefree_sieve(N * N + 1)
+    targets = _candidate_nonneighbor_targets_for_pair(
+        N, pivot, other, base_residue, sf
+    )
+    primary_skeleton = 0
+    other_skeleton = 0
+    same_large_gap_square_witnesses: list[tuple[int, int, int, int]] = []
+    different_large_pair_classes: set[tuple[int, int, int, int]] = set()
+
+    for target in targets:
+        primary_value = target * pivot + 1
+        other_value = target * other + 1
+        if _covered_by_skeleton(primary_value, skeleton_primes):
+            primary_skeleton += 1
+            continue
+        if _covered_by_skeleton(other_value, skeleton_primes):
+            other_skeleton += 1
+            continue
+        p, _p_quotient = _least_square_divisor_quotient(primary_value)
+        q, _q_quotient = _least_square_divisor_quotient(other_value)
+        if p in skeleton_primes or q in skeleton_primes or p == 5 or q == 5:
+            raise ValueError(("bad-large-pair", N, pivot, other, target, p, q))
+        if p == q:
+            diff = abs(other - pivot)
+            if diff % (p * p) != 0:
+                raise ValueError(("same-large-gap", N, pivot, other, target, p, diff))
+            same_large_gap_square_witnesses.append((target, p, diff // (p * p), diff))
+        else:
+            modulus, residue = _pair_crt_residue(target, base_residue, p, q)
+            different_large_pair_classes.add((p, q, modulus, residue))
+
+    different_large_pair_classes_list = sorted(different_large_pair_classes)
+    different_budget = sum(
+        N // modulus + 1 for _p, _q, modulus, _residue in different_large_pair_classes_list
+    )
+    same_budget = len(same_large_gap_square_witnesses)
+    pair_pressure_tail_budget = same_budget + different_budget
+    return SquareSievePairPressureScan(
+        N=N,
+        base_residue=base_residue,
+        skeleton_primes=list(skeleton_primes),
+        outside_witness=list(outside_witness),
+        outside_size=len(outside_witness),
+        candidate_count=candidate_count(N, base_residue),
+        best_pair=two_pivot.best_pair,
+        pair_target_count=len(targets),
+        primary_skeleton_target_count=primary_skeleton,
+        other_skeleton_target_count=other_skeleton,
+        same_large_target_count=len(same_large_gap_square_witnesses),
+        different_large_target_count=(
+            len(targets) - primary_skeleton - other_skeleton -
+            len(same_large_gap_square_witnesses)
+        ),
+        same_large_gap_square_witnesses=same_large_gap_square_witnesses,
+        different_large_pair_classes=different_large_pair_classes_list,
+        different_large_pair_cover_budget=different_budget,
+        pair_pressure_tail_budget=pair_pressure_tail_budget,
+        pair_pressure_full_slack=(
+            candidate_count(N, base_residue) -
+            len(outside_witness) -
+            pair_pressure_tail_budget
+        ),
+    )
+
+
+def square_sieve_skeleton_optimizer_scan(
+    N: int,
+    outside_witness: list[int],
+    base_residue: int = 7,
+    max_prime: int = 73,
+) -> SquareSieveSkeletonOptimizerScan:
+    profiles = _prime_profiles_upto(max_prime)
+    if not profiles:
+        raise ValueError(max_prime)
+    scans = [
+        square_sieve_pair_pressure_scan(
+            N,
+            outside_witness,
+            base_residue=base_residue,
+            skeleton_primes=profile,
+        )
+        for profile in profiles
+    ]
+    best = max(
+        scans,
+        key=lambda scan: (
+            scan.pair_pressure_full_slack,
+            -scan.pair_pressure_tail_budget,
+            -scan.same_large_target_count,
+            -scan.different_large_target_count,
+            len(scan.skeleton_primes),
+        ),
+    )
+    return SquareSieveSkeletonOptimizerScan(
+        N=N,
+        base_residue=base_residue,
+        outside_witness=list(outside_witness),
+        outside_size=len(outside_witness),
+        candidate_count=candidate_count(N, base_residue),
+        candidate_profiles=[list(profile) for profile in profiles],
+        best_skeleton_primes=best.skeleton_primes,
+        best_pair=best.best_pair,
+        best_primary_skeleton_target_count=best.primary_skeleton_target_count,
+        best_other_skeleton_target_count=best.other_skeleton_target_count,
+        best_same_large_target_count=best.same_large_target_count,
+        best_different_large_target_count=best.different_large_target_count,
+        best_pair_pressure_tail_budget=best.pair_pressure_tail_budget,
+        best_pair_pressure_full_slack=best.pair_pressure_full_slack,
+    )
 
 
 def square_sieve_pivot_cover_example(
