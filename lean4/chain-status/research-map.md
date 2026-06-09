@@ -199,7 +199,7 @@ Files:
 
 ### `G-squarefree-ap-hall-expansion` -- Squarefree AP Hall-neighborhood expansion
 
-Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut only covers the nonempty case by choosing a pivot in `B` and explicit prime-indexed CRT residue classes `(p, residue)` counted with budget `N/(25*p^2)+1`, with `p = 5` kernel-excluded for outside pivots.  Lean maps these prime classes to the older `25*p^2` residue cover, proves the budgets match, records fixed-prime residue uniqueness, exposes exact `p=2,3` and medium `{2,3,7,11,13,17,19,23}` skeleton budgets, proves the finite small-prime index split below `29`, and now has dedicated singleton, nonempty, two-pivot hybrid, and pair-sieve medium-skeleton prime-qualified quotient-tail targets with bridges back to the active one-list and nonempty prime-cover targets.  The pair-sieve surface records same-large gap pressure and different-large pair-CRT classes for the large-prime tail.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.
+Prove the endpoint `7 mod 25` squarefree AP/Hall expansion by a global square-sieve residue-cover bound.  A Hall defect is kernel-reduced to a rectangle `B x T`; Lean now closes the empty-`B` branch locally, so the active cut is a split singleton/two-pivot certificate.  Singleton Hall defects may still use the medium-skeleton quotient tail; the genuine `2 <= |B|` branch must choose two distinct pivots and cover the pair non-neighbor rectangle by the fixed `{2,3,7,11,13,17,19,23}` skeleton.  Lean maps the split target back through the two-pivot hybrid and prime-residue cover surfaces, and the older pair-sieve surface still records same-large gap pressure and different-large pair-CRT classes for any large-prime tail.  The former seven-offset local repair-matching route is retired: Lean records CRT obstructions in both source-to-target and target-to-source seven-offset windows.
 
 Declarations:
 - `Erdos848.globalSquareSieveHallCut`
@@ -258,6 +258,10 @@ Declarations:
 - `Erdos848.squareSieveNonemptyMediumSkeletonPrimeQuotientTail_of_twoPivot`
 - `Erdos848.squareSieveNonemptyPivotPrimeResidueCover_of_mediumPrimeQuotientTail`
 - `Erdos848.squareSieveNonemptyPivotPrimeResidueCover_of_twoPivotMediumPrimeQuotientTail`
+- `Erdos848.SquareSieveNonemptySplitPairSkeletonPrimeQuotientCertificate`
+- `Erdos848.SquareSieveNonemptySplitPairSkeletonPrimeQuotientBoundForResidue`
+- `Erdos848.squareSieveNonemptyTwoPivotMediumSkeletonPrimeQuotientTail_of_splitPairSkeleton`
+- `Erdos848.squareSieveNonemptyPivotPrimeResidueCover_of_splitPairSkeleton`
 - `Erdos848.SquareSieveNonemptyPairSieveMediumSkeletonPrimeQuotientTailCertificate`
 - `Erdos848.SquareSieveNonemptyPairSieveMediumSkeletonPrimeQuotientTailBoundForResidue`
 - `Erdos848.squareSieveNonemptyTwoPivotMediumSkeletonPrimeQuotientTail_of_pairSieve`

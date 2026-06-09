@@ -16184,6 +16184,119 @@ theorem squareSieveNonemptyPivotPrimeResidueCover_of_twoPivotMediumPrimeQuotient
     (squareSieveNonemptyMediumSkeletonPrimeQuotientTail_of_twoPivot h)
 
 /--
+Split skeleton target for the active Hall cut.  The singleton branch keeps the
+existing medium-skeleton quotient tail.  The genuinely two-pivot branch is the
+new attack surface: once `2 <= |B|`, choose two distinct pivots and cover the
+pair non-neighbor rectangle using only the fixed medium skeleton.
+-/
+def SquareSieveNonemptySplitPairSkeletonPrimeQuotientBoundForResidue
+    (r : Nat) : Prop :=
+  forall (N : Nat) (B T : Nat -> Prop)
+    (decB : DecidablePred B) (_decT : DecidablePred T),
+    BoundedOutsideSet N r B ->
+    NonSquarefreeClique B ->
+    (forall a : Nat, T a ->
+      CandidateCarrier r a /\
+        Not (SquarefreeNeighborInCandidate N r B a)) ->
+    1 <= @familySize N B decB ->
+    ((@familySize N B decB = 1 ->
+      Exists fun pivot : Nat =>
+      Exists fun r2 : Nat =>
+      Exists fun r3 : Nat =>
+      Exists fun r7 : Nat =>
+      Exists fun r11 : Nat =>
+      Exists fun r13 : Nat =>
+      Exists fun r17 : Nat =>
+      Exists fun r19 : Nat =>
+      Exists fun r23 : Nat =>
+      Exists fun tailClasses : List (Nat × Nat) =>
+        B pivot /\
+          (forall cls : Nat × Nat, List.Mem cls tailClasses -> 29 <= cls.fst) /\
+            (forall cls : Nat × Nat,
+              List.Mem cls
+                (SquareSieveMediumSkeletonPrimeClasses
+                  r2 r3 r7 r11 r13 r17 r19 r23 ++ tailClasses) ->
+              2 <= cls.fst /\ cls.fst ≠ 5) /\
+              SquareSievePivotPrimeResiduePrimeQuotientCover N r T pivot
+                (SquareSieveMediumSkeletonPrimeClasses
+                  r2 r3 r7 r11 r13 r17 r19 r23 ++ tailClasses) /\
+                @familySize N B decB +
+                    SquareSievePrimeResidueCoverBudget N
+                      (SquareSieveMediumSkeletonPrimeClasses
+                        r2 r3 r7 r11 r13 r17 r19 r23 ++ tailClasses) <=
+                  candidateCount r N) /\
+    (2 <= @familySize N B decB ->
+      Exists fun pivot : Nat =>
+      Exists fun other : Nat =>
+      Exists fun r2 : Nat =>
+      Exists fun r3 : Nat =>
+      Exists fun r7 : Nat =>
+      Exists fun r11 : Nat =>
+      Exists fun r13 : Nat =>
+      Exists fun r17 : Nat =>
+      Exists fun r19 : Nat =>
+      Exists fun r23 : Nat =>
+        B pivot /\
+          B other /\
+            Not (pivot = other) /\
+              (forall cls : Nat × Nat,
+                List.Mem cls
+                  (SquareSieveMediumSkeletonPrimeClasses
+                    r2 r3 r7 r11 r13 r17 r19 r23) ->
+                2 <= cls.fst /\ cls.fst ≠ 5) /\
+                SquareSieveHybridPivotPrimeResiduePrimeQuotientCover N r T pivot other
+                  (SquareSieveMediumSkeletonPrimeClasses
+                    r2 r3 r7 r11 r13 r17 r19 r23) /\
+                  @familySize N B decB +
+                      SquareSievePrimeResidueCoverBudget N
+                        (SquareSieveMediumSkeletonPrimeClasses
+                          r2 r3 r7 r11 r13 r17 r19 r23) <=
+                    candidateCount r N))
+
+/-- Endpoint split pair-skeleton target for the `7 mod 25` class. -/
+def SquareSieveNonemptySplitPairSkeletonPrimeQuotientCertificate : Prop :=
+  SquareSieveNonemptySplitPairSkeletonPrimeQuotientBoundForResidue 7
+
+/--
+The split target supplies the existing two-pivot quotient-tail target.  In the
+two-pivot branch the tail list is empty; in the singleton branch the hybrid
+cover uses its one-pivot side with `other = pivot`.
+-/
+theorem squareSieveNonemptyTwoPivotMediumSkeletonPrimeQuotientTail_of_splitPairSkeleton
+    (h :
+      SquareSieveNonemptySplitPairSkeletonPrimeQuotientBoundForResidue 7) :
+    SquareSieveNonemptyTwoPivotMediumSkeletonPrimeQuotientTailCertificate := by
+  intro N B T decB decT hB hClique hT hNonempty
+  rcases h N B T decB decT hB hClique hT hNonempty with
+    ⟨hSingleton, hPair⟩
+  by_cases hTwo : 2 <= @familySize N B decB
+  · rcases hPair hTwo with
+      ⟨pivot, other, r2, r3, r7, r11, r13, r17, r19, r23,
+        hpivot, hother, _hne, hPos, hHybridCover, hBudget⟩
+    exact
+      ⟨pivot, other, r2, r3, r7, r11, r13, r17, r19, r23, [],
+        hpivot, hother,
+        (by intro cls hmem; cases hmem),
+        (by simpa using hPos),
+        (by simpa using hHybridCover),
+        (by simpa using hBudget)⟩
+  · have hOne : @familySize N B decB = 1 := by omega
+    rcases hSingleton hOne with
+      ⟨pivot, r2, r3, r7, r11, r13, r17, r19, r23, tailClasses,
+        hpivot, hTailLarge, hPos, hPrimeCover, hBudget⟩
+    exact
+      ⟨pivot, pivot, r2, r3, r7, r11, r13, r17, r19, r23, tailClasses,
+        hpivot, hpivot, hTailLarge, hPos, Or.inl hPrimeCover, hBudget⟩
+
+/-- Direct bridge from the split pair-skeleton target to the active cover surface. -/
+theorem squareSieveNonemptyPivotPrimeResidueCover_of_splitPairSkeleton
+    (h :
+      SquareSieveNonemptySplitPairSkeletonPrimeQuotientBoundForResidue 7) :
+    SquareSieveNonemptyPivotPrimeResidueCoverCertificate :=
+  squareSieveNonemptyPivotPrimeResidueCover_of_twoPivotMediumPrimeQuotientTail
+    (squareSieveNonemptyTwoPivotMediumSkeletonPrimeQuotientTail_of_splitPairSkeleton h)
+
+/--
 Pair-sieve strengthened version of the two-pivot target.  Besides the hybrid
 one/two-pivot cover consumed by the current route, it records pair-CRT classes
 and same-large gap pressure for the large-prime tail.
@@ -16318,11 +16431,13 @@ theorem squareSieveOffDiagonalClassValid_residue_mod_unique
 
 /--
 Replacement analytic target after the seven-offset local-matching route was
-disproved by CRT obstructions.  The active analytic target is now the
-square-sieve residue-cover bound that rules out Hall-defect rectangles directly.
+disproved by CRT obstructions.  The active analytic target is now the split
+singleton/two-pivot square-sieve certificate: singleton Hall defects may use
+the existing quotient tail, while genuinely two-pivot defects must be covered
+by the fixed medium skeleton.
 -/
 def GlobalSquareSieveHallCertificate : Prop :=
-  SquareSieveNonemptyPivotPrimeResidueCoverCertificate
+  SquareSieveNonemptySplitPairSkeletonPrimeQuotientCertificate
 
 /-- A two-residue AP/Hall certificate implies the endpoint one-residue certificate. -/
 theorem squarefreeAPHallCertificate_of_candidateResidues
@@ -16903,7 +17018,8 @@ theorem squarefreeAPHallCertificate_of_globalSquareSieve
     SquarefreeAPHallCertificate :=
   squarefreeAPHallCertificate_of_squareSieveHallDefectRectangle
     (squareSieveHallDefectRectangle_of_nonemptyPivotResidueCover
-      (squareSieveNonemptyPivotResidueCover_of_primeResidueCover h))
+      (squareSieveNonemptyPivotResidueCover_of_primeResidueCover
+        (squareSieveNonemptyPivotPrimeResidueCover_of_splitPairSkeleton h)))
 
 /--
 Upper-free neighbor-form allocation supplies the previous scalar upper bound

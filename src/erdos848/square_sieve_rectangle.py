@@ -140,6 +140,25 @@ class SquareSievePairPressureScan:
 
 
 @dataclass
+class SquareSievePairSkeletonOnlyScan:
+    N: int
+    base_residue: int
+    skeleton_primes: list[int]
+    outside_witness: list[int]
+    outside_size: int
+    candidate_count: int
+    best_pair: tuple[int, int]
+    pair_target_count: int
+    skeleton_target_count: int
+    uncovered_target_count: int
+    skeleton_prime_classes: list[tuple[int, int]]
+    skeleton_prime_cover_budget: int
+    pair_skeleton_full_slack: int
+    skeleton_witnesses: list[tuple[int, int, int, int]]
+    uncovered_witnesses: list[tuple[int, int, int, int]]
+
+
+@dataclass
 class SquareSieveSkeletonOptimizerScan:
     N: int
     base_residue: int
@@ -444,6 +463,79 @@ def square_sieve_pair_pressure_scan(
             len(outside_witness) -
             pair_pressure_tail_budget
         ),
+    )
+
+
+def square_sieve_pair_skeleton_only_scan(
+    N: int,
+    outside_witness: list[int],
+    base_residue: int = 7,
+    skeleton_primes: tuple[int, ...] = (2, 3, 7, 11, 13, 17, 19, 23),
+) -> SquareSievePairSkeletonOnlyScan:
+    """Scan whether the best two-pivot rectangle is fully skeleton-covered.
+
+    This is the finite-data mirror of the split Lean target: in the genuine
+    two-pivot branch, the desired close is that the medium skeleton alone
+    covers the pair non-neighbor rectangle, with no large-prime tail.
+    """
+    two_pivot = square_sieve_two_pivot_quotient_scan(
+        N,
+        outside_witness,
+        base_residue=base_residue,
+        skeleton_primes=skeleton_primes,
+    )
+    pivot, other = two_pivot.best_pair
+    sf = squarefree_sieve(N * N + 1)
+    targets = _candidate_nonneighbor_targets_for_pair(
+        N, pivot, other, base_residue, sf
+    )
+
+    skeleton_classes: set[tuple[int, int]] = set()
+    skeleton_witnesses: list[tuple[int, int, int, int]] = []
+    uncovered_witnesses: list[tuple[int, int, int, int]] = []
+    for target in targets:
+        value = target * pivot + 1
+        covered = False
+        for p in skeleton_primes:
+            if _square_divides_prime(p, value):
+                _p, _modulus, residue = _prime_residue_class_for_target(
+                    base_residue, pivot, target, p
+                )
+                skeleton_classes.add((p, residue))
+                skeleton_witnesses.append((target, p, value // (p * p), residue))
+                covered = True
+                break
+        if not covered:
+            p, quotient = _least_square_divisor_quotient(value)
+            if p == 5:
+                raise ValueError(("bad-uncovered-prime", N, pivot, target, p))
+            _p, _modulus, residue = _prime_residue_class_for_target(
+                base_residue, pivot, target, p
+            )
+            uncovered_witnesses.append((target, p, quotient, residue))
+
+    skeleton_prime_classes = sorted(skeleton_classes)
+    skeleton_budget = sum(
+        N // (25 * p * p) + 1 for p, _residue in skeleton_prime_classes
+    )
+    return SquareSievePairSkeletonOnlyScan(
+        N=N,
+        base_residue=base_residue,
+        skeleton_primes=list(skeleton_primes),
+        outside_witness=list(outside_witness),
+        outside_size=len(outside_witness),
+        candidate_count=candidate_count(N, base_residue),
+        best_pair=two_pivot.best_pair,
+        pair_target_count=len(targets),
+        skeleton_target_count=len(skeleton_witnesses),
+        uncovered_target_count=len(uncovered_witnesses),
+        skeleton_prime_classes=skeleton_prime_classes,
+        skeleton_prime_cover_budget=skeleton_budget,
+        pair_skeleton_full_slack=(
+            candidate_count(N, base_residue) - len(outside_witness) - skeleton_budget
+        ),
+        skeleton_witnesses=skeleton_witnesses,
+        uncovered_witnesses=uncovered_witnesses,
     )
 
 
