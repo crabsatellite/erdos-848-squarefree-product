@@ -406,7 +406,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-09T01:12:59.503513+00:00",
+  "generated_at": "2026-06-09T01:34:54.208983+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -3328,6 +3328,58 @@
       ],
       "uncovered_target_count": 0,
       "uncovered_witnesses": []
+    }
+  ],
+  "square_sieve_pair_skeleton_optimizer_scans": [
+    {
+      "N": 500,
+      "base_residue": 7,
+      "best_pair": [
+        268,
+        437
+      ],
+      "best_pair_skeleton_full_slack": 13,
+      "best_pair_target_count": 1,
+      "best_skeleton_prime_class_count": 1,
+      "best_skeleton_prime_classes": [
+        [
+          11,
+          107
+        ]
+      ],
+      "best_skeleton_prime_cover_budget": 1,
+      "best_skeleton_target_count": 1,
+      "best_skeleton_witnesses": [
+        [
+          107,
+          11,
+          237,
+          107
+        ]
+      ],
+      "best_uncovered_target_count": 0,
+      "best_uncovered_witnesses": [],
+      "candidate_count": 20,
+      "outside_size": 6,
+      "outside_witness": [
+        41,
+        437,
+        43,
+        143,
+        243,
+        268
+      ],
+      "pair_count": 30,
+      "skeleton_primes": [
+        2,
+        3,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23
+      ]
     }
   ],
   "square_sieve_pivot_covers": [

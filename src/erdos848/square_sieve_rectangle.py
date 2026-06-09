@@ -159,6 +159,27 @@ class SquareSievePairSkeletonOnlyScan:
 
 
 @dataclass
+class SquareSievePairSkeletonOptimizerScan:
+    N: int
+    base_residue: int
+    skeleton_primes: list[int]
+    outside_witness: list[int]
+    outside_size: int
+    candidate_count: int
+    pair_count: int
+    best_pair: tuple[int, int]
+    best_pair_target_count: int
+    best_skeleton_target_count: int
+    best_uncovered_target_count: int
+    best_skeleton_prime_class_count: int
+    best_skeleton_prime_cover_budget: int
+    best_pair_skeleton_full_slack: int
+    best_skeleton_prime_classes: list[tuple[int, int]]
+    best_skeleton_witnesses: list[tuple[int, int, int, int]]
+    best_uncovered_witnesses: list[tuple[int, int, int, int]]
+
+
+@dataclass
 class SquareSieveSkeletonOptimizerScan:
     N: int
     base_residue: int
@@ -536,6 +557,109 @@ def square_sieve_pair_skeleton_only_scan(
         ),
         skeleton_witnesses=skeleton_witnesses,
         uncovered_witnesses=uncovered_witnesses,
+    )
+
+
+def square_sieve_pair_skeleton_optimizer_scan(
+    N: int,
+    outside_witness: list[int],
+    base_residue: int = 7,
+    skeleton_primes: tuple[int, ...] = (2, 3, 7, 11, 13, 17, 19, 23),
+) -> SquareSievePairSkeletonOptimizerScan:
+    """Choose the ordered pair that best fits the medium-skeleton-only target."""
+    if len(outside_witness) < 2:
+        raise ValueError("outside_witness must have at least two pivots")
+    if any(p < 2 or p == 5 for p in skeleton_primes):
+        raise ValueError(skeleton_primes)
+    if any(b < 1 or b > N for b in outside_witness):
+        raise ValueError((N, outside_witness))
+
+    sf = squarefree_sieve(N * N + 1)
+    candidate_total = candidate_count(N, base_residue)
+    best_key: tuple[bool, int, int, int, int, int, int, int] | None = None
+    best_payload: dict | None = None
+    pair_count = 0
+    for pivot in outside_witness:
+        for other in outside_witness:
+            if pivot == other:
+                continue
+            pair_count += 1
+            targets = _candidate_nonneighbor_targets_for_pair(
+                N, pivot, other, base_residue, sf
+            )
+            skeleton_classes: set[tuple[int, int]] = set()
+            skeleton_witnesses: list[tuple[int, int, int, int]] = []
+            uncovered_witnesses: list[tuple[int, int, int, int]] = []
+            for target in targets:
+                value = target * pivot + 1
+                covered = False
+                for p in skeleton_primes:
+                    if _square_divides_prime(p, value):
+                        _p, _modulus, residue = _prime_residue_class_for_target(
+                            base_residue, pivot, target, p
+                        )
+                        skeleton_classes.add((p, residue))
+                        skeleton_witnesses.append(
+                            (target, p, value // (p * p), residue)
+                        )
+                        covered = True
+                        break
+                if not covered:
+                    p, quotient = _least_square_divisor_quotient(value)
+                    if p == 5:
+                        raise ValueError(
+                            ("bad-uncovered-prime", N, pivot, target, p)
+                        )
+                    _p, _modulus, residue = _prime_residue_class_for_target(
+                        base_residue, pivot, target, p
+                    )
+                    uncovered_witnesses.append((target, p, quotient, residue))
+            skeleton_prime_classes = sorted(skeleton_classes)
+            skeleton_budget = sum(
+                N // (25 * p * p) + 1 for p, _residue in skeleton_prime_classes
+            )
+            full_slack = candidate_total - len(outside_witness) - skeleton_budget
+            key = (
+                len(uncovered_witnesses) == 0,
+                -len(uncovered_witnesses),
+                full_slack,
+                -skeleton_budget,
+                len(targets),
+                -len(skeleton_prime_classes),
+                pivot,
+                other,
+            )
+            if best_key is None or key > best_key:
+                best_key = key
+                best_payload = {
+                    "pair": (pivot, other),
+                    "targets": targets,
+                    "skeleton_classes": skeleton_prime_classes,
+                    "skeleton_budget": skeleton_budget,
+                    "full_slack": full_slack,
+                    "skeleton_witnesses": skeleton_witnesses,
+                    "uncovered_witnesses": uncovered_witnesses,
+                }
+
+    assert best_payload is not None
+    return SquareSievePairSkeletonOptimizerScan(
+        N=N,
+        base_residue=base_residue,
+        skeleton_primes=list(skeleton_primes),
+        outside_witness=list(outside_witness),
+        outside_size=len(outside_witness),
+        candidate_count=candidate_total,
+        pair_count=pair_count,
+        best_pair=best_payload["pair"],
+        best_pair_target_count=len(best_payload["targets"]),
+        best_skeleton_target_count=len(best_payload["skeleton_witnesses"]),
+        best_uncovered_target_count=len(best_payload["uncovered_witnesses"]),
+        best_skeleton_prime_class_count=len(best_payload["skeleton_classes"]),
+        best_skeleton_prime_cover_budget=best_payload["skeleton_budget"],
+        best_pair_skeleton_full_slack=best_payload["full_slack"],
+        best_skeleton_prime_classes=best_payload["skeleton_classes"],
+        best_skeleton_witnesses=best_payload["skeleton_witnesses"],
+        best_uncovered_witnesses=best_payload["uncovered_witnesses"],
     )
 
 

@@ -45,6 +45,7 @@ from erdos848.square_sieve_rectangle import (
     square_sieve_intersection_decay_scan,
     square_sieve_pivot_cover_example,
     square_sieve_pair_pressure_scan,
+    square_sieve_pair_skeleton_optimizer_scan,
     square_sieve_pair_skeleton_only_scan,
     square_sieve_residual_tail_scan,
     square_sieve_singleton_budget_scan,
@@ -259,6 +260,21 @@ def run(mode: str) -> dict:
         ]
         if item["exact_worst"] and len(witness) >= 2
     ]
+    square_sieve_pair_skeleton_optimizer_scans = [
+        square_sieve_pivot_cover_to_json(
+            square_sieve_pair_skeleton_optimizer_scan(
+                item["N"],
+                witness,
+                skeleton_primes=square_sieve_skeleton_prime_profiles[-1],
+            )
+        )
+        for item in active_credit
+        for witness in [
+            item["observed_max_credit_deficit_witness"]
+            or item["worst_credit_witness"]
+        ]
+        if item["exact_worst"] and len(witness) >= 2
+    ]
     square_sieve_skeleton_optimizer_scans = [
         square_sieve_pivot_cover_to_json(
             square_sieve_skeleton_optimizer_scan(
@@ -311,6 +327,9 @@ def run(mode: str) -> dict:
         "square_sieve_pair_pressure_scans": square_sieve_pair_pressure_scans,
         "square_sieve_pair_skeleton_only_scans": (
             square_sieve_pair_skeleton_only_scans
+        ),
+        "square_sieve_pair_skeleton_optimizer_scans": (
+            square_sieve_pair_skeleton_optimizer_scans
         ),
         "square_sieve_skeleton_optimizer_scans": square_sieve_skeleton_optimizer_scans,
         "partitioned_hall_checks": partitioned,
@@ -776,6 +795,62 @@ def assert_gate(payload: dict) -> None:
         ), item
         assert item["pair_skeleton_full_slack"] >= 0, item
         assert item["uncovered_target_count"] == 0, item
+    for item in payload["square_sieve_pair_skeleton_optimizer_scans"]:
+        assert len(item["outside_witness"]) >= 2, item
+        assert item["outside_size"] == len(item["outside_witness"]), item
+        assert item["pair_count"] == item["outside_size"] * (item["outside_size"] - 1), item
+        assert item["candidate_count"] == candidate_count(item["N"], item["base_residue"]), item
+        assert item["best_pair"][0] in item["outside_witness"], item
+        assert item["best_pair"][1] in item["outside_witness"], item
+        assert item["best_pair"][0] != item["best_pair"][1], item
+        assert all(p >= 2 and p != 5 for p in item["skeleton_primes"]), item
+        assert len(set(item["skeleton_primes"])) == len(item["skeleton_primes"]), item
+        assert (
+            item["best_skeleton_target_count"] +
+            item["best_uncovered_target_count"] ==
+            item["best_pair_target_count"]
+        ), item
+        assert len(item["best_skeleton_witnesses"]) == item[
+            "best_skeleton_target_count"
+        ], item
+        assert len(item["best_uncovered_witnesses"]) == item[
+            "best_uncovered_target_count"
+        ], item
+        assert item["best_skeleton_prime_class_count"] == len(
+            item["best_skeleton_prime_classes"]
+        ), item
+        skeleton_classes = set(
+            tuple(cls) for cls in item["best_skeleton_prime_classes"]
+        )
+        assert item["best_skeleton_prime_cover_budget"] == sum(
+            item["N"] // (25 * p * p) + 1
+            for p, _residue in item["best_skeleton_prime_classes"]
+        ), item
+        pivot = item["best_pair"][0]
+        for target, p, quotient, residue in item["best_skeleton_witnesses"]:
+            assert 1 <= target <= item["N"], item
+            assert target % 25 == item["base_residue"] % 25, item
+            assert p in item["skeleton_primes"], item
+            assert quotient >= 1, item
+            assert target * pivot + 1 == p * p * quotient, item
+            assert (p, residue) in skeleton_classes, item
+            assert 0 <= residue < 25 * p * p, item
+            assert target % (25 * p * p) == residue % (25 * p * p), item
+        for target, p, quotient, residue in item["best_uncovered_witnesses"]:
+            assert 1 <= target <= item["N"], item
+            assert target % 25 == item["base_residue"] % 25, item
+            assert p not in item["skeleton_primes"] and p != 5, item
+            assert quotient >= 1, item
+            assert target * pivot + 1 == p * p * quotient, item
+            assert 0 <= residue < 25 * p * p, item
+            assert target % (25 * p * p) == residue % (25 * p * p), item
+        assert item["best_pair_skeleton_full_slack"] == (
+            item["candidate_count"] -
+            item["outside_size"] -
+            item["best_skeleton_prime_cover_budget"]
+        ), item
+        assert item["best_pair_skeleton_full_slack"] >= 0, item
+        assert item["best_uncovered_target_count"] == 0, item
     for item in payload["square_sieve_skeleton_optimizer_scans"]:
         assert len(item["outside_witness"]) >= 2, item
         assert item["outside_size"] == len(item["outside_witness"]), item
@@ -1201,6 +1276,10 @@ def main() -> int:
     print(
         "  square-sieve pair-skeleton-only scans: "
         f"{[(x['N'], x['best_pair'], x['pair_target_count'], x['skeleton_target_count'], x['uncovered_target_count'], x['skeleton_prime_cover_budget'], x['pair_skeleton_full_slack']) for x in payload['square_sieve_pair_skeleton_only_scans']]}"
+    )
+    print(
+        "  square-sieve pair-skeleton optimizer scans: "
+        f"{[(x['N'], x['best_pair'], x['best_pair_target_count'], x['best_skeleton_target_count'], x['best_uncovered_target_count'], x['best_skeleton_prime_class_count'], x['best_skeleton_prime_cover_budget'], x['best_pair_skeleton_full_slack']) for x in payload['square_sieve_pair_skeleton_optimizer_scans']]}"
     )
     print(
         "  square-sieve skeleton optimizer scans: "
