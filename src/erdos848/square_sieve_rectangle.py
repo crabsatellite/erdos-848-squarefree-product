@@ -174,6 +174,9 @@ class SquareSievePairSkeletonOptimizerScan:
     best_skeleton_prime_class_count: int
     best_skeleton_prime_cover_budget: int
     best_pair_skeleton_full_slack: int
+    best_target_residues_mod100: list[int]
+    best_single_target_residue_mod100: int
+    best_all_targets_p2_class: bool
     best_skeleton_prime_classes: list[tuple[int, int]]
     best_skeleton_witnesses: list[tuple[int, int, int, int]]
     best_uncovered_witnesses: list[tuple[int, int, int, int]]
@@ -630,10 +633,12 @@ def square_sieve_pair_skeleton_optimizer_scan(
                 other,
             )
             if best_key is None or key > best_key:
+                target_residues_mod100 = sorted({target % 100 for target in targets})
                 best_key = key
                 best_payload = {
                     "pair": (pivot, other),
                     "targets": targets,
+                    "target_residues_mod100": target_residues_mod100,
                     "skeleton_classes": skeleton_prime_classes,
                     "skeleton_budget": skeleton_budget,
                     "full_slack": full_slack,
@@ -657,6 +662,20 @@ def square_sieve_pair_skeleton_optimizer_scan(
         best_skeleton_prime_class_count=len(best_payload["skeleton_classes"]),
         best_skeleton_prime_cover_budget=best_payload["skeleton_budget"],
         best_pair_skeleton_full_slack=best_payload["full_slack"],
+        best_target_residues_mod100=best_payload["target_residues_mod100"],
+        best_single_target_residue_mod100=(
+            best_payload["target_residues_mod100"][0]
+            if len(best_payload["target_residues_mod100"]) == 1
+            else 0
+        ),
+        best_all_targets_p2_class=(
+            len(best_payload["targets"]) > 0 and
+            len(best_payload["uncovered_witnesses"]) == 0 and
+            len(best_payload["skeleton_classes"]) == 1 and
+            best_payload["skeleton_classes"][0][0] == 2 and
+            best_payload["target_residues_mod100"] ==
+            [best_payload["skeleton_classes"][0][1] % 100]
+        ),
         best_skeleton_prime_classes=best_payload["skeleton_classes"],
         best_skeleton_witnesses=best_payload["skeleton_witnesses"],
         best_uncovered_witnesses=best_payload["uncovered_witnesses"],

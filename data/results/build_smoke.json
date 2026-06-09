@@ -406,7 +406,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-09T01:34:54.208983+00:00",
+  "generated_at": "2026-06-09T01:44:21.400008+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -3334,12 +3334,14 @@
     {
       "N": 500,
       "base_residue": 7,
+      "best_all_targets_p2_class": false,
       "best_pair": [
         268,
         437
       ],
       "best_pair_skeleton_full_slack": 13,
       "best_pair_target_count": 1,
+      "best_single_target_residue_mod100": 7,
       "best_skeleton_prime_class_count": 1,
       "best_skeleton_prime_classes": [
         [
@@ -3356,6 +3358,9 @@
           237,
           107
         ]
+      ],
+      "best_target_residues_mod100": [
+        7
       ],
       "best_uncovered_target_count": 0,
       "best_uncovered_witnesses": [],

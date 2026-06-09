@@ -819,6 +819,20 @@ def assert_gate(payload: dict) -> None:
         assert item["best_skeleton_prime_class_count"] == len(
             item["best_skeleton_prime_classes"]
         ), item
+        assert item["best_target_residues_mod100"] == sorted(
+            {
+                target % 100
+                for target, _p, _quotient, _residue in item[
+                    "best_skeleton_witnesses"
+                ] + item["best_uncovered_witnesses"]
+            }
+        ), item
+        if len(item["best_target_residues_mod100"]) == 1:
+            assert item["best_single_target_residue_mod100"] == item[
+                "best_target_residues_mod100"
+            ][0], item
+        else:
+            assert item["best_single_target_residue_mod100"] == 0, item
         skeleton_classes = set(
             tuple(cls) for cls in item["best_skeleton_prime_classes"]
         )
@@ -851,6 +865,16 @@ def assert_gate(payload: dict) -> None:
         ), item
         assert item["best_pair_skeleton_full_slack"] >= 0, item
         assert item["best_uncovered_target_count"] == 0, item
+        assert item["best_all_targets_p2_class"] == (
+            item["best_pair_target_count"] > 0 and
+            item["best_uncovered_target_count"] == 0 and
+            item["best_skeleton_prime_classes"] and
+            len(item["best_skeleton_prime_classes"]) == 1 and
+            item["best_skeleton_prime_classes"][0][0] == 2 and
+            item["best_target_residues_mod100"] == [
+                item["best_skeleton_prime_classes"][0][1] % 100
+            ]
+        ), item
     for item in payload["square_sieve_skeleton_optimizer_scans"]:
         assert len(item["outside_witness"]) >= 2, item
         assert item["outside_size"] == len(item["outside_witness"]), item
@@ -1279,7 +1303,7 @@ def main() -> int:
     )
     print(
         "  square-sieve pair-skeleton optimizer scans: "
-        f"{[(x['N'], x['best_pair'], x['best_pair_target_count'], x['best_skeleton_target_count'], x['best_uncovered_target_count'], x['best_skeleton_prime_class_count'], x['best_skeleton_prime_cover_budget'], x['best_pair_skeleton_full_slack']) for x in payload['square_sieve_pair_skeleton_optimizer_scans']]}"
+        f"{[(x['N'], x['best_pair'], x['best_pair_target_count'], x['best_skeleton_target_count'], x['best_uncovered_target_count'], x['best_target_residues_mod100'], x['best_all_targets_p2_class'], x['best_skeleton_prime_class_count'], x['best_skeleton_prime_cover_budget'], x['best_pair_skeleton_full_slack']) for x in payload['square_sieve_pair_skeleton_optimizer_scans']]}"
     )
     print(
         "  square-sieve skeleton optimizer scans: "

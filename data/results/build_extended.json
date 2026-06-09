@@ -1706,7 +1706,7 @@
       ]
     }
   ],
-  "generated_at": "2026-06-09T01:39:43.352092+00:00",
+  "generated_at": "2026-06-09T01:46:04.997999+00:00",
   "hall_checks": [
     {
       "N": 100,
@@ -44204,12 +44204,14 @@
     {
       "N": 500,
       "base_residue": 7,
+      "best_all_targets_p2_class": false,
       "best_pair": [
         268,
         437
       ],
       "best_pair_skeleton_full_slack": 13,
       "best_pair_target_count": 1,
+      "best_single_target_residue_mod100": 7,
       "best_skeleton_prime_class_count": 1,
       "best_skeleton_prime_classes": [
         [
@@ -44226,6 +44228,9 @@
           237,
           107
         ]
+      ],
+      "best_target_residues_mod100": [
+        7
       ],
       "best_uncovered_target_count": 0,
       "best_uncovered_witnesses": [],
@@ -44254,12 +44259,14 @@
     {
       "N": 1000,
       "base_residue": 7,
+      "best_all_targets_p2_class": false,
       "best_pair": [
         268,
         143
       ],
       "best_pair_skeleton_full_slack": 31,
       "best_pair_target_count": 1,
+      "best_single_target_residue_mod100": 57,
       "best_skeleton_prime_class_count": 1,
       "best_skeleton_prime_classes": [
         [
@@ -44276,6 +44283,9 @@
           7653,
           32
         ]
+      ],
+      "best_target_residues_mod100": [
+        57
       ],
       "best_uncovered_target_count": 0,
       "best_uncovered_witnesses": [],
@@ -44302,17 +44312,20 @@
     {
       "N": 2000,
       "base_residue": 7,
+      "best_all_targets_p2_class": false,
       "best_pair": [
         168,
         43
       ],
       "best_pair_skeleton_full_slack": 76,
       "best_pair_target_count": 0,
+      "best_single_target_residue_mod100": 0,
       "best_skeleton_prime_class_count": 0,
       "best_skeleton_prime_classes": [],
       "best_skeleton_prime_cover_budget": 0,
       "best_skeleton_target_count": 0,
       "best_skeleton_witnesses": [],
+      "best_target_residues_mod100": [],
       "best_uncovered_target_count": 0,
       "best_uncovered_witnesses": [],
       "candidate_count": 80,
@@ -44338,12 +44351,14 @@
     {
       "N": 5000,
       "base_residue": 7,
+      "best_all_targets_p2_class": true,
       "best_pair": [
         4971,
         3619
       ],
       "best_pair_skeleton_full_slack": 140,
       "best_pair_target_count": 50,
+      "best_single_target_residue_mod100": 57,
       "best_skeleton_prime_class_count": 1,
       "best_skeleton_prime_classes": [
         [
@@ -44655,6 +44670,9 @@
           57
         ]
       ],
+      "best_target_residues_mod100": [
+        57
+      ],
       "best_uncovered_target_count": 0,
       "best_uncovered_witnesses": [],
       "candidate_count": 200,
@@ -44685,12 +44703,14 @@
     {
       "N": 6000,
       "base_residue": 7,
+      "best_all_targets_p2_class": true,
       "best_pair": [
         5647,
         1591
       ],
       "best_pair_skeleton_full_slack": 169,
       "best_pair_target_count": 60,
+      "best_single_target_residue_mod100": 57,
       "best_skeleton_prime_class_count": 1,
       "best_skeleton_prime_classes": [
         [
@@ -45061,6 +45081,9 @@
           8409795,
           57
         ]
+      ],
+      "best_target_residues_mod100": [
+        57
       ],
       "best_uncovered_target_count": 0,
       "best_uncovered_witnesses": [],
