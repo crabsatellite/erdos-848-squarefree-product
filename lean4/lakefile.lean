@@ -3,7 +3,7 @@ open Lake DSL
 
 package Erdos848 where
 
-require chainAudit from "../../../tools/chain-audit"
+require chainAudit from "vendor/chain-audit"
 
 @[default_target]
 lean_lib Erdos848 where
