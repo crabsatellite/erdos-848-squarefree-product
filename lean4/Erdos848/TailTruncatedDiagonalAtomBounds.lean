@@ -48,6 +48,36 @@ theorem truncatedPrimeSquareAtomUnion_card_le
           (hordered atom hatom) hNLimit
           (hcutoff atom hatom) hNUpper
 
+theorem truncatedPrimeSquareFiltered_card_le_atomUnion
+    (certificate : TruncatedDiagonalCoverageCertificate)
+    (targets : TruncatedDiagonalAtom → IndexedMarkerData)
+    (atoms : Finset TruncatedDiagonalAtom)
+    (counts : TruncatedDiagonalAtom → Nat)
+    (select : Nat → Prop) [DecidablePred select]
+    (hselect :
+      ∀ x, select x → truncatedDiagonalAtomOf x ∈ atoms)
+    (hprojects : certificate.marker.ProjectsTruncatedAtoms targets)
+    (hordered :
+      ∀ atom ∈ atoms, (targets atom).AdjacentOrdered)
+    {N upper : Nat}
+    (hNLimit : N ≤ certificate.marker.limit)
+    (hcutoff :
+      ∀ atom ∈ atoms, (targets atom).Cutoff upper (counts atom))
+    (hNUpper : N ≤ upper) :
+    ((truncatedPrimeSquareBadXValues certificate.cutoff N).filter
+      select).card ≤ ∑ atom ∈ atoms, counts atom := by
+  have hsubset :
+      (truncatedPrimeSquareBadXValues certificate.cutoff N).filter select ⊆
+        (truncatedPrimeSquareBadXValues certificate.cutoff N).filter
+          (fun x => truncatedDiagonalAtomOf x ∈ atoms) := by
+    intro x hx
+    exact Finset.mem_filter.mpr
+      ⟨(Finset.mem_filter.mp hx).1, hselect x (Finset.mem_filter.mp hx).2⟩
+  exact
+    (Finset.card_le_card hsubset).trans
+      (truncatedPrimeSquareAtomUnion_card_le certificate targets atoms
+        counts hprojects hordered hNLimit hcutoff hNUpper)
+
 theorem tailDiagonalAtomUnion_card_le
     (certificate : TruncatedDiagonalCoverageCertificate)
     (targets : TruncatedDiagonalAtom → IndexedMarkerData)
@@ -73,7 +103,37 @@ theorem tailDiagonalAtomUnion_card_le
         (truncatedPrimeSquareAtomUnion_card_le certificate targets atoms
           counts hprojects hordered hNLimit hcutoff hNUpper) _)
 
+theorem tailDiagonalFiltered_card_le_atomUnion
+    (certificate : TruncatedDiagonalCoverageCertificate)
+    (targets : TruncatedDiagonalAtom → IndexedMarkerData)
+    (atoms : Finset TruncatedDiagonalAtom)
+    (counts : TruncatedDiagonalAtom → Nat)
+    (select : Nat → Prop) [DecidablePred select]
+    (hselect :
+      ∀ x, select x → truncatedDiagonalAtomOf x ∈ atoms)
+    (hprojects : certificate.marker.ProjectsTruncatedAtoms targets)
+    (hordered :
+      ∀ atom ∈ atoms, (targets atom).AdjacentOrdered)
+    {N upper : Nat}
+    (hNLimit : N ≤ certificate.marker.limit)
+    (hcutoff :
+      ∀ atom ∈ atoms, (targets atom).Cutoff upper (counts atom))
+    (hNUpper : N ≤ upper)
+    (hbound : N + 1 ≤ 2_000_000_000) :
+    ((tailDiagonalBad N).filter select).card ≤
+      (∑ atom ∈ atoms, counts atom) +
+        (((N + 1) ^ 2 / (certificate.cutoff + 1) ^ 2 + 1) * 13) := by
+  exact
+    (tailDiagonalFiltered_card_le_truncated_add_largeSquare
+      select hbound).trans
+      (Nat.add_le_add_right
+        (truncatedPrimeSquareFiltered_card_le_atomUnion certificate targets
+          atoms counts select hselect hprojects hordered hNLimit
+          hcutoff hNUpper) _)
+
 #print axioms truncatedPrimeSquareAtomUnion_card_le
+#print axioms truncatedPrimeSquareFiltered_card_le_atomUnion
 #print axioms tailDiagonalAtomUnion_card_le
+#print axioms tailDiagonalFiltered_card_le_atomUnion
 
 end Erdos848
