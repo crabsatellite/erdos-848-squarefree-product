@@ -138,8 +138,62 @@ theorem hallResidual_ratio_le_of_paperSelection
       hBout hBprop haccept)
     hdiagonal
 
+/-- Canonical charged set for a paper selection: precisely the residual
+points rejected by the selection predicate. -/
+def paperSelectionCharge
+    (residual : Finset Nat) (selection : PaperDiagonalSelection) :
+    Finset Nat :=
+  residual.filter fun x =>
+    truncatedDiagonalAtomOf x ∉ selection.atoms
+
+theorem paperSelectionCharge_subset
+    (residual : Finset Nat) (selection : PaperDiagonalSelection) :
+    paperSelectionCharge residual selection ⊆ residual := by
+  intro x hx
+  exact (Finset.mem_filter.mp hx).1
+
+theorem mem_atoms_of_mem_sdiff_paperSelectionCharge
+    {residual : Finset Nat} {selection : PaperDiagonalSelection}
+    {x : Nat}
+    (hx : x ∈ residual \ paperSelectionCharge residual selection) :
+    truncatedDiagonalAtomOf x ∈ selection.atoms := by
+  have hxParts := Finset.mem_sdiff.mp hx
+  by_contra hreject
+  apply hxParts.2
+  exact Finset.mem_filter.mpr ⟨hxParts.1, hreject⟩
+
+/-- Canonical Hall form: the only branch-specific set obligation is now a
+cardinality bound for the points rejected by its paper selection. -/
+theorem hallResidual_ratio_le_of_paperSelectionCharge
+    {N lowerBound chargeCap : Nat}
+    {B : Finset Nat}
+    {selection : PaperDiagonalSelection}
+    {diagonalEnvelope : Rat}
+    (hBout : Erdos848OutsideSet N B)
+    (hBprop : NonSquarefreeProductProp B)
+    (hLowerPositive : 0 < lowerBound)
+    (hLower : lowerBound ≤ N)
+    (hcharge :
+      (paperSelectionCharge (hallResidual N B) selection).card ≤
+        chargeCap)
+    (hdiagonal :
+      (((tailDiagonalBad N).filter
+        (fun x => truncatedDiagonalAtomOf x ∈ selection.atoms)).card : Rat) /
+          N ≤ diagonalEnvelope) :
+    ((hallResidual N B).card : Rat) / N ≤
+      diagonalEnvelope + chargeCap / lowerBound := by
+  exact hallResidual_ratio_le_of_paperSelection
+    hBout hBprop hLowerPositive hLower
+    (paperSelectionCharge_subset (hallResidual N B) selection)
+    hcharge
+    (fun _ hx => mem_atoms_of_mem_sdiff_paperSelectionCharge hx)
+    hdiagonal
+
 #print axioms hallResidual_ratio_le_of_paperSelection_charge
 #print axioms hallResidual_sdiff_subset_paperSelection
 #print axioms hallResidual_ratio_le_of_paperSelection
+#print axioms paperSelectionCharge_subset
+#print axioms mem_atoms_of_mem_sdiff_paperSelectionCharge
+#print axioms hallResidual_ratio_le_of_paperSelectionCharge
 
 end Erdos848
