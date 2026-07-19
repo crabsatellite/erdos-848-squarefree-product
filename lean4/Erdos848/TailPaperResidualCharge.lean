@@ -1,4 +1,5 @@
 import Erdos848.TailPaperDiagonalSelectionBridge
+import Erdos848.TailGlobalMixedDiagonalIdentity
 
 namespace Erdos848
 
@@ -81,6 +82,64 @@ theorem hallResidual_ratio_le_of_paperSelection_charge
     _ ≤ diagonalEnvelope + chargeCap / lowerBound :=
       add_le_add le_rfl hchargeAtLower
 
+/-- The literal Hall residual, after removing an explicitly charged set,
+lands in a paper selection as soon as the branch proof establishes the
+selection predicate pointwise.  Diagonal badness itself is not an extra
+branch obligation: it follows from compatibility of the alleged Hall
+defect. -/
+theorem hallResidual_sdiff_subset_paperSelection
+    {N : Nat} {B charged : Finset Nat}
+    {selection : PaperDiagonalSelection}
+    (hBout : Erdos848OutsideSet N B)
+    (hBprop : NonSquarefreeProductProp B)
+    (haccept :
+      ∀ x ∈ hallResidual N B \ charged,
+        truncatedDiagonalAtomOf x ∈ selection.atoms) :
+    hallResidual N B \ charged ⊆
+      (tailDiagonalBad N).filter
+        (fun x => truncatedDiagonalAtomOf x ∈ selection.atoms) := by
+  intro x hx
+  have hxResidual : x ∈ hallResidual N B :=
+    (Finset.mem_sdiff.mp hx).1
+  have hxDiagonal :
+      x ∈ globalMixedTailDiagonalBad N :=
+    hallResidual_subset_globalMixedTailDiagonalBad hBout hBprop
+      hxResidual
+  have hxTail : x ∈ tailDiagonalBad N := by
+    rwa [globalMixedTailDiagonalBad_eq_tailDiagonalBad] at hxDiagonal
+  exact Finset.mem_filter.mpr ⟨hxTail, haccept x hx⟩
+
+/-- Hall-specialized charge bound.  A branch now supplies only its charged
+subset, its cardinal cap, and a pointwise paper-selection predicate. -/
+theorem hallResidual_ratio_le_of_paperSelection
+    {N lowerBound chargeCap : Nat}
+    {B charged : Finset Nat}
+    {selection : PaperDiagonalSelection}
+    {diagonalEnvelope : Rat}
+    (hBout : Erdos848OutsideSet N B)
+    (hBprop : NonSquarefreeProductProp B)
+    (hLowerPositive : 0 < lowerBound)
+    (hLower : lowerBound ≤ N)
+    (hchargedSubset : charged ⊆ hallResidual N B)
+    (hchargedCard : charged.card ≤ chargeCap)
+    (haccept :
+      ∀ x ∈ hallResidual N B \ charged,
+        truncatedDiagonalAtomOf x ∈ selection.atoms)
+    (hdiagonal :
+      (((tailDiagonalBad N).filter
+        (fun x => truncatedDiagonalAtomOf x ∈ selection.atoms)).card : Rat) /
+          N ≤ diagonalEnvelope) :
+    ((hallResidual N B).card : Rat) / N ≤
+      diagonalEnvelope + chargeCap / lowerBound := by
+  exact hallResidual_ratio_le_of_paperSelection_charge
+    (lt_of_lt_of_le hLowerPositive hLower)
+    hLowerPositive hLower hchargedSubset hchargedCard
+    (hallResidual_sdiff_subset_paperSelection
+      hBout hBprop haccept)
+    hdiagonal
+
 #print axioms hallResidual_ratio_le_of_paperSelection_charge
+#print axioms hallResidual_sdiff_subset_paperSelection
+#print axioms hallResidual_ratio_le_of_paperSelection
 
 end Erdos848
