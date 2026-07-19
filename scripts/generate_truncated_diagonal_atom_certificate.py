@@ -66,6 +66,19 @@ def nat_tree(values: list[int]) -> str:
     )
 
 
+def named_value_tree(chunks: list[tuple[str, int]]) -> str:
+    if not chunks:
+        return ".empty"
+    if len(chunks) == 1:
+        return chunks[0][0]
+    middle = len(chunks) // 2
+    total = sum(size for _name, size in chunks)
+    return (
+        f"(.node {total} {named_value_tree(chunks[:middle])} "
+        f"{named_value_tree(chunks[middle:])})"
+    )
+
+
 def projection_tree(entries: list[tuple[str, int]]) -> str:
     if len(entries) == 1:
         atom, target_index = entries[0]
@@ -256,6 +269,7 @@ def generate(
     output: Path,
     source_namespace: str,
     namespace: str,
+    target_chunk_size: int,
     projection_block_size: int,
     order_block_size: int,
     uppers: list[int],
@@ -273,52 +287,65 @@ def generate(
         targets.setdefault(atom, [])
 
     output.mkdir(parents=True, exist_ok=True)
-    marker_modules: list[str] = []
+    atom_chunks: dict[Atom, list[tuple[str, int]]] = defaultdict(list)
+    packed_chunks: list[list[tuple[str, list[int]]]] = []
+    packed: list[tuple[str, list[int]]] = []
+    packed_weight = 0
+    for atom in atoms:
+        values_for_atom = targets[atom]
+        for chunk_number, start in enumerate(
+            range(0, len(values_for_atom), target_chunk_size)
+        ):
+            chunk_values = values_for_atom[start : start + target_chunk_size]
+            chunk_name = f"{marker_name(atom)}Chunk{chunk_number:04d}"
+            if packed and packed_weight + len(chunk_values) > target_chunk_size:
+                packed_chunks.append(packed)
+                packed = []
+                packed_weight = 0
+            packed.append((chunk_name, chunk_values))
+            packed_weight += len(chunk_values)
+            atom_chunks[atom].append((chunk_name, len(chunk_values)))
+    if packed:
+        packed_chunks.append(packed)
 
-    marker_groups: list[tuple[str, list[Atom]]] = [
-        ("MarkerDivisibleByEight", [("div8", 0, 0)]),
-        (
-            "MarkerEvenTwo",
-            [("even2", cell, 0) for cell in range(9)],
-        ),
-        (
-            "MarkerOdd",
-            [
-                ("odd", parity, cell)
-                for parity in range(2)
-                for cell in range(9)
-            ],
-        ),
-    ]
-    marker_groups.extend(
-        (
-            f"MarkerEvenOneCell{cell}",
-            [("even1", cell, residue) for residue in range(49)],
-        )
-        for cell in range(9)
-    )
-    for stem, group_atoms in marker_groups:
+    target_chunk_modules: list[str] = []
+    for number, packed_module in enumerate(packed_chunks):
+        stem = f"TargetChunk{number:04d}"
         source = header(
             ["Erdos848.TailTruncatedDiagonalAtomChecker"], namespace
         )
-        for atom in group_atoms:
-            name = marker_name(atom)
+        for chunk_name, chunk_values in packed_module:
             source += (
-                f"def {name} : IndexedMarkerData :=\n"
-                f"  {{ limit := {limit}\n"
-                f"    values := {nat_tree(targets[atom])} }}\n\n"
+                f"def {chunk_name} : NatValueTree :=\n"
+                f"  {nat_tree(chunk_values)}\n\n"
             )
         source += f"end {namespace}\n"
         write_if_changed(output / f"{stem}.lean", source)
-        marker_modules.append(stem)
+        target_chunk_modules.append(stem)
+    clean_stale(output, "TargetChunk*.lean", len(target_chunk_modules))
+    for obsolete in [
+        "MarkerDivisibleByEight.lean",
+        "MarkerEvenTwo.lean",
+        "MarkerOdd.lean",
+        *[f"MarkerEvenOneCell{cell}.lean" for cell in range(9)],
+    ]:
+        obsolete_path = output / obsolete
+        if obsolete_path.is_file():
+            obsolete_path.unlink()
 
     indexed = header(
         [
             f"{namespace}.{stem}"
-            for stem in marker_modules
+            for stem in target_chunk_modules
         ],
         namespace,
     )
+    for atom in atoms:
+        indexed += (
+            f"def {marker_name(atom)} : IndexedMarkerData :=\n"
+            f"  {{ limit := {limit}\n"
+            f"    values := {named_value_tree(atom_chunks[atom])} }}\n\n"
+        )
     indexed += target_function("atomTargets", marker_name)
     indexed += f"end {namespace}\n"
     write_if_changed(output / "TargetData.lean", indexed)
@@ -494,6 +521,7 @@ def generate(
         f"marked={len(values)}",
         f"atoms={len(atoms)}",
         f"nonempty_atoms={sum(bool(targets[atom]) for atom in atoms)}",
+        f"target_chunks={len(target_chunk_modules)}",
         f"projection_blocks={len(projection_modules)}",
         f"order_blocks={len(order_modules)}",
         f"cutoffs={len(cutoff_modules)}",
@@ -512,6 +540,7 @@ def main() -> None:
     )
     parser.add_argument("--namespace", default=DEFAULT_NAMESPACE)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--target-chunk-size", type=int, default=32768)
     parser.add_argument("--projection-block-size", type=int, default=8192)
     parser.add_argument("--order-block-size", type=int, default=8192)
     parser.add_argument("--upper", type=int, action="append", default=[])
@@ -520,7 +549,11 @@ def main() -> None:
         raise SystemExit("--source-namespace must begin with Erdos848.")
     if not args.namespace.startswith("Erdos848."):
         raise SystemExit("--namespace must begin with Erdos848.")
-    if args.projection_block_size < 1 or args.order_block_size < 1:
+    if (
+        args.target_chunk_size < 1
+        or args.projection_block_size < 1
+        or args.order_block_size < 1
+    ):
         raise SystemExit("block sizes must be positive")
     output = args.output
     if output is None:
@@ -534,6 +567,7 @@ def main() -> None:
         output.resolve(),
         args.source_namespace,
         args.namespace,
+        args.target_chunk_size,
         args.projection_block_size,
         args.order_block_size,
         args.upper,
