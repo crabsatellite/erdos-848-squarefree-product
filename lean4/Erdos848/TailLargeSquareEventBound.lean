@@ -12,7 +12,7 @@ enumerating the interval: an event
 `s ^ 2 ∣ x ^ 2 + 1`, with `cutoff < s`,
 
 is assigned the quotient `d = (x ^ 2 + 1) / s ^ 2`.  Each fixed quotient is
-a negative-Pell fibre and therefore has at most fourteen events below two
+a negative-Pell fibre and therefore has at most thirteen events below two
 billion.  The quotient itself lies in a short explicit range.
 -/
 
@@ -120,10 +120,10 @@ def largeSquareEventFibre
 
 /-- Projection to `x` embeds every nonempty quotient fibre into its
 negative-Pell `x`-coordinate set. -/
-theorem largeSquareEventFibre_card_le_fourteen
+theorem largeSquareEventFibre_card_le_thirteen
     {cutoff bound d : Nat}
     (hbound : bound ≤ 2_000_000_000) :
-    (largeSquareEventFibre cutoff bound d).card ≤ 14 := by
+    (largeSquareEventFibre cutoff bound d).card ≤ 13 := by
   classical
   let fibre := largeSquareEventFibre cutoff bound d
   by_cases hnonempty : fibre.Nonempty
@@ -186,18 +186,18 @@ theorem largeSquareEventFibre_card_le_fourteen
       · exact Nat.pow_left_injective (by norm_num) hsecondPowers
     exact (Finset.card_le_card_of_injOn
       Prod.fst hmap hinjective).trans
-        (negativePellXValues_card_le_fourteen hd hbound)
+        (negativePellXValues_card_le_thirteen hd hbound)
   · have hempty : fibre = ∅ :=
       Finset.not_nonempty_iff_eq_empty.mp hnonempty
     simp [fibre, hempty]
 
-/-- The entire large-square pair set is bounded by fourteen times the number
+/-- The entire large-square pair set is bounded by thirteen times the number
 of possible negative-Pell coefficients. -/
 theorem largeSquareEvents_card_le
     {cutoff bound : Nat}
     (hbound : bound ≤ 2_000_000_000) :
     (largeSquareEvents cutoff bound).card ≤
-      (bound ^ 2 / (cutoff + 1) ^ 2 + 1) * 14 := by
+      (bound ^ 2 / (cutoff + 1) ^ 2 + 1) * 13 := by
   classical
   let events := largeSquareEvents cutoff bound
   let coefficients :=
@@ -218,12 +218,12 @@ theorem largeSquareEvents_card_le
         ∑ d ∈ coefficients,
           (largeSquareEventFibre cutoff bound d).card := by
       simpa [events] using hpartition
-    _ ≤ ∑ _d ∈ coefficients, 14 :=
+    _ ≤ ∑ _d ∈ coefficients, 13 :=
       Finset.sum_le_sum fun d _hd =>
-        largeSquareEventFibre_card_le_fourteen
+        largeSquareEventFibre_card_le_thirteen
           (cutoff := cutoff) (d := d) hbound
-    _ = coefficients.card * 14 := by simp
-    _ = (bound ^ 2 / (cutoff + 1) ^ 2 + 1) * 14 := by
+    _ = coefficients.card * 13 := by simp
+    _ = (bound ^ 2 / (cutoff + 1) ^ 2 + 1) * 13 := by
       simp [coefficients]
 
 /-- The set of bad `x`-coordinates is the image of the event-pair set. -/
@@ -234,11 +234,11 @@ theorem largeSquareBadXValues_card_le
     {cutoff bound : Nat}
     (hbound : bound ≤ 2_000_000_000) :
     (largeSquareBadXValues cutoff bound).card ≤
-      (bound ^ 2 / (cutoff + 1) ^ 2 + 1) * 14 := by
+      (bound ^ 2 / (cutoff + 1) ^ 2 + 1) * 13 := by
   exact Finset.card_image_le.trans (largeSquareEvents_card_le hbound)
 
 #print axioms largeSquareQuotient_two_le
-#print axioms largeSquareEventFibre_card_le_fourteen
+#print axioms largeSquareEventFibre_card_le_thirteen
 #print axioms largeSquareEvents_card_le
 #print axioms largeSquareBadXValues_card_le
 
