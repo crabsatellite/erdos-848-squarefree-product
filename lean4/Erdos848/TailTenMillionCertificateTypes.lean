@@ -183,7 +183,8 @@ def TenMillionSupportPrime (p : ℕ) : Prop :=
 step and therefore cannot be discharged by checking only the displayed
 witness supports. -/
 def TenMillionRootSupportProfileCertificate : Prop :=
-  ∀ row support squareCoset,
+  ∀ (row : TenMillionRootRow) (support : List Nat)
+      (squareCoset : Bool),
     (∀ p ∈ support, TenMillionSupportPrime p) →
     support.Pairwise (· < ·) → support.prod ≤ tenMillionUpper →
     support.length ≤ 6 ∧
@@ -194,7 +195,7 @@ def TenMillionRootSupportProfileCertificate : Prop :=
 certified survivor ceiling.  Between these candidates, antitonicity is already
 the kernel theorem `transformedRootRow_antitone`. -/
 def TenMillionRootJumpCertificate : Prop :=
-  ∀ row N supportLength,
+  ∀ (row : TenMillionRootRow) (N supportLength : Nat),
     tenMillionLower ≤ N → N < tenMillionUpper → supportLength ≤ 6 →
     transformedRootRow N (N / row.split)
       (Nat.primeCounting (N / row.split) - Nat.primeCounting row.cutoff)
