@@ -156,6 +156,101 @@ theorem TwentyMillionCloseTriple.common_or_nonconstant
     obtain ⟨other, hother, hne⟩ := hnotAll
     exact ⟨other, hother, first, hfirst, hne⟩
 
+/--
+The actual even-class split used by the paper.  The common branch records
+that the *whole valuation class*, not merely the three chosen pivots, lies
+in one mod-nine cell.
+-/
+inductive TwentyMillionEvenClassMode
+    (N : Nat) (B : Finset Nat) (cls : FiveMillionValuationClass) : Prop where
+  | generic
+      (triple : TwentyMillionCloseTriple N B cls)
+      (nonconstant : ¬ triple.CommonModNine)
+  | common
+      (cell : Fin 9)
+      (triple : TwentyMillionCloseTriple N B cls)
+      (classConstant :
+        ∀ pivot ∈ fiveMillionValuationPart N B cls,
+          paperModNineCell pivot = cell)
+
+theorem twentyMillionEvenClassMode_of_triple
+    {N : Nat} {B : Finset Nat} {cls : FiveMillionValuationClass}
+    (triple : TwentyMillionCloseTriple N B cls) :
+    TwentyMillionEvenClassMode N B cls := by
+  classical
+  by_cases hcommon : triple.CommonModNine
+  · obtain ⟨cell, hcell⟩ := hcommon
+    by_cases hclass :
+        ∀ pivot ∈ fiveMillionValuationPart N B cls,
+          paperModNineCell pivot = cell
+    · exact .common cell triple hclass
+    · push Not at hclass
+      obtain ⟨third, hthirdPart, hthirdCell⟩ := hclass
+      have hleftCell :
+          paperModNineCell triple.left = cell :=
+        hcell triple.left triple.leftMem
+      have hrightCell :
+          paperModNineCell triple.right = cell :=
+        hcell triple.right triple.rightMem
+      have hthirdLeft : third ≠ triple.left := by
+        intro h
+        subst third
+        exact hthirdCell hleftCell
+      have hthirdRight : third ≠ triple.right := by
+        intro h
+        subst third
+        exact hthirdCell hrightCell
+      have hleftRight : triple.left ≠ triple.right :=
+        Nat.ne_of_lt triple.left_lt_right
+      let pivots : Finset Nat := {triple.left, triple.right, third}
+      have hpivotsCard : pivots.card = 3 := by
+        simp [pivots, hleftRight, Ne.symm hthirdLeft,
+          Ne.symm hthirdRight]
+      have hpivotsSubset :
+          pivots ⊆ fiveMillionValuationPart N B cls := by
+        intro pivot hpivot
+        simp only [pivots, Finset.mem_insert, Finset.mem_singleton] at hpivot
+        rcases hpivot with rfl | rfl | rfl
+        · exact triple.subsetPart triple.leftMem
+        · exact triple.subsetPart triple.rightMem
+        · exact hthirdPart
+      let replacement : TwentyMillionCloseTriple N B cls :=
+        { pivots := pivots
+          card := hpivotsCard
+          subsetPart := hpivotsSubset
+          left := triple.left
+          right := triple.right
+          leftMem := by simp [pivots]
+          rightMem := by simp [pivots]
+          left_lt_right := triple.left_lt_right
+          gap_le := triple.gap_le }
+      apply TwentyMillionEvenClassMode.generic replacement
+      intro hreplacementCommon
+      obtain ⟨replacementCell, hreplacementCell⟩ :=
+        hreplacementCommon
+      have hleftReplacement :
+          paperModNineCell triple.left = replacementCell :=
+        hreplacementCell triple.left (by simp [replacement, pivots])
+      have hthirdReplacement :
+          paperModNineCell third = replacementCell :=
+        hreplacementCell third (by simp [replacement, pivots])
+      exact hthirdCell
+        (hthirdReplacement.trans
+          (hleftReplacement.symm.trans hleftCell))
+  · exact .generic triple hcommon
+
+theorem exists_twentyMillionEvenClassMode
+    {N : Nat} {B : Finset Nat} {cls : FiveMillionValuationClass}
+    (hLower : 20_000_000 ≤ N)
+    (hBout : Erdos848OutsideSet N B)
+    (hlarge :
+      twentyMillionGapChargeCap N <
+        (fiveMillionValuationPart N B cls).card) :
+    TwentyMillionEvenClassMode N B cls :=
+  twentyMillionEvenClassMode_of_triple
+    (Classical.choice
+      (exists_twentyMillionCloseTriple hLower hBout hlarge))
+
 theorem twentyMillion_oddTwo_bucket_forced
     {N : Nat} {B : Finset Nat}
     (hLower : 20_000_000 ≤ N)
@@ -489,12 +584,190 @@ noncomputable def twentyMillionValuationAllocation
                     hBout hlargeThree (by
                       simpa [oddOne] using hOddOneNonempty)))
 
+def TwentyMillionOddTwoCloseTriple.CommonModNine
+    {N : Nat} {B : Finset Nat} {parity : Bool}
+    (triple : TwentyMillionOddTwoCloseTriple N B parity) : Prop :=
+  ∃ cell : Fin 9, ∀ pivot ∈ triple.pivots,
+    paperModNineCell pivot = cell
+
+def TwentyMillionOddOneCloseTriple.CommonModNine
+    {N : Nat} {B : Finset Nat} {parity : Bool}
+    (triple : TwentyMillionOddOneCloseTriple N B parity) : Prop :=
+  ∃ cell : Fin 9, ∀ pivot ∈ triple.pivots,
+    paperModNineCell pivot = cell
+
+/--
+The ten literal terminal rows of the twenty-million paper allocation.
+Each constructor contains the close pivots and exactly the earlier
+valuation-class charges needed by that row.
+-/
+inductive TwentyMillionTerminalAllocation
+    (N : Nat) (B : Finset Nat) : Prop where
+  | evenOneGeneric
+      (triple : TwentyMillionCloseTriple N B .evenOne)
+      (nonconstant : ¬ triple.CommonModNine)
+  | evenOneCommon
+      (cell : Fin 9)
+      (triple : TwentyMillionCloseTriple N B .evenOne)
+      (classConstant :
+        ∀ pivot ∈ fiveMillionValuationPart N B .evenOne,
+          paperModNineCell pivot = cell)
+  | evenTwoGeneric
+      (evenOneCharge :
+        (fiveMillionValuationPart N B .evenOne).card ≤
+          twentyMillionGapChargeCap N)
+      (triple : TwentyMillionCloseTriple N B .evenTwo)
+      (nonconstant : ¬ triple.CommonModNine)
+  | evenTwoCommon
+      (evenOneCharge :
+        (fiveMillionValuationPart N B .evenOne).card ≤
+          twentyMillionGapChargeCap N)
+      (cell : Fin 9)
+      (triple : TwentyMillionCloseTriple N B .evenTwo)
+      (classConstant :
+        ∀ pivot ∈ fiveMillionValuationPart N B .evenTwo,
+          paperModNineCell pivot = cell)
+  | evenThreeGeneric
+      (evenOneCharge :
+        (fiveMillionValuationPart N B .evenOne).card ≤
+          twentyMillionGapChargeCap N)
+      (evenTwoCharge :
+        (fiveMillionValuationPart N B .evenTwo).card ≤
+          twentyMillionGapChargeCap N)
+      (triple : TwentyMillionCloseTriple N B .evenThree)
+      (nonconstant : ¬ triple.CommonModNine)
+  | evenThreeCommon
+      (evenOneCharge :
+        (fiveMillionValuationPart N B .evenOne).card ≤
+          twentyMillionGapChargeCap N)
+      (evenTwoCharge :
+        (fiveMillionValuationPart N B .evenTwo).card ≤
+          twentyMillionGapChargeCap N)
+      (cell : Fin 9)
+      (triple : TwentyMillionCloseTriple N B .evenThree)
+      (classConstant :
+        ∀ pivot ∈ fiveMillionValuationPart N B .evenThree,
+          paperModNineCell pivot = cell)
+  | oddTwoGeneric
+      (evenOneCharge :
+        (fiveMillionValuationPart N B .evenOne).card ≤
+          twentyMillionGapChargeCap N)
+      (evenTwoCharge :
+        (fiveMillionValuationPart N B .evenTwo).card ≤
+          twentyMillionGapChargeCap N)
+      (evenThreeCharge :
+        (fiveMillionValuationPart N B .evenThree).card ≤
+          twentyMillionGapChargeCap N)
+      (parity : Bool)
+      (triple : TwentyMillionOddTwoCloseTriple N B parity)
+      (nonconstant : ¬ triple.CommonModNine)
+  | oddTwoCommon
+      (evenOneCharge :
+        (fiveMillionValuationPart N B .evenOne).card ≤
+          twentyMillionGapChargeCap N)
+      (evenTwoCharge :
+        (fiveMillionValuationPart N B .evenTwo).card ≤
+          twentyMillionGapChargeCap N)
+      (evenThreeCharge :
+        (fiveMillionValuationPart N B .evenThree).card ≤
+          twentyMillionGapChargeCap N)
+      (parity : Bool)
+      (triple : TwentyMillionOddTwoCloseTriple N B parity)
+      (common : triple.CommonModNine)
+  | oddOneGeneric
+      (evenOneCharge :
+        (fiveMillionValuationPart N B .evenOne).card ≤
+          twentyMillionGapChargeCap N)
+      (evenTwoCharge :
+        (fiveMillionValuationPart N B .evenTwo).card ≤
+          twentyMillionGapChargeCap N)
+      (evenThreeCharge :
+        (fiveMillionValuationPart N B .evenThree).card ≤
+          twentyMillionGapChargeCap N)
+      (parity : Bool)
+      (otherEmpty :
+        (fiveMillionValuationPart N B
+          (paperOddValuationClass
+            (oppositeOddParity parity))).card = 0)
+      (triple : TwentyMillionOddOneCloseTriple N B parity)
+      (nonconstant : ¬ triple.CommonModNine)
+  | oddOneCommon
+      (evenOneCharge :
+        (fiveMillionValuationPart N B .evenOne).card ≤
+          twentyMillionGapChargeCap N)
+      (evenTwoCharge :
+        (fiveMillionValuationPart N B .evenTwo).card ≤
+          twentyMillionGapChargeCap N)
+      (evenThreeCharge :
+        (fiveMillionValuationPart N B .evenThree).card ≤
+          twentyMillionGapChargeCap N)
+      (parity : Bool)
+      (otherEmpty :
+        (fiveMillionValuationPart N B
+          (paperOddValuationClass
+            (oppositeOddParity parity))).card = 0)
+      (triple : TwentyMillionOddOneCloseTriple N B parity)
+      (common : triple.CommonModNine)
+
+theorem twentyMillionTerminalAllocation_of_valuation
+    {N : Nat} {B : Finset Nat}
+    (allocation : TwentyMillionValuationAllocation N B) :
+    TwentyMillionTerminalAllocation N B := by
+  classical
+  cases allocation with
+  | evenOne triple =>
+      cases twentyMillionEvenClassMode_of_triple triple with
+      | generic triple nonconstant =>
+          exact .evenOneGeneric triple nonconstant
+      | common cell triple classConstant =>
+          exact .evenOneCommon cell triple classConstant
+  | evenTwo evenOneCharge triple =>
+      cases twentyMillionEvenClassMode_of_triple triple with
+      | generic triple nonconstant =>
+          exact .evenTwoGeneric evenOneCharge triple nonconstant
+      | common cell triple classConstant =>
+          exact .evenTwoCommon evenOneCharge cell triple classConstant
+  | evenThree evenOneCharge evenTwoCharge triple =>
+      cases twentyMillionEvenClassMode_of_triple triple with
+      | generic triple nonconstant =>
+          exact .evenThreeGeneric evenOneCharge evenTwoCharge
+            triple nonconstant
+      | common cell triple classConstant =>
+          exact .evenThreeCommon evenOneCharge evenTwoCharge
+            cell triple classConstant
+  | oddTwo evenOneCharge evenTwoCharge evenThreeCharge parity triple =>
+      by_cases hcommon : triple.CommonModNine
+      · exact .oddTwoCommon evenOneCharge evenTwoCharge evenThreeCharge
+          parity triple hcommon
+      · exact .oddTwoGeneric evenOneCharge evenTwoCharge evenThreeCharge
+          parity triple hcommon
+  | oddOne evenOneCharge evenTwoCharge evenThreeCharge parity otherEmpty
+      triple =>
+      by_cases hcommon : triple.CommonModNine
+      · exact .oddOneCommon evenOneCharge evenTwoCharge evenThreeCharge
+          parity otherEmpty triple hcommon
+      · exact .oddOneGeneric evenOneCharge evenTwoCharge evenThreeCharge
+          parity otherEmpty triple hcommon
+
+noncomputable def twentyMillionTerminalAllocation
+    {N : Nat} {B : Finset Nat}
+    (hLower : 20_000_000 ≤ N)
+    (hBout : Erdos848OutsideSet N B)
+    (hDegree : TwentyMillionDegreeResidualLower N B) :
+    TwentyMillionTerminalAllocation N B :=
+  twentyMillionTerminalAllocation_of_valuation
+    (twentyMillionValuationAllocation hLower hBout hDegree)
+
 #print axioms exists_twentyMillionCloseTriple
 #print axioms TwentyMillionCloseTriple.common_or_nonconstant
+#print axioms twentyMillionEvenClassMode_of_triple
+#print axioms exists_twentyMillionEvenClassMode
 #print axioms twentyMillion_oddTwo_bucket_forced
 #print axioms twentyMillion_oddOne_bucket_forced
 #print axioms exists_twentyMillionOddTwoCloseTriple
 #print axioms exists_twentyMillionOddOneCloseTriple
 #print axioms twentyMillionValuationAllocation
+#print axioms twentyMillionTerminalAllocation_of_valuation
+#print axioms twentyMillionTerminalAllocation
 
 end Erdos848
