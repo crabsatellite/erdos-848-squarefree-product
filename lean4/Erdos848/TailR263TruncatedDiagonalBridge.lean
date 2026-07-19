@@ -21,7 +21,7 @@ noncomputable def tailR263LowTwoAtoms : Finset TruncatedDiagonalAtom :=
     classical
     exact Finset.univ.filter fun atom =>
       match atom with
-      | .divisibleByEight => True
+      | .divisibleByEightCell _ => True
       | .oddCell _ _ => True
       | _ => False
 
@@ -35,7 +35,7 @@ noncomputable def tailR263EvenTwoAllAtoms :
     classical
     exact Finset.univ.filter fun atom =>
       match atom with
-      | .divisibleByEight => True
+      | .divisibleByEightCell _ => True
       | .evenTwoCell _ => True
       | .oddCell _ _ => True
       | _ => False
@@ -46,7 +46,7 @@ noncomputable def tailR263EvenOneCellAtoms (cell : Fin 9) :
     classical
     exact Finset.univ.filter fun atom =>
       match atom with
-      | .divisibleByEight => True
+      | .divisibleByEightCell _ => True
       | .evenTwoCell _ => True
       | .evenOneFibre storedCell _ => storedCell = cell
       | .oddCell _ _ => True
@@ -58,7 +58,7 @@ noncomputable def tailR263EvenOneFibreCoverAtoms
     classical
     exact Finset.univ.filter fun atom =>
       match atom with
-      | .divisibleByEight => True
+      | .divisibleByEightCell _ => True
       | .evenTwoCell _ => True
       | .evenOneFibre cell residue =>
           cell ∈ cells ∧ residue = residues cell
@@ -66,7 +66,9 @@ noncomputable def tailR263EvenOneFibreCoverAtoms
 
 lemma truncatedDiagonalAtomOf_eq_divisibleByEight
     {x : Nat} (hx : x % 8 = 0) :
-    truncatedDiagonalAtomOf x = .divisibleByEight := by
+    truncatedDiagonalAtomOf x =
+      .divisibleByEightCell
+        ⟨x % 9, Nat.mod_lt _ (by norm_num)⟩ := by
   have htwo : x % 2 = 0 := by
     calc
       x % 2 = x % 8 % 2 :=

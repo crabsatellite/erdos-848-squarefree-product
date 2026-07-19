@@ -109,7 +109,7 @@ def append_named(theorems: list[str], append_theorem: str) -> str:
 
 
 def all_atoms() -> list[Atom]:
-    atoms: list[Atom] = [("div8", 0, 0)]
+    atoms: list[Atom] = [("div8", cell, 0) for cell in range(9)]
     atoms.extend(("even2", cell, 0) for cell in range(9))
     atoms.extend(
         ("even1", cell, residue)
@@ -131,13 +131,13 @@ def atom_of(value: int) -> Atom:
         return ("even1", value % 9, value % 49)
     if value % 8 == 4:
         return ("even2", value % 9, 0)
-    return ("div8", 0, 0)
+    return ("div8", value % 9, 0)
 
 
 def atom_expr(atom: Atom) -> str:
     kind, first, second = atom
     if kind == "div8":
-        return ".divisibleByEight"
+        return f"(.divisibleByEightCell ⟨{first}, by decide⟩)"
     if kind == "even2":
         return f"(.evenTwoCell ⟨{first}, by decide⟩)"
     if kind == "even1":
@@ -154,7 +154,7 @@ def atom_expr(atom: Atom) -> str:
 def marker_name(atom: Atom) -> str:
     kind, first, second = atom
     if kind == "div8":
-        return "divisibleByEightMarker"
+        return f"divisibleByEightMarker{first}"
     if kind == "even2":
         return f"evenTwoMarker{first}"
     if kind == "even1":
@@ -172,6 +172,9 @@ def vector(items: list[str]) -> str:
 
 def target_function(name: str, value_for: callable) -> str:
     result_type = "IndexedMarkerData" if name == "atomTargets" else "Nat"
+    divisible_by_eight = vector(
+        [value_for(("div8", cell, 0)) for cell in range(9)]
+    )
     even_two = vector([value_for(("even2", cell, 0)) for cell in range(9)])
     even_one = vector(
         [
@@ -191,6 +194,8 @@ def target_function(name: str, value_for: callable) -> str:
         [value_for(("odd", 1, cell)) for cell in range(9)]
     )
     return (
+        f"def {name}DivisibleByEight : Fin 9 → {result_type} :=\n"
+        f"  {divisible_by_eight}\n\n"
         f"def {name}EvenTwo : Fin 9 → {result_type} :=\n"
         f"  {even_two}\n\n"
         f"def {name}EvenOne : Fin 9 → Fin 49 → {result_type} :=\n"
@@ -200,7 +205,8 @@ def target_function(name: str, value_for: callable) -> str:
         f"def {name}OddTrue : Fin 9 → {result_type} :=\n"
         f"  {odd_true}\n\n"
         f"def {name} : TruncatedDiagonalAtom → {result_type}\n"
-        f"  | .divisibleByEight => {value_for(('div8', 0, 0))}\n"
+        f"  | .divisibleByEightCell cell => "
+        f"{name}DivisibleByEight cell\n"
         f"  | .evenTwoCell cell => {name}EvenTwo cell\n"
         f"  | .evenOneFibre cell residue => {name}EvenOne cell residue\n"
         f"  | .oddCell false cell => {name}OddFalse cell\n"
@@ -211,8 +217,13 @@ def target_function(name: str, value_for: callable) -> str:
 def atom_cases(exact_for: callable) -> str:
     return (
         "  cases atom with\n"
-        f"  | divisibleByEight => exact {exact_for(('div8', 0, 0))}\n"
-        "  | evenTwoCell cell =>\n"
+        "  | divisibleByEightCell cell =>\n"
+        "      fin_cases cell\n"
+        + "".join(
+            f"      · exact {exact_for(('div8', cell, 0))}\n"
+            for cell in range(9)
+        )
+        + "  | evenTwoCell cell =>\n"
         "      fin_cases cell\n"
         + "".join(
             f"      · exact {exact_for(('even2', cell, 0))}\n"

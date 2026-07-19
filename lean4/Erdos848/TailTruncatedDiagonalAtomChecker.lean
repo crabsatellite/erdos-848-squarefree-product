@@ -15,7 +15,7 @@ set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 
 inductive TruncatedDiagonalAtom where
-  | divisibleByEight
+  | divisibleByEightCell (cell : Fin 9)
   | evenTwoCell (cell : Fin 9)
   | evenOneFibre (cell : Fin 9) (residue : Fin 49)
   | oddCell (parity : Bool) (cell : Fin 9)
@@ -34,7 +34,7 @@ def truncatedDiagonalAtomOf (x : Nat) : TruncatedDiagonalAtom :=
   else if x % 8 = 4 then
     .evenTwoCell ⟨x % 9, Nat.mod_lt _ (by norm_num)⟩
   else
-    .divisibleByEight
+    .divisibleByEightCell ⟨x % 9, Nat.mod_lt _ (by norm_num)⟩
 
 def TruncatedDiagonalAtom.Accepts
     (atom : TruncatedDiagonalAtom) (x : Nat) : Prop :=
