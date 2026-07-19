@@ -33,6 +33,33 @@ theorem card_le_cellCount_mul_of_fibres_le
       exact Finset.sum_le_sum fun c _hc => hsparse c
     _ = Fintype.card C * gap := by simp
 
+/-- Charging all cells except one distinguished dense cell costs only
+`(#cells - 1) * gap`.  This is the exact source of the factors `8`, `17`,
+and `35` in the paper's mod-nine cell rows, rather than a rounded density
+estimate. -/
+theorem card_le_erasedCellCount_mul_of_fibres_le
+    [Fintype C] (points : Finset X) (cell : X → C)
+    (chosen : C) (gap : Nat)
+    (houtside : ∀ x ∈ points, cell x ≠ chosen)
+    (hsparse :
+      ∀ c : C, c ≠ chosen →
+        (cellFibre points cell c).card ≤ gap) :
+    points.card ≤ (Fintype.card C - 1) * gap := by
+  have hmaps :
+      (points : Set X).MapsTo cell
+        (Finset.univ.erase chosen : Finset C) := by
+    intro x hx
+    exact Finset.mem_erase.mpr
+      ⟨houtside x hx, Finset.mem_univ _⟩
+  rw [Finset.card_eq_sum_card_fiberwise hmaps]
+  calc
+    ∑ c ∈ (Finset.univ.erase chosen : Finset C),
+        (points.filter fun x => cell x = c).card ≤
+        ∑ _c ∈ (Finset.univ.erase chosen : Finset C), gap := by
+      exact Finset.sum_le_sum fun c hc =>
+        hsparse c (Finset.ne_of_mem_erase hc)
+    _ = (Fintype.card C - 1) * gap := by simp
+
 /-- A dense cell supplies the three distinct pivots used by every one-cell
 terminal row. -/
 theorem one_cell_supplies_three_pivots
@@ -99,6 +126,8 @@ theorem no_break_outside_cell_in_common_fibre
   rcases hnoBreak z hz hcell with hzx | hzy
   · exact hzx
   · exact hzy.trans hcommon.symm
+
+#print axioms card_le_erasedCellCount_mul_of_fibres_le
 
 end Cells
 
