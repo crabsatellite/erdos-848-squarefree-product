@@ -15,6 +15,13 @@ theorem.
 set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 
+def paperModNineCell (x : Nat) : Fin 9 :=
+  (truncatedDiagonalAtomOf x).modNineCell
+
+@[simp] theorem paperModNineCell_val (x : Nat) :
+    (paperModNineCell x : Nat) = x % 9 := by
+  rw [paperModNineCell, truncatedDiagonalAtomOf_modNineCell]
+
 theorem paperSelectionCharge_unrestricted_eq_empty
     (residual : Finset Nat) :
     paperSelectionCharge residual .unrestricted = ∅ := by
@@ -81,6 +88,93 @@ theorem mem_paperSelectionCharge_oddPlusCell_iff
   simp [paperSelectionCharge,
     mem_paperDiagonalOddPlusCellAtoms_iff] <;> tauto
 
+/-- If every nonchosen mod-nine fibre in one mod-four class has at most
+`gap` points, the concentrated selection charges at most `8 * gap`.
+Points in the other three mod-four classes are accepted for free. -/
+theorem paperSelectionCharge_concentrated_card_le
+    (residual : Finset Nat) (residueClass : Fin 4)
+    (chosen : Fin 9) (gap : Nat)
+    (hsparse :
+      ∀ cell : Fin 9, cell ≠ chosen →
+        ((residual.filter fun x =>
+          x % 4 = (residueClass : Nat) ∧
+            paperModNineCell x = cell).card ≤ gap)) :
+    (paperSelectionCharge residual
+      (.concentrated residueClass chosen)).card ≤ 8 * gap := by
+  let charged :=
+    paperSelectionCharge residual
+      (.concentrated residueClass chosen)
+  have houtside :
+      ∀ x ∈ charged, paperModNineCell x ≠ chosen := by
+    intro x hx
+    have hxParts :=
+      mem_paperSelectionCharge_concentrated_iff.mp hx
+    intro hcell
+    apply hxParts.2.2
+    simpa using congrArg Fin.val hcell
+  have hfibres :
+      ∀ cell : Fin 9, cell ≠ chosen →
+        (cellFibre charged paperModNineCell cell).card ≤ gap := by
+    intro cell hcell
+    have hsubset :
+        cellFibre charged paperModNineCell cell ⊆
+          residual.filter fun x =>
+            x % 4 = (residueClass : Nat) ∧
+              paperModNineCell x = cell := by
+      intro x hx
+      have hxFibre := Finset.mem_filter.mp hx
+      have hxCharge :=
+        mem_paperSelectionCharge_concentrated_iff.mp hxFibre.1
+      exact Finset.mem_filter.mpr
+        ⟨hxCharge.1, hxCharge.2.1, hxFibre.2⟩
+    exact (Finset.card_le_card hsubset).trans (hsparse cell hcell)
+  have hbound :=
+    card_le_erasedCellCount_mul_of_fibres_le
+      charged paperModNineCell chosen gap houtside hfibres
+  simpa [charged] using hbound
+
+/-- In a residual already confined to one odd mod-four class, a chosen
+mod-nine cell leaves at most the other eight sparse fibres to charge. -/
+theorem paperSelectionCharge_oneOddCell_card_le
+    (residual : Finset Nat) (parity : Bool)
+    (chosen : Fin 9) (gap : Nat)
+    (hclass :
+      ∀ x ∈ residual, x % 4 = oddModFourClass parity)
+    (hsparse :
+      ∀ cell : Fin 9, cell ≠ chosen →
+        (cellFibre residual paperModNineCell cell).card ≤ gap) :
+    (paperSelectionCharge residual
+      (.oneOddCell parity chosen)).card ≤ 8 * gap := by
+  let charged :=
+    paperSelectionCharge residual (.oneOddCell parity chosen)
+  have houtside :
+      ∀ x ∈ charged, paperModNineCell x ≠ chosen := by
+    intro x hx
+    have hxParts := mem_paperSelectionCharge_oneOddCell_iff.mp hx
+    have hxClass := hclass x hxParts.1
+    rcases hxParts.2 with hwrongClass | hwrongCell
+    · exact False.elim (hwrongClass hxClass)
+    · intro hcell
+      apply hwrongCell
+      simpa using congrArg Fin.val hcell
+  have hfibres :
+      ∀ cell : Fin 9, cell ≠ chosen →
+        (cellFibre charged paperModNineCell cell).card ≤ gap := by
+    intro cell hcell
+    have hsubset :
+        cellFibre charged paperModNineCell cell ⊆
+          cellFibre residual paperModNineCell cell := by
+      intro x hx
+      have hxParts := Finset.mem_filter.mp hx
+      exact Finset.mem_filter.mpr
+        ⟨paperSelectionCharge_subset residual
+          (.oneOddCell parity chosen) hxParts.1, hxParts.2⟩
+    exact (Finset.card_le_card hsubset).trans (hsparse cell hcell)
+  have hbound :=
+    card_le_erasedCellCount_mul_of_fibres_le
+      charged paperModNineCell chosen gap houtside hfibres
+  simpa [charged] using hbound
+
 #print axioms paperSelectionCharge_unrestricted_eq_empty
 #print axioms mem_paperSelectionCharge_concentrated_iff
 #print axioms mem_paperSelectionCharge_lowTwoAdic_iff
@@ -89,5 +183,7 @@ theorem mem_paperSelectionCharge_oddPlusCell_iff
 #print axioms mem_paperSelectionCharge_oneOdd_iff
 #print axioms mem_paperSelectionCharge_oneOddCell_iff
 #print axioms mem_paperSelectionCharge_oddPlusCell_iff
+#print axioms paperSelectionCharge_concentrated_card_le
+#print axioms paperSelectionCharge_oneOddCell_card_le
 
 end Erdos848
