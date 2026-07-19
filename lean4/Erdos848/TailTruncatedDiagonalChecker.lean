@@ -27,6 +27,17 @@ def OutsideIndexedRootRecordValidUpTo (marker : IndexedMarkerData)
           marker.ResidueCoveredOutside
             (rootData.prime ^ 2) rootData.root₂))
 
+/-- The new part of an extended marker certificate.  Root arithmetic remains
+available from the already checked short marker certificate. -/
+def OutsideIndexedRootProgressionsUpTo (marker : IndexedMarkerData)
+    (cutoff : Nat) (rootData : DiagonalRootPairData) : Prop :=
+  cutoff < rootData.prime ∨
+    rootData.prime = 5 ∨
+      (marker.ResidueCoveredOutside
+          (rootData.prime ^ 2) rootData.root₁ ∧
+        marker.ResidueCoveredOutside
+          (rootData.prime ^ 2) rootData.root₂)
+
 namespace DiagonalRootTree
 
 /-- Tree-shaped validity matching the existing independently compiled root
@@ -39,6 +50,33 @@ def OutsideIndexedValidUpTo (marker : IndexedMarkerData) (cutoff : Nat) :
       totalSize = left.size + right.size ∧
         left.OutsideIndexedValidUpTo marker cutoff ∧
         right.OutsideIndexedValidUpTo marker cutoff
+
+/-- Only the progression component of `OutsideIndexedValidUpTo`.  Generated
+long-marker packages prove this tree and reuse root arithmetic from the
+existing short-marker package. -/
+def OutsideIndexedProgressionsUpTo (marker : IndexedMarkerData)
+    (cutoff : Nat) : DiagonalRootTree → Prop
+  | .empty => True
+  | .leaf data => OutsideIndexedRootProgressionsUpTo marker cutoff data
+  | .node totalSize left right =>
+      totalSize = left.size + right.size ∧
+        left.OutsideIndexedProgressionsUpTo marker cutoff ∧
+        right.OutsideIndexedProgressionsUpTo marker cutoff
+
+theorem outsideIndexedValidUpTo_of_valid_and_progressions
+    {oldMarker marker : IndexedMarkerData} {cutoff : Nat}
+    {tree : DiagonalRootTree}
+    (hvalid : tree.OutsideIndexedValid oldMarker)
+    (hprogressions : tree.OutsideIndexedProgressionsUpTo marker cutoff) :
+    tree.OutsideIndexedValidUpTo marker cutoff := by
+  induction tree with
+  | empty => trivial
+  | leaf data =>
+      exact ⟨hvalid.1, hprogressions⟩
+  | node totalSize left right hleft hright =>
+      exact
+        ⟨hvalid.1, hleft hvalid.2.1 hprogressions.2.1,
+          hright hvalid.2.2 hprogressions.2.2⟩
 
 theorem outsideIndexedValidUpTo_get {marker : IndexedMarkerData}
     {cutoff : Nat} {tree : DiagonalRootTree}
