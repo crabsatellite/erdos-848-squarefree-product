@@ -369,7 +369,7 @@ def generate(
     values, limit, _source_dir = read_source(
         public_lean, source_namespace
     )
-    if limit < 199_999_999:
+    if max_rows is None and limit < 199_999_999:
         raise SystemExit(
             f"source limit {limit} does not cover the paper grid"
         )
