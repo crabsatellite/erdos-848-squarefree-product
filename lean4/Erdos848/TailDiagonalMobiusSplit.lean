@@ -1,5 +1,5 @@
 import Erdos848.TailDiagonalFiniteChecker
-import Erdos848.TailLargeSquareEventBound
+import Erdos848.TailLargeSquareOddBound
 
 namespace Erdos848
 
@@ -119,6 +119,42 @@ theorem tailDiagonalFiltered_card_le_truncated_add_largeSquare
       exact Nat.add_le_add_left
         (largeSquareBadXValues_card_le hbound) _
 
+/-- Odd predicates pay for only the negative-Pell coefficients congruent to
+two modulo eight. -/
+theorem tailDiagonalOddFiltered_card_le_truncated_add_largeSquare
+    (select : Nat → Prop) [DecidablePred select]
+    (hodd : ∀ x, select x → x % 2 = 1)
+    {cutoff N : Nat}
+    (hbound : N + 1 ≤ 2_000_000_000) :
+    ((tailDiagonalBad N).filter select).card ≤
+      ((truncatedPrimeSquareBadXValues cutoff N).filter select).card +
+        (((N + 1) ^ 2 / (cutoff + 1) ^ 2 / 8 + 1) * 13) := by
+  let large := largeSquareOddBadXValues cutoff (N + 1)
+  have hsubset :
+      (tailDiagonalBad N).filter select ⊆
+        (truncatedPrimeSquareBadXValues cutoff N).filter select ∪ large := by
+    intro x hx
+    have hxParts := Finset.mem_filter.mp hx
+    rcases
+        mem_truncatedPrimeSquareBadXValues_or_largeSquareBadXValues
+          hxParts.1 with hsmall | hlarge
+    · exact Finset.mem_union_left _
+        (Finset.mem_filter.mpr ⟨hsmall, hxParts.2⟩)
+    · exact Finset.mem_union_right _
+        (Finset.mem_filter.mpr ⟨hlarge, hodd x hxParts.2⟩)
+  calc
+    ((tailDiagonalBad N).filter select).card ≤
+        (((truncatedPrimeSquareBadXValues cutoff N).filter select) ∪
+          large).card :=
+      Finset.card_le_card hsubset
+    _ ≤ ((truncatedPrimeSquareBadXValues cutoff N).filter select).card +
+          large.card :=
+      Finset.card_union_le _ _
+    _ ≤ ((truncatedPrimeSquareBadXValues cutoff N).filter select).card +
+          (((N + 1) ^ 2 / (cutoff + 1) ^ 2 / 8 + 1) * 13) := by
+      exact Nat.add_le_add_left
+        (largeSquareOddBadXValues_card_le hbound) _
+
 /-- Unrefined version of the split. -/
 theorem tailDiagonalBad_card_le_truncated_add_largeSquare
     {cutoff N : Nat}
@@ -133,6 +169,7 @@ theorem tailDiagonalBad_card_le_truncated_add_largeSquare
 #print axioms normalized_witness_of_mem_truncatedPrimeSquareBadXValues
 #print axioms mem_truncatedPrimeSquareBadXValues_or_largeSquareBadXValues
 #print axioms tailDiagonalFiltered_card_le_truncated_add_largeSquare
+#print axioms tailDiagonalOddFiltered_card_le_truncated_add_largeSquare
 #print axioms tailDiagonalBad_card_le_truncated_add_largeSquare
 
 end Erdos848
