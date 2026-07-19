@@ -226,6 +226,32 @@ def stale_direct_local_dependencies(source: Path) -> list[tuple[str, str]]:
     return stale
 
 
+def effective_local_source_mtime_ns(
+    source: Path,
+    cache: dict[Path, int] | None = None,
+    visiting: set[Path] | None = None,
+) -> int:
+    """Return the newest source timestamp in this local import closure."""
+    if cache is None:
+        cache = {}
+    if visiting is None:
+        visiting = set()
+    if source in cache:
+        return cache[source]
+    if source in visiting:
+        raise SystemExit(f"cyclic local Lean imports at {source}")
+    visiting.add(source)
+    newest = source.stat().st_mtime_ns
+    for _, dependency in local_imports(source):
+        newest = max(
+            newest,
+            effective_local_source_mtime_ns(dependency, cache, visiting),
+        )
+    visiting.remove(source)
+    cache[source] = newest
+    return newest
+
+
 def reap_repo_lean_processes(stage: str) -> bool:
     """Reap exact-repository leftovers and verify that the scope is clean."""
 
@@ -636,6 +662,14 @@ def main() -> None:
         if returncode == 0 and temporary_output.is_file():
             try:
                 os.replace(temporary_output, output)
+                output_stat = output.stat()
+                os.utime(
+                    output,
+                    ns=(
+                        output_stat.st_atime_ns,
+                        effective_local_source_mtime_ns(source),
+                    ),
+                )
                 print(f"OLEAN_INSTALL=atomic path:{output}", flush=True)
             except OSError as error:
                 print(f"OLEAN_INSTALL_FAILED={error}", flush=True)

@@ -263,8 +263,8 @@ theorem tailR263EvenOneFibreCoverDiagonal_card_le
       gcongr
       exact Finset.card_biUnion_le
     _ <= baseCount + ∑ cell ∈ cells, fibreCount cell := by
-      gcongr
-      exact Finset.sum_le_sum fun cell hcell => hfibre cell hcell
+      exact Nat.add_le_add hbase <|
+        Finset.sum_le_sum fun cell hcell => hfibre cell hcell
 
 def tailR263EvenOneUnrestrictedDiagonalEnvelope : Rat :=
   25292570996345879 / 10^18

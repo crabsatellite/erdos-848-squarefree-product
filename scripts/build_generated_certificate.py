@@ -327,6 +327,27 @@ def project_imports(source: Path) -> tuple[str, ...]:
     return tuple(imports)
 
 
+@lru_cache(maxsize=None)
+def effective_project_source_mtime_ns(lean_dir: Path, module: str) -> int:
+    """Return the newest source timestamp in a project's import closure.
+
+    An OLean's filesystem timestamp is used as its compact dependency-version
+    stamp.  Anchoring it to source inputs, rather than wall-clock build time,
+    means that rebuilding an unchanged dependency does not invalidate every
+    importer while a real source edit still propagates transitively.
+    """
+    source = module_source_path(lean_dir, module)
+    newest = source.stat().st_mtime_ns
+    for dependency in project_imports(source):
+        dependency_source = module_source_path(lean_dir, dependency)
+        if dependency_source.is_file():
+            newest = max(
+                newest,
+                effective_project_source_mtime_ns(lean_dir, dependency),
+            )
+    return newest
+
+
 def stale_project_dependency(
     lean_dir: Path,
     module: str,
@@ -398,6 +419,7 @@ def validate_direct_imports(lean_dir: Path, module: str) -> None:
 
 
 CORE_MODULES_BY_KIND = {
+    "generic": (),
     "pratt": (
         "Erdos848.Asymptotic",
         "Erdos848.MainTheorem",
@@ -724,7 +746,8 @@ def build_command(
     )
     process = subprocess.Popen(
         [
-            "lake", "env", "lean", "-q", "-M", str(max_memory_mib),
+            "lake", "env", "lean", "--trust=0", "-q", "-M",
+            str(max_memory_mib),
             "-o", str(temporary_olean), str(source.relative_to(lean_dir)),
         ],
         cwd=lean_dir,
@@ -789,6 +812,14 @@ def build_command(
             )
         else:
             temporary_olean.replace(final_olean)
+            final_stat = final_olean.stat()
+            os.utime(
+                final_olean,
+                ns=(
+                    final_stat.st_atime_ns,
+                    effective_project_source_mtime_ns(lean_dir, module),
+                ),
+            )
     if temporary_olean.exists():
         temporary_olean.unlink(missing_ok=True)
     finished_at = utc_now()
@@ -844,6 +875,91 @@ def discover_modules(source_dir: Path, namespace: str, prefix: str) -> list[str]
         f"{namespace}.{path.stem}"
         for path in sorted(source_dir.glob(f"{prefix}*.lean"))
     ]
+
+
+def discover_namespace_modules(
+    source_dir: Path, namespace: str,
+) -> set[str]:
+    """Return module names below a namespace, including nested subnamespaces."""
+    modules: set[str] = set()
+    for path in source_dir.rglob("*.lean"):
+        relative = path.relative_to(source_dir).with_suffix("")
+        modules.add(".".join((namespace, *relative.parts)))
+    return modules
+
+
+def discover_generic_dependency_layers(
+    source_dir: Path,
+    namespace: str,
+    targets: list[str] | None = None,
+) -> list[list[str]]:
+    """Topologically layer a generated namespace or a target dependency closure.
+
+    Historical certificate families predate the fixed Data/Code/Envelope
+    basenames used by this builder. Their import headers still form a complete
+    dependency graph, so compiling one antichain at a time preserves bounded
+    parallelism without hard-coding every legacy filename.  A target closure is
+    useful when a freshly rebuilt checker invalidates only one imported data
+    spine of a much larger historical family.
+    """
+    lean_dir = source_dir
+    for _ in namespace.split("."):
+        lean_dir = lean_dir.parent
+    all_modules = discover_namespace_modules(source_dir, namespace)
+    if not all_modules:
+        raise RuntimeError(f"no Lean modules found in {source_dir}")
+    all_dependencies = {
+        module: (
+            set(project_imports(module_source_path(lean_dir, module)))
+            & all_modules
+        )
+        for module in all_modules
+    }
+    if targets:
+        normalized_targets = {
+            target
+            if target.startswith(f"{namespace}.")
+            else f"{namespace}.{target}"
+            for target in targets
+        }
+        missing_targets = normalized_targets - all_modules
+        if missing_targets:
+            raise RuntimeError(
+                "unknown generic target(s): "
+                + ", ".join(sorted(missing_targets))
+            )
+        modules: set[str] = set()
+        pending = list(normalized_targets)
+        while pending:
+            module = pending.pop()
+            if module in modules:
+                continue
+            modules.add(module)
+            pending.extend(all_dependencies[module] - modules)
+    else:
+        modules = all_modules
+    dependencies = {
+        module: all_dependencies[module] & modules
+        for module in modules
+    }
+    layers: list[list[str]] = []
+    completed: set[str] = set()
+    remaining = set(modules)
+    while remaining:
+        ready = sorted(
+            module for module in remaining
+            if dependencies[module] <= completed
+        )
+        if not ready:
+            blocked = ", ".join(sorted(remaining)[:10])
+            raise RuntimeError(
+                "generated namespace import graph contains a cycle or "
+                f"unresolved internal dependency: {blocked}"
+            )
+        layers.append(ready)
+        completed.update(ready)
+        remaining.difference_update(ready)
+    return layers
 
 
 def select_leaf_modules(
@@ -1033,15 +1149,22 @@ def run_stage(
     resumed = 0
     freshness_cache: dict[str, str | None] = {}
     for module in modules:
-        previous = results.get(module)
-        if (
-            isinstance(previous, dict)
-            and previous.get("status") == "passed"
-            and stale_project_dependency(
-                lean_dir, module, cache=freshness_cache
-            ) is None
-        ):
+        reason = stale_project_dependency(
+            lean_dir, module, cache=freshness_cache
+        )
+        if reason is None:
             resumed += 1
+            previous = results.get(module)
+            if not (
+                isinstance(previous, dict)
+                and previous.get("status") == "passed"
+            ):
+                results[module] = {
+                    "status": "passed",
+                    "stage": stage,
+                    "adopted_fresh_olean": True,
+                    "finished_at": utc_now(),
+                }
         else:
             pending_modules.append(module)
     if resumed:
@@ -1176,7 +1299,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--lean-dir", type=Path, default=repository / "lean4")
     parser.add_argument(
-        "--kind", choices=("diagonal", "pratt", "factor", "trace"),
+        "--kind", choices=("diagonal", "pratt", "factor", "trace", "generic"),
         default="diagonal"
     )
     parser.add_argument(
@@ -1184,6 +1307,15 @@ def parse_args() -> argparse.Namespace:
         help=(
             "generated Lean namespace; defaults to "
             "Erdos848.GeneratedDiagonalCoverage or Erdos848.GeneratedPrattCoverage"
+        ),
+    )
+    parser.add_argument(
+        "--generic-target",
+        action="append",
+        default=[],
+        help=(
+            "for --kind generic, compile only this module and its transitive "
+            "same-namespace imports; repeat for multiple targets"
         ),
     )
     parser.add_argument(
@@ -1363,12 +1495,18 @@ def main() -> int:
             )
         )
     )
-    if not namespace.startswith("Erdos848."):
-        raise SystemExit("--module-prefix must begin with Erdos848.")
+    if args.kind == "generic" and args.module_prefix is None:
+        raise SystemExit("--kind generic requires --module-prefix")
+    if args.generic_target and args.kind != "generic":
+        raise SystemExit("--generic-target requires --kind generic")
+    if namespace != "Erdos848" and not namespace.startswith("Erdos848."):
+        raise SystemExit("--module-prefix must be Erdos848 or begin with Erdos848.")
     source_dir = lean_dir.joinpath(*namespace.split("."))
     required_data = "AnchorData.lean" if args.kind == "trace" else "Data.lean"
-    if not (source_dir / required_data).is_file():
+    if args.kind != "generic" and not (source_dir / required_data).is_file():
         raise SystemExit(f"generated data not found: {source_dir}")
+    if args.kind == "generic" and not source_dir.is_dir():
+        raise SystemExit(f"generated namespace not found: {source_dir}")
     status_path = (
         args.status_file.resolve()
         if args.status_file is not None
@@ -1414,9 +1552,7 @@ def main() -> int:
             previous.pop("module", None)
             previous.pop("return_code", None)
             previous.pop("output_tail", None)
-    current_modules = {
-        f"{namespace}.{path.stem}" for path in source_dir.glob("*.lean")
-    }
+    current_modules = discover_namespace_modules(source_dir, namespace)
     stale_modules = [
         module for module in stored_results
         if module.startswith(f"{namespace}.") and module not in current_modules
@@ -1486,7 +1622,13 @@ def main() -> int:
         print(state["error"], file=sys.stderr)
         return 1
     try:
-        validate_prerequisite_certificates(lean_dir, source_dir, namespace)
+        if args.kind == "generic":
+            print(
+                "GENERIC_PREREQUISITES=validated recursively per direct import",
+                flush=True,
+            )
+        else:
+            validate_prerequisite_certificates(lean_dir, source_dir, namespace)
         if args.skip_generic_core_preflight:
             print(
                 "SKIP_GENERIC_CORE_PREFLIGHT=explicit; "
@@ -1542,6 +1684,11 @@ def main() -> int:
     state["max_memory_mib"] = args.max_memory_mib
     state["final_max_memory_mib"] = args.final_max_memory_mib
     state["progress_every"] = args.progress_every
+    if args.kind == "generic":
+        state["generic_targets"] = args.generic_target
+        state["generic_scope"] = (
+            "target-closure" if args.generic_target else "full-namespace"
+        )
     if pruned_files:
         state["last_artifact_prune"] = {
             "finished_at": utc_now(),
@@ -1549,6 +1696,81 @@ def main() -> int:
             "reclaimed_bytes": pruned_bytes,
         }
     write_status(status_path, state)
+    if args.kind == "generic":
+        if args.stage != "all":
+            state["status"] = "failed"
+            state["error"] = "--kind generic currently requires --stage all"
+            state["finished_at"] = utc_now()
+            state["updated_at"] = utc_now()
+            write_status(status_path, state)
+            print(state["error"], file=sys.stderr)
+            return 1
+        try:
+            layers = discover_generic_dependency_layers(
+                source_dir, namespace, args.generic_target
+            )
+            print(
+                f"generic-import-graph layers={len(layers)} "
+                f"modules={sum(map(len, layers))} "
+                f"scope={state['generic_scope']}",
+                flush=True,
+            )
+            for index, layer in enumerate(layers):
+                assembly_modules = [
+                    module for module in layer
+                    if module.rsplit(".", 1)[-1] in {
+                        "Data", "IndexedData", "CoreAggregate", "Certificate",
+                    }
+                    or module.rsplit(".", 1)[-1].endswith("Aggregate")
+                ]
+                leaf_modules = [
+                    module for module in layer
+                    if module not in assembly_modules
+                ]
+                run_stage(
+                    lean_dir=lean_dir,
+                    stage=f"generic-layer-{index:02d}",
+                    modules=leaf_modules,
+                    workers=args.workers,
+                    timeout_seconds=args.leaf_timeout_seconds,
+                    registry=registry,
+                    state=state,
+                    status_path=status_path,
+                    batch_size=args.leaf_batch_size,
+                )
+                for module in assembly_modules:
+                    run_stage(
+                        lean_dir=lean_dir,
+                        stage=f"assembly-generic-layer-{index:02d}",
+                        modules=[module],
+                        workers=1,
+                        timeout_seconds=args.final_timeout_seconds,
+                        registry=registry,
+                        state=state,
+                        status_path=status_path,
+                    )
+        except KeyboardInterrupt:
+            registry.terminate_all()
+            state["status"] = "interrupted"
+            state["finished_at"] = utc_now()
+            state["updated_at"] = utc_now()
+            write_status(status_path, state)
+            return 130
+        except BaseException as error:
+            registry.terminate_all()
+            state["status"] = "failed"
+            state["error"] = str(error)
+            state["finished_at"] = utc_now()
+            state["updated_at"] = utc_now()
+            write_status(status_path, state)
+            print(str(error), file=sys.stderr)
+            return 1
+        state["status"] = "passed"
+        state["finished_at"] = utc_now()
+        state["updated_at"] = utc_now()
+        write_status(status_path, state)
+        print(f"passed status={status_path}", flush=True)
+        return 0
     if args.kind == "trace":
         try:
             if args.stage in ("oracle", "anchor-data", "all"):
