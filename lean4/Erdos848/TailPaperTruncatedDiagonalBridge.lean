@@ -176,9 +176,70 @@ theorem truncatedDiagonalAtomOf_mem_oneOddCell
     truncatedDiagonalAtomOf x ∈ tailOneOddCellAtoms parity cell := by
   exact truncatedDiagonalAtomOf_mem_modFourClassCell hodd hcell
 
+lemma mod_two_eq_one_of_mod_four_eq_odd
+    {x : Nat} (hodd : x % 4 = 1 ∨ x % 4 = 3) :
+    x % 2 = 1 := by
+  have hcompat : x % 2 = x % 4 % 2 :=
+    (Nat.mod_mod_of_dvd x (by norm_num : 2 ∣ 4)).symm
+  rcases hodd with hone | hthree <;> omega
+
+theorem odd_of_truncatedDiagonalAtomOf_mem_oddUnion
+    {x : Nat}
+    (hx : truncatedDiagonalAtomOf x ∈ tailOddUnionAtoms) :
+    x % 2 = 1 := by
+  have hatom :
+      (truncatedDiagonalAtomOf x).modFourClass =
+        oddModFourClass false ∨
+      (truncatedDiagonalAtomOf x).modFourClass =
+        oddModFourClass true := by
+    simpa [tailOddUnionAtoms] using hx
+  rw [truncatedDiagonalAtomOf_modFourClass] at hatom
+  apply mod_two_eq_one_of_mod_four_eq_odd
+  rcases hatom with hone | hthree
+  · left
+    exact congrArg Fin.val hone
+  · right
+    exact congrArg Fin.val hthree
+
+theorem odd_of_truncatedDiagonalAtomOf_mem_oneOdd
+    {x : Nat} {parity : Bool}
+    (hx : truncatedDiagonalAtomOf x ∈ tailOneOddAtoms parity) :
+    x % 2 = 1 := by
+  have hatom :
+      (truncatedDiagonalAtomOf x).modFourClass =
+        oddModFourClass parity := by
+    simpa [tailOneOddAtoms, tailModFourClassAtoms] using hx
+  rw [truncatedDiagonalAtomOf_modFourClass] at hatom
+  apply mod_two_eq_one_of_mod_four_eq_odd
+  cases parity
+  · left
+    exact congrArg Fin.val hatom
+  · right
+    exact congrArg Fin.val hatom
+
+theorem odd_of_truncatedDiagonalAtomOf_mem_oneOddCell
+    {x : Nat} {parity : Bool} {cell : Fin 9}
+    (hx : truncatedDiagonalAtomOf x ∈
+      tailOneOddCellAtoms parity cell) :
+    x % 2 = 1 := by
+  apply odd_of_truncatedDiagonalAtomOf_mem_oneOdd
+    (parity := parity)
+  have hparts := Finset.mem_filter.mp hx
+  exact Finset.mem_filter.mpr ⟨Finset.mem_univ _, hparts.2.1⟩
+
+theorem odd_of_truncatedDiagonalAtomOf_mem_oddPlusCell
+    {x : Nat} {parity : Bool} {cell : Fin 9}
+    (hx : truncatedDiagonalAtomOf x ∈
+      tailOddPlusCellAtoms parity cell) :
+    x % 2 = 1 := by
+  rcases Finset.mem_union.mp hx with hone | hcell
+  · exact odd_of_truncatedDiagonalAtomOf_mem_oneOdd hone
+  · exact odd_of_truncatedDiagonalAtomOf_mem_oneOddCell hcell
+
 #print axioms truncatedDiagonalAtomOf_modNineCell
 #print axioms truncatedDiagonalAtomOf_modFourClass
 #print axioms truncatedDiagonalAtomOf_mem_concentrated
 #print axioms truncatedDiagonalAtomOf_mem_oddUnion
+#print axioms odd_of_truncatedDiagonalAtomOf_mem_oddPlusCell
 
 end Erdos848
