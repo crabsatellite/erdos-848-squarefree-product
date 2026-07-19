@@ -78,6 +78,22 @@ theorem outsideIndexedValidUpTo_of_valid_and_progressions
         ⟨hvalid.1, hleft hvalid.2.1 hprogressions.2.1,
           hright hvalid.2.2 hprogressions.2.2⟩
 
+/-- A full short-marker certificate is automatically a truncated certificate
+at every cutoff.  This is useful both as a regression test and when a block
+does not extend the `x` range. -/
+theorem outsideIndexedValidUpTo_of_outsideIndexedValid
+    {marker : IndexedMarkerData} {cutoff : Nat}
+    {tree : DiagonalRootTree}
+    (hvalid : tree.OutsideIndexedValid marker) :
+    tree.OutsideIndexedValidUpTo marker cutoff := by
+  induction tree with
+  | empty => trivial
+  | leaf data =>
+      exact ⟨hvalid.1, Or.inr hvalid.2⟩
+  | node totalSize left right hleft hright =>
+      exact
+        ⟨hvalid.1, hleft hvalid.2.1, hright hvalid.2.2⟩
+
 theorem outsideIndexedValidUpTo_get {marker : IndexedMarkerData}
     {cutoff : Nat} {tree : DiagonalRootTree}
     (hvalid : tree.OutsideIndexedValidUpTo marker cutoff)
