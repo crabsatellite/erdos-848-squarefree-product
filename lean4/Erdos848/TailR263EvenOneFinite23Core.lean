@@ -1,5 +1,5 @@
 import Erdos848.ScratchModMem
-import Erdos848.TailR263EvenOneTail23
+import Erdos848.TailGlobalMixedEvenFinite95
 import Erdos848.TailZModArithmetic
 
 namespace Erdos848

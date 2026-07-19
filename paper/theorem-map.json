@@ -54,6 +54,25 @@
     "lean": ["erdos848_through_five_million"]
   },
   {
+    "label": "prop:branched-tail-reduction",
+    "title": "Every strict tail defect reduces to the even global-diagonal or odd defect-residual payment",
+    "lean": [
+      "exists_sameValuation_eightPivotCluster_of_defect",
+      "hallCompletion_card_le_globalMixedDiagonalBasePairTail",
+      "hallCompletion_card_le_globalMixedResidualBasePairTail",
+      "pairTailValuation_even_or_odd"
+    ]
+  },
+  {
+    "label": "prop:branched-terminal-assembly",
+    "title": "The branch-aware terminal and exact prefix conditionally assemble the all-N statement",
+    "lean": [
+      "Erdos848GlobalMixedBranchedPairTailTerminalBound",
+      "erdos848GlobalMixedTailClose_of_branchedPairTailTerminalBound",
+      "erdos848_full_of_branchedPairTailTerminalBound"
+    ]
+  },
+  {
     "label": "prop:five-million-tail-assembly",
     "title": "The exact prefix and the remaining tail assemble to the all-N statement",
     "lean": ["erdos848_full_of_five_million_tail"]

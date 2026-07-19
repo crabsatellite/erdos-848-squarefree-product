@@ -1,23 +1,4 @@
-import Erdos848.MainTheorem
-import Erdos848.PrefixClose
-import Erdos848.HallReduction
-import Erdos848.LowRangeArithmetic
-import Erdos848.LowRangeCombinatorics
-import Erdos848.LowRangeDegreeReduction
-import Erdos848.LowRangeGeneratedDiagonal
-import Erdos848.TailCombinatorics
-import Erdos848.TailFiniteSieve
-import Erdos848.TailCRTCounting
-import Erdos848.TailDiagonalEnvelope
-import Erdos848.TailPrimeCountingChecker
-import Erdos848.TailPrimeIntervalTreeChecker
-import Erdos848.TailQuadraticResidue
-import Erdos848.TailRootEnvelope
-import Erdos848.TailFiveMillionBudget
-import Erdos848.TailFiveMillionRootProfileKernel
-import Erdos848.TailFiveMillionRootProfileComplete
-import Erdos848.TailPrimeSquareBound
-import Erdos848.TailFiveMillionRootSupportClassification
+import Erdos848.TailClose
 
 #print axioms Erdos848.A7_has_property_public
 #print axioms Erdos848.A18_has_property_public
@@ -29,150 +10,15 @@ import Erdos848.TailFiveMillionRootSupportClassification
 #print axioms Erdos848.erdos848_finite_reduction
 #print axioms Erdos848.originalProblem_of_prefixColouringState
 #print axioms Erdos848.originalProblem_prefix_of_colouringCertificate
-#print axioms Erdos848.erdos848PrefixClose_of_colouringCertificate
 #print axioms Erdos848.GeneratedFiveMillionPrefixTrace.closeThroughFiveMillion
 #print axioms Erdos848.erdos848_through_five_million
-#print axioms Erdos848.erdos848_prefix_close
-#print axioms Erdos848.erdos848_first_low_close
-#print axioms Erdos848.erdos848_second_low_close
 #print axioms Erdos848.erdos848_full_of_five_million_tail
-#print axioms Erdos848.erdos848_full_of_four_range_close
-#print axioms Erdos848.bitsValue_bits
-#print axioms Erdos848.powModBits_cast
-#print axioms Erdos848.powMod_cast
-#print axioms Erdos848.ModularPowerCertificate.zmod_eq
-#print axioms Erdos848.PrattCertificate.prime
-#print axioms Erdos848.squarefree_list_prod_of_prime_nodup
-#print axioms Erdos848.SquarefreeFactorCertificate.squarefree
-#print axioms Erdos848.ceilDiv_mul_le_add
-#print axioms Erdos848.ceilDiv_cast_le_add_one
-#print axioms Erdos848.lowEvenAPCeiling_cast_le
-#print axioms Erdos848.lowOddAPCeiling_cast_le
-#print axioms Erdos848.twice_ceilDiv_hundred_cast_le
-#print axioms Erdos848.firstLow_evenDegree_bound
-#print axioms Erdos848.firstLow_oddDegree_bound
-#print axioms Erdos848.secondLow_evenDegree_bound
-#print axioms Erdos848.secondLow_oddDegree_bound
-#print axioms Erdos848.firstLow_eightEven_arithmetic
-#print axioms Erdos848.firstLow_twoOddClasses_arithmetic
-#print axioms Erdos848.firstLow_oneOddClass_arithmetic
-#print axioms Erdos848.secondLow_eightEven_arithmetic
-#print axioms Erdos848.secondLow_twoOddClasses_arithmetic
-#print axioms Erdos848.secondLow_oneOddClass_arithmetic
 #print axioms Erdos848.originalProblem_of_hallStatement
-#print axioms Erdos848.hallStatement_of_originalProblem
 #print axioms Erdos848.erdos848HallStatement_iff_originalProblem
-#print axioms Erdos848.hallResidual_subset_lowDiagonalBad
-#print axioms Erdos848.hallCompletion_card_cast_le_diagonal_add_degree
-#print axioms Erdos848.lowResidualParityTrichotomy
-#print axioms Erdos848.firstLow_evenPivot_hall_bound
-#print axioms Erdos848.secondLow_evenPivot_hall_bound
-#print axioms Erdos848.lowResidualSinglePivotTrichotomy
-#print axioms Erdos848.lowBaseMod4Part_cast_le
-#print axioms Erdos848.firstLow_twoOddPivots_hall_bound
-#print axioms Erdos848.secondLow_twoOddPivots_hall_bound
-#print axioms Erdos848.firstLow_oneOddClassPivot_hall_bound
-#print axioms Erdos848.secondLow_oneOddClassPivot_hall_bound
-#print axioms Erdos848.firstLowHallStatement_of_kernelBounds
-#print axioms Erdos848.secondLowHallStatement_of_kernelBounds
-#print axioms Erdos848.erdos848FirstLowClose_of_kernelEvidence
-#print axioms Erdos848.erdos848SecondLowClose_of_kernelEvidence
-#print axioms Erdos848.lowSmallPrimeBadNeighbours_card_le
-#print axioms Erdos848.lowSmallPrimeBadMod4Neighbours_card_le
-#print axioms Erdos848.lowBaseBadNeighbours_subset_small_high
-#print axioms Erdos848.lowBaseBadMod4Neighbours_subset_small_high
-#print axioms Erdos848.firstLow_evenDegree_of_certificate
-#print axioms Erdos848.firstLow_oddDegree_of_certificate
-#print axioms Erdos848.secondLow_evenDegree_of_certificate
-#print axioms Erdos848.secondLow_oddDegree_of_certificate
-#print axioms Erdos848.firstLowKernelBounds_of_reducedEvidence
-#print axioms Erdos848.secondLowKernelBounds_of_reducedEvidence
-#print axioms Erdos848.GeneratedLowDiagonalCoverage.certificateContainsOfNotSquarefree
-#print axioms Erdos848.GeneratedLowDiagonalCoverage.firstLowDiagonalBounds
-#print axioms Erdos848.GeneratedLowDiagonalCoverage.secondLowDiagonalBounds
-#print axioms Erdos848.erdos848FirstLowKernelEvidence_of_pure_degree
-#print axioms Erdos848.erdos848SecondLowKernelEvidence_of_pure_degree
-#print axioms Erdos848.erdos848FirstLowClose_of_pure_degree
-#print axioms Erdos848.erdos848SecondLowClose_of_pure_degree
-#print axioms Erdos848.odd_sq_mod_eight
-#print axioms Erdos848.valuation_one_quotient_mod_two
-#print axioms Erdos848.valuation_two_quotient_mod_four
-#print axioms Erdos848.valuation_three_quotient_mod_eight
-#print axioms Erdos848.mixed_half_finite_tail
-#print axioms Erdos848.four_pivot_finite_tail
-#print axioms Erdos848.covered_card_le_finite_add_tail
-#print axioms Erdos848.all_union_forces_many_tail
-#print axioms Erdos848.n_pivot_finite_tail
-#print axioms Erdos848.two_coordinate_fibre
-#print axioms Erdos848.capacityTwoSlot_card
-#print axioms Erdos848.exists_capacityTwo_defect
-#print axioms Erdos848.capacityTwoSpareSlot_card
-#print axioms Erdos848.exists_capacityTwo_defect_with_spare
-#print axioms Erdos848.bonferroniPrefix_eq_choose
-#print axioms Erdos848.bonferroniPrefix_one_le_noEvent
-#print axioms Erdos848.bonferroniPrefix_three_le_noEvent
-#print axioms Erdos848.noEvent_le_bonferroniPrefix_two
-#print axioms Erdos848.noEvent_le_bonferroniPrefix_four
-#print axioms Erdos848.card_activeSubsetsOfCard
-#print axioms Erdos848.sum_choose_active_eq_sum_intersections
-#print axioms Erdos848.bonferroni_one_le_noEvent_card
-#print axioms Erdos848.bonferroni_three_le_noEvent_card
-#print axioms Erdos848.noEvent_card_le_bonferroni_two
-#print axioms Erdos848.noEvent_card_le_bonferroni_four
-#print axioms Erdos848.sum_tail_card_double_count
-#print axioms Erdos848.card_le_finite_threshold_add_tail_sum
-#print axioms Erdos848.finiteThreshold_card_le_intersectionSum
-#print axioms Erdos848.card_le_intersectionSum_add_tail_sum
-#print axioms Erdos848.card_filter_modEq_exact
-#print axioms Erdos848.card_filter_two_modEq_exact
-#print axioms Erdos848.card_filter_modEq_list_exact
-#print axioms Erdos848.periodicPrefixExcess_scaled
-#print axioms Erdos848.finiteResiduePrefixExcess_scaled
-#print axioms Erdos848.count_mul_add_of_periodic
-#print axioms Erdos848.card_filter_residueSet_exact
-#print axioms Erdos848.finiteResidueCount_scaled_le
-#print axioms Erdos848.log_twentyMillion_lt_seventeen
-#print axioms Erdos848.diagonalRatioAnalytic_le_rationalEnvelope
-#print axioms Erdos848.natRatio_le_blockEnvelope
-#print axioms Erdos848.concentratedResidues900_card
-#print axioms Erdos848.concentratedResidueCount_exact
-#print axioms Erdos848.BoundedPrimeCountingCertificate.listed_eq_primesLE
-#print axioms Erdos848.BoundedPrimeCountingCertificate.listed_card_eq_primeCounting
-#print axioms Erdos848.primeCounting_sub_eq_card_sdiff
-#print axioms Erdos848.PrimeIntervalProofTree.listed_eq_primesLE
-#print axioms Erdos848.PrimeIntervalProofTree.primeCounting_eq
-#print axioms Erdos848.GeneratedTailPrimeIntervalCoverage.primeCounting_204081
-#print axioms Erdos848.GeneratedTailPrimeIntervalCoverage.primeCounting_102043
-#print axioms Erdos848.qrMaskAccepts_of_modEq_square
-#print axioms Erdos848.mem_qrResiduesThrough_of_modEq_square
-#print axioms Erdos848.transformedRootRow_eq_producerFormula
-#print axioms Erdos848.transformedRootRow_antitone
-#print axioms Erdos848.interval_bound_of_predecessor_descent
-#print axioms Erdos848.successfulModFortyNineRoots_card_le_two
-#print axioms Erdos848.fiveMillionPeriodicFiniteResidues_card
-#print axioms Erdos848.fiveMillionPeriodicFiniteCount_le_495
-#print axioms Erdos848.fiveMillionPeriodicFiniteDensity_le
-#print axioms Erdos848.fiveMillionOneOddS7_finite_density_le
-#print axioms Erdos848.fiveMillionOneOddS7_residue_density_le
-#print axioms Erdos848.fiveMillionOneOddS7_residue_prefix_payment_le
-#print axioms Erdos848.fiveMillionOddRoot7_witness_quotient
-#print axioms Erdos848.fiveMillionOddRoot7_primeDelta_exact
-#print axioms Erdos848.fiveMillionOddRoot7_witness_exact
-#print axioms Erdos848.fiveMillionOddRoot7_witness_primeCounting_exact
-#print axioms Erdos848.fiveMillionOneOddS7_residue_count
-#print axioms Erdos848.fiveMillionOneOddS7_prefix_payment
-#print axioms Erdos848.fiveMillionOneOddS7_budget
-#print axioms Erdos848.fiveMillionOddRoot_profile_support_bounds
-#print axioms Erdos848.fiveMillionOddRootProfileRows_all_N_le
-#print axioms Erdos848.supportPrimeList_length_le_six
-#print axioms Erdos848.fiveMillionOddRootProfile_kernel_close
-#print axioms Erdos848.feasibleSupportPrefixes_complete
-#print axioms Erdos848.supportPrimes_complete_through_3163
-#print axioms Erdos848.fiveMillionSupport_dropLast_mem_feasiblePrefixes
-#print axioms Erdos848.fiveMillionOddRootSupport_profileCase
-#print axioms Erdos848.fiveMillionOddRootSupport_kernel_close
-#print axioms Erdos848.GeneratedTailPrimeSquareCoverage.costTreeNode0098_cost
-#print axioms Erdos848.reciprocalSquare_sum_above_le
-#print axioms Erdos848.finitePrimeSquareTail47_lt
-#print axioms Erdos848.finitePrimeSquareTail7_lt
-#print axioms Erdos848.fiveMillionSquareTail7_kernel_close
+#print axioms Erdos848.exists_sameValuation_eightPivotCluster_of_defect
+#print axioms Erdos848.hallCompletion_card_le_globalMixedDiagonalBasePairTail
+#print axioms Erdos848.hallCompletion_card_le_globalMixedResidualBasePairTail
+#print axioms Erdos848.pairTailValuation_even_or_odd
+#print axioms Erdos848.erdos848GlobalMixedTailClose_of_branchedPairTailTerminalBound
+#print axioms Erdos848.erdos848_five_million_tail_of_branchedPairTailTerminalBound
+#print axioms Erdos848.erdos848_full_of_branchedPairTailTerminalBound

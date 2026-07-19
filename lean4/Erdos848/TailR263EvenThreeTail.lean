@@ -1,4 +1,5 @@
-import Erdos848.TailR263EvenTwoExhaustion
+import Erdos848.TailFiveMillionHallTailCore
+import Erdos848.TailGlobalMixedEvenAllRows
 
 namespace Erdos848
 

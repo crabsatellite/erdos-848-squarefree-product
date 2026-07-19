@@ -49,7 +49,8 @@ formalization of this asymptotic theorem and a short paper-to-kernel map.
 The literal interval statement is obtained from the formalization's
 zero-based range convention by a kernel-checked indexing lemma.  We also
   kernel-check two exact small instances, the exact online-colouring trace
-  through $N=5{,}000{,}000$, and the precise finite-reduction statement.
+  through $N=5{,}000{,}000$, the precise finite-reduction statement, and a
+  direct branch-aware reduction of the remaining tail at that same endpoint.
 
 This note does not claim a complete all-$N$ resolution of Erd\H{o}s
 Problem~848; the remaining tail $N\geq5{,}000{,}000$ is not yet closed.
@@ -273,6 +274,83 @@ Proposition~\ref{prop:prefix-colouring-soundness} yields the Lean theorem
 certificate, not additional assumptions.
 \end{proof}
 
+\begin{proposition}[Branch-aware direct tail reduction]
+\label{prop:branched-tail-reduction}
+Fix $N\geq5{,}000{,}000$ and suppose that a strict Hall defect exists.  Then
+there are eight residual pivots $P$ in one of five valuation classes, with
+every increasing pair in $P$ at distance less than $9210$.  Write
+\[
+ D(N)=\#\{x\in[N]:x\not\equiv7,18\pmod {25},
+                   \ x^2+1\text{ is nonsquarefree}\},
+\]
+let $F_{95,5}(N,P)$ be the number of points in the two base progressions
+having at least five cutoff-$95$ prime-square witnesses from $P$, and let
+$T_{95,5}(N,P)$ be the corresponding normalized pair-tail payment.
+
+If the valuation class is even, the Hall completion is at most
+\[
+ D(N)+F_{95,5}(N,P)+T_{95,5}(N,P).
+\]
+If the valuation class is odd, write $R(N,B)$ for the literal off-base
+residual of this Hall defect.  Then the sharper bound
+\[
+ |R(N,B)|+F_{95,5}(N,P)+T_{95,5}(N,P)
+\]
+holds.
+\end{proposition}
+
+\begin{proof}
+A defect supplies the bounded-span eight-pivot cluster by
+\leanname{exists_sameValuation_eightPivotCluster_of_defect}.  The
+finite/pair-tail Boolean inequality bounds the base part of the completion.
+For an even valuation class, every off-base completion point lies in the
+global diagonal set; this is
+\leanname{hallCompletion_card_le_globalMixedDiagonalBasePairTail}.  For an
+odd class, retain the exact residual term in the Hall-completion partition;
+this is
+\leanname{hallCompletion_card_le_globalMixedResidualBasePairTail}.  The five
+valuation classes are exhausted by
+\leanname{pairTailValuation_even_or_odd}.
+\end{proof}
+
+The distinction in Proposition~\ref{prop:branched-tail-reduction} is
+necessary.  For eight odd pivots all congruent to $1$ modulo $4$, every base
+point congruent to $3$ modulo $4$ has the prime-$2$ finite event for all eight
+forms; the opposite congruence gives the symmetric case.  Thus
+$F_{95,5}$ already contains a family of asymptotic density $1/50$.  At the
+five-million endpoint the global off-base diagonal has $125{,}808$ points.
+Paying both quantities globally already exceeds the Hall target before any
+pair-tail payment.  The odd branch must therefore remain defect-dependent;
+the earlier one-size terminal cannot be the numerical close.
+
+\begin{proposition}[Conditional direct all-$N$ assembly]
+\label{prop:branched-terminal-assembly}
+Assume that, for every $N\geq5{,}000{,}000$ and every defect-produced
+eight-pivot set $P$, the even expression and the odd expression in
+Proposition~\ref{prop:branched-tail-reduction}, divided by $N$, are strictly
+less than
+\[
+ \frac1{25}-\frac7{25N}
+\]
+in their respective valuation classes.  Then $P(N)$ holds for every
+$N\in\NN$.
+\end{proposition}
+
+\begin{proof}
+The two numerical assumptions are bundled in Lean as
+\leanname{Erdos848GlobalMixedBranchedPairTailTerminalBound}.  The branch-aware
+tail constructor
+\leanname{erdos848GlobalMixedTailClose_of_branchedPairTailTerminalBound}
+proves $P(N)$ for every $N\geq5{,}000{,}000$.  Combining it with
+Theorem~\ref{thm:prefix-close} gives
+\leanname{erdos848_full_of_branchedPairTailTerminalBound}.
+\end{proof}
+
+Proposition~\ref{prop:branched-terminal-assembly} is a conditional kernel
+theorem, not the missing numerical proof.  The even diagonal/finite/pair-tail
+estimate and the odd residual/finite/pair-tail estimate are the two remaining
+mathematical obligations.
+
 \begin{proposition}[Exact remaining-tail assembly]
 \label{prop:five-million-tail-assembly}
 Suppose $P(N)$ is proved for every $N\geq5{,}000{,}000$.  Then $P(N)$ holds
@@ -338,6 +416,8 @@ Paper label & Lean declaration(s) & Role \\
 \texttt{cor:finite-reduction} & \leanname{erdos848_finite_reduction} & remaining boundary \\
 Proposition~\ref{prop:prefix-colouring-soundness} & \leanname{originalProblem_of_prefixColouringState} & certificate interface \\
 \texttt{thm:prefix-close} & \leanname{erdos848_through_five_million} & exact prefix \\
+Proposition~\ref{prop:branched-tail-reduction} & \leanname{hallCompletion_card_le_globalMixedResidualBasePairTail}, \leanname{pairTailValuation_even_or_odd} & direct tail reduction \\
+Proposition~\ref{prop:branched-terminal-assembly} & \leanname{erdos848_full_of_branchedPairTailTerminalBound} & conditional all-$N$ assembly \\
 Proposition~\ref{prop:five-million-tail-assembly} & \leanname{erdos848_full_of_five_million_tail} & exact assembly \\
 \bottomrule
 \end{tabularx}
@@ -347,8 +427,8 @@ The machine-readable version of this table is
 \texttt{paper/theorem-map.json}.  Its checker requires each label to occur in
 the manuscript, each declaration to occur in the publication Lean closure,
 and each declaration to be named by a \texttt{\#check} command.  A separate
-\texttt{--trust=0} file prints the axioms of the publication endpoints.  The
-exact output for each is
+\texttt{--trust=0} file prints the axioms of the publication endpoints.  Each
+endpoint is axiom-free or depends only on a subset of
 \[
  [\texttt{propext},\ \texttt{Classical.choice},\ \texttt{Quot.sound}],
 \]
@@ -365,11 +445,12 @@ All numbered claims remain subject to the Lean kernel checks described above.
 \section{Conclusion}
 
 The public mathematical closure established here consists of the asymptotic
-theorem and the exact range $N\leq5{,}000{,}000$.  The conjectured
+theorem, the exact range $N\leq5{,}000{,}000$, and an unconditional
+branch-aware reduction of the remaining Hall tail.  The conjectured
 $7\pmod {25}$ cardinality is therefore kernel-checked on that prefix and for
-every sufficiently large $N$.  A complete all-$N$ solution still requires a
-kernel proof of the final tail in
-Proposition~\ref{prop:five-million-tail-assembly}; until that premise is supplied,
+every sufficiently large $N$.  A complete all-$N$ solution still requires
+both numerical terminals in
+Proposition~\ref{prop:branched-terminal-assembly}; until they are supplied,
 this work should not be reported as a full resolution of Erd\H{o}s Problem~848.
 
 \begin{thebibliography}{9}

@@ -349,6 +349,37 @@ theorem hallCompletion_card_le_globalMixedDiagonalBasePairTail
         globalMixedBaseFiniteThresholdPayment N pivots cutoff k +
           globalMixedBasePairTailPayment N pivots cutoff k := by ring
 
+/-- Defect-dependent variant of the pair-tail reduction.  It keeps the
+off-base payment as the literal Hall residual instead of replacing it by the
+whole pivot-independent diagonal universe.  This is the terminal needed for
+odd valuation classes, where the global diagonal and the forced prime-2 base
+family cannot both be paid inside the Hall target. -/
+theorem hallCompletion_card_le_globalMixedResidualBasePairTail
+    {N cutoff k : Nat} {B pivots : Finset Nat}
+    (hBprop : NonSquarefreeProductProp B)
+    (hpivots : pivots ⊆ hallCompletion N B)
+    (hk : k < pivots.card) :
+    ((hallCompletion N B).card : Rat) <=
+      (hallResidual N B).card +
+        globalMixedBaseFiniteThresholdPayment N pivots cutoff k +
+          globalMixedBasePairTailPayment N pivots cutoff k := by
+  have hbase := hallBasePart_card_le_globalMixedBasePairTail
+    (cutoff := cutoff) (k := k) hBprop hpivots hk
+  have hpartitionQ :
+      ((hallResidual N B).card : Rat) + ((hallBasePart N B).card : Rat) =
+        ((hallCompletion N B).card : Rat) := by
+    exact_mod_cast hallCompletion_card_partition N B
+  calc
+    ((hallCompletion N B).card : Rat) =
+        (hallResidual N B).card + (hallBasePart N B).card := hpartitionQ.symm
+    _ <= (hallResidual N B).card +
+        (globalMixedBaseFiniteThresholdPayment N pivots cutoff k +
+          globalMixedBasePairTailPayment N pivots cutoff k) :=
+      add_le_add le_rfl hbase
+    _ = (hallResidual N B).card +
+        globalMixedBaseFiniteThresholdPayment N pivots cutoff k +
+          globalMixedBasePairTailPayment N pivots cutoff k := by ring
+
 theorem hallCompletion_card_le_globalMixedDiagonalBaseTailThreshold
     {N cutoff k : Nat} {B pivots : Finset Nat}
     (hBout : Erdos848OutsideSet N B)
@@ -440,6 +471,72 @@ def Erdos848GlobalMixedPairTailTerminalBound : Prop :=
             globalMixedBasePairTailPayment N pivots 95 5) / N <
             tailHallTarget N
 
+/-- The three even valuation classes may use the pivot-independent off-base
+diagonal payment. -/
+def PairTailEvenValuationClass
+    (valuation : FiveMillionValuationClass) : Prop :=
+  valuation = .evenOne ∨
+    valuation = .evenTwo ∨
+      valuation = .evenThree
+
+/-- The two odd valuation classes require the defect-dependent residual
+payment; prime `2` makes the uniform global-diagonal budget too coarse. -/
+def PairTailOddValuationClass
+    (valuation : FiveMillionValuationClass) : Prop :=
+  valuation = .oddOne ∨ valuation = .oddThree
+
+theorem pairTailValuation_even_or_odd
+    (valuation : FiveMillionValuationClass) :
+    PairTailEvenValuationClass valuation ∨
+      PairTailOddValuationClass valuation := by
+  cases valuation <;>
+    simp [PairTailEvenValuationClass, PairTailOddValuationClass]
+
+/-- Exact numerical terminal for the even valuation branches. -/
+def Erdos848GlobalMixedEvenPairTailTerminalBound : Prop :=
+  ∀ N : Nat, 5_000_000 <= N →
+    ∀ B : Finset Nat,
+      Erdos848OutsideSet N B →
+      NonSquarefreeProductProp B →
+      (OriginalA7 N).card <
+        B.card + (hallNonNeighbours N B).card →
+      ∀ valuation : FiveMillionValuationClass,
+      ∀ pivots : Finset Nat,
+        pivots ⊆ fiveMillionValuationPart N B valuation →
+        pivots.card = 8 →
+        (∀ x ∈ pivots, ∀ y ∈ pivots, x < y → y - x < 9210) →
+        PairTailEvenValuationClass valuation →
+        ((globalMixedTailDiagonalBad N).card +
+          globalMixedBaseFiniteThresholdPayment N pivots 95 5 +
+            globalMixedBasePairTailPayment N pivots 95 5) / N <
+            tailHallTarget N
+
+/-- Exact numerical terminal for the odd valuation branches.  The first term
+is the literal defect residual, not the full global diagonal set. -/
+def Erdos848GlobalMixedOddPairTailTerminalBound : Prop :=
+  ∀ N : Nat, 5_000_000 <= N →
+    ∀ B : Finset Nat,
+      Erdos848OutsideSet N B →
+      NonSquarefreeProductProp B →
+      (OriginalA7 N).card <
+        B.card + (hallNonNeighbours N B).card →
+      ∀ valuation : FiveMillionValuationClass,
+      ∀ pivots : Finset Nat,
+        pivots ⊆ fiveMillionValuationPart N B valuation →
+        pivots.card = 8 →
+        (∀ x ∈ pivots, ∀ y ∈ pivots, x < y → y - x < 9210) →
+        PairTailOddValuationClass valuation →
+        (((hallResidual N B).card : Rat) +
+          globalMixedBaseFiniteThresholdPayment N pivots 95 5 +
+            globalMixedBasePairTailPayment N pivots 95 5) / N <
+            tailHallTarget N
+
+/-- The honest direct tail interface: one even terminal and one odd terminal,
+both at the unchanged five-million cut. -/
+def Erdos848GlobalMixedBranchedPairTailTerminalBound : Prop :=
+  Erdos848GlobalMixedEvenPairTailTerminalBound ∧
+    Erdos848GlobalMixedOddPairTailTerminalBound
+
 def Erdos848GlobalMixedTailClose : Prop :=
   ∀ N : Nat, 5_000_000 <= N → OriginalProblem848Statement N
 
@@ -469,12 +566,55 @@ theorem erdos848GlobalMixedTailClose_of_pairTailTerminalBound
     hNpos hBout hcompletionRatio.le
   omega
 
+/-- Direct all-tail assembly from the viable branch-aware terminal.  No
+intermediate interval premise is introduced: even valuations pay the global
+diagonal, while odd valuations retain the literal defect residual. -/
+theorem erdos848GlobalMixedTailClose_of_branchedPairTailTerminalBound
+    (hterminal : Erdos848GlobalMixedBranchedPairTailTerminalBound) :
+    Erdos848GlobalMixedTailClose := by
+  intro N hLower
+  apply originalProblem_of_hallStatement
+  intro B hBout hBprop
+  by_contra hnotHall
+  have hdefect : (OriginalA7 N).card <
+      B.card + (hallNonNeighbours N B).card := by omega
+  obtain ⟨valuation, pivots, hpivots, hpivotsCard, hspan⟩ :=
+    exists_sameValuation_eightPivotCluster_of_defect
+      hLower hBout hBprop hdefect
+  have hpivotsCompletion : pivots ⊆ hallCompletion N B := by
+    intro pivot hpivot
+    have hpivotResidual := fiveMillionValuationPart_subset_residual
+      N B valuation (hpivots hpivot)
+    exact (Finset.mem_sdiff.mp hpivotResidual).1
+  have hNpos : 0 < N := by omega
+  have hNposQ : (0 : Rat) < N := by exact_mod_cast hNpos
+  have hcompletionRatio : ((hallCompletion N B).card : Rat) / N <
+      tailHallTarget N := by
+    rcases pairTailValuation_even_or_odd valuation with heven | hodd
+    · have hpayment :=
+        hallCompletion_card_le_globalMixedDiagonalBasePairTail
+          (cutoff := 95) (k := 5) hBout hBprop hpivotsCompletion (by omega)
+      exact (div_le_div_of_nonneg_right hpayment hNposQ.le).trans_lt
+        (hterminal.1 N hLower B hBout hBprop hdefect
+          valuation pivots hpivots hpivotsCard hspan heven)
+    · have hpayment :=
+        hallCompletion_card_le_globalMixedResidualBasePairTail
+          (cutoff := 95) (k := 5) hBprop hpivotsCompletion (by omega)
+      exact (div_le_div_of_nonneg_right hpayment hNposQ.le).trans_lt
+        (hterminal.2 N hLower B hBout hBprop hdefect
+          valuation pivots hpivots hpivotsCard hspan hodd)
+  have hHall := hall_bound_of_completion_ratio_le_tailTarget
+    hNpos hBout hcompletionRatio.le
+  omega
+
 #print axioms hallCompletion_subset_globalMixedTerminalUniverse
 #print axioms hallResidual_subset_globalMixedTailDiagonalBad
 #print axioms hallCompletion_card_le_globalMixedUniversePairTail
 #print axioms hallBasePart_card_le_globalMixedBasePairTail
 #print axioms hallCompletion_card_le_globalMixedDiagonalBasePairTail
+#print axioms hallCompletion_card_le_globalMixedResidualBasePairTail
 #print axioms globalMixedEightPivotPairTailReduction_of_defect
 #print axioms erdos848GlobalMixedTailClose_of_pairTailTerminalBound
+#print axioms erdos848GlobalMixedTailClose_of_branchedPairTailTerminalBound
 
 end Erdos848

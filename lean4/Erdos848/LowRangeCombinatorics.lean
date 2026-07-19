@@ -5,6 +5,46 @@ namespace Erdos848
 
 /-! Exact set-theoretic and parity layer shared by the two low ranges. -/
 
+private lemma low_card_filter_mod_eq_le (N m r : ℕ) :
+    ((Finset.range N).filter (fun n => n ≡ r [MOD m])).card ≤
+      N / m + 1 := by
+  have h_set :
+      Finset.filter (fun n => n ≡ r [MOD m]) (Finset.range N) ⊆
+        Finset.image (fun q => q * m + (r % m))
+          (Finset.range (N / m + 1)) := by
+    intro n hn
+    simp_all +decide [Nat.ModEq]
+    exact ⟨n / m, Nat.div_le_div_right hn.1.le,
+      by linarith [Nat.mod_add_div n m]⟩
+  exact le_trans (Finset.card_le_card h_set)
+    (Finset.card_image_le.trans (by norm_num))
+
+private lemma low_card_filter_modEq_and_modEq_le
+    (N m n a b : ℕ) (hcop : Nat.Coprime m n) :
+    ((Finset.range N).filter
+      (fun x => x ≡ a [MOD m] ∧ x ≡ b [MOD n])).card ≤
+        N / (m * n) + 1 := by
+  classical
+  have hsub :
+      (Finset.range N).filter
+          (fun x => x ≡ a [MOD m] ∧ x ≡ b [MOD n]) ⊆
+        (Finset.range N).filter
+          (fun x => x ≡ Nat.chineseRemainder hcop a b [MOD m * n]) := by
+    intro x hx
+    simp [Finset.mem_filter, Finset.mem_range] at hx ⊢
+    exact ⟨hx.1,
+      Nat.chineseRemainder_modEq_unique (co := hcop) hx.2.1 hx.2.2⟩
+  have hcard :
+      ((Finset.range N).filter
+        (fun x => x ≡ a [MOD m] ∧ x ≡ b [MOD n])).card ≤
+      ((Finset.range N).filter
+        (fun x => x ≡ Nat.chineseRemainder hcop a b
+          [MOD m * n])).card :=
+    Finset.card_le_card hsub
+  exact le_trans hcard
+    (low_card_filter_mod_eq_le N (m * n)
+      (Nat.chineseRemainder hcop a b))
+
 def lowDiagonalBad (N : ℕ) : Finset ℕ :=
   (Finset.Icc 1 N \ lowBaseSet N).filter fun x =>
     ¬ Squarefree (x * x + 1)
@@ -292,7 +332,8 @@ lemma originalA7_mod4_card_le (N r : ℕ) :
   have hcard : (mod4Part (OriginalA7 N) r).card ≤ target.card :=
     Finset.card_le_card_of_injOn (fun a : ℕ => a - 1) hmap hinj
   have htarget : target.card ≤ N / 100 + 1 := by
-    exact card_filter_modEq_and_modEq_le N 25 4 6 ((r + 3) % 4) (by norm_num)
+    exact low_card_filter_modEq_and_modEq_le
+      N 25 4 6 ((r + 3) % 4) (by norm_num)
   exact le_trans hcard htarget
 
 lemma originalA18_mod4_card_le (N r : ℕ) :
@@ -331,7 +372,8 @@ lemma originalA18_mod4_card_le (N r : ℕ) :
   have hcard : (mod4Part (OriginalA18 N) r).card ≤ target.card :=
     Finset.card_le_card_of_injOn (fun a : ℕ => a - 1) hmap hinj
   have htarget : target.card ≤ N / 100 + 1 := by
-    exact card_filter_modEq_and_modEq_le N 25 4 17 ((r + 3) % 4) (by norm_num)
+    exact low_card_filter_modEq_and_modEq_le
+      N 25 4 17 ((r + 3) % 4) (by norm_num)
   exact le_trans hcard htarget
 
 theorem lowBaseMod4Part_cast_le (N r : ℕ) :

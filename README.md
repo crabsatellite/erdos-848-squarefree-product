@@ -103,12 +103,31 @@ theorem erdos848_through_five_million :
 theorem erdos848_full_of_five_million_tail
     (htail : Erdos848FiveMillionTailClose) :
     ∀ N, OriginalProblem848Statement N
+
+theorem erdos848_full_of_branchedPairTailTerminalBound
+    (hterminal : Erdos848GlobalMixedBranchedPairTailTerminalBound) :
+    ∀ N, OriginalProblem848Statement N
 ```
 
 The five-million prefix theorem is unconditional.  The direct global assembly
-has exactly one remaining premise: `Erdos848FiveMillionTailClose`.  Therefore
-this repository is not yet an unconditional full close, but neither low range
-is still open.
+is now recorded in `Erdos848/TailClose.lean` and has exactly one remaining
+bundled premise: `Erdos848GlobalMixedBranchedPairTailTerminalBound`.  Its even
+component is the literal uniform count of the off-base diagonal set, the
+cutoff-95 threshold-five finite set on the two base progressions, and its
+pair-tail set.  Its odd component replaces the global diagonal by the literal
+defect-dependent `hallResidual`; prime `2` forces a base family of density
+`1/50`, so the former one-size global-diagonal budget cannot close an odd
+valuation class.  Both components apply directly for every
+`N >= 5,000,000`; neither is a five-to-ten-million interval certificate.
+
+The reductions to those terminal counts and the two-range splice are proved.
+The terminal counts themselves are not yet proved: the present cutoff-95 Bellman
+rows check their exact rational recurrence, but do not yet supply the semantic
+upper bound for the literal finite payment; the even diagonal/pair-tail bound
+and the odd defect-residual/pair-tail bound remain to be established.
+Consequently this repository is not yet an unconditional full close.  In
+particular, endpoint calibration or a conditional assembler must not be
+reported as the theorem.
 
 ## Verification
 
