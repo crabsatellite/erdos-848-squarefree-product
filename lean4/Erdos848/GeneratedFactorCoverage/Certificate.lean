@@ -1,0 +1,191 @@
+import Erdos848.GeneratedPrattCoverage.Certificate
+import Erdos848.GeneratedFactorCoverage.Block0000
+import Erdos848.GeneratedFactorCoverage.Block0001
+import Erdos848.GeneratedFactorCoverage.Block0002
+import Erdos848.GeneratedFactorCoverage.Block0003
+import Erdos848.GeneratedFactorCoverage.Block0004
+import Erdos848.GeneratedFactorCoverage.Block0005
+import Erdos848.GeneratedFactorCoverage.Block0006
+import Erdos848.GeneratedFactorCoverage.Block0007
+import Erdos848.GeneratedFactorCoverage.Block0008
+import Erdos848.GeneratedFactorCoverage.Block0009
+import Erdos848.GeneratedFactorCoverage.Block0010
+import Erdos848.GeneratedFactorCoverage.Block0011
+import Erdos848.GeneratedFactorCoverage.Block0012
+import Erdos848.GeneratedFactorCoverage.Block0013
+import Erdos848.GeneratedFactorCoverage.Block0014
+import Erdos848.GeneratedFactorCoverage.Block0015
+import Erdos848.GeneratedFactorCoverage.Block0016
+import Erdos848.GeneratedFactorCoverage.Block0017
+import Erdos848.GeneratedFactorCoverage.Block0018
+import Erdos848.GeneratedFactorCoverage.Block0019
+import Erdos848.GeneratedFactorCoverage.Block0020
+import Erdos848.GeneratedFactorCoverage.Block0021
+import Erdos848.GeneratedFactorCoverage.Block0022
+import Erdos848.GeneratedFactorCoverage.Block0023
+import Erdos848.GeneratedFactorCoverage.Block0024
+import Erdos848.GeneratedFactorCoverage.Block0025
+import Erdos848.GeneratedFactorCoverage.Block0026
+import Erdos848.GeneratedFactorCoverage.Block0027
+import Erdos848.GeneratedFactorCoverage.Block0028
+import Erdos848.GeneratedFactorCoverage.Block0029
+import Erdos848.GeneratedFactorCoverage.Block0030
+import Erdos848.GeneratedFactorCoverage.Block0031
+import Erdos848.GeneratedFactorCoverage.Block0032
+import Erdos848.GeneratedFactorCoverage.Block0033
+import Erdos848.GeneratedFactorCoverage.Block0034
+import Erdos848.GeneratedFactorCoverage.Block0035
+import Erdos848.GeneratedFactorCoverage.Block0036
+import Erdos848.GeneratedFactorCoverage.Block0037
+import Erdos848.GeneratedFactorCoverage.Block0038
+import Erdos848.GeneratedFactorCoverage.Block0039
+import Erdos848.GeneratedFactorCoverage.Block0040
+import Erdos848.GeneratedFactorCoverage.Block0041
+import Erdos848.GeneratedFactorCoverage.Block0042
+import Erdos848.GeneratedFactorCoverage.Block0043
+import Erdos848.GeneratedFactorCoverage.Block0044
+import Erdos848.GeneratedFactorCoverage.Block0045
+import Erdos848.GeneratedFactorCoverage.Block0046
+import Erdos848.GeneratedFactorCoverage.Block0047
+import Erdos848.GeneratedFactorCoverage.Block0048
+import Erdos848.GeneratedFactorCoverage.Block0049
+import Erdos848.GeneratedFactorCoverage.Block0050
+import Erdos848.GeneratedFactorCoverage.Block0051
+import Erdos848.GeneratedFactorCoverage.Block0052
+import Erdos848.GeneratedFactorCoverage.Block0053
+import Erdos848.GeneratedFactorCoverage.Block0054
+import Erdos848.GeneratedFactorCoverage.Block0055
+import Erdos848.GeneratedFactorCoverage.Block0056
+import Erdos848.GeneratedFactorCoverage.Block0057
+import Erdos848.GeneratedFactorCoverage.Block0058
+import Erdos848.GeneratedFactorCoverage.Block0059
+import Erdos848.GeneratedFactorCoverage.Block0060
+import Erdos848.GeneratedFactorCoverage.Block0061
+import Erdos848.GeneratedFactorCoverage.Block0062
+import Erdos848.GeneratedFactorCoverage.Block0063
+import Erdos848.GeneratedFactorCoverage.Block0064
+import Erdos848.GeneratedFactorCoverage.Block0065
+import Erdos848.GeneratedFactorCoverage.Block0066
+import Erdos848.GeneratedFactorCoverage.Block0067
+import Erdos848.GeneratedFactorCoverage.Block0068
+import Erdos848.GeneratedFactorCoverage.Block0069
+import Erdos848.GeneratedFactorCoverage.Block0070
+import Erdos848.GeneratedFactorCoverage.Block0071
+import Erdos848.GeneratedFactorCoverage.Block0072
+import Erdos848.GeneratedFactorCoverage.Block0073
+import Erdos848.GeneratedFactorCoverage.Block0074
+import Erdos848.GeneratedFactorCoverage.Block0075
+import Erdos848.GeneratedFactorCoverage.Block0076
+import Erdos848.GeneratedFactorCoverage.Block0077
+import Erdos848.GeneratedFactorCoverage.Block0078
+import Erdos848.GeneratedFactorCoverage.Block0079
+import Erdos848.GeneratedFactorCoverage.Block0080
+import Erdos848.GeneratedFactorCoverage.Block0081
+import Erdos848.GeneratedFactorCoverage.Block0082
+import Erdos848.GeneratedFactorCoverage.Block0083
+import Erdos848.GeneratedFactorCoverage.Block0084
+import Erdos848.GeneratedFactorCoverage.Block0085
+import Erdos848.GeneratedFactorCoverage.Block0086
+import Erdos848.GeneratedFactorCoverage.Block0087
+import Erdos848.GeneratedFactorCoverage.Block0088
+import Erdos848.GeneratedFactorCoverage.Block0089
+import Erdos848.GeneratedFactorCoverage.Block0090
+import Erdos848.GeneratedFactorCoverage.Block0091
+import Erdos848.GeneratedFactorCoverage.Block0092
+import Erdos848.GeneratedFactorCoverage.Block0093
+import Erdos848.GeneratedFactorCoverage.Block0094
+import Erdos848.GeneratedFactorCoverage.Block0095
+import Erdos848.GeneratedFactorCoverage.Block0096
+import Erdos848.GeneratedFactorCoverage.Block0097
+import Erdos848.GeneratedFactorCoverage.Block0098
+import Erdos848.GeneratedFactorCoverage.Block0099
+import Erdos848.GeneratedFactorCoverage.Block0100
+import Erdos848.GeneratedFactorCoverage.Block0101
+import Erdos848.GeneratedFactorCoverage.Block0102
+import Erdos848.GeneratedFactorCoverage.Block0103
+import Erdos848.GeneratedFactorCoverage.Block0104
+import Erdos848.GeneratedFactorCoverage.Block0105
+import Erdos848.GeneratedFactorCoverage.Block0106
+import Erdos848.GeneratedFactorCoverage.Block0107
+import Erdos848.GeneratedFactorCoverage.Block0108
+import Erdos848.GeneratedFactorCoverage.Block0109
+import Erdos848.GeneratedFactorCoverage.Block0110
+import Erdos848.GeneratedFactorCoverage.Block0111
+import Erdos848.GeneratedFactorCoverage.Block0112
+import Erdos848.GeneratedFactorCoverage.Block0113
+import Erdos848.GeneratedFactorCoverage.Block0114
+import Erdos848.GeneratedFactorCoverage.Block0115
+import Erdos848.GeneratedFactorCoverage.Block0116
+import Erdos848.GeneratedFactorCoverage.Block0117
+import Erdos848.GeneratedFactorCoverage.Block0118
+import Erdos848.GeneratedFactorCoverage.Block0119
+import Erdos848.GeneratedFactorCoverage.Block0120
+import Erdos848.GeneratedFactorCoverage.Block0121
+import Erdos848.GeneratedFactorCoverage.Block0122
+import Erdos848.GeneratedFactorCoverage.Block0123
+import Erdos848.GeneratedFactorCoverage.Block0124
+import Erdos848.GeneratedFactorCoverage.Block0125
+import Erdos848.GeneratedFactorCoverage.Block0126
+import Erdos848.GeneratedFactorCoverage.Block0127
+import Erdos848.GeneratedFactorCoverage.Block0128
+import Erdos848.GeneratedFactorCoverage.Block0129
+import Erdos848.GeneratedFactorCoverage.Block0130
+import Erdos848.GeneratedFactorCoverage.Block0131
+import Erdos848.GeneratedFactorCoverage.Block0132
+import Erdos848.GeneratedFactorCoverage.Block0133
+import Erdos848.GeneratedFactorCoverage.Block0134
+import Erdos848.GeneratedFactorCoverage.Block0135
+import Erdos848.GeneratedFactorCoverage.Block0136
+import Erdos848.GeneratedFactorCoverage.Block0137
+import Erdos848.GeneratedFactorCoverage.Block0138
+import Erdos848.GeneratedFactorCoverage.Block0139
+import Erdos848.GeneratedFactorCoverage.Block0140
+import Erdos848.GeneratedFactorCoverage.Block0141
+import Erdos848.GeneratedFactorCoverage.Block0142
+import Erdos848.GeneratedFactorCoverage.Block0143
+import Erdos848.GeneratedFactorCoverage.Block0144
+import Erdos848.GeneratedFactorCoverage.Block0145
+import Erdos848.GeneratedFactorCoverage.Block0146
+import Erdos848.GeneratedFactorCoverage.Block0147
+import Erdos848.GeneratedFactorCoverage.Block0148
+import Erdos848.GeneratedFactorCoverage.Block0149
+import Erdos848.GeneratedFactorCoverage.Block0150
+import Erdos848.GeneratedFactorCoverage.Block0151
+import Erdos848.GeneratedFactorCoverage.Block0152
+import Erdos848.GeneratedFactorCoverage.Block0153
+import Erdos848.GeneratedFactorCoverage.Block0154
+import Erdos848.GeneratedFactorCoverage.Block0155
+import Erdos848.GeneratedFactorCoverage.Block0156
+import Erdos848.GeneratedFactorCoverage.Block0157
+import Erdos848.GeneratedFactorCoverage.Block0158
+import Erdos848.GeneratedFactorCoverage.Block0159
+import Erdos848.GeneratedFactorCoverage.Block0160
+import Erdos848.GeneratedFactorCoverage.Block0161
+import Erdos848.GeneratedFactorCoverage.Block0162
+import Erdos848.GeneratedFactorCoverage.Block0163
+import Erdos848.GeneratedFactorCoverage.Block0164
+import Erdos848.GeneratedFactorCoverage.Block0165
+import Erdos848.GeneratedFactorCoverage.Block0166
+import Erdos848.GeneratedFactorCoverage.Block0167
+
+namespace Erdos848.GeneratedFactorCoverage
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+theorem factorForestValid :
+    factorForest.Valid Erdos848.GeneratedPrattCoverage.table :=
+  ⟨⟨⟨⟨⟨⟨⟨factorBlock0000, factorBlock0001⟩, ⟨factorBlock0002, ⟨factorBlock0003, factorBlock0004⟩⟩⟩, ⟨⟨factorBlock0005, factorBlock0006⟩, ⟨factorBlock0007, ⟨factorBlock0008, factorBlock0009⟩⟩⟩⟩, ⟨⟨⟨factorBlock0010, factorBlock0011⟩, ⟨factorBlock0012, ⟨factorBlock0013, factorBlock0014⟩⟩⟩, ⟨⟨factorBlock0015, ⟨factorBlock0016, factorBlock0017⟩⟩, ⟨factorBlock0018, ⟨factorBlock0019, factorBlock0020⟩⟩⟩⟩⟩, ⟨⟨⟨⟨factorBlock0021, factorBlock0022⟩, ⟨factorBlock0023, ⟨factorBlock0024, factorBlock0025⟩⟩⟩, ⟨⟨factorBlock0026, factorBlock0027⟩, ⟨factorBlock0028, ⟨factorBlock0029, factorBlock0030⟩⟩⟩⟩, ⟨⟨⟨factorBlock0031, factorBlock0032⟩, ⟨factorBlock0033, ⟨factorBlock0034, factorBlock0035⟩⟩⟩, ⟨⟨factorBlock0036, ⟨factorBlock0037, factorBlock0038⟩⟩, ⟨factorBlock0039, ⟨factorBlock0040, factorBlock0041⟩⟩⟩⟩⟩⟩, ⟨⟨⟨⟨⟨factorBlock0042, factorBlock0043⟩, ⟨factorBlock0044, ⟨factorBlock0045, factorBlock0046⟩⟩⟩, ⟨⟨factorBlock0047, factorBlock0048⟩, ⟨factorBlock0049, ⟨factorBlock0050, factorBlock0051⟩⟩⟩⟩, ⟨⟨⟨factorBlock0052, factorBlock0053⟩, ⟨factorBlock0054, ⟨factorBlock0055, factorBlock0056⟩⟩⟩, ⟨⟨factorBlock0057, ⟨factorBlock0058, factorBlock0059⟩⟩, ⟨factorBlock0060, ⟨factorBlock0061, factorBlock0062⟩⟩⟩⟩⟩, ⟨⟨⟨⟨factorBlock0063, factorBlock0064⟩, ⟨factorBlock0065, ⟨factorBlock0066, factorBlock0067⟩⟩⟩, ⟨⟨factorBlock0068, factorBlock0069⟩, ⟨factorBlock0070, ⟨factorBlock0071, factorBlock0072⟩⟩⟩⟩, ⟨⟨⟨factorBlock0073, factorBlock0074⟩, ⟨factorBlock0075, ⟨factorBlock0076, factorBlock0077⟩⟩⟩, ⟨⟨factorBlock0078, ⟨factorBlock0079, factorBlock0080⟩⟩, ⟨factorBlock0081, ⟨factorBlock0082, factorBlock0083⟩⟩⟩⟩⟩⟩⟩, ⟨⟨⟨⟨⟨⟨factorBlock0084, factorBlock0085⟩, ⟨factorBlock0086, ⟨factorBlock0087, factorBlock0088⟩⟩⟩, ⟨⟨factorBlock0089, factorBlock0090⟩, ⟨factorBlock0091, ⟨factorBlock0092, factorBlock0093⟩⟩⟩⟩, ⟨⟨⟨factorBlock0094, factorBlock0095⟩, ⟨factorBlock0096, ⟨factorBlock0097, factorBlock0098⟩⟩⟩, ⟨⟨factorBlock0099, ⟨factorBlock0100, factorBlock0101⟩⟩, ⟨factorBlock0102, ⟨factorBlock0103, factorBlock0104⟩⟩⟩⟩⟩, ⟨⟨⟨⟨factorBlock0105, factorBlock0106⟩, ⟨factorBlock0107, ⟨factorBlock0108, factorBlock0109⟩⟩⟩, ⟨⟨factorBlock0110, factorBlock0111⟩, ⟨factorBlock0112, ⟨factorBlock0113, factorBlock0114⟩⟩⟩⟩, ⟨⟨⟨factorBlock0115, factorBlock0116⟩, ⟨factorBlock0117, ⟨factorBlock0118, factorBlock0119⟩⟩⟩, ⟨⟨factorBlock0120, ⟨factorBlock0121, factorBlock0122⟩⟩, ⟨factorBlock0123, ⟨factorBlock0124, factorBlock0125⟩⟩⟩⟩⟩⟩, ⟨⟨⟨⟨⟨factorBlock0126, factorBlock0127⟩, ⟨factorBlock0128, ⟨factorBlock0129, factorBlock0130⟩⟩⟩, ⟨⟨factorBlock0131, factorBlock0132⟩, ⟨factorBlock0133, ⟨factorBlock0134, factorBlock0135⟩⟩⟩⟩, ⟨⟨⟨factorBlock0136, factorBlock0137⟩, ⟨factorBlock0138, ⟨factorBlock0139, factorBlock0140⟩⟩⟩, ⟨⟨factorBlock0141, ⟨factorBlock0142, factorBlock0143⟩⟩, ⟨factorBlock0144, ⟨factorBlock0145, factorBlock0146⟩⟩⟩⟩⟩, ⟨⟨⟨⟨factorBlock0147, factorBlock0148⟩, ⟨factorBlock0149, ⟨factorBlock0150, factorBlock0151⟩⟩⟩, ⟨⟨factorBlock0152, factorBlock0153⟩, ⟨factorBlock0154, ⟨factorBlock0155, factorBlock0156⟩⟩⟩⟩, ⟨⟨⟨factorBlock0157, factorBlock0158⟩, ⟨factorBlock0159, ⟨factorBlock0160, factorBlock0161⟩⟩⟩, ⟨⟨factorBlock0162, ⟨factorBlock0163, factorBlock0164⟩⟩, ⟨factorBlock0165, ⟨factorBlock0166, factorBlock0167⟩⟩⟩⟩⟩⟩⟩⟩
+
+theorem squarefree_of_find {n : ℕ} {data : Erdos848.SquarefreeFactorData}
+    (hfind : factorForest.find n = some data)
+    (hvalue : data.value = n) : Squarefree n := by
+  subst n
+  exact (data.certificate
+    Erdos848.GeneratedPrattCoverage.table Erdos848.GeneratedPrattCoverage.table_valid
+    (Erdos848.SquarefreeFactorForest.valid_of_find
+      factorForestValid hfind)).squarefree
+
+#print axioms squarefree_of_find
+
+end Erdos848.GeneratedFactorCoverage

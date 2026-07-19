@@ -1,0 +1,34 @@
+import Erdos848.TailPrimeRankBoundaryChecker
+import Erdos848.GeneratedTailRootJumpCoverage.BeforeGroup0000
+import Erdos848.GeneratedTailRootJumpCoverage.BeforeGroup0001
+import Erdos848.GeneratedTailRootJumpCoverage.BeforeGroup0002
+import Erdos848.GeneratedTailRootJumpCoverage.BeforeGroup0003
+import Erdos848.GeneratedTailRootJumpCoverage.BeforeGroup0004
+import Erdos848.GeneratedTailRootJumpCoverage.BeforeGroup0005
+import Erdos848.GeneratedTailRootJumpCoverage.BeforeGroup0006
+import Erdos848.GeneratedTailRootJumpCoverage.JumpGroup0000
+import Erdos848.GeneratedTailRootJumpCoverage.JumpGroup0001
+import Erdos848.GeneratedTailPrimeIntervalCoverage.Block0065
+import Erdos848.GeneratedTailPrimeIntervalCoverage.Block0066
+import Erdos848.GeneratedTailPrimeIntervalCoverage.Block0067
+import Erdos848.GeneratedTailPrimeIntervalCoverage.Block0068
+import Erdos848.GeneratedTailPrimeIntervalCoverage.Block0069
+import Erdos848.GeneratedTailPrimeIntervalCoverage.Block0070
+import Erdos848.GeneratedTailPrimeIntervalCoverage.Block0071
+
+namespace Erdos848.GeneratedTailRootJumpCoverage
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+def jumpBlockBoundaryTree0072 : Erdos848.PrimeIntervalProofTree
+    2 147456 13632 :=
+  (.node (.node (.node (.node Erdos848.GeneratedTailRootJumpCoverage.beforeGroup0000 Erdos848.GeneratedTailRootJumpCoverage.beforeGroup0001) (.node Erdos848.GeneratedTailRootJumpCoverage.beforeGroup0002 Erdos848.GeneratedTailRootJumpCoverage.beforeGroup0003)) (.node (.node Erdos848.GeneratedTailRootJumpCoverage.beforeGroup0004 Erdos848.GeneratedTailRootJumpCoverage.beforeGroup0005) (.node Erdos848.GeneratedTailRootJumpCoverage.beforeGroup0006 Erdos848.GeneratedTailRootJumpCoverage.jumpGroup0000))) (.node (.node (.node Erdos848.GeneratedTailRootJumpCoverage.jumpGroup0001 Erdos848.GeneratedTailPrimeIntervalCoverage.blockTree0065) (.node Erdos848.GeneratedTailPrimeIntervalCoverage.blockTree0066 Erdos848.GeneratedTailPrimeIntervalCoverage.blockTree0067)) (.node (.node Erdos848.GeneratedTailPrimeIntervalCoverage.blockTree0068 Erdos848.GeneratedTailPrimeIntervalCoverage.blockTree0069) (.node Erdos848.GeneratedTailPrimeIntervalCoverage.blockTree0070 Erdos848.GeneratedTailPrimeIntervalCoverage.blockTree0071))))
+
+theorem primeCounting_blockBoundary0072 :
+    Nat.primeCounting 147457 = 13632 := by
+  exact jumpBlockBoundaryTree0072.primeCounting_eq (by decide)
+
+#print axioms primeCounting_blockBoundary0072
+
+end Erdos848.GeneratedTailRootJumpCoverage

@@ -1,0 +1,66 @@
+import Erdos848.GeneratedTailGlobalMixedSupportCoverage.MaskData
+
+namespace Erdos848.GeneratedTailGlobalMixedSupportCoverage
+
+set_option maxHeartbeats 0
+set_option maxRecDepth 1000000
+
+theorem normalQrMaskWords_eq_group0023
+    {p : ℕ} (hlower : 2531 < p) (hupper : p ≤ 2663) :
+    normalQrMaskWords p = normalQrMaskWords0023 p := by
+  have h0 : ¬ p ≤ 61 := by omega
+  have h1 : ¬ p ≤ 139 := by omega
+  have h2 : ¬ p ≤ 229 := by omega
+  have h3 : ¬ p ≤ 317 := by omega
+  have h4 : ¬ p ≤ 421 := by omega
+  have h5 : ¬ p ≤ 521 := by omega
+  have h6 : ¬ p ≤ 619 := by omega
+  have h7 : ¬ p ≤ 733 := by omega
+  have h8 : ¬ p ≤ 839 := by omega
+  have h9 : ¬ p ≤ 953 := by omega
+  have h10 : ¬ p ≤ 1061 := by omega
+  have h11 : ¬ p ≤ 1181 := by omega
+  have h12 : ¬ p ≤ 1291 := by omega
+  have h13 : ¬ p ≤ 1429 := by omega
+  have h14 : ¬ p ≤ 1531 := by omega
+  have h15 : ¬ p ≤ 1627 := by omega
+  have h16 : ¬ p ≤ 1759 := by omega
+  have h17 : ¬ p ≤ 1889 := by omega
+  have h18 : ¬ p ≤ 2017 := by omega
+  have h19 : ¬ p ≤ 2137 := by omega
+  have h20 : ¬ p ≤ 2273 := by omega
+  have h21 : ¬ p ≤ 2383 := by omega
+  have h22 : ¬ p ≤ 2531 := by omega
+  simp [normalQrMaskWords, h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14, h15, h16, h17, h18, h19, h20, h21, h22, hupper]
+
+theorem twistQrMaskWords_eq_group0023
+    {p : ℕ} (hlower : 2531 < p) (hupper : p ≤ 2663) :
+    twistQrMaskWords p = twistQrMaskWords0023 p := by
+  have h0 : ¬ p ≤ 61 := by omega
+  have h1 : ¬ p ≤ 139 := by omega
+  have h2 : ¬ p ≤ 229 := by omega
+  have h3 : ¬ p ≤ 317 := by omega
+  have h4 : ¬ p ≤ 421 := by omega
+  have h5 : ¬ p ≤ 521 := by omega
+  have h6 : ¬ p ≤ 619 := by omega
+  have h7 : ¬ p ≤ 733 := by omega
+  have h8 : ¬ p ≤ 839 := by omega
+  have h9 : ¬ p ≤ 953 := by omega
+  have h10 : ¬ p ≤ 1061 := by omega
+  have h11 : ¬ p ≤ 1181 := by omega
+  have h12 : ¬ p ≤ 1291 := by omega
+  have h13 : ¬ p ≤ 1429 := by omega
+  have h14 : ¬ p ≤ 1531 := by omega
+  have h15 : ¬ p ≤ 1627 := by omega
+  have h16 : ¬ p ≤ 1759 := by omega
+  have h17 : ¬ p ≤ 1889 := by omega
+  have h18 : ¬ p ≤ 2017 := by omega
+  have h19 : ¬ p ≤ 2137 := by omega
+  have h20 : ¬ p ≤ 2273 := by omega
+  have h21 : ¬ p ≤ 2383 := by omega
+  have h22 : ¬ p ≤ 2531 := by omega
+  simp [twistQrMaskWords, h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14, h15, h16, h17, h18, h19, h20, h21, h22, hupper]
+
+#print axioms twistQrMaskWords_eq_group0023
+
+end Erdos848.GeneratedTailGlobalMixedSupportCoverage

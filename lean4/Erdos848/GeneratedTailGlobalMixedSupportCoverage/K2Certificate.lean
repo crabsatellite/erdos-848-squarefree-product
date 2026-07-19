@@ -1,0 +1,9 @@
+import Erdos848.GeneratedTailGlobalMixedSupportCoverage.K2PrefixGroup0000
+import Erdos848.GeneratedTailGlobalMixedSupportCoverage.K2PrefixGroup0001
+import Erdos848.GeneratedTailGlobalMixedSupportCoverage.K2PrefixGroup0002
+
+namespace Erdos848.GeneratedTailGlobalMixedSupportCoverage
+
+#print axioms k2PrefixGroup0002_passes
+
+end Erdos848.GeneratedTailGlobalMixedSupportCoverage

@@ -1,0 +1,396 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{tabularx,array}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\geometry{margin=2.7cm}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!55!black,
+  citecolor=green!40!black,
+  urlcolor=blue!60!black,
+  pdftitle={A Kernel-Checked Asymptotic Formalization for Erdos Problem 848},
+  pdfauthor={Alex Chengyu Li}
+}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\NN}{\mathbb N}
+\newcommand{\CN}[2]{C_{#1}(#2)}
+\newcommand{\leanname}[1]{\nolinkurl{#1}}
+\emergencystretch=2em
+
+\title{\textbf{A Kernel-Checked Asymptotic Formalization\\
+for Erd\H{o}s Problem 848}}
+\author{Alex Chengyu Li\\[3pt]
+\small Independent Researcher, Tokyo, Japan}
+\date{July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+For $N\geq1$, let $A\subseteq\{1,\ldots,N\}$ and suppose that $ab+1$
+is not squarefree for every $a,b\in A$.  Sawhney proved that, for all
+sufficiently large $N$, the largest possible cardinality of $A$ is the
+number of integers congruent to $7$ modulo $25$.  We give a Lean~4
+formalization of this asymptotic theorem and a short paper-to-kernel map.
+The literal interval statement is obtained from the formalization's
+zero-based range convention by a kernel-checked indexing lemma.  We also
+  kernel-check two exact small instances, the exact online-colouring trace
+  through $N=5{,}000{,}000$, and the precise finite-reduction statement.
+
+This note does not claim a complete all-$N$ resolution of Erd\H{o}s
+Problem~848; the remaining tail $N\geq5{,}000{,}000$ is not yet closed.
+Every
+numbered mathematical result asserted here is mapped to a declaration whose
+Lean axiom audit contains only \texttt{propext},
+\texttt{Classical.choice}, and \texttt{Quot.sound}.
+\end{abstract}
+
+\section{The problem and the sharp constructions}
+
+An integer is squarefree when no prime square divides it.  Write
+\[
+ [N]=\{1,\ldots,N\},\qquad
+ \CN rN=\{n\in[N]:n\equiv r\pmod {25}\}.
+\]
+
+\begin{definition}\label{def:admissible}
+A finite set $A\subseteq[N]$ is \emph{848-admissible} if
+\[
+  ab+1\ \text{is not squarefree for every }a,b\in A.
+\]
+Let $P(N)$ denote the statement that every 848-admissible
+$A\subseteq[N]$ satisfies $|A|\leq|\CN 7N|$.
+\end{definition}
+
+In Lean these are \leanname{NonSquarefreeProductProp} and
+\leanname{OriginalProblem848Statement}.  Repeated elements are allowed in
+the quantified pair, so the diagonal condition $a^2+1$ is part of the
+hypothesis.
+
+\begin{proposition}\label{prop:base-constructions}
+Both $\CN 7N$ and $\CN {18}N$ are 848-admissible.  Moreover
+$|\CN {18}N|\leq|\CN 7N|$.
+\end{proposition}
+
+\begin{proof}
+If $a,b$ lie in the same one of the two displayed classes, then
+\[
+ ab+1\equiv7^2+1\equiv18^2+1\equiv0\pmod {25}.
+\]
+Thus $5^2\mid ab+1$.  The cardinality comparison is the elementary count of
+the two residue classes in $[N]$.  The formal construction theorems are
+\leanname{A7_has_property_public} and
+\leanname{A18_has_property_public}; the exact range counts are
+\leanname{A7_card_public}, \leanname{A18_card_public}, and
+\leanname{A18_card_le_A7_public}.
+\end{proof}
+
+The lower bound $|A|\geq|\CN 7N|$ is therefore immediate.  The content of the
+problem is the matching upper bound.
+
+\section{The stability theorem}
+
+The formalization follows Sawhney's stability route~\cite{Sawhney848}.
+It first uses the diagonal condition to constrain each element, then uses
+off-diagonal products to rule out a dense mixture of incompatible residue
+patterns.
+
+For compatibility with Mathlib, the large source file initially works in
+\texttt{Finset.range N}, namely $\{0,\ldots,N-1\}$.  Put
+\[
+ A_7(N)=\{n<N:n\equiv7\pmod {25}\},\qquad
+ A_{18}(N)=\{n<N:n\equiv18\pmod {25}\}.
+\]
+
+\begin{theorem}[Formalized stability theorem]\label{thm:stability}
+There exist $\eta>0$ and $N_0\in\NN$ such that $\eta<1/25$ and, for every
+$N\geq N_0$, every 848-admissible $A\subseteq\{0,\ldots,N-1\}$ satisfying
+\[
+ |A|\geq(1/25-\eta)N
+\]
+is contained in either $A_7(N)$ or $A_{18}(N)$.
+\end{theorem}
+
+\begin{proof}
+This is the proposition \leanname{SawhneyMainAt}, instantiated by the
+kernel-checked theorem \leanname{sawhney_main}.  The formal proof chooses
+$\eta=1/2000$ and a non-explicit threshold large enough for its prime-counting
+error.  Its main ingredients are as follows.
+
+First, if $p^2\mid a^2+1$, then $p\equiv1\pmod4$, and the congruence has two
+roots modulo $p^2$.  This supplies the diagonal sieve.  Second, mixed
+$7$- and $18$-classes force a prime-square witness other than $5^2$ in their
+cross-products.  Counts in fixed classes modulo $25p^2$, $50p^2$, and
+$100p^2$ give the off-diagonal sieve.  Third, the proof evaluates the finite
+reciprocal-square contribution through the fixed cutoff $2000$ and bounds
+the remaining tail.  A prime-counting $o(N)$ estimate absorbs the additive
+errors after increasing $N_0$.  Finally, an exhaustive parity and residue
+case split shows that any set above the stated density threshold is contained
+in one of the two base classes.
+
+These steps are declarations in \texttt{Asymptotic.lean}; no numerical
+output is imported as an axiom or trusted certificate.
+\end{proof}
+
+\section{The asymptotic endpoint}
+
+\begin{theorem}[Range-indexed endpoint]\label{thm:range-asymptotic}
+There exists $N_0$ such that, for every $N\geq N_0$ and every
+848-admissible $A\subseteq\{0,\ldots,N-1\}$,
+\[
+ |A|\leq|A_7(N)|.
+\]
+\end{theorem}
+
+\begin{proof}
+Suppose $|A|>|A_7(N)|$.  The exact residue-class count implies
+$|A|\geq(1/25-\eta)N$.  Theorem~\ref{thm:stability} then puts $A$ inside
+$A_7(N)$ or $A_{18}(N)$.  In the first case cardinality is immediate; in the
+second it follows from $|A_{18}(N)|\leq|A_7(N)|$.  In Lean this deduction is
+\leanname{problem_848_large_of_sawhney}, and the unconditional existential
+endpoint is \leanname{problem_848_asymptotic}.  The fixed-$N$ proposition is
+\leanname{Problem848Statement}.
+\end{proof}
+
+The zero-based convention must be bridged explicitly rather than dismissed
+as asymptotically harmless.
+
+\begin{lemma}[Index bridge]\label{lem:index-bridge}
+For every $N$,
+\[
+ \CN 7N=A_7(N+1).
+\]
+Consequently the range-indexed statement at $N+1$ implies $P(N)$.
+\end{lemma}
+
+\begin{proof}
+The two sets have the same upper bound.  Their only possible difference is
+$0$, which is not congruent to $7$ modulo $25$.  The corresponding Lean
+declarations are \leanname{originalA7_eq_range} and
+\leanname{original_of_range_succ}.
+\end{proof}
+
+\begin{theorem}[Literal asymptotic endpoint]\label{thm:original-asymptotic}
+There exists $N_0$ such that $P(N)$ holds for every $N\geq N_0$.
+Equivalently, for all sufficiently large $N$, the exact maximum is
+$|\CN 7N|$.
+\end{theorem}
+
+\begin{proof}
+Apply Theorem~\ref{thm:range-asymptotic} at $N+1$ and then
+Lemma~\ref{lem:index-bridge}.  The construction in
+Proposition~\ref{prop:base-constructions} supplies equality.  This is
+\leanname{erdos848_original_asymptotic}.
+\end{proof}
+
+\section{Finite reduction and the certified prefix}
+
+The formal source also contains direct finite checks at range sizes $50$ and
+$100$.  After applying the index bridge, they become the following literal
+instances.
+
+\begin{proposition}\label{prop:small-instances}
+The statements $P(49)$ and $P(99)$ hold.
+\end{proposition}
+
+\begin{proof}
+The kernel-checked declarations are \leanname{erdos848_original_N49} and
+\leanname{erdos848_original_N99}.  Their upstream range-indexed proofs reduce
+the diagonal candidates to explicit finite sets and exclude oversized
+admissible subsets by \texttt{decide}; they do not use
+\texttt{native\_decide}.
+\end{proof}
+
+\begin{corollary}[Exact finite reduction]\label{cor:finite-reduction}
+There exists an integer $N_0$ such that $P(N)$ holds for every $N\geq N_0$
+and
+\[
+  \bigl(\forall N,\ P(N)\bigr)
+  \quad\Longleftrightarrow\quad
+  \bigl(\forall N<N_0,\ P(N)\bigr).
+\]
+\end{corollary}
+
+\begin{proof}
+Choose $N_0$ from Theorem~\ref{thm:original-asymptotic}.  The forward
+direction is restriction.  Conversely, use the assumed finite prefix below
+$N_0$ and the asymptotic theorem at or above $N_0$.  The Lean declaration is
+\leanname{erdos848_finite_reduction}.
+\end{proof}
+
+\begin{proposition}[Online-colouring soundness]
+\label{prop:prefix-colouring-soundness}
+Fix $N$.  Suppose that every $x\in[N]$ for which $x^2+1$ is nonsquarefree is
+assigned a colour $c_N(x)\in\CN 7N$, and suppose that distinct diagonal
+candidates of the same colour satisfy that $xy+1$ is squarefree.  Then $P(N)$
+holds.  Consequently, a certificate providing such a colouring separately at
+every prefix through $L$ proves $P(N)$ for every $1\leq N\leq L$.
+\end{proposition}
+
+\begin{proof}
+Restrict $c_N$ to an 848-admissible set $A$.  Two distinct members of $A$
+cannot have the same colour, since their cross-product plus one is required to
+be nonsquarefree.  Thus $c_N|_A$ is an injection into $\CN 7N$.  The Lean
+interface is \leanname{PrefixColouringState}; its soundness declarations are
+\leanname{originalProblem_of_prefixColouringState} and
+\leanname{originalProblem_prefix_of_colouringCertificate}.
+\end{proof}
+
+\begin{theorem}[Kernel-checked prefix]
+\label{thm:prefix-close}
+The statement $P(N)$ holds for every $N\leq5{,}000{,}000$.
+\end{theorem}
+
+\begin{proof}
+The official payload records $525{,}808$ diagonal vertices: $200{,}000$
+residue-$7$ anchors, $200{,}000$ residue-$18$ candidates, and $125{,}808$
+outside-base candidates.  It records the interval history of every anchor and
+a covering reverse-assignment history for every non-anchor candidate.  Each
+assignment identifies one of the three occupant roles at an anchor.  The
+checker verifies that the histories cover every prefix, that equal-colour
+distinct occupants have a squarefree cross-product plus one, and that every
+nonsquarefree diagonal candidate occurs in the indexed sequence.  Primality
+and squarefreeness facts are discharged by the split five-million Pratt and
+factor certificates.  Applying
+Proposition~\ref{prop:prefix-colouring-soundness} yields the Lean theorem
+\leanname{erdos848_through_five_million}.  The older range endpoints
+\leanname{erdos848_prefix_close}, \leanname{erdos848_first_low_close}, and
+\leanname{erdos848_second_low_close} are direct projections of this single
+certificate, not additional assumptions.
+\end{proof}
+
+\begin{proposition}[Exact remaining-tail assembly]
+\label{prop:five-million-tail-assembly}
+Suppose $P(N)$ is proved for every $N\geq5{,}000{,}000$.  Then $P(N)$ holds
+for every $N$.
+\end{proposition}
+
+\begin{proof}
+Use Theorem~\ref{thm:prefix-close} below the cut and the assumed tail theorem
+at or above it.  Lean checks this literal assembly as
+\leanname{erdos848_full_of_five_million_tail}.  This proposition does not
+assert the tail premise; it isolates the only remaining all-$N$ obligation.
+\end{proof}
+
+Corollary~\ref{cor:finite-reduction} is a logical reduction, not by itself a
+completed finite computation.  The threshold produced inside the formal proof is
+non-explicit because it is chosen after an eventual prime-counting bound.
+The current public problem record accordingly describes Problem~848 as
+``resolved up to a finite check''~\cite{Erdos848Page}.  The explicit range
+through five million is now certified by Theorem~\ref{thm:prefix-close}.
+No unchecked exploratory finite-search output is used by any theorem in this
+repository.
+
+The earlier diagonal and Hall reductions are retained as independently
+auditable structural layers.  In particular, the generated diagonal
+certificate proves that every outside-base $x\leq5{,}000{,}000$ with
+nonsquarefree $x^2+1$ occurs in an exact sorted marker, checks its odd and two
+odd mod-$4$ projections, and proves the rational count envelopes consumed by
+the Hall argument.  The kernel endpoints include
+\begin{center}
+\footnotesize
+\leanname{GeneratedLowDiagonalCoverage.certificateContainsOfNotSquarefree}\\[-2pt]
+\leanname{GeneratedLowDiagonalCoverage.firstLowDiagonalBounds}\\[-2pt]
+\leanname{GeneratedLowDiagonalCoverage.secondLowDiagonalBounds}
+\end{center}
+These layers are no longer open premises for the published finite range: the
+single exact trace certificate proves the complete statement through five
+million directly.
+
+\begin{remark}[Boundary of the earlier all-$N$ claim]
+An earlier exploratory draft assembled an all-$N$ claim from an online finite
+colouring and several analytic block programs.  The complete online colouring
+through $5{,}000{,}000$ has now been lifted to the kernel-checked payload used
+in Theorem~\ref{thm:prefix-close}.  The final
+$N\geq5{,}000{,}000$ argument remains a separate obligation.  No earlier
+program output is treated as a proof of that remaining statement.
+\end{remark}
+
+\section{Paper-to-kernel map and audit boundary}
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.28\textwidth}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{0.12\textwidth}@{}}
+\toprule
+Paper label & Lean declaration(s) & Role \\
+\midrule
+\texttt{def:admissible} & \leanname{OriginalProblem848Statement} & literal statement \\
+\texttt{prop:base-constructions} & \leanname{A7_has_property_public}, \leanname{A18_has_property_public} & lower bound \\
+\texttt{thm:stability} & \leanname{sawhney_main} & structural theorem \\
+\texttt{thm:range-asymptotic} & \leanname{problem_848_asymptotic} & range endpoint \\
+\texttt{lem:index-bridge} & \leanname{original_of_range_succ} & indexing \\
+\texttt{thm:original-asymptotic} & \leanname{erdos848_original_asymptotic} & main result \\
+\texttt{prop:small-instances} & \leanname{erdos848_original_N49}, \leanname{erdos848_original_N99} & exact checks \\
+\texttt{cor:finite-reduction} & \leanname{erdos848_finite_reduction} & remaining boundary \\
+Proposition~\ref{prop:prefix-colouring-soundness} & \leanname{originalProblem_of_prefixColouringState} & certificate interface \\
+\texttt{thm:prefix-close} & \leanname{erdos848_through_five_million} & exact prefix \\
+Proposition~\ref{prop:five-million-tail-assembly} & \leanname{erdos848_full_of_five_million_tail} & exact assembly \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The machine-readable version of this table is
+\texttt{paper/theorem-map.json}.  Its checker requires each label to occur in
+the manuscript, each declaration to occur in the publication Lean closure,
+and each declaration to be named by a \texttt{\#check} command.  A separate
+\texttt{--trust=0} file prints the axioms of the publication endpoints.  The
+exact output for each is
+\[
+ [\texttt{propext},\ \texttt{Classical.choice},\ \texttt{Quot.sound}],
+\]
+the standard classical and quotient dependencies used through Mathlib.
+
+The principal formal source was developed by Raymond Jung and contributors
+and released under Apache~2.0~\cite{Jung848}.  This repository preserves the
+source file and its contributor header, pins its SHA-256, and adds only the
+literal-interval bridge and publication audit surface.  The author used
+OpenAI Codex to reorganize the public package, draft the bridge declarations
+and verification scripts, execute the builds and audits, and edit this note.
+All numbered claims remain subject to the Lean kernel checks described above.
+
+\section{Conclusion}
+
+The public mathematical closure established here consists of the asymptotic
+theorem and the exact range $N\leq5{,}000{,}000$.  The conjectured
+$7\pmod {25}$ cardinality is therefore kernel-checked on that prefix and for
+every sufficiently large $N$.  A complete all-$N$ solution still requires a
+kernel proof of the final tail in
+Proposition~\ref{prop:five-million-tail-assembly}; until that premise is supplied,
+this work should not be reported as a full resolution of Erd\H{o}s Problem~848.
+
+\begin{thebibliography}{9}
+
+\bibitem{Sawhney848}
+M.~Sawhney,
+\emph{On $A\subseteq[N]$ such that $ab+1$ is never squarefree for
+$a,b\in A$}, 2025.
+\url{https://www.math.columbia.edu/~msawhney/Problem_848.pdf}
+
+\bibitem{Erdos848Page}
+T.~F. Bloom, \emph{Erd\H{o}s Problem 848}, Erd\H{o}s Problems.
+\url{https://www.erdosproblems.com/848}
+
+\bibitem{Jung848}
+R.~Jung and contributors,
+\emph{Lean 4 formalization of the asymptotic result for Erd\H{o}s Problem
+848}, \texttt{erdos-banger}, commit
+\texttt{48e9c1aeb13a6e075d78ecf42dc1f2839d5ff071}, 2026.
+\url{https://github.com/The-Obstacle-Is-The-Way/erdos-banger}
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,15 @@
+import Erdos848.TailSupportDomainChecker
+
+namespace Erdos848.GeneratedTailSupportDomainCoverage
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+def domainBlock0033 : List ℕ :=
+  [2112, 2113, 2114, 2115, 2116, 2117, 2118, 2119, 2120, 2121, 2122, 2123, 2124, 2125, 2126, 2127, 2128, 2129, 2130, 2131, 2132, 2133, 2134, 2135, 2136, 2137, 2138, 2139, 2140, 2141, 2142, 2143, 2144, 2145, 2146, 2147, 2148, 2149, 2150, 2151, 2152, 2153, 2154, 2155, 2156, 2157, 2158, 2159, 2160, 2161, 2162, 2163, 2164, 2165, 2166, 2167, 2168, 2169, 2170, 2171, 2172, 2173, 2174, 2175]
+
+theorem domainBlock0033_passes :
+    domainBlock0033.all Erdos848.supportPrimeEntryPasses = true := by
+  decide
+
+end Erdos848.GeneratedTailSupportDomainCoverage

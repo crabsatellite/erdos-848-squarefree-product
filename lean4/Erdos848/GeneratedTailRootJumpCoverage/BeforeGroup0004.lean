@@ -1,0 +1,16 @@
+import Erdos848.GeneratedTailPrimeIntervalCoverage.Block0032
+import Erdos848.GeneratedTailPrimeIntervalCoverage.Block0033
+import Erdos848.GeneratedTailPrimeIntervalCoverage.Block0034
+import Erdos848.GeneratedTailPrimeIntervalCoverage.Block0035
+import Erdos848.GeneratedTailPrimeIntervalCoverage.Block0036
+import Erdos848.GeneratedTailPrimeIntervalCoverage.Block0037
+import Erdos848.GeneratedTailPrimeIntervalCoverage.Block0038
+import Erdos848.GeneratedTailPrimeIntervalCoverage.Block0039
+
+namespace Erdos848.GeneratedTailRootJumpCoverage
+
+def beforeGroup0004 : Erdos848.PrimeIntervalProofTree
+    65538 16384 1466 :=
+  (.node (.node (.node Erdos848.GeneratedTailPrimeIntervalCoverage.blockTree0032 Erdos848.GeneratedTailPrimeIntervalCoverage.blockTree0033) (.node Erdos848.GeneratedTailPrimeIntervalCoverage.blockTree0034 Erdos848.GeneratedTailPrimeIntervalCoverage.blockTree0035)) (.node (.node Erdos848.GeneratedTailPrimeIntervalCoverage.blockTree0036 Erdos848.GeneratedTailPrimeIntervalCoverage.blockTree0037) (.node Erdos848.GeneratedTailPrimeIntervalCoverage.blockTree0038 Erdos848.GeneratedTailPrimeIntervalCoverage.blockTree0039)))
+
+end Erdos848.GeneratedTailRootJumpCoverage

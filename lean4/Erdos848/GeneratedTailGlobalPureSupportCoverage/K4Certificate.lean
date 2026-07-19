@@ -1,0 +1,1254 @@
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0000
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0001
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0002
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0003
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0004
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0005
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0006
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0007
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0008
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0009
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0010
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0011
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0012
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0013
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0014
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0015
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0016
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0017
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0018
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0019
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0020
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0021
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0022
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0023
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0024
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0025
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0026
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0027
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0028
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0029
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0030
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0031
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0032
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0033
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0034
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0035
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0036
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0037
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0038
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0039
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0040
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0041
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0042
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0043
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0044
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0045
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0046
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0047
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0048
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0049
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0050
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0051
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0052
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0053
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0054
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0055
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0056
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0057
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0058
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0059
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0060
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0061
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0062
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0063
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0064
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0065
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0066
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0067
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0068
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0069
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0070
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0071
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0072
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0073
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0074
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0075
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0076
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0077
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0078
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0079
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0080
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0081
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0082
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0083
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0084
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0085
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0086
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0087
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0088
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0089
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0090
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0091
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0092
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0093
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0094
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0095
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0096
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0097
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0098
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0099
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0100
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0101
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0102
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0103
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0104
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0105
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0106
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0107
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0108
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0109
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0110
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0111
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0112
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0113
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0114
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0115
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0116
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0117
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0118
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0119
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0120
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0121
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0122
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0123
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0124
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0125
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0126
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0127
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0128
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0129
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0130
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0131
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0132
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0133
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0134
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0135
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0136
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0137
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0138
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0139
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0140
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0141
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0142
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0143
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0144
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0145
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0146
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0147
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0148
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0149
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0150
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0151
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0152
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0153
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0154
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0155
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0156
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0157
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0158
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0159
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0160
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0161
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0162
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0163
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0164
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0165
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0166
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0167
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0168
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0169
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0170
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0171
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0172
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0173
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0174
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0175
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0176
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0177
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0178
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0179
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0180
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0181
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0182
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0183
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0184
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0185
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0186
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0187
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0188
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0189
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0190
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0191
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0192
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0193
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0194
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0195
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0196
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0197
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0198
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0199
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0200
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0201
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0202
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0203
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0204
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0205
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0206
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0207
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0208
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0209
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0210
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0211
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0212
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0213
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0214
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0215
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0216
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0217
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0218
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0219
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0220
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0221
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0222
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0223
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0224
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0225
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0226
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0227
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0228
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0229
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0230
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0231
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0232
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0233
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0234
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0235
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0236
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0237
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0238
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0239
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0240
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0241
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0242
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0243
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0244
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0245
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0246
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0247
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0248
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0249
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0250
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0251
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0252
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0253
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0254
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0255
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0256
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0257
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0258
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0259
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0260
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0261
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0262
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0263
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0264
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0265
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0266
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0267
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0268
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0269
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0270
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0271
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0272
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0273
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0274
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0275
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0276
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0277
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0278
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0279
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0280
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0281
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0282
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0283
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0284
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0285
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0286
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0287
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0288
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0289
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0290
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0291
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0292
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0293
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0294
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0295
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0296
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0297
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0298
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0299
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0300
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0301
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0302
+import Erdos848.GeneratedTailGlobalPureSupportCoverage.K4PrefixGroup0303
+import Erdos848.TailGlobalPureSupportKernelDomain
+
+namespace Erdos848.GeneratedTailGlobalPureSupportCoverage
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+def k4CertifiedPrefixes : List (List ℕ) :=
+  k4PrefixGroup0000 ++
+  k4PrefixGroup0001 ++
+  k4PrefixGroup0002 ++
+  k4PrefixGroup0003 ++
+  k4PrefixGroup0004 ++
+  k4PrefixGroup0005 ++
+  k4PrefixGroup0006 ++
+  k4PrefixGroup0007 ++
+  k4PrefixGroup0008 ++
+  k4PrefixGroup0009 ++
+  k4PrefixGroup0010 ++
+  k4PrefixGroup0011 ++
+  k4PrefixGroup0012 ++
+  k4PrefixGroup0013 ++
+  k4PrefixGroup0014 ++
+  k4PrefixGroup0015 ++
+  k4PrefixGroup0016 ++
+  k4PrefixGroup0017 ++
+  k4PrefixGroup0018 ++
+  k4PrefixGroup0019 ++
+  k4PrefixGroup0020 ++
+  k4PrefixGroup0021 ++
+  k4PrefixGroup0022 ++
+  k4PrefixGroup0023 ++
+  k4PrefixGroup0024 ++
+  k4PrefixGroup0025 ++
+  k4PrefixGroup0026 ++
+  k4PrefixGroup0027 ++
+  k4PrefixGroup0028 ++
+  k4PrefixGroup0029 ++
+  k4PrefixGroup0030 ++
+  k4PrefixGroup0031 ++
+  k4PrefixGroup0032 ++
+  k4PrefixGroup0033 ++
+  k4PrefixGroup0034 ++
+  k4PrefixGroup0035 ++
+  k4PrefixGroup0036 ++
+  k4PrefixGroup0037 ++
+  k4PrefixGroup0038 ++
+  k4PrefixGroup0039 ++
+  k4PrefixGroup0040 ++
+  k4PrefixGroup0041 ++
+  k4PrefixGroup0042 ++
+  k4PrefixGroup0043 ++
+  k4PrefixGroup0044 ++
+  k4PrefixGroup0045 ++
+  k4PrefixGroup0046 ++
+  k4PrefixGroup0047 ++
+  k4PrefixGroup0048 ++
+  k4PrefixGroup0049 ++
+  k4PrefixGroup0050 ++
+  k4PrefixGroup0051 ++
+  k4PrefixGroup0052 ++
+  k4PrefixGroup0053 ++
+  k4PrefixGroup0054 ++
+  k4PrefixGroup0055 ++
+  k4PrefixGroup0056 ++
+  k4PrefixGroup0057 ++
+  k4PrefixGroup0058 ++
+  k4PrefixGroup0059 ++
+  k4PrefixGroup0060 ++
+  k4PrefixGroup0061 ++
+  k4PrefixGroup0062 ++
+  k4PrefixGroup0063 ++
+  k4PrefixGroup0064 ++
+  k4PrefixGroup0065 ++
+  k4PrefixGroup0066 ++
+  k4PrefixGroup0067 ++
+  k4PrefixGroup0068 ++
+  k4PrefixGroup0069 ++
+  k4PrefixGroup0070 ++
+  k4PrefixGroup0071 ++
+  k4PrefixGroup0072 ++
+  k4PrefixGroup0073 ++
+  k4PrefixGroup0074 ++
+  k4PrefixGroup0075 ++
+  k4PrefixGroup0076 ++
+  k4PrefixGroup0077 ++
+  k4PrefixGroup0078 ++
+  k4PrefixGroup0079 ++
+  k4PrefixGroup0080 ++
+  k4PrefixGroup0081 ++
+  k4PrefixGroup0082 ++
+  k4PrefixGroup0083 ++
+  k4PrefixGroup0084 ++
+  k4PrefixGroup0085 ++
+  k4PrefixGroup0086 ++
+  k4PrefixGroup0087 ++
+  k4PrefixGroup0088 ++
+  k4PrefixGroup0089 ++
+  k4PrefixGroup0090 ++
+  k4PrefixGroup0091 ++
+  k4PrefixGroup0092 ++
+  k4PrefixGroup0093 ++
+  k4PrefixGroup0094 ++
+  k4PrefixGroup0095 ++
+  k4PrefixGroup0096 ++
+  k4PrefixGroup0097 ++
+  k4PrefixGroup0098 ++
+  k4PrefixGroup0099 ++
+  k4PrefixGroup0100 ++
+  k4PrefixGroup0101 ++
+  k4PrefixGroup0102 ++
+  k4PrefixGroup0103 ++
+  k4PrefixGroup0104 ++
+  k4PrefixGroup0105 ++
+  k4PrefixGroup0106 ++
+  k4PrefixGroup0107 ++
+  k4PrefixGroup0108 ++
+  k4PrefixGroup0109 ++
+  k4PrefixGroup0110 ++
+  k4PrefixGroup0111 ++
+  k4PrefixGroup0112 ++
+  k4PrefixGroup0113 ++
+  k4PrefixGroup0114 ++
+  k4PrefixGroup0115 ++
+  k4PrefixGroup0116 ++
+  k4PrefixGroup0117 ++
+  k4PrefixGroup0118 ++
+  k4PrefixGroup0119 ++
+  k4PrefixGroup0120 ++
+  k4PrefixGroup0121 ++
+  k4PrefixGroup0122 ++
+  k4PrefixGroup0123 ++
+  k4PrefixGroup0124 ++
+  k4PrefixGroup0125 ++
+  k4PrefixGroup0126 ++
+  k4PrefixGroup0127 ++
+  k4PrefixGroup0128 ++
+  k4PrefixGroup0129 ++
+  k4PrefixGroup0130 ++
+  k4PrefixGroup0131 ++
+  k4PrefixGroup0132 ++
+  k4PrefixGroup0133 ++
+  k4PrefixGroup0134 ++
+  k4PrefixGroup0135 ++
+  k4PrefixGroup0136 ++
+  k4PrefixGroup0137 ++
+  k4PrefixGroup0138 ++
+  k4PrefixGroup0139 ++
+  k4PrefixGroup0140 ++
+  k4PrefixGroup0141 ++
+  k4PrefixGroup0142 ++
+  k4PrefixGroup0143 ++
+  k4PrefixGroup0144 ++
+  k4PrefixGroup0145 ++
+  k4PrefixGroup0146 ++
+  k4PrefixGroup0147 ++
+  k4PrefixGroup0148 ++
+  k4PrefixGroup0149 ++
+  k4PrefixGroup0150 ++
+  k4PrefixGroup0151 ++
+  k4PrefixGroup0152 ++
+  k4PrefixGroup0153 ++
+  k4PrefixGroup0154 ++
+  k4PrefixGroup0155 ++
+  k4PrefixGroup0156 ++
+  k4PrefixGroup0157 ++
+  k4PrefixGroup0158 ++
+  k4PrefixGroup0159 ++
+  k4PrefixGroup0160 ++
+  k4PrefixGroup0161 ++
+  k4PrefixGroup0162 ++
+  k4PrefixGroup0163 ++
+  k4PrefixGroup0164 ++
+  k4PrefixGroup0165 ++
+  k4PrefixGroup0166 ++
+  k4PrefixGroup0167 ++
+  k4PrefixGroup0168 ++
+  k4PrefixGroup0169 ++
+  k4PrefixGroup0170 ++
+  k4PrefixGroup0171 ++
+  k4PrefixGroup0172 ++
+  k4PrefixGroup0173 ++
+  k4PrefixGroup0174 ++
+  k4PrefixGroup0175 ++
+  k4PrefixGroup0176 ++
+  k4PrefixGroup0177 ++
+  k4PrefixGroup0178 ++
+  k4PrefixGroup0179 ++
+  k4PrefixGroup0180 ++
+  k4PrefixGroup0181 ++
+  k4PrefixGroup0182 ++
+  k4PrefixGroup0183 ++
+  k4PrefixGroup0184 ++
+  k4PrefixGroup0185 ++
+  k4PrefixGroup0186 ++
+  k4PrefixGroup0187 ++
+  k4PrefixGroup0188 ++
+  k4PrefixGroup0189 ++
+  k4PrefixGroup0190 ++
+  k4PrefixGroup0191 ++
+  k4PrefixGroup0192 ++
+  k4PrefixGroup0193 ++
+  k4PrefixGroup0194 ++
+  k4PrefixGroup0195 ++
+  k4PrefixGroup0196 ++
+  k4PrefixGroup0197 ++
+  k4PrefixGroup0198 ++
+  k4PrefixGroup0199 ++
+  k4PrefixGroup0200 ++
+  k4PrefixGroup0201 ++
+  k4PrefixGroup0202 ++
+  k4PrefixGroup0203 ++
+  k4PrefixGroup0204 ++
+  k4PrefixGroup0205 ++
+  k4PrefixGroup0206 ++
+  k4PrefixGroup0207 ++
+  k4PrefixGroup0208 ++
+  k4PrefixGroup0209 ++
+  k4PrefixGroup0210 ++
+  k4PrefixGroup0211 ++
+  k4PrefixGroup0212 ++
+  k4PrefixGroup0213 ++
+  k4PrefixGroup0214 ++
+  k4PrefixGroup0215 ++
+  k4PrefixGroup0216 ++
+  k4PrefixGroup0217 ++
+  k4PrefixGroup0218 ++
+  k4PrefixGroup0219 ++
+  k4PrefixGroup0220 ++
+  k4PrefixGroup0221 ++
+  k4PrefixGroup0222 ++
+  k4PrefixGroup0223 ++
+  k4PrefixGroup0224 ++
+  k4PrefixGroup0225 ++
+  k4PrefixGroup0226 ++
+  k4PrefixGroup0227 ++
+  k4PrefixGroup0228 ++
+  k4PrefixGroup0229 ++
+  k4PrefixGroup0230 ++
+  k4PrefixGroup0231 ++
+  k4PrefixGroup0232 ++
+  k4PrefixGroup0233 ++
+  k4PrefixGroup0234 ++
+  k4PrefixGroup0235 ++
+  k4PrefixGroup0236 ++
+  k4PrefixGroup0237 ++
+  k4PrefixGroup0238 ++
+  k4PrefixGroup0239 ++
+  k4PrefixGroup0240 ++
+  k4PrefixGroup0241 ++
+  k4PrefixGroup0242 ++
+  k4PrefixGroup0243 ++
+  k4PrefixGroup0244 ++
+  k4PrefixGroup0245 ++
+  k4PrefixGroup0246 ++
+  k4PrefixGroup0247 ++
+  k4PrefixGroup0248 ++
+  k4PrefixGroup0249 ++
+  k4PrefixGroup0250 ++
+  k4PrefixGroup0251 ++
+  k4PrefixGroup0252 ++
+  k4PrefixGroup0253 ++
+  k4PrefixGroup0254 ++
+  k4PrefixGroup0255 ++
+  k4PrefixGroup0256 ++
+  k4PrefixGroup0257 ++
+  k4PrefixGroup0258 ++
+  k4PrefixGroup0259 ++
+  k4PrefixGroup0260 ++
+  k4PrefixGroup0261 ++
+  k4PrefixGroup0262 ++
+  k4PrefixGroup0263 ++
+  k4PrefixGroup0264 ++
+  k4PrefixGroup0265 ++
+  k4PrefixGroup0266 ++
+  k4PrefixGroup0267 ++
+  k4PrefixGroup0268 ++
+  k4PrefixGroup0269 ++
+  k4PrefixGroup0270 ++
+  k4PrefixGroup0271 ++
+  k4PrefixGroup0272 ++
+  k4PrefixGroup0273 ++
+  k4PrefixGroup0274 ++
+  k4PrefixGroup0275 ++
+  k4PrefixGroup0276 ++
+  k4PrefixGroup0277 ++
+  k4PrefixGroup0278 ++
+  k4PrefixGroup0279 ++
+  k4PrefixGroup0280 ++
+  k4PrefixGroup0281 ++
+  k4PrefixGroup0282 ++
+  k4PrefixGroup0283 ++
+  k4PrefixGroup0284 ++
+  k4PrefixGroup0285 ++
+  k4PrefixGroup0286 ++
+  k4PrefixGroup0287 ++
+  k4PrefixGroup0288 ++
+  k4PrefixGroup0289 ++
+  k4PrefixGroup0290 ++
+  k4PrefixGroup0291 ++
+  k4PrefixGroup0292 ++
+  k4PrefixGroup0293 ++
+  k4PrefixGroup0294 ++
+  k4PrefixGroup0295 ++
+  k4PrefixGroup0296 ++
+  k4PrefixGroup0297 ++
+  k4PrefixGroup0298 ++
+  k4PrefixGroup0299 ++
+  k4PrefixGroup0300 ++
+  k4PrefixGroup0301 ++
+  k4PrefixGroup0302 ++
+  k4PrefixGroup0303
+
+theorem k4CertifiedPrefixes_eq :
+    k4CertifiedPrefixes = Erdos848.globalOddRootFeasiblePrefixesKernel 4 := by
+  rfl
+
+theorem k4CertifiedPrefixes_pass :
+    k4CertifiedPrefixes.all
+      (Erdos848.globalPureSupportPrefixPasses 4) = true := by
+  simp only [k4CertifiedPrefixes, List.all_append]
+  rw [k4PrefixGroup0000_passes]
+  rw [k4PrefixGroup0001_passes]
+  rw [k4PrefixGroup0002_passes]
+  rw [k4PrefixGroup0003_passes]
+  rw [k4PrefixGroup0004_passes]
+  rw [k4PrefixGroup0005_passes]
+  rw [k4PrefixGroup0006_passes]
+  rw [k4PrefixGroup0007_passes]
+  rw [k4PrefixGroup0008_passes]
+  rw [k4PrefixGroup0009_passes]
+  rw [k4PrefixGroup0010_passes]
+  rw [k4PrefixGroup0011_passes]
+  rw [k4PrefixGroup0012_passes]
+  rw [k4PrefixGroup0013_passes]
+  rw [k4PrefixGroup0014_passes]
+  rw [k4PrefixGroup0015_passes]
+  rw [k4PrefixGroup0016_passes]
+  rw [k4PrefixGroup0017_passes]
+  rw [k4PrefixGroup0018_passes]
+  rw [k4PrefixGroup0019_passes]
+  rw [k4PrefixGroup0020_passes]
+  rw [k4PrefixGroup0021_passes]
+  rw [k4PrefixGroup0022_passes]
+  rw [k4PrefixGroup0023_passes]
+  rw [k4PrefixGroup0024_passes]
+  rw [k4PrefixGroup0025_passes]
+  rw [k4PrefixGroup0026_passes]
+  rw [k4PrefixGroup0027_passes]
+  rw [k4PrefixGroup0028_passes]
+  rw [k4PrefixGroup0029_passes]
+  rw [k4PrefixGroup0030_passes]
+  rw [k4PrefixGroup0031_passes]
+  rw [k4PrefixGroup0032_passes]
+  rw [k4PrefixGroup0033_passes]
+  rw [k4PrefixGroup0034_passes]
+  rw [k4PrefixGroup0035_passes]
+  rw [k4PrefixGroup0036_passes]
+  rw [k4PrefixGroup0037_passes]
+  rw [k4PrefixGroup0038_passes]
+  rw [k4PrefixGroup0039_passes]
+  rw [k4PrefixGroup0040_passes]
+  rw [k4PrefixGroup0041_passes]
+  rw [k4PrefixGroup0042_passes]
+  rw [k4PrefixGroup0043_passes]
+  rw [k4PrefixGroup0044_passes]
+  rw [k4PrefixGroup0045_passes]
+  rw [k4PrefixGroup0046_passes]
+  rw [k4PrefixGroup0047_passes]
+  rw [k4PrefixGroup0048_passes]
+  rw [k4PrefixGroup0049_passes]
+  rw [k4PrefixGroup0050_passes]
+  rw [k4PrefixGroup0051_passes]
+  rw [k4PrefixGroup0052_passes]
+  rw [k4PrefixGroup0053_passes]
+  rw [k4PrefixGroup0054_passes]
+  rw [k4PrefixGroup0055_passes]
+  rw [k4PrefixGroup0056_passes]
+  rw [k4PrefixGroup0057_passes]
+  rw [k4PrefixGroup0058_passes]
+  rw [k4PrefixGroup0059_passes]
+  rw [k4PrefixGroup0060_passes]
+  rw [k4PrefixGroup0061_passes]
+  rw [k4PrefixGroup0062_passes]
+  rw [k4PrefixGroup0063_passes]
+  rw [k4PrefixGroup0064_passes]
+  rw [k4PrefixGroup0065_passes]
+  rw [k4PrefixGroup0066_passes]
+  rw [k4PrefixGroup0067_passes]
+  rw [k4PrefixGroup0068_passes]
+  rw [k4PrefixGroup0069_passes]
+  rw [k4PrefixGroup0070_passes]
+  rw [k4PrefixGroup0071_passes]
+  rw [k4PrefixGroup0072_passes]
+  rw [k4PrefixGroup0073_passes]
+  rw [k4PrefixGroup0074_passes]
+  rw [k4PrefixGroup0075_passes]
+  rw [k4PrefixGroup0076_passes]
+  rw [k4PrefixGroup0077_passes]
+  rw [k4PrefixGroup0078_passes]
+  rw [k4PrefixGroup0079_passes]
+  rw [k4PrefixGroup0080_passes]
+  rw [k4PrefixGroup0081_passes]
+  rw [k4PrefixGroup0082_passes]
+  rw [k4PrefixGroup0083_passes]
+  rw [k4PrefixGroup0084_passes]
+  rw [k4PrefixGroup0085_passes]
+  rw [k4PrefixGroup0086_passes]
+  rw [k4PrefixGroup0087_passes]
+  rw [k4PrefixGroup0088_passes]
+  rw [k4PrefixGroup0089_passes]
+  rw [k4PrefixGroup0090_passes]
+  rw [k4PrefixGroup0091_passes]
+  rw [k4PrefixGroup0092_passes]
+  rw [k4PrefixGroup0093_passes]
+  rw [k4PrefixGroup0094_passes]
+  rw [k4PrefixGroup0095_passes]
+  rw [k4PrefixGroup0096_passes]
+  rw [k4PrefixGroup0097_passes]
+  rw [k4PrefixGroup0098_passes]
+  rw [k4PrefixGroup0099_passes]
+  rw [k4PrefixGroup0100_passes]
+  rw [k4PrefixGroup0101_passes]
+  rw [k4PrefixGroup0102_passes]
+  rw [k4PrefixGroup0103_passes]
+  rw [k4PrefixGroup0104_passes]
+  rw [k4PrefixGroup0105_passes]
+  rw [k4PrefixGroup0106_passes]
+  rw [k4PrefixGroup0107_passes]
+  rw [k4PrefixGroup0108_passes]
+  rw [k4PrefixGroup0109_passes]
+  rw [k4PrefixGroup0110_passes]
+  rw [k4PrefixGroup0111_passes]
+  rw [k4PrefixGroup0112_passes]
+  rw [k4PrefixGroup0113_passes]
+  rw [k4PrefixGroup0114_passes]
+  rw [k4PrefixGroup0115_passes]
+  rw [k4PrefixGroup0116_passes]
+  rw [k4PrefixGroup0117_passes]
+  rw [k4PrefixGroup0118_passes]
+  rw [k4PrefixGroup0119_passes]
+  rw [k4PrefixGroup0120_passes]
+  rw [k4PrefixGroup0121_passes]
+  rw [k4PrefixGroup0122_passes]
+  rw [k4PrefixGroup0123_passes]
+  rw [k4PrefixGroup0124_passes]
+  rw [k4PrefixGroup0125_passes]
+  rw [k4PrefixGroup0126_passes]
+  rw [k4PrefixGroup0127_passes]
+  rw [k4PrefixGroup0128_passes]
+  rw [k4PrefixGroup0129_passes]
+  rw [k4PrefixGroup0130_passes]
+  rw [k4PrefixGroup0131_passes]
+  rw [k4PrefixGroup0132_passes]
+  rw [k4PrefixGroup0133_passes]
+  rw [k4PrefixGroup0134_passes]
+  rw [k4PrefixGroup0135_passes]
+  rw [k4PrefixGroup0136_passes]
+  rw [k4PrefixGroup0137_passes]
+  rw [k4PrefixGroup0138_passes]
+  rw [k4PrefixGroup0139_passes]
+  rw [k4PrefixGroup0140_passes]
+  rw [k4PrefixGroup0141_passes]
+  rw [k4PrefixGroup0142_passes]
+  rw [k4PrefixGroup0143_passes]
+  rw [k4PrefixGroup0144_passes]
+  rw [k4PrefixGroup0145_passes]
+  rw [k4PrefixGroup0146_passes]
+  rw [k4PrefixGroup0147_passes]
+  rw [k4PrefixGroup0148_passes]
+  rw [k4PrefixGroup0149_passes]
+  rw [k4PrefixGroup0150_passes]
+  rw [k4PrefixGroup0151_passes]
+  rw [k4PrefixGroup0152_passes]
+  rw [k4PrefixGroup0153_passes]
+  rw [k4PrefixGroup0154_passes]
+  rw [k4PrefixGroup0155_passes]
+  rw [k4PrefixGroup0156_passes]
+  rw [k4PrefixGroup0157_passes]
+  rw [k4PrefixGroup0158_passes]
+  rw [k4PrefixGroup0159_passes]
+  rw [k4PrefixGroup0160_passes]
+  rw [k4PrefixGroup0161_passes]
+  rw [k4PrefixGroup0162_passes]
+  rw [k4PrefixGroup0163_passes]
+  rw [k4PrefixGroup0164_passes]
+  rw [k4PrefixGroup0165_passes]
+  rw [k4PrefixGroup0166_passes]
+  rw [k4PrefixGroup0167_passes]
+  rw [k4PrefixGroup0168_passes]
+  rw [k4PrefixGroup0169_passes]
+  rw [k4PrefixGroup0170_passes]
+  rw [k4PrefixGroup0171_passes]
+  rw [k4PrefixGroup0172_passes]
+  rw [k4PrefixGroup0173_passes]
+  rw [k4PrefixGroup0174_passes]
+  rw [k4PrefixGroup0175_passes]
+  rw [k4PrefixGroup0176_passes]
+  rw [k4PrefixGroup0177_passes]
+  rw [k4PrefixGroup0178_passes]
+  rw [k4PrefixGroup0179_passes]
+  rw [k4PrefixGroup0180_passes]
+  rw [k4PrefixGroup0181_passes]
+  rw [k4PrefixGroup0182_passes]
+  rw [k4PrefixGroup0183_passes]
+  rw [k4PrefixGroup0184_passes]
+  rw [k4PrefixGroup0185_passes]
+  rw [k4PrefixGroup0186_passes]
+  rw [k4PrefixGroup0187_passes]
+  rw [k4PrefixGroup0188_passes]
+  rw [k4PrefixGroup0189_passes]
+  rw [k4PrefixGroup0190_passes]
+  rw [k4PrefixGroup0191_passes]
+  rw [k4PrefixGroup0192_passes]
+  rw [k4PrefixGroup0193_passes]
+  rw [k4PrefixGroup0194_passes]
+  rw [k4PrefixGroup0195_passes]
+  rw [k4PrefixGroup0196_passes]
+  rw [k4PrefixGroup0197_passes]
+  rw [k4PrefixGroup0198_passes]
+  rw [k4PrefixGroup0199_passes]
+  rw [k4PrefixGroup0200_passes]
+  rw [k4PrefixGroup0201_passes]
+  rw [k4PrefixGroup0202_passes]
+  rw [k4PrefixGroup0203_passes]
+  rw [k4PrefixGroup0204_passes]
+  rw [k4PrefixGroup0205_passes]
+  rw [k4PrefixGroup0206_passes]
+  rw [k4PrefixGroup0207_passes]
+  rw [k4PrefixGroup0208_passes]
+  rw [k4PrefixGroup0209_passes]
+  rw [k4PrefixGroup0210_passes]
+  rw [k4PrefixGroup0211_passes]
+  rw [k4PrefixGroup0212_passes]
+  rw [k4PrefixGroup0213_passes]
+  rw [k4PrefixGroup0214_passes]
+  rw [k4PrefixGroup0215_passes]
+  rw [k4PrefixGroup0216_passes]
+  rw [k4PrefixGroup0217_passes]
+  rw [k4PrefixGroup0218_passes]
+  rw [k4PrefixGroup0219_passes]
+  rw [k4PrefixGroup0220_passes]
+  rw [k4PrefixGroup0221_passes]
+  rw [k4PrefixGroup0222_passes]
+  rw [k4PrefixGroup0223_passes]
+  rw [k4PrefixGroup0224_passes]
+  rw [k4PrefixGroup0225_passes]
+  rw [k4PrefixGroup0226_passes]
+  rw [k4PrefixGroup0227_passes]
+  rw [k4PrefixGroup0228_passes]
+  rw [k4PrefixGroup0229_passes]
+  rw [k4PrefixGroup0230_passes]
+  rw [k4PrefixGroup0231_passes]
+  rw [k4PrefixGroup0232_passes]
+  rw [k4PrefixGroup0233_passes]
+  rw [k4PrefixGroup0234_passes]
+  rw [k4PrefixGroup0235_passes]
+  rw [k4PrefixGroup0236_passes]
+  rw [k4PrefixGroup0237_passes]
+  rw [k4PrefixGroup0238_passes]
+  rw [k4PrefixGroup0239_passes]
+  rw [k4PrefixGroup0240_passes]
+  rw [k4PrefixGroup0241_passes]
+  rw [k4PrefixGroup0242_passes]
+  rw [k4PrefixGroup0243_passes]
+  rw [k4PrefixGroup0244_passes]
+  rw [k4PrefixGroup0245_passes]
+  rw [k4PrefixGroup0246_passes]
+  rw [k4PrefixGroup0247_passes]
+  rw [k4PrefixGroup0248_passes]
+  rw [k4PrefixGroup0249_passes]
+  rw [k4PrefixGroup0250_passes]
+  rw [k4PrefixGroup0251_passes]
+  rw [k4PrefixGroup0252_passes]
+  rw [k4PrefixGroup0253_passes]
+  rw [k4PrefixGroup0254_passes]
+  rw [k4PrefixGroup0255_passes]
+  rw [k4PrefixGroup0256_passes]
+  rw [k4PrefixGroup0257_passes]
+  rw [k4PrefixGroup0258_passes]
+  rw [k4PrefixGroup0259_passes]
+  rw [k4PrefixGroup0260_passes]
+  rw [k4PrefixGroup0261_passes]
+  rw [k4PrefixGroup0262_passes]
+  rw [k4PrefixGroup0263_passes]
+  rw [k4PrefixGroup0264_passes]
+  rw [k4PrefixGroup0265_passes]
+  rw [k4PrefixGroup0266_passes]
+  rw [k4PrefixGroup0267_passes]
+  rw [k4PrefixGroup0268_passes]
+  rw [k4PrefixGroup0269_passes]
+  rw [k4PrefixGroup0270_passes]
+  rw [k4PrefixGroup0271_passes]
+  rw [k4PrefixGroup0272_passes]
+  rw [k4PrefixGroup0273_passes]
+  rw [k4PrefixGroup0274_passes]
+  rw [k4PrefixGroup0275_passes]
+  rw [k4PrefixGroup0276_passes]
+  rw [k4PrefixGroup0277_passes]
+  rw [k4PrefixGroup0278_passes]
+  rw [k4PrefixGroup0279_passes]
+  rw [k4PrefixGroup0280_passes]
+  rw [k4PrefixGroup0281_passes]
+  rw [k4PrefixGroup0282_passes]
+  rw [k4PrefixGroup0283_passes]
+  rw [k4PrefixGroup0284_passes]
+  rw [k4PrefixGroup0285_passes]
+  rw [k4PrefixGroup0286_passes]
+  rw [k4PrefixGroup0287_passes]
+  rw [k4PrefixGroup0288_passes]
+  rw [k4PrefixGroup0289_passes]
+  rw [k4PrefixGroup0290_passes]
+  rw [k4PrefixGroup0291_passes]
+  rw [k4PrefixGroup0292_passes]
+  rw [k4PrefixGroup0293_passes]
+  rw [k4PrefixGroup0294_passes]
+  rw [k4PrefixGroup0295_passes]
+  rw [k4PrefixGroup0296_passes]
+  rw [k4PrefixGroup0297_passes]
+  rw [k4PrefixGroup0298_passes]
+  rw [k4PrefixGroup0299_passes]
+  rw [k4PrefixGroup0300_passes]
+  rw [k4PrefixGroup0301_passes]
+  rw [k4PrefixGroup0302_passes]
+  rw [k4PrefixGroup0303_passes]
+  decide
+
+theorem k4FeasiblePrefixes_pass :
+    (Erdos848.globalOddRootFeasiblePrefixesKernel 4).all
+      (Erdos848.globalPureSupportPrefixPasses 4) = true := by
+  rw [← k4CertifiedPrefixes_eq]
+  exact k4CertifiedPrefixes_pass
+
+theorem k4CertifiedPrefixes_mask_upper :
+    k4CertifiedPrefixes.all
+      Erdos848.globalPureSupportMaskUpper = true := by
+  simp only [k4CertifiedPrefixes, List.all_append]
+  rw [k4PrefixGroup0000_mask_upper]
+  rw [k4PrefixGroup0001_mask_upper]
+  rw [k4PrefixGroup0002_mask_upper]
+  rw [k4PrefixGroup0003_mask_upper]
+  rw [k4PrefixGroup0004_mask_upper]
+  rw [k4PrefixGroup0005_mask_upper]
+  rw [k4PrefixGroup0006_mask_upper]
+  rw [k4PrefixGroup0007_mask_upper]
+  rw [k4PrefixGroup0008_mask_upper]
+  rw [k4PrefixGroup0009_mask_upper]
+  rw [k4PrefixGroup0010_mask_upper]
+  rw [k4PrefixGroup0011_mask_upper]
+  rw [k4PrefixGroup0012_mask_upper]
+  rw [k4PrefixGroup0013_mask_upper]
+  rw [k4PrefixGroup0014_mask_upper]
+  rw [k4PrefixGroup0015_mask_upper]
+  rw [k4PrefixGroup0016_mask_upper]
+  rw [k4PrefixGroup0017_mask_upper]
+  rw [k4PrefixGroup0018_mask_upper]
+  rw [k4PrefixGroup0019_mask_upper]
+  rw [k4PrefixGroup0020_mask_upper]
+  rw [k4PrefixGroup0021_mask_upper]
+  rw [k4PrefixGroup0022_mask_upper]
+  rw [k4PrefixGroup0023_mask_upper]
+  rw [k4PrefixGroup0024_mask_upper]
+  rw [k4PrefixGroup0025_mask_upper]
+  rw [k4PrefixGroup0026_mask_upper]
+  rw [k4PrefixGroup0027_mask_upper]
+  rw [k4PrefixGroup0028_mask_upper]
+  rw [k4PrefixGroup0029_mask_upper]
+  rw [k4PrefixGroup0030_mask_upper]
+  rw [k4PrefixGroup0031_mask_upper]
+  rw [k4PrefixGroup0032_mask_upper]
+  rw [k4PrefixGroup0033_mask_upper]
+  rw [k4PrefixGroup0034_mask_upper]
+  rw [k4PrefixGroup0035_mask_upper]
+  rw [k4PrefixGroup0036_mask_upper]
+  rw [k4PrefixGroup0037_mask_upper]
+  rw [k4PrefixGroup0038_mask_upper]
+  rw [k4PrefixGroup0039_mask_upper]
+  rw [k4PrefixGroup0040_mask_upper]
+  rw [k4PrefixGroup0041_mask_upper]
+  rw [k4PrefixGroup0042_mask_upper]
+  rw [k4PrefixGroup0043_mask_upper]
+  rw [k4PrefixGroup0044_mask_upper]
+  rw [k4PrefixGroup0045_mask_upper]
+  rw [k4PrefixGroup0046_mask_upper]
+  rw [k4PrefixGroup0047_mask_upper]
+  rw [k4PrefixGroup0048_mask_upper]
+  rw [k4PrefixGroup0049_mask_upper]
+  rw [k4PrefixGroup0050_mask_upper]
+  rw [k4PrefixGroup0051_mask_upper]
+  rw [k4PrefixGroup0052_mask_upper]
+  rw [k4PrefixGroup0053_mask_upper]
+  rw [k4PrefixGroup0054_mask_upper]
+  rw [k4PrefixGroup0055_mask_upper]
+  rw [k4PrefixGroup0056_mask_upper]
+  rw [k4PrefixGroup0057_mask_upper]
+  rw [k4PrefixGroup0058_mask_upper]
+  rw [k4PrefixGroup0059_mask_upper]
+  rw [k4PrefixGroup0060_mask_upper]
+  rw [k4PrefixGroup0061_mask_upper]
+  rw [k4PrefixGroup0062_mask_upper]
+  rw [k4PrefixGroup0063_mask_upper]
+  rw [k4PrefixGroup0064_mask_upper]
+  rw [k4PrefixGroup0065_mask_upper]
+  rw [k4PrefixGroup0066_mask_upper]
+  rw [k4PrefixGroup0067_mask_upper]
+  rw [k4PrefixGroup0068_mask_upper]
+  rw [k4PrefixGroup0069_mask_upper]
+  rw [k4PrefixGroup0070_mask_upper]
+  rw [k4PrefixGroup0071_mask_upper]
+  rw [k4PrefixGroup0072_mask_upper]
+  rw [k4PrefixGroup0073_mask_upper]
+  rw [k4PrefixGroup0074_mask_upper]
+  rw [k4PrefixGroup0075_mask_upper]
+  rw [k4PrefixGroup0076_mask_upper]
+  rw [k4PrefixGroup0077_mask_upper]
+  rw [k4PrefixGroup0078_mask_upper]
+  rw [k4PrefixGroup0079_mask_upper]
+  rw [k4PrefixGroup0080_mask_upper]
+  rw [k4PrefixGroup0081_mask_upper]
+  rw [k4PrefixGroup0082_mask_upper]
+  rw [k4PrefixGroup0083_mask_upper]
+  rw [k4PrefixGroup0084_mask_upper]
+  rw [k4PrefixGroup0085_mask_upper]
+  rw [k4PrefixGroup0086_mask_upper]
+  rw [k4PrefixGroup0087_mask_upper]
+  rw [k4PrefixGroup0088_mask_upper]
+  rw [k4PrefixGroup0089_mask_upper]
+  rw [k4PrefixGroup0090_mask_upper]
+  rw [k4PrefixGroup0091_mask_upper]
+  rw [k4PrefixGroup0092_mask_upper]
+  rw [k4PrefixGroup0093_mask_upper]
+  rw [k4PrefixGroup0094_mask_upper]
+  rw [k4PrefixGroup0095_mask_upper]
+  rw [k4PrefixGroup0096_mask_upper]
+  rw [k4PrefixGroup0097_mask_upper]
+  rw [k4PrefixGroup0098_mask_upper]
+  rw [k4PrefixGroup0099_mask_upper]
+  rw [k4PrefixGroup0100_mask_upper]
+  rw [k4PrefixGroup0101_mask_upper]
+  rw [k4PrefixGroup0102_mask_upper]
+  rw [k4PrefixGroup0103_mask_upper]
+  rw [k4PrefixGroup0104_mask_upper]
+  rw [k4PrefixGroup0105_mask_upper]
+  rw [k4PrefixGroup0106_mask_upper]
+  rw [k4PrefixGroup0107_mask_upper]
+  rw [k4PrefixGroup0108_mask_upper]
+  rw [k4PrefixGroup0109_mask_upper]
+  rw [k4PrefixGroup0110_mask_upper]
+  rw [k4PrefixGroup0111_mask_upper]
+  rw [k4PrefixGroup0112_mask_upper]
+  rw [k4PrefixGroup0113_mask_upper]
+  rw [k4PrefixGroup0114_mask_upper]
+  rw [k4PrefixGroup0115_mask_upper]
+  rw [k4PrefixGroup0116_mask_upper]
+  rw [k4PrefixGroup0117_mask_upper]
+  rw [k4PrefixGroup0118_mask_upper]
+  rw [k4PrefixGroup0119_mask_upper]
+  rw [k4PrefixGroup0120_mask_upper]
+  rw [k4PrefixGroup0121_mask_upper]
+  rw [k4PrefixGroup0122_mask_upper]
+  rw [k4PrefixGroup0123_mask_upper]
+  rw [k4PrefixGroup0124_mask_upper]
+  rw [k4PrefixGroup0125_mask_upper]
+  rw [k4PrefixGroup0126_mask_upper]
+  rw [k4PrefixGroup0127_mask_upper]
+  rw [k4PrefixGroup0128_mask_upper]
+  rw [k4PrefixGroup0129_mask_upper]
+  rw [k4PrefixGroup0130_mask_upper]
+  rw [k4PrefixGroup0131_mask_upper]
+  rw [k4PrefixGroup0132_mask_upper]
+  rw [k4PrefixGroup0133_mask_upper]
+  rw [k4PrefixGroup0134_mask_upper]
+  rw [k4PrefixGroup0135_mask_upper]
+  rw [k4PrefixGroup0136_mask_upper]
+  rw [k4PrefixGroup0137_mask_upper]
+  rw [k4PrefixGroup0138_mask_upper]
+  rw [k4PrefixGroup0139_mask_upper]
+  rw [k4PrefixGroup0140_mask_upper]
+  rw [k4PrefixGroup0141_mask_upper]
+  rw [k4PrefixGroup0142_mask_upper]
+  rw [k4PrefixGroup0143_mask_upper]
+  rw [k4PrefixGroup0144_mask_upper]
+  rw [k4PrefixGroup0145_mask_upper]
+  rw [k4PrefixGroup0146_mask_upper]
+  rw [k4PrefixGroup0147_mask_upper]
+  rw [k4PrefixGroup0148_mask_upper]
+  rw [k4PrefixGroup0149_mask_upper]
+  rw [k4PrefixGroup0150_mask_upper]
+  rw [k4PrefixGroup0151_mask_upper]
+  rw [k4PrefixGroup0152_mask_upper]
+  rw [k4PrefixGroup0153_mask_upper]
+  rw [k4PrefixGroup0154_mask_upper]
+  rw [k4PrefixGroup0155_mask_upper]
+  rw [k4PrefixGroup0156_mask_upper]
+  rw [k4PrefixGroup0157_mask_upper]
+  rw [k4PrefixGroup0158_mask_upper]
+  rw [k4PrefixGroup0159_mask_upper]
+  rw [k4PrefixGroup0160_mask_upper]
+  rw [k4PrefixGroup0161_mask_upper]
+  rw [k4PrefixGroup0162_mask_upper]
+  rw [k4PrefixGroup0163_mask_upper]
+  rw [k4PrefixGroup0164_mask_upper]
+  rw [k4PrefixGroup0165_mask_upper]
+  rw [k4PrefixGroup0166_mask_upper]
+  rw [k4PrefixGroup0167_mask_upper]
+  rw [k4PrefixGroup0168_mask_upper]
+  rw [k4PrefixGroup0169_mask_upper]
+  rw [k4PrefixGroup0170_mask_upper]
+  rw [k4PrefixGroup0171_mask_upper]
+  rw [k4PrefixGroup0172_mask_upper]
+  rw [k4PrefixGroup0173_mask_upper]
+  rw [k4PrefixGroup0174_mask_upper]
+  rw [k4PrefixGroup0175_mask_upper]
+  rw [k4PrefixGroup0176_mask_upper]
+  rw [k4PrefixGroup0177_mask_upper]
+  rw [k4PrefixGroup0178_mask_upper]
+  rw [k4PrefixGroup0179_mask_upper]
+  rw [k4PrefixGroup0180_mask_upper]
+  rw [k4PrefixGroup0181_mask_upper]
+  rw [k4PrefixGroup0182_mask_upper]
+  rw [k4PrefixGroup0183_mask_upper]
+  rw [k4PrefixGroup0184_mask_upper]
+  rw [k4PrefixGroup0185_mask_upper]
+  rw [k4PrefixGroup0186_mask_upper]
+  rw [k4PrefixGroup0187_mask_upper]
+  rw [k4PrefixGroup0188_mask_upper]
+  rw [k4PrefixGroup0189_mask_upper]
+  rw [k4PrefixGroup0190_mask_upper]
+  rw [k4PrefixGroup0191_mask_upper]
+  rw [k4PrefixGroup0192_mask_upper]
+  rw [k4PrefixGroup0193_mask_upper]
+  rw [k4PrefixGroup0194_mask_upper]
+  rw [k4PrefixGroup0195_mask_upper]
+  rw [k4PrefixGroup0196_mask_upper]
+  rw [k4PrefixGroup0197_mask_upper]
+  rw [k4PrefixGroup0198_mask_upper]
+  rw [k4PrefixGroup0199_mask_upper]
+  rw [k4PrefixGroup0200_mask_upper]
+  rw [k4PrefixGroup0201_mask_upper]
+  rw [k4PrefixGroup0202_mask_upper]
+  rw [k4PrefixGroup0203_mask_upper]
+  rw [k4PrefixGroup0204_mask_upper]
+  rw [k4PrefixGroup0205_mask_upper]
+  rw [k4PrefixGroup0206_mask_upper]
+  rw [k4PrefixGroup0207_mask_upper]
+  rw [k4PrefixGroup0208_mask_upper]
+  rw [k4PrefixGroup0209_mask_upper]
+  rw [k4PrefixGroup0210_mask_upper]
+  rw [k4PrefixGroup0211_mask_upper]
+  rw [k4PrefixGroup0212_mask_upper]
+  rw [k4PrefixGroup0213_mask_upper]
+  rw [k4PrefixGroup0214_mask_upper]
+  rw [k4PrefixGroup0215_mask_upper]
+  rw [k4PrefixGroup0216_mask_upper]
+  rw [k4PrefixGroup0217_mask_upper]
+  rw [k4PrefixGroup0218_mask_upper]
+  rw [k4PrefixGroup0219_mask_upper]
+  rw [k4PrefixGroup0220_mask_upper]
+  rw [k4PrefixGroup0221_mask_upper]
+  rw [k4PrefixGroup0222_mask_upper]
+  rw [k4PrefixGroup0223_mask_upper]
+  rw [k4PrefixGroup0224_mask_upper]
+  rw [k4PrefixGroup0225_mask_upper]
+  rw [k4PrefixGroup0226_mask_upper]
+  rw [k4PrefixGroup0227_mask_upper]
+  rw [k4PrefixGroup0228_mask_upper]
+  rw [k4PrefixGroup0229_mask_upper]
+  rw [k4PrefixGroup0230_mask_upper]
+  rw [k4PrefixGroup0231_mask_upper]
+  rw [k4PrefixGroup0232_mask_upper]
+  rw [k4PrefixGroup0233_mask_upper]
+  rw [k4PrefixGroup0234_mask_upper]
+  rw [k4PrefixGroup0235_mask_upper]
+  rw [k4PrefixGroup0236_mask_upper]
+  rw [k4PrefixGroup0237_mask_upper]
+  rw [k4PrefixGroup0238_mask_upper]
+  rw [k4PrefixGroup0239_mask_upper]
+  rw [k4PrefixGroup0240_mask_upper]
+  rw [k4PrefixGroup0241_mask_upper]
+  rw [k4PrefixGroup0242_mask_upper]
+  rw [k4PrefixGroup0243_mask_upper]
+  rw [k4PrefixGroup0244_mask_upper]
+  rw [k4PrefixGroup0245_mask_upper]
+  rw [k4PrefixGroup0246_mask_upper]
+  rw [k4PrefixGroup0247_mask_upper]
+  rw [k4PrefixGroup0248_mask_upper]
+  rw [k4PrefixGroup0249_mask_upper]
+  rw [k4PrefixGroup0250_mask_upper]
+  rw [k4PrefixGroup0251_mask_upper]
+  rw [k4PrefixGroup0252_mask_upper]
+  rw [k4PrefixGroup0253_mask_upper]
+  rw [k4PrefixGroup0254_mask_upper]
+  rw [k4PrefixGroup0255_mask_upper]
+  rw [k4PrefixGroup0256_mask_upper]
+  rw [k4PrefixGroup0257_mask_upper]
+  rw [k4PrefixGroup0258_mask_upper]
+  rw [k4PrefixGroup0259_mask_upper]
+  rw [k4PrefixGroup0260_mask_upper]
+  rw [k4PrefixGroup0261_mask_upper]
+  rw [k4PrefixGroup0262_mask_upper]
+  rw [k4PrefixGroup0263_mask_upper]
+  rw [k4PrefixGroup0264_mask_upper]
+  rw [k4PrefixGroup0265_mask_upper]
+  rw [k4PrefixGroup0266_mask_upper]
+  rw [k4PrefixGroup0267_mask_upper]
+  rw [k4PrefixGroup0268_mask_upper]
+  rw [k4PrefixGroup0269_mask_upper]
+  rw [k4PrefixGroup0270_mask_upper]
+  rw [k4PrefixGroup0271_mask_upper]
+  rw [k4PrefixGroup0272_mask_upper]
+  rw [k4PrefixGroup0273_mask_upper]
+  rw [k4PrefixGroup0274_mask_upper]
+  rw [k4PrefixGroup0275_mask_upper]
+  rw [k4PrefixGroup0276_mask_upper]
+  rw [k4PrefixGroup0277_mask_upper]
+  rw [k4PrefixGroup0278_mask_upper]
+  rw [k4PrefixGroup0279_mask_upper]
+  rw [k4PrefixGroup0280_mask_upper]
+  rw [k4PrefixGroup0281_mask_upper]
+  rw [k4PrefixGroup0282_mask_upper]
+  rw [k4PrefixGroup0283_mask_upper]
+  rw [k4PrefixGroup0284_mask_upper]
+  rw [k4PrefixGroup0285_mask_upper]
+  rw [k4PrefixGroup0286_mask_upper]
+  rw [k4PrefixGroup0287_mask_upper]
+  rw [k4PrefixGroup0288_mask_upper]
+  rw [k4PrefixGroup0289_mask_upper]
+  rw [k4PrefixGroup0290_mask_upper]
+  rw [k4PrefixGroup0291_mask_upper]
+  rw [k4PrefixGroup0292_mask_upper]
+  rw [k4PrefixGroup0293_mask_upper]
+  rw [k4PrefixGroup0294_mask_upper]
+  rw [k4PrefixGroup0295_mask_upper]
+  rw [k4PrefixGroup0296_mask_upper]
+  rw [k4PrefixGroup0297_mask_upper]
+  rw [k4PrefixGroup0298_mask_upper]
+  rw [k4PrefixGroup0299_mask_upper]
+  rw [k4PrefixGroup0300_mask_upper]
+  rw [k4PrefixGroup0301_mask_upper]
+  rw [k4PrefixGroup0302_mask_upper]
+  rw [k4PrefixGroup0303_mask_upper]
+  decide
+
+theorem k4FeasiblePrefixes_mask_upper :
+    (Erdos848.globalOddRootFeasiblePrefixesKernel 4).all
+      Erdos848.globalPureSupportMaskUpper = true := by
+  rw [← k4CertifiedPrefixes_eq]
+  exact k4CertifiedPrefixes_mask_upper
+
+end Erdos848.GeneratedTailGlobalPureSupportCoverage

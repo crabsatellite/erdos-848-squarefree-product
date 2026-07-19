@@ -1,0 +1,31 @@
+import Erdos848.TailSupportProfileChecker
+
+namespace Erdos848.GeneratedTailSupportProfileCoverage
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+def k4PrefixGroup0020 : List (List ℕ) :=
+  [[3, 17, 83],
+     [3, 17, 89],
+     [3, 17, 97],
+     [3, 17, 101],
+     [3, 17, 103],
+     [3, 17, 107],
+     [3, 17, 109],
+     [3, 17, 113],
+     [3, 17, 127],
+     [3, 17, 131],
+     [3, 17, 137],
+     [3, 17, 139],
+     [3, 17, 149],
+     [3, 17, 151],
+     [3, 17, 157],
+     [3, 17, 163]]
+
+theorem k4PrefixGroup0020_passes :
+    k4PrefixGroup0020.all
+      (Erdos848.fiveMillionOddRootProfilePrefixPasses 143) = true := by
+  decide
+
+end Erdos848.GeneratedTailSupportProfileCoverage

@@ -1,0 +1,7 @@
+import Erdos848.TailFiveMillionBudget
+
+#print axioms Erdos848.GeneratedTailPrimeSquareCoverage.costTreeNode0098_cost
+#print axioms Erdos848.reciprocalSquare_sum_above_le
+#print axioms Erdos848.finitePrimeSquareTail47_lt
+#print axioms Erdos848.finitePrimeSquareTail7_lt
+#print axioms Erdos848.fiveMillionSquareTail7_kernel_close

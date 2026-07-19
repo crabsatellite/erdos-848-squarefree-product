@@ -1,0 +1,14 @@
+import Erdos848.GeneratedFiveMillionPrefixTrace.OutsideLocalBlockAssemble0056
+import Erdos848.GeneratedFiveMillionPrefixTrace.OutsideMarkerBlockAssemble0056
+
+namespace Erdos848.GeneratedFiveMillionPrefixTrace
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+theorem outsideRange_0056 :
+    outsideHistoryChunk0056.IndexedValid Erdos848.GeneratedLowDiagonalCoverage.indexedMarker anchorHistories 5000000 57344 :=
+  Erdos848.CandidateHistoryTree.indexedValid_of_local_and_marker
+    outsideLocalRange_0056 outsideMarkerRange_0056
+
+end Erdos848.GeneratedFiveMillionPrefixTrace

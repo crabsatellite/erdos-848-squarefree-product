@@ -1,0 +1,56 @@
+import Erdos848.GeneratedTailDiagonalCoverage.IndexedData
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0000
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0001
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0002
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0003
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0004
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0005
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0006
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0007
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0008
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0009
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0010
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0011
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0012
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0013
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0014
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0015
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0016
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0017
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0018
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0019
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0020
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0021
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0022
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0023
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0024
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0025
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0026
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0027
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0028
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0029
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0030
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0031
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0032
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0033
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0034
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0035
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0036
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0037
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0038
+import Erdos848.GeneratedTailDiagonalCoverage.OddCellProjectionBlock0039
+
+namespace Erdos848.GeneratedTailDiagonalCoverage
+
+open PrimeRootCoverageData
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+theorem projectsOddCells : indexedMarker.ProjectsOddCells cellTargets := by
+  apply IndexedMarkerData.projectsOddCells_of_range
+  have hsize : indexedMarker.values.size = 251583 := by decide
+  rw [hsize]
+  exact (IndexedMarkerData.oddCellProjectionRangeAppend ((IndexedMarkerData.oddCellProjectionRangeAppend ((IndexedMarkerData.oddCellProjectionRangeAppend ((IndexedMarkerData.oddCellProjectionRangeAppend ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0000) (oddCellProjection0001))) ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0002) ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0003) (oddCellProjection0004))))))) ((IndexedMarkerData.oddCellProjectionRangeAppend ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0005) (oddCellProjection0006))) ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0007) ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0008) (oddCellProjection0009))))))))) ((IndexedMarkerData.oddCellProjectionRangeAppend ((IndexedMarkerData.oddCellProjectionRangeAppend ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0010) (oddCellProjection0011))) ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0012) ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0013) (oddCellProjection0014))))))) ((IndexedMarkerData.oddCellProjectionRangeAppend ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0015) (oddCellProjection0016))) ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0017) ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0018) (oddCellProjection0019))))))))))) ((IndexedMarkerData.oddCellProjectionRangeAppend ((IndexedMarkerData.oddCellProjectionRangeAppend ((IndexedMarkerData.oddCellProjectionRangeAppend ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0020) (oddCellProjection0021))) ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0022) ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0023) (oddCellProjection0024))))))) ((IndexedMarkerData.oddCellProjectionRangeAppend ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0025) (oddCellProjection0026))) ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0027) ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0028) (oddCellProjection0029))))))))) ((IndexedMarkerData.oddCellProjectionRangeAppend ((IndexedMarkerData.oddCellProjectionRangeAppend ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0030) (oddCellProjection0031))) ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0032) ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0033) (oddCellProjection0034))))))) ((IndexedMarkerData.oddCellProjectionRangeAppend ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0035) (oddCellProjection0036))) ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0037) ((IndexedMarkerData.oddCellProjectionRangeAppend (oddCellProjection0038) (oddCellProjection0039))))))))))))
+
+end Erdos848.GeneratedTailDiagonalCoverage

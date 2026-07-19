@@ -1,0 +1,33 @@
+import Erdos848.LowRangePrefixTraceChecker
+import Erdos848.GeneratedFiveMillionFactorCoverage.Certificate
+import Erdos848.GeneratedFactorCoverage.Certificate
+
+namespace Erdos848.GeneratedFiveMillionPrefixTrace
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+def squarefreeOracle : Erdos848.SquarefreeOracle where
+  certifies := fun n =>
+    match Erdos848.GeneratedFactorCoverage.factorForest.find n with
+    | some data => decide (data.value = n)
+    | none =>
+        match Erdos848.GeneratedFiveMillionFactorCoverage.factorForest.find n with
+        | some data => decide (data.value = n)
+        | none => false
+  sound := by
+    intro n hcert
+    cases hbase : Erdos848.GeneratedFactorCoverage.factorForest.find n with
+    | some data =>
+        have hvalue : data.value = n := of_decide_eq_true (by
+          simpa [hbase] using hcert)
+        exact Erdos848.GeneratedFactorCoverage.squarefree_of_find hbase hvalue
+    | none =>
+        cases hfind : Erdos848.GeneratedFiveMillionFactorCoverage.factorForest.find n with
+        | none => simp [hbase, hfind] at hcert
+        | some data =>
+            have hvalue : data.value = n := of_decide_eq_true (by
+              simpa [hbase, hfind] using hcert)
+            exact Erdos848.GeneratedFiveMillionFactorCoverage.squarefree_of_find hfind hvalue
+
+end Erdos848.GeneratedFiveMillionPrefixTrace

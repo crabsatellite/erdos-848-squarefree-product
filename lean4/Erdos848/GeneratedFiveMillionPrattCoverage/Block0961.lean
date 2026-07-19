@@ -1,0 +1,10 @@
+import Erdos848.GeneratedFiveMillionPrattCoverage.Data
+
+namespace Erdos848.GeneratedFiveMillionPrattCoverage
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+theorem range_0961 : table.FastRangeValid 399916 400083 := by decide
+
+end Erdos848.GeneratedFiveMillionPrattCoverage

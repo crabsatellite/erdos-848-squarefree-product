@@ -1,0 +1,61 @@
+[
+  {
+    "label": "def:admissible",
+    "title": "The non-squarefree product property",
+    "lean": ["NonSquarefreeProductProp", "OriginalProblem848Statement"]
+  },
+  {
+    "label": "prop:base-constructions",
+    "title": "The 7 and 18 modulo 25 constructions are admissible",
+    "lean": ["A7_has_property_public", "A18_has_property_public"]
+  },
+  {
+    "label": "thm:stability",
+    "title": "Sawhney stability theorem",
+    "lean": ["SawhneyMainAt", "sawhney_main"]
+  },
+  {
+    "label": "thm:range-asymptotic",
+    "title": "Asymptotic endpoint in Finset.range indexing",
+    "lean": ["Problem848Statement", "problem_848_asymptotic"]
+  },
+  {
+    "label": "lem:index-bridge",
+    "title": "Bridge from range indexing to the literal interval",
+    "lean": ["originalA7_eq_range", "original_of_range_succ"]
+  },
+  {
+    "label": "thm:original-asymptotic",
+    "title": "Asymptotic endpoint on the literal interval 1 through N",
+    "lean": ["erdos848_original_asymptotic"]
+  },
+  {
+    "label": "prop:small-instances",
+    "title": "Exact instances N equals 49 and N equals 99",
+    "lean": ["erdos848_original_N49", "erdos848_original_N99"]
+  },
+  {
+    "label": "cor:finite-reduction",
+    "title": "The full conjecture is equivalent to a bounded prefix below one asymptotic threshold",
+    "lean": ["erdos848_finite_reduction"]
+  },
+  {
+    "label": "prop:prefix-colouring-soundness",
+    "title": "A prefix colouring certificate implies the literal 848 bound",
+    "lean": [
+      "PrefixColouringState",
+      "originalProblem_of_prefixColouringState",
+      "originalProblem_prefix_of_colouringCertificate"
+    ]
+  },
+  {
+    "label": "thm:prefix-close",
+    "title": "The literal problem is kernel-checked through N equals 5000000",
+    "lean": ["erdos848_through_five_million"]
+  },
+  {
+    "label": "prop:five-million-tail-assembly",
+    "title": "The exact prefix and the remaining tail assemble to the all-N statement",
+    "lean": ["erdos848_full_of_five_million_tail"]
+  }
+]

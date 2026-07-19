@@ -1,0 +1,507 @@
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0000
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0001
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0002
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0003
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0004
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0005
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0006
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0007
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0008
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0009
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0010
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0011
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0012
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0013
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0014
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0015
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0016
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0017
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0018
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0019
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0020
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0021
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0022
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0023
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0024
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0025
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0026
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0027
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0028
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0029
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0030
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0031
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0032
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0033
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0034
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0035
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0036
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0037
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0038
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0039
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0040
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0041
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0042
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0043
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0044
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0045
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0046
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0047
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0048
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0049
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0050
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0051
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0052
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0053
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0054
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0055
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0056
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0057
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0058
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0059
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0060
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0061
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0062
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0063
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0064
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0065
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0066
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0067
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0068
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0069
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0070
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0071
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0072
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0073
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0074
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0075
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0076
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0077
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0078
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0079
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0080
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0081
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0082
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0083
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0084
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0085
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0086
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0087
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0088
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0089
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0090
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0091
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0092
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0093
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0094
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0095
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0096
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0097
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0098
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0099
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0100
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0101
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0102
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0103
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0104
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0105
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0106
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0107
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0108
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0109
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0110
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0111
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0112
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0113
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0114
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0115
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0116
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0117
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0118
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0119
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0120
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0121
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0122
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0123
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0124
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0125
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0126
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0127
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0128
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0129
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0130
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0131
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0132
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0133
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0134
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0135
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0136
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0137
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0138
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0139
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0140
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0141
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0142
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0143
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0144
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0145
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0146
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0147
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0148
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0149
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0150
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0151
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0152
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0153
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0154
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0155
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0156
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0157
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0158
+import Erdos848.GeneratedTailSupportProfileCoverage.K3PrefixGroup0159
+
+namespace Erdos848.GeneratedTailSupportProfileCoverage
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+def k3CertifiedPrefixes : List (List ℕ) :=
+  k3PrefixGroup0000 ++
+  k3PrefixGroup0001 ++
+  k3PrefixGroup0002 ++
+  k3PrefixGroup0003 ++
+  k3PrefixGroup0004 ++
+  k3PrefixGroup0005 ++
+  k3PrefixGroup0006 ++
+  k3PrefixGroup0007 ++
+  k3PrefixGroup0008 ++
+  k3PrefixGroup0009 ++
+  k3PrefixGroup0010 ++
+  k3PrefixGroup0011 ++
+  k3PrefixGroup0012 ++
+  k3PrefixGroup0013 ++
+  k3PrefixGroup0014 ++
+  k3PrefixGroup0015 ++
+  k3PrefixGroup0016 ++
+  k3PrefixGroup0017 ++
+  k3PrefixGroup0018 ++
+  k3PrefixGroup0019 ++
+  k3PrefixGroup0020 ++
+  k3PrefixGroup0021 ++
+  k3PrefixGroup0022 ++
+  k3PrefixGroup0023 ++
+  k3PrefixGroup0024 ++
+  k3PrefixGroup0025 ++
+  k3PrefixGroup0026 ++
+  k3PrefixGroup0027 ++
+  k3PrefixGroup0028 ++
+  k3PrefixGroup0029 ++
+  k3PrefixGroup0030 ++
+  k3PrefixGroup0031 ++
+  k3PrefixGroup0032 ++
+  k3PrefixGroup0033 ++
+  k3PrefixGroup0034 ++
+  k3PrefixGroup0035 ++
+  k3PrefixGroup0036 ++
+  k3PrefixGroup0037 ++
+  k3PrefixGroup0038 ++
+  k3PrefixGroup0039 ++
+  k3PrefixGroup0040 ++
+  k3PrefixGroup0041 ++
+  k3PrefixGroup0042 ++
+  k3PrefixGroup0043 ++
+  k3PrefixGroup0044 ++
+  k3PrefixGroup0045 ++
+  k3PrefixGroup0046 ++
+  k3PrefixGroup0047 ++
+  k3PrefixGroup0048 ++
+  k3PrefixGroup0049 ++
+  k3PrefixGroup0050 ++
+  k3PrefixGroup0051 ++
+  k3PrefixGroup0052 ++
+  k3PrefixGroup0053 ++
+  k3PrefixGroup0054 ++
+  k3PrefixGroup0055 ++
+  k3PrefixGroup0056 ++
+  k3PrefixGroup0057 ++
+  k3PrefixGroup0058 ++
+  k3PrefixGroup0059 ++
+  k3PrefixGroup0060 ++
+  k3PrefixGroup0061 ++
+  k3PrefixGroup0062 ++
+  k3PrefixGroup0063 ++
+  k3PrefixGroup0064 ++
+  k3PrefixGroup0065 ++
+  k3PrefixGroup0066 ++
+  k3PrefixGroup0067 ++
+  k3PrefixGroup0068 ++
+  k3PrefixGroup0069 ++
+  k3PrefixGroup0070 ++
+  k3PrefixGroup0071 ++
+  k3PrefixGroup0072 ++
+  k3PrefixGroup0073 ++
+  k3PrefixGroup0074 ++
+  k3PrefixGroup0075 ++
+  k3PrefixGroup0076 ++
+  k3PrefixGroup0077 ++
+  k3PrefixGroup0078 ++
+  k3PrefixGroup0079 ++
+  k3PrefixGroup0080 ++
+  k3PrefixGroup0081 ++
+  k3PrefixGroup0082 ++
+  k3PrefixGroup0083 ++
+  k3PrefixGroup0084 ++
+  k3PrefixGroup0085 ++
+  k3PrefixGroup0086 ++
+  k3PrefixGroup0087 ++
+  k3PrefixGroup0088 ++
+  k3PrefixGroup0089 ++
+  k3PrefixGroup0090 ++
+  k3PrefixGroup0091 ++
+  k3PrefixGroup0092 ++
+  k3PrefixGroup0093 ++
+  k3PrefixGroup0094 ++
+  k3PrefixGroup0095 ++
+  k3PrefixGroup0096 ++
+  k3PrefixGroup0097 ++
+  k3PrefixGroup0098 ++
+  k3PrefixGroup0099 ++
+  k3PrefixGroup0100 ++
+  k3PrefixGroup0101 ++
+  k3PrefixGroup0102 ++
+  k3PrefixGroup0103 ++
+  k3PrefixGroup0104 ++
+  k3PrefixGroup0105 ++
+  k3PrefixGroup0106 ++
+  k3PrefixGroup0107 ++
+  k3PrefixGroup0108 ++
+  k3PrefixGroup0109 ++
+  k3PrefixGroup0110 ++
+  k3PrefixGroup0111 ++
+  k3PrefixGroup0112 ++
+  k3PrefixGroup0113 ++
+  k3PrefixGroup0114 ++
+  k3PrefixGroup0115 ++
+  k3PrefixGroup0116 ++
+  k3PrefixGroup0117 ++
+  k3PrefixGroup0118 ++
+  k3PrefixGroup0119 ++
+  k3PrefixGroup0120 ++
+  k3PrefixGroup0121 ++
+  k3PrefixGroup0122 ++
+  k3PrefixGroup0123 ++
+  k3PrefixGroup0124 ++
+  k3PrefixGroup0125 ++
+  k3PrefixGroup0126 ++
+  k3PrefixGroup0127 ++
+  k3PrefixGroup0128 ++
+  k3PrefixGroup0129 ++
+  k3PrefixGroup0130 ++
+  k3PrefixGroup0131 ++
+  k3PrefixGroup0132 ++
+  k3PrefixGroup0133 ++
+  k3PrefixGroup0134 ++
+  k3PrefixGroup0135 ++
+  k3PrefixGroup0136 ++
+  k3PrefixGroup0137 ++
+  k3PrefixGroup0138 ++
+  k3PrefixGroup0139 ++
+  k3PrefixGroup0140 ++
+  k3PrefixGroup0141 ++
+  k3PrefixGroup0142 ++
+  k3PrefixGroup0143 ++
+  k3PrefixGroup0144 ++
+  k3PrefixGroup0145 ++
+  k3PrefixGroup0146 ++
+  k3PrefixGroup0147 ++
+  k3PrefixGroup0148 ++
+  k3PrefixGroup0149 ++
+  k3PrefixGroup0150 ++
+  k3PrefixGroup0151 ++
+  k3PrefixGroup0152 ++
+  k3PrefixGroup0153 ++
+  k3PrefixGroup0154 ++
+  k3PrefixGroup0155 ++
+  k3PrefixGroup0156 ++
+  k3PrefixGroup0157 ++
+  k3PrefixGroup0158 ++
+  k3PrefixGroup0159
+
+theorem k3CertifiedPrefixes_eq :
+    k3CertifiedPrefixes = Erdos848.fiveMillionOddRootK3FeasiblePrefixes := by
+  decide
+
+theorem k3CertifiedPrefixes_pass :
+    k3CertifiedPrefixes.all
+      (Erdos848.fiveMillionOddRootProfilePrefixPasses 278) = true := by
+  simp only [k3CertifiedPrefixes, List.all_append]
+  rw [k3PrefixGroup0000_passes]
+  rw [k3PrefixGroup0001_passes]
+  rw [k3PrefixGroup0002_passes]
+  rw [k3PrefixGroup0003_passes]
+  rw [k3PrefixGroup0004_passes]
+  rw [k3PrefixGroup0005_passes]
+  rw [k3PrefixGroup0006_passes]
+  rw [k3PrefixGroup0007_passes]
+  rw [k3PrefixGroup0008_passes]
+  rw [k3PrefixGroup0009_passes]
+  rw [k3PrefixGroup0010_passes]
+  rw [k3PrefixGroup0011_passes]
+  rw [k3PrefixGroup0012_passes]
+  rw [k3PrefixGroup0013_passes]
+  rw [k3PrefixGroup0014_passes]
+  rw [k3PrefixGroup0015_passes]
+  rw [k3PrefixGroup0016_passes]
+  rw [k3PrefixGroup0017_passes]
+  rw [k3PrefixGroup0018_passes]
+  rw [k3PrefixGroup0019_passes]
+  rw [k3PrefixGroup0020_passes]
+  rw [k3PrefixGroup0021_passes]
+  rw [k3PrefixGroup0022_passes]
+  rw [k3PrefixGroup0023_passes]
+  rw [k3PrefixGroup0024_passes]
+  rw [k3PrefixGroup0025_passes]
+  rw [k3PrefixGroup0026_passes]
+  rw [k3PrefixGroup0027_passes]
+  rw [k3PrefixGroup0028_passes]
+  rw [k3PrefixGroup0029_passes]
+  rw [k3PrefixGroup0030_passes]
+  rw [k3PrefixGroup0031_passes]
+  rw [k3PrefixGroup0032_passes]
+  rw [k3PrefixGroup0033_passes]
+  rw [k3PrefixGroup0034_passes]
+  rw [k3PrefixGroup0035_passes]
+  rw [k3PrefixGroup0036_passes]
+  rw [k3PrefixGroup0037_passes]
+  rw [k3PrefixGroup0038_passes]
+  rw [k3PrefixGroup0039_passes]
+  rw [k3PrefixGroup0040_passes]
+  rw [k3PrefixGroup0041_passes]
+  rw [k3PrefixGroup0042_passes]
+  rw [k3PrefixGroup0043_passes]
+  rw [k3PrefixGroup0044_passes]
+  rw [k3PrefixGroup0045_passes]
+  rw [k3PrefixGroup0046_passes]
+  rw [k3PrefixGroup0047_passes]
+  rw [k3PrefixGroup0048_passes]
+  rw [k3PrefixGroup0049_passes]
+  rw [k3PrefixGroup0050_passes]
+  rw [k3PrefixGroup0051_passes]
+  rw [k3PrefixGroup0052_passes]
+  rw [k3PrefixGroup0053_passes]
+  rw [k3PrefixGroup0054_passes]
+  rw [k3PrefixGroup0055_passes]
+  rw [k3PrefixGroup0056_passes]
+  rw [k3PrefixGroup0057_passes]
+  rw [k3PrefixGroup0058_passes]
+  rw [k3PrefixGroup0059_passes]
+  rw [k3PrefixGroup0060_passes]
+  rw [k3PrefixGroup0061_passes]
+  rw [k3PrefixGroup0062_passes]
+  rw [k3PrefixGroup0063_passes]
+  rw [k3PrefixGroup0064_passes]
+  rw [k3PrefixGroup0065_passes]
+  rw [k3PrefixGroup0066_passes]
+  rw [k3PrefixGroup0067_passes]
+  rw [k3PrefixGroup0068_passes]
+  rw [k3PrefixGroup0069_passes]
+  rw [k3PrefixGroup0070_passes]
+  rw [k3PrefixGroup0071_passes]
+  rw [k3PrefixGroup0072_passes]
+  rw [k3PrefixGroup0073_passes]
+  rw [k3PrefixGroup0074_passes]
+  rw [k3PrefixGroup0075_passes]
+  rw [k3PrefixGroup0076_passes]
+  rw [k3PrefixGroup0077_passes]
+  rw [k3PrefixGroup0078_passes]
+  rw [k3PrefixGroup0079_passes]
+  rw [k3PrefixGroup0080_passes]
+  rw [k3PrefixGroup0081_passes]
+  rw [k3PrefixGroup0082_passes]
+  rw [k3PrefixGroup0083_passes]
+  rw [k3PrefixGroup0084_passes]
+  rw [k3PrefixGroup0085_passes]
+  rw [k3PrefixGroup0086_passes]
+  rw [k3PrefixGroup0087_passes]
+  rw [k3PrefixGroup0088_passes]
+  rw [k3PrefixGroup0089_passes]
+  rw [k3PrefixGroup0090_passes]
+  rw [k3PrefixGroup0091_passes]
+  rw [k3PrefixGroup0092_passes]
+  rw [k3PrefixGroup0093_passes]
+  rw [k3PrefixGroup0094_passes]
+  rw [k3PrefixGroup0095_passes]
+  rw [k3PrefixGroup0096_passes]
+  rw [k3PrefixGroup0097_passes]
+  rw [k3PrefixGroup0098_passes]
+  rw [k3PrefixGroup0099_passes]
+  rw [k3PrefixGroup0100_passes]
+  rw [k3PrefixGroup0101_passes]
+  rw [k3PrefixGroup0102_passes]
+  rw [k3PrefixGroup0103_passes]
+  rw [k3PrefixGroup0104_passes]
+  rw [k3PrefixGroup0105_passes]
+  rw [k3PrefixGroup0106_passes]
+  rw [k3PrefixGroup0107_passes]
+  rw [k3PrefixGroup0108_passes]
+  rw [k3PrefixGroup0109_passes]
+  rw [k3PrefixGroup0110_passes]
+  rw [k3PrefixGroup0111_passes]
+  rw [k3PrefixGroup0112_passes]
+  rw [k3PrefixGroup0113_passes]
+  rw [k3PrefixGroup0114_passes]
+  rw [k3PrefixGroup0115_passes]
+  rw [k3PrefixGroup0116_passes]
+  rw [k3PrefixGroup0117_passes]
+  rw [k3PrefixGroup0118_passes]
+  rw [k3PrefixGroup0119_passes]
+  rw [k3PrefixGroup0120_passes]
+  rw [k3PrefixGroup0121_passes]
+  rw [k3PrefixGroup0122_passes]
+  rw [k3PrefixGroup0123_passes]
+  rw [k3PrefixGroup0124_passes]
+  rw [k3PrefixGroup0125_passes]
+  rw [k3PrefixGroup0126_passes]
+  rw [k3PrefixGroup0127_passes]
+  rw [k3PrefixGroup0128_passes]
+  rw [k3PrefixGroup0129_passes]
+  rw [k3PrefixGroup0130_passes]
+  rw [k3PrefixGroup0131_passes]
+  rw [k3PrefixGroup0132_passes]
+  rw [k3PrefixGroup0133_passes]
+  rw [k3PrefixGroup0134_passes]
+  rw [k3PrefixGroup0135_passes]
+  rw [k3PrefixGroup0136_passes]
+  rw [k3PrefixGroup0137_passes]
+  rw [k3PrefixGroup0138_passes]
+  rw [k3PrefixGroup0139_passes]
+  rw [k3PrefixGroup0140_passes]
+  rw [k3PrefixGroup0141_passes]
+  rw [k3PrefixGroup0142_passes]
+  rw [k3PrefixGroup0143_passes]
+  rw [k3PrefixGroup0144_passes]
+  rw [k3PrefixGroup0145_passes]
+  rw [k3PrefixGroup0146_passes]
+  rw [k3PrefixGroup0147_passes]
+  rw [k3PrefixGroup0148_passes]
+  rw [k3PrefixGroup0149_passes]
+  rw [k3PrefixGroup0150_passes]
+  rw [k3PrefixGroup0151_passes]
+  rw [k3PrefixGroup0152_passes]
+  rw [k3PrefixGroup0153_passes]
+  rw [k3PrefixGroup0154_passes]
+  rw [k3PrefixGroup0155_passes]
+  rw [k3PrefixGroup0156_passes]
+  rw [k3PrefixGroup0157_passes]
+  rw [k3PrefixGroup0158_passes]
+  rw [k3PrefixGroup0159_passes]
+  decide
+
+theorem k3FeasiblePrefixes_pass :
+    Erdos848.fiveMillionOddRootK3FeasiblePrefixes.all
+      (Erdos848.fiveMillionOddRootProfilePrefixPasses 278) = true := by
+  rw [← k3CertifiedPrefixes_eq]
+  exact k3CertifiedPrefixes_pass
+
+#print axioms k3FeasiblePrefixes_pass
+
+end Erdos848.GeneratedTailSupportProfileCoverage

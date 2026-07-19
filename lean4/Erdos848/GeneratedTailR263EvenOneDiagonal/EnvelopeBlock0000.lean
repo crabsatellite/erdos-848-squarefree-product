@@ -1,0 +1,1336 @@
+import Erdos848.GeneratedTailR263EvenOneDiagonal.CoreAggregate
+
+namespace Erdos848.GeneratedTailR263EvenOneDiagonal
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+def envelope0000BaseCounts : TailR263DiagonalTarget -> Nat
+  | .lowTwo => 79010
+  | .evenTwoCell residue => ![1762, 1754, 1759, 1755, 1766, 1751, 1762, 1753, 1760] residue
+
+def envelope0000CellCounts : Fin 9 -> Nat :=
+  ![3508, 3507, 3507, 3512, 3497, 3522, 3516, 3518, 3523]
+
+def envelope0000FibreCounts : Fin 9 -> Fin 49 -> Nat :=
+  ![![68, 69, 68, 72, 69, 69, 70, 75, 70, 74, 67, 72, 75, 70, 67, 75, 69, 71, 69, 75, 75, 69, 70, 74, 68, 70, 71, 75, 69, 67, 70, 74, 72, 73, 69, 75, 74, 70, 73, 79, 71, 71, 66, 78, 77, 73, 65, 80, 76], ![67, 76, 73, 69, 74, 68, 75, 78, 66, 68, 70, 77, 71, 72, 66, 75, 72, 67, 69, 71, 78, 71, 65, 76, 74, 71, 70, 75, 76, 74, 77, 70, 75, 68, 67, 72, 72, 77, 75, 66, 70, 70, 71, 68, 73, 73, 68, 71, 70], ![78, 68, 68, 77, 70, 70, 68, 75, 75, 70, 70, 71, 76, 75, 70, 68, 71, 75, 75, 75, 72, 70, 65, 67, 73, 66, 71, 75, 69, 71, 69, 68, 71, 70, 68, 71, 83, 75, 69, 71, 72, 70, 76, 75, 75, 68, 68, 72, 72], ![78, 76, 70, 73, 74, 71, 73, 73, 73, 73, 68, 74, 74, 69, 68, 71, 71, 72, 71, 69, 74, 74, 68, 71, 75, 77, 72, 66, 75, 79, 71, 65, 70, 70, 76, 67, 75, 74, 68, 68, 70, 74, 73, 71, 73, 67, 69, 70, 69], ![75, 71, 65, 70, 71, 77, 69, 65, 73, 74, 70, 71, 76, 68, 73, 67, 72, 74, 68, 72, 68, 73, 70, 72, 73, 75, 71, 65, 74, 82, 71, 72, 72, 74, 69, 76, 66, 71, 70, 69, 75, 77, 73, 65, 68, 76, 67, 68, 74], ![70, 71, 76, 74, 74, 81, 74, 66, 74, 72, 70, 73, 73, 69, 73, 72, 68, 76, 67, 67, 75, 70, 77, 71, 72, 72, 70, 68, 71, 76, 70, 70, 66, 74, 78, 69, 71, 69, 78, 73, 70, 74, 75, 71, 69, 68, 74, 72, 69], ![69, 76, 72, 75, 69, 72, 72, 70, 72, 74, 73, 72, 70, 73, 76, 68, 70, 70, 74, 70, 65, 71, 76, 74, 69, 72, 73, 77, 69, 65, 73, 71, 67, 75, 72, 68, 70, 72, 67, 73, 71, 73, 76, 71, 75, 76, 76, 70, 72], ![64, 71, 73, 74, 73, 65, 69, 73, 71, 69, 74, 71, 67, 72, 72, 75, 71, 71, 75, 74, 74, 73, 76, 66, 74, 75, 70, 77, 68, 68, 74, 71, 67, 76, 74, 73, 71, 72, 77, 73, 78, 66, 72, 78, 66, 70, 71, 74, 70], ![75, 75, 77, 66, 68, 71, 74, 78, 73, 70, 77, 75, 62, 73, 75, 74, 72, 68, 75, 72, 67, 70, 74, 71, 72, 70, 71, 75, 65, 66, 76, 69, 76, 74, 67, 76, 72, 68, 73, 75, 70, 71, 68, 70, 76, 73, 74, 73, 71]]
+
+def envelope0000FibreMax : Fin 9 -> Nat :=
+  ![80, 78, 83, 79, 82, 81, 77, 78, 78]
+
+theorem envelope0000 : TailR263EvenOneDiagonalRange 5000000 5025000 := by
+  intro N hLower hStop
+  have hNUpper : N <= 5024999 := by omega
+  have hbaseCutoff : ∀ target,
+      (GeneratedTailR263Diagonal.targetMarkers target).Cutoff 5024999 (envelope0000BaseCounts target) := by
+    intro target
+    cases target with
+    | lowTwo => decide
+    | evenTwoCell residue => fin_cases residue <;> decide
+  have hcellCutoff : ∀ cell,
+      (cellTargets cell).Cutoff 5024999 (envelope0000CellCounts cell) := by
+    intro cell
+    fin_cases cell <;> decide
+  have hfibreCutoff : ∀ cell residue,
+      (fibreTargets cell residue).Cutoff 5024999 (envelope0000FibreCounts cell residue) := by
+    intro cell residue
+    fin_cases cell <;> fin_cases residue <;> decide
+  have hsource := tailDiagonalBad_card_le_marker
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailDiagonalCoverage.indexedMarkerOrdered
+    (upper := 5024999) (count := 126442) (by decide)
+    (by decide) hNUpper
+  have hbase := tailR263EvenTwoAllDiagonal_card_le
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailR263Diagonal.targetMarkers
+    GeneratedTailR263Diagonal.projectsTargets
+    GeneratedTailR263Diagonal.targetMarkersOrdered
+    envelope0000BaseCounts hbaseCutoff (by decide) hNUpper
+  refine { unrestricted := ?_, concentrated := ?_, fibreCover := ?_ }
+  · have hratio := natCardRatio_le_block
+      (lower := 5000000) (N := N) (by decide) hLower hsource
+    exact hratio.trans (by norm_num [tailR263EvenOneUnrestrictedDiagonalEnvelope])
+  · intro cell
+    have hcell := tailR263EvenOneCellDiagonal_card_le
+      GeneratedTailDiagonalCoverage.certificate cellTargets
+      projectsCells (cellTargetsOrdered cell)
+      (hcellCutoff cell) (by decide) hNUpper
+    have hcard := tailR263EvenOneConcentratedDiagonal_card_le
+      hbase hcell
+    have hratio := natCardRatio_le_block
+      (lower := 5000000) (N := N) (by decide) hLower hcard
+    fin_cases cell <;> exact hratio.trans (by norm_num [envelope0000BaseCounts, envelope0000CellCounts, tailR263EvenOneConcentratedDiagonalEnvelope])
+  · intro cells residues
+    have hfibre : ∀ cell ∈ cells,
+        (tailR263EvenOneCellFibreDiagonal N cell (residues cell)).card <= envelope0000FibreMax cell := by
+      intro cell hcell
+      have hexact := tailR263EvenOneCellFibreDiagonal_card_le
+        GeneratedTailDiagonalCoverage.certificate cellTargets
+        projectsCells fibreTargets projectsFibres
+        (fibreTargetsOrdered cell (residues cell))
+        (hfibreCutoff cell (residues cell)) (by decide) hNUpper
+      generalize hresidue : residues cell = residue at hexact ⊢
+      fin_cases cell <;> fin_cases residue <;>
+        exact hexact.trans (by norm_num [envelope0000FibreCounts, envelope0000FibreMax])
+    have hcard := tailR263EvenOneFibreCoverDiagonal_card_le
+      hbase hfibre
+    have hsum :
+        (∑ cell ∈ cells, envelope0000FibreMax cell) <=
+          ∑ cell : Fin 9, envelope0000FibreMax cell := by
+      exact Finset.sum_le_sum_of_subset_of_nonneg
+        (Finset.subset_univ cells) (by omega)
+    have hcard' :
+        (tailR263EvenOneFibreCoverDiagonal N cells residues).card <=
+          ((tailR263EvenTwoAllDiagonal N).card +
+            ∑ cell : Fin 9, envelope0000FibreMax cell) := by
+      exact hcard.trans (Nat.add_le_add_left hsum _)
+    have hratio := natCardRatio_le_block
+      (lower := 5000000) (N := N) (by decide) hLower hcard'
+    exact hratio.trans (by norm_num [envelope0000BaseCounts, envelope0000FibreMax, tailR263EvenOneFibreCoverDiagonalEnvelope])
+
+def envelope0001BaseCounts : TailR263DiagonalTarget -> Nat
+  | .lowTwo => 79413
+  | .evenTwoCell residue => ![1768, 1759, 1767, 1763, 1776, 1760, 1771, 1763, 1770] residue
+
+def envelope0001CellCounts : Fin 9 -> Nat :=
+  ![3522, 3525, 3524, 3530, 3512, 3539, 3532, 3536, 3540]
+
+def envelope0001FibreCounts : Fin 9 -> Fin 49 -> Nat :=
+  ![![69, 70, 69, 72, 69, 69, 70, 75, 71, 75, 68, 73, 75, 70, 67, 75, 70, 71, 70, 75, 75, 69, 70, 74, 69, 70, 71, 75, 69, 67, 70, 74, 72, 74, 69, 75, 74, 70, 73, 79, 71, 71, 67, 79, 78, 73, 65, 80, 76], ![69, 76, 74, 69, 74, 68, 76, 78, 67, 68, 71, 77, 71, 72, 69, 76, 73, 67, 70, 71, 78, 71, 65, 76, 74, 72, 70, 75, 76, 74, 77, 71, 75, 68, 67, 73, 72, 77, 75, 67, 70, 71, 71, 68, 73, 73, 68, 72, 70], ![78, 68, 68, 77, 71, 70, 69, 76, 75, 71, 70, 71, 76, 75, 70, 68, 71, 75, 75, 75, 72, 73, 65, 68, 74, 66, 72, 75, 69, 72, 69, 69, 71, 70, 68, 71, 83, 75, 69, 72, 73, 70, 77, 75, 75, 69, 68, 73, 72], ![79, 76, 70, 73, 75, 71, 73, 73, 74, 73, 68, 75, 74, 70, 69, 71, 71, 72, 71, 70, 74, 74, 68, 71, 75, 77, 72, 67, 75, 80, 72, 68, 71, 71, 76, 68, 75, 75, 68, 68, 70, 74, 73, 71, 73, 67, 69, 71, 69], ![75, 72, 65, 71, 71, 77, 69, 65, 73, 75, 70, 72, 76, 68, 73, 68, 72, 75, 68, 73, 68, 73, 71, 72, 74, 75, 71, 66, 74, 82, 71, 72, 72, 74, 70, 76, 66, 71, 71, 69, 76, 77, 73, 66, 69, 76, 67, 68, 74], ![70, 72, 76, 74, 74, 81, 74, 67, 74, 73, 70, 73, 73, 71, 73, 73, 68, 77, 67, 67, 75, 70, 77, 71, 72, 72, 70, 68, 71, 78, 70, 71, 66, 74, 78, 69, 71, 69, 78, 73, 71, 74, 77, 71, 70, 69, 74, 72, 71], ![69, 77, 72, 75, 70, 73, 73, 72, 72, 74, 73, 72, 70, 73, 76, 68, 70, 70, 74, 70, 66, 71, 77, 74, 69, 72, 73, 77, 69, 65, 73, 71, 68, 75, 72, 68, 71, 72, 69, 73, 72, 73, 76, 72, 75, 76, 77, 70, 73], ![64, 71, 73, 74, 73, 65, 69, 73, 71, 69, 74, 71, 67, 73, 73, 75, 73, 71, 76, 74, 75, 73, 77, 66, 74, 75, 70, 78, 69, 70, 75, 71, 67, 76, 74, 73, 72, 72, 78, 74, 78, 66, 72, 78, 67, 70, 73, 74, 70], ![76, 75, 79, 67, 70, 71, 74, 78, 73, 71, 78, 75, 63, 73, 75, 74, 72, 68, 77, 72, 69, 70, 74, 71, 73, 70, 72, 75, 65, 66, 76, 69, 76, 74, 68, 76, 72, 68, 73, 75, 70, 71, 68, 70, 76, 73, 75, 73, 71]]
+
+def envelope0001FibreMax : Fin 9 -> Nat :=
+  ![80, 78, 83, 80, 82, 81, 77, 78, 79]
+
+theorem envelope0001 : TailR263EvenOneDiagonalRange 5025000 5050125 := by
+  intro N hLower hStop
+  have hNUpper : N <= 5050124 := by omega
+  have hbaseCutoff : ∀ target,
+      (GeneratedTailR263Diagonal.targetMarkers target).Cutoff 5050124 (envelope0001BaseCounts target) := by
+    intro target
+    cases target with
+    | lowTwo => decide
+    | evenTwoCell residue => fin_cases residue <;> decide
+  have hcellCutoff : ∀ cell,
+      (cellTargets cell).Cutoff 5050124 (envelope0001CellCounts cell) := by
+    intro cell
+    fin_cases cell <;> decide
+  have hfibreCutoff : ∀ cell residue,
+      (fibreTargets cell residue).Cutoff 5050124 (envelope0001FibreCounts cell residue) := by
+    intro cell residue
+    fin_cases cell <;> fin_cases residue <;> decide
+  have hsource := tailDiagonalBad_card_le_marker
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailDiagonalCoverage.indexedMarkerOrdered
+    (upper := 5050124) (count := 127070) (by decide)
+    (by decide) hNUpper
+  have hbase := tailR263EvenTwoAllDiagonal_card_le
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailR263Diagonal.targetMarkers
+    GeneratedTailR263Diagonal.projectsTargets
+    GeneratedTailR263Diagonal.targetMarkersOrdered
+    envelope0001BaseCounts hbaseCutoff (by decide) hNUpper
+  refine { unrestricted := ?_, concentrated := ?_, fibreCover := ?_ }
+  · have hratio := natCardRatio_le_block
+      (lower := 5025000) (N := N) (by decide) hLower hsource
+    exact hratio.trans (by norm_num [tailR263EvenOneUnrestrictedDiagonalEnvelope])
+  · intro cell
+    have hcell := tailR263EvenOneCellDiagonal_card_le
+      GeneratedTailDiagonalCoverage.certificate cellTargets
+      projectsCells (cellTargetsOrdered cell)
+      (hcellCutoff cell) (by decide) hNUpper
+    have hcard := tailR263EvenOneConcentratedDiagonal_card_le
+      hbase hcell
+    have hratio := natCardRatio_le_block
+      (lower := 5025000) (N := N) (by decide) hLower hcard
+    fin_cases cell <;> exact hratio.trans (by norm_num [envelope0001BaseCounts, envelope0001CellCounts, tailR263EvenOneConcentratedDiagonalEnvelope])
+  · intro cells residues
+    have hfibre : ∀ cell ∈ cells,
+        (tailR263EvenOneCellFibreDiagonal N cell (residues cell)).card <= envelope0001FibreMax cell := by
+      intro cell hcell
+      have hexact := tailR263EvenOneCellFibreDiagonal_card_le
+        GeneratedTailDiagonalCoverage.certificate cellTargets
+        projectsCells fibreTargets projectsFibres
+        (fibreTargetsOrdered cell (residues cell))
+        (hfibreCutoff cell (residues cell)) (by decide) hNUpper
+      generalize hresidue : residues cell = residue at hexact ⊢
+      fin_cases cell <;> fin_cases residue <;>
+        exact hexact.trans (by norm_num [envelope0001FibreCounts, envelope0001FibreMax])
+    have hcard := tailR263EvenOneFibreCoverDiagonal_card_le
+      hbase hfibre
+    have hsum :
+        (∑ cell ∈ cells, envelope0001FibreMax cell) <=
+          ∑ cell : Fin 9, envelope0001FibreMax cell := by
+      exact Finset.sum_le_sum_of_subset_of_nonneg
+        (Finset.subset_univ cells) (by omega)
+    have hcard' :
+        (tailR263EvenOneFibreCoverDiagonal N cells residues).card <=
+          ((tailR263EvenTwoAllDiagonal N).card +
+            ∑ cell : Fin 9, envelope0001FibreMax cell) := by
+      exact hcard.trans (Nat.add_le_add_left hsum _)
+    have hratio := natCardRatio_le_block
+      (lower := 5025000) (N := N) (by decide) hLower hcard'
+    exact hratio.trans (by norm_num [envelope0001BaseCounts, envelope0001FibreMax, tailR263EvenOneFibreCoverDiagonalEnvelope])
+
+def envelope0002BaseCounts : TailR263DiagonalTarget -> Nat
+  | .lowTwo => 79800
+  | .evenTwoCell residue => ![1777, 1771, 1777, 1771, 1786, 1767, 1779, 1771, 1777] residue
+
+def envelope0002CellCounts : Fin 9 -> Nat :=
+  ![3541, 3542, 3540, 3552, 3531, 3558, 3547, 3553, 3558]
+
+def envelope0002FibreCounts : Fin 9 -> Fin 49 -> Nat :=
+  ![![69, 71, 69, 72, 69, 69, 70, 77, 72, 75, 69, 73, 75, 71, 67, 75, 70, 71, 70, 75, 75, 69, 70, 75, 69, 72, 72, 77, 69, 67, 70, 74, 72, 74, 70, 75, 74, 70, 73, 79, 72, 72, 68, 80, 78, 73, 66, 80, 77], ![69, 77, 74, 69, 74, 68, 76, 78, 69, 68, 71, 77, 71, 72, 69, 76, 73, 67, 70, 71, 78, 71, 66, 76, 75, 74, 70, 75, 76, 74, 78, 72, 77, 68, 68, 73, 73, 77, 76, 67, 71, 71, 71, 68, 73, 73, 69, 72, 71], ![78, 68, 68, 77, 71, 70, 70, 76, 75, 71, 70, 71, 77, 75, 71, 68, 71, 75, 75, 76, 72, 73, 66, 68, 74, 67, 73, 75, 70, 72, 70, 69, 72, 70, 68, 71, 84, 75, 69, 73, 73, 71, 77, 75, 77, 70, 68, 73, 72], ![79, 76, 71, 73, 76, 71, 73, 73, 74, 73, 70, 75, 75, 70, 71, 71, 72, 72, 72, 70, 75, 74, 68, 71, 75, 80, 73, 67, 75, 80, 73, 68, 72, 72, 76, 68, 76, 75, 68, 68, 70, 74, 73, 72, 73, 68, 71, 71, 69], ![76, 72, 66, 72, 71, 78, 69, 66, 74, 75, 71, 72, 77, 68, 73, 68, 73, 75, 68, 73, 68, 74, 71, 73, 74, 75, 71, 66, 75, 82, 71, 72, 72, 75, 70, 77, 66, 72, 71, 70, 76, 78, 73, 67, 70, 76, 67, 68, 74], ![71, 72, 76, 74, 74, 82, 74, 67, 74, 74, 70, 73, 74, 71, 74, 73, 68, 77, 67, 68, 75, 70, 77, 72, 72, 73, 71, 68, 72, 78, 71, 72, 66, 75, 78, 69, 71, 69, 78, 74, 71, 75, 79, 71, 70, 69, 74, 74, 71], ![69, 77, 72, 76, 70, 73, 73, 72, 72, 74, 73, 72, 70, 74, 76, 69, 72, 70, 74, 71, 66, 73, 77, 74, 69, 72, 73, 78, 69, 66, 73, 72, 68, 75, 72, 68, 71, 74, 69, 74, 73, 73, 76, 72, 75, 76, 77, 70, 73], ![64, 71, 74, 75, 73, 66, 69, 73, 71, 70, 77, 72, 68, 74, 73, 75, 73, 71, 76, 75, 75, 74, 77, 66, 74, 75, 70, 78, 69, 71, 75, 71, 67, 77, 74, 73, 72, 72, 78, 74, 78, 66, 72, 79, 67, 71, 73, 74, 71], ![76, 76, 79, 69, 70, 71, 74, 78, 73, 72, 78, 75, 63, 73, 76, 74, 72, 70, 77, 74, 69, 70, 74, 71, 73, 70, 73, 75, 65, 66, 76, 69, 77, 74, 69, 76, 74, 68, 73, 75, 72, 71, 69, 70, 77, 73, 75, 73, 71]]
+
+def envelope0002FibreMax : Fin 9 -> Nat :=
+  ![80, 78, 84, 80, 82, 82, 78, 79, 79]
+
+theorem envelope0002 : TailR263EvenOneDiagonalRange 5050125 5075375 := by
+  intro N hLower hStop
+  have hNUpper : N <= 5075374 := by omega
+  have hbaseCutoff : ∀ target,
+      (GeneratedTailR263Diagonal.targetMarkers target).Cutoff 5075374 (envelope0002BaseCounts target) := by
+    intro target
+    cases target with
+    | lowTwo => decide
+    | evenTwoCell residue => fin_cases residue <;> decide
+  have hcellCutoff : ∀ cell,
+      (cellTargets cell).Cutoff 5075374 (envelope0002CellCounts cell) := by
+    intro cell
+    fin_cases cell <;> decide
+  have hfibreCutoff : ∀ cell residue,
+      (fibreTargets cell residue).Cutoff 5075374 (envelope0002FibreCounts cell residue) := by
+    intro cell residue
+    fin_cases cell <;> fin_cases residue <;> decide
+  have hsource := tailDiagonalBad_card_le_marker
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailDiagonalCoverage.indexedMarkerOrdered
+    (upper := 5075374) (count := 127698) (by decide)
+    (by decide) hNUpper
+  have hbase := tailR263EvenTwoAllDiagonal_card_le
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailR263Diagonal.targetMarkers
+    GeneratedTailR263Diagonal.projectsTargets
+    GeneratedTailR263Diagonal.targetMarkersOrdered
+    envelope0002BaseCounts hbaseCutoff (by decide) hNUpper
+  refine { unrestricted := ?_, concentrated := ?_, fibreCover := ?_ }
+  · have hratio := natCardRatio_le_block
+      (lower := 5050125) (N := N) (by decide) hLower hsource
+    exact hratio.trans (by norm_num [tailR263EvenOneUnrestrictedDiagonalEnvelope])
+  · intro cell
+    have hcell := tailR263EvenOneCellDiagonal_card_le
+      GeneratedTailDiagonalCoverage.certificate cellTargets
+      projectsCells (cellTargetsOrdered cell)
+      (hcellCutoff cell) (by decide) hNUpper
+    have hcard := tailR263EvenOneConcentratedDiagonal_card_le
+      hbase hcell
+    have hratio := natCardRatio_le_block
+      (lower := 5050125) (N := N) (by decide) hLower hcard
+    fin_cases cell <;> exact hratio.trans (by norm_num [envelope0002BaseCounts, envelope0002CellCounts, tailR263EvenOneConcentratedDiagonalEnvelope])
+  · intro cells residues
+    have hfibre : ∀ cell ∈ cells,
+        (tailR263EvenOneCellFibreDiagonal N cell (residues cell)).card <= envelope0002FibreMax cell := by
+      intro cell hcell
+      have hexact := tailR263EvenOneCellFibreDiagonal_card_le
+        GeneratedTailDiagonalCoverage.certificate cellTargets
+        projectsCells fibreTargets projectsFibres
+        (fibreTargetsOrdered cell (residues cell))
+        (hfibreCutoff cell (residues cell)) (by decide) hNUpper
+      generalize hresidue : residues cell = residue at hexact ⊢
+      fin_cases cell <;> fin_cases residue <;>
+        exact hexact.trans (by norm_num [envelope0002FibreCounts, envelope0002FibreMax])
+    have hcard := tailR263EvenOneFibreCoverDiagonal_card_le
+      hbase hfibre
+    have hsum :
+        (∑ cell ∈ cells, envelope0002FibreMax cell) <=
+          ∑ cell : Fin 9, envelope0002FibreMax cell := by
+      exact Finset.sum_le_sum_of_subset_of_nonneg
+        (Finset.subset_univ cells) (by omega)
+    have hcard' :
+        (tailR263EvenOneFibreCoverDiagonal N cells residues).card <=
+          ((tailR263EvenTwoAllDiagonal N).card +
+            ∑ cell : Fin 9, envelope0002FibreMax cell) := by
+      exact hcard.trans (Nat.add_le_add_left hsum _)
+    have hratio := natCardRatio_le_block
+      (lower := 5050125) (N := N) (by decide) hLower hcard'
+    exact hratio.trans (by norm_num [envelope0002BaseCounts, envelope0002FibreMax, tailR263EvenOneFibreCoverDiagonalEnvelope])
+
+def envelope0003BaseCounts : TailR263DiagonalTarget -> Nat
+  | .lowTwo => 80208
+  | .evenTwoCell residue => ![1787, 1779, 1787, 1782, 1796, 1776, 1786, 1779, 1783] residue
+
+def envelope0003CellCounts : Fin 9 -> Nat :=
+  ![3562, 3562, 3561, 3567, 3546, 3574, 3566, 3571, 3574]
+
+def envelope0003FibreCounts : Fin 9 -> Fin 49 -> Nat :=
+  ![![70, 71, 69, 72, 69, 70, 71, 77, 74, 76, 69, 73, 75, 71, 67, 75, 70, 72, 70, 75, 76, 72, 70, 76, 70, 73, 73, 77, 69, 67, 70, 75, 72, 75, 70, 75, 74, 70, 73, 80, 73, 73, 69, 80, 78, 73, 66, 80, 77], ![69, 77, 76, 69, 74, 69, 76, 79, 69, 68, 71, 78, 71, 73, 69, 79, 73, 67, 70, 71, 78, 72, 66, 77, 75, 74, 71, 75, 76, 75, 78, 74, 79, 69, 68, 73, 73, 77, 76, 67, 71, 71, 71, 68, 73, 73, 69, 73, 72], ![78, 68, 68, 78, 71, 71, 71, 76, 76, 71, 71, 72, 77, 75, 71, 68, 72, 75, 75, 77, 73, 73, 68, 68, 75, 67, 73, 75, 70, 72, 70, 69, 72, 70, 68, 71, 84, 75, 73, 73, 74, 71, 77, 76, 78, 71, 69, 73, 72], ![79, 77, 71, 74, 76, 71, 73, 73, 74, 74, 70, 75, 75, 70, 71, 72, 72, 72, 72, 72, 76, 74, 68, 71, 75, 80, 73, 67, 76, 81, 73, 69, 72, 72, 77, 68, 77, 75, 68, 68, 70, 74, 74, 72, 74, 68, 71, 71, 70], ![76, 72, 66, 72, 72, 78, 73, 66, 74, 75, 71, 72, 77, 68, 73, 68, 73, 75, 68, 73, 69, 74, 72, 73, 75, 75, 72, 66, 76, 82, 71, 72, 73, 75, 71, 77, 66, 72, 71, 70, 77, 78, 74, 67, 70, 76, 67, 68, 75], ![71, 72, 76, 75, 74, 82, 75, 67, 75, 74, 70, 74, 74, 72, 75, 73, 69, 77, 67, 68, 75, 70, 77, 72, 73, 73, 71, 68, 72, 78, 72, 72, 67, 75, 78, 69, 73, 69, 79, 74, 72, 75, 79, 71, 71, 69, 75, 74, 71], ![69, 77, 73, 76, 72, 74, 73, 72, 72, 74, 73, 73, 71, 74, 77, 69, 72, 70, 76, 71, 68, 73, 78, 76, 69, 72, 73, 78, 69, 66, 73, 72, 68, 76, 72, 69, 71, 75, 69, 74, 73, 73, 76, 72, 75, 77, 77, 71, 73], ![64, 71, 75, 75, 76, 66, 69, 73, 72, 71, 77, 73, 70, 74, 73, 75, 73, 71, 76, 75, 75, 74, 77, 66, 75, 75, 72, 78, 70, 71, 75, 71, 67, 77, 74, 74, 72, 73, 78, 74, 78, 66, 73, 80, 67, 72, 73, 74, 71], ![78, 76, 81, 69, 70, 71, 74, 78, 73, 72, 79, 75, 63, 73, 76, 74, 73, 71, 77, 74, 69, 70, 74, 71, 73, 71, 73, 76, 65, 66, 76, 69, 77, 75, 69, 78, 74, 68, 74, 75, 72, 72, 69, 71, 78, 73, 75, 73, 71]]
+
+def envelope0003FibreMax : Fin 9 -> Nat :=
+  ![80, 79, 84, 81, 82, 82, 78, 80, 81]
+
+theorem envelope0003 : TailR263EvenOneDiagonalRange 5075375 5100751 := by
+  intro N hLower hStop
+  have hNUpper : N <= 5100750 := by omega
+  have hbaseCutoff : ∀ target,
+      (GeneratedTailR263Diagonal.targetMarkers target).Cutoff 5100750 (envelope0003BaseCounts target) := by
+    intro target
+    cases target with
+    | lowTwo => decide
+    | evenTwoCell residue => fin_cases residue <;> decide
+  have hcellCutoff : ∀ cell,
+      (cellTargets cell).Cutoff 5100750 (envelope0003CellCounts cell) := by
+    intro cell
+    fin_cases cell <;> decide
+  have hfibreCutoff : ∀ cell residue,
+      (fibreTargets cell residue).Cutoff 5100750 (envelope0003FibreCounts cell residue) := by
+    intro cell residue
+    fin_cases cell <;> fin_cases residue <;> decide
+  have hsource := tailDiagonalBad_card_le_marker
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailDiagonalCoverage.indexedMarkerOrdered
+    (upper := 5100750) (count := 128346) (by decide)
+    (by decide) hNUpper
+  have hbase := tailR263EvenTwoAllDiagonal_card_le
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailR263Diagonal.targetMarkers
+    GeneratedTailR263Diagonal.projectsTargets
+    GeneratedTailR263Diagonal.targetMarkersOrdered
+    envelope0003BaseCounts hbaseCutoff (by decide) hNUpper
+  refine { unrestricted := ?_, concentrated := ?_, fibreCover := ?_ }
+  · have hratio := natCardRatio_le_block
+      (lower := 5075375) (N := N) (by decide) hLower hsource
+    exact hratio.trans (by norm_num [tailR263EvenOneUnrestrictedDiagonalEnvelope])
+  · intro cell
+    have hcell := tailR263EvenOneCellDiagonal_card_le
+      GeneratedTailDiagonalCoverage.certificate cellTargets
+      projectsCells (cellTargetsOrdered cell)
+      (hcellCutoff cell) (by decide) hNUpper
+    have hcard := tailR263EvenOneConcentratedDiagonal_card_le
+      hbase hcell
+    have hratio := natCardRatio_le_block
+      (lower := 5075375) (N := N) (by decide) hLower hcard
+    fin_cases cell <;> exact hratio.trans (by norm_num [envelope0003BaseCounts, envelope0003CellCounts, tailR263EvenOneConcentratedDiagonalEnvelope])
+  · intro cells residues
+    have hfibre : ∀ cell ∈ cells,
+        (tailR263EvenOneCellFibreDiagonal N cell (residues cell)).card <= envelope0003FibreMax cell := by
+      intro cell hcell
+      have hexact := tailR263EvenOneCellFibreDiagonal_card_le
+        GeneratedTailDiagonalCoverage.certificate cellTargets
+        projectsCells fibreTargets projectsFibres
+        (fibreTargetsOrdered cell (residues cell))
+        (hfibreCutoff cell (residues cell)) (by decide) hNUpper
+      generalize hresidue : residues cell = residue at hexact ⊢
+      fin_cases cell <;> fin_cases residue <;>
+        exact hexact.trans (by norm_num [envelope0003FibreCounts, envelope0003FibreMax])
+    have hcard := tailR263EvenOneFibreCoverDiagonal_card_le
+      hbase hfibre
+    have hsum :
+        (∑ cell ∈ cells, envelope0003FibreMax cell) <=
+          ∑ cell : Fin 9, envelope0003FibreMax cell := by
+      exact Finset.sum_le_sum_of_subset_of_nonneg
+        (Finset.subset_univ cells) (by omega)
+    have hcard' :
+        (tailR263EvenOneFibreCoverDiagonal N cells residues).card <=
+          ((tailR263EvenTwoAllDiagonal N).card +
+            ∑ cell : Fin 9, envelope0003FibreMax cell) := by
+      exact hcard.trans (Nat.add_le_add_left hsum _)
+    have hratio := natCardRatio_le_block
+      (lower := 5075375) (N := N) (by decide) hLower hcard'
+    exact hratio.trans (by norm_num [envelope0003BaseCounts, envelope0003FibreMax, tailR263EvenOneFibreCoverDiagonalEnvelope])
+
+def envelope0004BaseCounts : TailR263DiagonalTarget -> Nat
+  | .lowTwo => 80599
+  | .evenTwoCell residue => ![1796, 1789, 1796, 1790, 1803, 1784, 1794, 1787, 1794] residue
+
+def envelope0004CellCounts : Fin 9 -> Nat :=
+  ![3581, 3579, 3575, 3584, 3566, 3597, 3589, 3588, 3591]
+
+def envelope0004FibreCounts : Fin 9 -> Fin 49 -> Nat :=
+  ![![71, 71, 69, 73, 70, 70, 72, 79, 74, 77, 69, 73, 75, 71, 68, 77, 71, 72, 70, 75, 76, 72, 71, 77, 71, 74, 73, 77, 69, 67, 70, 75, 72, 75, 70, 75, 74, 70, 73, 81, 73, 74, 69, 80, 78, 73, 67, 81, 77], ![70, 78, 76, 69, 75, 69, 77, 79, 69, 69, 71, 78, 71, 73, 71, 79, 74, 67, 70, 71, 78, 73, 66, 77, 75, 74, 71, 75, 76, 75, 78, 75, 80, 69, 68, 73, 73, 79, 76, 68, 71, 72, 71, 68, 73, 74, 69, 74, 72], ![78, 68, 69, 78, 72, 72, 71, 76, 76, 71, 71, 72, 77, 75, 71, 68, 72, 75, 75, 77, 73, 75, 68, 69, 75, 67, 73, 76, 70, 74, 70, 69, 74, 70, 68, 72, 84, 76, 73, 73, 74, 71, 77, 77, 78, 71, 69, 73, 72], ![79, 77, 71, 74, 76, 72, 73, 73, 74, 74, 70, 76, 76, 71, 72, 73, 72, 72, 72, 73, 76, 74, 68, 71, 75, 81, 73, 68, 76, 81, 73, 69, 72, 75, 77, 69, 77, 75, 68, 68, 70, 75, 74, 73, 74, 69, 71, 72, 70], ![78, 72, 66, 72, 72, 79, 73, 67, 74, 76, 71, 72, 77, 68, 73, 69, 73, 76, 68, 74, 69, 76, 72, 74, 75, 77, 72, 66, 76, 82, 71, 73, 73, 75, 72, 77, 67, 72, 72, 70, 77, 78, 74, 67, 71, 76, 68, 68, 76], ![71, 72, 76, 75, 74, 82, 76, 68, 75, 75, 71, 74, 75, 73, 75, 74, 69, 77, 67, 68, 75, 71, 77, 72, 73, 73, 71, 70, 72, 79, 75, 73, 67, 75, 78, 69, 73, 69, 79, 74, 73, 76, 79, 72, 72, 71, 76, 74, 72], ![69, 79, 73, 78, 72, 75, 73, 72, 72, 74, 73, 75, 71, 74, 77, 70, 72, 74, 77, 71, 68, 73, 78, 76, 69, 72, 73, 78, 71, 66, 74, 72, 68, 76, 73, 69, 73, 75, 71, 74, 73, 73, 76, 72, 76, 77, 78, 71, 73], ![64, 72, 75, 75, 76, 66, 69, 73, 72, 71, 77, 73, 70, 74, 73, 75, 73, 71, 77, 75, 76, 74, 77, 66, 75, 76, 73, 79, 71, 71, 75, 71, 67, 77, 75, 74, 73, 73, 78, 74, 78, 69, 74, 81, 68, 72, 73, 76, 71], ![78, 76, 81, 69, 70, 71, 74, 78, 74, 72, 80, 75, 63, 73, 76, 74, 75, 71, 79, 74, 69, 70, 75, 71, 74, 71, 74, 76, 65, 66, 76, 69, 79, 75, 72, 78, 76, 68, 74, 75, 72, 72, 69, 71, 78, 73, 75, 73, 72]]
+
+def envelope0004FibreMax : Fin 9 -> Nat :=
+  ![81, 80, 84, 81, 82, 82, 79, 81, 81]
+
+theorem envelope0004 : TailR263EvenOneDiagonalRange 5100751 5126254 := by
+  intro N hLower hStop
+  have hNUpper : N <= 5126253 := by omega
+  have hbaseCutoff : ∀ target,
+      (GeneratedTailR263Diagonal.targetMarkers target).Cutoff 5126253 (envelope0004BaseCounts target) := by
+    intro target
+    cases target with
+    | lowTwo => decide
+    | evenTwoCell residue => fin_cases residue <;> decide
+  have hcellCutoff : ∀ cell,
+      (cellTargets cell).Cutoff 5126253 (envelope0004CellCounts cell) := by
+    intro cell
+    fin_cases cell <;> decide
+  have hfibreCutoff : ∀ cell residue,
+      (fibreTargets cell residue).Cutoff 5126253 (envelope0004FibreCounts cell residue) := by
+    intro cell residue
+    fin_cases cell <;> fin_cases residue <;> decide
+  have hsource := tailDiagonalBad_card_le_marker
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailDiagonalCoverage.indexedMarkerOrdered
+    (upper := 5126253) (count := 128982) (by decide)
+    (by decide) hNUpper
+  have hbase := tailR263EvenTwoAllDiagonal_card_le
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailR263Diagonal.targetMarkers
+    GeneratedTailR263Diagonal.projectsTargets
+    GeneratedTailR263Diagonal.targetMarkersOrdered
+    envelope0004BaseCounts hbaseCutoff (by decide) hNUpper
+  refine { unrestricted := ?_, concentrated := ?_, fibreCover := ?_ }
+  · have hratio := natCardRatio_le_block
+      (lower := 5100751) (N := N) (by decide) hLower hsource
+    exact hratio.trans (by norm_num [tailR263EvenOneUnrestrictedDiagonalEnvelope])
+  · intro cell
+    have hcell := tailR263EvenOneCellDiagonal_card_le
+      GeneratedTailDiagonalCoverage.certificate cellTargets
+      projectsCells (cellTargetsOrdered cell)
+      (hcellCutoff cell) (by decide) hNUpper
+    have hcard := tailR263EvenOneConcentratedDiagonal_card_le
+      hbase hcell
+    have hratio := natCardRatio_le_block
+      (lower := 5100751) (N := N) (by decide) hLower hcard
+    fin_cases cell <;> exact hratio.trans (by norm_num [envelope0004BaseCounts, envelope0004CellCounts, tailR263EvenOneConcentratedDiagonalEnvelope])
+  · intro cells residues
+    have hfibre : ∀ cell ∈ cells,
+        (tailR263EvenOneCellFibreDiagonal N cell (residues cell)).card <= envelope0004FibreMax cell := by
+      intro cell hcell
+      have hexact := tailR263EvenOneCellFibreDiagonal_card_le
+        GeneratedTailDiagonalCoverage.certificate cellTargets
+        projectsCells fibreTargets projectsFibres
+        (fibreTargetsOrdered cell (residues cell))
+        (hfibreCutoff cell (residues cell)) (by decide) hNUpper
+      generalize hresidue : residues cell = residue at hexact ⊢
+      fin_cases cell <;> fin_cases residue <;>
+        exact hexact.trans (by norm_num [envelope0004FibreCounts, envelope0004FibreMax])
+    have hcard := tailR263EvenOneFibreCoverDiagonal_card_le
+      hbase hfibre
+    have hsum :
+        (∑ cell ∈ cells, envelope0004FibreMax cell) <=
+          ∑ cell : Fin 9, envelope0004FibreMax cell := by
+      exact Finset.sum_le_sum_of_subset_of_nonneg
+        (Finset.subset_univ cells) (by omega)
+    have hcard' :
+        (tailR263EvenOneFibreCoverDiagonal N cells residues).card <=
+          ((tailR263EvenTwoAllDiagonal N).card +
+            ∑ cell : Fin 9, envelope0004FibreMax cell) := by
+      exact hcard.trans (Nat.add_le_add_left hsum _)
+    have hratio := natCardRatio_le_block
+      (lower := 5100751) (N := N) (by decide) hLower hcard'
+    exact hratio.trans (by norm_num [envelope0004BaseCounts, envelope0004FibreMax, tailR263EvenOneFibreCoverDiagonalEnvelope])
+
+def envelope0005BaseCounts : TailR263DiagonalTarget -> Nat
+  | .lowTwo => 80997
+  | .evenTwoCell residue => ![1805, 1797, 1806, 1799, 1813, 1795, 1802, 1794, 1806] residue
+
+def envelope0005CellCounts : Fin 9 -> Nat :=
+  ![3597, 3600, 3594, 3598, 3586, 3612, 3605, 3607, 3611]
+
+def envelope0005FibreCounts : Fin 9 -> Fin 49 -> Nat :=
+  ![![71, 71, 69, 73, 70, 71, 73, 80, 75, 79, 69, 73, 75, 72, 68, 77, 71, 73, 70, 75, 76, 72, 72, 77, 72, 74, 73, 77, 69, 67, 72, 75, 73, 75, 70, 75, 74, 70, 74, 81, 73, 74, 69, 80, 78, 73, 68, 81, 78], ![70, 78, 76, 69, 75, 71, 77, 79, 69, 69, 71, 79, 73, 74, 71, 80, 74, 67, 70, 71, 79, 74, 67, 77, 75, 74, 71, 75, 77, 76, 79, 76, 81, 70, 68, 73, 74, 79, 77, 68, 71, 72, 71, 68, 73, 74, 71, 74, 73], ![78, 68, 69, 78, 73, 72, 72, 76, 76, 71, 72, 72, 79, 75, 71, 68, 72, 75, 76, 77, 74, 75, 69, 69, 75, 68, 76, 76, 71, 74, 70, 69, 75, 70, 69, 73, 85, 77, 73, 74, 74, 71, 77, 77, 78, 71, 69, 73, 72], ![79, 77, 73, 74, 76, 72, 73, 73, 75, 74, 72, 77, 76, 72, 72, 73, 73, 72, 73, 73, 76, 74, 68, 71, 76, 81, 74, 68, 77, 81, 74, 69, 72, 75, 77, 69, 77, 75, 68, 68, 70, 75, 74, 73, 75, 69, 71, 72, 70], ![79, 72, 67, 72, 73, 79, 74, 67, 75, 76, 71, 73, 77, 68, 74, 69, 74, 76, 69, 74, 69, 76, 74, 74, 75, 77, 72, 66, 76, 82, 71, 73, 73, 76, 72, 78, 67, 73, 72, 71, 77, 79, 74, 69, 71, 76, 69, 69, 76], ![71, 72, 76, 75, 75, 82, 77, 68, 75, 75, 71, 74, 75, 74, 75, 74, 69, 77, 67, 68, 75, 71, 77, 73, 73, 73, 72, 70, 73, 81, 75, 74, 67, 75, 78, 69, 73, 70, 79, 75, 73, 76, 80, 72, 74, 72, 76, 74, 72], ![70, 79, 73, 78, 72, 75, 73, 73, 72, 74, 73, 77, 71, 75, 77, 70, 72, 75, 77, 72, 68, 74, 78, 77, 69, 72, 73, 79, 71, 67, 74, 72, 68, 77, 73, 71, 73, 76, 71, 74, 73, 73, 76, 73, 76, 77, 78, 71, 73], ![65, 72, 75, 75, 76, 66, 69, 73, 73, 72, 78, 74, 70, 74, 73, 75, 73, 73, 77, 76, 76, 74, 77, 66, 76, 77, 74, 80, 72, 71, 75, 71, 67, 78, 75, 74, 73, 73, 78, 74, 79, 71, 75, 81, 68, 72, 73, 77, 71], ![78, 78, 81, 69, 70, 71, 75, 78, 74, 74, 80, 76, 63, 73, 76, 76, 75, 73, 79, 74, 69, 70, 75, 72, 74, 71, 74, 76, 66, 66, 76, 70, 79, 76, 72, 78, 76, 69, 74, 76, 73, 73, 70, 71, 78, 73, 75, 73, 73]]
+
+def envelope0005FibreMax : Fin 9 -> Nat :=
+  ![81, 81, 85, 81, 82, 82, 79, 81, 81]
+
+theorem envelope0005 : TailR263EvenOneDiagonalRange 5126254 5151885 := by
+  intro N hLower hStop
+  have hNUpper : N <= 5151884 := by omega
+  have hbaseCutoff : ∀ target,
+      (GeneratedTailR263Diagonal.targetMarkers target).Cutoff 5151884 (envelope0005BaseCounts target) := by
+    intro target
+    cases target with
+    | lowTwo => decide
+    | evenTwoCell residue => fin_cases residue <;> decide
+  have hcellCutoff : ∀ cell,
+      (cellTargets cell).Cutoff 5151884 (envelope0005CellCounts cell) := by
+    intro cell
+    fin_cases cell <;> decide
+  have hfibreCutoff : ∀ cell residue,
+      (fibreTargets cell residue).Cutoff 5151884 (envelope0005FibreCounts cell residue) := by
+    intro cell residue
+    fin_cases cell <;> fin_cases residue <;> decide
+  have hsource := tailDiagonalBad_card_le_marker
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailDiagonalCoverage.indexedMarkerOrdered
+    (upper := 5151884) (count := 129624) (by decide)
+    (by decide) hNUpper
+  have hbase := tailR263EvenTwoAllDiagonal_card_le
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailR263Diagonal.targetMarkers
+    GeneratedTailR263Diagonal.projectsTargets
+    GeneratedTailR263Diagonal.targetMarkersOrdered
+    envelope0005BaseCounts hbaseCutoff (by decide) hNUpper
+  refine { unrestricted := ?_, concentrated := ?_, fibreCover := ?_ }
+  · have hratio := natCardRatio_le_block
+      (lower := 5126254) (N := N) (by decide) hLower hsource
+    exact hratio.trans (by norm_num [tailR263EvenOneUnrestrictedDiagonalEnvelope])
+  · intro cell
+    have hcell := tailR263EvenOneCellDiagonal_card_le
+      GeneratedTailDiagonalCoverage.certificate cellTargets
+      projectsCells (cellTargetsOrdered cell)
+      (hcellCutoff cell) (by decide) hNUpper
+    have hcard := tailR263EvenOneConcentratedDiagonal_card_le
+      hbase hcell
+    have hratio := natCardRatio_le_block
+      (lower := 5126254) (N := N) (by decide) hLower hcard
+    fin_cases cell <;> exact hratio.trans (by norm_num [envelope0005BaseCounts, envelope0005CellCounts, tailR263EvenOneConcentratedDiagonalEnvelope])
+  · intro cells residues
+    have hfibre : ∀ cell ∈ cells,
+        (tailR263EvenOneCellFibreDiagonal N cell (residues cell)).card <= envelope0005FibreMax cell := by
+      intro cell hcell
+      have hexact := tailR263EvenOneCellFibreDiagonal_card_le
+        GeneratedTailDiagonalCoverage.certificate cellTargets
+        projectsCells fibreTargets projectsFibres
+        (fibreTargetsOrdered cell (residues cell))
+        (hfibreCutoff cell (residues cell)) (by decide) hNUpper
+      generalize hresidue : residues cell = residue at hexact ⊢
+      fin_cases cell <;> fin_cases residue <;>
+        exact hexact.trans (by norm_num [envelope0005FibreCounts, envelope0005FibreMax])
+    have hcard := tailR263EvenOneFibreCoverDiagonal_card_le
+      hbase hfibre
+    have hsum :
+        (∑ cell ∈ cells, envelope0005FibreMax cell) <=
+          ∑ cell : Fin 9, envelope0005FibreMax cell := by
+      exact Finset.sum_le_sum_of_subset_of_nonneg
+        (Finset.subset_univ cells) (by omega)
+    have hcard' :
+        (tailR263EvenOneFibreCoverDiagonal N cells residues).card <=
+          ((tailR263EvenTwoAllDiagonal N).card +
+            ∑ cell : Fin 9, envelope0005FibreMax cell) := by
+      exact hcard.trans (Nat.add_le_add_left hsum _)
+    have hratio := natCardRatio_le_block
+      (lower := 5126254) (N := N) (by decide) hLower hcard'
+    exact hratio.trans (by norm_num [envelope0005BaseCounts, envelope0005FibreMax, tailR263EvenOneFibreCoverDiagonalEnvelope])
+
+def envelope0006BaseCounts : TailR263DiagonalTarget -> Nat
+  | .lowTwo => 81415
+  | .evenTwoCell residue => ![1816, 1804, 1814, 1809, 1822, 1802, 1812, 1804, 1814] residue
+
+def envelope0006CellCounts : Fin 9 -> Nat :=
+  ![3613, 3619, 3617, 3617, 3605, 3634, 3623, 3621, 3627]
+
+def envelope0006FibreCounts : Fin 9 -> Fin 49 -> Nat :=
+  ![![71, 71, 69, 74, 70, 72, 73, 81, 75, 79, 69, 73, 75, 72, 69, 78, 71, 73, 70, 75, 76, 74, 72, 79, 72, 74, 73, 77, 69, 68, 72, 76, 73, 75, 70, 75, 74, 71, 75, 82, 74, 74, 69, 80, 78, 74, 68, 81, 78], ![70, 78, 76, 70, 75, 73, 77, 79, 69, 69, 71, 80, 74, 76, 71, 80, 74, 67, 70, 72, 79, 75, 67, 77, 75, 74, 71, 76, 77, 78, 79, 77, 81, 70, 68, 74, 74, 79, 77, 70, 71, 72, 71, 68, 74, 75, 71, 75, 73], ![79, 70, 69, 80, 73, 73, 72, 76, 76, 72, 73, 73, 79, 75, 71, 68, 72, 76, 76, 79, 76, 75, 69, 70, 75, 69, 77, 76, 71, 74, 70, 69, 75, 71, 69, 73, 86, 77, 74, 74, 74, 71, 78, 77, 80, 71, 69, 73, 72], ![79, 78, 73, 75, 76, 72, 74, 76, 75, 75, 72, 77, 76, 72, 72, 73, 73, 73, 73, 73, 76, 74, 68, 71, 76, 81, 74, 69, 77, 82, 74, 69, 73, 75, 79, 69, 77, 75, 68, 68, 71, 76, 74, 75, 75, 70, 71, 72, 71], ![79, 73, 67, 72, 73, 79, 74, 67, 75, 76, 71, 73, 77, 69, 74, 69, 74, 77, 70, 74, 70, 76, 75, 74, 77, 77, 72, 66, 76, 82, 72, 73, 74, 76, 73, 78, 68, 75, 73, 71, 78, 79, 74, 69, 71, 77, 70, 69, 77], ![71, 72, 76, 75, 75, 82, 77, 70, 75, 76, 71, 75, 77, 74, 76, 74, 69, 77, 67, 68, 76, 71, 78, 73, 75, 74, 72, 71, 74, 81, 76, 75, 67, 75, 78, 69, 74, 71, 80, 75, 73, 77, 80, 73, 74, 72, 76, 74, 73], ![70, 79, 74, 78, 73, 77, 73, 74, 72, 74, 74, 77, 72, 75, 77, 70, 73, 75, 79, 72, 69, 74, 79, 77, 69, 72, 74, 79, 72, 67, 74, 72, 68, 77, 74, 71, 73, 76, 71, 74, 73, 73, 76, 73, 76, 78, 79, 72, 73], ![66, 72, 76, 75, 76, 66, 69, 74, 74, 73, 79, 74, 70, 74, 73, 75, 74, 73, 79, 76, 76, 74, 77, 67, 76, 78, 74, 80, 72, 71, 75, 72, 67, 78, 75, 74, 73, 73, 78, 74, 79, 72, 75, 82, 68, 72, 73, 77, 71], ![80, 78, 81, 69, 70, 71, 76, 78, 74, 74, 80, 76, 64, 73, 77, 76, 77, 73, 79, 74, 69, 70, 77, 72, 74, 72, 74, 76, 66, 66, 76, 71, 79, 77, 72, 78, 77, 69, 74, 76, 73, 74, 70, 71, 78, 73, 75, 75, 73]]
+
+def envelope0006FibreMax : Fin 9 -> Nat :=
+  ![82, 81, 86, 82, 82, 82, 79, 82, 81]
+
+theorem envelope0006 : TailR263EvenOneDiagonalRange 5151885 5177644 := by
+  intro N hLower hStop
+  have hNUpper : N <= 5177643 := by omega
+  have hbaseCutoff : ∀ target,
+      (GeneratedTailR263Diagonal.targetMarkers target).Cutoff 5177643 (envelope0006BaseCounts target) := by
+    intro target
+    cases target with
+    | lowTwo => decide
+    | evenTwoCell residue => fin_cases residue <;> decide
+  have hcellCutoff : ∀ cell,
+      (cellTargets cell).Cutoff 5177643 (envelope0006CellCounts cell) := by
+    intro cell
+    fin_cases cell <;> decide
+  have hfibreCutoff : ∀ cell residue,
+      (fibreTargets cell residue).Cutoff 5177643 (envelope0006FibreCounts cell residue) := by
+    intro cell residue
+    fin_cases cell <;> fin_cases residue <;> decide
+  have hsource := tailDiagonalBad_card_le_marker
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailDiagonalCoverage.indexedMarkerOrdered
+    (upper := 5177643) (count := 130288) (by decide)
+    (by decide) hNUpper
+  have hbase := tailR263EvenTwoAllDiagonal_card_le
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailR263Diagonal.targetMarkers
+    GeneratedTailR263Diagonal.projectsTargets
+    GeneratedTailR263Diagonal.targetMarkersOrdered
+    envelope0006BaseCounts hbaseCutoff (by decide) hNUpper
+  refine { unrestricted := ?_, concentrated := ?_, fibreCover := ?_ }
+  · have hratio := natCardRatio_le_block
+      (lower := 5151885) (N := N) (by decide) hLower hsource
+    exact hratio.trans (by norm_num [tailR263EvenOneUnrestrictedDiagonalEnvelope])
+  · intro cell
+    have hcell := tailR263EvenOneCellDiagonal_card_le
+      GeneratedTailDiagonalCoverage.certificate cellTargets
+      projectsCells (cellTargetsOrdered cell)
+      (hcellCutoff cell) (by decide) hNUpper
+    have hcard := tailR263EvenOneConcentratedDiagonal_card_le
+      hbase hcell
+    have hratio := natCardRatio_le_block
+      (lower := 5151885) (N := N) (by decide) hLower hcard
+    fin_cases cell <;> exact hratio.trans (by norm_num [envelope0006BaseCounts, envelope0006CellCounts, tailR263EvenOneConcentratedDiagonalEnvelope])
+  · intro cells residues
+    have hfibre : ∀ cell ∈ cells,
+        (tailR263EvenOneCellFibreDiagonal N cell (residues cell)).card <= envelope0006FibreMax cell := by
+      intro cell hcell
+      have hexact := tailR263EvenOneCellFibreDiagonal_card_le
+        GeneratedTailDiagonalCoverage.certificate cellTargets
+        projectsCells fibreTargets projectsFibres
+        (fibreTargetsOrdered cell (residues cell))
+        (hfibreCutoff cell (residues cell)) (by decide) hNUpper
+      generalize hresidue : residues cell = residue at hexact ⊢
+      fin_cases cell <;> fin_cases residue <;>
+        exact hexact.trans (by norm_num [envelope0006FibreCounts, envelope0006FibreMax])
+    have hcard := tailR263EvenOneFibreCoverDiagonal_card_le
+      hbase hfibre
+    have hsum :
+        (∑ cell ∈ cells, envelope0006FibreMax cell) <=
+          ∑ cell : Fin 9, envelope0006FibreMax cell := by
+      exact Finset.sum_le_sum_of_subset_of_nonneg
+        (Finset.subset_univ cells) (by omega)
+    have hcard' :
+        (tailR263EvenOneFibreCoverDiagonal N cells residues).card <=
+          ((tailR263EvenTwoAllDiagonal N).card +
+            ∑ cell : Fin 9, envelope0006FibreMax cell) := by
+      exact hcard.trans (Nat.add_le_add_left hsum _)
+    have hratio := natCardRatio_le_block
+      (lower := 5151885) (N := N) (by decide) hLower hcard'
+    exact hratio.trans (by norm_num [envelope0006BaseCounts, envelope0006FibreMax, tailR263EvenOneFibreCoverDiagonalEnvelope])
+
+def envelope0007BaseCounts : TailR263DiagonalTarget -> Nat
+  | .lowTwo => 81814
+  | .evenTwoCell residue => ![1825, 1815, 1824, 1819, 1831, 1814, 1819, 1816, 1822] residue
+
+def envelope0007CellCounts : Fin 9 -> Nat :=
+  ![3631, 3635, 3634, 3633, 3624, 3649, 3643, 3641, 3647]
+
+def envelope0007FibreCounts : Fin 9 -> Fin 49 -> Nat :=
+  ![![71, 71, 69, 75, 72, 72, 75, 81, 75, 79, 69, 73, 76, 72, 70, 78, 71, 73, 70, 75, 78, 74, 73, 79, 72, 74, 73, 77, 70, 68, 73, 77, 73, 75, 70, 75, 74, 72, 75, 83, 74, 74, 69, 81, 78, 74, 68, 82, 79], ![70, 79, 77, 70, 76, 73, 77, 79, 69, 69, 72, 80, 75, 76, 72, 80, 74, 67, 71, 72, 79, 75, 67, 77, 75, 74, 71, 76, 78, 78, 80, 77, 81, 72, 68, 74, 74, 79, 77, 70, 71, 72, 71, 69, 75, 77, 72, 75, 73], ![80, 70, 71, 80, 73, 73, 72, 76, 77, 72, 73, 73, 79, 75, 72, 68, 72, 76, 77, 80, 76, 76, 70, 70, 75, 71, 77, 77, 71, 74, 70, 69, 75, 72, 69, 75, 86, 78, 74, 74, 74, 71, 78, 78, 80, 71, 69, 73, 72], ![80, 80, 73, 75, 76, 72, 74, 76, 75, 75, 72, 77, 77, 72, 72, 74, 73, 74, 73, 73, 76, 74, 68, 72, 76, 81, 75, 69, 78, 82, 74, 70, 73, 76, 79, 69, 77, 75, 68, 69, 71, 77, 75, 75, 76, 70, 71, 73, 71], ![79, 73, 68, 73, 73, 80, 74, 68, 76, 76, 71, 73, 77, 70, 74, 71, 74, 78, 71, 75, 70, 77, 75, 75, 77, 77, 72, 66, 76, 82, 72, 75, 74, 77, 74, 79, 68, 76, 73, 71, 78, 79, 74, 69, 71, 77, 70, 69, 77], ![71, 72, 76, 76, 75, 83, 77, 70, 76, 76, 72, 76, 77, 75, 76, 74, 69, 77, 69, 69, 76, 72, 78, 73, 76, 74, 72, 71, 76, 81, 76, 75, 67, 75, 78, 69, 74, 71, 80, 75, 73, 77, 80, 73, 75, 72, 77, 74, 73], ![70, 81, 74, 79, 73, 77, 73, 74, 72, 75, 74, 78, 72, 76, 77, 71, 73, 76, 80, 72, 69, 74, 79, 77, 69, 72, 74, 79, 72, 68, 75, 73, 68, 77, 74, 71, 74, 76, 71, 74, 73, 73, 77, 73, 77, 79, 79, 72, 77], ![66, 74, 76, 75, 76, 66, 70, 74, 75, 73, 79, 74, 70, 74, 73, 75, 74, 73, 79, 76, 76, 74, 77, 67, 78, 78, 75, 80, 72, 72, 75, 72, 68, 78, 77, 76, 73, 74, 78, 75, 80, 73, 76, 82, 68, 72, 73, 78, 72], ![80, 78, 81, 69, 70, 71, 76, 78, 75, 74, 80, 76, 65, 74, 78, 77, 80, 73, 79, 74, 69, 70, 78, 72, 75, 72, 74, 76, 66, 66, 78, 71, 80, 77, 72, 78, 77, 69, 75, 76, 75, 74, 71, 71, 78, 74, 76, 75, 74]]
+
+def envelope0007FibreMax : Fin 9 -> Nat :=
+  ![83, 81, 86, 82, 82, 83, 81, 82, 81]
+
+theorem envelope0007 : TailR263EvenOneDiagonalRange 5177644 5203532 := by
+  intro N hLower hStop
+  have hNUpper : N <= 5203531 := by omega
+  have hbaseCutoff : ∀ target,
+      (GeneratedTailR263Diagonal.targetMarkers target).Cutoff 5203531 (envelope0007BaseCounts target) := by
+    intro target
+    cases target with
+    | lowTwo => decide
+    | evenTwoCell residue => fin_cases residue <;> decide
+  have hcellCutoff : ∀ cell,
+      (cellTargets cell).Cutoff 5203531 (envelope0007CellCounts cell) := by
+    intro cell
+    fin_cases cell <;> decide
+  have hfibreCutoff : ∀ cell residue,
+      (fibreTargets cell residue).Cutoff 5203531 (envelope0007FibreCounts cell residue) := by
+    intro cell residue
+    fin_cases cell <;> fin_cases residue <;> decide
+  have hsource := tailDiagonalBad_card_le_marker
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailDiagonalCoverage.indexedMarkerOrdered
+    (upper := 5203531) (count := 130936) (by decide)
+    (by decide) hNUpper
+  have hbase := tailR263EvenTwoAllDiagonal_card_le
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailR263Diagonal.targetMarkers
+    GeneratedTailR263Diagonal.projectsTargets
+    GeneratedTailR263Diagonal.targetMarkersOrdered
+    envelope0007BaseCounts hbaseCutoff (by decide) hNUpper
+  refine { unrestricted := ?_, concentrated := ?_, fibreCover := ?_ }
+  · have hratio := natCardRatio_le_block
+      (lower := 5177644) (N := N) (by decide) hLower hsource
+    exact hratio.trans (by norm_num [tailR263EvenOneUnrestrictedDiagonalEnvelope])
+  · intro cell
+    have hcell := tailR263EvenOneCellDiagonal_card_le
+      GeneratedTailDiagonalCoverage.certificate cellTargets
+      projectsCells (cellTargetsOrdered cell)
+      (hcellCutoff cell) (by decide) hNUpper
+    have hcard := tailR263EvenOneConcentratedDiagonal_card_le
+      hbase hcell
+    have hratio := natCardRatio_le_block
+      (lower := 5177644) (N := N) (by decide) hLower hcard
+    fin_cases cell <;> exact hratio.trans (by norm_num [envelope0007BaseCounts, envelope0007CellCounts, tailR263EvenOneConcentratedDiagonalEnvelope])
+  · intro cells residues
+    have hfibre : ∀ cell ∈ cells,
+        (tailR263EvenOneCellFibreDiagonal N cell (residues cell)).card <= envelope0007FibreMax cell := by
+      intro cell hcell
+      have hexact := tailR263EvenOneCellFibreDiagonal_card_le
+        GeneratedTailDiagonalCoverage.certificate cellTargets
+        projectsCells fibreTargets projectsFibres
+        (fibreTargetsOrdered cell (residues cell))
+        (hfibreCutoff cell (residues cell)) (by decide) hNUpper
+      generalize hresidue : residues cell = residue at hexact ⊢
+      fin_cases cell <;> fin_cases residue <;>
+        exact hexact.trans (by norm_num [envelope0007FibreCounts, envelope0007FibreMax])
+    have hcard := tailR263EvenOneFibreCoverDiagonal_card_le
+      hbase hfibre
+    have hsum :
+        (∑ cell ∈ cells, envelope0007FibreMax cell) <=
+          ∑ cell : Fin 9, envelope0007FibreMax cell := by
+      exact Finset.sum_le_sum_of_subset_of_nonneg
+        (Finset.subset_univ cells) (by omega)
+    have hcard' :
+        (tailR263EvenOneFibreCoverDiagonal N cells residues).card <=
+          ((tailR263EvenTwoAllDiagonal N).card +
+            ∑ cell : Fin 9, envelope0007FibreMax cell) := by
+      exact hcard.trans (Nat.add_le_add_left hsum _)
+    have hratio := natCardRatio_le_block
+      (lower := 5177644) (N := N) (by decide) hLower hcard'
+    exact hratio.trans (by norm_num [envelope0007BaseCounts, envelope0007FibreMax, tailR263EvenOneFibreCoverDiagonalEnvelope])
+
+def envelope0008BaseCounts : TailR263DiagonalTarget -> Nat
+  | .lowTwo => 82223
+  | .evenTwoCell residue => ![1832, 1825, 1832, 1823, 1838, 1822, 1831, 1826, 1833] residue
+
+def envelope0008CellCounts : Fin 9 -> Nat :=
+  ![3652, 3654, 3652, 3654, 3640, 3667, 3660, 3656, 3664]
+
+def envelope0008FibreCounts : Fin 9 -> Fin 49 -> Nat :=
+  ![![71, 71, 70, 77, 72, 74, 75, 81, 75, 79, 69, 74, 76, 73, 70, 78, 71, 73, 70, 75, 79, 74, 74, 80, 72, 74, 74, 77, 70, 68, 74, 77, 73, 75, 70, 75, 75, 72, 77, 83, 74, 74, 70, 81, 80, 74, 71, 82, 79], ![70, 80, 77, 71, 76, 73, 77, 79, 69, 69, 72, 81, 75, 78, 72, 80, 74, 67, 71, 72, 79, 75, 67, 77, 75, 74, 72, 79, 79, 79, 80, 77, 81, 72, 71, 74, 75, 79, 77, 70, 71, 72, 72, 70, 76, 78, 72, 75, 73], ![80, 70, 71, 80, 73, 73, 73, 76, 77, 73, 74, 73, 79, 75, 73, 68, 73, 76, 79, 80, 77, 76, 70, 71, 76, 71, 78, 77, 72, 74, 70, 69, 76, 72, 70, 75, 87, 78, 74, 74, 75, 71, 79, 78, 80, 72, 69, 73, 72], ![81, 80, 73, 75, 76, 72, 75, 77, 76, 76, 72, 78, 77, 72, 73, 74, 74, 74, 75, 73, 76, 74, 69, 72, 77, 82, 75, 70, 79, 82, 75, 70, 73, 77, 80, 70, 77, 75, 68, 70, 71, 77, 75, 75, 77, 70, 71, 73, 71], ![80, 73, 69, 73, 74, 80, 75, 68, 76, 77, 71, 73, 78, 70, 76, 71, 75, 78, 72, 75, 71, 77, 75, 75, 77, 77, 72, 66, 76, 82, 72, 75, 76, 77, 74, 79, 68, 76, 73, 72, 78, 79, 74, 69, 71, 78, 70, 70, 77], ![71, 72, 77, 77, 76, 83, 77, 71, 76, 77, 73, 76, 77, 75, 76, 74, 69, 77, 69, 69, 76, 72, 78, 74, 76, 75, 72, 72, 76, 83, 76, 75, 67, 75, 78, 70, 74, 72, 81, 75, 74, 77, 81, 74, 75, 73, 77, 74, 73], ![72, 81, 74, 79, 73, 77, 73, 74, 72, 75, 74, 78, 72, 76, 78, 71, 73, 77, 80, 73, 69, 74, 79, 77, 69, 73, 74, 79, 72, 68, 75, 73, 68, 79, 74, 72, 74, 76, 71, 75, 73, 74, 80, 74, 77, 79, 80, 73, 77], ![66, 74, 76, 75, 76, 67, 70, 76, 75, 74, 79, 74, 70, 74, 73, 76, 74, 74, 79, 76, 76, 75, 77, 68, 78, 79, 75, 80, 72, 73, 75, 72, 68, 79, 77, 76, 73, 74, 79, 76, 81, 73, 76, 82, 68, 72, 73, 79, 72], ![80, 78, 81, 69, 70, 72, 76, 79, 75, 74, 82, 76, 65, 76, 78, 77, 81, 73, 79, 74, 69, 71, 78, 73, 76, 72, 74, 76, 66, 67, 78, 72, 80, 77, 72, 78, 77, 69, 75, 76, 76, 74, 71, 71, 78, 75, 77, 76, 75]]
+
+def envelope0008FibreMax : Fin 9 -> Nat :=
+  ![83, 81, 87, 82, 82, 83, 81, 82, 82]
+
+theorem envelope0008 : TailR263EvenOneDiagonalRange 5203532 5229549 := by
+  intro N hLower hStop
+  have hNUpper : N <= 5229548 := by omega
+  have hbaseCutoff : ∀ target,
+      (GeneratedTailR263Diagonal.targetMarkers target).Cutoff 5229548 (envelope0008BaseCounts target) := by
+    intro target
+    cases target with
+    | lowTwo => decide
+    | evenTwoCell residue => fin_cases residue <;> decide
+  have hcellCutoff : ∀ cell,
+      (cellTargets cell).Cutoff 5229548 (envelope0008CellCounts cell) := by
+    intro cell
+    fin_cases cell <;> decide
+  have hfibreCutoff : ∀ cell residue,
+      (fibreTargets cell residue).Cutoff 5229548 (envelope0008FibreCounts cell residue) := by
+    intro cell residue
+    fin_cases cell <;> fin_cases residue <;> decide
+  have hsource := tailDiagonalBad_card_le_marker
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailDiagonalCoverage.indexedMarkerOrdered
+    (upper := 5229548) (count := 131584) (by decide)
+    (by decide) hNUpper
+  have hbase := tailR263EvenTwoAllDiagonal_card_le
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailR263Diagonal.targetMarkers
+    GeneratedTailR263Diagonal.projectsTargets
+    GeneratedTailR263Diagonal.targetMarkersOrdered
+    envelope0008BaseCounts hbaseCutoff (by decide) hNUpper
+  refine { unrestricted := ?_, concentrated := ?_, fibreCover := ?_ }
+  · have hratio := natCardRatio_le_block
+      (lower := 5203532) (N := N) (by decide) hLower hsource
+    exact hratio.trans (by norm_num [tailR263EvenOneUnrestrictedDiagonalEnvelope])
+  · intro cell
+    have hcell := tailR263EvenOneCellDiagonal_card_le
+      GeneratedTailDiagonalCoverage.certificate cellTargets
+      projectsCells (cellTargetsOrdered cell)
+      (hcellCutoff cell) (by decide) hNUpper
+    have hcard := tailR263EvenOneConcentratedDiagonal_card_le
+      hbase hcell
+    have hratio := natCardRatio_le_block
+      (lower := 5203532) (N := N) (by decide) hLower hcard
+    fin_cases cell <;> exact hratio.trans (by norm_num [envelope0008BaseCounts, envelope0008CellCounts, tailR263EvenOneConcentratedDiagonalEnvelope])
+  · intro cells residues
+    have hfibre : ∀ cell ∈ cells,
+        (tailR263EvenOneCellFibreDiagonal N cell (residues cell)).card <= envelope0008FibreMax cell := by
+      intro cell hcell
+      have hexact := tailR263EvenOneCellFibreDiagonal_card_le
+        GeneratedTailDiagonalCoverage.certificate cellTargets
+        projectsCells fibreTargets projectsFibres
+        (fibreTargetsOrdered cell (residues cell))
+        (hfibreCutoff cell (residues cell)) (by decide) hNUpper
+      generalize hresidue : residues cell = residue at hexact ⊢
+      fin_cases cell <;> fin_cases residue <;>
+        exact hexact.trans (by norm_num [envelope0008FibreCounts, envelope0008FibreMax])
+    have hcard := tailR263EvenOneFibreCoverDiagonal_card_le
+      hbase hfibre
+    have hsum :
+        (∑ cell ∈ cells, envelope0008FibreMax cell) <=
+          ∑ cell : Fin 9, envelope0008FibreMax cell := by
+      exact Finset.sum_le_sum_of_subset_of_nonneg
+        (Finset.subset_univ cells) (by omega)
+    have hcard' :
+        (tailR263EvenOneFibreCoverDiagonal N cells residues).card <=
+          ((tailR263EvenTwoAllDiagonal N).card +
+            ∑ cell : Fin 9, envelope0008FibreMax cell) := by
+      exact hcard.trans (Nat.add_le_add_left hsum _)
+    have hratio := natCardRatio_le_block
+      (lower := 5203532) (N := N) (by decide) hLower hcard'
+    exact hratio.trans (by norm_num [envelope0008BaseCounts, envelope0008FibreMax, tailR263EvenOneFibreCoverDiagonalEnvelope])
+
+def envelope0009BaseCounts : TailR263DiagonalTarget -> Nat
+  | .lowTwo => 82625
+  | .evenTwoCell residue => ![1843, 1834, 1840, 1832, 1846, 1833, 1842, 1838, 1840] residue
+
+def envelope0009CellCounts : Fin 9 -> Nat :=
+  ![3669, 3673, 3672, 3675, 3658, 3685, 3676, 3678, 3684]
+
+def envelope0009FibreCounts : Fin 9 -> Fin 49 -> Nat :=
+  ![![71, 71, 71, 77, 72, 74, 75, 81, 75, 79, 70, 74, 76, 73, 70, 78, 71, 73, 70, 76, 79, 76, 74, 80, 72, 74, 74, 78, 70, 69, 74, 77, 73, 75, 70, 77, 75, 74, 77, 83, 76, 74, 71, 83, 80, 75, 71, 82, 79], ![70, 80, 77, 71, 76, 74, 77, 79, 69, 70, 73, 82, 76, 78, 72, 80, 74, 68, 71, 73, 79, 77, 67, 77, 75, 76, 73, 81, 80, 79, 80, 77, 81, 73, 71, 75, 75, 79, 77, 70, 72, 73, 72, 70, 76, 78, 72, 75, 73], ![80, 72, 71, 81, 74, 73, 73, 77, 79, 74, 74, 73, 79, 75, 73, 70, 74, 77, 79, 81, 78, 77, 70, 72, 76, 72, 78, 77, 72, 74, 70, 69, 76, 73, 70, 76, 87, 78, 74, 74, 75, 71, 79, 78, 80, 72, 69, 73, 73], ![81, 80, 73, 75, 76, 73, 75, 78, 77, 76, 73, 78, 77, 73, 73, 75, 74, 75, 75, 73, 76, 74, 69, 74, 78, 82, 76, 70, 79, 82, 75, 70, 74, 77, 80, 70, 77, 75, 71, 71, 73, 78, 75, 75, 77, 70, 72, 73, 72], ![80, 74, 69, 74, 74, 80, 75, 68, 76, 77, 72, 73, 78, 70, 76, 72, 75, 79, 73, 75, 71, 77, 75, 76, 77, 79, 72, 66, 77, 82, 73, 75, 76, 77, 75, 79, 69, 76, 74, 72, 78, 79, 74, 69, 72, 78, 72, 70, 78], ![71, 72, 77, 77, 76, 83, 81, 71, 77, 77, 73, 76, 78, 75, 76, 74, 69, 77, 70, 69, 77, 72, 79, 74, 76, 75, 72, 72, 78, 84, 76, 75, 67, 75, 79, 71, 75, 72, 81, 75, 74, 78, 82, 74, 76, 73, 77, 74, 73], ![72, 81, 75, 80, 73, 77, 73, 74, 73, 76, 74, 78, 72, 77, 78, 71, 74, 77, 81, 74, 69, 74, 79, 77, 70, 73, 75, 79, 72, 68, 76, 73, 70, 79, 74, 72, 74, 76, 71, 75, 74, 74, 80, 74, 77, 79, 81, 73, 78], ![67, 74, 77, 75, 77, 68, 71, 76, 76, 74, 79, 74, 70, 74, 73, 76, 75, 74, 80, 76, 76, 76, 78, 71, 78, 79, 75, 81, 72, 73, 76, 73, 68, 79, 78, 77, 73, 75, 79, 77, 81, 74, 76, 82, 68, 72, 73, 80, 72], ![80, 78, 81, 69, 73, 72, 77, 79, 75, 74, 82, 76, 67, 76, 79, 77, 81, 73, 79, 74, 69, 71, 78, 73, 76, 73, 74, 76, 67, 68, 79, 73, 80, 78, 72, 79, 77, 70, 75, 77, 76, 74, 71, 71, 79, 76, 78, 77, 75]]
+
+def envelope0009FibreMax : Fin 9 -> Nat :=
+  ![83, 82, 87, 82, 82, 84, 81, 82, 82]
+
+theorem envelope0009 : TailR263EvenOneDiagonalRange 5229549 5255696 := by
+  intro N hLower hStop
+  have hNUpper : N <= 5255695 := by omega
+  have hbaseCutoff : ∀ target,
+      (GeneratedTailR263Diagonal.targetMarkers target).Cutoff 5255695 (envelope0009BaseCounts target) := by
+    intro target
+    cases target with
+    | lowTwo => decide
+    | evenTwoCell residue => fin_cases residue <;> decide
+  have hcellCutoff : ∀ cell,
+      (cellTargets cell).Cutoff 5255695 (envelope0009CellCounts cell) := by
+    intro cell
+    fin_cases cell <;> decide
+  have hfibreCutoff : ∀ cell residue,
+      (fibreTargets cell residue).Cutoff 5255695 (envelope0009FibreCounts cell residue) := by
+    intro cell residue
+    fin_cases cell <;> fin_cases residue <;> decide
+  have hsource := tailDiagonalBad_card_le_marker
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailDiagonalCoverage.indexedMarkerOrdered
+    (upper := 5255695) (count := 132243) (by decide)
+    (by decide) hNUpper
+  have hbase := tailR263EvenTwoAllDiagonal_card_le
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailR263Diagonal.targetMarkers
+    GeneratedTailR263Diagonal.projectsTargets
+    GeneratedTailR263Diagonal.targetMarkersOrdered
+    envelope0009BaseCounts hbaseCutoff (by decide) hNUpper
+  refine { unrestricted := ?_, concentrated := ?_, fibreCover := ?_ }
+  · have hratio := natCardRatio_le_block
+      (lower := 5229549) (N := N) (by decide) hLower hsource
+    exact hratio.trans (by norm_num [tailR263EvenOneUnrestrictedDiagonalEnvelope])
+  · intro cell
+    have hcell := tailR263EvenOneCellDiagonal_card_le
+      GeneratedTailDiagonalCoverage.certificate cellTargets
+      projectsCells (cellTargetsOrdered cell)
+      (hcellCutoff cell) (by decide) hNUpper
+    have hcard := tailR263EvenOneConcentratedDiagonal_card_le
+      hbase hcell
+    have hratio := natCardRatio_le_block
+      (lower := 5229549) (N := N) (by decide) hLower hcard
+    fin_cases cell <;> exact hratio.trans (by norm_num [envelope0009BaseCounts, envelope0009CellCounts, tailR263EvenOneConcentratedDiagonalEnvelope])
+  · intro cells residues
+    have hfibre : ∀ cell ∈ cells,
+        (tailR263EvenOneCellFibreDiagonal N cell (residues cell)).card <= envelope0009FibreMax cell := by
+      intro cell hcell
+      have hexact := tailR263EvenOneCellFibreDiagonal_card_le
+        GeneratedTailDiagonalCoverage.certificate cellTargets
+        projectsCells fibreTargets projectsFibres
+        (fibreTargetsOrdered cell (residues cell))
+        (hfibreCutoff cell (residues cell)) (by decide) hNUpper
+      generalize hresidue : residues cell = residue at hexact ⊢
+      fin_cases cell <;> fin_cases residue <;>
+        exact hexact.trans (by norm_num [envelope0009FibreCounts, envelope0009FibreMax])
+    have hcard := tailR263EvenOneFibreCoverDiagonal_card_le
+      hbase hfibre
+    have hsum :
+        (∑ cell ∈ cells, envelope0009FibreMax cell) <=
+          ∑ cell : Fin 9, envelope0009FibreMax cell := by
+      exact Finset.sum_le_sum_of_subset_of_nonneg
+        (Finset.subset_univ cells) (by omega)
+    have hcard' :
+        (tailR263EvenOneFibreCoverDiagonal N cells residues).card <=
+          ((tailR263EvenTwoAllDiagonal N).card +
+            ∑ cell : Fin 9, envelope0009FibreMax cell) := by
+      exact hcard.trans (Nat.add_le_add_left hsum _)
+    have hratio := natCardRatio_le_block
+      (lower := 5229549) (N := N) (by decide) hLower hcard'
+    exact hratio.trans (by norm_num [envelope0009BaseCounts, envelope0009FibreMax, tailR263EvenOneFibreCoverDiagonalEnvelope])
+
+def envelope0010BaseCounts : TailR263DiagonalTarget -> Nat
+  | .lowTwo => 83024
+  | .evenTwoCell residue => ![1853, 1845, 1849, 1842, 1857, 1844, 1853, 1847, 1847] residue
+
+def envelope0010CellCounts : Fin 9 -> Nat :=
+  ![3684, 3693, 3689, 3691, 3675, 3703, 3695, 3695, 3703]
+
+def envelope0010FibreCounts : Fin 9 -> Fin 49 -> Nat :=
+  ![![71, 71, 71, 78, 74, 74, 75, 81, 75, 79, 71, 74, 76, 73, 70, 78, 72, 73, 72, 76, 80, 76, 74, 80, 73, 74, 75, 78, 71, 69, 74, 77, 73, 75, 73, 77, 76, 74, 77, 83, 76, 74, 71, 83, 80, 75, 71, 82, 79], ![71, 81, 78, 71, 76, 74, 77, 79, 70, 71, 74, 83, 76, 78, 73, 81, 74, 68, 72, 73, 79, 77, 67, 77, 77, 77, 73, 82, 80, 79, 80, 77, 81, 73, 71, 76, 75, 79, 77, 71, 72, 74, 73, 71, 77, 78, 72, 75, 73], ![81, 72, 73, 81, 74, 73, 74, 77, 80, 74, 74, 73, 79, 75, 74, 70, 75, 77, 80, 82, 78, 78, 70, 72, 76, 73, 78, 77, 72, 74, 70, 70, 76, 74, 70, 76, 87, 78, 74, 75, 75, 72, 79, 78, 80, 72, 69, 74, 74], ![81, 80, 73, 75, 76, 73, 75, 79, 77, 77, 73, 78, 77, 73, 73, 75, 74, 75, 75, 73, 76, 75, 69, 75, 78, 82, 76, 70, 79, 84, 75, 71, 76, 77, 81, 70, 77, 76, 71, 72, 74, 78, 76, 75, 77, 71, 72, 74, 72], ![81, 74, 69, 74, 75, 80, 75, 68, 76, 77, 72, 74, 78, 71, 77, 72, 76, 79, 73, 78, 71, 78, 75, 76, 77, 79, 72, 67, 77, 83, 73, 76, 76, 77, 75, 80, 70, 77, 74, 72, 78, 79, 74, 69, 72, 78, 72, 71, 78], ![73, 73, 77, 78, 76, 84, 81, 72, 77, 77, 73, 77, 79, 75, 76, 74, 69, 78, 70, 71, 77, 72, 81, 74, 77, 76, 72, 73, 78, 84, 76, 75, 67, 75, 79, 71, 75, 72, 82, 75, 75, 78, 82, 74, 76, 73, 77, 74, 73], ![72, 82, 75, 80, 73, 77, 73, 75, 73, 77, 74, 78, 72, 77, 78, 73, 74, 79, 81, 74, 69, 75, 79, 77, 70, 73, 75, 79, 72, 68, 76, 74, 70, 79, 75, 73, 77, 76, 71, 75, 75, 74, 81, 74, 77, 80, 81, 74, 79], ![67, 74, 77, 75, 77, 69, 72, 76, 76, 74, 79, 75, 70, 74, 73, 76, 75, 76, 80, 76, 77, 76, 79, 71, 79, 79, 75, 81, 72, 73, 77, 73, 69, 79, 78, 78, 74, 75, 81, 77, 82, 74, 76, 82, 68, 72, 74, 80, 73], ![80, 78, 82, 69, 74, 72, 77, 79, 75, 74, 82, 77, 67, 78, 80, 77, 81, 73, 79, 74, 70, 71, 79, 73, 76, 73, 74, 77, 68, 69, 80, 73, 80, 78, 72, 79, 78, 70, 76, 77, 76, 76, 71, 72, 80, 76, 79, 77, 75]]
+
+def envelope0010FibreMax : Fin 9 -> Nat :=
+  ![83, 83, 87, 84, 83, 84, 82, 82, 82]
+
+theorem envelope0010 : TailR263EvenOneDiagonalRange 5255696 5281974 := by
+  intro N hLower hStop
+  have hNUpper : N <= 5281973 := by omega
+  have hbaseCutoff : ∀ target,
+      (GeneratedTailR263Diagonal.targetMarkers target).Cutoff 5281973 (envelope0010BaseCounts target) := by
+    intro target
+    cases target with
+    | lowTwo => decide
+    | evenTwoCell residue => fin_cases residue <;> decide
+  have hcellCutoff : ∀ cell,
+      (cellTargets cell).Cutoff 5281973 (envelope0010CellCounts cell) := by
+    intro cell
+    fin_cases cell <;> decide
+  have hfibreCutoff : ∀ cell residue,
+      (fibreTargets cell residue).Cutoff 5281973 (envelope0010FibreCounts cell residue) := by
+    intro cell residue
+    fin_cases cell <;> fin_cases residue <;> decide
+  have hsource := tailDiagonalBad_card_le_marker
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailDiagonalCoverage.indexedMarkerOrdered
+    (upper := 5281973) (count := 132889) (by decide)
+    (by decide) hNUpper
+  have hbase := tailR263EvenTwoAllDiagonal_card_le
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailR263Diagonal.targetMarkers
+    GeneratedTailR263Diagonal.projectsTargets
+    GeneratedTailR263Diagonal.targetMarkersOrdered
+    envelope0010BaseCounts hbaseCutoff (by decide) hNUpper
+  refine { unrestricted := ?_, concentrated := ?_, fibreCover := ?_ }
+  · have hratio := natCardRatio_le_block
+      (lower := 5255696) (N := N) (by decide) hLower hsource
+    exact hratio.trans (by norm_num [tailR263EvenOneUnrestrictedDiagonalEnvelope])
+  · intro cell
+    have hcell := tailR263EvenOneCellDiagonal_card_le
+      GeneratedTailDiagonalCoverage.certificate cellTargets
+      projectsCells (cellTargetsOrdered cell)
+      (hcellCutoff cell) (by decide) hNUpper
+    have hcard := tailR263EvenOneConcentratedDiagonal_card_le
+      hbase hcell
+    have hratio := natCardRatio_le_block
+      (lower := 5255696) (N := N) (by decide) hLower hcard
+    fin_cases cell <;> exact hratio.trans (by norm_num [envelope0010BaseCounts, envelope0010CellCounts, tailR263EvenOneConcentratedDiagonalEnvelope])
+  · intro cells residues
+    have hfibre : ∀ cell ∈ cells,
+        (tailR263EvenOneCellFibreDiagonal N cell (residues cell)).card <= envelope0010FibreMax cell := by
+      intro cell hcell
+      have hexact := tailR263EvenOneCellFibreDiagonal_card_le
+        GeneratedTailDiagonalCoverage.certificate cellTargets
+        projectsCells fibreTargets projectsFibres
+        (fibreTargetsOrdered cell (residues cell))
+        (hfibreCutoff cell (residues cell)) (by decide) hNUpper
+      generalize hresidue : residues cell = residue at hexact ⊢
+      fin_cases cell <;> fin_cases residue <;>
+        exact hexact.trans (by norm_num [envelope0010FibreCounts, envelope0010FibreMax])
+    have hcard := tailR263EvenOneFibreCoverDiagonal_card_le
+      hbase hfibre
+    have hsum :
+        (∑ cell ∈ cells, envelope0010FibreMax cell) <=
+          ∑ cell : Fin 9, envelope0010FibreMax cell := by
+      exact Finset.sum_le_sum_of_subset_of_nonneg
+        (Finset.subset_univ cells) (by omega)
+    have hcard' :
+        (tailR263EvenOneFibreCoverDiagonal N cells residues).card <=
+          ((tailR263EvenTwoAllDiagonal N).card +
+            ∑ cell : Fin 9, envelope0010FibreMax cell) := by
+      exact hcard.trans (Nat.add_le_add_left hsum _)
+    have hratio := natCardRatio_le_block
+      (lower := 5255696) (N := N) (by decide) hLower hcard'
+    exact hratio.trans (by norm_num [envelope0010BaseCounts, envelope0010FibreMax, tailR263EvenOneFibreCoverDiagonalEnvelope])
+
+def envelope0011BaseCounts : TailR263DiagonalTarget -> Nat
+  | .lowTwo => 83454
+  | .evenTwoCell residue => ![1863, 1855, 1859, 1851, 1865, 1852, 1861, 1855, 1855] residue
+
+def envelope0011CellCounts : Fin 9 -> Nat :=
+  ![3700, 3708, 3708, 3713, 3694, 3722, 3717, 3712, 3720]
+
+def envelope0011FibreCounts : Fin 9 -> Fin 49 -> Nat :=
+  ![![72, 73, 71, 80, 74, 74, 75, 81, 76, 80, 71, 75, 76, 73, 70, 78, 72, 75, 72, 78, 80, 76, 74, 80, 73, 74, 75, 78, 71, 70, 74, 78, 73, 75, 73, 77, 77, 74, 77, 83, 76, 74, 72, 83, 80, 75, 71, 82, 79], ![71, 82, 79, 71, 76, 74, 77, 80, 71, 72, 75, 83, 76, 78, 73, 82, 74, 68, 72, 73, 79, 77, 67, 77, 77, 77, 74, 82, 80, 79, 80, 77, 82, 73, 72, 76, 75, 79, 78, 71, 73, 74, 74, 72, 78, 78, 72, 75, 73], ![81, 73, 73, 81, 74, 74, 74, 77, 80, 74, 74, 73, 79, 75, 74, 71, 76, 78, 80, 82, 78, 78, 71, 72, 77, 73, 78, 77, 72, 74, 71, 70, 78, 74, 71, 76, 88, 78, 75, 75, 76, 72, 79, 79, 80, 73, 70, 74, 76], ![81, 80, 73, 75, 76, 73, 77, 80, 79, 77, 73, 78, 78, 74, 74, 75, 74, 75, 75, 73, 77, 76, 70, 76, 78, 83, 77, 70, 80, 84, 76, 71, 76, 77, 82, 70, 79, 76, 71, 73, 74, 80, 76, 75, 77, 71, 72, 74, 72], ![81, 74, 70, 74, 76, 80, 75, 68, 76, 77, 73, 74, 79, 73, 77, 72, 76, 79, 74, 79, 72, 78, 75, 76, 77, 79, 73, 67, 77, 83, 74, 76, 77, 77, 75, 80, 70, 79, 74, 72, 78, 79, 74, 70, 72, 79, 73, 72, 79], ![74, 73, 77, 78, 76, 84, 81, 72, 78, 78, 74, 77, 79, 75, 76, 74, 71, 78, 71, 71, 77, 73, 81, 74, 77, 76, 72, 73, 78, 84, 77, 75, 67, 76, 80, 72, 75, 73, 83, 76, 75, 79, 82, 77, 76, 73, 77, 74, 73], ![73, 82, 75, 80, 73, 77, 73, 75, 73, 77, 74, 78, 73, 77, 79, 73, 74, 79, 81, 74, 71, 75, 79, 78, 70, 74, 75, 79, 73, 68, 79, 75, 70, 80, 75, 73, 79, 76, 71, 76, 75, 76, 82, 74, 78, 80, 82, 75, 79], ![67, 75, 77, 76, 77, 70, 72, 76, 76, 74, 79, 76, 70, 75, 73, 77, 75, 78, 80, 76, 77, 78, 79, 72, 79, 79, 75, 81, 73, 74, 77, 74, 69, 79, 78, 79, 74, 77, 81, 77, 82, 74, 76, 82, 68, 72, 74, 80, 73], ![80, 78, 82, 70, 74, 73, 77, 79, 75, 74, 83, 77, 68, 79, 81, 77, 81, 73, 79, 75, 70, 72, 79, 73, 76, 74, 75, 78, 69, 70, 80, 73, 80, 78, 72, 79, 78, 70, 76, 77, 76, 77, 71, 72, 80, 76, 79, 79, 76]]
+
+def envelope0011FibreMax : Fin 9 -> Nat :=
+  ![83, 83, 88, 84, 83, 84, 82, 82, 83]
+
+theorem envelope0011 : TailR263EvenOneDiagonalRange 5281974 5308383 := by
+  intro N hLower hStop
+  have hNUpper : N <= 5308382 := by omega
+  have hbaseCutoff : ∀ target,
+      (GeneratedTailR263Diagonal.targetMarkers target).Cutoff 5308382 (envelope0011BaseCounts target) := by
+    intro target
+    cases target with
+    | lowTwo => decide
+    | evenTwoCell residue => fin_cases residue <;> decide
+  have hcellCutoff : ∀ cell,
+      (cellTargets cell).Cutoff 5308382 (envelope0011CellCounts cell) := by
+    intro cell
+    fin_cases cell <;> decide
+  have hfibreCutoff : ∀ cell residue,
+      (fibreTargets cell residue).Cutoff 5308382 (envelope0011FibreCounts cell residue) := by
+    intro cell residue
+    fin_cases cell <;> fin_cases residue <;> decide
+  have hsource := tailDiagonalBad_card_le_marker
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailDiagonalCoverage.indexedMarkerOrdered
+    (upper := 5308382) (count := 133564) (by decide)
+    (by decide) hNUpper
+  have hbase := tailR263EvenTwoAllDiagonal_card_le
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailR263Diagonal.targetMarkers
+    GeneratedTailR263Diagonal.projectsTargets
+    GeneratedTailR263Diagonal.targetMarkersOrdered
+    envelope0011BaseCounts hbaseCutoff (by decide) hNUpper
+  refine { unrestricted := ?_, concentrated := ?_, fibreCover := ?_ }
+  · have hratio := natCardRatio_le_block
+      (lower := 5281974) (N := N) (by decide) hLower hsource
+    exact hratio.trans (by norm_num [tailR263EvenOneUnrestrictedDiagonalEnvelope])
+  · intro cell
+    have hcell := tailR263EvenOneCellDiagonal_card_le
+      GeneratedTailDiagonalCoverage.certificate cellTargets
+      projectsCells (cellTargetsOrdered cell)
+      (hcellCutoff cell) (by decide) hNUpper
+    have hcard := tailR263EvenOneConcentratedDiagonal_card_le
+      hbase hcell
+    have hratio := natCardRatio_le_block
+      (lower := 5281974) (N := N) (by decide) hLower hcard
+    fin_cases cell <;> exact hratio.trans (by norm_num [envelope0011BaseCounts, envelope0011CellCounts, tailR263EvenOneConcentratedDiagonalEnvelope])
+  · intro cells residues
+    have hfibre : ∀ cell ∈ cells,
+        (tailR263EvenOneCellFibreDiagonal N cell (residues cell)).card <= envelope0011FibreMax cell := by
+      intro cell hcell
+      have hexact := tailR263EvenOneCellFibreDiagonal_card_le
+        GeneratedTailDiagonalCoverage.certificate cellTargets
+        projectsCells fibreTargets projectsFibres
+        (fibreTargetsOrdered cell (residues cell))
+        (hfibreCutoff cell (residues cell)) (by decide) hNUpper
+      generalize hresidue : residues cell = residue at hexact ⊢
+      fin_cases cell <;> fin_cases residue <;>
+        exact hexact.trans (by norm_num [envelope0011FibreCounts, envelope0011FibreMax])
+    have hcard := tailR263EvenOneFibreCoverDiagonal_card_le
+      hbase hfibre
+    have hsum :
+        (∑ cell ∈ cells, envelope0011FibreMax cell) <=
+          ∑ cell : Fin 9, envelope0011FibreMax cell := by
+      exact Finset.sum_le_sum_of_subset_of_nonneg
+        (Finset.subset_univ cells) (by omega)
+    have hcard' :
+        (tailR263EvenOneFibreCoverDiagonal N cells residues).card <=
+          ((tailR263EvenTwoAllDiagonal N).card +
+            ∑ cell : Fin 9, envelope0011FibreMax cell) := by
+      exact hcard.trans (Nat.add_le_add_left hsum _)
+    have hratio := natCardRatio_le_block
+      (lower := 5281974) (N := N) (by decide) hLower hcard'
+    exact hratio.trans (by norm_num [envelope0011BaseCounts, envelope0011FibreMax, tailR263EvenOneFibreCoverDiagonalEnvelope])
+
+def envelope0012BaseCounts : TailR263DiagonalTarget -> Nat
+  | .lowTwo => 83866
+  | .evenTwoCell residue => ![1871, 1865, 1869, 1859, 1871, 1860, 1871, 1868, 1866] residue
+
+def envelope0012CellCounts : Fin 9 -> Nat :=
+  ![3721, 3728, 3724, 3729, 3713, 3743, 3731, 3733, 3741]
+
+def envelope0012FibreCounts : Fin 9 -> Fin 49 -> Nat :=
+  ![![74, 73, 73, 80, 75, 74, 76, 81, 77, 80, 71, 76, 76, 73, 70, 78, 73, 75, 73, 78, 80, 76, 76, 80, 73, 76, 75, 79, 71, 70, 74, 78, 74, 77, 73, 78, 77, 74, 77, 83, 76, 75, 72, 84, 80, 75, 71, 82, 79], ![71, 82, 79, 72, 76, 74, 77, 81, 71, 75, 75, 83, 76, 78, 74, 84, 74, 69, 72, 73, 79, 77, 67, 78, 78, 78, 75, 82, 80, 79, 80, 78, 82, 74, 72, 76, 76, 79, 78, 72, 74, 74, 75, 72, 78, 78, 72, 76, 73], ![82, 73, 73, 81, 74, 75, 74, 78, 80, 74, 74, 73, 80, 76, 74, 72, 76, 78, 80, 82, 78, 79, 71, 73, 77, 73, 78, 77, 72, 75, 71, 71, 78, 75, 71, 76, 88, 78, 76, 77, 76, 72, 79, 79, 80, 73, 70, 75, 77], ![81, 80, 73, 76, 76, 74, 77, 80, 79, 78, 73, 79, 78, 75, 74, 75, 74, 75, 75, 75, 77, 77, 71, 76, 79, 83, 78, 70, 80, 84, 76, 71, 76, 77, 82, 70, 79, 76, 73, 73, 75, 80, 77, 75, 78, 71, 72, 74, 72], ![81, 74, 70, 75, 76, 80, 75, 70, 76, 78, 73, 75, 79, 74, 77, 73, 76, 79, 74, 79, 72, 78, 75, 76, 78, 79, 73, 67, 78, 84, 74, 77, 77, 77, 76, 80, 71, 79, 74, 72, 78, 79, 75, 71, 73, 80, 74, 73, 79], ![74, 74, 78, 78, 77, 85, 82, 72, 78, 78, 74, 77, 79, 75, 76, 75, 71, 79, 72, 71, 79, 73, 82, 74, 78, 76, 73, 73, 78, 84, 77, 75, 68, 76, 80, 72, 76, 74, 84, 77, 76, 79, 83, 77, 76, 73, 77, 74, 74], ![73, 82, 75, 80, 73, 77, 73, 75, 74, 77, 74, 79, 73, 77, 80, 73, 75, 79, 81, 74, 72, 75, 80, 78, 73, 74, 75, 80, 73, 69, 80, 75, 71, 80, 75, 73, 79, 77, 71, 76, 75, 76, 82, 74, 78, 80, 82, 75, 79], ![67, 75, 78, 77, 79, 72, 73, 77, 76, 74, 79, 76, 72, 75, 74, 78, 76, 78, 81, 76, 78, 78, 80, 72, 79, 79, 75, 81, 74, 75, 77, 74, 69, 79, 78, 79, 74, 77, 81, 77, 82, 74, 76, 82, 68, 73, 74, 82, 73], ![80, 78, 83, 70, 75, 74, 77, 79, 75, 74, 84, 78, 70, 79, 82, 77, 81, 73, 80, 75, 70, 72, 79, 73, 76, 75, 75, 79, 69, 70, 80, 74, 81, 78, 72, 80, 78, 71, 76, 77, 76, 79, 73, 72, 81, 77, 79, 79, 76]]
+
+def envelope0012FibreMax : Fin 9 -> Nat :=
+  ![84, 84, 88, 84, 84, 85, 82, 82, 84]
+
+theorem envelope0012 : TailR263EvenOneDiagonalRange 5308383 5334924 := by
+  intro N hLower hStop
+  have hNUpper : N <= 5334923 := by omega
+  have hbaseCutoff : ∀ target,
+      (GeneratedTailR263Diagonal.targetMarkers target).Cutoff 5334923 (envelope0012BaseCounts target) := by
+    intro target
+    cases target with
+    | lowTwo => decide
+    | evenTwoCell residue => fin_cases residue <;> decide
+  have hcellCutoff : ∀ cell,
+      (cellTargets cell).Cutoff 5334923 (envelope0012CellCounts cell) := by
+    intro cell
+    fin_cases cell <;> decide
+  have hfibreCutoff : ∀ cell residue,
+      (fibreTargets cell residue).Cutoff 5334923 (envelope0012FibreCounts cell residue) := by
+    intro cell residue
+    fin_cases cell <;> fin_cases residue <;> decide
+  have hsource := tailDiagonalBad_card_le_marker
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailDiagonalCoverage.indexedMarkerOrdered
+    (upper := 5334923) (count := 134229) (by decide)
+    (by decide) hNUpper
+  have hbase := tailR263EvenTwoAllDiagonal_card_le
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailR263Diagonal.targetMarkers
+    GeneratedTailR263Diagonal.projectsTargets
+    GeneratedTailR263Diagonal.targetMarkersOrdered
+    envelope0012BaseCounts hbaseCutoff (by decide) hNUpper
+  refine { unrestricted := ?_, concentrated := ?_, fibreCover := ?_ }
+  · have hratio := natCardRatio_le_block
+      (lower := 5308383) (N := N) (by decide) hLower hsource
+    exact hratio.trans (by norm_num [tailR263EvenOneUnrestrictedDiagonalEnvelope])
+  · intro cell
+    have hcell := tailR263EvenOneCellDiagonal_card_le
+      GeneratedTailDiagonalCoverage.certificate cellTargets
+      projectsCells (cellTargetsOrdered cell)
+      (hcellCutoff cell) (by decide) hNUpper
+    have hcard := tailR263EvenOneConcentratedDiagonal_card_le
+      hbase hcell
+    have hratio := natCardRatio_le_block
+      (lower := 5308383) (N := N) (by decide) hLower hcard
+    fin_cases cell <;> exact hratio.trans (by norm_num [envelope0012BaseCounts, envelope0012CellCounts, tailR263EvenOneConcentratedDiagonalEnvelope])
+  · intro cells residues
+    have hfibre : ∀ cell ∈ cells,
+        (tailR263EvenOneCellFibreDiagonal N cell (residues cell)).card <= envelope0012FibreMax cell := by
+      intro cell hcell
+      have hexact := tailR263EvenOneCellFibreDiagonal_card_le
+        GeneratedTailDiagonalCoverage.certificate cellTargets
+        projectsCells fibreTargets projectsFibres
+        (fibreTargetsOrdered cell (residues cell))
+        (hfibreCutoff cell (residues cell)) (by decide) hNUpper
+      generalize hresidue : residues cell = residue at hexact ⊢
+      fin_cases cell <;> fin_cases residue <;>
+        exact hexact.trans (by norm_num [envelope0012FibreCounts, envelope0012FibreMax])
+    have hcard := tailR263EvenOneFibreCoverDiagonal_card_le
+      hbase hfibre
+    have hsum :
+        (∑ cell ∈ cells, envelope0012FibreMax cell) <=
+          ∑ cell : Fin 9, envelope0012FibreMax cell := by
+      exact Finset.sum_le_sum_of_subset_of_nonneg
+        (Finset.subset_univ cells) (by omega)
+    have hcard' :
+        (tailR263EvenOneFibreCoverDiagonal N cells residues).card <=
+          ((tailR263EvenTwoAllDiagonal N).card +
+            ∑ cell : Fin 9, envelope0012FibreMax cell) := by
+      exact hcard.trans (Nat.add_le_add_left hsum _)
+    have hratio := natCardRatio_le_block
+      (lower := 5308383) (N := N) (by decide) hLower hcard'
+    exact hratio.trans (by norm_num [envelope0012BaseCounts, envelope0012FibreMax, tailR263EvenOneFibreCoverDiagonalEnvelope])
+
+def envelope0013BaseCounts : TailR263DiagonalTarget -> Nat
+  | .lowTwo => 84293
+  | .evenTwoCell residue => ![1879, 1873, 1876, 1870, 1878, 1869, 1880, 1878, 1877] residue
+
+def envelope0013CellCounts : Fin 9 -> Nat :=
+  ![3738, 3745, 3748, 3749, 3731, 3763, 3751, 3751, 3756]
+
+def envelope0013FibreCounts : Fin 9 -> Fin 49 -> Nat :=
+  ![![75, 75, 73, 80, 75, 74, 76, 81, 77, 80, 72, 76, 76, 73, 70, 78, 76, 75, 74, 78, 80, 76, 76, 80, 74, 76, 76, 79, 71, 70, 74, 78, 77, 77, 75, 78, 77, 74, 77, 84, 76, 75, 73, 84, 80, 75, 71, 82, 79], ![72, 82, 79, 74, 76, 74, 79, 81, 73, 75, 75, 83, 76, 78, 75, 84, 75, 69, 72, 73, 80, 77, 68, 79, 78, 78, 75, 82, 80, 79, 81, 78, 82, 74, 72, 76, 76, 79, 78, 73, 74, 75, 75, 72, 78, 79, 73, 76, 73], ![82, 73, 73, 81, 75, 75, 75, 78, 81, 74, 74, 73, 81, 76, 77, 72, 77, 78, 80, 82, 79, 79, 72, 73, 77, 73, 79, 77, 72, 75, 72, 71, 79, 78, 71, 76, 88, 79, 76, 78, 76, 72, 79, 79, 81, 74, 71, 77, 78], ![81, 80, 74, 77, 77, 75, 77, 81, 79, 79, 74, 79, 79, 75, 74, 75, 74, 75, 75, 75, 79, 77, 71, 77, 79, 83, 78, 71, 81, 84, 76, 71, 76, 77, 82, 71, 79, 78, 73, 74, 75, 80, 77, 76, 78, 72, 72, 75, 72], ![82, 76, 70, 75, 76, 80, 75, 70, 77, 78, 73, 75, 80, 74, 78, 73, 76, 80, 74, 80, 72, 78, 75, 76, 78, 80, 73, 69, 79, 85, 75, 77, 77, 77, 76, 81, 71, 79, 74, 72, 78, 80, 75, 72, 73, 80, 74, 73, 80], ![74, 74, 78, 79, 77, 86, 82, 73, 79, 79, 75, 77, 80, 75, 76, 76, 71, 80, 72, 72, 79, 74, 83, 75, 78, 77, 73, 73, 78, 84, 77, 77, 68, 77, 80, 73, 76, 75, 84, 78, 76, 79, 83, 77, 76, 73, 77, 74, 74], ![73, 82, 75, 80, 73, 78, 73, 76, 74, 77, 75, 79, 74, 78, 80, 74, 75, 79, 83, 74, 72, 76, 80, 79, 73, 74, 76, 80, 75, 69, 80, 75, 72, 81, 75, 73, 79, 77, 71, 76, 76, 76, 82, 75, 78, 81, 83, 75, 80], ![68, 76, 78, 78, 79, 73, 73, 77, 76, 74, 79, 77, 72, 76, 74, 78, 76, 79, 81, 77, 78, 78, 80, 72, 79, 79, 75, 81, 74, 75, 78, 74, 69, 79, 79, 79, 76, 78, 82, 77, 83, 74, 76, 82, 69, 73, 75, 82, 74], ![80, 79, 83, 71, 75, 74, 77, 79, 76, 74, 85, 78, 70, 79, 82, 78, 81, 73, 80, 75, 71, 72, 79, 73, 76, 75, 76, 79, 70, 70, 80, 74, 81, 78, 73, 82, 78, 71, 76, 77, 76, 80, 74, 73, 82, 77, 79, 79, 76]]
+
+def envelope0013FibreMax : Fin 9 -> Nat :=
+  ![84, 84, 88, 84, 85, 86, 83, 83, 85]
+
+theorem envelope0013 : TailR263EvenOneDiagonalRange 5334924 5361598 := by
+  intro N hLower hStop
+  have hNUpper : N <= 5361597 := by omega
+  have hbaseCutoff : ∀ target,
+      (GeneratedTailR263Diagonal.targetMarkers target).Cutoff 5361597 (envelope0013BaseCounts target) := by
+    intro target
+    cases target with
+    | lowTwo => decide
+    | evenTwoCell residue => fin_cases residue <;> decide
+  have hcellCutoff : ∀ cell,
+      (cellTargets cell).Cutoff 5361597 (envelope0013CellCounts cell) := by
+    intro cell
+    fin_cases cell <;> decide
+  have hfibreCutoff : ∀ cell residue,
+      (fibreTargets cell residue).Cutoff 5361597 (envelope0013FibreCounts cell residue) := by
+    intro cell residue
+    fin_cases cell <;> fin_cases residue <;> decide
+  have hsource := tailDiagonalBad_card_le_marker
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailDiagonalCoverage.indexedMarkerOrdered
+    (upper := 5361597) (count := 134905) (by decide)
+    (by decide) hNUpper
+  have hbase := tailR263EvenTwoAllDiagonal_card_le
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailR263Diagonal.targetMarkers
+    GeneratedTailR263Diagonal.projectsTargets
+    GeneratedTailR263Diagonal.targetMarkersOrdered
+    envelope0013BaseCounts hbaseCutoff (by decide) hNUpper
+  refine { unrestricted := ?_, concentrated := ?_, fibreCover := ?_ }
+  · have hratio := natCardRatio_le_block
+      (lower := 5334924) (N := N) (by decide) hLower hsource
+    exact hratio.trans (by norm_num [tailR263EvenOneUnrestrictedDiagonalEnvelope])
+  · intro cell
+    have hcell := tailR263EvenOneCellDiagonal_card_le
+      GeneratedTailDiagonalCoverage.certificate cellTargets
+      projectsCells (cellTargetsOrdered cell)
+      (hcellCutoff cell) (by decide) hNUpper
+    have hcard := tailR263EvenOneConcentratedDiagonal_card_le
+      hbase hcell
+    have hratio := natCardRatio_le_block
+      (lower := 5334924) (N := N) (by decide) hLower hcard
+    fin_cases cell <;> exact hratio.trans (by norm_num [envelope0013BaseCounts, envelope0013CellCounts, tailR263EvenOneConcentratedDiagonalEnvelope])
+  · intro cells residues
+    have hfibre : ∀ cell ∈ cells,
+        (tailR263EvenOneCellFibreDiagonal N cell (residues cell)).card <= envelope0013FibreMax cell := by
+      intro cell hcell
+      have hexact := tailR263EvenOneCellFibreDiagonal_card_le
+        GeneratedTailDiagonalCoverage.certificate cellTargets
+        projectsCells fibreTargets projectsFibres
+        (fibreTargetsOrdered cell (residues cell))
+        (hfibreCutoff cell (residues cell)) (by decide) hNUpper
+      generalize hresidue : residues cell = residue at hexact ⊢
+      fin_cases cell <;> fin_cases residue <;>
+        exact hexact.trans (by norm_num [envelope0013FibreCounts, envelope0013FibreMax])
+    have hcard := tailR263EvenOneFibreCoverDiagonal_card_le
+      hbase hfibre
+    have hsum :
+        (∑ cell ∈ cells, envelope0013FibreMax cell) <=
+          ∑ cell : Fin 9, envelope0013FibreMax cell := by
+      exact Finset.sum_le_sum_of_subset_of_nonneg
+        (Finset.subset_univ cells) (by omega)
+    have hcard' :
+        (tailR263EvenOneFibreCoverDiagonal N cells residues).card <=
+          ((tailR263EvenTwoAllDiagonal N).card +
+            ∑ cell : Fin 9, envelope0013FibreMax cell) := by
+      exact hcard.trans (Nat.add_le_add_left hsum _)
+    have hratio := natCardRatio_le_block
+      (lower := 5334924) (N := N) (by decide) hLower hcard'
+    exact hratio.trans (by norm_num [envelope0013BaseCounts, envelope0013FibreMax, tailR263EvenOneFibreCoverDiagonalEnvelope])
+
+def envelope0014BaseCounts : TailR263DiagonalTarget -> Nat
+  | .lowTwo => 84723
+  | .evenTwoCell residue => ![1888, 1883, 1886, 1880, 1889, 1877, 1887, 1887, 1885] residue
+
+def envelope0014CellCounts : Fin 9 -> Nat :=
+  ![3760, 3761, 3766, 3767, 3750, 3781, 3770, 3771, 3774]
+
+def envelope0014FibreCounts : Fin 9 -> Fin 49 -> Nat :=
+  ![![76, 76, 73, 80, 75, 75, 76, 82, 77, 81, 73, 76, 76, 73, 70, 80, 76, 78, 74, 78, 80, 76, 76, 81, 75, 77, 77, 79, 71, 71, 74, 79, 77, 79, 75, 78, 77, 74, 77, 84, 77, 75, 73, 84, 80, 75, 71, 83, 80], ![72, 82, 79, 74, 77, 75, 80, 82, 73, 75, 75, 83, 76, 79, 75, 85, 75, 69, 72, 73, 80, 77, 69, 79, 79, 78, 75, 82, 80, 79, 81, 78, 83, 74, 72, 76, 76, 79, 80, 73, 76, 75, 75, 72, 78, 79, 75, 76, 74], ![82, 73, 73, 82, 75, 76, 75, 78, 81, 75, 74, 73, 81, 77, 77, 72, 77, 78, 80, 82, 79, 79, 73, 73, 77, 73, 79, 78, 73, 76, 73, 72, 79, 78, 72, 76, 89, 79, 77, 78, 76, 72, 79, 80, 82, 75, 72, 78, 78], ![81, 80, 74, 77, 78, 75, 78, 81, 79, 80, 74, 79, 80, 75, 76, 75, 74, 75, 76, 75, 81, 77, 72, 77, 79, 83, 79, 71, 82, 84, 76, 71, 76, 77, 83, 71, 81, 78, 74, 74, 75, 80, 78, 76, 79, 72, 72, 75, 72], ![82, 76, 71, 75, 76, 80, 75, 70, 79, 78, 74, 75, 80, 75, 78, 74, 77, 80, 75, 80, 72, 78, 76, 76, 80, 80, 73, 70, 79, 86, 75, 79, 78, 78, 76, 81, 71, 79, 74, 72, 78, 80, 75, 72, 74, 80, 75, 73, 80], ![75, 74, 79, 79, 79, 86, 83, 73, 80, 79, 75, 77, 80, 75, 77, 76, 72, 80, 73, 72, 80, 74, 84, 75, 78, 78, 73, 73, 78, 84, 77, 79, 68, 77, 80, 73, 76, 76, 84, 79, 76, 80, 83, 77, 76, 73, 77, 75, 74], ![73, 82, 75, 81, 74, 78, 74, 76, 74, 78, 75, 80, 76, 78, 80, 74, 76, 79, 83, 74, 72, 77, 80, 80, 74, 74, 76, 80, 75, 70, 80, 75, 72, 81, 75, 73, 79, 78, 71, 77, 76, 76, 84, 75, 79, 82, 83, 76, 80], ![69, 76, 80, 78, 80, 73, 73, 77, 76, 74, 79, 77, 72, 76, 74, 78, 77, 79, 81, 78, 78, 80, 80, 72, 79, 79, 75, 82, 74, 76, 78, 74, 70, 80, 79, 80, 76, 80, 82, 77, 83, 74, 76, 84, 69, 74, 76, 82, 75], ![80, 79, 83, 71, 75, 74, 77, 80, 76, 76, 85, 79, 70, 79, 82, 79, 81, 74, 80, 75, 71, 73, 79, 73, 77, 76, 77, 80, 70, 72, 80, 74, 81, 79, 73, 83, 78, 71, 76, 77, 77, 81, 74, 74, 82, 77, 79, 79, 76]]
+
+def envelope0014FibreMax : Fin 9 -> Nat :=
+  ![84, 85, 89, 84, 86, 86, 84, 84, 85]
+
+theorem envelope0014 : TailR263EvenOneDiagonalRange 5361598 5388405 := by
+  intro N hLower hStop
+  have hNUpper : N <= 5388404 := by omega
+  have hbaseCutoff : ∀ target,
+      (GeneratedTailR263Diagonal.targetMarkers target).Cutoff 5388404 (envelope0014BaseCounts target) := by
+    intro target
+    cases target with
+    | lowTwo => decide
+    | evenTwoCell residue => fin_cases residue <;> decide
+  have hcellCutoff : ∀ cell,
+      (cellTargets cell).Cutoff 5388404 (envelope0014CellCounts cell) := by
+    intro cell
+    fin_cases cell <;> decide
+  have hfibreCutoff : ∀ cell residue,
+      (fibreTargets cell residue).Cutoff 5388404 (envelope0014FibreCounts cell residue) := by
+    intro cell residue
+    fin_cases cell <;> fin_cases residue <;> decide
+  have hsource := tailDiagonalBad_card_le_marker
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailDiagonalCoverage.indexedMarkerOrdered
+    (upper := 5388404) (count := 135585) (by decide)
+    (by decide) hNUpper
+  have hbase := tailR263EvenTwoAllDiagonal_card_le
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailR263Diagonal.targetMarkers
+    GeneratedTailR263Diagonal.projectsTargets
+    GeneratedTailR263Diagonal.targetMarkersOrdered
+    envelope0014BaseCounts hbaseCutoff (by decide) hNUpper
+  refine { unrestricted := ?_, concentrated := ?_, fibreCover := ?_ }
+  · have hratio := natCardRatio_le_block
+      (lower := 5361598) (N := N) (by decide) hLower hsource
+    exact hratio.trans (by norm_num [tailR263EvenOneUnrestrictedDiagonalEnvelope])
+  · intro cell
+    have hcell := tailR263EvenOneCellDiagonal_card_le
+      GeneratedTailDiagonalCoverage.certificate cellTargets
+      projectsCells (cellTargetsOrdered cell)
+      (hcellCutoff cell) (by decide) hNUpper
+    have hcard := tailR263EvenOneConcentratedDiagonal_card_le
+      hbase hcell
+    have hratio := natCardRatio_le_block
+      (lower := 5361598) (N := N) (by decide) hLower hcard
+    fin_cases cell <;> exact hratio.trans (by norm_num [envelope0014BaseCounts, envelope0014CellCounts, tailR263EvenOneConcentratedDiagonalEnvelope])
+  · intro cells residues
+    have hfibre : ∀ cell ∈ cells,
+        (tailR263EvenOneCellFibreDiagonal N cell (residues cell)).card <= envelope0014FibreMax cell := by
+      intro cell hcell
+      have hexact := tailR263EvenOneCellFibreDiagonal_card_le
+        GeneratedTailDiagonalCoverage.certificate cellTargets
+        projectsCells fibreTargets projectsFibres
+        (fibreTargetsOrdered cell (residues cell))
+        (hfibreCutoff cell (residues cell)) (by decide) hNUpper
+      generalize hresidue : residues cell = residue at hexact ⊢
+      fin_cases cell <;> fin_cases residue <;>
+        exact hexact.trans (by norm_num [envelope0014FibreCounts, envelope0014FibreMax])
+    have hcard := tailR263EvenOneFibreCoverDiagonal_card_le
+      hbase hfibre
+    have hsum :
+        (∑ cell ∈ cells, envelope0014FibreMax cell) <=
+          ∑ cell : Fin 9, envelope0014FibreMax cell := by
+      exact Finset.sum_le_sum_of_subset_of_nonneg
+        (Finset.subset_univ cells) (by omega)
+    have hcard' :
+        (tailR263EvenOneFibreCoverDiagonal N cells residues).card <=
+          ((tailR263EvenTwoAllDiagonal N).card +
+            ∑ cell : Fin 9, envelope0014FibreMax cell) := by
+      exact hcard.trans (Nat.add_le_add_left hsum _)
+    have hratio := natCardRatio_le_block
+      (lower := 5361598) (N := N) (by decide) hLower hcard'
+    exact hratio.trans (by norm_num [envelope0014BaseCounts, envelope0014FibreMax, tailR263EvenOneFibreCoverDiagonalEnvelope])
+
+def envelope0015BaseCounts : TailR263DiagonalTarget -> Nat
+  | .lowTwo => 85144
+  | .evenTwoCell residue => ![1899, 1891, 1899, 1891, 1898, 1885, 1896, 1899, 1895] residue
+
+def envelope0015CellCounts : Fin 9 -> Nat :=
+  ![3777, 3786, 3784, 3783, 3770, 3799, 3788, 3791, 3792]
+
+def envelope0015FibreCounts : Fin 9 -> Fin 49 -> Nat :=
+  ![![77, 76, 73, 80, 75, 75, 77, 82, 78, 81, 74, 76, 76, 73, 72, 81, 77, 78, 74, 79, 80, 76, 76, 81, 75, 77, 77, 79, 71, 71, 75, 80, 77, 80, 75, 79, 77, 74, 77, 85, 77, 76, 73, 84, 80, 75, 72, 84, 80], ![72, 83, 80, 74, 78, 76, 80, 83, 73, 75, 76, 83, 76, 80, 75, 85, 77, 69, 72, 73, 80, 79, 69, 81, 79, 78, 75, 82, 80, 80, 81, 79, 83, 74, 72, 76, 76, 82, 80, 76, 78, 75, 75, 72, 78, 80, 75, 77, 74], ![82, 73, 73, 82, 75, 76, 75, 78, 81, 75, 74, 74, 82, 78, 78, 72, 77, 78, 81, 83, 79, 80, 73, 73, 77, 73, 79, 80, 74, 77, 74, 72, 79, 78, 72, 77, 89, 80, 77, 78, 76, 72, 79, 81, 82, 76, 72, 79, 79], ![81, 81, 74, 80, 78, 75, 78, 81, 81, 81, 75, 80, 80, 76, 76, 75, 74, 76, 76, 77, 81, 78, 72, 77, 79, 83, 79, 72, 82, 84, 76, 71, 76, 77, 83, 71, 81, 78, 74, 74, 75, 80, 79, 76, 79, 72, 72, 75, 72], ![83, 77, 71, 75, 76, 80, 75, 71, 79, 78, 75, 75, 81, 75, 78, 75, 77, 82, 75, 80, 72, 79, 76, 77, 80, 80, 73, 70, 79, 86, 75, 79, 78, 78, 78, 81, 71, 79, 76, 72, 79, 81, 76, 73, 74, 81, 75, 73, 81], ![75, 74, 79, 80, 79, 87, 83, 74, 80, 80, 75, 77, 80, 75, 77, 76, 72, 81, 73, 73, 80, 74, 84, 75, 79, 80, 73, 73, 78, 84, 77, 79, 69, 77, 82, 73, 77, 76, 85, 79, 77, 80, 83, 77, 76, 73, 78, 76, 75], ![73, 82, 75, 81, 74, 78, 76, 76, 75, 78, 76, 80, 76, 78, 80, 74, 76, 79, 83, 74, 73, 77, 82, 80, 74, 75, 77, 81, 76, 70, 81, 75, 72, 81, 75, 73, 80, 78, 72, 77, 76, 77, 84, 76, 80, 82, 84, 76, 80], ![69, 77, 82, 78, 81, 73, 73, 77, 76, 74, 81, 77, 73, 76, 74, 78, 77, 79, 82, 78, 79, 80, 80, 72, 79, 79, 76, 82, 75, 76, 79, 74, 71, 80, 81, 80, 77, 80, 83, 77, 83, 74, 78, 84, 69, 74, 76, 82, 76], ![81, 80, 84, 71, 75, 75, 78, 80, 77, 76, 86, 79, 70, 79, 82, 79, 82, 74, 81, 75, 71, 73, 79, 76, 78, 77, 77, 80, 70, 72, 80, 74, 82, 79, 73, 83, 78, 71, 76, 78, 77, 82, 74, 75, 82, 77, 79, 79, 76]]
+
+def envelope0015FibreMax : Fin 9 -> Nat :=
+  ![85, 85, 89, 84, 86, 87, 84, 84, 86]
+
+theorem envelope0015 : TailR263EvenOneDiagonalRange 5388405 5415347 := by
+  intro N hLower hStop
+  have hNUpper : N <= 5415346 := by omega
+  have hbaseCutoff : ∀ target,
+      (GeneratedTailR263Diagonal.targetMarkers target).Cutoff 5415346 (envelope0015BaseCounts target) := by
+    intro target
+    cases target with
+    | lowTwo => decide
+    | evenTwoCell residue => fin_cases residue <;> decide
+  have hcellCutoff : ∀ cell,
+      (cellTargets cell).Cutoff 5415346 (envelope0015CellCounts cell) := by
+    intro cell
+    fin_cases cell <;> decide
+  have hfibreCutoff : ∀ cell residue,
+      (fibreTargets cell residue).Cutoff 5415346 (envelope0015FibreCounts cell residue) := by
+    intro cell residue
+    fin_cases cell <;> fin_cases residue <;> decide
+  have hsource := tailDiagonalBad_card_le_marker
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailDiagonalCoverage.indexedMarkerOrdered
+    (upper := 5415346) (count := 136267) (by decide)
+    (by decide) hNUpper
+  have hbase := tailR263EvenTwoAllDiagonal_card_le
+    GeneratedTailDiagonalCoverage.certificate
+    GeneratedTailR263Diagonal.targetMarkers
+    GeneratedTailR263Diagonal.projectsTargets
+    GeneratedTailR263Diagonal.targetMarkersOrdered
+    envelope0015BaseCounts hbaseCutoff (by decide) hNUpper
+  refine { unrestricted := ?_, concentrated := ?_, fibreCover := ?_ }
+  · have hratio := natCardRatio_le_block
+      (lower := 5388405) (N := N) (by decide) hLower hsource
+    exact hratio.trans (by norm_num [tailR263EvenOneUnrestrictedDiagonalEnvelope])
+  · intro cell
+    have hcell := tailR263EvenOneCellDiagonal_card_le
+      GeneratedTailDiagonalCoverage.certificate cellTargets
+      projectsCells (cellTargetsOrdered cell)
+      (hcellCutoff cell) (by decide) hNUpper
+    have hcard := tailR263EvenOneConcentratedDiagonal_card_le
+      hbase hcell
+    have hratio := natCardRatio_le_block
+      (lower := 5388405) (N := N) (by decide) hLower hcard
+    fin_cases cell <;> exact hratio.trans (by norm_num [envelope0015BaseCounts, envelope0015CellCounts, tailR263EvenOneConcentratedDiagonalEnvelope])
+  · intro cells residues
+    have hfibre : ∀ cell ∈ cells,
+        (tailR263EvenOneCellFibreDiagonal N cell (residues cell)).card <= envelope0015FibreMax cell := by
+      intro cell hcell
+      have hexact := tailR263EvenOneCellFibreDiagonal_card_le
+        GeneratedTailDiagonalCoverage.certificate cellTargets
+        projectsCells fibreTargets projectsFibres
+        (fibreTargetsOrdered cell (residues cell))
+        (hfibreCutoff cell (residues cell)) (by decide) hNUpper
+      generalize hresidue : residues cell = residue at hexact ⊢
+      fin_cases cell <;> fin_cases residue <;>
+        exact hexact.trans (by norm_num [envelope0015FibreCounts, envelope0015FibreMax])
+    have hcard := tailR263EvenOneFibreCoverDiagonal_card_le
+      hbase hfibre
+    have hsum :
+        (∑ cell ∈ cells, envelope0015FibreMax cell) <=
+          ∑ cell : Fin 9, envelope0015FibreMax cell := by
+      exact Finset.sum_le_sum_of_subset_of_nonneg
+        (Finset.subset_univ cells) (by omega)
+    have hcard' :
+        (tailR263EvenOneFibreCoverDiagonal N cells residues).card <=
+          ((tailR263EvenTwoAllDiagonal N).card +
+            ∑ cell : Fin 9, envelope0015FibreMax cell) := by
+      exact hcard.trans (Nat.add_le_add_left hsum _)
+    have hratio := natCardRatio_le_block
+      (lower := 5388405) (N := N) (by decide) hLower hcard'
+    exact hratio.trans (by norm_num [envelope0015BaseCounts, envelope0015FibreMax, tailR263EvenOneFibreCoverDiagonalEnvelope])
+
+end Erdos848.GeneratedTailR263EvenOneDiagonal
