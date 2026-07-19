@@ -597,6 +597,171 @@ def TwentyMillionOddOneCloseTriple.CommonModNine
     paperModNineCell pivot = cell
 
 /--
+For the two-odd-class row, the common branch records that the entire
+opposite class containing the third pivot lies in the common mod-nine cell.
+-/
+inductive TwentyMillionOddTwoMode
+    (N : Nat) (B : Finset Nat) (parity : Bool) : Prop where
+  | generic
+      (triple : TwentyMillionOddTwoCloseTriple N B parity)
+      (nonconstant : ¬ triple.CommonModNine)
+  | common
+      (cell : Fin 9)
+      (triple : TwentyMillionOddTwoCloseTriple N B parity)
+      (common : triple.CommonModNine)
+      (classConstant :
+        ∀ pivot ∈ fiveMillionValuationPart N B
+            (paperOddValuationClass (oppositeOddParity parity)),
+          paperModNineCell pivot = cell)
+
+theorem twentyMillionOddTwoMode_of_triple
+    {N : Nat} {B : Finset Nat} {parity : Bool}
+    (triple : TwentyMillionOddTwoCloseTriple N B parity) :
+    TwentyMillionOddTwoMode N B parity := by
+  classical
+  by_cases hcommon : triple.CommonModNine
+  · obtain ⟨cell, hcell⟩ := hcommon
+    by_cases hclass :
+        ∀ pivot ∈ fiveMillionValuationPart N B
+            (paperOddValuationClass (oppositeOddParity parity)),
+          paperModNineCell pivot = cell
+    · exact .common cell triple ⟨cell, hcell⟩ hclass
+    · push Not at hclass
+      obtain ⟨third, hthirdPart, hthirdCell⟩ := hclass
+      have hleftPivot : triple.left ∈ triple.pivots := by
+        simp [triple.pivots_eq]
+      have hrightPivot : triple.right ∈ triple.pivots := by
+        simp [triple.pivots_eq]
+      have hleftCell : paperModNineCell triple.left = cell :=
+        hcell triple.left hleftPivot
+      have hrightCell : paperModNineCell triple.right = cell :=
+        hcell triple.right hrightPivot
+      have hthirdLeft : third ≠ triple.left := by
+        intro h
+        subst third
+        exact hthirdCell hleftCell
+      have hthirdRight : third ≠ triple.right := by
+        intro h
+        subst third
+        exact hthirdCell hrightCell
+      have hleftRight : triple.left ≠ triple.right :=
+        Nat.ne_of_lt triple.left_lt_right
+      let pivots : Finset Nat := {triple.left, triple.right, third}
+      have hpivotsCard : pivots.card = 3 := by
+        simp [pivots, hleftRight, Ne.symm hthirdLeft,
+          Ne.symm hthirdRight]
+      let replacement : TwentyMillionOddTwoCloseTriple N B parity :=
+        { pivots := pivots
+          card := hpivotsCard
+          left := triple.left
+          right := triple.right
+          third := third
+          leftMem := triple.leftMem
+          rightMem := triple.rightMem
+          thirdMem := hthirdPart
+          pivots_eq := rfl
+          left_lt_right := triple.left_lt_right
+          gap_le := triple.gap_le }
+      apply TwentyMillionOddTwoMode.generic replacement
+      intro hreplacementCommon
+      obtain ⟨replacementCell, hreplacementCell⟩ :=
+        hreplacementCommon
+      have hleftReplacement :
+          paperModNineCell triple.left = replacementCell :=
+        hreplacementCell triple.left (by simp [replacement, pivots])
+      have hthirdReplacement :
+          paperModNineCell third = replacementCell :=
+        hreplacementCell third (by simp [replacement, pivots])
+      exact hthirdCell
+        (hthirdReplacement.trans
+          (hleftReplacement.symm.trans hleftCell))
+  · exact .generic triple hcommon
+
+/--
+For the one-odd-class row, the common branch records that the whole surviving
+odd class lies in one mod-nine cell.
+-/
+inductive TwentyMillionOddOneMode
+    (N : Nat) (B : Finset Nat) (parity : Bool) : Prop where
+  | generic
+      (triple : TwentyMillionOddOneCloseTriple N B parity)
+      (nonconstant : ¬ triple.CommonModNine)
+  | common
+      (cell : Fin 9)
+      (triple : TwentyMillionOddOneCloseTriple N B parity)
+      (common : triple.CommonModNine)
+      (classConstant :
+        ∀ pivot ∈ fiveMillionValuationPart N B
+            (paperOddValuationClass parity),
+          paperModNineCell pivot = cell)
+
+theorem twentyMillionOddOneMode_of_triple
+    {N : Nat} {B : Finset Nat} {parity : Bool}
+    (triple : TwentyMillionOddOneCloseTriple N B parity) :
+    TwentyMillionOddOneMode N B parity := by
+  classical
+  by_cases hcommon : triple.CommonModNine
+  · obtain ⟨cell, hcell⟩ := hcommon
+    by_cases hclass :
+        ∀ pivot ∈ fiveMillionValuationPart N B
+            (paperOddValuationClass parity),
+          paperModNineCell pivot = cell
+    · exact .common cell triple ⟨cell, hcell⟩ hclass
+    · push Not at hclass
+      obtain ⟨third, hthirdPart, hthirdCell⟩ := hclass
+      have hleftCell : paperModNineCell triple.left = cell :=
+        hcell triple.left triple.leftMem
+      have hrightCell : paperModNineCell triple.right = cell :=
+        hcell triple.right triple.rightMem
+      have hthirdLeft : third ≠ triple.left := by
+        intro h
+        subst third
+        exact hthirdCell hleftCell
+      have hthirdRight : third ≠ triple.right := by
+        intro h
+        subst third
+        exact hthirdCell hrightCell
+      have hleftRight : triple.left ≠ triple.right :=
+        Nat.ne_of_lt triple.left_lt_right
+      let pivots : Finset Nat := {triple.left, triple.right, third}
+      have hpivotsCard : pivots.card = 3 := by
+        simp [pivots, hleftRight, Ne.symm hthirdLeft,
+          Ne.symm hthirdRight]
+      have hpivotsSubset :
+          pivots ⊆ fiveMillionValuationPart N B
+            (paperOddValuationClass parity) := by
+        intro pivot hpivot
+        simp only [pivots, Finset.mem_insert, Finset.mem_singleton] at hpivot
+        rcases hpivot with rfl | rfl | rfl
+        · exact triple.subsetPart triple.leftMem
+        · exact triple.subsetPart triple.rightMem
+        · exact hthirdPart
+      let replacement : TwentyMillionOddOneCloseTriple N B parity :=
+        { pivots := pivots
+          card := hpivotsCard
+          subsetPart := hpivotsSubset
+          left := triple.left
+          right := triple.right
+          leftMem := by simp [pivots]
+          rightMem := by simp [pivots]
+          left_lt_right := triple.left_lt_right
+          gap_le := triple.gap_le }
+      apply TwentyMillionOddOneMode.generic replacement
+      intro hreplacementCommon
+      obtain ⟨replacementCell, hreplacementCell⟩ :=
+        hreplacementCommon
+      have hleftReplacement :
+          paperModNineCell triple.left = replacementCell :=
+        hreplacementCell triple.left (by simp [replacement, pivots])
+      have hthirdReplacement :
+          paperModNineCell third = replacementCell :=
+        hreplacementCell third (by simp [replacement, pivots])
+      exact hthirdCell
+        (hthirdReplacement.trans
+          (hleftReplacement.symm.trans hleftCell))
+  · exact .generic triple hcommon
+
+/--
 The ten literal terminal rows of the twenty-million paper allocation.
 Each constructor contains the close pivots and exactly the earlier
 valuation-class charges needed by that row.
@@ -672,8 +837,13 @@ inductive TwentyMillionTerminalAllocation
         (fiveMillionValuationPart N B .evenThree).card ≤
           twentyMillionGapChargeCap N)
       (parity : Bool)
+      (cell : Fin 9)
       (triple : TwentyMillionOddTwoCloseTriple N B parity)
       (common : triple.CommonModNine)
+      (classConstant :
+        ∀ pivot ∈ fiveMillionValuationPart N B
+            (paperOddValuationClass (oppositeOddParity parity)),
+          paperModNineCell pivot = cell)
   | oddOneGeneric
       (evenOneCharge :
         (fiveMillionValuationPart N B .evenOne).card ≤
@@ -706,8 +876,13 @@ inductive TwentyMillionTerminalAllocation
         (fiveMillionValuationPart N B
           (paperOddValuationClass
             (oppositeOddParity parity))).card = 0)
+      (cell : Fin 9)
       (triple : TwentyMillionOddOneCloseTriple N B parity)
       (common : triple.CommonModNine)
+      (classConstant :
+        ∀ pivot ∈ fiveMillionValuationPart N B
+            (paperOddValuationClass parity),
+          paperModNineCell pivot = cell)
 
 theorem twentyMillionTerminalAllocation_of_valuation
     {N : Nat} {B : Finset Nat}
@@ -736,18 +911,22 @@ theorem twentyMillionTerminalAllocation_of_valuation
           exact .evenThreeCommon evenOneCharge evenTwoCharge
             cell triple classConstant
   | oddTwo evenOneCharge evenTwoCharge evenThreeCharge parity triple =>
-      by_cases hcommon : triple.CommonModNine
-      · exact .oddTwoCommon evenOneCharge evenTwoCharge evenThreeCharge
-          parity triple hcommon
-      · exact .oddTwoGeneric evenOneCharge evenTwoCharge evenThreeCharge
-          parity triple hcommon
+      cases twentyMillionOddTwoMode_of_triple triple with
+      | generic triple nonconstant =>
+          exact .oddTwoGeneric evenOneCharge evenTwoCharge evenThreeCharge
+            parity triple nonconstant
+      | common cell triple common classConstant =>
+          exact .oddTwoCommon evenOneCharge evenTwoCharge evenThreeCharge
+            parity cell triple common classConstant
   | oddOne evenOneCharge evenTwoCharge evenThreeCharge parity otherEmpty
       triple =>
-      by_cases hcommon : triple.CommonModNine
-      · exact .oddOneCommon evenOneCharge evenTwoCharge evenThreeCharge
-          parity otherEmpty triple hcommon
-      · exact .oddOneGeneric evenOneCharge evenTwoCharge evenThreeCharge
-          parity otherEmpty triple hcommon
+      cases twentyMillionOddOneMode_of_triple triple with
+      | generic triple nonconstant =>
+          exact .oddOneGeneric evenOneCharge evenTwoCharge evenThreeCharge
+            parity otherEmpty triple nonconstant
+      | common cell triple common classConstant =>
+          exact .oddOneCommon evenOneCharge evenTwoCharge evenThreeCharge
+            parity otherEmpty cell triple common classConstant
 
 noncomputable def twentyMillionTerminalAllocation
     {N : Nat} {B : Finset Nat}
@@ -762,6 +941,8 @@ noncomputable def twentyMillionTerminalAllocation
 #print axioms TwentyMillionCloseTriple.common_or_nonconstant
 #print axioms twentyMillionEvenClassMode_of_triple
 #print axioms exists_twentyMillionEvenClassMode
+#print axioms twentyMillionOddTwoMode_of_triple
+#print axioms twentyMillionOddOneMode_of_triple
 #print axioms twentyMillion_oddTwo_bucket_forced
 #print axioms twentyMillion_oddOne_bucket_forced
 #print axioms exists_twentyMillionOddTwoCloseTriple

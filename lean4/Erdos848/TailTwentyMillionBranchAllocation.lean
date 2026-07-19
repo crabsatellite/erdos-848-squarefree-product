@@ -70,8 +70,13 @@ def TwentyMillionBranchApplies
         (fiveMillionValuationPart N B .evenThree).card ≤
           twentyMillionGapChargeCap N ∧
         ∃ parity : Bool,
-          ∃ triple : TwentyMillionOddTwoCloseTriple N B parity,
-            triple.CommonModNine
+          ∃ cell : Fin 9,
+            ∃ triple : TwentyMillionOddTwoCloseTriple N B parity,
+              triple.CommonModNine ∧
+                ∀ pivot ∈ fiveMillionValuationPart N B
+                    (paperOddValuationClass
+                      (oppositeOddParity parity)),
+                  paperModNineCell pivot = cell
   | .oddOneGeneric =>
       (fiveMillionValuationPart N B .evenOne).card ≤
           twentyMillionGapChargeCap N ∧
@@ -96,8 +101,12 @@ def TwentyMillionBranchApplies
           (fiveMillionValuationPart N B
             (paperOddValuationClass
               (oppositeOddParity parity))).card = 0 ∧
-          ∃ triple : TwentyMillionOddOneCloseTriple N B parity,
-            triple.CommonModNine
+          ∃ cell : Fin 9,
+            ∃ triple : TwentyMillionOddOneCloseTriple N B parity,
+              triple.CommonModNine ∧
+                ∀ pivot ∈ fiveMillionValuationPart N B
+                    (paperOddValuationClass parity),
+                  paperModNineCell pivot = cell
 
 theorem TwentyMillionTerminalAllocation.exists_branch
     {N : Nat} {B : Finset Nat}
@@ -133,18 +142,19 @@ theorem TwentyMillionTerminalAllocation.exists_branch
       nonconstant =>
       exact ⟨.oddTwoGeneric, evenOneCharge, evenTwoCharge, evenThreeCharge,
         parity, triple, nonconstant⟩
-  | oddTwoCommon evenOneCharge evenTwoCharge evenThreeCharge parity triple
-      common =>
+  | oddTwoCommon evenOneCharge evenTwoCharge evenThreeCharge parity cell
+      triple common classConstant =>
       exact ⟨.oddTwoCommonThree, evenOneCharge, evenTwoCharge,
-        evenThreeCharge, parity, triple, common⟩
+        evenThreeCharge, parity, cell, triple, common, classConstant⟩
   | oddOneGeneric evenOneCharge evenTwoCharge evenThreeCharge parity
       otherEmpty triple nonconstant =>
       exact ⟨.oddOneGeneric, evenOneCharge, evenTwoCharge, evenThreeCharge,
         parity, otherEmpty, triple, nonconstant⟩
   | oddOneCommon evenOneCharge evenTwoCharge evenThreeCharge parity
-      otherEmpty triple common =>
+      otherEmpty cell triple common classConstant =>
       exact ⟨.oddOneCommonThree, evenOneCharge, evenTwoCharge,
-        evenThreeCharge, parity, otherEmpty, triple, common⟩
+        evenThreeCharge, parity, otherEmpty, cell, triple, common,
+        classConstant⟩
 
 theorem exists_twentyMillionBranchApplies
     {N : Nat} {B : Finset Nat}
