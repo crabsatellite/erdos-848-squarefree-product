@@ -155,6 +155,107 @@ def PaperDiagonalRegime.stop : PaperDiagonalRegime → Nat
   | .hundredToHundredFifty => 150_000_000
   | .hundredFiftyToTwoHundred => 200_000_000
 
+def paperDiagonalRegimeAt (N : Nat) : PaperDiagonalRegime :=
+  if N < 20_000_000 then .tenToTwenty
+  else if N < 40_000_000 then .twentyToForty
+  else if N < 50_000_000 then .fortyToFifty
+  else if N < 70_000_000 then .fiftyToSeventy
+  else if N < 80_000_000 then .seventyToEighty
+  else if N < 100_000_000 then .eightyToHundred
+  else if N < 150_000_000 then .hundredToHundredFifty
+  else .hundredFiftyToTwoHundred
+
+theorem PaperDiagonalRegime.eq_regimeAt_of_mem
+    {regime : PaperDiagonalRegime} {rowLower rowUpper N : Nat}
+    (hrange :
+      regime.lower ≤ rowLower ∧ rowLower ≤ rowUpper ∧
+        rowUpper < regime.stop)
+    (hLower : rowLower ≤ N) (hUpper : N ≤ rowUpper) :
+    regime = paperDiagonalRegimeAt N := by
+  cases regime with
+  | tenToTwenty =>
+      have h₂₀ : N < 20_000_000 := by
+        simpa [PaperDiagonalRegime.lower,
+          PaperDiagonalRegime.stop] using
+          lt_of_le_of_lt hUpper hrange.2.2
+      simp [paperDiagonalRegimeAt, h₂₀]
+  | twentyToForty =>
+      have h₂₀ : ¬N < 20_000_000 := by
+        simp [PaperDiagonalRegime.lower] at hrange
+        omega
+      have h₄₀ : N < 40_000_000 := by
+        simpa [PaperDiagonalRegime.stop] using
+          lt_of_le_of_lt hUpper hrange.2.2
+      simp [paperDiagonalRegimeAt, h₂₀, h₄₀]
+  | fortyToFifty =>
+      have h₄₀ : ¬N < 40_000_000 := by
+        simp [PaperDiagonalRegime.lower] at hrange
+        omega
+      have h₅₀ : N < 50_000_000 := by
+        simpa [PaperDiagonalRegime.stop] using
+          lt_of_le_of_lt hUpper hrange.2.2
+      have h₂₀ : ¬N < 20_000_000 := by omega
+      simp [paperDiagonalRegimeAt, h₂₀, h₄₀, h₅₀]
+  | fiftyToSeventy =>
+      have h₅₀ : ¬N < 50_000_000 := by
+        simp [PaperDiagonalRegime.lower] at hrange
+        omega
+      have h₇₀ : N < 70_000_000 := by
+        simpa [PaperDiagonalRegime.stop] using
+          lt_of_le_of_lt hUpper hrange.2.2
+      have h₂₀ : ¬N < 20_000_000 := by omega
+      have h₄₀ : ¬N < 40_000_000 := by omega
+      simp [paperDiagonalRegimeAt, h₂₀, h₄₀, h₅₀, h₇₀]
+  | seventyToEighty =>
+      have h₇₀ : ¬N < 70_000_000 := by
+        simp [PaperDiagonalRegime.lower] at hrange
+        omega
+      have h₈₀ : N < 80_000_000 := by
+        simpa [PaperDiagonalRegime.stop] using
+          lt_of_le_of_lt hUpper hrange.2.2
+      have h₂₀ : ¬N < 20_000_000 := by omega
+      have h₄₀ : ¬N < 40_000_000 := by omega
+      have h₅₀ : ¬N < 50_000_000 := by omega
+      simp [paperDiagonalRegimeAt, h₂₀, h₄₀, h₅₀, h₇₀, h₈₀]
+  | eightyToHundred =>
+      have h₈₀ : ¬N < 80_000_000 := by
+        simp [PaperDiagonalRegime.lower] at hrange
+        omega
+      have h₁₀₀ : N < 100_000_000 := by
+        simpa [PaperDiagonalRegime.stop] using
+          lt_of_le_of_lt hUpper hrange.2.2
+      have h₂₀ : ¬N < 20_000_000 := by omega
+      have h₄₀ : ¬N < 40_000_000 := by omega
+      have h₅₀ : ¬N < 50_000_000 := by omega
+      have h₇₀ : ¬N < 70_000_000 := by omega
+      simp [paperDiagonalRegimeAt, h₂₀, h₄₀, h₅₀, h₇₀, h₈₀, h₁₀₀]
+  | hundredToHundredFifty =>
+      have h₁₀₀ : ¬N < 100_000_000 := by
+        simp [PaperDiagonalRegime.lower] at hrange
+        omega
+      have h₁₅₀ : N < 150_000_000 := by
+        simpa [PaperDiagonalRegime.stop] using
+          lt_of_le_of_lt hUpper hrange.2.2
+      have h₂₀ : ¬N < 20_000_000 := by omega
+      have h₄₀ : ¬N < 40_000_000 := by omega
+      have h₅₀ : ¬N < 50_000_000 := by omega
+      have h₇₀ : ¬N < 70_000_000 := by omega
+      have h₈₀ : ¬N < 80_000_000 := by omega
+      simp [paperDiagonalRegimeAt, h₂₀, h₄₀, h₅₀, h₇₀, h₈₀,
+        h₁₀₀, h₁₅₀]
+  | hundredFiftyToTwoHundred =>
+      have h₁₅₀ : ¬N < 150_000_000 := by
+        simp [PaperDiagonalRegime.lower] at hrange
+        omega
+      have h₂₀ : ¬N < 20_000_000 := by omega
+      have h₄₀ : ¬N < 40_000_000 := by omega
+      have h₅₀ : ¬N < 50_000_000 := by omega
+      have h₇₀ : ¬N < 70_000_000 := by omega
+      have h₈₀ : ¬N < 80_000_000 := by omega
+      have h₁₀₀ : ¬N < 100_000_000 := by omega
+      simp [paperDiagonalRegimeAt, h₂₀, h₄₀, h₅₀, h₇₀, h₈₀,
+        h₁₀₀, h₁₅₀]
+
 /-- All paper diagonal ceilings are normalized to denominator `10^9`. -/
 def PaperDiagonalRegime.envelopeNumerator :
     PaperDiagonalRegime → PaperDiagonalSelection → Nat
