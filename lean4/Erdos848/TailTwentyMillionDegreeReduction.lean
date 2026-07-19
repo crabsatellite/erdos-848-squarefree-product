@@ -1,4 +1,4 @@
-import Erdos848.TailGlobalMixedResidual
+import Erdos848.TailPureGlobalDegree
 import Erdos848.TailTwentyMillionPivotAllocation
 
 namespace Erdos848
@@ -15,9 +15,17 @@ lower bound consumed by the valuation allocation.
 set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 
+lemma twentyMillion_hallMixedResidual_subset_hallResidual
+    {N : Nat} {B : Finset Nat}
+    (hBout : Erdos848OutsideSet N B) :
+    hallMixedResidual N B ⊆ hallResidual N B := by
+  intro pivot hpivot
+  have hsubset := hallMixedResidual_subset_completionResidual hBout hpivot
+  simpa [hallResidual, lowBaseSet] using hsubset
+
 def TwentyMillionDegreeSumCertificate (N : Nat) (B : Finset Nat) : Prop :=
   ∀ pivot ∈ hallResidual N B,
-    6_910_733 * N +
+    4_500_000 * N +
         1_000_000_000 * (OriginalA18 N).card <
       1_000_000_000 *
         ((squarefreeNeighbours (OriginalA7 N) pivot).card +
@@ -36,7 +44,7 @@ theorem twentyMillionDegreeResidualLower_of_sumCertificate
     (pureGlobalOppositeBaseMatching (by omega)) hdefect
   obtain ⟨pivot, hpivotMixed⟩ := hmixedNonempty
   have hpivotResidual : pivot ∈ hallResidual N B :=
-    hallMixedResidual_subset_hallResidual hBout hpivotMixed
+    twentyMillion_hallMixedResidual_subset_hallResidual hBout hpivotMixed
   have hdegree := hcertificate pivot hpivotResidual
   have hexact :=
     mixedHallDefect_residual_exact hBprop hpivotMixed hdefect
@@ -53,11 +61,12 @@ theorem twentyMillionDegreeResidualLower_of_sumCertificate
           ((hallMixedResidual N B).card + (OriginalA18 N).card) :=
     Nat.mul_le_mul_left _ hdegreeLe
   have hmixedScaled :
-      6_910_733 * N <
+      4_500_000 * N <
         1_000_000_000 * (hallMixedResidual N B).card := by
     omega
   have hcard :=
-    Finset.card_le_card (hallMixedResidual_subset_hallResidual hBout)
+    Finset.card_le_card
+      (twentyMillion_hallMixedResidual_subset_hallResidual hBout)
   unfold TwentyMillionDegreeResidualLower
   exact hmixedScaled.trans_le (Nat.mul_le_mul_left _ hcard)
 

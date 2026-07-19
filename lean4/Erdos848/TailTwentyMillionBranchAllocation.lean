@@ -3,6 +3,8 @@ import Erdos848.TailTwentyMillionPivotAllocation
 
 namespace Erdos848
 
+open TwentyMillion
+
 /-!
 # Literal allocation into the ten arithmetic rows
 

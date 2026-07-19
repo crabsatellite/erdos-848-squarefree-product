@@ -76,17 +76,36 @@ theorem twentyMillionGapChargeCap_ratio_le_delta
     _ = twentyMillionDelta := by
       norm_num [twentyMillionDelta]
 
+@[simp] theorem twentyMillion_paperModNineCell_eq
+    (x : Nat) :
+    TwentyMillion.paperModNineCell x = paperModNineCell x := by
+  apply Fin.ext
+  simp only [TwentyMillion.paperModNineCell_val, paperModNineCell_val]
+
+@[simp] theorem twentyMillion_paperOddValuationClass_eq
+    (parity : Bool) :
+    TwentyMillion.paperOddValuationClass parity =
+      paperOddValuationClass parity := by
+  cases parity <;> rfl
+
+@[simp] theorem twentyMillion_oppositeOddParity_eq
+    (parity : Bool) :
+    TwentyMillion.oppositeOddParity parity =
+      oppositeOddParity parity := by
+  cases parity <;> rfl
+
 theorem paperValuationOutsideCellCharge_eq_empty_of_constant
     {N : Nat} {B : Finset Nat} {cls : FiveMillionValuationClass}
     {cell : Fin 9}
     (hconstant :
       ∀ pivot ∈ fiveMillionValuationPart N B cls,
-        paperModNineCell pivot = cell) :
+        TwentyMillion.paperModNineCell pivot = cell) :
     paperValuationOutsideCellCharge N B cls cell = ∅ := by
   apply Finset.Subset.antisymm
   · intro pivot hpivot
     have hparts := Finset.mem_filter.mp hpivot
-    exact False.elim (hparts.2 (hconstant pivot hparts.1))
+    exact False.elim
+      (hparts.2 (by simpa using hconstant pivot hparts.1))
   · exact Finset.empty_subset _
 
 theorem paperEvenValuationCharge_card_le_three_gap
@@ -294,6 +313,11 @@ theorem twentyMillionBranch_residual_ratio_le
         parity, cell, triple, _common, classConstant⟩ := hbranch
       have houtside :=
         paperValuationOutsideCellCharge_eq_empty_of_constant classConstant
+      have houtside' :
+          paperValuationOutsideCellCharge N B
+              (paperOddValuationClass (oppositeOddParity parity)) cell =
+            ∅ := by
+        simpa using houtside
       have hevenCharge :
           (paperEvenValuationCharge N B).card ≤
             3 * twentyMillionGapChargeCap N :=
@@ -303,7 +327,7 @@ theorem twentyMillionBranch_residual_ratio_le
           (paperSelectionCharge (hallResidual N B)
             (.oddPlusCell parity cell)).card ≤
               3 * twentyMillionGapChargeCap N := by
-        rw [paperSelectionCharge_oddPlusCell_eq, houtside,
+        rw [paperSelectionCharge_oddPlusCell_eq, houtside',
           Finset.union_empty]
         exact hevenCharge
       have hraw := hallResidual_ratio_le_of_paperSelectionCharge
@@ -349,6 +373,10 @@ theorem twentyMillionBranch_residual_ratio_le
         parity, otherEmpty, cell, triple, _common, classConstant⟩ := hbranch
       have houtside :=
         paperValuationOutsideCellCharge_eq_empty_of_constant classConstant
+      have houtside' :
+          paperValuationOutsideCellCharge N B
+              (paperOddValuationClass parity) cell = ∅ := by
+        simpa using houtside
       have honeCharge :
           (paperOneOddValuationCharge N B parity).card ≤
             3 * twentyMillionGapChargeCap N :=
@@ -358,7 +386,7 @@ theorem twentyMillionBranch_residual_ratio_le
           (paperSelectionCharge (hallResidual N B)
             (.oneOddCell parity cell)).card ≤
               3 * twentyMillionGapChargeCap N := by
-        rw [paperSelectionCharge_oneOddCell_eq, houtside,
+        rw [paperSelectionCharge_oneOddCell_eq, houtside',
           Finset.union_empty]
         exact honeCharge
       have hraw := hallResidual_ratio_le_of_paperSelectionCharge

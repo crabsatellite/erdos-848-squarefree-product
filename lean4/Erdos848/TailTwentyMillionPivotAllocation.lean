@@ -1,7 +1,9 @@
 import Erdos848.TailMixedHall
-import Erdos848.TailPaperValuationChargeBridge
+import Erdos848.TailTwentyMillionPivotDefs
 
 namespace Erdos848
+
+open TwentyMillion
 
 /-!
 # Literal close triples for the twenty-million allocation
@@ -19,13 +21,13 @@ def twentyMillionGapChargeCap (N : Nat) : Nat :=
   (N - 1) / 20_001 + 1
 
 def twentyMillionOddTwoBucketCap (N : Nat) : Nat :=
-  (N - 1) / 296 + 1
+  (N - 1) / 460 + 1
 
 def twentyMillionOddOneBucketCap (N : Nat) : Nat :=
-  (N - 1) / 148 + 1
+  (N - 1) / 230 + 1
 
 def TwentyMillionDegreeResidualLower (N : Nat) (B : Finset Nat) : Prop :=
-  6_910_733 * N < 1_000_000_000 * (hallResidual N B).card
+  4_500_000 * N < 1_000_000_000 * (hallResidual N B).card
 
 theorem fiveMillionValuationParts_card_explicit
     (N : Nat) (B : Finset Nat) :
@@ -334,7 +336,7 @@ structure TwentyMillionOddTwoCloseTriple
       (paperOddValuationClass (oppositeOddParity parity))
   pivots_eq : pivots = {left, right, third}
   left_lt_right : left < right
-  gap_le : right - left ≤ 295
+  gap_le : right - left ≤ 459
 
 structure TwentyMillionOddOneCloseTriple
     (N : Nat) (B : Finset Nat) (parity : Bool) where
@@ -348,7 +350,7 @@ structure TwentyMillionOddOneCloseTriple
   leftMem : left ∈ pivots
   rightMem : right ∈ pivots
   left_lt_right : left < right
-  gap_le : right - left ≤ 147
+  gap_le : right - left ≤ 229
 
 theorem exists_twentyMillionOddTwoCloseTriple
     {N : Nat} {B : Finset Nat} {parity : Bool}
@@ -367,7 +369,7 @@ theorem exists_twentyMillionOddTwoCloseTriple
     fiveMillionValuationPart N B (paperOddValuationClass parity)
   obtain ⟨x, hx, y, hy, hxy, hgap⟩ :=
     exists_close_pair_of_card
-      (S := selected) (N := N) (gap := 296)
+      (S := selected) (N := N) (gap := 460)
       (by norm_num)
       (fiveMillionValuationPart_subset_Icc_of_outside hBout)
       (by simpa [selected, twentyMillionOddTwoBucketCap] using hlarge)
@@ -417,7 +419,7 @@ theorem exists_twentyMillionOddOneCloseTriple
     fiveMillionValuationPart N B (paperOddValuationClass parity)
   obtain ⟨x, hx, y, hy, hxy, hgap⟩ :=
     exists_close_pair_of_card
-      (S := part) (N := N) (gap := 148)
+      (S := part) (N := N) (gap := 230)
       (by norm_num)
       (fiveMillionValuationPart_subset_Icc_of_outside hBout)
       (by simpa [part, twentyMillionOddOneBucketCap] using hlarge)
