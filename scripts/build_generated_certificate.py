@@ -348,15 +348,33 @@ def effective_project_source_mtime_ns(lean_dir: Path, module: str) -> int:
     return newest
 
 
-def normalize_project_olean_mtime(lean_dir: Path, module: str) -> None:
+def normalize_project_olean_mtime(
+    lean_dir: Path,
+    module: str,
+    seen: set[str] | None = None,
+) -> None:
     """Anchor an already-valid OLean to the same source stamp as a fresh build.
 
     Resume adoption used to leave Lake's wall-clock timestamp in place.  That
     made a valid adopted dependency appear newer than a freshly direct-built
     importer, even when neither source had changed, and the next layer then
     failed the dependency audit.  Normalizing both paths keeps the timestamp
-    graph a faithful image of the source graph.
+    graph a faithful image of the source graph.  Dependencies outside the
+    selected generated namespace must be normalized first as well: otherwise a
+    freshly direct-built prerequisite keeps its wall-clock timestamp and makes
+    the just-built generated importer look stale immediately.
     """
+    if seen is None:
+        seen = set()
+    if module in seen:
+        return
+    seen.add(module)
+    source = module_source_path(lean_dir, module)
+    for dependency in project_imports(source):
+        dependency_source = module_source_path(lean_dir, dependency)
+        dependency_olean = module_olean_path(lean_dir, dependency)
+        if dependency_source.is_file() and dependency_olean.is_file():
+            normalize_project_olean_mtime(lean_dir, dependency, seen)
     olean = module_olean_path(lean_dir, module)
     stat = olean.stat()
     source_mtime_ns = effective_project_source_mtime_ns(lean_dir, module)
@@ -831,14 +849,7 @@ def build_command(
             )
         else:
             temporary_olean.replace(final_olean)
-            final_stat = final_olean.stat()
-            os.utime(
-                final_olean,
-                ns=(
-                    final_stat.st_atime_ns,
-                    effective_project_source_mtime_ns(lean_dir, module),
-                ),
-            )
+            normalize_project_olean_mtime(lean_dir, module)
     if temporary_olean.exists():
         temporary_olean.unlink(missing_ok=True)
     finished_at = utc_now()
