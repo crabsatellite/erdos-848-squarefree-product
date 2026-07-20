@@ -39,11 +39,13 @@ def tenMillionDiagonalOddUnion : ℚ := 3_161_981 / 250_000_000
 def tenMillionDiagonalOneOdd : ℚ := 790_627 / 125_000_000
 def tenMillionDiagonalOneOddCell : ℚ := 352_951 / 500_000_000
 
-def tenMillionRootV1 : ℚ := 375_505_633 / 35_612_500_000
-def tenMillionRootV2 : ℚ := 421_782_689 / 35_612_500_000
-def tenMillionRootV3 : ℚ := 53_196_363_429 / 3_572_221_472_575
-def tenMillionRootOdd7 : ℚ := 5_334_599_277 / 403_225_000_000
-def tenMillionRootOdd17 : ℚ := 83_341_773 / 6_300_390_625
+def tenMillionRootV1 : ℚ := 10_545_872 / 1_000_000_000
+def tenMillionRootV2 : ℚ := 11_845_571 / 1_000_000_000
+def tenMillionRootV3 : ℚ := 14_894_092 / 1_000_000_000
+def tenMillionRootOdd7 : ℚ := 13_231_580 / 1_000_000_000
+/-- The cutoff-17 rows deliberately reuse the uniform cutoff-7 envelope.
+This avoids a second root certificate while retaining positive final slack. -/
+def tenMillionRootOdd17 : ℚ := tenMillionRootOdd7
 
 def tenMillionSquareTail7 : ℚ :=
   263_529_083_909_042_886_517_376_461_184_337_967 /
@@ -195,13 +197,13 @@ def tenMillionControllingTotal : ℚ :=
 is involved in this statement. -/
 theorem tenMillionControllingTotal_exact :
     tenMillionControllingTotal =
-      6_157_902_551_463_674_295_742_673_114_117_044_038_066_883_870_329 /
-        153_995_221_017_237_423_974_490_868_893_980_417_665_612_750_000_000 := by
+      763_615_312_500_117_937_890_735_194_394_344_350_671_899_687 /
+        19_095_445_597_028_634_630_106_127_955_109_482_009_500_000_000 := by
   norm_num [tenMillionControllingTotal, tenMillionBranchTotal,
     tenMillionDiagonalOneOdd, tenMillionCellCharge,
     tenMillionFinitePayment, tenMillionHighNoneDensity,
     tenMillionHighNoneEndpoint, tenMillionSquareTail17,
-    tenMillionRootOdd17, tenMillionLower]
+    tenMillionRootOdd17, tenMillionRootOdd7, tenMillionLower]
 
 theorem tenMillionBranchTotal_le_controlling (branch : TenMillionBranch) :
     tenMillionBranchTotal branch ≤ tenMillionControllingTotal := by
@@ -232,7 +234,7 @@ theorem tenMillionControlling_lt_lower_target :
     tenMillionHallTarget, tenMillionDiagonalOneOdd, tenMillionCellCharge,
     tenMillionFinitePayment, tenMillionHighNoneDensity,
     tenMillionHighNoneEndpoint, tenMillionSquareTail17,
-    tenMillionRootOdd17, tenMillionLower]
+    tenMillionRootOdd17, tenMillionRootOdd7, tenMillionLower]
 
 theorem tenMillionLowerTarget_le {N : ℕ}
     (hN : tenMillionLower ≤ N) :
