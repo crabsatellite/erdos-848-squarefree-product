@@ -113,16 +113,17 @@ structure FiveMillionCardPeriodicThresholdCertificate
     threshold ≤ fiveMillionFiniteEventCount pivots point →
     (point / 25) % 1764 ∈ eighteenResidues
 
-theorem fiveMillionCardPeriodicThreshold_ratio_le
-    {N threshold cap : Nat} {B pivots : Finset Nat}
-    (hLower : 5_000_000 ≤ N)
+theorem fiveMillionCardPeriodicThreshold_ratio_le_at_lower
+    {lower N threshold cap : Nat} {B pivots : Finset Nat}
+    (hLowerPositive : 0 < lower)
+    (hLower : lower ≤ N)
     (certificate : FiveMillionCardPeriodicThresholdCertificate
       N B pivots threshold cap) :
     ((((hallBasePart N B).filter fun point =>
         threshold ≤ fiveMillionFiniteEventCount pivots point).card : Rat) / N) ≤
       2 * ((cap : Rat) / 1764) / 25 +
         2 * ((cap : Rat) / 1764 +
-          ((cap * (1764 - cap) : Nat) : Rat) / 1764) / 5_000_000 := by
+          ((cap * (1764 - cap) : Nat) : Rat) / 1764) / lower := by
   let thresholdSet := (hallBasePart N B).filter fun point =>
     threshold ≤ fiveMillionFiniteEventCount pivots point
   let seven := thresholdSet ∩ OriginalA7 N
@@ -180,7 +181,9 @@ theorem fiveMillionCardPeriodicThreshold_ratio_le
     linarith
   have hNPositiveNat : 0 < N := by omega
   have hNPositive : (0 : Rat) < N := by exact_mod_cast hNPositiveNat
-  have hLowerQ : (5_000_000 : Rat) ≤ N := by exact_mod_cast hLower
+  have hLowerQ : (lower : Rat) ≤ N := by exact_mod_cast hLower
+  have hLowerPositiveQ : (0 : Rat) < lower := by
+    exact_mod_cast hLowerPositive
   have hprefixNonnegative :
       (0 : Rat) ≤ 2 * ((cap : Rat) / 1764 +
         ((cap * (1764 - cap) : Nat) : Rat) / 1764) := by positivity
@@ -188,8 +191,8 @@ theorem fiveMillionCardPeriodicThreshold_ratio_le
       2 * ((cap : Rat) / 1764 +
         ((cap * (1764 - cap) : Nat) : Rat) / 1764) / N ≤
       2 * ((cap : Rat) / 1764 +
-        ((cap * (1764 - cap) : Nat) : Rat) / 1764) / 5_000_000 :=
-    div_le_div_of_nonneg_left hprefixNonnegative (by norm_num) hLowerQ
+        ((cap * (1764 - cap) : Nat) : Rat) / 1764) / lower :=
+    div_le_div_of_nonneg_left hprefixNonnegative hLowerPositiveQ hLowerQ
   change (thresholdSet.card : Rat) / N ≤ _
   calc
     (thresholdSet.card : Rat) / N ≤
@@ -203,9 +206,23 @@ theorem fiveMillionCardPeriodicThreshold_ratio_le
       ring
     _ ≤ 2 * ((cap : Rat) / 1764) / 25 +
         2 * ((cap : Rat) / 1764 +
-          ((cap * (1764 - cap) : Nat) : Rat) / 1764) / 5_000_000 :=
+          ((cap * (1764 - cap) : Nat) : Rat) / 1764) / lower :=
       add_le_add le_rfl hprefixDiv
 
+theorem fiveMillionCardPeriodicThreshold_ratio_le
+    {N threshold cap : Nat} {B pivots : Finset Nat}
+    (hLower : 5_000_000 ≤ N)
+    (certificate : FiveMillionCardPeriodicThresholdCertificate
+      N B pivots threshold cap) :
+    ((((hallBasePart N B).filter fun point =>
+        threshold ≤ fiveMillionFiniteEventCount pivots point).card : Rat) / N) ≤
+      2 * ((cap : Rat) / 1764) / 25 +
+        2 * ((cap : Rat) / 1764 +
+          ((cap * (1764 - cap) : Nat) : Rat) / 1764) / 5_000_000 :=
+  fiveMillionCardPeriodicThreshold_ratio_le_at_lower
+    (by norm_num) hLower certificate
+
+#print axioms fiveMillionCardPeriodicThreshold_ratio_le_at_lower
 #print axioms periodicResidueSet_count_le_cap
 #print axioms fiveMillionCardPeriodicThreshold_ratio_le
 

@@ -207,15 +207,16 @@ structure FiveMillionTwoCellBasePeriodicThresholdCertificate
       fiveMillionTwoCellPeriodicFiniteResidues eighteenFullModFour
         eighteenModNineEvent eighteenModFortyNineRoot
 
-theorem fiveMillionTwoCellBasePeriodicThreshold_ratio_le
-    {N : Nat} {B pivots : Finset Nat}
-    (hLower : 5_000_000 <= N)
+theorem fiveMillionTwoCellBasePeriodicThreshold_ratio_le_at_lower
+    {lower N : Nat} {B pivots : Finset Nat}
+    (hLowerPositive : 0 < lower)
+    (hLower : lower <= N)
     (certificate :
       FiveMillionTwoCellBasePeriodicThresholdCertificate N B pivots) :
     ((((hallBasePart N B).filter fun point =>
         4 <= fiveMillionFiniteEventCount pivots point).card : Rat) / N) <=
       2 * (40 / 147 : Rat) / 25 +
-        2 * ((40 / 147 : Rat) + 17120 / 49) / 5_000_000 := by
+        2 * ((40 / 147 : Rat) + 17120 / 49) / lower := by
   let threshold := (hallBasePart N B).filter fun point =>
     4 <= fiveMillionFiniteEventCount pivots point
   let seven := threshold ∩ OriginalA7 N
@@ -284,14 +285,17 @@ theorem fiveMillionTwoCellBasePeriodicThreshold_ratio_le
     linarith
   have hNPositiveNat : 0 < N := by omega
   have hNPositive : (0 : Rat) < N := by exact_mod_cast hNPositiveNat
-  have hLowerQ : (5_000_000 : Rat) <= N := by exact_mod_cast hLower
+  have hLowerQ : (lower : Rat) <= N := by exact_mod_cast hLower
+  have hLowerPositiveQ : (0 : Rat) < lower := by
+    exact_mod_cast hLowerPositive
   have hprefixNonnegative :
       (0 : Rat) <= 2 * ((40 / 147 : Rat) + 17120 / 49) := by
     norm_num
   have hprefixDiv :
       2 * ((40 / 147 : Rat) + 17120 / 49) / N <=
-        2 * ((40 / 147 : Rat) + 17120 / 49) / 5_000_000 := by
-    exact div_le_div_of_nonneg_left hprefixNonnegative (by norm_num) hLowerQ
+        2 * ((40 / 147 : Rat) + 17120 / 49) / lower := by
+    exact div_le_div_of_nonneg_left hprefixNonnegative
+      hLowerPositiveQ hLowerQ
   change (threshold.card : Rat) / N <= _
   calc
     (threshold.card : Rat) / N <=
@@ -303,15 +307,27 @@ theorem fiveMillionTwoCellBasePeriodicThreshold_ratio_le
       field_simp
       ring
     _ <= 2 * (40 / 147 : Rat) / 25 +
-        2 * ((40 / 147 : Rat) + 17120 / 49) / 5_000_000 := by
+        2 * ((40 / 147 : Rat) + 17120 / 49) / lower := by
       exact add_le_add le_rfl hprefixDiv
+
+theorem fiveMillionTwoCellBasePeriodicThreshold_ratio_le
+    {N : Nat} {B pivots : Finset Nat}
+    (hLower : 5_000_000 <= N)
+    (certificate :
+      FiveMillionTwoCellBasePeriodicThresholdCertificate N B pivots) :
+    ((((hallBasePart N B).filter fun point =>
+        4 <= fiveMillionFiniteEventCount pivots point).card : Rat) / N) <=
+      2 * (40 / 147 : Rat) / 25 +
+        2 * ((40 / 147 : Rat) + 17120 / 49) / 5_000_000 :=
+  fiveMillionTwoCellBasePeriodicThreshold_ratio_le_at_lower
+    (by norm_num) hLower certificate
 
 #print axioms fiveMillionTwoCellPeriodicFiniteResidues_card
 #print axioms fiveMillionTwoCellPeriodicNatResidues_card_le_480
 #print axioms periodicResidueSet_count_le_480
 #print axioms baseProgressionSubset_card_le_periodic480
+#print axioms fiveMillionTwoCellBasePeriodicThreshold_ratio_le_at_lower
 #print axioms fiveMillionTwoCellBasePeriodicThreshold_ratio_le
 
 end Erdos848
-
 

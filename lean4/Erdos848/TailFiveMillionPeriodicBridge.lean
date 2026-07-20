@@ -200,14 +200,15 @@ structure FiveMillionBasePeriodicThresholdCertificate
 /-- Complete finite-payment theorem for the controlling periodic row.  Once
 the two pointwise classifications are supplied, no numerical or endpoint
 premise remains. -/
-theorem fiveMillionBasePeriodicThreshold_ratio_le
-    {N : ℕ} {B pivots : Finset ℕ}
-    (hLower : 5_000_000 ≤ N)
+theorem fiveMillionBasePeriodicThreshold_ratio_le_at_lower
+    {lower N : ℕ} {B pivots : Finset ℕ}
+    (hLowerPositive : 0 < lower)
+    (hLower : lower ≤ N)
     (certificate : FiveMillionBasePeriodicThresholdCertificate N B pivots) :
     ((((hallBasePart N B).filter fun point =>
         3 ≤ fiveMillionFiniteEventCount pivots point).card : ℚ) / N) ≤
       2 * (55 / 196 : ℚ) / 25 +
-        2 * ((55 / 196 : ℚ) + 69795 / 196) / 5_000_000 := by
+        2 * ((55 / 196 : ℚ) + 69795 / 196) / lower := by
   let threshold := (hallBasePart N B).filter fun point =>
     3 ≤ fiveMillionFiniteEventCount pivots point
   let seven := threshold ∩ OriginalA7 N
@@ -272,13 +273,16 @@ theorem fiveMillionBasePeriodicThreshold_ratio_le
     linarith
   have hNPositiveNat : 0 < N := by omega
   have hNPositive : (0 : ℚ) < N := by exact_mod_cast hNPositiveNat
-  have hLowerQ : (5_000_000 : ℚ) ≤ N := by exact_mod_cast hLower
+  have hLowerQ : (lower : ℚ) ≤ N := by exact_mod_cast hLower
+  have hLowerPositiveQ : (0 : ℚ) < lower := by
+    exact_mod_cast hLowerPositive
   have hprefixNonnegative :
       (0 : ℚ) ≤ 2 * ((55 / 196 : ℚ) + 69795 / 196) := by norm_num
   have hprefixDiv :
       2 * ((55 / 196 : ℚ) + 69795 / 196) / N ≤
-        2 * ((55 / 196 : ℚ) + 69795 / 196) / 5_000_000 := by
-    exact div_le_div_of_nonneg_left hprefixNonnegative (by norm_num) hLowerQ
+        2 * ((55 / 196 : ℚ) + 69795 / 196) / lower := by
+    exact div_le_div_of_nonneg_left hprefixNonnegative
+      hLowerPositiveQ hLowerQ
   change (threshold.card : ℚ) / N ≤ _
   calc
     (threshold.card : ℚ) / N ≤
@@ -290,9 +294,21 @@ theorem fiveMillionBasePeriodicThreshold_ratio_le
       field_simp
       ring
     _ ≤ 2 * (55 / 196 : ℚ) / 25 +
-        2 * ((55 / 196 : ℚ) + 69795 / 196) / 5_000_000 := by
+        2 * ((55 / 196 : ℚ) + 69795 / 196) / lower := by
       exact add_le_add le_rfl hprefixDiv
 
+theorem fiveMillionBasePeriodicThreshold_ratio_le
+    {N : ℕ} {B pivots : Finset ℕ}
+    (hLower : 5_000_000 ≤ N)
+    (certificate : FiveMillionBasePeriodicThresholdCertificate N B pivots) :
+    ((((hallBasePart N B).filter fun point =>
+        3 ≤ fiveMillionFiniteEventCount pivots point).card : ℚ) / N) ≤
+      2 * (55 / 196 : ℚ) / 25 +
+        2 * ((55 / 196 : ℚ) + 69795 / 196) / 5_000_000 :=
+  fiveMillionBasePeriodicThreshold_ratio_le_at_lower
+    (by norm_num) hLower certificate
+
+#print axioms fiveMillionBasePeriodicThreshold_ratio_le_at_lower
 #print axioms fiveMillionBasePeriodicThreshold_ratio_le
 
 end Erdos848
