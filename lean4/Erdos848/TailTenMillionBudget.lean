@@ -69,7 +69,8 @@ def tenMillionFourPayment (density : ℚ) (endpoint : ℕ) : ℚ :=
 
 def tenMillionEvenFourDensity : ℚ :=
   1_517_595_533_571_443 / 46_507_700_544_786_481
-def tenMillionEvenFourEndpoint : ℕ := 901
+/-- Corrected endpoint allowance for the one-close-pair finite certificate. -/
+def tenMillionEvenFourEndpoint : ℕ := 941
 
 def tenMillionOddFourDensity : ℚ := 47 / 588
 def tenMillionOddFourEndpoint : ℕ := 70
