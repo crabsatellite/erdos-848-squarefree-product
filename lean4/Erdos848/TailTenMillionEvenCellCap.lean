@@ -28,6 +28,18 @@ theorem tenMillionClosePairBucketCap_positive (N : Nat) :
   unfold tenMillionClosePairBucketCap
   omega
 
+theorem tenMillionClosePairBucketCap_two_le
+    {N : Nat} (hLower : tenMillionLower ≤ N) :
+    2 ≤ tenMillionClosePairBucketCap N := by
+  have hnumerator : 1_000_001 ≤ N - 1 := by
+    have : 10_000_000 ≤ N := by simpa [tenMillionLower] using hLower
+    omega
+  have hdiv : 1 ≤ (N - 1) / 1_000_001 := by
+    exact (Nat.le_div_iff_mul_le (by norm_num)).2 (by
+      simpa using hnumerator)
+  unfold tenMillionClosePairBucketCap
+  omega
+
 theorem tenMillionClosePairBucketCap_ratio_le_cellCharge
     {N : Nat} (hLower : tenMillionLower ≤ N) :
     (tenMillionClosePairBucketCap N : Rat) / N ≤
