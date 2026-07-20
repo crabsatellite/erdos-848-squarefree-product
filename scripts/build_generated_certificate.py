@@ -348,6 +348,25 @@ def effective_project_source_mtime_ns(lean_dir: Path, module: str) -> int:
     return newest
 
 
+def normalize_project_olean_mtime(lean_dir: Path, module: str) -> None:
+    """Anchor an already-valid OLean to the same source stamp as a fresh build.
+
+    Resume adoption used to leave Lake's wall-clock timestamp in place.  That
+    made a valid adopted dependency appear newer than a freshly direct-built
+    importer, even when neither source had changed, and the next layer then
+    failed the dependency audit.  Normalizing both paths keeps the timestamp
+    graph a faithful image of the source graph.
+    """
+    olean = module_olean_path(lean_dir, module)
+    stat = olean.stat()
+    source_mtime_ns = effective_project_source_mtime_ns(lean_dir, module)
+    if stat.st_mtime_ns != source_mtime_ns:
+        os.utime(
+            olean,
+            ns=(stat.st_atime_ns, source_mtime_ns),
+        )
+
+
 def stale_project_dependency(
     lean_dir: Path,
     module: str,
@@ -1153,6 +1172,7 @@ def run_stage(
             lean_dir, module, cache=freshness_cache
         )
         if reason is None:
+            normalize_project_olean_mtime(lean_dir, module)
             resumed += 1
             previous = results.get(module)
             if not (

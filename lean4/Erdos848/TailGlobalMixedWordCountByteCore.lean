@@ -15,6 +15,8 @@ natural-number checker and Lean's literal bit count.
 set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 
+variable {v w : ℕ}
+
 theorem append_add_of_low_no_carry
     {xh yh : BitVec v} {xl yl : BitVec w}
     (h : xl.toNat + yl.toNat < 2 ^ w) :
