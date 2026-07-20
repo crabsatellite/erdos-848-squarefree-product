@@ -779,7 +779,8 @@ theorem fiveMillionR263OddTwoBalancedBudget_le_ceiling :
       fiveMillionR263BranchCeiling .oddTwoBalanced := by
   norm_num [fiveMillionR263OddTwoBalancedBudget,
     fiveMillionR263OddTwoFullDiagonalEnvelope,
-    r263OptionRootFiniteEnvelope, r263OddSixFiveTailEnvelope,
+    r263OptionRootFiniteEnvelope, r263OptionRootFiniteEnvelopeAt,
+    r263OddSixFiveTailEnvelope,
     fiveMillionR263BranchCeiling, fiveMillionOddRoot7Envelope,
     fiveMillionSquareTail7Envelope]
 
@@ -788,7 +789,8 @@ theorem fiveMillionR263OddTwoSplitPairBudget_le_ceiling :
       fiveMillionR263BranchCeiling .oddTwoAtMostElevenCells := by
   norm_num [fiveMillionR263OddTwoSplitPairBudget,
     fiveMillionR263OddTwoFullDiagonalEnvelope,
-    r263OptionRootFiniteEnvelope, r263OddFourThreeTailEnvelope,
+    r263OptionRootFiniteEnvelope, r263OptionRootFiniteEnvelopeAt,
+    r263OddFourThreeTailEnvelope,
     fiveMillionR263BranchCeiling, fiveMillionOddRoot7Envelope,
     fiveMillionSquareTail7Envelope]
 
@@ -797,7 +799,8 @@ theorem fiveMillionR263OddTwoOneResidueBudget_le_ceiling :
       fiveMillionR263BranchCeiling .oddTwoOneResidue := by
   norm_num [fiveMillionR263OddTwoOneResidueBudget,
     fiveMillionR263OddTwoOneResidueDiagonalEnvelope,
-    r263OptionRootFiniteEnvelope, r263OddFourThreeTailEnvelope,
+    r263OptionRootFiniteEnvelope, r263OptionRootFiniteEnvelopeAt,
+    r263OddFourThreeTailEnvelope,
     fiveMillionR263BranchCeiling, fiveMillionOddRoot7Envelope,
     fiveMillionSquareTail7Envelope]
 
@@ -960,9 +963,10 @@ theorem fiveMillionR263OddTwoOneResidueStructuredDiagonal_kernel_close
     _ = fiveMillionR263OddTwoOneResidueDiagonalEnvelope := by
       norm_num [fiveMillionR263OddTwoOneResidueDiagonalEnvelope]
 
-theorem fiveMillionR263OddTwoResidual_ratio_le
-    {N : Nat} {B : Finset Nat} {diagonalEnvelope : Rat}
-    (hLower : 5_000_000 <= N)
+theorem fiveMillionR263OddTwoResidual_ratio_le_at_lower
+    {N lower : Nat} {B : Finset Nat} {diagonalEnvelope : Rat}
+    (hLowerPositive : 0 < lower)
+    (hLower : lower <= N)
     (hEvenOne : (fiveMillionValuationPart N B .evenOne).card <= 10)
     (hEvenTwo : (fiveMillionValuationPart N B .evenTwo).card <= 10)
     (hEvenThree : (fiveMillionValuationPart N B .evenThree).card <= 18)
@@ -970,7 +974,7 @@ theorem fiveMillionR263OddTwoResidual_ratio_le
       (fiveMillionR263OddTwoCharge N B)).card : Rat) / N <=
         diagonalEnvelope) :
     ((hallResidual N B).card : Rat) / N <=
-      diagonalEnvelope + 128 / 5_000_000 := by
+      diagonalEnvelope + 128 / lower := by
   let charged := fiveMillionR263OddTwoCharge N B
   have hchargedSubset : charged ⊆ hallResidual N B :=
     fiveMillionR263OddTwoCharge_subset_residual N B
@@ -985,9 +989,11 @@ theorem fiveMillionR263OddTwoResidual_ratio_le
   have hchargeRatio : (charged.card : Rat) / N <= 128 / N := by
     apply div_le_div_of_nonneg_right _ (by positivity)
     exact_mod_cast hchargedCard
-  have hLowerQ : (5_000_000 : Rat) <= N := by exact_mod_cast hLower
-  have hchargeAtCut : (128 : Rat) / N <= 128 / 5_000_000 :=
-    div_le_div_of_nonneg_left (by norm_num) (by norm_num) hLowerQ
+  have hLowerQ : (lower : Rat) <= N := by exact_mod_cast hLower
+  have hLowerPositiveQ : (0 : Rat) < lower := by
+    exact_mod_cast hLowerPositive
+  have hchargeAtCut : (128 : Rat) / N <= 128 / lower :=
+    div_le_div_of_nonneg_left (by norm_num) hLowerPositiveQ hLowerQ
   calc
     ((hallResidual N B).card : Rat) / N =
         ((fiveMillionStructuredResidual N B charged).card : Rat) / N +
@@ -997,8 +1003,23 @@ theorem fiveMillionR263OddTwoResidual_ratio_le
       exact_mod_cast hpartition.symm
     _ <= diagonalEnvelope + 128 / N :=
       add_le_add hdiagonal hchargeRatio
-    _ <= diagonalEnvelope + 128 / 5_000_000 :=
+    _ <= diagonalEnvelope + 128 / lower :=
       add_le_add le_rfl hchargeAtCut
+
+theorem fiveMillionR263OddTwoResidual_ratio_le
+    {N : Nat} {B : Finset Nat} {diagonalEnvelope : Rat}
+    (hLower : 5_000_000 <= N)
+    (hEvenOne : (fiveMillionValuationPart N B .evenOne).card <= 10)
+    (hEvenTwo : (fiveMillionValuationPart N B .evenTwo).card <= 10)
+    (hEvenThree : (fiveMillionValuationPart N B .evenThree).card <= 18)
+    (hdiagonal : ((fiveMillionStructuredResidual N B
+      (fiveMillionR263OddTwoCharge N B)).card : Rat) / N <=
+        diagonalEnvelope) :
+    ((hallResidual N B).card : Rat) / N <=
+      diagonalEnvelope + 128 / 5_000_000 := by
+  simpa using fiveMillionR263OddTwoResidual_ratio_le_at_lower
+    (lower := 5_000_000) (by norm_num) hLower
+      hEvenOne hEvenTwo hEvenThree hdiagonal
 
 lemma fiveMillionR263OddTwoStructuredPivots_subset_residual
     {N : Nat} {B pivots : Finset Nat}

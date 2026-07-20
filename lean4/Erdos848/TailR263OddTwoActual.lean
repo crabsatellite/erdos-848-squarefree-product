@@ -889,14 +889,18 @@ theorem R263OddTwoOneResiduePattern.period_card_le_244
       pattern.leftClass pattern.rightClass
   · exact hrelaxedFibre
 
-def r263OptionRootFiniteEnvelope (bound : Nat) : Rat :=
+def r263OptionRootFiniteEnvelopeAt (lower bound : Nat) : Rat :=
   2 * ((bound : Rat) / 1764) / 25 +
     2 * ((bound : Rat) / 1764 +
-      (bound : Rat) * ((1764 - bound : Nat) : Rat) / 1764) / 5_000_000
+      (bound : Rat) * ((1764 - bound : Nat) : Rat) / 1764) / lower
 
-theorem fiveMillionR263OptionRootFinitePayment_ratio_le
-    {N : Nat} {B pivots : Finset Nat} {threshold bound : Nat}
-    (hLower : 5_000_000 <= N)
+def r263OptionRootFiniteEnvelope (bound : Nat) : Rat :=
+  r263OptionRootFiniteEnvelopeAt 5_000_000 bound
+
+theorem fiveMillionR263OptionRootFinitePayment_ratio_le_at_lower
+    {N lower : Nat} {B pivots : Finset Nat} {threshold bound : Nat}
+    (hLowerPositive : 0 < lower)
+    (hLower : lower <= N)
     (hBout : Erdos848OutsideSet N B)
     (hpivotsResidual : pivots ⊆ hallResidual N B)
     (hbound : bound <= 882)
@@ -910,7 +914,7 @@ theorem fiveMillionR263OptionRootFinitePayment_ratio_le
         (r263RootFortyNine 18)).card <= bound) :
     fiveMillionR263BaseFiniteThresholdPayment
       N B pivots 7 threshold / N <=
-        r263OptionRootFiniteEnvelope bound := by
+        r263OptionRootFiniteEnvelopeAt lower bound := by
   classical
   let thresholdSet := (hallBasePart N B).filter fun point =>
     threshold <= fiveMillionFiniteEventCount pivots point
@@ -984,8 +988,10 @@ theorem fiveMillionR263OptionRootFinitePayment_ratio_le
   have hNPositiveNat : 0 < N := by omega
   have hNPositive : (0 : Rat) < N := by
     exact_mod_cast hNPositiveNat
-  have hLowerQ : (5_000_000 : Rat) <= N := by
+  have hLowerQ : (lower : Rat) <= N := by
     exact_mod_cast hLower
+  have hLowerPositiveQ : (0 : Rat) < lower := by
+    exact_mod_cast hLowerPositive
   have hprefixNonnegative :
       (0 : Rat) <=
         2 * ((bound : Rat) / 1764 +
@@ -996,9 +1002,9 @@ theorem fiveMillionR263OptionRootFinitePayment_ratio_le
         (bound : Rat) * ((1764 - bound : Nat) : Rat) / 1764) / N <=
       2 * ((bound : Rat) / 1764 +
         (bound : Rat) * ((1764 - bound : Nat) : Rat) / 1764) /
-          5_000_000 := by
+          lower := by
     exact div_le_div_of_nonneg_left hprefixNonnegative
-      (by norm_num) hLowerQ
+      hLowerPositiveQ hLowerQ
   change (thresholdSet.card : Rat) / N <= _
   calc
     (thresholdSet.card : Rat) / N <=
@@ -1010,8 +1016,30 @@ theorem fiveMillionR263OptionRootFinitePayment_ratio_le
           (bound : Rat) * ((1764 - bound : Nat) : Rat) / 1764) / N := by
       field_simp
       ring
-    _ <= r263OptionRootFiniteEnvelope bound := by
+    _ <= r263OptionRootFiniteEnvelopeAt lower bound := by
       exact add_le_add le_rfl hprefixDiv
+
+theorem fiveMillionR263OptionRootFinitePayment_ratio_le
+    {N : Nat} {B pivots : Finset Nat} {threshold bound : Nat}
+    (hLower : 5_000_000 <= N)
+    (hBout : Erdos848OutsideSet N B)
+    (hpivotsResidual : pivots ⊆ hallResidual N B)
+    (hbound : bound <= 882)
+    (hsevenPeriod :
+      (optionRootPeriodicThresholdResidues pivots threshold
+        (r263RootFour 7) (r263RootNine 7)
+        (r263RootFortyNine 7)).card <= bound)
+    (heighteenPeriod :
+      (optionRootPeriodicThresholdResidues pivots threshold
+        (r263RootFour 18) (r263RootNine 18)
+        (r263RootFortyNine 18)).card <= bound) :
+    fiveMillionR263BaseFiniteThresholdPayment
+      N B pivots 7 threshold / N <=
+        r263OptionRootFiniteEnvelope bound := by
+  simpa [r263OptionRootFiniteEnvelope] using
+    fiveMillionR263OptionRootFinitePayment_ratio_le_at_lower
+      (lower := 5_000_000) (by norm_num) hLower hBout hpivotsResidual
+        hbound hsevenPeriod heighteenPeriod
 
 def r263OddSixFiveTailEnvelope : Rat :=
   fiveMillionOddRoot7Envelope +
