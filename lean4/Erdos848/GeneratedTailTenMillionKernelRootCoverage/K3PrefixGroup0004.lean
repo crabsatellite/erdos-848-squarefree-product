@@ -1,0 +1,319 @@
+import Erdos848.TailTenMillionKernelRootCheckerCore
+import Erdos848.GeneratedTailTenMillionKernelRootCoverage.CommonData
+import Erdos848.GeneratedTailTenMillionKernelRootCoverage.MaskSemanticGroup0000
+import Erdos848.GeneratedTailTenMillionKernelRootCoverage.MaskSemanticGroup0016
+import Erdos848.GeneratedTailTenMillionKernelRootCoverage.MaskSemanticGroup0017
+import Erdos848.GeneratedTailTenMillionKernelRootCoverage.MaskSemanticGroup0018
+import Erdos848.GeneratedTailTenMillionKernelRootCoverage.MaskSemanticGroup0019
+import Erdos848.GeneratedTailTenMillionKernelRootCoverage.MaskSemanticGroup0020
+
+namespace Erdos848.GeneratedTailTenMillionKernelRootCoverage
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+def k3PrefixGroup0004NormalLookup (p : ℕ) : List ℕ :=
+  if p ≤ 61 then rootNormalQrMaskWords0000 p else
+  if p ≤ 1759 then rootNormalQrMaskWords0016 p else
+  if p ≤ 1889 then rootNormalQrMaskWords0017 p else
+  if p ≤ 2017 then rootNormalQrMaskWords0018 p else
+  if p ≤ 2137 then rootNormalQrMaskWords0019 p else
+  if p ≤ 2273 then rootNormalQrMaskWords0020 p else
+  []
+
+def k3PrefixGroup0004TwistLookup (p : ℕ) : List ℕ :=
+  if p ≤ 61 then rootTwistQrMaskWords0000 p else
+  if p ≤ 1759 then rootTwistQrMaskWords0016 p else
+  if p ≤ 1889 then rootTwistQrMaskWords0017 p else
+  if p ≤ 2017 then rootTwistQrMaskWords0018 p else
+  if p ≤ 2137 then rootTwistQrMaskWords0019 p else
+  if p ≤ 2273 then rootTwistQrMaskWords0020 p else
+  []
+
+def k3PrefixGroup0004MaskPrimes : List ℕ :=
+  rootMaskSemanticGroup0000 ++
+  rootMaskSemanticGroup0016 ++
+  rootMaskSemanticGroup0017 ++
+  rootMaskSemanticGroup0018 ++
+  rootMaskSemanticGroup0019 ++
+  rootMaskSemanticGroup0020
+
+def k3PrefixGroup0004 : List (List ℕ) :=
+  [[3, 1657],
+    [3, 1663],
+    [3, 1667],
+    [3, 1669],
+    [3, 1693],
+    [3, 1697],
+    [3, 1699],
+    [3, 1709],
+    [3, 1721],
+    [3, 1723],
+    [3, 1733],
+    [3, 1741],
+    [3, 1747],
+    [3, 1753],
+    [3, 1759],
+    [3, 1777],
+    [3, 1783],
+    [3, 1787],
+    [3, 1789],
+    [3, 1801],
+    [3, 1811],
+    [3, 1823],
+    [3, 1831],
+    [3, 1847],
+    [3, 1861],
+    [3, 1867],
+    [3, 1871],
+    [3, 1873],
+    [3, 1877],
+    [3, 1879],
+    [3, 1889],
+    [3, 1901],
+    [3, 1907],
+    [3, 1913],
+    [3, 1931],
+    [3, 1933],
+    [3, 1949],
+    [3, 1951],
+    [3, 1973],
+    [3, 1979],
+    [3, 1987],
+    [3, 1993],
+    [3, 1997],
+    [3, 1999],
+    [3, 2003],
+    [3, 2011],
+    [3, 2017],
+    [3, 2027],
+    [3, 2029],
+    [3, 2039],
+    [3, 2053],
+    [3, 2063],
+    [3, 2069],
+    [3, 2081],
+    [3, 2083],
+    [3, 2087],
+    [3, 2089],
+    [3, 2099],
+    [3, 2111],
+    [3, 2113],
+    [3, 2129],
+    [3, 2131],
+    [3, 2137],
+    [3, 2141]]
+
+theorem k3PrefixGroup0004_support_covered :
+    k3PrefixGroup0004.all (fun support =>
+      support.all (fun p =>
+        decide (p ∈ k3PrefixGroup0004MaskPrimes))) = true := by
+  rfl
+
+theorem k3PrefixGroup0004_passes :
+    k3PrefixGroup0004.all
+      (Erdos848.tenMillionKernelRootCorePrefixPasses
+        k3PrefixGroup0004NormalLookup
+        k3PrefixGroup0004TwistLookup rootBaseWords 3) = true := by
+  rfl
+
+theorem k3PrefixGroup0004_mask_group0000_passes :
+    rootMaskSemanticGroup0000.all
+      (Erdos848.tenMillionKernelRootMaskPassesWith
+        k3PrefixGroup0004NormalLookup
+        k3PrefixGroup0004TwistLookup) = true := by
+  apply List.all_eq_true.mpr
+  intro p hp
+  have hlocal := (List.all_eq_true.mp
+    rootMaskSemanticGroup0000_passes) p hp
+  have hnormal : k3PrefixGroup0004NormalLookup p =
+      rootNormalQrMaskWords0000 p := by
+    simp only [rootMaskSemanticGroup0000,
+      List.mem_cons, List.not_mem_nil, or_false] at hp
+    rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> rfl
+  have htwist : k3PrefixGroup0004TwistLookup p =
+      rootTwistQrMaskWords0000 p := by
+    simp only [rootMaskSemanticGroup0000,
+      List.mem_cons, List.not_mem_nil, or_false] at hp
+    rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> rfl
+  unfold Erdos848.tenMillionKernelRootMaskPassesWith
+    Erdos848.tenMillionKernelRootNormalMaskPassesWith
+    Erdos848.tenMillionKernelRootTwistMaskPassesWith
+    Erdos848.tenMillionKernelRootTwistMaskTestBit
+    Erdos848.tenMillionKernelRootCompactMaskTestBit
+    at hlocal ⊢
+  simpa only [hnormal, htwist] using hlocal
+
+theorem k3PrefixGroup0004_mask_group0016_passes :
+    rootMaskSemanticGroup0016.all
+      (Erdos848.tenMillionKernelRootMaskPassesWith
+        k3PrefixGroup0004NormalLookup
+        k3PrefixGroup0004TwistLookup) = true := by
+  apply List.all_eq_true.mpr
+  intro p hp
+  have hlocal := (List.all_eq_true.mp
+    rootMaskSemanticGroup0016_passes) p hp
+  have hnormal : k3PrefixGroup0004NormalLookup p =
+      rootNormalQrMaskWords0016 p := by
+    simp only [rootMaskSemanticGroup0016,
+      List.mem_cons, List.not_mem_nil, or_false] at hp
+    rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> rfl
+  have htwist : k3PrefixGroup0004TwistLookup p =
+      rootTwistQrMaskWords0016 p := by
+    simp only [rootMaskSemanticGroup0016,
+      List.mem_cons, List.not_mem_nil, or_false] at hp
+    rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> rfl
+  unfold Erdos848.tenMillionKernelRootMaskPassesWith
+    Erdos848.tenMillionKernelRootNormalMaskPassesWith
+    Erdos848.tenMillionKernelRootTwistMaskPassesWith
+    Erdos848.tenMillionKernelRootTwistMaskTestBit
+    Erdos848.tenMillionKernelRootCompactMaskTestBit
+    at hlocal ⊢
+  simpa only [hnormal, htwist] using hlocal
+
+theorem k3PrefixGroup0004_mask_group0017_passes :
+    rootMaskSemanticGroup0017.all
+      (Erdos848.tenMillionKernelRootMaskPassesWith
+        k3PrefixGroup0004NormalLookup
+        k3PrefixGroup0004TwistLookup) = true := by
+  apply List.all_eq_true.mpr
+  intro p hp
+  have hlocal := (List.all_eq_true.mp
+    rootMaskSemanticGroup0017_passes) p hp
+  have hnormal : k3PrefixGroup0004NormalLookup p =
+      rootNormalQrMaskWords0017 p := by
+    simp only [rootMaskSemanticGroup0017,
+      List.mem_cons, List.not_mem_nil, or_false] at hp
+    rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> rfl
+  have htwist : k3PrefixGroup0004TwistLookup p =
+      rootTwistQrMaskWords0017 p := by
+    simp only [rootMaskSemanticGroup0017,
+      List.mem_cons, List.not_mem_nil, or_false] at hp
+    rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> rfl
+  unfold Erdos848.tenMillionKernelRootMaskPassesWith
+    Erdos848.tenMillionKernelRootNormalMaskPassesWith
+    Erdos848.tenMillionKernelRootTwistMaskPassesWith
+    Erdos848.tenMillionKernelRootTwistMaskTestBit
+    Erdos848.tenMillionKernelRootCompactMaskTestBit
+    at hlocal ⊢
+  simpa only [hnormal, htwist] using hlocal
+
+theorem k3PrefixGroup0004_mask_group0018_passes :
+    rootMaskSemanticGroup0018.all
+      (Erdos848.tenMillionKernelRootMaskPassesWith
+        k3PrefixGroup0004NormalLookup
+        k3PrefixGroup0004TwistLookup) = true := by
+  apply List.all_eq_true.mpr
+  intro p hp
+  have hlocal := (List.all_eq_true.mp
+    rootMaskSemanticGroup0018_passes) p hp
+  have hnormal : k3PrefixGroup0004NormalLookup p =
+      rootNormalQrMaskWords0018 p := by
+    simp only [rootMaskSemanticGroup0018,
+      List.mem_cons, List.not_mem_nil, or_false] at hp
+    rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> rfl
+  have htwist : k3PrefixGroup0004TwistLookup p =
+      rootTwistQrMaskWords0018 p := by
+    simp only [rootMaskSemanticGroup0018,
+      List.mem_cons, List.not_mem_nil, or_false] at hp
+    rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> rfl
+  unfold Erdos848.tenMillionKernelRootMaskPassesWith
+    Erdos848.tenMillionKernelRootNormalMaskPassesWith
+    Erdos848.tenMillionKernelRootTwistMaskPassesWith
+    Erdos848.tenMillionKernelRootTwistMaskTestBit
+    Erdos848.tenMillionKernelRootCompactMaskTestBit
+    at hlocal ⊢
+  simpa only [hnormal, htwist] using hlocal
+
+theorem k3PrefixGroup0004_mask_group0019_passes :
+    rootMaskSemanticGroup0019.all
+      (Erdos848.tenMillionKernelRootMaskPassesWith
+        k3PrefixGroup0004NormalLookup
+        k3PrefixGroup0004TwistLookup) = true := by
+  apply List.all_eq_true.mpr
+  intro p hp
+  have hlocal := (List.all_eq_true.mp
+    rootMaskSemanticGroup0019_passes) p hp
+  have hnormal : k3PrefixGroup0004NormalLookup p =
+      rootNormalQrMaskWords0019 p := by
+    simp only [rootMaskSemanticGroup0019,
+      List.mem_cons, List.not_mem_nil, or_false] at hp
+    rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> rfl
+  have htwist : k3PrefixGroup0004TwistLookup p =
+      rootTwistQrMaskWords0019 p := by
+    simp only [rootMaskSemanticGroup0019,
+      List.mem_cons, List.not_mem_nil, or_false] at hp
+    rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> rfl
+  unfold Erdos848.tenMillionKernelRootMaskPassesWith
+    Erdos848.tenMillionKernelRootNormalMaskPassesWith
+    Erdos848.tenMillionKernelRootTwistMaskPassesWith
+    Erdos848.tenMillionKernelRootTwistMaskTestBit
+    Erdos848.tenMillionKernelRootCompactMaskTestBit
+    at hlocal ⊢
+  simpa only [hnormal, htwist] using hlocal
+
+theorem k3PrefixGroup0004_mask_group0020_passes :
+    rootMaskSemanticGroup0020.all
+      (Erdos848.tenMillionKernelRootMaskPassesWith
+        k3PrefixGroup0004NormalLookup
+        k3PrefixGroup0004TwistLookup) = true := by
+  apply List.all_eq_true.mpr
+  intro p hp
+  have hlocal := (List.all_eq_true.mp
+    rootMaskSemanticGroup0020_passes) p hp
+  have hnormal : k3PrefixGroup0004NormalLookup p =
+      rootNormalQrMaskWords0020 p := by
+    simp only [rootMaskSemanticGroup0020,
+      List.mem_cons, List.not_mem_nil, or_false] at hp
+    rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> rfl
+  have htwist : k3PrefixGroup0004TwistLookup p =
+      rootTwistQrMaskWords0020 p := by
+    simp only [rootMaskSemanticGroup0020,
+      List.mem_cons, List.not_mem_nil, or_false] at hp
+    rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> rfl
+  unfold Erdos848.tenMillionKernelRootMaskPassesWith
+    Erdos848.tenMillionKernelRootNormalMaskPassesWith
+    Erdos848.tenMillionKernelRootTwistMaskPassesWith
+    Erdos848.tenMillionKernelRootTwistMaskTestBit
+    Erdos848.tenMillionKernelRootCompactMaskTestBit
+    at hlocal ⊢
+  simpa only [hnormal, htwist] using hlocal
+
+theorem k3PrefixGroup0004_mask_primes_pass :
+    k3PrefixGroup0004MaskPrimes.all
+      (Erdos848.tenMillionKernelRootMaskPassesWith
+        k3PrefixGroup0004NormalLookup
+        k3PrefixGroup0004TwistLookup) = true := by
+  simp only [k3PrefixGroup0004MaskPrimes, List.all_append]
+  rw [k3PrefixGroup0004_mask_group0000_passes]
+  rw [k3PrefixGroup0004_mask_group0016_passes]
+  rw [k3PrefixGroup0004_mask_group0017_passes]
+  rw [k3PrefixGroup0004_mask_group0018_passes]
+  rw [k3PrefixGroup0004_mask_group0019_passes]
+  rw [k3PrefixGroup0004_mask_group0020_passes]
+  rfl
+
+theorem k3PrefixGroup0004_certified
+    {support : List ℕ} (hsupport : support ∈ k3PrefixGroup0004) :
+    ∃ normalLookup twistLookup : ℕ → List ℕ,
+      (∀ p ∈ support,
+        Erdos848.tenMillionKernelRootMaskPassesWith
+          normalLookup twistLookup p = true) ∧
+      Erdos848.tenMillionKernelRootCorePrefixPasses
+        normalLookup twistLookup rootBaseWords 3 support = true := by
+  refine ⟨k3PrefixGroup0004NormalLookup,
+    k3PrefixGroup0004TwistLookup, ?_,
+    (List.all_eq_true.mp
+      k3PrefixGroup0004_passes) support hsupport⟩
+  intro p hp
+  have hcovered := (List.all_eq_true.mp
+    k3PrefixGroup0004_support_covered) support hsupport
+  have hmem : p ∈
+      k3PrefixGroup0004MaskPrimes :=
+    of_decide_eq_true ((List.all_eq_true.mp hcovered) p hp)
+  exact (List.all_eq_true.mp
+    k3PrefixGroup0004_mask_primes_pass) p hmem
+
+#print axioms k3PrefixGroup0004_certified
+
+end Erdos848.GeneratedTailTenMillionKernelRootCoverage

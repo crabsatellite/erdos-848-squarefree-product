@@ -1,0 +1,34 @@
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0000
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0001
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0002
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0003
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0004
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0005
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0006
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0007
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0008
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0009
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0010
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0011
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0012
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0013
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0014
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0015
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0016
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0017
+import Erdos848.GeneratedTenMillionKernelPrimePrattCoverage.DataChunk0018
+import Erdos848.GeneratedTailPrimePrattCoverage.Data
+import Erdos848.PrattTableExtensionChecker
+
+namespace Erdos848.GeneratedTenMillionKernelPrimePrattCoverage
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+def extraNodes : Erdos848.PrattNodeTree :=
+  (.node 9504 (.node 4608 (.node 2048 (.node 1024 nodeDataChunk0000 nodeDataChunk0001) (.node 1024 nodeDataChunk0002 nodeDataChunk0003)) (.node 2560 (.node 1024 nodeDataChunk0004 nodeDataChunk0005) (.node 1536 nodeDataChunk0006 (.node 1024 nodeDataChunk0007 nodeDataChunk0008)))) (.node 4896 (.node 2560 (.node 1024 nodeDataChunk0009 nodeDataChunk0010) (.node 1536 nodeDataChunk0011 (.node 1024 nodeDataChunk0012 nodeDataChunk0013))) (.node 2336 (.node 1024 nodeDataChunk0014 nodeDataChunk0015) (.node 1312 nodeDataChunk0016 (.node 800 nodeDataChunk0017 nodeDataChunk0018)))))
+
+def table : Erdos848.PrattTableData :=
+  Erdos848.GeneratedTailPrimePrattCoverage.table.extend extraNodes
+
+end Erdos848.GeneratedTenMillionKernelPrimePrattCoverage

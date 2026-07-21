@@ -1,0 +1,18 @@
+import Erdos848.TailPrimeRankBoundaryChecker
+import Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.Certificate
+
+namespace Erdos848.GeneratedTailTenMillionKernelRootJumpCoverage
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+def boundaryPrefixTree0064 : Erdos848.PrimeIntervalProofTree
+    2 259376 22785 :=
+  (.node Erdos848.GeneratedTailPrimeIntervalCoverage.fullTree
+    (.node (.node (.node (.node Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0000 (.node Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0001 Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0002)) (.node Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0003 (.node Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0004 Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0005))) (.node (.node Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0006 (.node Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0007 Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0008)) (.node (.node Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0009 Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0010) (.node Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0011 Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0012)))) (.node (.node (.node Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0013 (.node Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0014 Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0015)) (.node (.node Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0016 Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0017) (.node Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0018 Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0019))) (.node (.node Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0020 (.node Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0021 Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0022)) (.node (.node Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0023 Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0024) (.node Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0025 Erdos848.GeneratedTenMillionKernelPrimeIntervalCoverage.blockTree0026))))))
+
+theorem primeCounting_blockEnd0064 :
+    Nat.primeCounting 259377 = 22785 := by
+  exact boundaryPrefixTree0064.primeCounting_eq (by decide)
+
+end Erdos848.GeneratedTailTenMillionKernelRootJumpCoverage

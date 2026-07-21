@@ -158,10 +158,12 @@ private lemma pair_subset_or_pair_subset_of_triple
     (hsubset : triple ⊆ selection.pivots)
     (hcard : triple.card = 3) :
     selection.leftPair ⊆ triple ∨ selection.rightPair ⊆ triple := by
-  by_contra hneither
-  push_neg at hneither
-  obtain ⟨x, hxLeft, hxNot⟩ := hneither.1
-  obtain ⟨y, hyRight, hyNot⟩ := hneither.2
+  by_cases hleft : selection.leftPair ⊆ triple
+  · exact Or.inl hleft
+  by_cases hright : selection.rightPair ⊆ triple
+  · exact Or.inr hright
+  obtain ⟨x, hxLeft, hxNot⟩ := Finset.not_subset.mp hleft
+  obtain ⟨y, hyRight, hyNot⟩ := Finset.not_subset.mp hright
   have hxPivots := selection.leftPair_subset_pivots hxLeft
   have hyPivots := selection.rightPair_subset_pivots hyRight
   have hxy : x ≠ y := by
@@ -199,6 +201,23 @@ lemma triple_contains_left_or_right_pair
     selection.leftPair ⊆ triple ∨ selection.rightPair ⊆ triple :=
   selection.pair_subset_or_pair_subset_of_triple hsubset hcard
 
+private theorem triple_not_common_of_two_mem
+    {pivots : Finset Nat} (hcard : pivots.card = 3)
+    {a b : Nat} (ha : a ∈ pivots) (hb : b ∈ pivots)
+    {index : E1FinitePrimeIndex}
+    (hmod : a % e1FiniteModulus index ≠
+      b % e1FiniteModulus index) :
+    ¬ ∃ residue : Fin (e1FiniteModulus index), ∀ i : Fin 3,
+      globalMixedThreePivotAt pivots hcard i %
+        e1FiniteModulus index = residue.val := by
+  rintro ⟨residue, hall⟩
+  obtain ⟨i, hi⟩ :=
+    globalMixedThreePivotAt_surjective_on pivots hcard ha
+  obtain ⟨j, hj⟩ :=
+    globalMixedThreePivotAt_surjective_on pivots hcard hb
+  apply hmod
+  simpa [hi, hj] using (hall i).trans (hall j).symm
+
 lemma triple_not_common_three
     {N B valuation left right}
     (selection :
@@ -206,7 +225,9 @@ lemma triple_not_common_three
     {triple : Finset Nat}
     (hsubset : triple ⊆ selection.pivots)
     (hcard : triple.card = 3) :
-    ¬ e1FiniteTripleCommonAt triple hcard 0 := by
+    ¬ ∃ residue : Fin (e1FiniteModulus 0), ∀ i : Fin 3,
+      globalMixedThreePivotAt triple hcard i %
+        e1FiniteModulus 0 = residue.val := by
   have hnotLeft : ¬ triple ⊆ selection.leftPair := by
     intro h
     have hle := Finset.card_le_card h
@@ -236,7 +257,7 @@ lemma triple_not_common_three
     apply selection.left_ne_right
     apply Fin.ext
     exact hxMod.symm.trans (hxy.trans hyMod)
-  exact e1FiniteTripleCommonAt_false_of_two_mem
+  exact triple_not_common_of_two_mem
     hcard hxTriple hyTriple (index := 0) (by
       simpa [e1FiniteModulus] using hmodNe)
 

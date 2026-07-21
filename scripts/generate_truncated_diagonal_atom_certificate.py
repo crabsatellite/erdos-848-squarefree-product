@@ -240,7 +240,7 @@ def atom_cases(exact_for: callable) -> str:
         "      fin_cases parity <;> fin_cases cell\n"
         + "".join(
             f"      · exact {exact_for(('odd', parity, cell))}\n"
-            for parity in range(2)
+            for parity in (1, 0)
             for cell in range(9)
         )
     )

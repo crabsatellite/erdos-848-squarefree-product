@@ -1,0 +1,83 @@
+import Erdos848.TailTenMillionKernelRootHighCount
+import Erdos848.TailPrimeRankBoundaryChecker
+
+namespace Erdos848
+
+/-!
+# Kernel checker for the twenty-million root profile
+
+The exact high-point coefficient contains `⌊N / 25⌋`.  Replacing its
+quotient by `N / 25` gives a slightly larger expression whose only upward
+jumps occur when `N / row.split` becomes prime.  This is the expression
+checked at every certified prime leaf by the generated jump certificate.
+-/
+
+set_option maxHeartbeats 0
+set_option maxRecDepth 1000000
+
+def tenMillionKernelRootProfileRows : List TenMillionKernelRootRow :=
+  [.v1, .v2, .v3, .odd7, .odd7Twist]
+
+def tenMillionKernelRootSmoothProfileAt
+    (row : TenMillionKernelRootRow) (supportLength p primeCount : Nat) : Rat :=
+  let N := row.split * p
+  let height := row.rootFactor * 2 ^ (supportLength + 1)
+  let survivors := row.survivorCeiling supportLength
+  6 * (((primeCount - Nat.primeCounting row.cutoff : Nat) : Rat) +
+      height * survivors) / N +
+    3 * height * (4 + (survivors : Rat) / 3026) *
+      (1 / 25 + 2 / (N : Rat)) / p
+
+def tenMillionKernelRootSmoothProfile
+    (row : TenMillionKernelRootRow) (supportLength N : Nat) : Rat :=
+  let p := N / row.split
+  let height := row.rootFactor * 2 ^ (supportLength + 1)
+  let survivors := row.survivorCeiling supportLength
+  6 * (((Nat.primeCounting p -
+        Nat.primeCounting row.cutoff : Nat) : Rat) +
+      height * survivors) / N +
+    3 * height * (4 + (survivors : Rat) / 3026) *
+      (1 / 25 + 2 / (N : Rat)) / p
+
+def tenMillionKernelRootActualProfile
+    (row : TenMillionKernelRootRow) (supportLength N : Nat) : Rat :=
+  6 * (((Nat.primeCounting (N / row.split) -
+      Nat.primeCounting row.cutoff : Nat) : Rat) +
+    tenMillionKernelRootHighCoefficient row supportLength N) / N
+
+def tenMillionKernelRootPrimeJumpPasses
+    (p primeCount : Nat) : Bool :=
+  tenMillionKernelRootProfileRows.all fun row =>
+    if tenMillionLower ≤ row.split * p ∧
+        row.split * p < tenMillionUpper then
+      (List.range 7).all fun supportLength =>
+        decide (tenMillionKernelRootSmoothProfileAt
+          row supportLength p primeCount ≤ row.envelope)
+    else
+      true
+
+theorem tenMillionKernelRootPrimeJumpPasses_sound
+    {row : TenMillionKernelRootRow} {supportLength p primeCount : Nat}
+    (hpass : tenMillionKernelRootPrimeJumpPasses p primeCount = true)
+    (hrow : row ∈ tenMillionKernelRootProfileRows)
+    (hLength : supportLength < 7)
+    (hLower : tenMillionLower ≤ row.split * p)
+    (hUpper : row.split * p < tenMillionUpper) :
+    tenMillionKernelRootSmoothProfileAt
+        row supportLength p primeCount ≤ row.envelope := by
+  have hrowPass :=
+    (List.all_eq_true.mp hpass) row hrow
+  simp only [hLower, hUpper, and_self, if_true] at hrowPass
+  exact of_decide_eq_true
+    ((List.all_eq_true.mp hrowPass) supportLength
+      (List.mem_range.mpr hLength))
+
+theorem tenMillionKernelRootProfileRows_complete_normal
+    (row : TenMillionKernelRootRow)
+    (hrow : row = .v1 ∨ row = .v2 ∨
+      row = .v3 ∨ row = .odd7 ∨ row = .odd7Twist) :
+    row ∈ tenMillionKernelRootProfileRows := by
+  rcases hrow with rfl | rfl | rfl | rfl | rfl <;>
+    simp [tenMillionKernelRootProfileRows]
+
+end Erdos848

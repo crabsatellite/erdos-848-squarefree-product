@@ -277,8 +277,4 @@ theorem hallBaseTailSquarePayment_fourThree_tenMillion_odd_ratio_le
           hpivotsResidual hpivotsOdd
     _ = (2 / 3 : Rat) * tenMillionOddTailEnvelope := by norm_num
 
-#print axioms hallBaseTailSquareCount_ratio_le_tenMillion_odd_actual
-#print axioms hallBaseTailSquarePayment_tenMillion_odd_ratio_le
-#print axioms hallBaseTailSquarePayment_sixFive_tenMillion_odd_ratio_le
-
 end Erdos848

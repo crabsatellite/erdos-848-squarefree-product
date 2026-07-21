@@ -58,6 +58,13 @@ def tenMillionSquareTail17 : ℚ :=
 def tenMillionSquareTail29 : ℚ :=
   65_456_484_292_309_805_743 / 9_032_899_457_815_489_000_000
 
+/-- Cutoff-23 tail used by the public four-pivot route.  Keeping prime `29`
+in the tail lets that route reuse the already kernelized seven-coordinate
+CRT semantics. -/
+def tenMillionSquareTail23 : ℚ :=
+  64_081_802_747_648_035_629_863 /
+    7_596_668_444_022_826_249_000_000
+
 /-- Bonferroni density plus its integer endpoint payment at the lower end. -/
 def tenMillionFinitePayment (density : ℚ) (endpoint : ℕ) : ℚ :=
   density / 25 + endpoint / tenMillionLower
@@ -68,9 +75,10 @@ def tenMillionFourPayment (density : ℚ) (endpoint : ℕ) : ℚ :=
   4 * density / 25 + 4 * endpoint / tenMillionLower
 
 def tenMillionEvenFourDensity : ℚ :=
-  1_517_595_533_571_443 / 46_507_700_544_786_481
-/-- Corrected endpoint allowance for the one-close-pair finite certificate. -/
-def tenMillionEvenFourEndpoint : ℕ := 941
+  5_355_507_302_216 / 165_901_428_816_123
+/-- The exact one-close-pair endpoint is `606`.  One extra count absorbs the
+`N / 25 + 1` progression ceiling uniformly from the lower endpoint. -/
+def tenMillionEvenFourEndpoint : ℕ := 607
 
 def tenMillionOddFourDensity : ℚ := 47 / 588
 def tenMillionOddFourEndpoint : ℕ := 70
@@ -122,7 +130,7 @@ def tenMillionBranchTotal : TenMillionBranch → ℚ
       tenMillionDiagonalUnrestricted +
         tenMillionFourPayment tenMillionEvenFourDensity
           tenMillionEvenFourEndpoint +
-        4 * tenMillionSquareTail29 / 25 +
+        4 * tenMillionSquareTail23 / 25 +
         2 * tenMillionRootV1 / 3
   | .e1OneCell =>
       tenMillionDiagonalConcentrated + 8 * tenMillionCellCharge +
@@ -133,7 +141,7 @@ def tenMillionBranchTotal : TenMillionBranch → ℚ
       tenMillionDiagonalUnrestricted +
         tenMillionFourPayment tenMillionEvenFourDensity
           tenMillionEvenFourEndpoint +
-        4 * tenMillionSquareTail29 / 25 +
+        4 * tenMillionSquareTail23 / 25 +
         2 * tenMillionRootV2 / 3
   | .e2OneCell =>
       tenMillionDiagonalE2Cell + 17 * tenMillionCellCharge +
@@ -216,7 +224,7 @@ theorem tenMillionBranchTotal_le_controlling (branch : TenMillionBranch) :
       tenMillionDiagonalOneOdd, tenMillionDiagonalOneOddCell,
       tenMillionRootV1, tenMillionRootV2, tenMillionRootV3,
       tenMillionRootOdd7, tenMillionRootOdd17, tenMillionSquareTail7,
-      tenMillionSquareTail17, tenMillionSquareTail29,
+      tenMillionSquareTail17, tenMillionSquareTail23, tenMillionSquareTail29,
       tenMillionFinitePayment, tenMillionFourPayment,
       tenMillionEvenFourDensity, tenMillionEvenFourEndpoint,
       tenMillionOddFourDensity, tenMillionOddFourEndpoint,
