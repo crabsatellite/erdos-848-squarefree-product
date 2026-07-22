@@ -23,9 +23,10 @@ SUPPORT_BOUND = 40_000_000
 MAX_WORD_BOUND = 5_776
 OPERATIONAL_WORD_BOUND = ((MAX_WORD_BOUND + 63) // 64) * 64
 NORMAL_MASK_BOUND = 9_161
-PREFIX_GROUP_SIZE = 256
+PREFIX_GROUP_SIZE = 64
 MASK_GROUP_SIZE = 16
 MASK_SEMANTIC_PART_SIZE = 4
+MASK_SEMANTIC_SINGLETON_FROM = 1_500
 
 WRITTEN_PATHS: set[Path] = set()
 
@@ -373,45 +374,225 @@ def write_mask_data() -> None:
 def write_mask_semantics() -> None:
     for index, group in enumerate(MASK_GROUPS):
         part_defs: list[str] = []
-        part_theorems: list[str] = []
+        part_group_theorems: list[str] = []
         part_modules: list[str] = []
+        local_group_bridge_lines: list[str] = []
+        part_size = (
+            1
+            if group[-1] >= MASK_SEMANTIC_SINGLETON_FROM
+            else MASK_SEMANTIC_PART_SIZE
+        )
         for part_index, part in enumerate(
-            chunks(group, MASK_SEMANTIC_PART_SIZE)
+            chunks(group, part_size)
         ):
             suffix = f"{index:04d}Part{part_index:02d}"
             part_module = f"MaskSemanticGroup{suffix}"
             part_def = f"rootMaskSemanticGroup{suffix}"
             part_theorem = f"{part_def}_passes"
-            part_source = f"""import Erdos848.TailTwentyMillionRootCheckerCore
-import Erdos848.GeneratedTailTwentyMillionRootCoverage.MaskDataGroup{index:04d}
+            # Above the split threshold, importing the full sixteen-prime
+            # lookup into every singleton made Lean re-elaborate the large
+            # match while reducing `rfl`.  Emit just the selected prime's two
+            # tables here, then bridge back to the shared group lookup in the
+            # cheap aggregate module below.
+            use_local_lookup = part_size == 1
+            if use_local_lookup:
+                normal_lookup = f"rootNormalQrMaskWords{suffix}"
+                twist_lookup = f"rootTwistQrMaskWords{suffix}"
+                local_lookup_lines = [
+                    f"def {normal_lookup} : ℕ → List ℕ",
+                ]
+                for p in part:
+                    normal_words = word_list(
+                        max(p, OPERATIONAL_WORD_BOUND),
+                        lambda m, p=p: pow(m, (p - 1) // 2, p) == 1,
+                    )
+                    local_lookup_lines.append(
+                        f"  | {p} =>\n{lean_list(normal_words, '    ')}"
+                    )
+                local_lookup_lines.extend(
+                    [
+                        "  | _ => []",
+                        "",
+                        f"def {twist_lookup} : ℕ → List ℕ",
+                    ]
+                )
+                for p in part:
+                    twist_words = word_list(
+                        OPERATIONAL_WORD_BOUND,
+                        lambda m, p=p: pow(
+                            5 * m, (p - 1) // 2, p
+                        ) == 1,
+                    )
+                    local_lookup_lines.append(
+                        f"  | {p} =>\n{lean_list(twist_words, '    ')}"
+                    )
+                local_lookup_lines.extend(["  | _ => []", ""])
+                local_lookup_source = "\n".join(local_lookup_lines)
+                part_imports = (
+                    "import Erdos848.TailTwentyMillionRootCheckerCore"
+                )
+            else:
+                normal_lookup = f"rootNormalQrMaskWords{index:04d}"
+                twist_lookup = f"rootTwistQrMaskWords{index:04d}"
+                local_lookup_source = ""
+                part_imports = (
+                    "import Erdos848.TailTwentyMillionRootCheckerCore\n"
+                    "import "
+                    "Erdos848.GeneratedTailTwentyMillionRootCoverage."
+                    f"MaskDataGroup{index:04d}"
+                )
+            use_split_modules = use_local_lookup and part[0] >= 5683
+            if use_split_modules:
+                data_module = f"MaskSemanticGroup{suffix}Data"
+                data_import = (
+                    "Erdos848.GeneratedTailTwentyMillionRootCoverage."
+                    f"{data_module}"
+                )
+                data_source = f"""import Erdos848.TailTwentyMillionRootMaskSplit
+
+namespace Erdos848.GeneratedTailTwentyMillionRootCoverage
+
+{local_lookup_source}
+end Erdos848.GeneratedTailTwentyMillionRootCoverage
+"""
+                write_generated(OUT / f"{data_module}.lean", data_source)
+
+                p = part[0]
+                component_specs = [
+                    (
+                        "NormalPeriod",
+                        f"{part_def}_normal_period_passes",
+                        "Erdos848.twentyMillionRootNormalPeriodPassesWith\n"
+                        f"      {normal_lookup} {p}",
+                    ),
+                    (
+                        "NormalSquares",
+                        f"{part_def}_normal_squares_passes",
+                        "Erdos848.twentyMillionRootNormalSquaresPassesWith\n"
+                        f"      {normal_lookup} {p}",
+                    ),
+                    (
+                        "TwistPeriod",
+                        f"{part_def}_twist_period_passes",
+                        "Erdos848.twentyMillionRootTwistPeriodPassesWith\n"
+                        f"      {normal_lookup}\n"
+                        f"      {twist_lookup} {p}",
+                    ),
+                ]
+                component_modules = []
+                for component_suffix, theorem_name, proposition in component_specs:
+                    component_module = (
+                        f"MaskSemanticGroup{suffix}{component_suffix}"
+                    )
+                    component_modules.append(component_module)
+                    component_source = f"""import {data_import}
 
 namespace Erdos848.GeneratedTailTwentyMillionRootCoverage
 
 set_option maxRecDepth 1000000
 set_option maxHeartbeats 0
 
-def {part_def} : List ℕ :=
+theorem {theorem_name} :
+    {proposition} = true := by
+  rfl
+
+end Erdos848.GeneratedTailTwentyMillionRootCoverage
+"""
+                    write_generated(
+                        OUT / f"{component_module}.lean", component_source
+                    )
+
+                part_imports = "\n".join(
+                    "import "
+                    "Erdos848.GeneratedTailTwentyMillionRootCoverage."
+                    f"{component_module}"
+                    for component_module in component_modules
+                )
+                part_proof = f"""  apply List.all_eq_true.mpr
+  intro q hq
+  simp only [{part_def}, List.mem_cons, List.not_mem_nil,
+    or_false] at hq
+  rcases hq with rfl
+  exact Erdos848.twentyMillionRootMaskPassesWith_of_split
+    (by rfl)
+    {part_def}_normal_period_passes
+    {part_def}_normal_squares_passes
+    {part_def}_twist_period_passes"""
+                local_lookup_prelude = ""
+            else:
+                local_lookup_prelude = (
+                    f"{local_lookup_source}\n" if local_lookup_source else ""
+                )
+                part_proof = "  rfl"
+
+            part_source = f"""{part_imports}
+
+namespace Erdos848.GeneratedTailTwentyMillionRootCoverage
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+{local_lookup_prelude}def {part_def} : List ℕ :=
 {lean_list(part)}
 
 theorem {part_theorem} :
     {part_def}.all
       (Erdos848.twentyMillionRootMaskPassesWith
-        rootNormalQrMaskWords{index:04d}
-        rootTwistQrMaskWords{index:04d}) = true := by
-  rfl
+        {normal_lookup}
+        {twist_lookup}) = true := by
+{part_proof}
 
 end Erdos848.GeneratedTailTwentyMillionRootCoverage
 """
             write_generated(OUT / f"{part_module}.lean", part_source)
             part_modules.append(part_module)
             part_defs.append(part_def)
-            part_theorems.append(part_theorem)
+            if use_local_lookup:
+                part_group_theorem = f"{part_def}_group_passes"
+                part_group_theorems.append(part_group_theorem)
+                cases = disjunction_cases(len(part))
+                local_group_bridge_lines.extend(
+                    [
+                        f"theorem {part_group_theorem} :",
+                        f"    {part_def}.all",
+                        "      (Erdos848.twentyMillionRootMaskPassesWith",
+                        f"        rootNormalQrMaskWords{index:04d}",
+                        f"        rootTwistQrMaskWords{index:04d}) = true := by",
+                        "  apply List.all_eq_true.mpr",
+                        "  intro p hp",
+                        "  have hlocal := (List.all_eq_true.mp",
+                        f"    {part_theorem}) p hp",
+                        f"  have hnormal : rootNormalQrMaskWords{index:04d} p =",
+                        f"      {normal_lookup} p := by",
+                        f"    simp only [{part_def}, List.mem_cons,",
+                        "      List.not_mem_nil, or_false] at hp",
+                        f"    rcases hp with {cases} <;> rfl",
+                        f"  have htwist : rootTwistQrMaskWords{index:04d} p =",
+                        f"      {twist_lookup} p := by",
+                        f"    simp only [{part_def}, List.mem_cons,",
+                        "      List.not_mem_nil, or_false] at hp",
+                        f"    rcases hp with {cases} <;> rfl",
+                        "  rw [Erdos848.twentyMillionRootMaskPassesWith_congr_at",
+                        "    hnormal htwist]",
+                        "  exact hlocal",
+                        "",
+                    ]
+                )
+            else:
+                part_group_theorems.append(part_theorem)
 
         part_imports = "\n".join(
             "import Erdos848.GeneratedTailTwentyMillionRootCoverage."
             f"{module}"
             for module in part_modules
         )
+        if part_size == 1:
+            part_imports += (
+                "\nimport "
+                "Erdos848.GeneratedTailTwentyMillionRootCoverage."
+                f"MaskDataGroup{index:04d}"
+                "\nimport Erdos848.TailTwentyMillionRootMaskCongr"
+            )
         part_concat = " ++\n      ".join(part_defs)
         source_lines = [
             part_imports,
@@ -421,6 +602,7 @@ end Erdos848.GeneratedTailTwentyMillionRootCoverage
             "set_option maxRecDepth 1000000",
             "set_option maxHeartbeats 0",
             "",
+            *local_group_bridge_lines,
             f"def rootMaskSemanticGroup{index:04d} : List ℕ :=",
             lean_list(group),
             "",
@@ -434,7 +616,8 @@ end Erdos848.GeneratedTailTwentyMillionRootCoverage
             "  simp only [List.all_append]",
         ]
         source_lines.extend(
-            f"  rw [{part_theorem}]" for part_theorem in part_theorems
+            f"  rw [{part_group_theorem}]"
+            for part_group_theorem in part_group_theorems
         )
         source_lines.extend(
             [
@@ -452,6 +635,7 @@ end Erdos848.GeneratedTailTwentyMillionRootCoverage
         cases = disjunction_cases(len(group))
         bridge = f"""import Erdos848.GeneratedTailTwentyMillionRootCoverage.MaskData
 import Erdos848.GeneratedTailTwentyMillionRootCoverage.MaskSemanticGroup{index:04d}
+import Erdos848.TailTwentyMillionRootMaskCongr
 
 namespace Erdos848.GeneratedTailTwentyMillionRootCoverage
 
@@ -476,10 +660,8 @@ theorem rootMaskSemanticGroup{index:04d}_global_passes :
     simp only [rootMaskSemanticGroup{index:04d}, List.mem_cons,
       List.not_mem_nil, or_false] at hp
     rcases hp with {cases} <;> rfl
-  unfold Erdos848.twentyMillionRootMaskPassesWith
-    Erdos848.twentyMillionRootNormalMaskPassesWith
-    Erdos848.twentyMillionRootTwistMaskPassesWith at hlocal ⊢
-  rw [hnormal, htwist]
+  rw [Erdos848.twentyMillionRootMaskPassesWith_congr_at
+    hnormal htwist]
   exact hlocal
 
 end Erdos848.GeneratedTailTwentyMillionRootCoverage
@@ -488,6 +670,10 @@ end Erdos848.GeneratedTailTwentyMillionRootCoverage
             OUT / f"MaskGlobalBridgeGroup{index:04d}.lean", bridge
         )
 
+    mask_group_concat = " ++\n      ".join(
+        f"rootMaskSemanticGroup{i:04d}"
+        for i in range(len(MASK_GROUPS))
+    )
     lines = [
         *(
             f"import Erdos848.GeneratedTailTwentyMillionRootCoverage."
@@ -501,10 +687,7 @@ end Erdos848.GeneratedTailTwentyMillionRootCoverage
         "set_option maxHeartbeats 0",
         "",
         "def certifiedRootMaskPrimes : List ℕ :=",
-        " ++\n".join(
-            f"  rootMaskSemanticGroup{i:04d}"
-            for i in range(len(MASK_GROUPS))
-        ),
+        "  " + mask_group_concat.replace("\n      ", "\n  "),
         "",
         "theorem certifiedRootMaskPrimes_eq :",
         "    certifiedRootMaskPrimes = rootMaskPrimes := by",
@@ -514,11 +697,13 @@ end Erdos848.GeneratedTailTwentyMillionRootCoverage
         "    certifiedRootMaskPrimes.all",
         "      (Erdos848.twentyMillionRootMaskPassesWith",
         "        rootNormalQrMaskWords rootTwistQrMaskWords) = true := by",
-        "  simp only [certifiedRootMaskPrimes, List.all_append]",
+        "  rw [show certifiedRootMaskPrimes =",
+        f"      {mask_group_concat} by rfl]",
+        "  simp only [List.all_append]",
     ]
     lines.extend(
-        f"  rw [rootMaskSemanticGroup{i:04d}_global_passes]"
-        for i in range(len(MASK_GROUPS))
+        f"  rw [rootMaskSemanticGroup{index:04d}_global_passes]"
+        for index in range(len(MASK_GROUPS))
     )
     lines.extend(
         [
@@ -567,6 +752,11 @@ def write_prefix_groups() -> list[list[str]]:
             imports = [
                 "import Erdos848.TailTwentyMillionRootCheckerCore",
                 "import Erdos848.GeneratedTailTwentyMillionRootCoverage.CommonData",
+                *(
+                    ["import Erdos848.TailTwentyMillionRootMaskCongr"]
+                    if used_groups
+                    else []
+                ),
                 *(
                     "import Erdos848.GeneratedTailTwentyMillionRootCoverage."
                     f"MaskSemanticGroup{group_index:04d}"
@@ -641,11 +831,8 @@ def write_prefix_groups() -> list[list[str]]:
                         f"    simp only [rootMaskSemanticGroup{group_index:04d},",
                         "      List.mem_cons, List.not_mem_nil, or_false] at hp",
                         f"    rcases hp with {cases} <;> rfl",
-                        "  unfold Erdos848.twentyMillionRootMaskPassesWith",
-                        "    Erdos848.twentyMillionRootNormalMaskPassesWith",
-                        "    Erdos848.twentyMillionRootTwistMaskPassesWith",
-                        "    at hlocal ⊢",
-                        "  rw [hnormal, htwist]",
+                        "  rw [Erdos848.twentyMillionRootMaskPassesWith_congr_at",
+                        "    hnormal htwist]",
                         "  exact hlocal",
                         "",
                     ]
@@ -660,7 +847,14 @@ def write_prefix_groups() -> list[list[str]]:
                     f"        k{k}PrefixGroup{index:04d}TwistLookup) = true := by",
                 ]
             )
-            if used_groups:
+            if len(used_groups) == 1:
+                lines.extend(
+                    [
+                        f"  simpa only [k{k}PrefixGroup{index:04d}MaskPrimes] using",
+                        f"    {bridge_theorems[0]}",
+                    ]
+                )
+            elif used_groups:
                 lines.append(
                     f"  simp only [k{k}PrefixGroup{index:04d}MaskPrimes,"
                     " List.all_append]"
@@ -743,15 +937,13 @@ def write_k_certificates(all_names: list[list[str]]) -> None:
         if len(names) == 1:
             lines.append(f"  exact k{k}PrefixGroup0000_certified hsupport")
         else:
-            for index in range(len(names) - 1):
-                lines.extend(
-                    [
-                        "  rcases hsupport with hsupport | hsupport",
-                        f"  · exact k{k}PrefixGroup{index:04d}_certified hsupport",
-                    ]
-                )
-            lines.append(
-                f"  · exact k{k}PrefixGroup{len(names)-1:04d}_certified hsupport"
+            case_pattern = "h0"
+            for index in range(1, len(names)):
+                case_pattern = f"({case_pattern} | h{index})"
+            lines.append(f"  rcases hsupport with {case_pattern}")
+            lines.extend(
+                f"  · exact k{k}PrefixGroup{index:04d}_certified h{index}"
+                for index in range(len(names))
             )
         lines.extend(
             [

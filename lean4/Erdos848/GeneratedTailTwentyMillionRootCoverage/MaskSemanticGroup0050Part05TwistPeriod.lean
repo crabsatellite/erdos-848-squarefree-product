@@ -1,0 +1,14 @@
+import Erdos848.GeneratedTailTwentyMillionRootCoverage.MaskSemanticGroup0050Part05Data
+
+namespace Erdos848.GeneratedTailTwentyMillionRootCoverage
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+theorem rootMaskSemanticGroup0050Part05_twist_period_passes :
+    Erdos848.twentyMillionRootTwistPeriodPassesWith
+      rootNormalQrMaskWords0050Part05
+      rootTwistQrMaskWords0050Part05 6211 = true := by
+  rfl
+
+end Erdos848.GeneratedTailTwentyMillionRootCoverage
