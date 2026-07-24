@@ -1,29 +1,37 @@
-# A Kernel-Checked Asymptotic Formalization for Erdős Problem 848
+# Erdős Problem 848: Exact Hall Closure
 
-This repository contains a short manuscript and a Lean 4 formalization of
-the known asymptotic resolution of Erdős Problem 848.
+> **Canonical source of truth.** This public repository is the sole active
+> source for the theorem statement, manuscript, computational certificates,
+> and Lean verification status.  The former internal research repository is
+> archived history and must not be used for later proof or status decisions.
 
-For all sufficiently large `N`, every `A ⊆ {1, ..., N}` satisfying
-`¬ Squarefree (a * b + 1)` for all `a, b ∈ A` has cardinality at most the
-number of integers congruent to `7 mod 25`. The residue classes `7 mod 25`
-and `18 mod 25` give the two sharp constructions.
+This repository contains a complete computer-assisted proof of the exact
+all-`N` bound in Erdős Problem 848, together with a separate Lean 4
+formalization project.  The paper proves that every
+`A ⊆ {1, ..., N}` for which `a * b + 1` is nonsquarefree for all
+`a, b ∈ A` has cardinality at most the number of integers congruent to
+`7 mod 25`; that progression attains the bound.
 
-This public repository does **not** yet claim the all-`N` statement. It
-kernel-checks the asymptotic theorem and the exact prefix through
-`N = 5,000,000`. Only the `N >= 5,000,000` tail remains open.
+The manuscript proof and the Lean development have different verification
+boundaries.  The paper closes every `N` by an exact prefix colouring, two
+finite low-range arguments, and four tail intervals beginning at
+`N = 5,000,000`.  The Lean project kernel-checks the prefix through
+`N = 5,000,000` and substantial tail infrastructure, but not yet the complete
+four-interval splice.  No Lean declaration is used as a premise of the paper
+proof.
 
-The developing all-`N` package is protected by a version-locked publication
-contract.  `proof-state.json`, `paper/proof-contract.json`, and
-`lean4/Erdos848/PublicationContract.lean` must agree; the paper artifacts are
-also pinned by SHA-256.  The final package builder refuses the current
-`open/partial/unaligned` state.  See `RELEASE.md` for the gates and exact
-release criteria.
+The developing kernel package remains protected by its version-locked
+publication contract.  See `RELEASE.md` for the kernel release criteria.
 
 ## Contents
 
 - `paper/erdos_848_kernel_asymptotic.tex`: manuscript source.
 - `paper/Li_Erdos_848_Kernel_Asymptotic_2026.pdf`: rendered manuscript.
 - `paper/theorem-map.json`: paper-label to Lean-declaration map.
+- `scripts/verify_paper_close.py`: rebuilds and checks the exact finite,
+  low-range, diagonal, and four-range paper certificates.
+- `scripts/verify_four_range_paper_arithmetic.py`: decimal-free verification
+  of the four controlling tail rows.
 - `lean4/Erdos848/Asymptotic.lean`: self-contained Mathlib-only formalization
   of Sawhney's stability argument, preserved from the credited Apache-2.0
   upstream source.
@@ -85,9 +93,9 @@ release criteria.
 - `scripts/verify_publication.py`: fail-closed source/manuscript checker.
 - `scripts/verify_axioms.py`: exact `--trust=0` axiom-output checker.
 
-Research logs, failed approaches, generated chain-status reports, finite-search
-programs, and exploratory certificates are not part of this publication
-repository.
+Research logs, failed approaches, and exploratory status reports are not part
+of the paper.  The finite programs under `scripts/` are the reproducible
+certificates explicitly cited by the proof.
 
 ## Main Lean endpoints
 
@@ -144,7 +152,10 @@ this release, the first build of that file took about fourteen minutes and
 peaked above 4 GB of memory; subsequent checks are incremental.
 
 ```powershell
-python scripts/verify_publication.py
+pwsh scripts/build_paper.ps1
+python scripts/verify_paper_close.py
+python scripts/verify_four_range_paper_arithmetic.py
+python scripts/verify_nested_six_bridge.py
 cd lean4
 lake exe cache get
 cd ..
