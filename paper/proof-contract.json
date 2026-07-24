@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "proof_contract_version": "erdos-848-all-n-four-range-v1",
+  "claim_status": "partial",
+  "manuscript_kind": "kernel-checked-asymptotic-and-five-million-prefix",
+  "tex_path": "paper/erdos_848_kernel_asymptotic.tex",
+  "tex_sha256": "cdf01303daaf8bf4d1dc1172041c215b89153bbbbc4b52369bcc611061a3008a",
+  "pdf_path": "paper/Li_Erdos_848_Kernel_Asymptotic_2026.pdf",
+  "pdf_sha256": "ab9f479aac7376872d1d8809b3aa4550fb7460ad663f011b30fb88e8ba5df585",
+  "theorem_map_path": "paper/theorem-map.json",
+  "theorem_map_sha256": "3344f3a43bb23f7896ea8a08ad4c3b1055e4802c5f5835b8fadec88c738ffa2b",
+  "scope": {
+    "exact_prefix_upper": 5000000,
+    "all_n_claimed": false,
+    "tail_status": "conditional-reduction-only"
+  }
+}

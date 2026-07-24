@@ -1,0 +1,28 @@
+import Erdos848.PublicationRoot
+
+#print axioms Erdos848.NonSquarefreeProductProp
+#print axioms Erdos848.OriginalProblem848Statement
+#print axioms Erdos848.A7_has_property_public
+#print axioms Erdos848.A18_has_property_public
+#print axioms Erdos848.SawhneyMainAt
+#print axioms Erdos848.sawhney_main
+#print axioms Erdos848.Problem848Statement
+#print axioms Erdos848.problem_848_asymptotic
+#print axioms Erdos848.originalA7_eq_range
+#print axioms Erdos848.original_of_range_succ
+#print axioms Erdos848.erdos848_original_asymptotic
+#print axioms Erdos848.erdos848_original_N49
+#print axioms Erdos848.erdos848_original_N99
+#print axioms Erdos848.erdos848_finite_reduction
+#print axioms Erdos848.PrefixColouringState
+#print axioms Erdos848.originalProblem_of_prefixColouringState
+#print axioms Erdos848.originalProblem_prefix_of_colouringCertificate
+#print axioms Erdos848.erdos848_through_five_million
+#print axioms Erdos848.exists_sameValuation_eightPivotCluster_of_defect
+#print axioms Erdos848.hallCompletion_card_le_globalMixedDiagonalBasePairTail
+#print axioms Erdos848.hallCompletion_card_le_globalMixedResidualBasePairTail
+#print axioms Erdos848.pairTailValuation_even_or_odd
+#print axioms Erdos848.Erdos848GlobalMixedBranchedPairTailTerminalBound
+#print axioms Erdos848.erdos848GlobalMixedTailClose_of_branchedPairTailTerminalBound
+#print axioms Erdos848.erdos848_full_of_branchedPairTailTerminalBound
+#print axioms Erdos848.erdos848_full_of_five_million_tail

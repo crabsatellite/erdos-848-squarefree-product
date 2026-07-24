@@ -12,6 +12,13 @@ This public repository does **not** yet claim the all-`N` statement. It
 kernel-checks the asymptotic theorem and the exact prefix through
 `N = 5,000,000`. Only the `N >= 5,000,000` tail remains open.
 
+The developing all-`N` package is protected by a version-locked publication
+contract.  `proof-state.json`, `paper/proof-contract.json`, and
+`lean4/Erdos848/PublicationContract.lean` must agree; the paper artifacts are
+also pinned by SHA-256.  The final package builder refuses the current
+`open/partial/unaligned` state.  See `RELEASE.md` for the gates and exact
+release criteria.
+
 ## Contents
 
 - `paper/erdos_848_kernel_asymptotic.tex`: manuscript source.

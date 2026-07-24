@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "release": {
+    "package_name": "erdos-848-all-n-kernel-source",
+    "archive_name": "erdos-848-all-n-kernel-source.zip",
+    "kind": "kernel-only-closed-proof-and-matching-paper",
+    "main_theorem_status": "closed",
+    "manuscript_claim_status": "complete",
+    "manuscript_alignment_status": "aligned"
+  },
+  "source_policy": {
+    "lean_project_root": "lean4",
+    "lean_entrypoints": [
+      "Erdos848.PublicationRoot",
+      "Erdos848.PublicationTheoremMap",
+      "Erdos848.PublicationAxiomAudit"
+    ],
+    "fixed_files": [
+      ".gitignore",
+      "LICENSE.md",
+      "NOTICE.md",
+      "README.md",
+      "RELEASE.md",
+      "proof-state.json",
+      "release-manifest.json",
+      "lean4/lake-manifest.json",
+      "lean4/lakefile.toml",
+      "lean4/lean-toolchain",
+      "scripts/build_release_package.py",
+      "scripts/check_proof_state.py",
+      "scripts/run_kernel_gates.py",
+      "scripts/test_publication_contract.py",
+      "scripts/verify_publication_package.py"
+    ],
+    "generated_metadata": "release-content.json",
+    "local_module_prefix": "Erdos848",
+    "forbidden_path_components": [
+      ".git",
+      ".lake",
+      "__pycache__",
+      "cache",
+      "caches",
+      "dist",
+      "logs",
+      "temp",
+      "tmp"
+    ],
+    "forbidden_suffixes": [
+      ".aux",
+      ".ilean",
+      ".log",
+      ".olean",
+      ".out",
+      ".pyc",
+      ".trace",
+      ".zip"
+    ]
+  },
+  "expected_proof_state": {
+    "project_id": "erdos-848-all-n-kernel",
+    "formalization_mode": "kernel-only",
+    "proof_contract_version": "erdos-848-all-n-four-range-v1",
+    "main_statement": "forall N, Erdos848.OriginalProblem848Statement N",
+    "main_theorem": "Erdos848.erdos848_all_N",
+    "main_theorem_status": "closed",
+    "manuscript_claim_status": "complete",
+    "manuscript_alignment_status": "aligned"
+  },
+  "pins": {
+    "lean_toolchain": "leanprover/lean4:v4.30.0-rc2",
+    "lean_toolchain_sha256": "ce4c4e3d87434b9663f46de25ce34b48a0cf0d392e0a320a0787b4674a2d7b61",
+    "lake_manifest_sha256": "e016cb20d7f2f3b2bef02393f4b468fdd4f8fdeba9784aabb39e2889a87b5d4c",
+    "packages": {
+      "Cli": "13567aed1ac4f12aea9484178e07e51f8c9f7658",
+      "Qq": "1cc7e819b9b9bc1e87c9edcccb62e0269e00a809",
+      "aesop": "f0c6e183ea26531e82773feb4b73ab6595ca17a5",
+      "batteries": "5c57f3857ba81924a88b2cdf4f062e34ec04ff11",
+      "importGraph": "fd70b40073aeca8fa60fe0fb492f189d3b12c0ef",
+      "mathlib": "54e71fa9173471d591658f5380c46aaf050bbaae",
+      "plausible": "293af9b2a383eed4d04d66b898d608d0a44b750f",
+      "proofwidgets": "2db6054a44326f8c0230ee0570e2ddb894816511",
+      "LeanSearchClient": "c5d5b8fe6e5158def25cd28eb94e4141ad97c843"
+    }
+  }
+}

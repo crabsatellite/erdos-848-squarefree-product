@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "project_id": "erdos-848-all-n-kernel",
+  "repository_visibility": "public",
+  "publication_intent": "public-after-all-n-kernel-close-and-version-alignment",
+  "formalization_mode": "kernel-only",
+  "proof_contract_version": "erdos-848-all-n-four-range-v1",
+  "main_statement": "forall N, Erdos848.OriginalProblem848Statement N",
+  "main_theorem": "Erdos848.erdos848_all_N",
+  "main_theorem_status": "open",
+  "manuscript_claim_status": "partial",
+  "manuscript_alignment_status": "open",
+  "manuscript_alignment_blockers": [
+    "The current public manuscript is the asymptotic and five-million-prefix note and explicitly disclaims an all-N resolution.",
+    "The unconditional N >= 40000000 tail theorem and final all-N assembly are not yet present in the publication root."
+  ],
+  "paper_contract_path": "paper/proof-contract.json",
+  "acceptance": {
+    "minimal_root": "lean4/Erdos848/PublicationRoot.lean",
+    "theorem_map": "lean4/Erdos848/PublicationTheoremMap.lean",
+    "axiom_audit": "lean4/Erdos848/PublicationAxiomAudit.lean",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "forbidden_source_tokens": [
+      "axiom",
+      "sorry",
+      "admit",
+      "native_decide",
+      "opaque",
+      "unsafe",
+      "extern",
+      "run_tac",
+      "Lean.ofReduceBool",
+      "Lean.trustCompiler"
+    ]
+  },
+  "range_contract": [
+    {
+      "lower": 0,
+      "upper": 5000000,
+      "upper_inclusive": true,
+      "role": "kernel-certified-prefix"
+    },
+    {
+      "lower": 5000000,
+      "upper": 10000000,
+      "upper_inclusive": false,
+      "role": "first-tail-block"
+    },
+    {
+      "lower": 10000000,
+      "upper": 20000000,
+      "upper_inclusive": false,
+      "role": "second-tail-block"
+    },
+    {
+      "lower": 20000000,
+      "upper": 40000000,
+      "upper_inclusive": false,
+      "role": "third-tail-block"
+    },
+    {
+      "lower": 40000000,
+      "upper": null,
+      "upper_inclusive": false,
+      "role": "unbounded-tail-block"
+    }
+  ]
+}
