@@ -107,9 +107,13 @@ theorem feasibleSupportPrefixes_complete
                   exact ⟨selected.take need, hTail, by simp⟩)
 
 set_option maxRecDepth 1000000 in
-theorem supportPrimes_pairwise_lt :
-    GeneratedTailSupportCoverage.supportPrimes.Pairwise (· < ·) := by
+private theorem supportPrimes_isChain :
+    GeneratedTailSupportCoverage.supportPrimes.IsChain (· < ·) := by
   decide
+
+theorem supportPrimes_pairwise_lt :
+    GeneratedTailSupportCoverage.supportPrimes.Pairwise (· < ·) :=
+  List.isChain_iff_pairwise.mp supportPrimes_isChain
 
 /- Kernel-reduced audit that the generated prime table is exactly the odd,
 non-five prime domain through the extension sentinel `3163`. -/

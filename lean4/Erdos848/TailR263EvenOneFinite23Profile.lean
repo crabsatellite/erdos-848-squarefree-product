@@ -1,4 +1,5 @@
 import Erdos848.TailR263EvenOneFinite23Payment
+import Erdos848.TailR263EvenOneFinite23ProfileCore
 
 namespace Erdos848
 
@@ -13,27 +14,6 @@ hypotheses to the exact generated arithmetic certificate.
 
 set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
-
-def e1FiniteSevenConstraint :
-    E1FiniteCellType → E1FinitePatternConstraint
-  | .good => .noncommon
-  | .seven => .common
-  | .eleven => .noncommon
-  | .both => .common
-
-def e1FiniteElevenConstraint :
-    E1FiniteCellType → E1FinitePatternConstraint
-  | .good => .noncommon
-  | .seven => .noncommon
-  | .eleven => .common
-  | .both => .common
-
-def e1FiniteConstraintForProfile
-    (threeConstraint : E1FinitePatternConstraint)
-    (cellType : E1FiniteCellType) :
-    E1FinitePrimeIndex → E1FinitePatternConstraint :=
-  ![threeConstraint, e1FiniteSevenConstraint cellType,
-    e1FiniteElevenConstraint cellType, .free, .free, .free, .free]
 
 private theorem e1FiniteCellTypeOf_eq_profile
     (roots : E1FinitePivotRootFamily)

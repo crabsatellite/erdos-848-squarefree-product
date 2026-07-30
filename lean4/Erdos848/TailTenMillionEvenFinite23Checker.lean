@@ -21,18 +21,13 @@ set_option maxRecDepth 1000000
 
 def tenMillionEvenFinite23PairFactor
     (prime : Nat) (pattern : E1FiniteRootPattern) (pair : Fin 3) : Nat :=
-  if e1FinitePatternPairCard pattern pair = 1 then prime else 1
+  e1FinitePatternPairFactor prime pattern pair
 
 def tenMillionEvenFinite23PairProduct
     (pair : Fin 3)
     (p3 p7 p11 p13 p17 p19 p23 : E1FiniteRootPattern) : Nat :=
-  tenMillionEvenFinite23PairFactor 3 p3 pair *
-    tenMillionEvenFinite23PairFactor 7 p7 pair *
-    tenMillionEvenFinite23PairFactor 11 p11 pair *
-    tenMillionEvenFinite23PairFactor 13 p13 pair *
-    tenMillionEvenFinite23PairFactor 17 p17 pair *
-    tenMillionEvenFinite23PairFactor 19 p19 pair *
-    tenMillionEvenFinite23PairFactor 23 p23 pair
+  e1FinitePatternPairProduct pair
+    p3 p7 p11 p13 p17 p19 p23
 
 def TenMillionEvenFinite23CrossInequality
     (p3 p7 p11 p13 p17 p19 p23 : E1FiniteRootPattern) : Prop :=

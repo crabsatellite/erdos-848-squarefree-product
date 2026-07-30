@@ -1,0 +1,29 @@
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0855
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0856
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0857
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0858
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0859
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0860
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0861
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0862
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0863
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0864
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0865
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0866
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0867
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0868
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0869
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0870
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0871
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0872
+
+namespace Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+theorem oddMarkerTrue_5Ordered : oddMarkerTrue_5.AdjacentOrdered := by
+  apply IndexedMarkerData.adjacentOrdered_of_range (comparisonCount := 139784) (by decide)
+  exact (IndexedMarkerData.adjacentRangeAppend ((IndexedMarkerData.adjacentRangeAppend ((IndexedMarkerData.adjacentRangeAppend ((IndexedMarkerData.adjacentRangeAppend (orderBlock0855) (orderBlock0856))) ((IndexedMarkerData.adjacentRangeAppend (orderBlock0857) (orderBlock0858))))) ((IndexedMarkerData.adjacentRangeAppend ((IndexedMarkerData.adjacentRangeAppend (orderBlock0859) (orderBlock0860))) ((IndexedMarkerData.adjacentRangeAppend (orderBlock0861) ((IndexedMarkerData.adjacentRangeAppend (orderBlock0862) (orderBlock0863))))))))) ((IndexedMarkerData.adjacentRangeAppend ((IndexedMarkerData.adjacentRangeAppend ((IndexedMarkerData.adjacentRangeAppend (orderBlock0864) (orderBlock0865))) ((IndexedMarkerData.adjacentRangeAppend (orderBlock0866) (orderBlock0867))))) ((IndexedMarkerData.adjacentRangeAppend ((IndexedMarkerData.adjacentRangeAppend (orderBlock0868) (orderBlock0869))) ((IndexedMarkerData.adjacentRangeAppend (orderBlock0870) ((IndexedMarkerData.adjacentRangeAppend (orderBlock0871) (orderBlock0872))))))))))
+
+end Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms

@@ -51,17 +51,18 @@ def tenMillionFinite23PairFactorAt
     (e1FinitePrime index) (e1FiniteRootPatternAt roots index) pair
 
 private theorem tenMillionFinite23PairFactorAt_square_dvd_dist
-    {baseResidue : Nat} {pivots : Finset Nat}
+    {pivots : Finset Nat}
     {hcard : pivots.card = 3}
     (roots : E1FinitePivotRootFamily) (pair : Fin 3)
-    (hfaithful : ∀ index,
+    (hmodFaithful : ∀ index,
       roots (tenMillionFinite23PairLeft pair) index =
           roots (tenMillionFinite23PairRight pair) index →
-        ∃ q,
-          e1FiniteActualPartialRoots baseResidue pivots hcard index
-              (tenMillionFinite23PairLeft pair) = some q ∧
-          e1FiniteActualPartialRoots baseResidue pivots hcard index
-              (tenMillionFinite23PairRight pair) = some q)
+        globalMixedThreePivotAt pivots hcard
+              (tenMillionFinite23PairLeft pair) %
+            e1FiniteModulus index =
+          globalMixedThreePivotAt pivots hcard
+              (tenMillionFinite23PairRight pair) %
+            e1FiniteModulus index)
     (index : E1FinitePrimeIndex) :
     tenMillionFinite23PairFactorAt roots pair index ^ 2 ∣
       Nat.dist
@@ -70,19 +71,13 @@ private theorem tenMillionFinite23PairFactorAt_square_dvd_dist
         (globalMixedThreePivotAt pivots hcard
           (tenMillionFinite23PairRight pair)) := by
   unfold tenMillionFinite23PairFactorAt
-    tenMillionEvenFinite23PairFactor
+    tenMillionEvenFinite23PairFactor e1FinitePatternPairFactor
   split
   · rename_i hcardOne
     have hroots :=
       (tenMillionFinite23PatternPairCard_eq_one_iff
         roots pair index).mp hcardOne
-    obtain ⟨q, hleft, hright⟩ := hfaithful index hroots
-    have hmod := e1FinitePartialRoot_same_implies_pivot_mod
-      (baseResidue := baseResidue)
-      (hleft := by
-        simpa [e1FiniteActualPartialRoots] using hleft)
-      (hright := by
-        simpa [e1FiniteActualPartialRoots] using hright)
+    have hmod := hmodFaithful index hroots
     have hdvd := tenMillionFinite23Modulus_dvd_dist_of_mod_eq hmod
     simpa [e1FiniteModulus_eq_prime_square] using hdvd
   · simp
@@ -106,25 +101,26 @@ private theorem tenMillionFinite23PairFactors_coprime
     (Nat.coprime_primes
       (e1FinitePrime_prime i) (e1FinitePrime_prime j)).mpr hprimeNe
   unfold tenMillionFinite23PairFactorAt
-    tenMillionEvenFinite23PairFactor
+    tenMillionEvenFinite23PairFactor e1FinitePatternPairFactor
   split <;> split
   · exact hprimeCoprime.pow 2 2
   · simp
   · simp
   · simp
 
-theorem tenMillionFinite23PairProduct_square_dvd_dist
-    {baseResidue : Nat} {pivots : Finset Nat}
+theorem e1FinitePairProduct_square_dvd_dist_of_mod
+    {pivots : Finset Nat}
     {hcard : pivots.card = 3}
     (roots : E1FinitePivotRootFamily) (pair : Fin 3)
-    (hfaithful : ∀ index,
+    (hmodFaithful : ∀ index,
       roots (tenMillionFinite23PairLeft pair) index =
           roots (tenMillionFinite23PairRight pair) index →
-        ∃ q,
-          e1FiniteActualPartialRoots baseResidue pivots hcard index
-              (tenMillionFinite23PairLeft pair) = some q ∧
-          e1FiniteActualPartialRoots baseResidue pivots hcard index
-              (tenMillionFinite23PairRight pair) = some q) :
+        globalMixedThreePivotAt pivots hcard
+              (tenMillionFinite23PairLeft pair) %
+            e1FiniteModulus index =
+          globalMixedThreePivotAt pivots hcard
+              (tenMillionFinite23PairRight pair) %
+            e1FiniteModulus index) :
     tenMillionEvenFinite23PairProduct pair
         (e1FiniteRootPatternAt roots 0)
         (e1FiniteRootPatternAt roots 1)
@@ -153,7 +149,7 @@ theorem tenMillionFinite23PairProduct_square_dvd_dist
   have hdvd (index : E1FinitePrimeIndex) :
       tenMillionFinite23PairFactorAt roots pair index ^ 2 ∣ distance := by
     exact tenMillionFinite23PairFactorAt_square_dvd_dist
-      roots pair hfaithful index
+      roots pair hmodFaithful index
   have hcop (i j : E1FinitePrimeIndex) (hij : i ≠ j) :
       Nat.Coprime
         (tenMillionFinite23PairFactorAt roots pair i ^ 2)
@@ -202,14 +198,16 @@ theorem tenMillionFinite23PairProduct_square_dvd_dist
   simpa [distance, f0, f1, f2, f3, f4, f5, f6,
     tenMillionFinite23PairFactorAt,
     tenMillionEvenFinite23PairProduct,
-    tenMillionEvenFinite23PairFactor, e1FinitePrime] using h0123456
+    e1FinitePatternPairProduct,
+    tenMillionEvenFinite23PairFactor,
+    e1FinitePatternPairFactor, e1FinitePrime] using h0123456
 
 private theorem tenMillionFinite23PairFactorAt_odd
     (roots : E1FinitePivotRootFamily) (pair : Fin 3)
     (index : E1FinitePrimeIndex) :
     Odd (tenMillionFinite23PairFactorAt roots pair index) := by
   unfold tenMillionFinite23PairFactorAt
-    tenMillionEvenFinite23PairFactor
+    tenMillionEvenFinite23PairFactor e1FinitePatternPairFactor
   split
   · fin_cases index
     · exact ⟨1, by norm_num [e1FinitePrime]⟩
@@ -245,7 +243,9 @@ theorem tenMillionFinite23PairProduct_odd
     (tenMillionFinite23PairFactorAt_odd roots pair 6)
   simpa [tenMillionFinite23PairFactorAt,
     tenMillionEvenFinite23PairProduct,
-    tenMillionEvenFinite23PairFactor, e1FinitePrime] using h0123456
+    e1FinitePatternPairProduct,
+    tenMillionEvenFinite23PairFactor,
+    e1FinitePatternPairFactor, e1FinitePrime] using h0123456
 
 private theorem tenMillionFinite23EvenValuation_pair_mod_four
     {N : Nat} {B pivots : Finset Nat}
@@ -266,6 +266,84 @@ private theorem tenMillionFinite23EvenValuation_pair_mod_four
   · have hi8 := fiveMillionValuationPart_evenThree hi
     have hj8 := fiveMillionValuationPart_evenThree hj
     omega
+
+theorem e1FinitePairProduct_gap_of_actual
+    {N bound : Nat} {B pivots : Finset Nat}
+    {valuation : FiveMillionValuationClass}
+    {hcard : pivots.card = 3}
+    (hvaluation : IsGlobalMixedEvenValuationClass valuation)
+    (hpivots : pivots ⊆ fiveMillionValuationPart N B valuation)
+    (roots : E1FinitePivotRootFamily) (pair : Fin 3)
+    (hmodFaithful : ∀ index,
+      roots (tenMillionFinite23PairLeft pair) index =
+          roots (tenMillionFinite23PairRight pair) index →
+        globalMixedThreePivotAt pivots hcard
+              (tenMillionFinite23PairLeft pair) %
+            e1FiniteModulus index =
+          globalMixedThreePivotAt pivots hcard
+              (tenMillionFinite23PairRight pair) %
+            e1FiniteModulus index)
+    (hne :
+      globalMixedThreePivotAt pivots hcard
+          (tenMillionFinite23PairLeft pair) ≠
+        globalMixedThreePivotAt pivots hcard
+          (tenMillionFinite23PairRight pair))
+    (hgap :
+      Nat.dist
+        (globalMixedThreePivotAt pivots hcard
+          (tenMillionFinite23PairLeft pair))
+        (globalMixedThreePivotAt pivots hcard
+          (tenMillionFinite23PairRight pair)) < bound) :
+    4 * tenMillionEvenFinite23PairProduct pair
+        (e1FiniteRootPatternAt roots 0)
+        (e1FiniteRootPatternAt roots 1)
+        (e1FiniteRootPatternAt roots 2)
+        (e1FiniteRootPatternAt roots 3)
+        (e1FiniteRootPatternAt roots 4)
+        (e1FiniteRootPatternAt roots 5)
+        (e1FiniteRootPatternAt roots 6) ^ 2 < bound := by
+  let product := tenMillionEvenFinite23PairProduct pair
+    (e1FiniteRootPatternAt roots 0)
+    (e1FiniteRootPatternAt roots 1)
+    (e1FiniteRootPatternAt roots 2)
+    (e1FiniteRootPatternAt roots 3)
+    (e1FiniteRootPatternAt roots 4)
+    (e1FiniteRootPatternAt roots 5)
+    (e1FiniteRootPatternAt roots 6)
+  let left := globalMixedThreePivotAt pivots hcard
+    (tenMillionFinite23PairLeft pair)
+  let right := globalMixedThreePivotAt pivots hcard
+    (tenMillionFinite23PairRight pair)
+  let distance := Nat.dist left right
+  have hproduct : product ^ 2 ∣ distance := by
+    simpa [product, left, right, distance] using
+      e1FinitePairProduct_square_dvd_dist_of_mod
+        roots pair hmodFaithful
+  have hfour : 4 ∣ distance := by
+    apply tenMillionFinite23Modulus_dvd_dist_of_mod_eq
+    exact tenMillionFinite23EvenValuation_pair_mod_four
+      hvaluation hpivots hcard
+        (tenMillionFinite23PairLeft pair)
+        (tenMillionFinite23PairRight pair)
+  have hodd : Odd product := by
+    simpa [product] using tenMillionFinite23PairProduct_odd roots pair
+  have hcoprimeTwo : Nat.Coprime 2 product :=
+    Nat.coprime_two_left.mpr hodd
+  have hcoprime :
+      Nat.Coprime 4 (product ^ 2) := by
+    simpa using hcoprimeTwo.pow 2 2
+  have hcombined : 4 * product ^ 2 ∣ distance :=
+    hcoprime.mul_dvd_of_dvd_of_dvd hfour hproduct
+  have hdistancePos : 0 < distance := by
+    dsimp [distance, left, right]
+    rcases Nat.lt_or_gt_of_ne hne with hlr | hrl
+    · rw [Nat.dist_eq_sub_of_le hlr.le]
+      omega
+    · rw [Nat.dist_eq_sub_of_le_right hrl.le]
+      omega
+  have hle : 4 * product ^ 2 ≤ distance :=
+    Nat.le_of_dvd hdistancePos hcombined
+  exact lt_of_le_of_lt hle hgap
 
 theorem tenMillionFinite23PairProduct_gap_of_actual_close
     {N baseResidue : Nat} {B pivots : Finset Nat}
@@ -300,50 +378,30 @@ theorem tenMillionFinite23PairProduct_gap_of_actual_close
         (e1FiniteRootPatternAt roots 3)
         (e1FiniteRootPatternAt roots 4)
         (e1FiniteRootPatternAt roots 5)
-        (e1FiniteRootPatternAt roots 6) ^ 2 < 1_000_001 := by
-  let product := tenMillionEvenFinite23PairProduct pair
-    (e1FiniteRootPatternAt roots 0)
-    (e1FiniteRootPatternAt roots 1)
-    (e1FiniteRootPatternAt roots 2)
-    (e1FiniteRootPatternAt roots 3)
-    (e1FiniteRootPatternAt roots 4)
-    (e1FiniteRootPatternAt roots 5)
-    (e1FiniteRootPatternAt roots 6)
-  let left := globalMixedThreePivotAt pivots hcard
-    (tenMillionFinite23PairLeft pair)
-  let right := globalMixedThreePivotAt pivots hcard
-    (tenMillionFinite23PairRight pair)
-  let distance := Nat.dist left right
-  have hproduct : product ^ 2 ∣ distance := by
-    simpa [product, left, right, distance] using
-      tenMillionFinite23PairProduct_square_dvd_dist
-        roots pair hfaithful
-  have hfour : 4 ∣ distance := by
-    apply tenMillionFinite23Modulus_dvd_dist_of_mod_eq
-    exact tenMillionFinite23EvenValuation_pair_mod_four
-      hvaluation hpivots hcard
-        (tenMillionFinite23PairLeft pair)
-        (tenMillionFinite23PairRight pair)
-  have hodd : Odd product := by
-    simpa [product] using tenMillionFinite23PairProduct_odd roots pair
-  have hcoprimeTwo : Nat.Coprime 2 product :=
-    Nat.coprime_two_left.mpr hodd
-  have hcoprime :
-      Nat.Coprime 4 (product ^ 2) := by
-    simpa using hcoprimeTwo.pow 2 2
-  have hcombined : 4 * product ^ 2 ∣ distance :=
-    hcoprime.mul_dvd_of_dvd_of_dvd hfour hproduct
-  have hdistancePos : 0 < distance := by
-    dsimp [distance, left, right]
-    rcases Nat.lt_or_gt_of_ne hne with hlr | hrl
-    · rw [Nat.dist_eq_sub_of_le hlr.le]
-      omega
-    · rw [Nat.dist_eq_sub_of_le_right hrl.le]
-      omega
-  have hle : 4 * product ^ 2 ≤ distance :=
-    Nat.le_of_dvd hdistancePos hcombined
-  exact lt_of_le_of_lt hle hgap
+        (e1FiniteRootPatternAt roots 6) ^ 2 < 1_000_001 :=
+by
+  have hmodFaithful : ∀ index,
+      roots (tenMillionFinite23PairLeft pair) index =
+          roots (tenMillionFinite23PairRight pair) index →
+        globalMixedThreePivotAt pivots hcard
+              (tenMillionFinite23PairLeft pair) %
+            e1FiniteModulus index =
+          globalMixedThreePivotAt pivots hcard
+              (tenMillionFinite23PairRight pair) %
+            e1FiniteModulus index := by
+    intro index hroots
+    obtain ⟨q, hleft, hright⟩ := hfaithful index hroots
+    exact e1FinitePartialRoot_same_implies_pivot_mod
+      (baseResidue := baseResidue)
+      (hleft := by
+        simpa [e1FiniteActualPartialRoots] using hleft)
+      (hright := by
+        simpa [e1FiniteActualPartialRoots] using hright)
+  exact e1FinitePairProduct_gap_of_actual
+    hvaluation hpivots roots pair hmodFaithful hne hgap
 
+#print axioms e1FinitePairProduct_square_dvd_dist_of_mod
+#print axioms e1FinitePairProduct_gap_of_actual
 #print axioms tenMillionFinite23PairProduct_gap_of_actual_close
 
 end Erdos848

@@ -1,0 +1,304 @@
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0000
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0001
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0002
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0003
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0004
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0005
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0006
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0007
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0008
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0009
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0010
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0011
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0012
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0013
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0014
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0015
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0016
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0017
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0018
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0019
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0020
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0021
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0022
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0023
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0024
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0025
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0026
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0027
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0028
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0029
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0030
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0031
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0032
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0033
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0034
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0035
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0036
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0037
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0038
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0039
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0040
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0041
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0042
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0043
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0044
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0045
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0046
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0047
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0048
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0049
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0050
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0051
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0052
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0053
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0054
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0055
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0056
+import Erdos848.GeneratedPaperDiagonalGridTwentyMillion.RowBlock0057
+
+namespace Erdos848.GeneratedPaperDiagonalGridTwentyMillion
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+def gridRows : Fin 232 → PaperDiagonalGridRow :=
+  ![row0000, row0001, row0002, row0003, row0004, row0005, row0006, row0007, row0008, row0009, row0010, row0011, row0012, row0013, row0014, row0015, row0016, row0017, row0018, row0019, row0020, row0021, row0022, row0023, row0024, row0025, row0026, row0027, row0028, row0029, row0030, row0031, row0032, row0033, row0034, row0035, row0036, row0037, row0038, row0039, row0040, row0041, row0042, row0043, row0044, row0045, row0046, row0047, row0048, row0049, row0050, row0051, row0052, row0053, row0054, row0055, row0056, row0057, row0058, row0059, row0060, row0061, row0062, row0063, row0064, row0065, row0066, row0067, row0068, row0069, row0070, row0071, row0072, row0073, row0074, row0075, row0076, row0077, row0078, row0079, row0080, row0081, row0082, row0083, row0084, row0085, row0086, row0087, row0088, row0089, row0090, row0091, row0092, row0093, row0094, row0095, row0096, row0097, row0098, row0099, row0100, row0101, row0102, row0103, row0104, row0105, row0106, row0107, row0108, row0109, row0110, row0111, row0112, row0113, row0114, row0115, row0116, row0117, row0118, row0119, row0120, row0121, row0122, row0123, row0124, row0125, row0126, row0127, row0128, row0129, row0130, row0131, row0132, row0133, row0134, row0135, row0136, row0137, row0138, row0139, row0140, row0141, row0142, row0143, row0144, row0145, row0146, row0147, row0148, row0149, row0150, row0151, row0152, row0153, row0154, row0155, row0156, row0157, row0158, row0159, row0160, row0161, row0162, row0163, row0164, row0165, row0166, row0167, row0168, row0169, row0170, row0171, row0172, row0173, row0174, row0175, row0176, row0177, row0178, row0179, row0180, row0181, row0182, row0183, row0184, row0185, row0186, row0187, row0188, row0189, row0190, row0191, row0192, row0193, row0194, row0195, row0196, row0197, row0198, row0199, row0200, row0201, row0202, row0203, row0204, row0205, row0206, row0207, row0208, row0209, row0210, row0211, row0212, row0213, row0214, row0215, row0216, row0217, row0218, row0219, row0220, row0221, row0222, row0223, row0224, row0225, row0226, row0227, row0228, row0229, row0230, row0231]
+
+theorem gridRowsArithmetic (i : Fin 232) :
+    (gridRows i).rangeValid ∧ (gridRows i).budgetsValid 9999999 := by
+  fin_cases i
+  · exact row0000Arithmetic
+  · exact row0001Arithmetic
+  · exact row0002Arithmetic
+  · exact row0003Arithmetic
+  · exact row0004Arithmetic
+  · exact row0005Arithmetic
+  · exact row0006Arithmetic
+  · exact row0007Arithmetic
+  · exact row0008Arithmetic
+  · exact row0009Arithmetic
+  · exact row0010Arithmetic
+  · exact row0011Arithmetic
+  · exact row0012Arithmetic
+  · exact row0013Arithmetic
+  · exact row0014Arithmetic
+  · exact row0015Arithmetic
+  · exact row0016Arithmetic
+  · exact row0017Arithmetic
+  · exact row0018Arithmetic
+  · exact row0019Arithmetic
+  · exact row0020Arithmetic
+  · exact row0021Arithmetic
+  · exact row0022Arithmetic
+  · exact row0023Arithmetic
+  · exact row0024Arithmetic
+  · exact row0025Arithmetic
+  · exact row0026Arithmetic
+  · exact row0027Arithmetic
+  · exact row0028Arithmetic
+  · exact row0029Arithmetic
+  · exact row0030Arithmetic
+  · exact row0031Arithmetic
+  · exact row0032Arithmetic
+  · exact row0033Arithmetic
+  · exact row0034Arithmetic
+  · exact row0035Arithmetic
+  · exact row0036Arithmetic
+  · exact row0037Arithmetic
+  · exact row0038Arithmetic
+  · exact row0039Arithmetic
+  · exact row0040Arithmetic
+  · exact row0041Arithmetic
+  · exact row0042Arithmetic
+  · exact row0043Arithmetic
+  · exact row0044Arithmetic
+  · exact row0045Arithmetic
+  · exact row0046Arithmetic
+  · exact row0047Arithmetic
+  · exact row0048Arithmetic
+  · exact row0049Arithmetic
+  · exact row0050Arithmetic
+  · exact row0051Arithmetic
+  · exact row0052Arithmetic
+  · exact row0053Arithmetic
+  · exact row0054Arithmetic
+  · exact row0055Arithmetic
+  · exact row0056Arithmetic
+  · exact row0057Arithmetic
+  · exact row0058Arithmetic
+  · exact row0059Arithmetic
+  · exact row0060Arithmetic
+  · exact row0061Arithmetic
+  · exact row0062Arithmetic
+  · exact row0063Arithmetic
+  · exact row0064Arithmetic
+  · exact row0065Arithmetic
+  · exact row0066Arithmetic
+  · exact row0067Arithmetic
+  · exact row0068Arithmetic
+  · exact row0069Arithmetic
+  · exact row0070Arithmetic
+  · exact row0071Arithmetic
+  · exact row0072Arithmetic
+  · exact row0073Arithmetic
+  · exact row0074Arithmetic
+  · exact row0075Arithmetic
+  · exact row0076Arithmetic
+  · exact row0077Arithmetic
+  · exact row0078Arithmetic
+  · exact row0079Arithmetic
+  · exact row0080Arithmetic
+  · exact row0081Arithmetic
+  · exact row0082Arithmetic
+  · exact row0083Arithmetic
+  · exact row0084Arithmetic
+  · exact row0085Arithmetic
+  · exact row0086Arithmetic
+  · exact row0087Arithmetic
+  · exact row0088Arithmetic
+  · exact row0089Arithmetic
+  · exact row0090Arithmetic
+  · exact row0091Arithmetic
+  · exact row0092Arithmetic
+  · exact row0093Arithmetic
+  · exact row0094Arithmetic
+  · exact row0095Arithmetic
+  · exact row0096Arithmetic
+  · exact row0097Arithmetic
+  · exact row0098Arithmetic
+  · exact row0099Arithmetic
+  · exact row0100Arithmetic
+  · exact row0101Arithmetic
+  · exact row0102Arithmetic
+  · exact row0103Arithmetic
+  · exact row0104Arithmetic
+  · exact row0105Arithmetic
+  · exact row0106Arithmetic
+  · exact row0107Arithmetic
+  · exact row0108Arithmetic
+  · exact row0109Arithmetic
+  · exact row0110Arithmetic
+  · exact row0111Arithmetic
+  · exact row0112Arithmetic
+  · exact row0113Arithmetic
+  · exact row0114Arithmetic
+  · exact row0115Arithmetic
+  · exact row0116Arithmetic
+  · exact row0117Arithmetic
+  · exact row0118Arithmetic
+  · exact row0119Arithmetic
+  · exact row0120Arithmetic
+  · exact row0121Arithmetic
+  · exact row0122Arithmetic
+  · exact row0123Arithmetic
+  · exact row0124Arithmetic
+  · exact row0125Arithmetic
+  · exact row0126Arithmetic
+  · exact row0127Arithmetic
+  · exact row0128Arithmetic
+  · exact row0129Arithmetic
+  · exact row0130Arithmetic
+  · exact row0131Arithmetic
+  · exact row0132Arithmetic
+  · exact row0133Arithmetic
+  · exact row0134Arithmetic
+  · exact row0135Arithmetic
+  · exact row0136Arithmetic
+  · exact row0137Arithmetic
+  · exact row0138Arithmetic
+  · exact row0139Arithmetic
+  · exact row0140Arithmetic
+  · exact row0141Arithmetic
+  · exact row0142Arithmetic
+  · exact row0143Arithmetic
+  · exact row0144Arithmetic
+  · exact row0145Arithmetic
+  · exact row0146Arithmetic
+  · exact row0147Arithmetic
+  · exact row0148Arithmetic
+  · exact row0149Arithmetic
+  · exact row0150Arithmetic
+  · exact row0151Arithmetic
+  · exact row0152Arithmetic
+  · exact row0153Arithmetic
+  · exact row0154Arithmetic
+  · exact row0155Arithmetic
+  · exact row0156Arithmetic
+  · exact row0157Arithmetic
+  · exact row0158Arithmetic
+  · exact row0159Arithmetic
+  · exact row0160Arithmetic
+  · exact row0161Arithmetic
+  · exact row0162Arithmetic
+  · exact row0163Arithmetic
+  · exact row0164Arithmetic
+  · exact row0165Arithmetic
+  · exact row0166Arithmetic
+  · exact row0167Arithmetic
+  · exact row0168Arithmetic
+  · exact row0169Arithmetic
+  · exact row0170Arithmetic
+  · exact row0171Arithmetic
+  · exact row0172Arithmetic
+  · exact row0173Arithmetic
+  · exact row0174Arithmetic
+  · exact row0175Arithmetic
+  · exact row0176Arithmetic
+  · exact row0177Arithmetic
+  · exact row0178Arithmetic
+  · exact row0179Arithmetic
+  · exact row0180Arithmetic
+  · exact row0181Arithmetic
+  · exact row0182Arithmetic
+  · exact row0183Arithmetic
+  · exact row0184Arithmetic
+  · exact row0185Arithmetic
+  · exact row0186Arithmetic
+  · exact row0187Arithmetic
+  · exact row0188Arithmetic
+  · exact row0189Arithmetic
+  · exact row0190Arithmetic
+  · exact row0191Arithmetic
+  · exact row0192Arithmetic
+  · exact row0193Arithmetic
+  · exact row0194Arithmetic
+  · exact row0195Arithmetic
+  · exact row0196Arithmetic
+  · exact row0197Arithmetic
+  · exact row0198Arithmetic
+  · exact row0199Arithmetic
+  · exact row0200Arithmetic
+  · exact row0201Arithmetic
+  · exact row0202Arithmetic
+  · exact row0203Arithmetic
+  · exact row0204Arithmetic
+  · exact row0205Arithmetic
+  · exact row0206Arithmetic
+  · exact row0207Arithmetic
+  · exact row0208Arithmetic
+  · exact row0209Arithmetic
+  · exact row0210Arithmetic
+  · exact row0211Arithmetic
+  · exact row0212Arithmetic
+  · exact row0213Arithmetic
+  · exact row0214Arithmetic
+  · exact row0215Arithmetic
+  · exact row0216Arithmetic
+  · exact row0217Arithmetic
+  · exact row0218Arithmetic
+  · exact row0219Arithmetic
+  · exact row0220Arithmetic
+  · exact row0221Arithmetic
+  · exact row0222Arithmetic
+  · exact row0223Arithmetic
+  · exact row0224Arithmetic
+  · exact row0225Arithmetic
+  · exact row0226Arithmetic
+  · exact row0227Arithmetic
+  · exact row0228Arithmetic
+  · exact row0229Arithmetic
+  · exact row0230Arithmetic
+  · exact row0231Arithmetic
+
+end Erdos848.GeneratedPaperDiagonalGridTwentyMillion

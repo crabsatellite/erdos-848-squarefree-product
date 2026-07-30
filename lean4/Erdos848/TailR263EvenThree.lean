@@ -1,5 +1,10 @@
 import Erdos848.ScratchE3ActualPayment
 import Erdos848.TailR263EvenThreeTail19
+import Erdos848.TailFiveMillionResidualCore
+import Erdos848.TailTenMillionCombinatorics
+import Erdos848.TailR263DiagonalChecker
+import Erdos848.TailFiveMillionR263Terminal
+import Erdos848.TailR263EvenTwoOneCell
 
 namespace Erdos848
 

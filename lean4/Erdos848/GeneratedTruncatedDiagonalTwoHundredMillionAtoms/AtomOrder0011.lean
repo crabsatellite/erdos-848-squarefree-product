@@ -1,0 +1,20 @@
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0099
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0100
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0101
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0102
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0103
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0104
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0105
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0106
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.OrderBlock0107
+
+namespace Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+theorem evenTwoMarker2Ordered : evenTwoMarker2.AdjacentOrdered := by
+  apply IndexedMarkerData.adjacentOrdered_of_range (comparisonCount := 69899) (by decide)
+  exact (IndexedMarkerData.adjacentRangeAppend ((IndexedMarkerData.adjacentRangeAppend ((IndexedMarkerData.adjacentRangeAppend (orderBlock0099) (orderBlock0100))) ((IndexedMarkerData.adjacentRangeAppend (orderBlock0101) (orderBlock0102))))) ((IndexedMarkerData.adjacentRangeAppend ((IndexedMarkerData.adjacentRangeAppend (orderBlock0103) (orderBlock0104))) ((IndexedMarkerData.adjacentRangeAppend (orderBlock0105) ((IndexedMarkerData.adjacentRangeAppend (orderBlock0106) (orderBlock0107))))))))
+
+end Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms

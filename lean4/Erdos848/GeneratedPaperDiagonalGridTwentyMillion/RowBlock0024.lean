@@ -1,5 +1,4 @@
-import Erdos848.GeneratedTruncatedDiagonalTwentyMillionAtoms.TargetData
-import Erdos848.TailPaperDiagonalGridChecker
+import Erdos848.TailPaperDiagonalGridAggregation
 
 namespace Erdos848.GeneratedPaperDiagonalGridTwentyMillion
 
@@ -19,12 +18,9 @@ def row0096 : PaperDiagonalGridRow :=
     upper := 13371875
     counts := counts0096 }
 
-theorem row0096Check :
-    row0096.check Erdos848.GeneratedTruncatedDiagonalTwentyMillionAtoms.atomTargets 9999999 = true := by decide
-
-def certifiedRow0096 :
-    CertifiedPaperDiagonalGridRow Erdos848.GeneratedTruncatedDiagonalTwentyMillionAtoms.atomTargets 9999999 :=
-  ⟨row0096, row0096Check⟩
+theorem row0096Arithmetic :
+    row0096.rangeValid ∧ row0096.budgetsValid 9999999 := by
+  decide
 
 def counts0097 : TruncatedDiagonalAtomCounts :=
   { divisibleByEight := ![4679, 4685, 4700, 4696, 4683, 4686, 4698, 4677, 4669]
@@ -39,12 +35,9 @@ def row0097 : PaperDiagonalGridRow :=
     upper := 13411991
     counts := counts0097 }
 
-theorem row0097Check :
-    row0097.check Erdos848.GeneratedTruncatedDiagonalTwentyMillionAtoms.atomTargets 9999999 = true := by decide
-
-def certifiedRow0097 :
-    CertifiedPaperDiagonalGridRow Erdos848.GeneratedTruncatedDiagonalTwentyMillionAtoms.atomTargets 9999999 :=
-  ⟨row0097, row0097Check⟩
+theorem row0097Arithmetic :
+    row0097.rangeValid ∧ row0097.budgetsValid 9999999 := by
+  decide
 
 def counts0098 : TruncatedDiagonalAtomCounts :=
   { divisibleByEight := ![4690, 4696, 4716, 4709, 4700, 4702, 4711, 4692, 4680]
@@ -59,12 +52,9 @@ def row0098 : PaperDiagonalGridRow :=
     upper := 13452227
     counts := counts0098 }
 
-theorem row0098Check :
-    row0098.check Erdos848.GeneratedTruncatedDiagonalTwentyMillionAtoms.atomTargets 9999999 = true := by decide
-
-def certifiedRow0098 :
-    CertifiedPaperDiagonalGridRow Erdos848.GeneratedTruncatedDiagonalTwentyMillionAtoms.atomTargets 9999999 :=
-  ⟨row0098, row0098Check⟩
+theorem row0098Arithmetic :
+    row0098.rangeValid ∧ row0098.budgetsValid 9999999 := by
+  decide
 
 def counts0099 : TruncatedDiagonalAtomCounts :=
   { divisibleByEight := ![4705, 4709, 4731, 4723, 4715, 4714, 4723, 4708, 4694]
@@ -79,11 +69,8 @@ def row0099 : PaperDiagonalGridRow :=
     upper := 13492584
     counts := counts0099 }
 
-theorem row0099Check :
-    row0099.check Erdos848.GeneratedTruncatedDiagonalTwentyMillionAtoms.atomTargets 9999999 = true := by decide
-
-def certifiedRow0099 :
-    CertifiedPaperDiagonalGridRow Erdos848.GeneratedTruncatedDiagonalTwentyMillionAtoms.atomTargets 9999999 :=
-  ⟨row0099, row0099Check⟩
+theorem row0099Arithmetic :
+    row0099.rangeValid ∧ row0099.budgetsValid 9999999 := by
+  decide
 
 end Erdos848.GeneratedPaperDiagonalGridTwentyMillion

@@ -402,6 +402,33 @@ def close_job(job_handle: int | None) -> None:
     kernel32.CloseHandle(wintypes.HANDLE(job_handle))
 
 
+def trim_process_working_set(process: psutil.Process) -> bool:
+    """Ask Windows to evict unused resident pages from a tracked process."""
+
+    if sys.platform != "win32":
+        return False
+    from ctypes import wintypes
+
+    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    psapi = ctypes.WinDLL("psapi", use_last_error=True)
+    kernel32.OpenProcess.argtypes = [
+        wintypes.DWORD, wintypes.BOOL, wintypes.DWORD,
+    ]
+    kernel32.OpenProcess.restype = wintypes.HANDLE
+    kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+    kernel32.CloseHandle.restype = wintypes.BOOL
+    psapi.EmptyWorkingSet.argtypes = [wintypes.HANDLE]
+    psapi.EmptyWorkingSet.restype = wintypes.BOOL
+    # PROCESS_SET_QUOTA | PROCESS_QUERY_INFORMATION
+    handle = kernel32.OpenProcess(0x0100 | 0x0400, False, process.pid)
+    if not handle:
+        return False
+    try:
+        return bool(psapi.EmptyWorkingSet(handle))
+    finally:
+        kernel32.CloseHandle(handle)
+
+
 def process_tree(process: subprocess.Popen[str]) -> list[psutil.Process]:
     with contextlib.suppress(psutil.Error):
         root = psutil.Process(process.pid)
@@ -461,6 +488,10 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("source", type=Path)
     parser.add_argument("--memory-mb", type=int, default=6144)
+    parser.add_argument("--lean-memory-mb", type=int)
+    parser.add_argument("--trim-working-set-at-mb", type=int)
+    parser.add_argument("--threads", type=int, default=1)
+    parser.add_argument("--direct-lean", action="store_true")
     parser.add_argument("--timeout-seconds", type=float, default=1200.0)
     parser.add_argument("--monitor-seconds", type=float, default=15.0)
     parser.add_argument("--reserve-memory-mb", type=int, default=1024)
@@ -470,6 +501,17 @@ def main() -> None:
     args = parser.parse_args()
     if args.memory_mb < 1024:
         raise SystemExit("--memory-mb must be at least 1024")
+    if args.lean_memory_mb is not None and args.lean_memory_mb < 1024:
+        raise SystemExit("--lean-memory-mb must be at least 1024")
+    if (
+        args.trim_working_set_at_mb is not None
+        and not 1024 <= args.trim_working_set_at_mb < args.memory_mb
+    ):
+        raise SystemExit(
+            "--trim-working-set-at-mb must be at least 1024 and below --memory-mb"
+        )
+    if args.threads < 1:
+        raise SystemExit("--threads must be positive")
     if args.timeout_seconds <= 0:
         raise SystemExit("--timeout-seconds must be positive")
     if args.reserve_memory_mb < 0:
@@ -530,9 +572,51 @@ def main() -> None:
         raise SystemExit("could not establish a clean repository process tree")
     reap_stale_temporary_oleans("PRE")
 
-    command = [
-        "lake", "env", "lean", "--trust=0", "-M", str(args.memory_mb),
-    ]
+    command_env = None
+    lean_memory_mb = args.lean_memory_mb or args.memory_mb
+    if args.direct_lean:
+        if sys.platform != "win32":
+            raise SystemExit("--direct-lean is currently implemented for Windows")
+        lake_environment = subprocess.run(
+            [
+                "lake", "env", "powershell", "-NoProfile", "-Command",
+                "[Console]::Write($env:LEAN_PATH)",
+            ],
+            cwd=LEAN_ROOT,
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+        command_env = os.environ.copy()
+        lean_path = lake_environment.stdout.strip()
+        if not lean_path:
+            raise SystemExit("lake did not provide LEAN_PATH")
+        command_env["LEAN_PATH"] = lean_path
+        lean_executable = subprocess.run(
+            ["elan", "which", "lean"],
+            cwd=LEAN_ROOT,
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        ).stdout.strip()
+        if not lean_executable:
+            raise SystemExit("elan did not resolve the active Lean executable")
+        command = [
+            lean_executable, "--trust=0", "-M", str(lean_memory_mb),
+            "-j", str(args.threads),
+        ]
+        print(f"LEAN_LAUNCH=direct path:{lean_executable}", flush=True)
+    else:
+        command = [
+            "lake", "env", "lean", "--trust=0", "-M", str(lean_memory_mb),
+            "-j", str(args.threads),
+        ]
     output: Path | None = None
     temporary_output: Path | None = None
     if not args.no_olean:
@@ -553,6 +637,7 @@ def main() -> None:
         text=True,
         encoding="utf-8",
         errors="replace",
+        env=command_env,
     )
     job_handle = create_kill_on_close_job(process)
     print(
@@ -578,12 +663,15 @@ def main() -> None:
     stderr_thread.start()
     tracked: dict[tuple[int, float], psutil.Process] = {}
     peak_bytes = 0
+    raw_peak_bytes = 0
     limit_bytes = args.memory_mb * (1 << 20)
     next_report = time.monotonic() + args.monitor_seconds
     deadline = time.monotonic() + args.timeout_seconds
     breached = False
     timed_out = False
     detached_reaped = 0
+    working_set_trims = 0
+    next_working_set_trim = time.monotonic()
     next_repo_scan = time.monotonic()
     try:
         while process.poll() is None:
@@ -600,6 +688,31 @@ def main() -> None:
                 with contextlib.suppress(psutil.Error):
                     if item.is_running():
                         rss_bytes += item.memory_info().rss
+            raw_peak_bytes = max(raw_peak_bytes, rss_bytes)
+            trim_threshold = args.trim_working_set_at_mb
+            if (
+                trim_threshold is not None
+                and rss_bytes > trim_threshold * (1 << 20)
+                and now >= next_working_set_trim
+            ):
+                trimmed = sum(
+                    1 for item in tracked.values()
+                    if trim_process_working_set(item)
+                )
+                if trimmed:
+                    working_set_trims += trimmed
+                    time.sleep(0.05)
+                    rss_bytes = 0
+                    for item in tracked.values():
+                        with contextlib.suppress(psutil.Error):
+                            if item.is_running():
+                                rss_bytes += item.memory_info().rss
+                    print(
+                        f"WORKING_SET_TRIM processes:{trimmed} "
+                        f"post_mib:{rss_bytes / (1 << 20):.1f}",
+                        flush=True,
+                    )
+                next_working_set_trim = now + 1.0
             peak_bytes = max(peak_bytes, rss_bytes)
             if now >= next_report:
                 print(
@@ -625,7 +738,7 @@ def main() -> None:
                 )
                 stop_and_reap(list(tracked.values()))
                 break
-            time.sleep(0.5)
+            time.sleep(0.25 if args.trim_working_set_at_mb is not None else 0.5)
     except BaseException:
         close_job(job_handle)
         job_handle = None
@@ -686,6 +799,9 @@ def main() -> None:
     print(
         f"EXIT={returncode} PEAK_TREE_MB="
         f"{(peak_bytes + (1 << 20) - 1) // (1 << 20)} "
+        f"RAW_PEAK_TREE_MB="
+        f"{(raw_peak_bytes + (1 << 20) - 1) // (1 << 20)} "
+        f"WORKING_SET_TRIMS={working_set_trims} "
         f"DETACHED_REAPED={detached_reaped}",
         flush=True,
     )

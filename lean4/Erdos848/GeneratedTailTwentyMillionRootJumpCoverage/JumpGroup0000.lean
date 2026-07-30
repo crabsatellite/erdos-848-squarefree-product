@@ -1,18 +1,24 @@
 import Erdos848.TailPrimeRankBoundaryChecker
+import Erdos848.TailTwentyMillionRootProfileChecker
 import Erdos848.GeneratedTailTwentyMillionRootJumpCoverage.BoundaryCertificate
-import Erdos848.GeneratedTailTwentyMillionRootJumpCoverage.JumpBlock0028
-import Erdos848.GeneratedTailTwentyMillionRootJumpCoverage.JumpBlock0029
-import Erdos848.GeneratedTailTwentyMillionRootJumpCoverage.JumpBlock0030
-import Erdos848.GeneratedTailTwentyMillionRootJumpCoverage.JumpBlock0031
-import Erdos848.GeneratedTailTwentyMillionRootJumpCoverage.JumpBlock0032
-import Erdos848.GeneratedTailTwentyMillionRootJumpCoverage.JumpBlock0033
-import Erdos848.GeneratedTailTwentyMillionRootJumpCoverage.JumpBlock0034
-import Erdos848.GeneratedTailTwentyMillionRootJumpCoverage.JumpBlock0035
+import Erdos848.GeneratedTwentyMillionPrimeIntervalCoverage.Block0028
+import Erdos848.GeneratedTwentyMillionPrimeIntervalCoverage.Block0029
+import Erdos848.GeneratedTwentyMillionPrimeIntervalCoverage.Block0030
+import Erdos848.GeneratedTwentyMillionPrimeIntervalCoverage.Block0031
+import Erdos848.GeneratedTwentyMillionPrimeIntervalCoverage.Block0032
+import Erdos848.GeneratedTwentyMillionPrimeIntervalCoverage.Block0033
+import Erdos848.GeneratedTwentyMillionPrimeIntervalCoverage.Block0034
+import Erdos848.GeneratedTwentyMillionPrimeIntervalCoverage.Block0035
 
 namespace Erdos848.GeneratedTailTwentyMillionRootJumpCoverage
 
 set_option maxRecDepth 1000000
 set_option maxHeartbeats 0
+
+theorem rootJumpBlock0028_passes :
+    Erdos848.GeneratedTwentyMillionPrimeIntervalCoverage.blockTree0028.allPrimeRanks 22943
+      Erdos848.twentyMillionRootPrimeJumpPasses = true := by
+  with_unfolding_all decide
 
 theorem rootJumpBlock0028_sound
     (p : Nat) (hp : Nat.Prime p)
@@ -40,6 +46,11 @@ theorem rootJumpBlock0028_sound
   rw [hcount]
   exact hpassLocal
 
+theorem rootJumpBlock0029_passes :
+    Erdos848.GeneratedTwentyMillionPrimeIntervalCoverage.blockTree0029.allPrimeRanks 23105
+      Erdos848.twentyMillionRootPrimeJumpPasses = true := by
+  with_unfolding_all decide
+
 theorem rootJumpBlock0029_sound
     (p : Nat) (hp : Nat.Prime p)
     (hblockLower : 263474 ≤ p)
@@ -65,6 +76,11 @@ theorem rootJumpBlock0029_sound
     (hLower := hLower) (hUpper := hUpper)
   rw [hcount]
   exact hpassLocal
+
+theorem rootJumpBlock0030_passes :
+    Erdos848.GeneratedTwentyMillionPrimeIntervalCoverage.blockTree0030.allPrimeRanks 23272
+      Erdos848.twentyMillionRootPrimeJumpPasses = true := by
+  with_unfolding_all decide
 
 theorem rootJumpBlock0030_sound
     (p : Nat) (hp : Nat.Prime p)
@@ -92,6 +108,11 @@ theorem rootJumpBlock0030_sound
   rw [hcount]
   exact hpassLocal
 
+theorem rootJumpBlock0031_passes :
+    Erdos848.GeneratedTwentyMillionPrimeIntervalCoverage.blockTree0031.allPrimeRanks 23445
+      Erdos848.twentyMillionRootPrimeJumpPasses = true := by
+  with_unfolding_all decide
+
 theorem rootJumpBlock0031_sound
     (p : Nat) (hp : Nat.Prime p)
     (hblockLower : 267570 ≤ p)
@@ -117,6 +138,11 @@ theorem rootJumpBlock0031_sound
     (hLower := hLower) (hUpper := hUpper)
   rw [hcount]
   exact hpassLocal
+
+theorem rootJumpBlock0032_passes :
+    Erdos848.GeneratedTwentyMillionPrimeIntervalCoverage.blockTree0032.allPrimeRanks 23616
+      Erdos848.twentyMillionRootPrimeJumpPasses = true := by
+  with_unfolding_all decide
 
 theorem rootJumpBlock0032_sound
     (p : Nat) (hp : Nat.Prime p)
@@ -144,6 +170,11 @@ theorem rootJumpBlock0032_sound
   rw [hcount]
   exact hpassLocal
 
+theorem rootJumpBlock0033_passes :
+    Erdos848.GeneratedTwentyMillionPrimeIntervalCoverage.blockTree0033.allPrimeRanks 23779
+      Erdos848.twentyMillionRootPrimeJumpPasses = true := by
+  with_unfolding_all decide
+
 theorem rootJumpBlock0033_sound
     (p : Nat) (hp : Nat.Prime p)
     (hblockLower : 271666 ≤ p)
@@ -170,6 +201,11 @@ theorem rootJumpBlock0033_sound
   rw [hcount]
   exact hpassLocal
 
+theorem rootJumpBlock0034_passes :
+    Erdos848.GeneratedTwentyMillionPrimeIntervalCoverage.blockTree0034.allPrimeRanks 23936
+      Erdos848.twentyMillionRootPrimeJumpPasses = true := by
+  with_unfolding_all decide
+
 theorem rootJumpBlock0034_sound
     (p : Nat) (hp : Nat.Prime p)
     (hblockLower : 273714 ≤ p)
@@ -195,6 +231,11 @@ theorem rootJumpBlock0034_sound
     (hLower := hLower) (hUpper := hUpper)
   rw [hcount]
   exact hpassLocal
+
+theorem rootJumpBlock0035_passes :
+    Erdos848.GeneratedTwentyMillionPrimeIntervalCoverage.blockTree0035.allPrimeRanks 24101
+      Erdos848.twentyMillionRootPrimeJumpPasses = true := by
+  with_unfolding_all decide
 
 theorem rootJumpBlock0035_sound
     (p : Nat) (hp : Nat.Prime p)

@@ -1,3 +1,4 @@
+import Erdos848.GeneratedTailGlobalMixedEvenTerminalCoverage.EvenK5CoverageCertificate
 import Erdos848.GeneratedTailGlobalMixedSupportCoverage.K5PrefixGroup0000Sound
 import Erdos848.GeneratedTailGlobalMixedSupportCoverage.K5PrefixGroup0001Sound
 import Erdos848.GeneratedTailGlobalMixedSupportCoverage.K5PrefixGroup0002Sound
@@ -178,7 +179,12 @@ def k5StandardCertifiedPrefixes : List (List ℕ) :=
 theorem k5StandardCertifiedPrefixes_eq :
     k5StandardCertifiedPrefixes =
       Erdos848.globalMixedFeasiblePrefixesKernel 5 := by
-  rfl
+  calc
+    k5StandardCertifiedPrefixes =
+        Erdos848.GeneratedTailGlobalMixedEvenTerminalCoverage.evenK5CertifiedPrefixes := by
+      rfl
+    _ = Erdos848.globalMixedFeasiblePrefixesKernel 5 :=
+      Erdos848.GeneratedTailGlobalMixedEvenTerminalCoverage.evenK5CertifiedPrefixes_eq
 
 theorem k5PrefixGroup0000_standard_all :
     (k5PrefixGroup0000.map Prod.fst).all

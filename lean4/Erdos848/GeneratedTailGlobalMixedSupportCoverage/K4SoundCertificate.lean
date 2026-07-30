@@ -1,3 +1,4 @@
+import Erdos848.GeneratedTailGlobalMixedEvenTerminalCoverage.EvenK4CoverageCertificate
 import Erdos848.GeneratedTailGlobalMixedSupportCoverage.K4PrefixGroup0000Sound
 import Erdos848.GeneratedTailGlobalMixedSupportCoverage.K4PrefixGroup0001Sound
 import Erdos848.GeneratedTailGlobalMixedSupportCoverage.K4PrefixGroup0002Sound
@@ -162,7 +163,12 @@ def k4StandardCertifiedPrefixes : List (List ℕ) :=
 theorem k4StandardCertifiedPrefixes_eq :
     k4StandardCertifiedPrefixes =
       Erdos848.globalMixedFeasiblePrefixesKernel 4 := by
-  rfl
+  calc
+    k4StandardCertifiedPrefixes =
+        Erdos848.GeneratedTailGlobalMixedEvenTerminalCoverage.evenK4CertifiedPrefixes := by
+      rfl
+    _ = Erdos848.globalMixedFeasiblePrefixesKernel 4 :=
+      Erdos848.GeneratedTailGlobalMixedEvenTerminalCoverage.evenK4CertifiedPrefixes_eq
 
 theorem k4PrefixGroup0000_standard_all :
     (k4PrefixGroup0000.map Prod.fst).all

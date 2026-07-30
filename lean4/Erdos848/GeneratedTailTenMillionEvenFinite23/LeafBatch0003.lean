@@ -1,0 +1,28 @@
+import Erdos848.TailTenMillionEvenFinite23Checker
+
+namespace Erdos848.GeneratedTailTenMillionEvenFinite23
+
+set_option maxHeartbeats 0
+set_option maxRecDepth 1000000
+
+theorem block_p3_firstSecond_p7_firstThird_p11_firstThird :
+    Erdos848.tenMillionEvenFinite23BlockPasses
+      .firstSecond .firstThird .firstThird = true := by
+  decide
+
+theorem block_p3_firstSecond_p7_firstThird_p11_secondThird :
+    Erdos848.tenMillionEvenFinite23BlockPasses
+      .firstSecond .firstThird .secondThird = true := by
+  decide
+
+theorem block_p3_firstSecond_p7_firstThird_p11_allDistinct :
+    Erdos848.tenMillionEvenFinite23BlockPasses
+      .firstSecond .firstThird .allDistinct = true := by
+  decide
+
+theorem block_p3_firstSecond_p7_secondThird_p11_allEqual :
+    Erdos848.tenMillionEvenFinite23BlockPasses
+      .firstSecond .secondThird .allEqual = true := by
+  decide
+
+end Erdos848.GeneratedTailTenMillionEvenFinite23

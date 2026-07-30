@@ -1,30 +1,419 @@
-import Erdos848.GeneratedFiveMillionPrefixTrace.OppositeBlockPart0_0092
-import Erdos848.GeneratedFiveMillionPrefixTrace.OppositeBlockPart1_0092
+import Erdos848.GeneratedFiveMillionPrefixTrace.AnchorData
+import Erdos848.LowRangePrefixTraceChecker
+import Erdos848.GeneratedFiveMillionPrefixTrace.OppositeDataChunk0092
+import Erdos848.GeneratedFiveMillionPrefixTrace.OppositeDataChunk0093
+import Erdos848.GeneratedFiveMillionPrefixTrace.OppositeDataChunk0094
+import Erdos848.GeneratedFiveMillionPrefixTrace.OppositeDataChunk0095
 
 namespace Erdos848.GeneratedFiveMillionPrefixTrace
 
 set_option maxRecDepth 1000000
 set_option maxHeartbeats 0
 
+/-! kernel proof group: 0092, 0093, 0094, 0095 -/
+
+def oppositeAggregatePartValid0_0092 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ (.node _ (.node _ part _) _) _) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 94208
+  | _ => True
+
+theorem oppositeAggregatePart0_0092 :
+    oppositeAggregatePartValid0_0092 oppositeHistoryChunk0092 := by
+  unfold oppositeAggregatePartValid0_0092 oppositeHistoryChunk0092
+  decide
+
+def oppositeAggregatePartValid1_0092 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ (.node _ (.node _ _ part) _) _) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 94336
+  | _ => True
+
+theorem oppositeAggregatePart1_0092 :
+    oppositeAggregatePartValid1_0092 oppositeHistoryChunk0092 := by
+  unfold oppositeAggregatePartValid1_0092 oppositeHistoryChunk0092
+  decide
+
+def oppositeAggregatePartValid2_0092 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ (.node _ _ (.node _ part _)) _) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 94464
+  | _ => True
+
+theorem oppositeAggregatePart2_0092 :
+    oppositeAggregatePartValid2_0092 oppositeHistoryChunk0092 := by
+  unfold oppositeAggregatePartValid2_0092 oppositeHistoryChunk0092
+  decide
+
+def oppositeAggregatePartValid3_0092 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ (.node _ _ (.node _ _ part)) _) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 94592
+  | _ => True
+
+theorem oppositeAggregatePart3_0092 :
+    oppositeAggregatePartValid3_0092 oppositeHistoryChunk0092 := by
+  unfold oppositeAggregatePartValid3_0092 oppositeHistoryChunk0092
+  decide
+
+def oppositeAggregatePartValid4_0092 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ _ (.node _ (.node _ part _) _)) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 94720
+  | _ => True
+
+theorem oppositeAggregatePart4_0092 :
+    oppositeAggregatePartValid4_0092 oppositeHistoryChunk0092 := by
+  unfold oppositeAggregatePartValid4_0092 oppositeHistoryChunk0092
+  decide
+
+def oppositeAggregatePartValid5_0092 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ _ (.node _ (.node _ _ part) _)) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 94848
+  | _ => True
+
+theorem oppositeAggregatePart5_0092 :
+    oppositeAggregatePartValid5_0092 oppositeHistoryChunk0092 := by
+  unfold oppositeAggregatePartValid5_0092 oppositeHistoryChunk0092
+  decide
+
+def oppositeAggregatePartValid6_0092 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ _ (.node _ _ (.node _ part _))) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 94976
+  | _ => True
+
+theorem oppositeAggregatePart6_0092 :
+    oppositeAggregatePartValid6_0092 oppositeHistoryChunk0092 := by
+  unfold oppositeAggregatePartValid6_0092 oppositeHistoryChunk0092
+  decide
+
+def oppositeAggregatePartValid7_0092 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ _ (.node _ _ (.node _ _ part))) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 95104
+  | _ => True
+
+theorem oppositeAggregatePart7_0092 :
+    oppositeAggregatePartValid7_0092 oppositeHistoryChunk0092 := by
+  unfold oppositeAggregatePartValid7_0092 oppositeHistoryChunk0092
+  decide
+
 theorem oppositeRange_0092 :
     oppositeHistoryChunk0092.ResidueIndexedValid anchorHistories 5000000 18 25 94208 := by
-  have h0 := oppositePart0_0092
-  simp only [oppositePartValid0_0092, oppositeHistoryChunk0092] at h0
-  have h1 := oppositePart1_0092
-  simp only [oppositePartValid1_0092, oppositeHistoryChunk0092] at h1
-  have h2 := oppositePart2_0092
-  simp only [oppositePartValid2_0092, oppositeHistoryChunk0092] at h2
-  have h3 := oppositePart3_0092
-  simp only [oppositePartValid3_0092, oppositeHistoryChunk0092] at h3
-  have h4 := oppositePart4_0092
-  simp only [oppositePartValid4_0092, oppositeHistoryChunk0092] at h4
-  have h5 := oppositePart5_0092
-  simp only [oppositePartValid5_0092, oppositeHistoryChunk0092] at h5
-  have h6 := oppositePart6_0092
-  simp only [oppositePartValid6_0092, oppositeHistoryChunk0092] at h6
-  have h7 := oppositePart7_0092
-  simp only [oppositePartValid7_0092, oppositeHistoryChunk0092] at h7
+  have h0 := oppositeAggregatePart0_0092
+  simp only [oppositeAggregatePartValid0_0092, oppositeHistoryChunk0092] at h0
+  have h1 := oppositeAggregatePart1_0092
+  simp only [oppositeAggregatePartValid1_0092, oppositeHistoryChunk0092] at h1
+  have h2 := oppositeAggregatePart2_0092
+  simp only [oppositeAggregatePartValid2_0092, oppositeHistoryChunk0092] at h2
+  have h3 := oppositeAggregatePart3_0092
+  simp only [oppositeAggregatePartValid3_0092, oppositeHistoryChunk0092] at h3
+  have h4 := oppositeAggregatePart4_0092
+  simp only [oppositeAggregatePartValid4_0092, oppositeHistoryChunk0092] at h4
+  have h5 := oppositeAggregatePart5_0092
+  simp only [oppositeAggregatePartValid5_0092, oppositeHistoryChunk0092] at h5
+  have h6 := oppositeAggregatePart6_0092
+  simp only [oppositeAggregatePartValid6_0092, oppositeHistoryChunk0092] at h6
+  have h7 := oppositeAggregatePart7_0092
+  simp only [oppositeAggregatePartValid7_0092, oppositeHistoryChunk0092] at h7
   unfold oppositeHistoryChunk0092
+  exact ⟨rfl, ⟨rfl, ⟨rfl, h0, h1⟩, ⟨rfl, h2, h3⟩⟩, ⟨rfl, ⟨rfl, h4, h5⟩, ⟨rfl, h6, h7⟩⟩⟩
+
+def oppositeAggregatePartValid0_0093 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ (.node _ (.node _ part _) _) _) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 95232
+  | _ => True
+
+theorem oppositeAggregatePart0_0093 :
+    oppositeAggregatePartValid0_0093 oppositeHistoryChunk0093 := by
+  unfold oppositeAggregatePartValid0_0093 oppositeHistoryChunk0093
+  decide
+
+def oppositeAggregatePartValid1_0093 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ (.node _ (.node _ _ part) _) _) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 95360
+  | _ => True
+
+theorem oppositeAggregatePart1_0093 :
+    oppositeAggregatePartValid1_0093 oppositeHistoryChunk0093 := by
+  unfold oppositeAggregatePartValid1_0093 oppositeHistoryChunk0093
+  decide
+
+def oppositeAggregatePartValid2_0093 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ (.node _ _ (.node _ part _)) _) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 95488
+  | _ => True
+
+theorem oppositeAggregatePart2_0093 :
+    oppositeAggregatePartValid2_0093 oppositeHistoryChunk0093 := by
+  unfold oppositeAggregatePartValid2_0093 oppositeHistoryChunk0093
+  decide
+
+def oppositeAggregatePartValid3_0093 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ (.node _ _ (.node _ _ part)) _) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 95616
+  | _ => True
+
+theorem oppositeAggregatePart3_0093 :
+    oppositeAggregatePartValid3_0093 oppositeHistoryChunk0093 := by
+  unfold oppositeAggregatePartValid3_0093 oppositeHistoryChunk0093
+  decide
+
+def oppositeAggregatePartValid4_0093 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ _ (.node _ (.node _ part _) _)) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 95744
+  | _ => True
+
+theorem oppositeAggregatePart4_0093 :
+    oppositeAggregatePartValid4_0093 oppositeHistoryChunk0093 := by
+  unfold oppositeAggregatePartValid4_0093 oppositeHistoryChunk0093
+  decide
+
+def oppositeAggregatePartValid5_0093 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ _ (.node _ (.node _ _ part) _)) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 95872
+  | _ => True
+
+theorem oppositeAggregatePart5_0093 :
+    oppositeAggregatePartValid5_0093 oppositeHistoryChunk0093 := by
+  unfold oppositeAggregatePartValid5_0093 oppositeHistoryChunk0093
+  decide
+
+def oppositeAggregatePartValid6_0093 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ _ (.node _ _ (.node _ part _))) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 96000
+  | _ => True
+
+theorem oppositeAggregatePart6_0093 :
+    oppositeAggregatePartValid6_0093 oppositeHistoryChunk0093 := by
+  unfold oppositeAggregatePartValid6_0093 oppositeHistoryChunk0093
+  decide
+
+def oppositeAggregatePartValid7_0093 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ _ (.node _ _ (.node _ _ part))) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 96128
+  | _ => True
+
+theorem oppositeAggregatePart7_0093 :
+    oppositeAggregatePartValid7_0093 oppositeHistoryChunk0093 := by
+  unfold oppositeAggregatePartValid7_0093 oppositeHistoryChunk0093
+  decide
+
+theorem oppositeRange_0093 :
+    oppositeHistoryChunk0093.ResidueIndexedValid anchorHistories 5000000 18 25 95232 := by
+  have h0 := oppositeAggregatePart0_0093
+  simp only [oppositeAggregatePartValid0_0093, oppositeHistoryChunk0093] at h0
+  have h1 := oppositeAggregatePart1_0093
+  simp only [oppositeAggregatePartValid1_0093, oppositeHistoryChunk0093] at h1
+  have h2 := oppositeAggregatePart2_0093
+  simp only [oppositeAggregatePartValid2_0093, oppositeHistoryChunk0093] at h2
+  have h3 := oppositeAggregatePart3_0093
+  simp only [oppositeAggregatePartValid3_0093, oppositeHistoryChunk0093] at h3
+  have h4 := oppositeAggregatePart4_0093
+  simp only [oppositeAggregatePartValid4_0093, oppositeHistoryChunk0093] at h4
+  have h5 := oppositeAggregatePart5_0093
+  simp only [oppositeAggregatePartValid5_0093, oppositeHistoryChunk0093] at h5
+  have h6 := oppositeAggregatePart6_0093
+  simp only [oppositeAggregatePartValid6_0093, oppositeHistoryChunk0093] at h6
+  have h7 := oppositeAggregatePart7_0093
+  simp only [oppositeAggregatePartValid7_0093, oppositeHistoryChunk0093] at h7
+  unfold oppositeHistoryChunk0093
+  exact ⟨rfl, ⟨rfl, ⟨rfl, h0, h1⟩, ⟨rfl, h2, h3⟩⟩, ⟨rfl, ⟨rfl, h4, h5⟩, ⟨rfl, h6, h7⟩⟩⟩
+
+def oppositeAggregatePartValid0_0094 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ (.node _ (.node _ part _) _) _) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 96256
+  | _ => True
+
+theorem oppositeAggregatePart0_0094 :
+    oppositeAggregatePartValid0_0094 oppositeHistoryChunk0094 := by
+  unfold oppositeAggregatePartValid0_0094 oppositeHistoryChunk0094
+  decide
+
+def oppositeAggregatePartValid1_0094 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ (.node _ (.node _ _ part) _) _) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 96384
+  | _ => True
+
+theorem oppositeAggregatePart1_0094 :
+    oppositeAggregatePartValid1_0094 oppositeHistoryChunk0094 := by
+  unfold oppositeAggregatePartValid1_0094 oppositeHistoryChunk0094
+  decide
+
+def oppositeAggregatePartValid2_0094 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ (.node _ _ (.node _ part _)) _) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 96512
+  | _ => True
+
+theorem oppositeAggregatePart2_0094 :
+    oppositeAggregatePartValid2_0094 oppositeHistoryChunk0094 := by
+  unfold oppositeAggregatePartValid2_0094 oppositeHistoryChunk0094
+  decide
+
+def oppositeAggregatePartValid3_0094 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ (.node _ _ (.node _ _ part)) _) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 96640
+  | _ => True
+
+theorem oppositeAggregatePart3_0094 :
+    oppositeAggregatePartValid3_0094 oppositeHistoryChunk0094 := by
+  unfold oppositeAggregatePartValid3_0094 oppositeHistoryChunk0094
+  decide
+
+def oppositeAggregatePartValid4_0094 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ _ (.node _ (.node _ part _) _)) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 96768
+  | _ => True
+
+theorem oppositeAggregatePart4_0094 :
+    oppositeAggregatePartValid4_0094 oppositeHistoryChunk0094 := by
+  unfold oppositeAggregatePartValid4_0094 oppositeHistoryChunk0094
+  decide
+
+def oppositeAggregatePartValid5_0094 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ _ (.node _ (.node _ _ part) _)) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 96896
+  | _ => True
+
+theorem oppositeAggregatePart5_0094 :
+    oppositeAggregatePartValid5_0094 oppositeHistoryChunk0094 := by
+  unfold oppositeAggregatePartValid5_0094 oppositeHistoryChunk0094
+  decide
+
+def oppositeAggregatePartValid6_0094 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ _ (.node _ _ (.node _ part _))) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 97024
+  | _ => True
+
+theorem oppositeAggregatePart6_0094 :
+    oppositeAggregatePartValid6_0094 oppositeHistoryChunk0094 := by
+  unfold oppositeAggregatePartValid6_0094 oppositeHistoryChunk0094
+  decide
+
+def oppositeAggregatePartValid7_0094 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ _ (.node _ _ (.node _ _ part))) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 97152
+  | _ => True
+
+theorem oppositeAggregatePart7_0094 :
+    oppositeAggregatePartValid7_0094 oppositeHistoryChunk0094 := by
+  unfold oppositeAggregatePartValid7_0094 oppositeHistoryChunk0094
+  decide
+
+theorem oppositeRange_0094 :
+    oppositeHistoryChunk0094.ResidueIndexedValid anchorHistories 5000000 18 25 96256 := by
+  have h0 := oppositeAggregatePart0_0094
+  simp only [oppositeAggregatePartValid0_0094, oppositeHistoryChunk0094] at h0
+  have h1 := oppositeAggregatePart1_0094
+  simp only [oppositeAggregatePartValid1_0094, oppositeHistoryChunk0094] at h1
+  have h2 := oppositeAggregatePart2_0094
+  simp only [oppositeAggregatePartValid2_0094, oppositeHistoryChunk0094] at h2
+  have h3 := oppositeAggregatePart3_0094
+  simp only [oppositeAggregatePartValid3_0094, oppositeHistoryChunk0094] at h3
+  have h4 := oppositeAggregatePart4_0094
+  simp only [oppositeAggregatePartValid4_0094, oppositeHistoryChunk0094] at h4
+  have h5 := oppositeAggregatePart5_0094
+  simp only [oppositeAggregatePartValid5_0094, oppositeHistoryChunk0094] at h5
+  have h6 := oppositeAggregatePart6_0094
+  simp only [oppositeAggregatePartValid6_0094, oppositeHistoryChunk0094] at h6
+  have h7 := oppositeAggregatePart7_0094
+  simp only [oppositeAggregatePartValid7_0094, oppositeHistoryChunk0094] at h7
+  unfold oppositeHistoryChunk0094
+  exact ⟨rfl, ⟨rfl, ⟨rfl, h0, h1⟩, ⟨rfl, h2, h3⟩⟩, ⟨rfl, ⟨rfl, h4, h5⟩, ⟨rfl, h6, h7⟩⟩⟩
+
+def oppositeAggregatePartValid0_0095 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ (.node _ (.node _ part _) _) _) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 97280
+  | _ => True
+
+theorem oppositeAggregatePart0_0095 :
+    oppositeAggregatePartValid0_0095 oppositeHistoryChunk0095 := by
+  unfold oppositeAggregatePartValid0_0095 oppositeHistoryChunk0095
+  decide
+
+def oppositeAggregatePartValid1_0095 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ (.node _ (.node _ _ part) _) _) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 97408
+  | _ => True
+
+theorem oppositeAggregatePart1_0095 :
+    oppositeAggregatePartValid1_0095 oppositeHistoryChunk0095 := by
+  unfold oppositeAggregatePartValid1_0095 oppositeHistoryChunk0095
+  decide
+
+def oppositeAggregatePartValid2_0095 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ (.node _ _ (.node _ part _)) _) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 97536
+  | _ => True
+
+theorem oppositeAggregatePart2_0095 :
+    oppositeAggregatePartValid2_0095 oppositeHistoryChunk0095 := by
+  unfold oppositeAggregatePartValid2_0095 oppositeHistoryChunk0095
+  decide
+
+def oppositeAggregatePartValid3_0095 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ (.node _ _ (.node _ _ part)) _) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 97664
+  | _ => True
+
+theorem oppositeAggregatePart3_0095 :
+    oppositeAggregatePartValid3_0095 oppositeHistoryChunk0095 := by
+  unfold oppositeAggregatePartValid3_0095 oppositeHistoryChunk0095
+  decide
+
+def oppositeAggregatePartValid4_0095 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ _ (.node _ (.node _ part _) _)) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 97792
+  | _ => True
+
+theorem oppositeAggregatePart4_0095 :
+    oppositeAggregatePartValid4_0095 oppositeHistoryChunk0095 := by
+  unfold oppositeAggregatePartValid4_0095 oppositeHistoryChunk0095
+  decide
+
+def oppositeAggregatePartValid5_0095 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ _ (.node _ (.node _ _ part) _)) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 97920
+  | _ => True
+
+theorem oppositeAggregatePart5_0095 :
+    oppositeAggregatePartValid5_0095 oppositeHistoryChunk0095 := by
+  unfold oppositeAggregatePartValid5_0095 oppositeHistoryChunk0095
+  decide
+
+def oppositeAggregatePartValid6_0095 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ _ (.node _ _ (.node _ part _))) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 98048
+  | _ => True
+
+theorem oppositeAggregatePart6_0095 :
+    oppositeAggregatePartValid6_0095 oppositeHistoryChunk0095 := by
+  unfold oppositeAggregatePartValid6_0095 oppositeHistoryChunk0095
+  decide
+
+def oppositeAggregatePartValid7_0095 : Erdos848.CandidateHistoryTree → Prop
+  | (.node _ _ (.node _ _ (.node _ _ part))) =>
+      part.ResidueIndexedValid anchorHistories 5000000 18 25 98176
+  | _ => True
+
+theorem oppositeAggregatePart7_0095 :
+    oppositeAggregatePartValid7_0095 oppositeHistoryChunk0095 := by
+  unfold oppositeAggregatePartValid7_0095 oppositeHistoryChunk0095
+  decide
+
+theorem oppositeRange_0095 :
+    oppositeHistoryChunk0095.ResidueIndexedValid anchorHistories 5000000 18 25 97280 := by
+  have h0 := oppositeAggregatePart0_0095
+  simp only [oppositeAggregatePartValid0_0095, oppositeHistoryChunk0095] at h0
+  have h1 := oppositeAggregatePart1_0095
+  simp only [oppositeAggregatePartValid1_0095, oppositeHistoryChunk0095] at h1
+  have h2 := oppositeAggregatePart2_0095
+  simp only [oppositeAggregatePartValid2_0095, oppositeHistoryChunk0095] at h2
+  have h3 := oppositeAggregatePart3_0095
+  simp only [oppositeAggregatePartValid3_0095, oppositeHistoryChunk0095] at h3
+  have h4 := oppositeAggregatePart4_0095
+  simp only [oppositeAggregatePartValid4_0095, oppositeHistoryChunk0095] at h4
+  have h5 := oppositeAggregatePart5_0095
+  simp only [oppositeAggregatePartValid5_0095, oppositeHistoryChunk0095] at h5
+  have h6 := oppositeAggregatePart6_0095
+  simp only [oppositeAggregatePartValid6_0095, oppositeHistoryChunk0095] at h6
+  have h7 := oppositeAggregatePart7_0095
+  simp only [oppositeAggregatePartValid7_0095, oppositeHistoryChunk0095] at h7
+  unfold oppositeHistoryChunk0095
   exact ⟨rfl, ⟨rfl, ⟨rfl, h0, h1⟩, ⟨rfl, h2, h3⟩⟩, ⟨rfl, ⟨rfl, h4, h5⟩, ⟨rfl, h6, h7⟩⟩⟩
 
 end Erdos848.GeneratedFiveMillionPrefixTrace

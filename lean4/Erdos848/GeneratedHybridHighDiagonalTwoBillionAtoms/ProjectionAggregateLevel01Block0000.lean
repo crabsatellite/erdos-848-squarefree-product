@@ -1,0 +1,12 @@
+import Erdos848.GeneratedHybridHighDiagonalTwoBillionAtoms.ProjectionAggregateLevel00Block0000
+import Erdos848.GeneratedHybridHighDiagonalTwoBillionAtoms.ProjectionAggregateLevel00Block0001
+
+namespace Erdos848.GeneratedHybridHighDiagonalTwoBillionAtoms
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+def projectionAggregateLevel01Block0000 :=
+  IndexedMarkerData.truncatedAtomProjectionRangeAppend projectionAggregateLevel00Block0000 projectionAggregateLevel00Block0001
+
+end Erdos848.GeneratedHybridHighDiagonalTwoBillionAtoms

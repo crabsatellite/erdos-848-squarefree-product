@@ -50,14 +50,17 @@ private theorem twentyMillionHighResidueRow_of_card
         ((Nat.primeCounting (N / row.split) -
           Nat.primeCounting row.cutoff : Nat) : Rat)) / N := by
             exact div_le_div_of_nonneg_right
-              (add_le_add_right hcard _) hNQ.le
+              (add_le_add hcard le_rfl) hNQ.le
     _ = (((Nat.primeCounting (N / row.split) -
           Nat.primeCounting row.cutoff : Nat) : Rat) +
         twentyMillionRootHighCoefficient row
           (fiveMillionPivotSupport pivot).length N) / N := by ring
-    _ ≤ row.envelope / 6 := by
-      unfold twentyMillionRootActualProfile at hprofile
-      linarith
+    _ = twentyMillionRootActualProfile row
+          (fiveMillionPivotSupport pivot).length N / 6 := by
+      unfold twentyMillionRootActualProfile
+      ring
+    _ ≤ row.envelope / 6 :=
+      div_le_div_of_nonneg_right hprofile (by norm_num)
 
 private theorem twentyMillionHighResidueRow_of_normal_twist
     {normalRow twistRow : TwentyMillionRootRow}
@@ -93,6 +96,14 @@ private theorem twentyMillionHighResidueRow_of_normal_twist
   have hUpper' : N < 40_000_000 := by
     simpa [twentyMillionUpper] using hUpper
   have hN : 0 < N := by omega
+  have hsplitPos : 0 < N / normalRow.split := by
+    cases normalRow <;>
+      norm_num [TwentyMillionRootRow.split] at * <;> omega
+  have hcoefficientNonneg :
+      0 ≤ twentyMillionRootHighCoefficient normalRow
+        (fiveMillionPivotSupport pivot).length N := by
+    unfold twentyMillionRootHighCoefficient
+    positivity
   have hk := actualTwentyMillionPivotSupport_length_le_seven
     hUpper' hBout hpivotResidual
   have hLength : (fiveMillionPivotSupport pivot).length < 8 := by omega
@@ -109,8 +120,7 @@ private theorem twentyMillionHighResidueRow_of_normal_twist
   · refine twentyMillionHighResidueRow_of_card
       (row := normalRow) hN ?_ hnormalProfile
     rw [hempty]
-    simp
-    positivity
+    simpa using hcoefficientNonneg
   have htwistNonempty : twoBaseHighTailSquarePointsAtResidue
       N pivot (N / twistRow.split) baseResidue ≠ ∅ := by
     simpa [hsplit] using hempty
@@ -350,10 +360,5 @@ theorem actualTwentyMillionOddHighPoints
       hLower hUpper hBout hpivotResidual hpivotOdd)
     (actualTwentyMillionOddHighResidue_row
       hLower hUpper hBout hpivotResidual hpivotOdd)
-
-#print axioms actualTwentyMillionEvenOneHighPoints
-#print axioms actualTwentyMillionEvenTwoHighPoints
-#print axioms actualTwentyMillionEvenThreeHighPoints
-#print axioms actualTwentyMillionOddHighPoints
 
 end Erdos848

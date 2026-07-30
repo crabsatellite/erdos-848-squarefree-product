@@ -26,6 +26,7 @@ FIXTURE_FILES = [
     "lean4/lake-manifest.json",
     "lean4/Erdos848/PublicationContract.lean",
     "lean4/Erdos848/PublicationRoot.lean",
+    "lean4/Erdos848/PaperGeneratedCertificateProvider.lean",
     "lean4/Erdos848/PublicationTheoremMap.lean",
     "lean4/Erdos848/PublicationAxiomAudit.lean",
 ]
@@ -82,7 +83,7 @@ def main() -> int:
     tree = Path(tempfile.mkdtemp(prefix="e848-contract-test-", dir=drive_root))
     try:
         copy_fixture(tree)
-        require_pass(tree, "exact current open/partial checkpoint")
+        require_pass(tree, "exact current paper-complete/kernel-closed checkpoint")
 
         paper_path = tree / "paper" / "proof-contract.json"
         original_paper = paper_path.read_bytes()
@@ -118,13 +119,32 @@ def main() -> int:
         )
         lean_path.write_text(original_lean, encoding="utf-8")
 
+        theorem_map_path = (
+            tree / "lean4" / "Erdos848" / "PublicationTheoremMap.lean"
+        )
+        original_theorem_map = theorem_map_path.read_text(encoding="utf-8")
+        theorem_map_path.write_text(
+            original_theorem_map.replace(
+                "#check Erdos848.PaperGeneratedCertificateProvider.all_N\n",
+                "",
+            ),
+            encoding="utf-8",
+        )
+        require_failure(
+            tree,
+            "final publication endpoint omitted from Lean theorem map",
+            "Lean publication theorem map differs from paper/theorem-map.json",
+        )
+        theorem_map_path.write_text(original_theorem_map, encoding="utf-8")
+
         state_path = tree / "proof-state.json"
         state = json.loads(state_path.read_text(encoding="utf-8"))
-        state["main_theorem_status"] = "closed"
+        state["manuscript_alignment_status"] = "open"
+        state["manuscript_alignment_blockers"] = ["fixture alignment drift"]
         state_path.write_text(json.dumps(state), encoding="utf-8")
         require_failure(
             tree,
-            "closed machine with partial paper",
+            "closed machine with open alignment",
             "closed machine theorem requires a complete, aligned manuscript",
         )
     finally:

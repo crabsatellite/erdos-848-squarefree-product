@@ -1,80 +1,57 @@
 [
   {
-    "label": "def:admissible",
-    "title": "The non-squarefree product property",
+    "label": "eq:target",
+    "title": "The literal nonsquarefree-product property and exact upper-bound statement",
     "lean": ["NonSquarefreeProductProp", "OriginalProblem848Statement"]
   },
   {
-    "label": "prop:base-constructions",
-    "title": "The 7 and 18 modulo 25 constructions are admissible",
-    "lean": ["A7_has_property_public", "A18_has_property_public"]
+    "label": "prop:sharpness",
+    "title": "The 7 modulo 25 construction is admissible",
+    "lean": ["originalA7_has_property"]
   },
   {
-    "label": "thm:stability",
-    "title": "Sawhney stability theorem",
-    "lean": ["SawhneyMainAt", "sawhney_main"]
+    "label": "thm:finite-prefix-colouring-close",
+    "title": "Kernel-checked prefix range used by the paper",
+    "lean": ["erdos848_prefix_close"]
   },
   {
-    "label": "thm:range-asymptotic",
-    "title": "Asymptotic endpoint in Finset.range indexing",
-    "lean": ["Problem848Statement", "problem_848_asymptotic"]
+    "label": "thm:first-low-parity-close",
+    "title": "Kernel-checked statement of the first low range",
+    "lean": ["erdos848_first_low_close"]
   },
   {
-    "label": "lem:index-bridge",
-    "title": "Bridge from range indexing to the literal interval",
-    "lean": ["originalA7_eq_range", "original_of_range_succ"]
+    "label": "thm:second-low-parity-close",
+    "title": "Kernel-checked statement of the second low range",
+    "lean": ["erdos848_second_low_close"]
   },
   {
-    "label": "thm:original-asymptotic",
-    "title": "Asymptotic endpoint on the literal interval 1 through N",
-    "lean": ["erdos848_original_asymptotic"]
+    "label": "prop:five-million-interval-close",
+    "title": "Five-to-ten-million certificate provider",
+    "lean": ["PaperCertificateProvider.fiveToTenMillion"]
   },
   {
-    "label": "prop:small-instances",
-    "title": "Exact instances N equals 49 and N equals 99",
-    "lean": ["erdos848_original_N49", "erdos848_original_N99"]
+    "label": "prop:ten-million-interval-close",
+    "title": "Ten-to-twenty-million certificate provider",
+    "lean": ["PaperCertificateProvider.tenToTwentyMillion"]
   },
   {
-    "label": "cor:finite-reduction",
-    "title": "The full conjecture is equivalent to a bounded prefix below one asymptotic threshold",
-    "lean": ["erdos848_finite_reduction"]
+    "label": "prop:twenty-million-interval-close",
+    "title": "Twenty-to-forty-million certificate provider",
+    "lean": ["PaperCertificateProvider.twentyToFortyMillion"]
   },
   {
-    "label": "prop:prefix-colouring-soundness",
-    "title": "A prefix colouring certificate implies the literal 848 bound",
-    "lean": [
-      "PrefixColouringState",
-      "originalProblem_of_prefixColouringState",
-      "originalProblem_prefix_of_colouringCertificate"
-    ]
+    "label": "thm:mixed-joint-tail-close",
+    "title": "Forty-million unbounded-tail certificate provider",
+    "lean": ["PaperCertificateProvider.fortyMillionTail"]
   },
   {
-    "label": "thm:prefix-close",
-    "title": "The literal problem is kernel-checked through N equals 5000000",
-    "lean": ["erdos848_through_five_million"]
+    "label": "thm:mixed-cell-five-million-close",
+    "title": "Exact assembly of all four paper tail intervals",
+    "lean": ["erdos848_paper_tail_close"]
   },
   {
-    "label": "prop:branched-tail-reduction",
-    "title": "Every strict tail defect reduces to the even global-diagonal or odd defect-residual payment",
-    "lean": [
-      "exists_sameValuation_eightPivotCluster_of_defect",
-      "hallCompletion_card_le_globalMixedDiagonalBasePairTail",
-      "hallCompletion_card_le_globalMixedResidualBasePairTail",
-      "pairTailValuation_even_or_odd"
-    ]
-  },
-  {
-    "label": "prop:branched-terminal-assembly",
-    "title": "The branch-aware terminal and exact prefix conditionally assemble the all-N statement",
-    "lean": [
-      "Erdos848GlobalMixedBranchedPairTailTerminalBound",
-      "erdos848GlobalMixedTailClose_of_branchedPairTailTerminalBound",
-      "erdos848_full_of_branchedPairTailTerminalBound"
-    ]
-  },
-  {
-    "label": "prop:five-million-tail-assembly",
-    "title": "The exact prefix and the remaining tail assemble to the all-N statement",
-    "lean": ["erdos848_full_of_five_million_tail"]
+    "label": "thm:erdos-848-complete",
+    "title": "Unconditional all-N terminal theorem",
+    "lean": ["PaperGeneratedCertificateProvider.all_N"]
   }
 ]

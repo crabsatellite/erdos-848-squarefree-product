@@ -1,4 +1,5 @@
 import Erdos848.TailFiveMillionR263Terminal
+import Erdos848.TailR263FourPivotDefs
 
 namespace Erdos848
 
@@ -97,14 +98,6 @@ theorem card_le_half_triple_intersections_add_half_tail_sum
             ((points.filter fun point => tail pivot point).card : Rat)) := by
       rw [hfiniteDoubleCount, htailDoubleCount]
 
-noncomputable def fiveMillionR263BaseFiniteTriplePayment
-    (N : Nat) (B pivots : Finset Nat) (cutoff : Nat) : Rat := by
-  classical
-  exact (1 / 2 : Rat) *
-    (∑ triple ∈ pivots.powersetCard 3,
-      ((eventIntersection (hallBasePart N B)
-        (finiteSquarePrimeEvent cutoff) triple).card : Rat))
-
 /-- The actual Hall base part is paid by the two literal four-pivot terms. -/
 theorem hallBasePart_card_le_fiveMillionR263FourPivot
     {N cutoff : Nat} {B pivots : Finset Nat}
@@ -196,9 +189,9 @@ theorem FiveMillionR263FourPivotTerminalCertificate.completion_ratio_lt_target
         certificate.finiteBound) certificate.tailBound
     _ <= fiveMillionR263BranchCeiling certificate.branch :=
       certificate.componentTotalBound
-    _ <= globalMixedOneOddSevenCellBudget :=
-      fiveMillionR263BranchCeiling_le_controlling certificate.branch
-    _ < tailHallTarget N := globalMixedOneOddSevenCellBudget_lt_target hLower
+    _ <= fiveMillionR263PublicBudget :=
+      fiveMillionR263BranchCeiling_le_publicBudget certificate.branch
+    _ < tailHallTarget N := fiveMillionR263PublicBudget_lt_target hLower
 
 #print axioms card_le_half_triple_intersections_add_half_tail_sum
 #print axioms hallBasePart_card_le_fiveMillionR263FourPivot

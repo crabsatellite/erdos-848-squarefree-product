@@ -19,10 +19,12 @@ def fiveMillionR263EvenOnePairedCells
   Finset.univ.filter fun cell =>
     2 <= (fiveMillionR263EvenOneCell N B cell).card
 
-def fiveMillionR263EvenOneGoodPairedCells
+noncomputable def fiveMillionR263EvenOneGoodPairedCells
     (N : Nat) (B : Finset Nat) : Finset (Fin 9) :=
-  (fiveMillionR263EvenOnePairedCells N B).filter fun cell =>
-    fiveMillionR263EvenOneGoodCell N B cell
+  by
+    classical
+    exact (fiveMillionR263EvenOnePairedCells N B).filter fun cell =>
+      fiveMillionR263EvenOneGoodCell N B cell
 
 lemma mem_fiveMillionR263EvenOnePairedCells
     {N : Nat} {B : Finset Nat} {cell : Fin 9} :
@@ -86,10 +88,12 @@ noncomputable def fiveMillionR263EvenOneChosen49Residue
     Classical.choose h
   else 0
 
-def fiveMillionR263EvenOneFortyNineCells
+noncomputable def fiveMillionR263EvenOneFortyNineCells
     (N : Nat) (B : Finset Nat) : Finset (Fin 9) :=
-  Finset.univ.filter fun cell =>
-    fiveMillionR263EvenOneCellContained49 N B cell
+  by
+    classical
+    exact Finset.univ.filter fun cell =>
+      fiveMillionR263EvenOneCellContained49 N B cell
 
 lemma fiveMillionR263EvenOneChosen49Residue_spec
     {N : Nat} {B : Finset Nat} {cell : Fin 9}
@@ -173,12 +177,12 @@ private theorem exists_selection_of_good_and_paired
       left_ne_right := hne },
     hx49, hx121⟩
 
-private noncomputable def selection_of_paired_cells
+private theorem exists_selection_of_paired_cells
     {N : Nat} {B : Finset Nat} {left right : Fin 9}
     (hne : left ≠ right)
     (hleft : 2 <= (fiveMillionR263EvenOneCell N B left).card)
     (hright : 2 <= (fiveMillionR263EvenOneCell N B right).card) :
-    FiveMillionR263EvenOnePairSelection N B left right := by
+    Nonempty (FiveMillionR263EvenOnePairSelection N B left right) := by
   classical
   have hleftTwo :
       1 < (fiveMillionR263EvenOneCell N B left).card := by omega
@@ -188,12 +192,20 @@ private noncomputable def selection_of_paired_cells
     Finset.one_lt_card.mp hleftTwo
   obtain ⟨y0, hy0, y1, hy1, hy01⟩ :=
     Finset.one_lt_card.mp hrightTwo
-  exact
+  exact ⟨
     { x0 := x0, x1 := x1, y0 := y0, y1 := y1
       x0Cell := hx0, x1Cell := hx1
       y0Cell := hy0, y1Cell := hy1
       x0_ne_x1 := hx01, y0_ne_y1 := hy01
-      left_ne_right := hne }
+      left_ne_right := hne }⟩
+
+private noncomputable def selection_of_paired_cells
+    {N : Nat} {B : Finset Nat} {left right : Fin 9}
+    (hne : left ≠ right)
+    (hleft : 2 <= (fiveMillionR263EvenOneCell N B left).card)
+    (hright : 2 <= (fiveMillionR263EvenOneCell N B right).card) :
+    FiveMillionR263EvenOnePairSelection N B left right :=
+  Classical.choice (exists_selection_of_paired_cells hne hleft hright)
 
 private theorem evenOne_card_le_ten_of_at_most_one_paired
     {N : Nat} {B : Finset Nat}
@@ -221,9 +233,13 @@ private theorem evenOne_card_le_ten_of_at_most_one_paired
       have hpairSubset :
           ({chosen, other} : Finset (Fin 9)) ⊆
             fiveMillionR263EvenOnePairedCells N B := by
-        simp [hchosen, hotherMem]
+        intro z hz
+        simp only [Finset.mem_insert, Finset.mem_singleton] at hz
+        rcases hz with rfl | rfl
+        · exact hchosen
+        · exact hotherMem
       have hpairCard : ({chosen, other} : Finset (Fin 9)).card = 2 := by
-        simp [hne]
+        exact Finset.card_pair (Ne.symm hne)
       have := Finset.card_le_card hpairSubset
       rw [hpairCard] at this
       omega
@@ -305,9 +321,13 @@ private theorem evenOne_dense_cell_terminal_or_small
       have hsubset :
           ({cell, other} : Finset (Fin 9)) ⊆
             fiveMillionR263EvenOnePairedCells N B := by
-        simp [hcellPaired, hotherPaired]
+        intro z hz
+        simp only [Finset.mem_insert, Finset.mem_singleton] at hz
+        rcases hz with rfl | rfl
+        · exact hcellPaired
+        · exact hotherPaired
       have hcard : ({cell, other} : Finset (Fin 9)).card = 2 := by
-        simp [hne]
+        exact Finset.card_pair (Ne.symm hne)
       have := Finset.card_le_card hsubset
       rw [hcard] at this
       omega
@@ -321,6 +341,7 @@ private theorem evenOne_dense_cell_terminal_or_small
     exact hdense ⟨cell, by omega⟩
 
 theorem fiveMillionR263EvenOne_exhaustion
+    [E1Finite23SharpCertificate]
     {N : Nat} {B : Finset Nat}
     (hLower : 5_000_000 <= N)
     (hUpper : N < 10_000_000)
@@ -369,7 +390,7 @@ theorem fiveMillionR263EvenOne_exhaustion
             subst a
             exact hab
           next hal =>
-            exact hal.symm
+            exact fun h => hal h.symm
         have hrightTwo :
             2 <= (fiveMillionR263EvenOneCell N B right).card :=
           mem_fiveMillionR263EvenOnePairedCells.mp hrightPaired
@@ -396,9 +417,13 @@ theorem fiveMillionR263EvenOne_exhaustion
                   ⟨by omega, hotherGood⟩
               have hsubset :
                   ({left, other} : Finset (Fin 9)) ⊆ good := by
-                simp [hleftMem, hotherGoodMem]
+                intro z hz
+                simp only [Finset.mem_insert, Finset.mem_singleton] at hz
+                rcases hz with rfl | rfl
+                · exact hleftMem
+                · exact hotherGoodMem
               have hcard : ({left, other} : Finset (Fin 9)).card = 2 := by
-                simp [hother]
+                exact Finset.card_pair (Ne.symm hother)
               have := Finset.card_le_card hsubset
               rw [hcard] at this
               omega
@@ -408,8 +433,11 @@ theorem fiveMillionR263EvenOne_exhaustion
           (fiveMillionR263EvenOneOneGoodTerminal
             hLower hUpper hBout hBprop selection
               hbreaks.1 hbreaks.2 hOther)⟩
-      · exact evenOne_dense_cell_terminal_or_small
-          hLower hUpper hBout hBprop (by omega)
+      · apply evenOne_dense_cell_terminal_or_small
+          hLower hUpper hBout hBprop
+        have hlt : paired.card < 2 := Nat.lt_of_not_ge hTwoPaired
+        have hle : paired.card ≤ 1 := by omega
+        simpa [paired] using hle
     · have hNoGood : ∀ cell : Fin 9,
           2 <= (fiveMillionR263EvenOneCell N B cell).card →
             ¬ fiveMillionR263EvenOneGoodCell N B cell := by
@@ -444,8 +472,11 @@ theorem fiveMillionR263EvenOne_exhaustion
           (fiveMillionR263EvenOneNoGoodTerminal
             hLower hUpper hBout hBprop selection cells residues
               hcover hOutside)⟩
-      · exact evenOne_dense_cell_terminal_or_small
-          hLower hUpper hBout hBprop (by omega)
+      · apply evenOne_dense_cell_terminal_or_small
+          hLower hUpper hBout hBprop
+        have hlt : paired.card < 2 := Nat.lt_of_not_ge hTwoPaired
+        have hle : paired.card ≤ 1 := by omega
+        simpa [paired] using hle
 
 #print axioms fiveMillionR263EvenOne_exhaustion
 

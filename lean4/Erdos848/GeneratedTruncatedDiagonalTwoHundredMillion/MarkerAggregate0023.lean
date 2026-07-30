@@ -1,0 +1,28 @@
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.MarkerChunk0368
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.MarkerChunk0369
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.MarkerChunk0370
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.MarkerChunk0371
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.MarkerChunk0372
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.MarkerChunk0373
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.MarkerChunk0374
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.MarkerChunk0375
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.MarkerChunk0376
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.MarkerChunk0377
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.MarkerChunk0378
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.MarkerChunk0379
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.MarkerChunk0380
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.MarkerChunk0381
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.MarkerChunk0382
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.MarkerChunk0383
+
+namespace Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion
+
+open PrimeRootCoverageData
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+def markerAggregate0023 : NatValueTree :=
+  (.node 131072 (.node 65536 (.node 32768 (.node 16384 markerChunk0368 markerChunk0369) (.node 16384 markerChunk0370 markerChunk0371)) (.node 32768 (.node 16384 markerChunk0372 markerChunk0373) (.node 16384 markerChunk0374 markerChunk0375))) (.node 65536 (.node 32768 (.node 16384 markerChunk0376 markerChunk0377) (.node 16384 markerChunk0378 markerChunk0379)) (.node 32768 (.node 16384 markerChunk0380 markerChunk0381) (.node 16384 markerChunk0382 markerChunk0383))))
+
+end Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion

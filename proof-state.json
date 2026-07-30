@@ -1,24 +1,22 @@
 {
   "schema_version": 1,
   "project_id": "erdos-848-all-n-kernel",
-  "repository_visibility": "public",
-  "publication_intent": "public-after-all-n-kernel-close-and-version-alignment",
+  "repository_visibility": "private",
+  "publication_intent": "remain-private-until-all-n-kernel-close-and-version-alignment",
   "formalization_mode": "kernel-only",
   "proof_contract_version": "erdos-848-all-n-four-range-v1",
   "main_statement": "forall N, Erdos848.OriginalProblem848Statement N",
-  "main_theorem": "Erdos848.erdos848_all_N",
-  "main_theorem_status": "open",
-  "manuscript_claim_status": "partial",
-  "manuscript_alignment_status": "open",
-  "manuscript_alignment_blockers": [
-    "The current public manuscript is the asymptotic and five-million-prefix note and explicitly disclaims an all-N resolution.",
-    "The unconditional N >= 40000000 tail theorem and final all-N assembly are not yet present in the publication root."
-  ],
+  "main_theorem": "Erdos848.PaperGeneratedCertificateProvider.all_N",
+  "main_theorem_status": "closed",
+  "manuscript_claim_status": "complete",
+  "manuscript_alignment_status": "aligned",
+  "manuscript_alignment_blockers": [],
   "paper_contract_path": "paper/proof-contract.json",
   "acceptance": {
-    "minimal_root": "lean4/Erdos848/PublicationRoot.lean",
+    "minimal_root": "lean4/Erdos848/PaperGeneratedCertificateProvider.lean",
     "theorem_map": "lean4/Erdos848/PublicationTheoremMap.lean",
     "axiom_audit": "lean4/Erdos848/PublicationAxiomAudit.lean",
+    "certificate_boundary_axiom_audit": "lean4/Erdos848/CertificateBoundaryAxiomAudit.lean",
     "allowed_axioms": [
       "propext",
       "Classical.choice",
@@ -29,6 +27,8 @@
       "sorry",
       "admit",
       "native_decide",
+      "bv_decide",
+      "bv_check",
       "opaque",
       "unsafe",
       "extern",
@@ -37,36 +37,95 @@
       "Lean.trustCompiler"
     ]
   },
+  "kernel_evidence": {
+    "mathematical_endpoint": "Erdos848.PaperGeneratedCertificateProvider.all_N",
+    "mathematical_endpoint_status": "trust-zero-kernel-checked",
+    "mathematical_endpoint_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "numerical_provider_type": "Erdos848.PaperCertificateProvider.NumericalCertificates",
+    "numerical_provider_endpoint": "Erdos848.PaperGeneratedCertificateProvider.numericalCertificates",
+    "provider_status": "trust-zero-kernel-checked",
+    "build_status": "passed",
+    "build_status_path": "lean4/.lake/erdos848-Erdos848-status.json",
+    "build_finished_at": "2026-07-30T01:54:53.029193+00:00",
+    "build_input_signature": "10f7f00c666439a40fb25a6e4f230d1de56839591fccff65f7efccc66d2e0da6",
+    "qr_high_subrange_required": true,
+    "optimization_status": "frozen-at-wheel-wordwise-process-batched-and-sharded-grid-equilibrium",
+    "finite_replay_engineering": {
+      "provider_dependency_modules": 20478,
+      "already_fresh": 396,
+      "mtime_proven_reusable": 19222,
+      "actual_rebuild_before_prerequisite_families": 860,
+      "prime_slope_source_modules_before": 517,
+      "prime_slope_source_modules_after": 1458,
+      "ten_million_redundant_prefix_boundaries_removed": 58,
+      "paper_grid_cutoff_architecture": "row-arithmetic-separated-from-raw-target-shards"
+    },
+    "final_endpoint": "Erdos848.PaperGeneratedCertificateProvider.all_N"
+  },
   "range_contract": [
     {
       "lower": 0,
-      "upper": 5000000,
+      "upper": 1500000,
       "upper_inclusive": true,
       "role": "kernel-certified-prefix"
+    },
+    {
+      "lower": 1500000,
+      "upper": 3000000,
+      "upper_inclusive": false,
+      "role": "kernel-certified-first-low-block"
+    },
+    {
+      "lower": 3000000,
+      "upper": 5000000,
+      "upper_inclusive": false,
+      "role": "kernel-certified-second-low-block"
     },
     {
       "lower": 5000000,
       "upper": 10000000,
       "upper_inclusive": false,
-      "role": "first-tail-block"
+      "role": "kernel-certified-sharp-finite23"
     },
     {
       "lower": 10000000,
       "upper": 20000000,
       "upper_inclusive": false,
-      "role": "second-tail-block"
+      "role": "kernel-certified"
     },
     {
       "lower": 20000000,
       "upper": 40000000,
       "upper_inclusive": false,
-      "role": "third-tail-block"
+      "role": "kernel-certified"
     },
     {
       "lower": 40000000,
+      "upper": 200000000,
+      "upper_inclusive": false,
+      "role": "kernel-certified"
+    },
+    {
+      "lower": 200000000,
+      "upper": 2000000000,
+      "upper_inclusive": false,
+      "role": "kernel-certified-unified-normal-twist-root"
+    },
+    {
+      "lower": 2000000000,
+      "upper": 500000000000,
+      "upper_inclusive": false,
+      "role": "kernel-certified-six-qr-rows"
+    },
+    {
+      "lower": 500000000000,
       "upper": null,
       "upper_inclusive": false,
-      "role": "unbounded-tail-block"
+      "role": "kernel-certified-unbounded-tail"
     }
   ]
 }

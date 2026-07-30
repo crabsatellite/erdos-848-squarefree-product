@@ -1,6 +1,8 @@
 import Erdos848.TailPureEvenRoot
 import Erdos848.TailPureFiveMillionMedium
 import Erdos848.TailFiveMillionReciprocal
+import Erdos848.TailFiveMillionHighTransformedCore
+import Erdos848.TailPureFiveMillionSupport
 import Mathlib.Tactic.IrreducibleDef
 
 namespace Erdos848
@@ -143,6 +145,63 @@ private lemma pure_modFiveCosetAccepts_of_square_scaled
           simp [modFiveCosetAccepts, hpMod, hmMod, hcMod] at hconstant ⊢ <;>
           omega
 
+private lemma pure_fiveMillionPivotSupport_dropLast_mem_table
+    {N pivot q : ℕ} (hUpper : N < 10_000_000)
+    (hpivotPos : 0 < pivot) (hpivot : pivot ≤ N)
+    (hq : q ∈ (fiveMillionPivotSupport pivot).dropLast) :
+    q ∈ GeneratedTailSupportCoverage.supportPrimes := by
+  let support := fiveMillionPivotSupport pivot
+  have hqSupport : q ∈ support := List.mem_of_mem_dropLast hq
+  have hsupportNonempty : support ≠ [] := List.ne_nil_of_mem hqSupport
+  let r := support.getLast hsupportNonempty
+  have hrSupport : r ∈ support := List.getLast_mem hsupportNonempty
+  have hqPrimeData := fiveMillionPivotSupport_primes pivot q hqSupport
+  have hrPrimeData := fiveMillionPivotSupport_primes pivot r hrSupport
+  have hqr : q < r :=
+    (fiveMillionPivotSupport_increasing pivot).rel_dropLast_getLast hq
+  have hqrDvd : q * r ∣ pivot :=
+    Nat.Prime.dvd_mul_of_dvd_ne (ne_of_lt hqr) hqPrimeData.1
+      hrPrimeData.1 (fiveMillionPivotSupport_dvd hqSupport)
+      (fiveMillionPivotSupport_dvd hrSupport)
+  have hqrLe : q * r ≤ 10_000_000 := by
+    exact (Nat.le_of_dvd hpivotPos hqrDvd).trans
+      (hpivot.trans (Nat.le_of_lt hUpper))
+  exact mem_supportPrimes_of_supportPrime_le_3163 hqPrimeData
+    ((supportPrime_left_le_3137 hqPrimeData hqr hqrLe).trans (by norm_num))
+
+private lemma pure_fiveMillionRawQuotient_support_bit
+    {N pivot point p m q : ℕ}
+    (hUpper : N < 10_000_000) (hpivotPos : 0 < pivot)
+    (hpivot : pivot ≤ N)
+    (hq : q ∈ (fiveMillionPivotSupport pivot).dropLast)
+    (hmLower : 1 ≤ m) (hmUpper : m ≤ 2401)
+    (hequation : p ^ 2 * m = pivot * point + 1) :
+    wordMaskTestBit (GeneratedTailSupportCoverage.qrMaskWords q) (m - 1) =
+      true := by
+  have hqSupport : q ∈ fiveMillionPivotSupport pivot :=
+    List.mem_of_mem_dropLast hq
+  have hqPrime := (fiveMillionPivotSupport_primes pivot q hqSupport).1
+  obtain ⟨hqNotDvd, root, hroot⟩ :=
+    quotient_modEq_square_of_prime_dvd_pivot hqPrime
+      (fiveMillionPivotSupport_dvd hqSupport) hequation
+  exact GeneratedTailSupportCoverage.qrMask_contains_square
+    (pure_fiveMillionPivotSupport_dropLast_mem_table
+      hUpper hpivotPos hpivot hq)
+    hmLower hmUpper hqNotDvd hroot
+
+private lemma pure_fiveMillionRawQuotient_support_all
+    {N pivot point p m : ℕ}
+    (hUpper : N < 10_000_000) (hpivotPos : 0 < pivot)
+    (hpivot : pivot ≤ N) (hmLower : 1 ≤ m) (hmUpper : m ≤ 2401)
+    (hequation : p ^ 2 * m = pivot * point + 1) :
+    (fiveMillionPivotSupport pivot).dropLast.all (fun q =>
+      wordMaskTestBit (GeneratedTailSupportCoverage.qrMaskWords q) (m - 1)) =
+        true := by
+  apply List.all_eq_true.mpr
+  intro q hq
+  exact pure_fiveMillionRawQuotient_support_bit hUpper hpivotPos hpivot hq
+    hmLower hmUpper hequation
+
 noncomputable irreducible_def pureFiveMillionHighBadPoints
     (points : Finset ℕ) (pivot : ℕ) : Finset ℕ :=
   by
@@ -260,7 +319,7 @@ theorem pureFiveMillionHighBadPoints_card_cast_le
       simpa [Nat.add_mod, Nat.mul_mod] using hmod
     have hmCoset := pure_modFiveCosetAccepts_of_square_scaled
       hpFive hequationMod hcoset
-    have hallBits := fiveMillionRawQuotient_support_all
+    have hallBits := pure_fiveMillionRawQuotient_support_all
       (N := 5_000_000) (pivot := pivot) (point := point)
       (p := p) (m := m) (by norm_num) hpivotPos hpivotUpper
       hmPos (hmUpper.trans (by norm_num)) hequation

@@ -1,5 +1,7 @@
 import Erdos848.TailFiveMillionHallTailCore
 import Erdos848.TailGlobalMixedEvenAllRows
+import Erdos848.TailGlobalMixedValuationPartition
+import Erdos848.TailSquareTail23
 
 namespace Erdos848
 
@@ -14,57 +16,6 @@ explicit primes `11, 13, 17, 19, 23`.  This is enough for the row budget.
 
 set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
-
-def fiveMillionSquareTail23Envelope : Rat :=
-  64081802747648035629863 / 7596668444022826249000000
-
-private def primesElevenThroughTwentyThree : Finset Nat :=
-  {11, 13, 17, 19, 23}
-
-theorem fiveMillionSquareTail23_kernel_close
-    (s : Finset Nat)
-    (hprime : forall p, p ∈ s -> Nat.Prime p)
-    (hcut : forall p, p ∈ s -> 23 < p) :
-    (∑ p ∈ s, reciprocalSquareQ p) <=
-      fiveMillionSquareTail23Envelope := by
-  classical
-  let extras := primesElevenThroughTwentyThree
-  have hextrasPrime : forall p, p ∈ extras -> Nat.Prime p := by
-    intro p hp
-    simp [extras, primesElevenThroughTwentyThree] at hp
-    rcases hp with rfl | rfl | rfl | rfl | rfl <;> norm_num
-  have hextrasCut : forall p, p ∈ extras -> 7 < p := by
-    intro p hp
-    simp [extras, primesElevenThroughTwentyThree] at hp
-    omega
-  have hdisjoint : Disjoint s extras := by
-    rw [Finset.disjoint_left]
-    intro p hps hpe
-    have hpLarge := hcut p hps
-    simp [extras, primesElevenThroughTwentyThree] at hpe
-    omega
-  have hunionPrime : forall p, p ∈ s ∪ extras -> Nat.Prime p := by
-    intro p hp
-    rcases Finset.mem_union.mp hp with hp | hp
-    · exact hprime p hp
-    · exact hextrasPrime p hp
-  have hunionCut : forall p, p ∈ s ∪ extras -> 7 < p := by
-    intro p hp
-    rcases Finset.mem_union.mp hp with hp | hp
-    · have hpLarge := hcut p hp
-      omega
-    · exact hextrasCut p hp
-  have htotal := fiveMillionSquareTail7_kernel_close
-    (s ∪ extras) hunionPrime hunionCut
-  have hsum :
-      (∑ p ∈ s ∪ extras, reciprocalSquareQ p) =
-        (∑ p ∈ s, reciprocalSquareQ p) +
-          ∑ p ∈ extras, reciprocalSquareQ p := by
-    exact Finset.sum_union hdisjoint
-  rw [hsum] at htotal
-  norm_num [extras, primesElevenThroughTwentyThree, reciprocalSquareQ,
-    fiveMillionSquareTail7Envelope, fiveMillionSquareTail23Envelope] at htotal ⊢
-  linarith
 
 private theorem hallBaseTailSquareCount_ratio_le_of_globalMixedHigh23
     {N pivot : Nat} {B : Finset Nat} {highEnvelope : Rat}

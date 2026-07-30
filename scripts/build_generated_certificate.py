@@ -41,6 +41,7 @@ class Result:
     return_code: int | None
     output_tail: list[str]
     finished_at: str
+    source_closure_signature: str | None = None
 
 
 class ProcessRegistry:
@@ -328,6 +329,40 @@ def project_imports(source: Path) -> tuple[str, ...]:
 
 
 @lru_cache(maxsize=None)
+def module_source_closure_signature(lean_dir: Path, module: str) -> str:
+    """Content-address one module and every in-project source it imports.
+
+    OLean validity is fundamentally about source content and the Lean
+    environment, not wall-clock timestamps.  This signature lets a resumed
+    build prove that an older OLean still represents exactly the current
+    import closure after deterministic regeneration changed source mtimes.
+    """
+    source = module_source_path(lean_dir, module)
+    if not source.is_file():
+        raise FileNotFoundError(source)
+    digest = hashlib.sha256()
+    digest.update(b"erdos848-module-source-closure-v1\0")
+    digest.update(environment_input_signature(lean_dir).encode("ascii"))
+    digest.update(b"\0")
+    digest.update(module.encode("utf-8"))
+    digest.update(b"\0")
+    digest.update(source.read_bytes())
+    for dependency in project_imports(source):
+        dependency_source = module_source_path(lean_dir, dependency)
+        if not dependency_source.is_file():
+            continue
+        digest.update(b"\nimport\0")
+        digest.update(dependency.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(
+            module_source_closure_signature(
+                lean_dir, dependency
+            ).encode("ascii")
+        )
+    return digest.hexdigest()
+
+
+@lru_cache(maxsize=None)
 def effective_project_source_mtime_ns(lean_dir: Path, module: str) -> int:
     """Return the newest source timestamp in a project's import closure.
 
@@ -435,6 +470,76 @@ def stale_project_dependency(
     return None
 
 
+def adopt_mtime_proven_olean(lean_dir: Path, module: str) -> bool:
+    """Adopt an OLean when timestamps prove it postdates its source closure.
+
+    This is the inexpensive recovery path for historical kernel artifacts that
+    became "stale" only because an unchanged dependency was replayed later.
+    It is intentionally unavailable when any current source in the transitive
+    closure is newer than the candidate OLean.
+    """
+
+    source = module_source_path(lean_dir, module)
+    olean = module_olean_path(lean_dir, module)
+    if not source.is_file() or not olean.is_file():
+        return False
+    if effective_project_source_mtime_ns(
+        lean_dir, module
+    ) > olean.stat().st_mtime_ns:
+        return False
+    for dependency in project_imports(source):
+        dependency_source = module_source_path(lean_dir, dependency)
+        if not dependency_source.is_file():
+            continue
+        if stale_project_dependency(lean_dir, dependency, cache={}) is None:
+            continue
+        if not adopt_mtime_proven_olean(lean_dir, dependency):
+            return False
+    normalize_project_olean_mtime(lean_dir, module)
+    return stale_project_dependency(lean_dir, module, cache={}) is None
+
+
+def adopt_content_addressed_olean(
+    lean_dir: Path,
+    module: str,
+    results: dict[str, object],
+    visiting: set[str] | None = None,
+) -> bool:
+    """Adopt an OLean only after its recorded source closure matches exactly."""
+    if visiting is None:
+        visiting = set()
+    if module in visiting:
+        return True
+    visiting.add(module)
+    source = module_source_path(lean_dir, module)
+    olean = module_olean_path(lean_dir, module)
+    previous = results.get(module)
+    if (
+        not source.is_file()
+        or not olean.is_file()
+        or not isinstance(previous, dict)
+        or previous.get("status") != "passed"
+    ):
+        return False
+    recorded = previous.get("source_closure_signature")
+    if not isinstance(recorded, str):
+        return False
+    if recorded != module_source_closure_signature(lean_dir, module):
+        return False
+    for dependency in project_imports(source):
+        dependency_source = module_source_path(lean_dir, dependency)
+        if not dependency_source.is_file():
+            continue
+        if stale_project_dependency(lean_dir, dependency, cache={}) is None:
+            continue
+        if not adopt_content_addressed_olean(
+            lean_dir, dependency, results, visiting
+        ):
+            return False
+    normalize_project_olean_mtime(lean_dir, module)
+    return stale_project_dependency(lean_dir, module, cache={}) is None
+
+
 def validate_direct_imports(lean_dir: Path, module: str) -> None:
     source = module_source_path(lean_dir, module)
     if not source.is_file():
@@ -506,6 +611,7 @@ def core_input_signature(lean_dir: Path, kind: str) -> str:
     return digest.hexdigest()
 
 
+@lru_cache(maxsize=None)
 def environment_input_signature(lean_dir: Path) -> str:
     """Fingerprint only inputs that can invalidate every project OLean."""
     digest = hashlib.sha256()
@@ -778,13 +884,19 @@ def build_command(
     source = module_source_path(lean_dir, module)
     final_olean = module_olean_path(lean_dir, module)
     final_olean.parent.mkdir(parents=True, exist_ok=True)
+    # Keep temporary outputs comfortably below Windows' legacy MAX_PATH
+    # boundary.  Some generated namespaces already leave the final OLean path
+    # above 200 characters; a full 32-hex UUID made otherwise valid writes
+    # intermittently fail near 250 characters.  Twelve random hex digits are
+    # ample for the bounded set of concurrent workers.
     temporary_olean = final_olean.with_name(
-        f"{final_olean.stem}.{uuid.uuid4().hex}.tmp.olean"
+        f"{final_olean.stem}.{uuid.uuid4().hex[:12]}.tmp.olean"
     )
     process = subprocess.Popen(
         [
             "lake", "env", "lean", "--trust=0", "-q", "-M",
             str(max_memory_mib),
+            "-D", "compiler.postponeCompile=true",
             "-o", str(temporary_olean), str(source.relative_to(lean_dir)),
         ],
         cwd=lean_dir,
@@ -854,6 +966,11 @@ def build_command(
         temporary_olean.unlink(missing_ok=True)
     finished_at = utc_now()
     output_tail = list(output_tail_buffer) if status != "passed" else []
+    source_closure_signature = (
+        module_source_closure_signature(lean_dir, module)
+        if status == "passed"
+        else None
+    )
     return [
         Result(
             module=module,
@@ -863,6 +980,7 @@ def build_command(
             return_code=return_code,
             output_tail=output_tail if index == 0 else [],
             finished_at=finished_at,
+            source_closure_signature=source_closure_signature,
         )
         for index, module in enumerate(modules)
     ]
@@ -990,6 +1108,93 @@ def discover_generic_dependency_layers(
         completed.update(ready)
         remaining.difference_update(ready)
     return layers
+
+
+def discover_generic_full_dependency_layers(
+    lean_dir: Path,
+    source_dir: Path,
+    namespace: str,
+    targets: list[str],
+) -> tuple[list[list[str]], set[str]]:
+    """Topologically close a generic target across its ordinary Lean core.
+
+    Same-namespace generated modules and ordinary project modules are one build
+    graph: a checker may consume generated base data, and later generated
+    semantic leaves consume that checker.  Other generated namespaces remain
+    an explicit boundary so one selected certificate family cannot silently
+    start another expensive family.
+    """
+
+    namespace_modules = discover_namespace_modules(source_dir, namespace)
+    normalized_targets = {
+        target
+        if target.startswith(f"{namespace}.")
+        else f"{namespace}.{target}"
+        for target in targets
+    }
+    if not normalized_targets:
+        normalized_targets = set(namespace_modules)
+    missing_targets = normalized_targets - namespace_modules
+    if missing_targets:
+        raise RuntimeError(
+            "unknown generic target(s): "
+            + ", ".join(sorted(missing_targets))
+        )
+
+    nodes: set[str] = set()
+    generated_prerequisites: set[str] = set()
+
+    def visit(module: str) -> None:
+        if module in nodes or module in generated_prerequisites:
+            return
+        source = module_source_path(lean_dir, module)
+        if not source.is_file():
+            return
+        parts = module.split(".")
+        is_other_generated = (
+            len(parts) >= 2
+            and parts[1].startswith("Generated")
+            and not module.startswith(f"{namespace}.")
+        )
+        if is_other_generated:
+            generated_prerequisites.add(module)
+            return
+        nodes.add(module)
+        for dependency in project_imports(source):
+            visit(dependency)
+
+    for target in sorted(normalized_targets):
+        visit(target)
+
+    dependencies = {
+        module: {
+            dependency
+            for dependency in project_imports(
+                module_source_path(lean_dir, module)
+            )
+            if dependency in nodes
+        }
+        for module in nodes
+    }
+    layers: list[list[str]] = []
+    completed: set[str] = set()
+    remaining = set(nodes)
+    while remaining:
+        ready = sorted(
+            module
+            for module in remaining
+            if dependencies[module] <= completed
+        )
+        if not ready:
+            blocked = ", ".join(sorted(remaining)[:10])
+            raise RuntimeError(
+                "full generic import graph contains a cycle or unresolved "
+                f"internal dependency: {blocked}"
+            )
+        layers.append(ready)
+        completed.update(ready)
+        remaining.difference_update(ready)
+    return layers, generated_prerequisites
 
 
 def select_leaf_modules(
@@ -1177,13 +1382,42 @@ def run_stage(
     assert isinstance(results, dict)
     pending_modules: list[str] = []
     resumed = 0
+    content_adopted = 0
+    mtime_adopted = 0
     freshness_cache: dict[str, str | None] = {}
+    normalization_seen: set[str] = set()
     for module in modules:
+        adopted_by_content = False
         reason = stale_project_dependency(
             lean_dir, module, cache=freshness_cache
         )
+        if reason is not None and adopt_mtime_proven_olean(lean_dir, module):
+            freshness_cache.clear()
+            reason = stale_project_dependency(
+                lean_dir, module, cache=freshness_cache
+            )
+            if reason is None:
+                mtime_adopted += 1
+        if reason is not None and adopt_content_addressed_olean(
+            lean_dir, module, results
+        ):
+            # Adoption can repair a whole prerequisite chain, so discard
+            # negative cache entries computed before normalization.
+            freshness_cache.clear()
+            reason = stale_project_dependency(
+                lean_dir, module, cache=freshness_cache
+            )
+            if reason is None:
+                content_adopted += 1
+                adopted_by_content = True
         if reason is None:
-            normalize_project_olean_mtime(lean_dir, module)
+            # A layer can contain thousands of modules with a large shared
+            # import closure.  Reuse one traversal set for the whole layer so
+            # normalization remains linear in that closure instead of
+            # revisiting it once per resumed module.
+            normalize_project_olean_mtime(
+                lean_dir, module, seen=normalization_seen
+            )
             resumed += 1
             previous = results.get(module)
             if not (
@@ -1196,11 +1430,20 @@ def run_stage(
                     "adopted_fresh_olean": True,
                     "finished_at": utc_now(),
                 }
+                previous = results[module]
+            assert isinstance(previous, dict)
+            previous["source_closure_signature"] = (
+                module_source_closure_signature(lean_dir, module)
+            )
+            if adopted_by_content:
+                previous["adopted_content_addressed_olean"] = True
         else:
             pending_modules.append(module)
     if resumed:
         print(
-            f"resume-skip stage={stage} modules={resumed}",
+            f"resume-skip stage={stage} modules={resumed} "
+            f"mtime-proven={mtime_adopted} "
+            f"content-addressed={content_adopted}",
             flush=True,
         )
     modules = pending_modules
@@ -1737,25 +1980,130 @@ def main() -> int:
             print(state["error"], file=sys.stderr)
             return 1
         try:
-            layers = discover_generic_dependency_layers(
-                source_dir, namespace, args.generic_target
+            layers, generated_prerequisites = (
+                discover_generic_full_dependency_layers(
+                    lean_dir, source_dir, namespace, args.generic_target
+                )
+            )
+            def is_generated_module(module: str) -> bool:
+                parts = module.split(".")
+                return (
+                    len(parts) >= 2
+                    and parts[1].startswith("Generated")
+                )
+
+            generated_count = sum(
+                is_generated_module(module)
+                for layer in layers
+                for module in layer
             )
             print(
                 f"generic-import-graph layers={len(layers)} "
-                f"modules={sum(map(len, layers))} "
+                f"generated-modules={generated_count} "
+                f"ordinary-core-modules={sum(map(len, layers)) - generated_count} "
+                f"generated-prerequisites={len(generated_prerequisites)} "
                 f"scope={state['generic_scope']}",
                 flush=True,
             )
+            prerequisite_cache: dict[str, str | None] = {}
+            for prerequisite in sorted(generated_prerequisites):
+                reason = stale_project_dependency(
+                    lean_dir, prerequisite, cache=prerequisite_cache
+                )
+                if reason is not None and adopt_mtime_proven_olean(
+                    lean_dir, prerequisite
+                ):
+                    prerequisite_cache.clear()
+                    reason = stale_project_dependency(
+                        lean_dir, prerequisite,
+                        cache=prerequisite_cache,
+                    )
+                if reason is not None:
+                    raise RuntimeError(
+                        "generic target has an unbuilt generated-family "
+                        f"prerequisite: {reason}; run that certificate family "
+                        "first"
+                    )
             for index, layer in enumerate(layers):
+                ordinary_core_modules = [
+                    module
+                    for module in layer
+                    if not is_generated_module(module)
+                ]
+                for module in ordinary_core_modules:
+                    reason = stale_project_dependency(
+                        lean_dir, module, cache={}
+                    )
+                    if reason is not None and adopt_mtime_proven_olean(
+                        lean_dir, module
+                    ):
+                        reason = None
+                    if reason is None:
+                        continue
+                    [result] = build_command(
+                        lean_dir,
+                        [module],
+                        f"generic-core-layer-{index:02d}",
+                        args.core_timeout_seconds,
+                        args.core_max_memory_mib,
+                        registry,
+                    )
+                    print(
+                        f"{result.status:12} external-core={module} "
+                        f"elapsed={result.elapsed_seconds:.3f}s",
+                        flush=True,
+                    )
+                    if result.status != "passed":
+                        raise RuntimeError(
+                            f"external core preflight failed for {module}: "
+                            + "\n".join(result.output_tail)
+                        )
+                generated_modules = [
+                    module
+                    for module in layer
+                    if is_generated_module(module)
+                ]
                 assembly_modules = [
-                    module for module in layer
+                    module for module in generated_modules
                     if module.rsplit(".", 1)[-1] in {
                         "Data", "IndexedData", "CoreAggregate", "Certificate",
+                        # The shared 30,030-wheel equality expands 5,760
+                        # offsets once.  It is a singleton assembly object,
+                        # not a parallel leaf, and needs the final-memory
+                        # ceiling while all period batches stay on the leaf
+                        # ceiling.
+                        "WheelCertificate",
                     }
                     or module.rsplit(".", 1)[-1].endswith("Aggregate")
+                    # Per-k certificates can contain a large kernel-reduced
+                    # table equality even when they import only a few group
+                    # aggregates.  Treat them like top-level assemblies:
+                    # compile serially with the final memory ceiling.
+                    or re.fullmatch(
+                        r"K\d+Certificate", module.rsplit(".", 1)[-1]
+                    ) is not None
+                    # The unified scans for the two longer root blocks can
+                    # exceed the 8 GiB parallel-leaf ceiling during kernel
+                    # reduction.  Keep the already-light Block0/1 scans
+                    # parallel, but compile Block2/3 scans serially under the
+                    # final-memory ceiling.
+                    or re.fullmatch(
+                        r"UnifiedBlock[23](?:Nonsquare|Square)K\d+Scan",
+                        module.rsplit(".", 1)[-1],
+                    ) is not None
+                    # Even after splitting the old 48-way dispatcher by k,
+                    # each fixed-k theorem must load all eight scan
+                    # environments and can exceed the parallel 8 GiB
+                    # ceiling.  These six ABI-preserving dispatchers are
+                    # assembly objects, so check them serially with the
+                    # final-memory ceiling.
+                    or re.fullmatch(
+                        r"UnifiedScanK\d+",
+                        module.rsplit(".", 1)[-1],
+                    ) is not None
                 ]
                 leaf_modules = [
-                    module for module in layer
+                    module for module in generated_modules
                     if module not in assembly_modules
                 ]
                 run_stage(

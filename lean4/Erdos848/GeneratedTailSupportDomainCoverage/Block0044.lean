@@ -5,8 +5,8 @@ namespace Erdos848.GeneratedTailSupportDomainCoverage
 set_option maxRecDepth 1000000
 set_option maxHeartbeats 0
 
-def domainBlock0044 : List ℕ :=
-  [2816, 2817, 2818, 2819, 2820, 2821, 2822, 2823, 2824, 2825, 2826, 2827, 2828, 2829, 2830, 2831, 2832, 2833, 2834, 2835, 2836, 2837, 2838, 2839, 2840, 2841, 2842, 2843, 2844, 2845, 2846, 2847, 2848, 2849, 2850, 2851, 2852, 2853, 2854, 2855, 2856, 2857, 2858, 2859, 2860, 2861, 2862, 2863, 2864, 2865, 2866, 2867, 2868, 2869, 2870, 2871, 2872, 2873, 2874, 2875, 2876, 2877, 2878, 2879]
+def domainBlock0044 : List Nat :=
+  [704, 705, 706, 707, 708, 709, 710, 711, 712, 713, 714, 715, 716, 717, 718, 719]
 
 theorem domainBlock0044_passes :
     domainBlock0044.all Erdos848.supportPrimeEntryPasses = true := by

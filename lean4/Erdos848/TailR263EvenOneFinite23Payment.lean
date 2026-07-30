@@ -29,7 +29,9 @@ theorem e1FiniteFourDensity_nonneg_and_payment_le
   dsimp only at h
   constructor
   · unfold e1FiniteAllThreeDensityRat
-    exact_mod_cast h.1
+    apply div_nonneg
+    · exact_mod_cast h.1
+    · norm_num [e1FiniteFullModulus]
   · have hq :
         (1_000_000 : Rat) *
             ((e1FiniteAllThreeNumerator
@@ -72,10 +74,14 @@ theorem e1FiniteThreeDensities_nonneg_and_payment_le
   dsimp only at h
   constructor
   · unfold e1FiniteAllThreeDensityRat
-    exact_mod_cast h.1
+    apply div_nonneg
+    · exact_mod_cast h.1
+    · norm_num [e1FiniteFullModulus]
   constructor
   · unfold e1FiniteTwoOfThreeDensityRat
-    exact_mod_cast h.2.1
+    apply div_nonneg
+    · exact_mod_cast h.2.1
+    · norm_num [e1FiniteFullModulus]
   · have hq :
         (1_000_000 : Rat) *
             (((e1FiniteAllThreeNumerator
@@ -169,7 +175,9 @@ theorem e1FiniteActualAllThreeResidue_ratio_le
   have hraw := e1FiniteActualAllThreeResidue_card_rat_le
     hBout hvaluation hpivots hcard hextends
   exact (e1FinitePrefix_ratio_le_atFiveMillion
-    hLower hcert.1 (by positivity) hraw).trans hcert.2
+    hLower hcert.1 (by
+      unfold e1FiniteAllThreeEndpointRat
+      positivity) hraw).trans hcert.2
 
 theorem e1FiniteActualMixedResidue_ratio_le
     {N : Nat} {B pivots : Finset Nat}
@@ -204,7 +212,7 @@ theorem e1FiniteActualMixedResidue_ratio_le
     hBout hvaluation hpivots hcard hextends
   have htwo := e1FiniteActualTwoOfThreeResidue_card_rat_le
     hBout hvaluation hpivots hcard hextends
-  rw [hp3] at hall htwo ⊢
+  rw [hp3] at hall htwo
   have hraw :
       (((e1FiniteActualAllThreeResidue
           N pivots baseResidue).card : Rat) +
@@ -226,8 +234,22 @@ theorem e1FiniteActualMixedResidue_ratio_le
         e1FiniteTwoOfThreeDensityRat
           .allEqual p7 p11 p13 p17 p19 p23 :=
     add_nonneg hcert.1 hcert.2.1
-  exact (e1FinitePrefix_ratio_le_atFiveMillion
-    hLower hdensity (by positivity) hraw).trans hcert.2.2
+  have hendpoint :
+      0 <= e1FiniteAllThreeEndpointRat
+          .allEqual p7 p11 p13 p17 p19 p23 +
+        e1FiniteTwoOfThreeEndpointRat
+          .allEqual p7 p11 p13 p17 p19 p23 := by
+    unfold e1FiniteAllThreeEndpointRat e1FiniteTwoOfThreeEndpointRat
+    positivity
+  have hprefix := e1FinitePrefix_ratio_le_atFiveMillion
+    (count :=
+      (e1FiniteActualAllThreeResidue N pivots baseResidue).card +
+        (e1FiniteActualTwoOfThreeResidue N pivots baseResidue).card)
+    hLower hdensity hendpoint (by
+      simpa only [Nat.cast_add] using hraw)
+  have hclose := hprefix.trans (by
+    simpa only [add_assoc] using hcert.2.2)
+  simpa [p7, p11] using hclose
 
 #print axioms e1FiniteFourDensity_nonneg_and_payment_le
 #print axioms e1FiniteThreeDensities_nonneg_and_payment_le

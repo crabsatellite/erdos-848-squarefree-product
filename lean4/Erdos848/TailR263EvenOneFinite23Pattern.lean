@@ -272,6 +272,71 @@ def e1FiniteThreeTargetMillion : E1FiniteCellType -> Nat
   | .eleven => 12139
   | .both => 12616
 
+/-!
+The independent-pattern certificate above is intentionally valid without a
+geometric premise and is also reused on later ranges.  The sharper
+five-million certificate records the missing feasibility information for the
+pair selected by the root completion: every prime whose two quotient roots
+coincide contributes its square to that pivot distance.
+-/
+
+def e1FinitePatternPairFactor
+    (prime : Nat) (pattern : E1FiniteRootPattern) (pair : Fin 3) : Nat :=
+  if e1FinitePatternPairCard pattern pair = 1 then prime else 1
+
+def e1FinitePatternPairProduct
+    (pair : Fin 3)
+    (p3 p7 p11 p13 p17 p19 p23 : E1FiniteRootPattern) : Nat :=
+  e1FinitePatternPairFactor 3 p3 pair *
+    e1FinitePatternPairFactor 7 p7 pair *
+    e1FinitePatternPairFactor 11 p11 pair *
+    e1FinitePatternPairFactor 13 p13 pair *
+    e1FinitePatternPairFactor 17 p17 pair *
+    e1FinitePatternPairFactor 19 p19 pair *
+    e1FinitePatternPairFactor 23 p23 pair
+
+def e1FinitePatternPairFeasibleBelowTenMillion
+    (pair : Fin 3)
+    (p3 p7 p11 p13 p17 p19 p23 : E1FiniteRootPattern) : Prop :=
+  4 * e1FinitePatternPairProduct pair
+        p3 p7 p11 p13 p17 p19 p23 ^ 2 < 10_000_000
+
+instance e1FinitePatternPairFeasibleBelowTenMillionDecidable
+    (pair : Fin 3)
+    (p3 p7 p11 p13 p17 p19 p23 : E1FiniteRootPattern) :
+    Decidable (e1FinitePatternPairFeasibleBelowTenMillion pair
+      p3 p7 p11 p13 p17 p19 p23) := by
+  unfold e1FinitePatternPairFeasibleBelowTenMillion
+  infer_instance
+
+def e1FinitePatternAllPairsFeasibleBelowTenMillion
+    (p3 p7 p11 p13 p17 p19 p23 : E1FiniteRootPattern) : Prop :=
+  ∀ pair : Fin 3, e1FinitePatternPairFeasibleBelowTenMillion pair
+    p3 p7 p11 p13 p17 p19 p23
+
+instance e1FinitePatternAllPairsFeasibleBelowTenMillionDecidable
+    (p3 p7 p11 p13 p17 p19 p23 : E1FiniteRootPattern) :
+    Decidable (e1FinitePatternAllPairsFeasibleBelowTenMillion
+      p3 p7 p11 p13 p17 p19 p23) := by
+  unfold e1FinitePatternAllPairsFeasibleBelowTenMillion
+  infer_instance
+
+def e1FinitePatternFeasibleBelowTenMillion
+    (p3 p7 p11 p13 p17 p19 p23 : E1FiniteRootPattern) : Prop :=
+  e1FinitePatternPairFeasibleBelowTenMillion 0
+      p3 p7 p11 p13 p17 p19 p23 ∨
+    e1FinitePatternPairFeasibleBelowTenMillion 1
+      p3 p7 p11 p13 p17 p19 p23 ∨
+    e1FinitePatternPairFeasibleBelowTenMillion 2
+      p3 p7 p11 p13 p17 p19 p23
+
+instance e1FinitePatternFeasibleBelowTenMillionDecidable
+    (p3 p7 p11 p13 p17 p19 p23 : E1FiniteRootPattern) :
+    Decidable (e1FinitePatternFeasibleBelowTenMillion
+      p3 p7 p11 p13 p17 p19 p23) := by
+  unfold e1FinitePatternFeasibleBelowTenMillion
+  infer_instance
+
 def e1FiniteFourPaymentCrossInequality
     (p3 p7 p11 p13 p17 p19 p23 : E1FiniteRootPattern) : Prop :=
   let density :=

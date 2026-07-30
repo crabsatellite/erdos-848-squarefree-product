@@ -1,7 +1,4 @@
-import Erdos848.GeneratedTailTenMillionEvenFinite23.P3FirstSecond
-import Erdos848.GeneratedTailTenMillionEvenFinite23.P3FirstThird
-import Erdos848.GeneratedTailTenMillionEvenFinite23.P3SecondThird
-import Erdos848.GeneratedTailTenMillionEvenFinite23.P3AllDistinct
+import Erdos848.GeneratedTailTenMillionEvenFinite23.P3Groups
 
 namespace Erdos848.GeneratedTailTenMillionEvenFinite23
 

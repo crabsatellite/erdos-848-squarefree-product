@@ -35,6 +35,24 @@ def e1FiniteThreeBlockPasses
             decide (e1FiniteThreePaymentCrossInequality
               p7 p11 p13 p17 p19 p23)
 
+def e1FiniteFourLeafPasses
+    (p3 p7 p11 : E1FiniteRootPattern) : Bool :=
+  e1FinitePatternList.all fun p13 =>
+    e1FinitePatternList.all fun p17 =>
+      e1FinitePatternList.all fun p19 =>
+        e1FinitePatternList.all fun p23 =>
+          decide (e1FiniteFourPaymentCrossInequality
+            p3 p7 p11 p13 p17 p19 p23)
+
+def e1FiniteThreeLeafPasses
+    (p7 p11 : E1FiniteRootPattern) : Bool :=
+  e1FinitePatternList.all fun p13 =>
+    e1FinitePatternList.all fun p17 =>
+      e1FinitePatternList.all fun p19 =>
+        e1FinitePatternList.all fun p23 =>
+          decide (e1FiniteThreePaymentCrossInequality
+            p7 p11 p13 p17 p19 p23)
+
 theorem e1FiniteFourBlockPasses_sound
     {p3 p7 : E1FiniteRootPattern}
     (hpass : e1FiniteFourBlockPasses p3 p7 = true)
@@ -71,7 +89,41 @@ theorem e1FiniteThreeBlockPasses_sound
     p23 (mem_e1FinitePatternList p23)
   exact of_decide_eq_true h23
 
+theorem e1FiniteFourLeafPasses_sound
+    {p3 p7 p11 : E1FiniteRootPattern}
+    (hpass : e1FiniteFourLeafPasses p3 p7 p11 = true)
+    (p13 p17 p19 p23 : E1FiniteRootPattern) :
+    e1FiniteFourPaymentCrossInequality
+      p3 p7 p11 p13 p17 p19 p23 := by
+  have h13 := (List.all_eq_true.mp hpass)
+    p13 (mem_e1FinitePatternList p13)
+  have h17 := (List.all_eq_true.mp h13)
+    p17 (mem_e1FinitePatternList p17)
+  have h19 := (List.all_eq_true.mp h17)
+    p19 (mem_e1FinitePatternList p19)
+  have h23 := (List.all_eq_true.mp h19)
+    p23 (mem_e1FinitePatternList p23)
+  exact of_decide_eq_true h23
+
+theorem e1FiniteThreeLeafPasses_sound
+    {p7 p11 : E1FiniteRootPattern}
+    (hpass : e1FiniteThreeLeafPasses p7 p11 = true)
+    (p13 p17 p19 p23 : E1FiniteRootPattern) :
+    e1FiniteThreePaymentCrossInequality
+      p7 p11 p13 p17 p19 p23 := by
+  have h13 := (List.all_eq_true.mp hpass)
+    p13 (mem_e1FinitePatternList p13)
+  have h17 := (List.all_eq_true.mp h13)
+    p17 (mem_e1FinitePatternList p17)
+  have h19 := (List.all_eq_true.mp h17)
+    p19 (mem_e1FinitePatternList p19)
+  have h23 := (List.all_eq_true.mp h19)
+    p23 (mem_e1FinitePatternList p23)
+  exact of_decide_eq_true h23
+
 #print axioms e1FiniteFourBlockPasses_sound
 #print axioms e1FiniteThreeBlockPasses_sound
+#print axioms e1FiniteFourLeafPasses_sound
+#print axioms e1FiniteThreeLeafPasses_sound
 
 end Erdos848

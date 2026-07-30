@@ -17,8 +17,14 @@ charge consumed by the next row.
 set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 
-theorem fiveMillionR263BranchExhaustion_kernel :
-    FiveMillionR263BranchExhaustion := by
+theorem fiveMillionR263BranchExhaustion_kernel
+    [E1Finite23SharpCertificate] :
+    ∀ N, 5_000_000 ≤ N → N < 10_000_000 →
+      ∀ B : Finset Nat, Erdos848OutsideSet N B →
+        NonSquarefreeProductProp B →
+        (OriginalA7 N).card <
+          B.card + (hallNonNeighbours N B).card →
+        Nonempty (FiveMillionR263KernelTerminal N B) := by
   intro N hLower hUpper B hBout hBprop hdefect
   have hresidual :
       128 < (hallResidual N B).card := by
@@ -40,11 +46,24 @@ theorem fiveMillionR263BranchExhaustion_kernel :
   exact fiveMillionR263OddTwo_exhaustion
     hLower hUpper hBout hBprop hOne hEven.1 hEven.2 hOdd.1 hOdd.2
 
-theorem erdos848FiveToTenMillionClose :
+theorem erdos848FiveToTenMillionClose
+    [E1Finite23SharpCertificate] :
     ∀ N, 5_000_000 <= N -> N < 10_000_000 ->
-      OriginalProblem848Statement N :=
-  erdos848FiveToTenMillionClose_of_R263BranchExhaustion
+      OriginalProblem848Statement N := by
+  intro N hLower hUpper
+  apply originalProblem_of_hallStatement
+  intro B hBout hBprop
+  by_contra hnotHall
+  have hdefect : (OriginalA7 N).card <
+      B.card + (hallNonNeighbours N B).card := by omega
+  obtain ⟨terminal⟩ :=
     fiveMillionR263BranchExhaustion_kernel
+      N hLower hUpper B hBout hBprop hdefect
+  have hcompletion :=
+    terminal.completion_ratio_lt_target hLower hBprop
+  have hHall := hall_bound_of_completion_ratio_le_tailTarget
+    (lt_of_lt_of_le (by norm_num) hLower) hBout hcompletion.le
+  omega
 
 #print axioms fiveMillionR263BranchExhaustion_kernel
 #print axioms erdos848FiveToTenMillionClose

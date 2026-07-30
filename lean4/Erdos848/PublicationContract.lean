@@ -12,6 +12,6 @@ def publicationProofContractVersion : String :=
   "erdos-848-all-n-four-range-v1"
 
 def publicationMachineStatus : String :=
-  "open"
+  "closed"
 
 end Erdos848

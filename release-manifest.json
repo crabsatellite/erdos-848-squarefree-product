@@ -61,7 +61,7 @@
     "formalization_mode": "kernel-only",
     "proof_contract_version": "erdos-848-all-n-four-range-v1",
     "main_statement": "forall N, Erdos848.OriginalProblem848Statement N",
-    "main_theorem": "Erdos848.erdos848_all_N",
+    "main_theorem": "Erdos848.PaperGeneratedCertificateProvider.all_N",
     "main_theorem_status": "closed",
     "manuscript_claim_status": "complete",
     "manuscript_alignment_status": "aligned"

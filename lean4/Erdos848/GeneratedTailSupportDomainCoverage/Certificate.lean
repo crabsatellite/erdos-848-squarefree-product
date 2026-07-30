@@ -48,13 +48,161 @@ import Erdos848.GeneratedTailSupportDomainCoverage.Block0046
 import Erdos848.GeneratedTailSupportDomainCoverage.Block0047
 import Erdos848.GeneratedTailSupportDomainCoverage.Block0048
 import Erdos848.GeneratedTailSupportDomainCoverage.Block0049
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0050
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0051
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0052
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0053
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0054
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0055
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0056
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0057
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0058
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0059
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0060
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0061
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0062
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0063
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0064
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0065
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0066
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0067
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0068
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0069
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0070
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0071
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0072
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0073
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0074
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0075
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0076
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0077
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0078
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0079
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0080
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0081
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0082
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0083
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0084
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0085
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0086
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0087
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0088
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0089
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0090
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0091
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0092
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0093
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0094
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0095
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0096
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0097
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0098
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0099
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0100
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0101
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0102
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0103
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0104
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0105
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0106
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0107
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0108
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0109
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0110
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0111
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0112
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0113
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0114
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0115
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0116
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0117
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0118
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0119
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0120
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0121
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0122
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0123
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0124
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0125
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0126
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0127
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0128
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0129
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0130
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0131
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0132
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0133
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0134
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0135
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0136
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0137
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0138
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0139
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0140
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0141
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0142
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0143
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0144
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0145
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0146
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0147
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0148
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0149
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0150
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0151
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0152
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0153
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0154
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0155
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0156
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0157
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0158
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0159
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0160
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0161
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0162
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0163
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0164
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0165
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0166
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0167
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0168
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0169
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0170
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0171
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0172
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0173
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0174
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0175
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0176
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0177
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0178
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0179
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0180
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0181
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0182
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0183
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0184
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0185
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0186
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0187
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0188
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0189
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0190
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0191
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0192
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0193
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0194
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0195
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0196
+import Erdos848.GeneratedTailSupportDomainCoverage.Block0197
 
 namespace Erdos848.GeneratedTailSupportDomainCoverage
 
 set_option maxRecDepth 1000000
 set_option maxHeartbeats 0
 
-def certifiedDomain : List ℕ :=
+def certifiedDomain : List Nat :=
   domainBlock0000 ++
   domainBlock0001 ++
   domainBlock0002 ++
@@ -104,7 +252,155 @@ def certifiedDomain : List ℕ :=
   domainBlock0046 ++
   domainBlock0047 ++
   domainBlock0048 ++
-  domainBlock0049
+  domainBlock0049 ++
+  domainBlock0050 ++
+  domainBlock0051 ++
+  domainBlock0052 ++
+  domainBlock0053 ++
+  domainBlock0054 ++
+  domainBlock0055 ++
+  domainBlock0056 ++
+  domainBlock0057 ++
+  domainBlock0058 ++
+  domainBlock0059 ++
+  domainBlock0060 ++
+  domainBlock0061 ++
+  domainBlock0062 ++
+  domainBlock0063 ++
+  domainBlock0064 ++
+  domainBlock0065 ++
+  domainBlock0066 ++
+  domainBlock0067 ++
+  domainBlock0068 ++
+  domainBlock0069 ++
+  domainBlock0070 ++
+  domainBlock0071 ++
+  domainBlock0072 ++
+  domainBlock0073 ++
+  domainBlock0074 ++
+  domainBlock0075 ++
+  domainBlock0076 ++
+  domainBlock0077 ++
+  domainBlock0078 ++
+  domainBlock0079 ++
+  domainBlock0080 ++
+  domainBlock0081 ++
+  domainBlock0082 ++
+  domainBlock0083 ++
+  domainBlock0084 ++
+  domainBlock0085 ++
+  domainBlock0086 ++
+  domainBlock0087 ++
+  domainBlock0088 ++
+  domainBlock0089 ++
+  domainBlock0090 ++
+  domainBlock0091 ++
+  domainBlock0092 ++
+  domainBlock0093 ++
+  domainBlock0094 ++
+  domainBlock0095 ++
+  domainBlock0096 ++
+  domainBlock0097 ++
+  domainBlock0098 ++
+  domainBlock0099 ++
+  domainBlock0100 ++
+  domainBlock0101 ++
+  domainBlock0102 ++
+  domainBlock0103 ++
+  domainBlock0104 ++
+  domainBlock0105 ++
+  domainBlock0106 ++
+  domainBlock0107 ++
+  domainBlock0108 ++
+  domainBlock0109 ++
+  domainBlock0110 ++
+  domainBlock0111 ++
+  domainBlock0112 ++
+  domainBlock0113 ++
+  domainBlock0114 ++
+  domainBlock0115 ++
+  domainBlock0116 ++
+  domainBlock0117 ++
+  domainBlock0118 ++
+  domainBlock0119 ++
+  domainBlock0120 ++
+  domainBlock0121 ++
+  domainBlock0122 ++
+  domainBlock0123 ++
+  domainBlock0124 ++
+  domainBlock0125 ++
+  domainBlock0126 ++
+  domainBlock0127 ++
+  domainBlock0128 ++
+  domainBlock0129 ++
+  domainBlock0130 ++
+  domainBlock0131 ++
+  domainBlock0132 ++
+  domainBlock0133 ++
+  domainBlock0134 ++
+  domainBlock0135 ++
+  domainBlock0136 ++
+  domainBlock0137 ++
+  domainBlock0138 ++
+  domainBlock0139 ++
+  domainBlock0140 ++
+  domainBlock0141 ++
+  domainBlock0142 ++
+  domainBlock0143 ++
+  domainBlock0144 ++
+  domainBlock0145 ++
+  domainBlock0146 ++
+  domainBlock0147 ++
+  domainBlock0148 ++
+  domainBlock0149 ++
+  domainBlock0150 ++
+  domainBlock0151 ++
+  domainBlock0152 ++
+  domainBlock0153 ++
+  domainBlock0154 ++
+  domainBlock0155 ++
+  domainBlock0156 ++
+  domainBlock0157 ++
+  domainBlock0158 ++
+  domainBlock0159 ++
+  domainBlock0160 ++
+  domainBlock0161 ++
+  domainBlock0162 ++
+  domainBlock0163 ++
+  domainBlock0164 ++
+  domainBlock0165 ++
+  domainBlock0166 ++
+  domainBlock0167 ++
+  domainBlock0168 ++
+  domainBlock0169 ++
+  domainBlock0170 ++
+  domainBlock0171 ++
+  domainBlock0172 ++
+  domainBlock0173 ++
+  domainBlock0174 ++
+  domainBlock0175 ++
+  domainBlock0176 ++
+  domainBlock0177 ++
+  domainBlock0178 ++
+  domainBlock0179 ++
+  domainBlock0180 ++
+  domainBlock0181 ++
+  domainBlock0182 ++
+  domainBlock0183 ++
+  domainBlock0184 ++
+  domainBlock0185 ++
+  domainBlock0186 ++
+  domainBlock0187 ++
+  domainBlock0188 ++
+  domainBlock0189 ++
+  domainBlock0190 ++
+  domainBlock0191 ++
+  domainBlock0192 ++
+  domainBlock0193 ++
+  domainBlock0194 ++
+  domainBlock0195 ++
+  domainBlock0196 ++
+  domainBlock0197
 
 theorem certifiedDomain_eq : certifiedDomain = List.range 3164 := by
   decide
@@ -162,6 +458,154 @@ theorem certifiedDomain_passes :
   rw [domainBlock0047_passes]
   rw [domainBlock0048_passes]
   rw [domainBlock0049_passes]
+  rw [domainBlock0050_passes]
+  rw [domainBlock0051_passes]
+  rw [domainBlock0052_passes]
+  rw [domainBlock0053_passes]
+  rw [domainBlock0054_passes]
+  rw [domainBlock0055_passes]
+  rw [domainBlock0056_passes]
+  rw [domainBlock0057_passes]
+  rw [domainBlock0058_passes]
+  rw [domainBlock0059_passes]
+  rw [domainBlock0060_passes]
+  rw [domainBlock0061_passes]
+  rw [domainBlock0062_passes]
+  rw [domainBlock0063_passes]
+  rw [domainBlock0064_passes]
+  rw [domainBlock0065_passes]
+  rw [domainBlock0066_passes]
+  rw [domainBlock0067_passes]
+  rw [domainBlock0068_passes]
+  rw [domainBlock0069_passes]
+  rw [domainBlock0070_passes]
+  rw [domainBlock0071_passes]
+  rw [domainBlock0072_passes]
+  rw [domainBlock0073_passes]
+  rw [domainBlock0074_passes]
+  rw [domainBlock0075_passes]
+  rw [domainBlock0076_passes]
+  rw [domainBlock0077_passes]
+  rw [domainBlock0078_passes]
+  rw [domainBlock0079_passes]
+  rw [domainBlock0080_passes]
+  rw [domainBlock0081_passes]
+  rw [domainBlock0082_passes]
+  rw [domainBlock0083_passes]
+  rw [domainBlock0084_passes]
+  rw [domainBlock0085_passes]
+  rw [domainBlock0086_passes]
+  rw [domainBlock0087_passes]
+  rw [domainBlock0088_passes]
+  rw [domainBlock0089_passes]
+  rw [domainBlock0090_passes]
+  rw [domainBlock0091_passes]
+  rw [domainBlock0092_passes]
+  rw [domainBlock0093_passes]
+  rw [domainBlock0094_passes]
+  rw [domainBlock0095_passes]
+  rw [domainBlock0096_passes]
+  rw [domainBlock0097_passes]
+  rw [domainBlock0098_passes]
+  rw [domainBlock0099_passes]
+  rw [domainBlock0100_passes]
+  rw [domainBlock0101_passes]
+  rw [domainBlock0102_passes]
+  rw [domainBlock0103_passes]
+  rw [domainBlock0104_passes]
+  rw [domainBlock0105_passes]
+  rw [domainBlock0106_passes]
+  rw [domainBlock0107_passes]
+  rw [domainBlock0108_passes]
+  rw [domainBlock0109_passes]
+  rw [domainBlock0110_passes]
+  rw [domainBlock0111_passes]
+  rw [domainBlock0112_passes]
+  rw [domainBlock0113_passes]
+  rw [domainBlock0114_passes]
+  rw [domainBlock0115_passes]
+  rw [domainBlock0116_passes]
+  rw [domainBlock0117_passes]
+  rw [domainBlock0118_passes]
+  rw [domainBlock0119_passes]
+  rw [domainBlock0120_passes]
+  rw [domainBlock0121_passes]
+  rw [domainBlock0122_passes]
+  rw [domainBlock0123_passes]
+  rw [domainBlock0124_passes]
+  rw [domainBlock0125_passes]
+  rw [domainBlock0126_passes]
+  rw [domainBlock0127_passes]
+  rw [domainBlock0128_passes]
+  rw [domainBlock0129_passes]
+  rw [domainBlock0130_passes]
+  rw [domainBlock0131_passes]
+  rw [domainBlock0132_passes]
+  rw [domainBlock0133_passes]
+  rw [domainBlock0134_passes]
+  rw [domainBlock0135_passes]
+  rw [domainBlock0136_passes]
+  rw [domainBlock0137_passes]
+  rw [domainBlock0138_passes]
+  rw [domainBlock0139_passes]
+  rw [domainBlock0140_passes]
+  rw [domainBlock0141_passes]
+  rw [domainBlock0142_passes]
+  rw [domainBlock0143_passes]
+  rw [domainBlock0144_passes]
+  rw [domainBlock0145_passes]
+  rw [domainBlock0146_passes]
+  rw [domainBlock0147_passes]
+  rw [domainBlock0148_passes]
+  rw [domainBlock0149_passes]
+  rw [domainBlock0150_passes]
+  rw [domainBlock0151_passes]
+  rw [domainBlock0152_passes]
+  rw [domainBlock0153_passes]
+  rw [domainBlock0154_passes]
+  rw [domainBlock0155_passes]
+  rw [domainBlock0156_passes]
+  rw [domainBlock0157_passes]
+  rw [domainBlock0158_passes]
+  rw [domainBlock0159_passes]
+  rw [domainBlock0160_passes]
+  rw [domainBlock0161_passes]
+  rw [domainBlock0162_passes]
+  rw [domainBlock0163_passes]
+  rw [domainBlock0164_passes]
+  rw [domainBlock0165_passes]
+  rw [domainBlock0166_passes]
+  rw [domainBlock0167_passes]
+  rw [domainBlock0168_passes]
+  rw [domainBlock0169_passes]
+  rw [domainBlock0170_passes]
+  rw [domainBlock0171_passes]
+  rw [domainBlock0172_passes]
+  rw [domainBlock0173_passes]
+  rw [domainBlock0174_passes]
+  rw [domainBlock0175_passes]
+  rw [domainBlock0176_passes]
+  rw [domainBlock0177_passes]
+  rw [domainBlock0178_passes]
+  rw [domainBlock0179_passes]
+  rw [domainBlock0180_passes]
+  rw [domainBlock0181_passes]
+  rw [domainBlock0182_passes]
+  rw [domainBlock0183_passes]
+  rw [domainBlock0184_passes]
+  rw [domainBlock0185_passes]
+  rw [domainBlock0186_passes]
+  rw [domainBlock0187_passes]
+  rw [domainBlock0188_passes]
+  rw [domainBlock0189_passes]
+  rw [domainBlock0190_passes]
+  rw [domainBlock0191_passes]
+  rw [domainBlock0192_passes]
+  rw [domainBlock0193_passes]
+  rw [domainBlock0194_passes]
+  rw [domainBlock0195_passes]
+  rw [domainBlock0196_passes]
+  rw [domainBlock0197_passes]
   decide
 
 theorem supportPrimeDomain_passes :

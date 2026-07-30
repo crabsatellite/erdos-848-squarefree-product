@@ -1,9 +1,12 @@
 import Erdos848.TailTwentyMillionOddFinite19Partition
 import Erdos848.TailTwentyMillionOddFinite19Bounds
-import Erdos848.LowRangeCombinatorics
+import Erdos848.TailModFourPartitionCore
 import Erdos848.TailCRTCounting
 
 namespace Erdos848
+
+local notation "mod4Part" => tailMod4Part
+local notation "mod4_four_card_sum" => tailMod4_four_card_sum
 
 /-!
 # Prefix bounds matching the odd cutoff-19 certificate

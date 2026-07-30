@@ -1,0 +1,15 @@
+import Erdos848.GeneratedHybridPaperPrimeSlopeCoverage.ChunkBatch0135
+import Erdos848.GeneratedHybridPaperPrimeSlopeCoverage.ChunkBatch0136
+
+namespace Erdos848.GeneratedHybridPaperPrimeSlopeCoverage
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+theorem periodCoverage0211 :
+    Erdos848.PackedWheelPrimeChunkProperty
+      211 30030 packedWheelOffsets
+      0 5760 1897 := by
+  exact (Erdos848.PackedWheelPrimeChunkProperty.append (Erdos848.PackedWheelPrimeChunkProperty.append (Erdos848.PackedWheelPrimeChunkProperty.append period0211_chunk00 period0211_chunk01) (Erdos848.PackedWheelPrimeChunkProperty.append period0211_chunk02 period0211_chunk03)) (Erdos848.PackedWheelPrimeChunkProperty.append (Erdos848.PackedWheelPrimeChunkProperty.append period0211_chunk04 period0211_chunk05) (Erdos848.PackedWheelPrimeChunkProperty.append period0211_chunk06 (Erdos848.PackedWheelPrimeChunkProperty.append period0211_chunk07 period0211_chunk08))))
+
+end Erdos848.GeneratedHybridPaperPrimeSlopeCoverage

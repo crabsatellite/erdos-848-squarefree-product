@@ -2652,22 +2652,32 @@ We bound the *infinite* reciprocal-square sums by:
 
 private lemma diagPrimeSumCoarse_bound :
     diagPrimeSumCoarse + (1 : ℚ) / primeCutoff ≤ (1 : ℚ) / 70 := by
-  have hNat : 70 * (diagPrimeNum * primeCutoff + diagPrimeDen) ≤ diagPrimeDen * primeCutoff := by
+  have hNat :
+      70 * (diagPrimeNum * primeCutoff + diagPrimeDen) ≤
+        diagPrimeDen * primeCutoff := by
     norm_num [primeCutoff, diagPrimeNum, diagPrimeDen]
   have hD_pos : (0 : ℚ) < diagPrimeDen := Nat.cast_pos.mpr diagPrimeDen_pos
   have hB_pos : (0 : ℚ) < primeCutoff := Nat.cast_pos.mpr primeCutoff_pos
   have hD_ne : (diagPrimeDen : ℚ) ≠ 0 := ne_of_gt hD_pos
   have hB_ne : (primeCutoff : ℚ) ≠ 0 := ne_of_gt hB_pos
-  have h : (70 : ℚ) * ((diagPrimeNum : ℚ) * primeCutoff + diagPrimeDen) ≤
-           (diagPrimeDen : ℚ) * primeCutoff := by exact_mod_cast hNat
+  have h :
+      (70 : ℚ) *
+          ((diagPrimeNum : ℚ) * primeCutoff + diagPrimeDen) ≤
+        (diagPrimeDen : ℚ) * primeCutoff := by
+    exact_mod_cast hNat
   simp only [diagPrimeSumCoarse]
-  have goal : (diagPrimeNum : ℚ) / diagPrimeDen + 1 / primeCutoff ≤ 1 / 70 := by
+  have goal :
+      (diagPrimeNum : ℚ) / diagPrimeDen + 1 / primeCutoff ≤
+        1 / 70 := by
     have h70_pos : (0 : ℚ) < 70 := by norm_num
-    rw [div_add_div _ _ hD_ne hB_ne, div_le_div_iff₀ (mul_pos hD_pos hB_pos) h70_pos]
-    calc ((diagPrimeNum : ℚ) * primeCutoff + diagPrimeDen * 1) * 70
-         = 70 * (diagPrimeNum * primeCutoff + diagPrimeDen) := by ring
-       _ ≤ diagPrimeDen * primeCutoff := h
-       _ = 1 * ((diagPrimeDen : ℚ) * primeCutoff) := by ring
+    rw [div_add_div _ _ hD_ne hB_ne,
+      div_le_div_iff₀ (mul_pos hD_pos hB_pos) h70_pos]
+    calc
+      ((diagPrimeNum : ℚ) * primeCutoff + diagPrimeDen * 1) * 70
+          = 70 *
+              (diagPrimeNum * primeCutoff + diagPrimeDen) := by ring
+      _ ≤ 1 * (diagPrimeDen * primeCutoff) := by
+        simpa only [one_mul] using h
   exact goal
 
 private lemma offPrimeSumCoarse_bound :
@@ -2725,6 +2735,152 @@ lemma sum_Ioc_inv_sq_le_inv (B N : ℕ) (hB : B ≠ 0) :
       exact not_lt.2 (Nat.le_of_not_gt hBN)
     simp [hIoc, one_div]
 
+private def diagProgressionTail (N : ℕ) : Finset ℕ :=
+  (Finset.Ioc primeCutoff N).filter fun n => n % 4 = 1
+
+private def diagProgressionIndices (N : ℕ) : Finset ℕ :=
+  (diagProgressionTail N).image fun n => n / 4
+
+private def diagProgressionWeight (k : ℕ) : ℚ :=
+  (1 / 16 : ℚ) * (1 / (k ^ 2 : ℚ))
+
+private lemma diagProgressionTail_index_mem {N n : ℕ}
+    (hn : n ∈ diagProgressionTail N) :
+    n / 4 ∈ Finset.Ioc 499 (N / 4) := by
+  have hnIoc := Finset.mem_Ioc.mp (Finset.mem_filter.mp hn).1
+  apply Finset.mem_Ioc.mpr
+  constructor
+  · have hnLower' : 2000 < n := by
+      simpa [primeCutoff] using hnIoc.1
+    have h500 : 500 ≤ n / 4 :=
+      (Nat.le_div_iff_mul_le (by norm_num : 0 < 4)).2 (by omega)
+    omega
+  · exact Nat.div_le_div_right hnIoc.2
+
+private lemma diagProgressionTail_div_four_injective (N : ℕ) :
+    Set.InjOn (fun n : ℕ => n / 4)
+      (diagProgressionTail N : Set ℕ) := by
+  intro left hleft right hright heq
+  have hleftMod := (Finset.mem_filter.mp hleft).2
+  have hrightMod := (Finset.mem_filter.mp hright).2
+  have hleftDecomp := Nat.mod_add_div left 4
+  have hrightDecomp := Nat.mod_add_div right 4
+  have heq' : left / 4 = right / 4 := by simpa using heq
+  calc
+    left = left % 4 + 4 * (left / 4) := hleftDecomp.symm
+    _ = right % 4 + 4 * (right / 4) := by
+      rw [hleftMod, hrightMod, heq']
+    _ = right := hrightDecomp
+
+private lemma diagProgressionTail_term_le {N n : ℕ}
+    (hn : n ∈ diagProgressionTail N) :
+    (1 : ℚ) / (n ^ 2 : ℚ) ≤
+      diagProgressionWeight (n / 4) := by
+  have hkPos : 0 < n / 4 := by
+    have hnLower :=
+      (Finset.mem_Ioc.mp (Finset.mem_filter.mp hn).1).1
+    norm_num [primeCutoff] at hnLower
+    omega
+  have hmul : 4 * (n / 4) ≤ n := by
+    simpa [mul_comm] using Nat.div_mul_le_self n 4
+  have hsquare : (16 * (n / 4) ^ 2 : ℕ) ≤ n ^ 2 := by
+    nlinarith
+  have hsquareQ :
+      (((16 * (n / 4) ^ 2 : ℕ) : ℚ)) ≤
+        (((n ^ 2 : ℕ) : ℚ)) := by
+    exact_mod_cast hsquare
+  have hdenPos :
+      (0 : ℚ) < (((16 * (n / 4) ^ 2 : ℕ) : ℚ)) := by
+    positivity
+  have hreciprocal :
+      (1 : ℚ) / (((n ^ 2 : ℕ) : ℚ)) ≤
+        (1 : ℚ) / (((16 * (n / 4) ^ 2 : ℕ) : ℚ)) :=
+    one_div_le_one_div_of_le hdenPos hsquareQ
+  calc
+    (1 : ℚ) / (n ^ 2 : ℚ) ≤
+        (1 : ℚ) / (((16 * (n / 4) ^ 2 : ℕ) : ℚ)) := by
+      simpa only [Nat.cast_pow] using hreciprocal
+    _ = (1 / 16 : ℚ) *
+        (1 / (((n / 4) ^ 2 : ℕ) : ℚ)) := by
+      simp only [Nat.cast_mul, Nat.cast_pow, Nat.cast_ofNat, one_div,
+        mul_inv_rev, mul_comm]
+    _ = diagProgressionWeight (n / 4) := by
+      simp only [diagProgressionWeight, Nat.cast_pow]
+
+set_option maxRecDepth 10000 in
+private lemma diagProgressionTail_sum_image (N : ℕ) :
+    (∑ n ∈ diagProgressionTail N,
+      diagProgressionWeight (n / 4)) =
+    ∑ k ∈ diagProgressionIndices N,
+      diagProgressionWeight k := by
+  classical
+  symm
+  exact Finset.sum_image
+    (f := diagProgressionWeight)
+    (fun left hleft right hright heq =>
+      diagProgressionTail_div_four_injective N hleft hright heq)
+
+private lemma diagProgressionIndices_subset (N : ℕ) :
+    diagProgressionIndices N ⊆ Finset.Ioc 499 (N / 4) := by
+  classical
+  intro k hk
+  change k ∈ (diagProgressionTail N).image (fun n => n / 4) at hk
+  rcases Finset.mem_image.mp hk with ⟨n, hn, rfl⟩
+  exact diagProgressionTail_index_mem hn
+
+private lemma diagProgressionWeight_nonneg (k : ℕ) :
+    0 ≤ diagProgressionWeight k := by
+  simp only [diagProgressionWeight]
+  positivity
+
+private lemma diagProgressionWeight_sum_le (N : ℕ) :
+    (∑ k ∈ Finset.Ioc 499 (N / 4),
+      diagProgressionWeight k) ≤ (1 : ℚ) / 7_984 := by
+  have htail :=
+    sum_Ioc_inv_sq_le_inv 499 (N / 4) (by norm_num)
+  calc
+    (∑ k ∈ Finset.Ioc 499 (N / 4),
+      diagProgressionWeight k) =
+        (1 / 16 : ℚ) *
+          ∑ k ∈ Finset.Ioc 499 (N / 4),
+            (1 / (k ^ 2 : ℚ)) := by
+      simp only [diagProgressionWeight]
+      rw [Finset.mul_sum]
+    _ ≤ (1 / 16 : ℚ) * (1 / 499 : ℚ) := by
+      exact mul_le_mul_of_nonneg_left htail (by norm_num)
+    _ = (1 : ℚ) / 7_984 := by norm_num
+
+private lemma sum_diagProgressionTail_le (N : ℕ) :
+    (∑ n ∈ diagProgressionTail N,
+      (1 : ℚ) / (n ^ 2 : ℚ)) ≤ (1 : ℚ) / 7_984 := by
+  have hsource :
+      (∑ n ∈ diagProgressionTail N,
+        (1 : ℚ) / (n ^ 2 : ℚ)) ≤
+      ∑ n ∈ diagProgressionTail N,
+        diagProgressionWeight (n / 4) :=
+    Finset.sum_le_sum fun n hn =>
+      diagProgressionTail_term_le hn
+  have hsource' :
+      (∑ n ∈ diagProgressionTail N,
+        (1 : ℚ) / (n ^ 2 : ℚ)) ≤
+      ∑ k ∈ diagProgressionIndices N,
+        diagProgressionWeight k :=
+    hsource.trans_eq (diagProgressionTail_sum_image N)
+  have hsubset :
+      (∑ k ∈ diagProgressionIndices N,
+        diagProgressionWeight k) ≤
+      ∑ k ∈ Finset.Ioc 499 (N / 4),
+        diagProgressionWeight k :=
+    Finset.sum_le_sum_of_subset_of_nonneg
+      (diagProgressionIndices_subset N)
+      (fun k _ _ => diagProgressionWeight_nonneg k)
+  exact hsource'.trans (hsubset.trans (diagProgressionWeight_sum_le N))
+
+private lemma diagPrimeSumCoarse_sharp_bound :
+    diagPrimeSumCoarse + (1 : ℚ) / 7_984 ≤
+      (1_391 : ℚ) / 100_000 := by
+  norm_num [diagPrimeSumCoarse, diagPrimeNum, diagPrimeDen]
+
 def diagPrimesUpTo (N : ℕ) : Finset ℕ :=
   (primesUpTo N).filter (fun p => p % 4 = 1 ∧ 13 ≤ p)
 
@@ -2751,7 +2907,8 @@ lemma sq_pred_add_one_lt_sq (N : ℕ) (hN : 100 ≤ N) : (N - 1) * (N - 1) + 1 <
 
 set_option maxRecDepth 10000 in
 lemma sum_diagPrimesUpTo_le (N : ℕ) :
-    (∑ p ∈ diagPrimesUpTo N, (1 : ℚ) / (p ^ 2 : ℚ)) ≤ (1 : ℚ) / 70 := by
+    (∑ p ∈ diagPrimesUpTo N, (1 : ℚ) / (p ^ 2 : ℚ)) ≤
+      (1 : ℚ) / 70 := by
   classical
   let f : ℕ → ℚ := fun p => (1 : ℚ) / (p ^ 2 : ℚ)
   have hsubset : diagPrimesUpTo N ⊆ diagPrimesCoarse ∪ Finset.Ioc primeCutoff N := by
@@ -2807,7 +2964,81 @@ lemma sum_diagPrimesUpTo_le (N : ℕ) :
     exact hsum_le.trans (add_le_add_right htail diagPrimeSumCoarse)
   exact hsum_le'.trans diagPrimeSumCoarse_bound
 
--- Placeholders for the remaining prime-sum bounds; used in the final casework.
+set_option maxRecDepth 10000 in
+lemma sum_diagPrimesUpTo_le_sharp (N : ℕ) :
+    (∑ p ∈ diagPrimesUpTo N,
+      (1 : ℚ) / (p ^ 2 : ℚ)) ≤
+        (1_391 : ℚ) / 100_000 := by
+  classical
+  let f : ℕ → ℚ := fun p => (1 : ℚ) / (p ^ 2 : ℚ)
+  have hsubset :
+      diagPrimesUpTo N ⊆
+        diagPrimesCoarse ∪ diagProgressionTail N := by
+    intro p hp
+    have hpMem : p ∈ primesUpTo N :=
+      (Finset.mem_filter.mp hp).1
+    have hpCond : p % 4 = 1 ∧ 13 ≤ p :=
+      (Finset.mem_filter.mp hp).2
+    have hpPrime : Nat.Prime p :=
+      (Finset.mem_filter.mp hpMem).2
+    have hpLe : p ≤ N := by
+      have hpRange :
+          p ∈ Finset.range (N + 1) :=
+        (Finset.mem_filter.mp hpMem).1
+      exact Nat.le_of_lt_succ (Finset.mem_range.mp hpRange)
+    by_cases hpCutoff : p ≤ primeCutoff
+    · apply Finset.mem_union_left
+      simp [diagPrimesCoarse, primesUpTo, hpPrime,
+        hpCond, Nat.lt_succ_of_le hpCutoff]
+    · apply Finset.mem_union_right
+      apply Finset.mem_filter.mpr
+      exact
+        ⟨Finset.mem_Ioc.mpr ⟨by omega, hpLe⟩,
+          hpCond.1⟩
+  have hdisjoint :
+      Disjoint diagPrimesCoarse
+        (diagProgressionTail N) := by
+    rw [Finset.disjoint_left]
+    intro p hpCoarse hpTail
+    have hpCutoff : p ≤ primeCutoff := by
+      have hpRange :
+          p ∈ Finset.range (primeCutoff + 1) :=
+        (Finset.mem_filter.mp
+          (Finset.mem_filter.mp hpCoarse).1).1
+      exact Nat.le_of_lt_succ (Finset.mem_range.mp hpRange)
+    have hpLarge :
+        primeCutoff < p :=
+      (Finset.mem_Ioc.mp
+        (Finset.mem_filter.mp hpTail).1).1
+    omega
+  have hsumUnion :
+      (∑ p ∈ diagPrimesUpTo N, f p) ≤
+        ∑ p ∈ diagPrimesCoarse ∪
+          diagProgressionTail N, f p := by
+    exact Finset.sum_le_sum_of_subset_of_nonneg hsubset
+      (by intros; positivity)
+  have hcoarse :
+      (∑ p ∈ diagPrimesCoarse, f p) =
+        diagPrimeSumCoarse := by
+    simpa [f] using diagPrimesCoarse_sum_eq
+  have htail :
+      (∑ p ∈ diagProgressionTail N, f p) ≤
+        (1 : ℚ) / 7_984 := by
+    simpa [f] using sum_diagProgressionTail_le N
+  calc
+    (∑ p ∈ diagPrimesUpTo N, f p) ≤
+        ∑ p ∈ diagPrimesCoarse ∪
+          diagProgressionTail N, f p := hsumUnion
+    _ = (∑ p ∈ diagPrimesCoarse, f p) +
+          ∑ p ∈ diagProgressionTail N, f p := by
+      rw [Finset.sum_union hdisjoint]
+    _ ≤ diagPrimeSumCoarse + (1 : ℚ) / 7_984 := by
+      rw [hcoarse]
+      gcongr
+    _ ≤ (1_391 : ℚ) / 100_000 :=
+      diagPrimeSumCoarse_sharp_bound
+
+-- Remaining prime-sum bounds used in the final casework.
 set_option maxRecDepth 10000 in
 lemma sum_offPrimesUpTo_le (N : ℕ) :
     (∑ p ∈ offPrimesUpTo N, (1 : ℚ) / (p ^ 2 : ℚ)) ≤ (163 : ℚ) / 1000 := by

@@ -1,6 +1,8 @@
 import Erdos848.TailTwentyMillionRootCertificate
 import Erdos848.TailGlobalMixedEvenSurvivors
 import Erdos848.TailFiveMillionHighTransformedCore
+import Erdos848.TailTwentyMillionRootActualHighNormal
+import Erdos848.TailTwentyMillionRootActualHighTwist
 
 namespace Erdos848
 
@@ -17,6 +19,7 @@ ordinary Lean theorems.
 set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 
+/-
 theorem actualTwentyMillionNormalHighResidue_card_cast_le
     {N : Nat} {B : Finset Nat} {pivot baseResidue : Nat}
     {row : TwentyMillionRootRow} {squareCoset : Bool}
@@ -100,6 +103,8 @@ theorem actualTwentyMillionFiveTwistHighResidue_card_cast_le
   · exact hpass
   · intro m hm
     exact hroots m
+
+-/
 
 theorem actualTwentyMillionEvenOneNormalHighResidue_card_cast_le
     {N : Nat} {B : Finset Nat} {pivot baseResidue : Nat}
@@ -377,16 +382,5 @@ theorem actualTwentyMillionOddTwistHighResidue_card_cast_le
     simpa [TwentyMillionRootRow.rootFactor] using
       fiveMillionFiveTwistTransformedRoot_card_le
         hpivotPos hpivotOdd hconstantFive hconstantTwentyFive (m := m)
-
-#print axioms actualTwentyMillionNormalHighResidue_card_cast_le
-#print axioms actualTwentyMillionFiveTwistHighResidue_card_cast_le
-#print axioms actualTwentyMillionEvenOneNormalHighResidue_card_cast_le
-#print axioms actualTwentyMillionEvenOneTwistHighResidue_card_cast_le
-#print axioms actualTwentyMillionEvenTwoNormalHighResidue_card_cast_le
-#print axioms actualTwentyMillionEvenTwoTwistHighResidue_card_cast_le
-#print axioms actualTwentyMillionEvenThreeNormalHighResidue_card_cast_le
-#print axioms actualTwentyMillionEvenThreeTwistHighResidue_card_cast_le
-#print axioms actualTwentyMillionOddNormalHighResidue_card_cast_le
-#print axioms actualTwentyMillionOddTwistHighResidue_card_cast_le
 
 end Erdos848

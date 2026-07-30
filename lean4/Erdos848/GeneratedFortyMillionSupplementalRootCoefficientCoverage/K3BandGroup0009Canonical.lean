@@ -1,0 +1,14 @@
+import Erdos848.GeneratedFortyMillionSupplementalRootCoefficientCoverage.K3BandGroup0009Data
+
+namespace Erdos848.GeneratedFortyMillionSupplementalRootCoefficientCoverage
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+theorem k3BandGroup0009Rows_eq_canonical :
+    k3BandGroup0009Rows = fortyMillionK3BandPairRowsFor k3BandGroup0009QPrimes := by
+  rfl
+
+#print axioms k3BandGroup0009Rows_eq_canonical
+
+end Erdos848.GeneratedFortyMillionSupplementalRootCoefficientCoverage

@@ -1,0 +1,16 @@
+import Erdos848.GeneratedHybridHighDiagonalTwoBillion.CoverageCertificate
+import Erdos848.GeneratedHybridHighDiagonalTwoBillionAtoms.CoreAggregate
+
+namespace Erdos848.GeneratedHybridHighDiagonalTwoBillionAtoms
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+def certificate : HybridHighDiagonalCoverageCertificate :=
+  Erdos848.GeneratedHybridHighDiagonalTwoBillion.certificate
+
+#print axioms certificate
+#print axioms projectsAtoms
+#print axioms atomTargetsOrdered
+
+end Erdos848.GeneratedHybridHighDiagonalTwoBillionAtoms

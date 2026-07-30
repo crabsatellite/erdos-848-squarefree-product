@@ -1,7 +1,10 @@
 import Erdos848.GeneratedTailR263EvenOneDiagonal.Certificate
 import Erdos848.TailR263EvenOneFourPivotFinite
+import Erdos848.TailR263EvenOneCellTriple
 import Erdos848.TailR263EvenOneMixedHalfTerminal
+import Erdos848.TailR263EvenOneTail23
 import Erdos848.TailR263EvenTwoOneCell
+import Erdos848.TailFiveMillionResidual
 
 namespace Erdos848
 
@@ -18,6 +21,7 @@ set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 
 noncomputable def fiveMillionR263EvenOneTwoGoodTerminal
+    [E1Finite23SharpCertificate]
     {N : Nat} {B : Finset Nat} {left right : Fin 9}
     (hLower : 5_000_000 <= N)
     (hUpper : N < 10_000_000)
@@ -37,12 +41,23 @@ noncomputable def fiveMillionR263EvenOneTwoGoodTerminal
       (fiveMillionValuationPart_subset_residual N B .evenOne
         (hpivotsPart hpivot))).1
   have hdiagonal :=
-    (GeneratedTailR263EvenOneDiagonal.
-      fiveMillionR263EvenOneDiagonal_kernel_close
+    (_root_.Erdos848.GeneratedTailR263EvenOneDiagonal.fiveMillionR263EvenOneDiagonal_kernel_close
         N hLower hUpper).unrestricted
+  have hresidualSubset :=
+    hallResidual_subset_tailDiagonalBad hBout hBprop
+  have hresidualCard :
+      ((hallResidual N B).card : Rat) <=
+        ((tailDiagonalBad N).card : Rat) := by
+    exact_mod_cast Finset.card_le_card hresidualSubset
+  have hNpos : (0 : Rat) < N := by
+    exact_mod_cast (lt_of_lt_of_le (by norm_num : 0 < 5_000_000) hLower)
+  have hresidual :
+      ((hallResidual N B).card : Rat) / N <=
+        tailR263EvenOneUnrestrictedDiagonalEnvelope :=
+    (div_le_div_of_nonneg_right hresidualCard hNpos.le).trans hdiagonal
   have hfinite :=
     fiveMillionR263EvenOneFourPivotFinite_ratio_le_twoGood
-      hLower hBout selection hx49 hx121 hy49 hy121
+      hLower hUpper hBout selection hx49 hx121 hy49 hy121
   have htail :=
     hallBaseTailSquarePayment_fourThree_r263_evenOne23_ratio_le
       hLower hUpper hBout hpivotsPart hpivotsCard
@@ -53,17 +68,17 @@ noncomputable def fiveMillionR263EvenOneTwoGoodTerminal
       cutoff := 23
       pivotsCompletion := hpivotsCompletion
       residualEnvelope := tailR263EvenOneUnrestrictedDiagonalEnvelope
-      finiteEnvelope := 4 * e1FiniteFourTargetRat .good
+      finiteEnvelope := 4 * e1FiniteSharpFourTargetRat .good
       tailEnvelope :=
         4 * fiveMillionSquareTail23Envelope / 25 +
           2 * fiveMillionR263EvenOneRoot23Envelope / 3
-      residualBound := hdiagonal
+      residualBound := hresidual
       finiteBound := hfinite
       tailBound := htail
       componentTotalBound := ?_ }
   norm_num [fiveMillionR263BranchCeiling,
     tailR263EvenOneUnrestrictedDiagonalEnvelope,
-    e1FiniteFourTargetRat, e1FiniteFourTargetMillion,
+    e1FiniteSharpFourTargetRat, e1FiniteSharpFourTargetMillion,
     fiveMillionSquareTail23Envelope,
     fiveMillionR263EvenOneRoot23Envelope]
 
@@ -139,6 +154,218 @@ lemma fiveMillionStructuredResidual_subset_r263EvenOneConcentrated
       exact ⟨hxDiagonal,
         tailR263LowTwo_accepts_of_not_evenOne_evenTwo hOne hTwo⟩
 
+lemma fiveMillionStructuredResidual_subset_r263EvenOneSingleFibre
+    {N : Nat} {B : Finset Nat} {cell : Fin 9} {residue : Fin 49}
+    (hBout : Erdos848OutsideSet N B)
+    (hBprop : NonSquarefreeProductProp B)
+    (hcontained : ∀ x ∈ fiveMillionR263EvenOneCell N B cell,
+      x % 49 = residue.val) :
+    fiveMillionStructuredResidual N B
+        (fiveMillionR263EvenOneOneCellCharge N B cell) ⊆
+      tailR263EvenOneFibreCoverDiagonal N {cell} (fun _ => residue) := by
+  intro x hx
+  have hxParts := Finset.mem_sdiff.mp hx
+  have hxResidual : x ∈ hallResidual N B := hxParts.1
+  have hxNotCharge := hxParts.2
+  have hxDiagonal : x ∈ tailDiagonalBad N := by
+    have hglobal := hallResidual_subset_globalMixedTailDiagonalBad
+      hBout hBprop hxResidual
+    have hparts := Finset.mem_filter.mp hglobal
+    apply Finset.mem_filter.mpr
+    exact ⟨hparts.1,
+      ⟨hparts.2.1, hparts.2.2.1⟩, hparts.2.2.2⟩
+  by_cases hOne : fiveMillionValuationClassOf x = .evenOne
+  · have hxOne : x ∈ fiveMillionValuationPart N B .evenOne :=
+      mem_fiveMillionValuationPart.mpr ⟨hxResidual, hOne⟩
+    have hxCell : x ∈ fiveMillionR263EvenOneCell N B cell := by
+      by_contra hnotCell
+      exact hxNotCharge (Finset.mem_sdiff.mpr ⟨hxOne, hnotCell⟩)
+    apply Finset.mem_union_right
+    apply Finset.mem_biUnion.mpr
+    refine ⟨cell, by simp, ?_⟩
+    apply Finset.mem_filter.mpr
+    refine ⟨Finset.mem_filter.mpr
+      ⟨hxDiagonal, fiveMillionValuationPart_evenOne hxOne, ?_⟩, ?_⟩
+    · simpa [oddModNineResidue] using
+        congrArg Fin.val (Finset.mem_filter.mp hxCell).2
+    · exact hcontained x hxCell
+  · by_cases hTwo : fiveMillionValuationClassOf x = .evenTwo
+    · have hxTwo : x ∈ fiveMillionValuationPart N B .evenTwo :=
+        mem_fiveMillionValuationPart.mpr ⟨hxResidual, hTwo⟩
+      apply Finset.mem_union_left
+      apply Finset.mem_union_right
+      apply Finset.mem_biUnion.mpr
+      let residue9 : Fin 9 := ⟨x % 9, Nat.mod_lt _ (by norm_num)⟩
+      refine ⟨residue9, Finset.mem_univ _, ?_⟩
+      apply Finset.mem_filter.mpr
+      exact ⟨hxDiagonal,
+        fiveMillionValuationPart_evenTwo hxTwo, rfl⟩
+    · apply Finset.mem_union_left
+      apply Finset.mem_union_left
+      apply Finset.mem_filter.mpr
+      exact ⟨hxDiagonal,
+        tailR263LowTwo_accepts_of_not_evenOne_evenTwo hOne hTwo⟩
+
+private theorem fiveMillionR263EvenOneOneCellResidual_ratio_le
+    {N : Nat} {B diagonal : Finset Nat} {cell : Fin 9}
+    {envelope : Rat}
+    (hLower : 5_000_000 ≤ N)
+    (hSparse : ∀ other : Fin 9, other ≠ cell →
+      (fiveMillionR263EvenOneCell N B other).card ≤ 1)
+    (hstructuredSubset :
+      fiveMillionStructuredResidual N B
+          (fiveMillionR263EvenOneOneCellCharge N B cell) ⊆ diagonal)
+    (hdiagonal : (diagonal.card : Rat) / N ≤ envelope) :
+    ((hallResidual N B).card : Rat) / N ≤
+      envelope + 8 / 5_000_000 := by
+  let charged := fiveMillionR263EvenOneOneCellCharge N B cell
+  have hchargedSubset : charged ⊆ hallResidual N B := by
+    simpa [charged] using
+      fiveMillionR263EvenOneOneCellCharge_subset_residual N B cell
+  have hchargedCard : charged.card ≤ 8 := by
+    simpa [charged] using
+      fiveMillionR263EvenOneOneCellCharge_card_le_eight hSparse
+  have hNpos : (0 : Rat) < N := by
+    exact_mod_cast (lt_of_lt_of_le (by norm_num : 0 < 5_000_000) hLower)
+  have hstructuredCard :
+      (fiveMillionStructuredResidual N B charged).card ≤ diagonal.card :=
+    Finset.card_le_card (by simpa [charged] using hstructuredSubset)
+  have hstructuredRatio :
+      ((fiveMillionStructuredResidual N B charged).card : Rat) / N ≤
+        envelope := by
+    have hcardQ :
+        ((fiveMillionStructuredResidual N B charged).card : Rat) ≤
+          (diagonal.card : Rat) := by
+      exact_mod_cast hstructuredCard
+    exact (div_le_div_of_nonneg_right hcardQ hNpos.le).trans hdiagonal
+  have hchargeRatio : (charged.card : Rat) / N ≤ 8 / 5_000_000 := by
+    have hcardQ : (charged.card : Rat) ≤ 8 := by
+      exact_mod_cast hchargedCard
+    have hLowerQ : (5_000_000 : Rat) ≤ N := by
+      exact_mod_cast hLower
+    calc
+      (charged.card : Rat) / N ≤ 8 / N :=
+        div_le_div_of_nonneg_right hcardQ hNpos.le
+      _ ≤ 8 / 5_000_000 :=
+        div_le_div_of_nonneg_left (by norm_num) (by norm_num) hLowerQ
+  have hpartition :
+      (fiveMillionStructuredResidual N B charged).card + charged.card =
+        (hallResidual N B).card := by
+    simpa [fiveMillionStructuredResidual] using
+      Finset.card_sdiff_add_card_eq_card hchargedSubset
+  calc
+    ((hallResidual N B).card : Rat) / N =
+        ((fiveMillionStructuredResidual N B charged).card : Rat) / N +
+          (charged.card : Rat) / N := by
+      rw [← add_div]
+      congr 1
+      exact_mod_cast hpartition.symm
+    _ ≤ envelope + 8 / 5_000_000 :=
+      add_le_add hstructuredRatio hchargeRatio
+
+private theorem fiveMillionR263EvenOneOneCellConcentratedResidual_ratio_le
+    {N : Nat} {B : Finset Nat} {cell : Fin 9}
+    (hLower : 5_000_000 ≤ N)
+    (hUpper : N < 10_000_000)
+    (hBout : Erdos848OutsideSet N B)
+    (hBprop : NonSquarefreeProductProp B)
+    (hSparse : ∀ other : Fin 9, other ≠ cell →
+      (fiveMillionR263EvenOneCell N B other).card ≤ 1) :
+    ((hallResidual N B).card : Rat) / N ≤
+      tailR263EvenOneConcentratedDiagonalEnvelope + 8 / 5_000_000 := by
+  apply fiveMillionR263EvenOneOneCellResidual_ratio_le
+    hLower hSparse
+      (fiveMillionStructuredResidual_subset_r263EvenOneConcentrated
+        hBout hBprop)
+  exact
+    (_root_.Erdos848.GeneratedTailR263EvenOneDiagonal.fiveMillionR263EvenOneDiagonal_kernel_close
+      N hLower hUpper).concentrated cell
+
+private theorem fiveMillionR263EvenOneOneCellFibreResidual_ratio_le
+    {N : Nat} {B : Finset Nat} {cell : Fin 9}
+    (hLower : 5_000_000 ≤ N)
+    (hUpper : N < 10_000_000)
+    (hBout : Erdos848OutsideSet N B)
+    (hBprop : NonSquarefreeProductProp B)
+    (hSparse : ∀ other : Fin 9, other ≠ cell →
+      (fiveMillionR263EvenOneCell N B other).card ≤ 1)
+    (hcontained : fiveMillionR263EvenOneCellContained49 N B cell) :
+    ((hallResidual N B).card : Rat) / N ≤
+      tailR263EvenOneFibreCoverDiagonalEnvelope + 8 / 5_000_000 := by
+  obtain ⟨residue, hresidue⟩ := hcontained
+  apply fiveMillionR263EvenOneOneCellResidual_ratio_le
+    hLower hSparse
+      (fiveMillionStructuredResidual_subset_r263EvenOneSingleFibre
+        hBout hBprop hresidue)
+  exact
+    (_root_.Erdos848.GeneratedTailR263EvenOneDiagonal.fiveMillionR263EvenOneDiagonal_kernel_close
+      N hLower hUpper).fibreCover {cell} (fun _ => residue)
+
+private noncomputable def fiveMillionR263EvenOneOneCellProfileTerminal
+    {N : Nat} {B : Finset Nat} {cell : Fin 9}
+    (hLower : 5_000_000 ≤ N)
+    (hUpper : N < 10_000_000)
+    (hBout : Erdos848OutsideSet N B)
+    (selection : FiveMillionR263EvenOneCellTripleSelection N B cell)
+    (branch : FiveMillionR263Branch)
+    (cellType : E1FiniteCellType)
+    (residualEnvelope : Rat)
+    (hresidual :
+      ((hallResidual N B).card : Rat) / N ≤ residualEnvelope)
+    (hseven :
+      e1FiniteTripleCommonAt selection.pivots selection.card 1 ↔
+        cellType = .seven ∨ cellType = .both)
+    (heleven :
+      e1FiniteTripleCommonAt selection.pivots selection.card 2 ↔
+        cellType = .eleven ∨ cellType = .both)
+    (hcomponent :
+      residualEnvelope + e1FiniteThreeTargetRat cellType +
+          (3 * fiveMillionSquareTail23Envelope / 25 +
+            fiveMillionR263EvenOneRoot23Envelope / 2) ≤
+        fiveMillionR263BranchCeiling branch) :
+    FiveMillionR263MixedHalfTerminalCertificate N B := by
+  have hpivotsPart :
+      selection.pivots ⊆ fiveMillionValuationPart N B .evenOne :=
+    selection.subsetCell.trans
+      (fiveMillionR263EvenOneCell_subset_part N B cell)
+  have hpivotsCompletion : selection.pivots ⊆ hallCompletion N B := by
+    intro pivot hpivot
+    exact (Finset.mem_sdiff.mp
+      (fiveMillionValuationPart_subset_residual N B .evenOne
+        (hpivotsPart hpivot))).1
+  have hthree :
+      e1FiniteTripleCommonAt selection.pivots selection.card 0 := by
+    refine ⟨⟨cell.val, cell.isLt⟩, ?_⟩
+    intro index
+    have hpivotCell := selection.subsetCell
+      (globalMixedThreePivotAt_mem
+        selection.pivots selection.card index)
+    have hcell := (Finset.mem_filter.mp hpivotCell).2
+    simpa [e1FiniteModulus, oddModNineResidue] using
+      congrArg Fin.val hcell
+  have hfinite :=
+    e1FiniteHallBaseMixedHalfPayment_ratio_le_profile
+      hLower hBout hpivotsPart selection.card cellType
+        hthree hseven heleven
+  have htail :=
+    hallBaseTailSquarePayment_threeTwo_r263_evenOne23_ratio_le
+      hLower hUpper hBout hpivotsPart selection.card
+  exact
+    { branch := branch
+      pivots := selection.pivots
+      pivotsCard := selection.card
+      cutoff := 23
+      pivotsCompletion := hpivotsCompletion
+      residualEnvelope := residualEnvelope
+      finiteEnvelope := e1FiniteThreeTargetRat cellType
+      tailEnvelope :=
+        3 * fiveMillionSquareTail23Envelope / 25 +
+          fiveMillionR263EvenOneRoot23Envelope / 2
+      residualBound := hresidual
+      finiteBound := hfinite
+      tailBound := htail
+      componentTotalBound := hcomponent }
+
 noncomputable def fiveMillionR263EvenOneOneCellTerminal
     {N : Nat} {B : Finset Nat}
     (hLower : 5_000_000 <= N)
@@ -150,6 +377,63 @@ noncomputable def fiveMillionR263EvenOneOneCellTerminal
     (hSparse : ∀ other : Fin 9, other ≠ cell →
       (fiveMillionR263EvenOneCell N B other).card <= 1) :
     FiveMillionR263MixedHalfTerminalCertificate N B := by
+  classical
+  let selection :=
+    Classical.choice (fiveMillionR263EvenOneCell_exists_exact_triple hCell)
+  by_cases h49 : fiveMillionR263EvenOneCellContained49 N B cell
+  · have hresidual :=
+      fiveMillionR263EvenOneOneCellFibreResidual_ratio_le
+        hLower hUpper hBout hBprop hSparse h49
+    by_cases h121 : fiveMillionR263EvenOneCellContained121 N B cell
+    · apply fiveMillionR263EvenOneOneCellProfileTerminal
+        hLower hUpper hBout selection .evenOneOneCellBoth .both
+          (tailR263EvenOneFibreCoverDiagonalEnvelope + 8 / 5_000_000)
+          hresidual
+      · simpa [selection, h49] using selection.common49
+      · simpa [selection, h121] using selection.common121
+      · norm_num [fiveMillionR263BranchCeiling,
+          tailR263EvenOneFibreCoverDiagonalEnvelope,
+          e1FiniteThreeTargetRat, e1FiniteThreeTargetMillion,
+          fiveMillionSquareTail23Envelope,
+          fiveMillionR263EvenOneRoot23Envelope]
+    · apply fiveMillionR263EvenOneOneCellProfileTerminal
+        hLower hUpper hBout selection .evenOneOneCellSeven .seven
+          (tailR263EvenOneFibreCoverDiagonalEnvelope + 8 / 5_000_000)
+          hresidual
+      · simpa [selection, h49] using selection.common49
+      · simpa [selection, h121] using selection.common121
+      · norm_num [fiveMillionR263BranchCeiling,
+          tailR263EvenOneFibreCoverDiagonalEnvelope,
+          e1FiniteThreeTargetRat, e1FiniteThreeTargetMillion,
+          fiveMillionSquareTail23Envelope,
+          fiveMillionR263EvenOneRoot23Envelope]
+  · have hresidual :=
+      fiveMillionR263EvenOneOneCellConcentratedResidual_ratio_le
+        hLower hUpper hBout hBprop hSparse
+    by_cases h121 : fiveMillionR263EvenOneCellContained121 N B cell
+    · apply fiveMillionR263EvenOneOneCellProfileTerminal
+        hLower hUpper hBout selection .evenOneOneCellEleven .eleven
+          (tailR263EvenOneConcentratedDiagonalEnvelope + 8 / 5_000_000)
+          hresidual
+      · simpa [selection, h49] using selection.common49
+      · simpa [selection, h121] using selection.common121
+      · norm_num [fiveMillionR263BranchCeiling,
+          tailR263EvenOneConcentratedDiagonalEnvelope,
+          e1FiniteThreeTargetRat, e1FiniteThreeTargetMillion,
+          fiveMillionSquareTail23Envelope,
+          fiveMillionR263EvenOneRoot23Envelope]
+    · apply fiveMillionR263EvenOneOneCellProfileTerminal
+        hLower hUpper hBout selection .evenOneOneCellGood .good
+          (tailR263EvenOneConcentratedDiagonalEnvelope + 8 / 5_000_000)
+          hresidual
+      · simpa [selection, h49] using selection.common49
+      · simpa [selection, h121] using selection.common121
+      · norm_num [fiveMillionR263BranchCeiling,
+          tailR263EvenOneConcentratedDiagonalEnvelope,
+          e1FiniteThreeTargetRat, e1FiniteThreeTargetMillion,
+          fiveMillionSquareTail23Envelope,
+          fiveMillionR263EvenOneRoot23Envelope]
+  /-
   classical
   let pivotWitness := Finset.exists_subset_card_eq hCell
   let pivots := Classical.choose pivotWitness
@@ -188,8 +472,7 @@ noncomputable def fiveMillionR263EvenOneOneCellTerminal
       fiveMillionStructuredResidual_subset_r263EvenOneConcentrated
         hBout hBprop
   have hdiagonal :=
-    (GeneratedTailR263EvenOneDiagonal.
-      fiveMillionR263EvenOneDiagonal_kernel_close
+    (_root_.Erdos848.GeneratedTailR263EvenOneDiagonal.fiveMillionR263EvenOneDiagonal_kernel_close
         N hLower hUpper).concentrated cell
   have hNpos : (0 : Rat) < N := by
     exact_mod_cast (lt_of_lt_of_le (by norm_num : 0 < 5_000_000) hLower)
@@ -258,8 +541,10 @@ noncomputable def fiveMillionR263EvenOneOneCellTerminal
     e1FiniteThreeTargetRat, e1FiniteThreeTargetMillion,
     fiveMillionSquareTail23Envelope,
     fiveMillionR263EvenOneRoot23Envelope]
+  -/
 
 noncomputable def fiveMillionR263EvenOneOneGoodTerminal
+    [E1Finite23SharpCertificate]
     {N : Nat} {B : Finset Nat} {left right : Fin 9}
     (hLower : 5_000_000 <= N)
     (hUpper : N < 10_000_000)
@@ -291,8 +576,7 @@ noncomputable def fiveMillionR263EvenOneOneGoodTerminal
       fiveMillionStructuredResidual_subset_r263EvenOneConcentrated
         hBout hBprop
   have hdiagonal :=
-    (GeneratedTailR263EvenOneDiagonal.
-      fiveMillionR263EvenOneDiagonal_kernel_close
+    (_root_.Erdos848.GeneratedTailR263EvenOneDiagonal.fiveMillionR263EvenOneDiagonal_kernel_close
         N hLower hUpper).concentrated left
   have hNpos : (0 : Rat) < N := by
     exact_mod_cast (lt_of_lt_of_le (by norm_num : 0 < 5_000_000) hLower)
@@ -317,16 +601,21 @@ noncomputable def fiveMillionR263EvenOneOneGoodTerminal
           8 * ((N ⌈/⌉ 1764 : Nat) : Rat) := by
       exact_mod_cast hchargedCard
     have hLowerQ : (5_000_000 : Rat) <= N := by exact_mod_cast hLower
+    have hmul :
+        (8 : Rat) * (N ⌈/⌉ 1764 : Nat) ≤
+          8 * ((N : Rat) / 1764 + 1) :=
+      mul_le_mul_of_nonneg_left hceil (by norm_num)
+    have hdiv : (8 : Rat) / N ≤ 8 / 5_000_000 :=
+      div_le_div_of_nonneg_left (by norm_num) (by norm_num) hLowerQ
     calc
       (charged.card : Rat) / N <=
           (8 * ((N ⌈/⌉ 1764 : Nat) : Rat)) / N :=
         div_le_div_of_nonneg_right hcardQ hNpos.le
-      _ <= (8 * ((N : Rat) / 1764 + 1)) / N := by
-        gcongr
-      _ = 8 / 1764 + 8 / N := by field_simp; ring
-      _ <= 8 / 1764 + 8 / 5_000_000 := by
-        gcongr
-        exact div_le_div_of_nonneg_left (by norm_num) (by norm_num) hLowerQ
+      _ <= (8 * ((N : Rat) / 1764 + 1)) / N :=
+        div_le_div_of_nonneg_right hmul hNpos.le
+      _ = 8 / 1764 + 8 / N := by field_simp
+      _ <= 8 / 1764 + 8 / 5_000_000 :=
+        add_le_add_right hdiv (8 / 1764)
   have hpartition :
       (fiveMillionStructuredResidual N B charged).card + charged.card =
         (hallResidual N B).card := by
@@ -357,7 +646,7 @@ noncomputable def fiveMillionR263EvenOneOneGoodTerminal
         (hpivotsPart hpivot))).1
   have hfinite :=
     fiveMillionR263EvenOneFourPivotFinite_ratio_le_oneGood
-      hLower hBout selection hx49 hx121
+      hLower hUpper hBout selection hx49 hx121
   have htail :=
     hallBaseTailSquarePayment_fourThree_r263_evenOne23_ratio_le
       hLower hUpper hBout hpivotsPart hpivotsCard
@@ -371,8 +660,8 @@ noncomputable def fiveMillionR263EvenOneOneGoodTerminal
         tailR263EvenOneConcentratedDiagonalEnvelope +
           8 / 1764 + 8 / 5_000_000
       finiteEnvelope :=
-        2 * e1FiniteFourTargetRat .good +
-          2 * e1FiniteFourTargetRat .both
+        2 * e1FiniteSharpFourTargetRat .good +
+          2 * e1FiniteSharpFourTargetRat .both
       tailEnvelope :=
         4 * fiveMillionSquareTail23Envelope / 25 +
           2 * fiveMillionR263EvenOneRoot23Envelope / 3
@@ -382,7 +671,7 @@ noncomputable def fiveMillionR263EvenOneOneGoodTerminal
       componentTotalBound := ?_ }
   norm_num [fiveMillionR263BranchCeiling,
     tailR263EvenOneConcentratedDiagonalEnvelope,
-    e1FiniteFourTargetRat, e1FiniteFourTargetMillion,
+    e1FiniteSharpFourTargetRat, e1FiniteSharpFourTargetMillion,
     fiveMillionSquareTail23Envelope,
     fiveMillionR263EvenOneRoot23Envelope]
 
@@ -415,8 +704,15 @@ lemma fiveMillionR263EvenOneFibreCoverCharge_card_le
         cellFibre (fiveMillionR263EvenOneFibreCoverCharge N B cells)
           oddModNineResidue cell = ∅ := by
       ext x
-      simp [cellFibre, fiveMillionR263EvenOneFibreCoverCharge,
-        hcell]
+      constructor
+      · intro hx
+        have hparts := Finset.mem_filter.mp hx
+        have hcharge := Finset.mem_filter.mp hparts.1
+        have hforbidden : oddModNineResidue x ∈ cells := by
+          rw [hparts.2]
+          exact hcell
+        exact (hcharge.2 hforbidden).elim
+      · simp
     simp [hempty]
   · have hsubset :
         cellFibre (fiveMillionR263EvenOneFibreCoverCharge N B cells)
@@ -486,6 +782,7 @@ lemma fiveMillionStructuredResidual_subset_r263EvenOneFibreCover
         tailR263LowTwo_accepts_of_not_evenOne_evenTwo hOne hTwo⟩
 
 noncomputable def fiveMillionR263EvenOneNoGoodTerminal
+    [E1Finite23SharpCertificate]
     {N : Nat} {B : Finset Nat} {left right : Fin 9}
     (hLower : 5_000_000 <= N)
     (hUpper : N < 10_000_000)
@@ -513,8 +810,7 @@ noncomputable def fiveMillionR263EvenOneNoGoodTerminal
       fiveMillionStructuredResidual_subset_r263EvenOneFibreCover
         hBout hBprop hcover
   have hdiagonal :=
-    (GeneratedTailR263EvenOneDiagonal.
-      fiveMillionR263EvenOneDiagonal_kernel_close
+    (_root_.Erdos848.GeneratedTailR263EvenOneDiagonal.fiveMillionR263EvenOneDiagonal_kernel_close
         N hLower hUpper).fibreCover cells residues
   have hNpos : (0 : Rat) < N := by
     exact_mod_cast (lt_of_lt_of_le (by norm_num : 0 < 5_000_000) hLower)
@@ -540,16 +836,21 @@ noncomputable def fiveMillionR263EvenOneNoGoodTerminal
           9 * ((N ⌈/⌉ 4356 : Nat) : Rat) := by
       exact_mod_cast hchargedCard
     have hLowerQ : (5_000_000 : Rat) <= N := by exact_mod_cast hLower
+    have hmul :
+        (9 : Rat) * (N ⌈/⌉ 4356 : Nat) ≤
+          9 * ((N : Rat) / 4356 + 1) :=
+      mul_le_mul_of_nonneg_left hceil (by norm_num)
+    have hdiv : (9 : Rat) / N ≤ 9 / 5_000_000 :=
+      div_le_div_of_nonneg_left (by norm_num) (by norm_num) hLowerQ
     calc
       (charged.card : Rat) / N <=
           (9 * ((N ⌈/⌉ 4356 : Nat) : Rat)) / N :=
         div_le_div_of_nonneg_right hcardQ hNpos.le
-      _ <= (9 * ((N : Rat) / 4356 + 1)) / N := by
-        gcongr
-      _ = 9 / 4356 + 9 / N := by field_simp; ring
-      _ <= 9 / 4356 + 9 / 5_000_000 := by
-        gcongr
-        exact div_le_div_of_nonneg_left (by norm_num) (by norm_num) hLowerQ
+      _ <= (9 * ((N : Rat) / 4356 + 1)) / N :=
+        div_le_div_of_nonneg_right hmul hNpos.le
+      _ = 9 / 4356 + 9 / N := by field_simp
+      _ <= 9 / 4356 + 9 / 5_000_000 :=
+        add_le_add_right hdiv (9 / 4356)
   have hpartition :
       (fiveMillionStructuredResidual N B charged).card + charged.card =
         (hallResidual N B).card := by
@@ -580,7 +881,7 @@ noncomputable def fiveMillionR263EvenOneNoGoodTerminal
         (hpivotsPart hpivot))).1
   have hfinite :=
     fiveMillionR263EvenOneFourPivotFinite_ratio_le_worst
-      hLower hBout selection
+      hLower hUpper hBout selection
   have htail :=
     hallBaseTailSquarePayment_fourThree_r263_evenOne23_ratio_le
       hLower hUpper hBout hpivotsPart hpivotsCard
@@ -593,7 +894,7 @@ noncomputable def fiveMillionR263EvenOneNoGoodTerminal
       residualEnvelope :=
         tailR263EvenOneFibreCoverDiagonalEnvelope +
           9 / 4356 + 9 / 5_000_000
-      finiteEnvelope := 4 * e1FiniteFourTargetRat .both
+      finiteEnvelope := 4 * e1FiniteSharpFourTargetRat .both
       tailEnvelope :=
         4 * fiveMillionSquareTail23Envelope / 25 +
           2 * fiveMillionR263EvenOneRoot23Envelope / 3
@@ -603,7 +904,7 @@ noncomputable def fiveMillionR263EvenOneNoGoodTerminal
       componentTotalBound := ?_ }
   norm_num [fiveMillionR263BranchCeiling,
     tailR263EvenOneFibreCoverDiagonalEnvelope,
-    e1FiniteFourTargetRat, e1FiniteFourTargetMillion,
+    e1FiniteSharpFourTargetRat, e1FiniteSharpFourTargetMillion,
     fiveMillionSquareTail23Envelope,
     fiveMillionR263EvenOneRoot23Envelope]
 

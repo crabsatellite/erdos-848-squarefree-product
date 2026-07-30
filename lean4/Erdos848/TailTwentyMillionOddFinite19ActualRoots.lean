@@ -1,6 +1,7 @@
 import Erdos848.TailTwentyMillionOddFinite19Semantics
 import Erdos848.TailR263EvenOneFinite23RootCover
 import Erdos848.TailTwentyMillionPivotAllocation
+import Erdos848.TailGlobalMixedThreePivotFiniteProducer
 
 namespace Erdos848
 
@@ -222,10 +223,7 @@ theorem twentyMillionOddFinite19ActualPartialRoot_eq_some_of_event
         ((point / 25 : Nat) :
           ZMod (twentyMillionOddFinite19Modulus index)) := by
     dsimp [q]
-    simpa [ZMod.val_natCast] using
-      (ZMod.natCast_zmod_val
-        ((point / 25 : Nat) :
-          ZMod (twentyMillionOddFinite19Modulus index)))
+    simp
   rw [← hcast] at hequation
   change twentyMillionOddDegreeRootEquation
     index baseResidue
@@ -242,7 +240,7 @@ theorem twentyMillionOddFinite19ActualPartialRoot_eq_some_of_event
             (globalMixedThreePivotAt pivots hcard i) = q :=
       (twentyMillionOddDegreeRoot_eq_of_equation htwo).symm.trans
         (twentyMillionOddDegreeRoot_eq_of_equation hequation)
-    simpa [twentyMillionOddFinite19ActualPartialRoots, hroot, q]
+    simp [twentyMillionOddFinite19ActualPartialRoots, hroot, q]
   · simpa [twentyMillionOddFinite19ActualPartialRoots, hzero, q] using
       (twentyMillionOddFinite19PartialRoot_eq_some hequation)
 
@@ -285,7 +283,7 @@ theorem twentyMillionOddFinite19OptionRoot_exists_constrained_extension
           e1FiniteOptionRoot_exists_extension
             (twentyMillionOddDegreeModulus_pos index)
             (givenRoot index)
-        exact ⟨total, hextends, by simp [hconstraint]⟩
+        exact ⟨total, hextends, by simp⟩
     | common =>
         obtain ⟨total, hextends, hpattern⟩ :=
           e1FiniteOptionRoot_exists_allEqual_extension
@@ -293,7 +291,7 @@ theorem twentyMillionOddFinite19OptionRoot_exists_constrained_extension
             (givenRoot index)
             (hcommon index hconstraint)
         exact ⟨total, hextends, by
-          simp [hconstraint, hpattern]⟩
+          simp [hpattern]⟩
     | noncommon =>
         have htwo :
             2 ≤ twentyMillionOddFinite19Modulus index := by
@@ -304,7 +302,7 @@ theorem twentyMillionOddFinite19OptionRoot_exists_constrained_extension
             htwo (givenRoot index)
             (hnoncommon index hconstraint)
         exact ⟨total, hextends, by
-          simp [hconstraint, hpattern]⟩
+          simp [hpattern]⟩
   choose total htotal using hper
   refine ⟨fun i index => total index i, ?_, ?_, ?_⟩
   · intro index i q hq
@@ -350,11 +348,11 @@ theorem twentyMillionOddFinite19Actual_exists_constrained_root_cover
     · subst index
       have hi' :
           twentyMillionOddFinite19PrimeTwoRoot baseResidue
-              (globalMixedThreePivotAt pivots hcard i) = q := by
+              (Erdos848.globalMixedThreePivotAt pivots hcard i) = q := by
         simpa [twentyMillionOddFinite19ActualPartialRoots] using hi
       have hj' :
           twentyMillionOddFinite19PrimeTwoRoot baseResidue
-              (globalMixedThreePivotAt pivots hcard j) = r := by
+              (Erdos848.globalMixedThreePivotAt pivots hcard j) = r := by
         simpa [twentyMillionOddFinite19ActualPartialRoots] using hj
       have hmod :
           globalMixedThreePivotAt pivots hcard i % 4 =
@@ -385,11 +383,11 @@ theorem twentyMillionOddFinite19Actual_exists_constrained_root_cover
     · subst index
       have hi :
           twentyMillionOddFinite19PrimeTwoRoot baseResidue
-              (globalMixedThreePivotAt pivots hcard i) = q := by
+              (Erdos848.globalMixedThreePivotAt pivots hcard i) = q := by
         simpa [twentyMillionOddFinite19ActualPartialRoots] using hq i
       have hzeroRoot :
           twentyMillionOddFinite19PrimeTwoRoot baseResidue
-              (globalMixedThreePivotAt pivots hcard 0) = q := by
+              (Erdos848.globalMixedThreePivotAt pivots hcard 0) = q := by
         simpa [twentyMillionOddFinite19ActualPartialRoots] using hq 0
       exact (twentyMillionOddFinite19PrimeTwoRoot_eq_iff).mp
         (hi.trans hzeroRoot.symm)

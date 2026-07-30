@@ -46,17 +46,19 @@ inductive FiveMillionR263Branch where
   | oddTwoBalanced
   deriving DecidableEq, Repr
 
-/-! Each decimal printed by the independent R263 audit is rounded upward by
-one unit at `10^-18`.  The controlling seven-cell row is retained as the exact
-rational kernel budget already proved in the all-`N` module. -/
+/-! The first seven rows use the public coarse-root implementation.  Their
+common umbrella remains strictly below the Hall target at five million.
+All other rows retain the upward-rounded independent audit ceilings. -/
+@[simp] def fiveMillionR263PublicBudget : Rat := 39_995 / 1_000_000
+
 def fiveMillionR263BranchCeiling : FiveMillionR263Branch -> Rat
-  | .evenOneTwoGood => 39266126410213122 / 10^18
-  | .evenOneOneGood => 39355015773670596 / 10^18
-  | .evenOneNoGood => 35987656416177805 / 10^18
-  | .evenOneOneCellGood => 39567736842710069 / 10^18
-  | .evenOneOneCellSeven => 39260431254597386 / 10^18
-  | .evenOneOneCellEleven => 39184047037563117 / 10^18
-  | .evenOneOneCellBoth => 39312281226852984 / 10^18
+  | .evenOneTwoGood => fiveMillionR263PublicBudget
+  | .evenOneOneGood => fiveMillionR263PublicBudget
+  | .evenOneNoGood => fiveMillionR263PublicBudget
+  | .evenOneOneCellGood => fiveMillionR263PublicBudget
+  | .evenOneOneCellSeven => fiveMillionR263PublicBudget
+  | .evenOneOneCellEleven => fiveMillionR263PublicBudget
+  | .evenOneOneCellBoth => fiveMillionR263PublicBudget
   -- The public kernel package reuses the already checked uniform one-form
   -- root envelope in this row.  The resulting literal four-pivot total is
   -- coarser than the exploratory supportwise maximum but remains below the
@@ -91,12 +93,23 @@ def fiveMillionR263BranchCeiling : FiveMillionR263Branch -> Rat
   -- slack and avoids another generated certificate family.
   | .oddTwoBalanced => 39400000000000000 / 10^18
 
-theorem fiveMillionR263BranchCeiling_le_controlling
+theorem fiveMillionR263PublicBudget_lt_fiveMillionTarget :
+    fiveMillionR263PublicBudget < tailHallTarget 5_000_000 := by
+  norm_num [fiveMillionR263PublicBudget, tailHallTarget]
+
+theorem fiveMillionR263PublicBudget_lt_target
+    {N : Nat} (hLower : 5_000_000 <= N) :
+    fiveMillionR263PublicBudget < tailHallTarget N :=
+  fiveMillionR263PublicBudget_lt_fiveMillionTarget.trans_le
+    (tailHallTarget_mono (by norm_num) hLower)
+
+theorem fiveMillionR263BranchCeiling_le_publicBudget
     (branch : FiveMillionR263Branch) :
     fiveMillionR263BranchCeiling branch <=
-      globalMixedOneOddSevenCellBudget := by
+      fiveMillionR263PublicBudget := by
   cases branch <;>
     norm_num [fiveMillionR263BranchCeiling,
+      fiveMillionR263PublicBudget,
       globalMixedOneOddSevenCellBudget,
       globalMixedOneOddSevenCellDiagonalEnvelope,
       globalMixedOneOddSevenCellFiniteEnvelope,
@@ -301,10 +314,10 @@ theorem FiveMillionR263TerminalCertificate.completion_ratio_lt_target
         certificate.finiteBound) certificate.tailBound
     _ <= fiveMillionR263BranchCeiling certificate.branch :=
       certificate.componentTotalBound
-    _ <= globalMixedOneOddSevenCellBudget :=
-      fiveMillionR263BranchCeiling_le_controlling certificate.branch
+    _ <= fiveMillionR263PublicBudget :=
+      fiveMillionR263BranchCeiling_le_publicBudget certificate.branch
     _ < tailHallTarget N :=
-      globalMixedOneOddSevenCellBudget_lt_target hLower
+      fiveMillionR263PublicBudget_lt_target hLower
 
 def FiveMillionR263BranchExhaustion : Prop :=
   ∀ N, 5_000_000 <= N -> N < 10_000_000 ->
@@ -330,7 +343,7 @@ theorem erdos848FiveToTenMillionClose_of_R263BranchExhaustion
     (lt_of_lt_of_le (by norm_num) hLower) hBout hcompletion.le
   omega
 
-#print axioms fiveMillionR263BranchCeiling_le_controlling
+#print axioms fiveMillionR263BranchCeiling_le_publicBudget
 #print axioms hallCompletion_card_le_fiveMillionR263Components
 #print axioms GlobalMixedOneOddSevenCellCertificate.toR263Terminal
 #print axioms FiveMillionR263TerminalCertificate.completion_ratio_lt_target

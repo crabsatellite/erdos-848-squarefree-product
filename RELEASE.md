@@ -13,17 +13,21 @@ and one exact Lean proof version describe the same all-\(N\) theorem.
 - `lean4/Erdos848/PublicationContract.lean`, which records the machine status
   and contract version inside the Lean source package.
 
-The current state is intentionally:
+The current proof state is:
 
 ```text
-machine=open
-manuscript=partial
-alignment=open
+machine=closed
+manuscript=complete
+alignment=aligned
 ```
 
-The existing manuscript is the kernel-checked asymptotic and
-five-million-prefix note.  It is not an all-\(N\) manuscript and cannot be
-packaged as a closed proof.
+The audited manuscript is an all-\(N\) paper proof.  The Lean publication
+root uses the same prefix, two low ranges, and four tail intervals.  The
+parameterized mathematical boundary
+`Erdos848.erdos848_all_N_of_certificates` and the unconditional endpoint
+`Erdos848.PaperGeneratedCertificateProvider.all_N` are kernel-checked with no
+project-specific axiom.  The latter specializes the former with generated
+finite numerical certificates.
 
 Run the fast contract check and its fail-closed tests from this directory:
 
@@ -42,21 +46,24 @@ The full audit reads only Lean import headers while discovering the local
 dependency closure, then uses one native token scan.  It does not repeatedly
 read the multi-gigabyte generated certificate corpus.
 
-## Conditions for a final release
+## Release invariants
 
-All of the following must change together in one reviewed commit:
+All of the following must hold together:
 
-1. `Erdos848.erdos848_all_N` is an unconditional theorem reachable from
-   `Erdos848.PublicationRoot`.
-2. The paper theorem map includes that exact theorem, and both
+1. `PaperGeneratedCertificateProvider.numericalCertificates` is built entirely
+   from kernel-checked generated modules.
+2. `Erdos848.PaperGeneratedCertificateProvider.all_N` is defined by specializing
+   `erdos848_all_N_of_certificates`, has no project-specific axioms, and is
+   reachable from the publication theorem map and axiom audit.
+3. The paper theorem map includes that exact theorem, and both
    `PublicationTheoremMap.lean` and `PublicationAxiomAudit.lean` mirror the
    paper map in the same order.
-3. The all-\(N\) TeX and PDF replace the partial manuscript checkpoint, and
-   `paper/proof-contract.json` contains their exact SHA-256 values.
-4. `main_theorem_status`, `manuscript_claim_status`, and
-   `manuscript_alignment_status` become `closed`, `complete`, and `aligned`;
-   the alignment blocker list becomes empty.
-5. The Git worktree is clean.
+4. `paper/proof-contract.json` still contains the exact SHA-256 values of the
+   reviewed all-\(N\) TeX, PDF, and theorem map.
+5. `main_theorem_status`, `manuscript_claim_status`, and
+   `manuscript_alignment_status` are `closed`, `complete`, and `aligned`; the
+   alignment blocker list is empty.
+6. The Git worktree is clean.
 
 The kernel gate then runs the exact publication root, theorem map, and axiom
 audit with `--trust=0`.  Only `propext`, `Classical.choice`, and `Quot.sound`
@@ -68,7 +75,7 @@ python -B scripts/run_kernel_gates.py
 
 ## Deterministic source package
 
-The release builder refuses open, partial, unaligned, or dirty states.  It
+The release builder refuses open, unaligned, or dirty states.  It
 packages only:
 
 - the exact local Lean dependency closure of the three publication

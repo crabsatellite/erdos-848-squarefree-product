@@ -1,0 +1,16 @@
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.CoverageCertificate
+import Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms.CoreAggregate
+
+namespace Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+def certificate : TruncatedDiagonalCoverageCertificate :=
+  Erdos848.GeneratedTruncatedDiagonalTwoHundredMillion.certificate
+
+#print axioms certificate
+#print axioms projectsAtoms
+#print axioms atomTargetsOrdered
+
+end Erdos848.GeneratedTruncatedDiagonalTwoHundredMillionAtoms

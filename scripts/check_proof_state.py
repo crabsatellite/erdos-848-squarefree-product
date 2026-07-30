@@ -498,6 +498,18 @@ def validate_state(
         fail("closed status requires the final theorem in the paper map")
     if machine_status == "open" and mapped:
         fail("open status cannot expose the final theorem as a publication endpoint")
+    minimal_root_source = strip_lean_comments(
+        required_paths["minimal_root"].read_text(encoding="utf-8-sig")
+    )
+    main_declaration = re.search(
+        rf"(?m)^\s*(?:def|theorem|lemma)\s+{re.escape(main_short)}\b",
+        minimal_root_source,
+    )
+    if machine_status == "open" and main_declaration is not None:
+        fail(
+            "open status cannot declare the reserved unconditional theorem "
+            "in the publication root"
+        )
 
     validate_pins(policy)
     print(

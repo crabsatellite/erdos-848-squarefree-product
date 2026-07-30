@@ -94,7 +94,7 @@ theorem TenMillionR263TerminalCertificate.completion_ratio_lt_target
     _ ≤ tenMillionCorrectedControllingTotal :=
       tenMillionR263BranchTotal_le_controlling certificate.branch
     _ < tenMillionHallTarget tenMillionLower := by
-      exact tenMillionCorrectedControlling_lt_target_sub_sixtyEightPpm.trans
+      exact tenMillionCorrectedControlling_lt_target_sub_fiftyFivePpm.trans
         (by norm_num [tenMillionHallTarget, tenMillionLower])
     _ ≤ tenMillionHallTarget N := tenMillionLowerTarget_le hLower
 

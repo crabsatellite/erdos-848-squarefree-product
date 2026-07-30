@@ -147,7 +147,8 @@ theorem hallBasePart_card_le_pivotThresholdSieve
       hallBaseFiniteThresholdPayment N B pivots cutoff k +
         hallBaseTailSquarePayment N B pivots cutoff k := by
   classical
-  simpa [hallBaseFiniteThresholdPayment, hallBaseTailSquarePayment] using
+  simpa [hallBaseFiniteThresholdPayment, hallBaseTailSquarePayment,
+    hallBaseTailSquareCount, Nat.cast_sub hk] using
     (card_le_finite_threshold_add_tail_sum
       (points := hallBasePart N B) (indices := pivots)
       (finite := finiteSquarePrimeEvent cutoff)

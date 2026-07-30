@@ -1,5 +1,7 @@
 import Erdos848.TailR263EvenOneCells
 import Erdos848.TailR263FourPivotTerminal
+import Erdos848.TailFiniteTripleCommon
+import Erdos848.TailR263EvenOneFinite23SharpClassified
 
 namespace Erdos848
 
@@ -14,19 +16,7 @@ without assigning a label to the other pair.
 
 set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
-
-theorem e1FiniteTripleCommonAt_false_of_two_mem
-    {pivots : Finset Nat} (hcard : pivots.card = 3)
-    {a b : Nat} (ha : a ∈ pivots) (hb : b ∈ pivots)
-    {index : E1FinitePrimeIndex}
-    (hmod : a % e1FiniteModulus index ≠
-      b % e1FiniteModulus index) :
-    ¬ e1FiniteTripleCommonAt pivots hcard index := by
-  rintro ⟨residue, hall⟩
-  obtain ⟨i, hi⟩ := globalMixedThreePivotAt_surjective_on pivots hcard ha
-  obtain ⟨j, hj⟩ := globalMixedThreePivotAt_surjective_on pivots hcard hb
-  apply hmod
-  simpa [hi, hj] using (hall i).trans (hall j).symm
+attribute [local instance] Classical.propDecidable
 
 structure FiveMillionR263EvenOnePairSelection
     (N : Nat) (B : Finset Nat) (left right : Fin 9) : Type where
@@ -144,9 +134,12 @@ private lemma pair_subset_or_pair_subset_of_triple
     (hcard : triple.card = 3) :
     selection.leftPair ⊆ triple ∨ selection.rightPair ⊆ triple := by
   by_contra hneither
-  push_neg at hneither
-  obtain ⟨x, hxLeft, hxNot⟩ := hneither.1
-  obtain ⟨y, hyRight, hyNot⟩ := hneither.2
+  have hnotLeft : ¬ selection.leftPair ⊆ triple :=
+    fun h => hneither (Or.inl h)
+  have hnotRight : ¬ selection.rightPair ⊆ triple :=
+    fun h => hneither (Or.inr h)
+  obtain ⟨x, hxLeft, hxNot⟩ := Finset.not_subset.mp hnotLeft
+  obtain ⟨y, hyRight, hyNot⟩ := Finset.not_subset.mp hnotRight
   have hxPivots := selection.leftPair_subset_pivots hxLeft
   have hyPivots := selection.rightPair_subset_pivots hyRight
   have hxy : x ≠ y := selection.cross_ne hxLeft hyRight
@@ -238,8 +231,10 @@ lemma triple_count {N B left right}
 end FiveMillionR263EvenOnePairSelection
 
 private theorem e1FourPivotTriple_ratio_le_good_of_pair
+    [E1Finite23SharpCertificate]
     {N : Nat} {B : Finset Nat} {left right : Fin 9}
     (hLower : 5_000_000 <= N)
+    (hUpper : N < 10_000_000)
     (hBout : Erdos848OutsideSet N B)
     (selection : FiveMillionR263EvenOnePairSelection N B left right)
     {triple : Finset Nat}
@@ -249,12 +244,13 @@ private theorem e1FourPivotTriple_ratio_le_good_of_pair
     (h121 : selection.x0 % 121 ≠ selection.x1 % 121) :
     ((eventIntersection (hallBasePart N B)
         (finiteSquarePrimeEvent 23) triple).card : Rat) / N <=
-      2 * e1FiniteFourTargetRat .good := by
+      2 * e1FiniteSharpFourTargetRat .good := by
   have hparts := Finset.mem_powersetCard.mp htriple
   have hx0 : selection.x0 ∈ triple := hpair (by simp [FiveMillionR263EvenOnePairSelection.leftPair])
   have hx1 : selection.x1 ∈ triple := hpair (by simp [FiveMillionR263EvenOnePairSelection.leftPair])
-  apply e1FiniteHallBaseTripleIntersection_ratio_le_good
-    hLower hBout (hparts.1.trans selection.pivots_subset_part) hparts.2
+  apply e1FiniteSharpHallBaseTripleIntersection_ratio_le_good
+    hLower hUpper hBout
+      (hparts.1.trans selection.pivots_subset_part) hparts.2
   · exact selection.triple_not_common_three hparts.1 hparts.2
   · exact e1FiniteTripleCommonAt_false_of_two_mem
       hparts.2 hx0 hx1 (index := 1) (by
@@ -264,23 +260,28 @@ private theorem e1FourPivotTriple_ratio_le_good_of_pair
         simpa [e1FiniteModulus] using h121)
 
 private theorem e1FourPivotTriple_ratio_le_worst
+    [E1Finite23SharpCertificate]
     {N : Nat} {B : Finset Nat} {left right : Fin 9}
     (hLower : 5_000_000 <= N)
+    (hUpper : N < 10_000_000)
     (hBout : Erdos848OutsideSet N B)
     (selection : FiveMillionR263EvenOnePairSelection N B left right)
     {triple : Finset Nat}
     (htriple : triple ∈ selection.pivots.powersetCard 3) :
     ((eventIntersection (hallBasePart N B)
         (finiteSquarePrimeEvent 23) triple).card : Rat) / N <=
-      2 * e1FiniteFourTargetRat .both := by
+      2 * e1FiniteSharpFourTargetRat .both := by
   have hparts := Finset.mem_powersetCard.mp htriple
-  exact e1FiniteHallBaseTripleIntersection_ratio_le_worst
-    hLower hBout (hparts.1.trans selection.pivots_subset_part) hparts.2
+  exact e1FiniteSharpHallBaseTripleIntersection_ratio_le_worst
+    hLower hUpper hBout
+      (hparts.1.trans selection.pivots_subset_part) hparts.2
       (selection.triple_not_common_three hparts.1 hparts.2)
 
 theorem fiveMillionR263EvenOneFourPivotFinite_ratio_le_twoGood
+    [E1Finite23SharpCertificate]
     {N : Nat} {B : Finset Nat} {left right : Fin 9}
     (hLower : 5_000_000 <= N)
+    (hUpper : N < 10_000_000)
     (hBout : Erdos848OutsideSet N B)
     (selection : FiveMillionR263EvenOnePairSelection N B left right)
     (hx49 : selection.x0 % 49 ≠ selection.x1 % 49)
@@ -289,17 +290,17 @@ theorem fiveMillionR263EvenOneFourPivotFinite_ratio_le_twoGood
     (hy121 : selection.y0 % 121 ≠ selection.y1 % 121) :
     fiveMillionR263BaseFiniteTriplePayment
         N B selection.pivots 23 / N <=
-      4 * e1FiniteFourTargetRat .good := by
+      4 * e1FiniteSharpFourTargetRat .good := by
   let triples := selection.pivots.powersetCard 3
   have hper : ∀ triple ∈ triples,
       ((eventIntersection (hallBasePart N B)
         (finiteSquarePrimeEvent 23) triple).card : Rat) / N <=
-          2 * e1FiniteFourTargetRat .good := by
+          2 * e1FiniteSharpFourTargetRat .good := by
     intro triple htriple
     rcases selection.triple_contains_left_or_right_pair htriple with
         hleft | hright
     · exact e1FourPivotTriple_ratio_le_good_of_pair
-        hLower hBout selection htriple hleft hx49 hx121
+        hLower hUpper hBout selection htriple hleft hx49 hx121
     · let swapped :
           FiveMillionR263EvenOnePairSelection N B right left :=
         { x0 := selection.y0, x1 := selection.y1
@@ -315,11 +316,11 @@ theorem fiveMillionR263EvenOneFourPivotFinite_ratio_le_twoGood
           FiveMillionR263EvenOnePairSelection.rightPair,
           Finset.union_comm]
       have htriple' : triple ∈ swapped.pivots.powersetCard 3 := by
-        simpa [hpivots] using htriple
+        simpa [triples, hpivots] using htriple
       have hpair' : swapped.leftPair ⊆ triple := by
         simpa [swapped, FiveMillionR263EvenOnePairSelection.leftPair] using hright
       simpa [hpivots] using e1FourPivotTriple_ratio_le_good_of_pair
-        hLower hBout swapped htriple' hpair' hy49 hy121
+        hLower hUpper hBout swapped htriple' hpair' hy49 hy121
   have hsum := Finset.sum_le_sum fun triple htriple => hper triple htriple
   have hcount : triples.card = 4 := selection.triple_count
   unfold fiveMillionR263BaseFiniteTriplePayment
@@ -332,26 +333,31 @@ theorem fiveMillionR263EvenOneFourPivotFinite_ratio_le_twoGood
           (∑ triple ∈ triples,
             ((eventIntersection (hallBasePart N B)
               (finiteSquarePrimeEvent 23) triple).card : Rat) / N) := by
-      simp only [triples, Finset.sum_div]
+      simp only [triples, div_eq_mul_inv]
+      rw [← Finset.sum_mul]
       ring
+
     _ <= (1 / 2 : Rat) *
-        (∑ _triple ∈ triples, 2 * e1FiniteFourTargetRat .good) := by
+        (∑ _triple ∈ triples,
+          2 * e1FiniteSharpFourTargetRat .good) := by
       gcongr
-    _ = 4 * e1FiniteFourTargetRat .good := by
+    _ = 4 * e1FiniteSharpFourTargetRat .good := by
       simp [hcount]
       ring
 
 theorem fiveMillionR263EvenOneFourPivotFinite_ratio_le_oneGood
+    [E1Finite23SharpCertificate]
     {N : Nat} {B : Finset Nat} {left right : Fin 9}
     (hLower : 5_000_000 <= N)
+    (hUpper : N < 10_000_000)
     (hBout : Erdos848OutsideSet N B)
     (selection : FiveMillionR263EvenOnePairSelection N B left right)
     (hx49 : selection.x0 % 49 ≠ selection.x1 % 49)
     (hx121 : selection.x0 % 121 ≠ selection.x1 % 121) :
     fiveMillionR263BaseFiniteTriplePayment
         N B selection.pivots 23 / N <=
-      2 * e1FiniteFourTargetRat .good +
-        2 * e1FiniteFourTargetRat .both := by
+      2 * e1FiniteSharpFourTargetRat .good +
+        2 * e1FiniteSharpFourTargetRat .both := by
   let triples := selection.pivots.powersetCard 3
   let isGood : Finset Nat → Prop := fun triple =>
     selection.leftPair ⊆ triple
@@ -367,22 +373,22 @@ theorem fiveMillionR263EvenOneFourPivotFinite_ratio_le_oneGood
         ((eventIntersection (hallBasePart N B)
           (finiteSquarePrimeEvent 23) triple).card : Rat) / N) <=
         ∑ _triple ∈ triples.filter isGood,
-          2 * e1FiniteFourTargetRat .good := by
+          2 * e1FiniteSharpFourTargetRat .good := by
     apply Finset.sum_le_sum
     intro triple htriple
     have hparts := Finset.mem_filter.mp htriple
     exact e1FourPivotTriple_ratio_le_good_of_pair
-      hLower hBout selection hparts.1 hparts.2 hx49 hx121
+      hLower hUpper hBout selection hparts.1 hparts.2 hx49 hx121
   have hbadSum :
       (∑ triple ∈ triples.filter (fun triple => ¬ isGood triple),
         ((eventIntersection (hallBasePart N B)
           (finiteSquarePrimeEvent 23) triple).card : Rat) / N) <=
         ∑ _triple ∈ triples.filter (fun triple => ¬ isGood triple),
-          2 * e1FiniteFourTargetRat .both := by
+          2 * e1FiniteSharpFourTargetRat .both := by
     apply Finset.sum_le_sum
     intro triple htriple
     exact e1FourPivotTriple_ratio_le_worst
-      hLower hBout selection (Finset.mem_filter.mp htriple).1
+      hLower hUpper hBout selection (Finset.mem_filter.mp htriple).1
   have hsplit :
       (∑ triple ∈ triples,
         ((eventIntersection (hallBasePart N B)
@@ -404,8 +410,10 @@ theorem fiveMillionR263EvenOneFourPivotFinite_ratio_le_oneGood
           (∑ triple ∈ triples,
             ((eventIntersection (hallBasePart N B)
               (finiteSquarePrimeEvent 23) triple).card : Rat) / N) := by
-      simp only [triples, Finset.sum_div]
+      simp only [triples, div_eq_mul_inv]
+      rw [← Finset.sum_mul]
       ring
+
     _ = (1 / 2 : Rat) *
         ((∑ triple ∈ triples.filter isGood,
           ((eventIntersection (hallBasePart N B)
@@ -416,31 +424,33 @@ theorem fiveMillionR263EvenOneFourPivotFinite_ratio_le_oneGood
       rw [hsplit]
     _ <= (1 / 2 : Rat) *
         ((∑ _triple ∈ triples.filter isGood,
-            2 * e1FiniteFourTargetRat .good) +
+            2 * e1FiniteSharpFourTargetRat .good) +
           (∑ _triple ∈ triples.filter (fun triple => ¬ isGood triple),
-            2 * e1FiniteFourTargetRat .both)) := by
+            2 * e1FiniteSharpFourTargetRat .both)) := by
       gcongr
-    _ = 2 * e1FiniteFourTargetRat .good +
-        2 * e1FiniteFourTargetRat .both := by
+    _ = 2 * e1FiniteSharpFourTargetRat .good +
+        2 * e1FiniteSharpFourTargetRat .both := by
       simp [hgoodCard, hbadCard]
       ring
 
 theorem fiveMillionR263EvenOneFourPivotFinite_ratio_le_worst
+    [E1Finite23SharpCertificate]
     {N : Nat} {B : Finset Nat} {left right : Fin 9}
     (hLower : 5_000_000 <= N)
+    (hUpper : N < 10_000_000)
     (hBout : Erdos848OutsideSet N B)
     (selection : FiveMillionR263EvenOnePairSelection N B left right) :
     fiveMillionR263BaseFiniteTriplePayment
         N B selection.pivots 23 / N <=
-      4 * e1FiniteFourTargetRat .both := by
+      4 * e1FiniteSharpFourTargetRat .both := by
   let triples := selection.pivots.powersetCard 3
   have hper : ∀ triple ∈ triples,
       ((eventIntersection (hallBasePart N B)
         (finiteSquarePrimeEvent 23) triple).card : Rat) / N <=
-          2 * e1FiniteFourTargetRat .both :=
+          2 * e1FiniteSharpFourTargetRat .both :=
     fun triple htriple =>
       e1FourPivotTriple_ratio_le_worst
-        hLower hBout selection htriple
+        hLower hUpper hBout selection htriple
   have hsum := Finset.sum_le_sum fun triple htriple => hper triple htriple
   have hcount : triples.card = 4 := selection.triple_count
   unfold fiveMillionR263BaseFiniteTriplePayment
@@ -453,12 +463,15 @@ theorem fiveMillionR263EvenOneFourPivotFinite_ratio_le_worst
           (∑ triple ∈ triples,
             ((eventIntersection (hallBasePart N B)
               (finiteSquarePrimeEvent 23) triple).card : Rat) / N) := by
-      simp only [triples, Finset.sum_div]
+      simp only [triples, div_eq_mul_inv]
+      rw [← Finset.sum_mul]
       ring
+
     _ <= (1 / 2 : Rat) *
-        (∑ _triple ∈ triples, 2 * e1FiniteFourTargetRat .both) := by
+        (∑ _triple ∈ triples,
+          2 * e1FiniteSharpFourTargetRat .both) := by
       gcongr
-    _ = 4 * e1FiniteFourTargetRat .both := by
+    _ = 4 * e1FiniteSharpFourTargetRat .both := by
       simp [hcount]
       ring
 

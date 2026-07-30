@@ -1,4 +1,5 @@
 import Erdos848.TailGlobalMixedActualTail
+import Erdos848.TailFiveMillionHallBridge
 
 namespace Erdos848
 

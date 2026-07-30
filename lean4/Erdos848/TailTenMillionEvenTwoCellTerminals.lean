@@ -3,6 +3,7 @@ import Erdos848.TailTenMillionEvenActualTail
 import Erdos848.TailTenMillionCompactPaperDiagonal
 import Erdos848.TailFiveMillionResidual
 import Erdos848.TailTenMillionR263Terminal
+import Erdos848.TailR263FourPivotTerminal
 
 namespace Erdos848
 
@@ -149,7 +150,7 @@ theorem TenMillionR263FourPivotTerminalCertificate.completion_ratio_lt_target
     _ ≤ tenMillionCorrectedControllingTotal :=
       tenMillionCorrectedEvenBranchTotal_le_controlling certificate.branch
     _ < tenMillionHallTarget tenMillionLower := by
-      exact tenMillionCorrectedControlling_lt_target_sub_sixtyEightPpm.trans
+      exact tenMillionCorrectedControlling_lt_target_sub_fiftyFivePpm.trans
         (by norm_num [tenMillionHallTarget, tenMillionLower])
     _ ≤ tenMillionHallTarget N := tenMillionLowerTarget_le hLower
 

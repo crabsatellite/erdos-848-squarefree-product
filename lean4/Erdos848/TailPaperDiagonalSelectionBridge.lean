@@ -1,4 +1,4 @@
-import Erdos848.TailPaperDiagonalGridChecker
+import Erdos848.TailPaperDiagonalRatio
 
 namespace Erdos848
 

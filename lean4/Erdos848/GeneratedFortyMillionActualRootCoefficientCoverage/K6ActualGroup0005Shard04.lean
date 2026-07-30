@@ -1,0 +1,18 @@
+import Erdos848.GeneratedFortyMillionActualRootCoefficientCoverage.K6ActualGroup0005Defs
+
+namespace Erdos848.GeneratedFortyMillionActualRootCoefficientCoverage
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+def k6PrefixGroup0005ActualShard04Rows : List (List Nat × Nat) :=
+  (k6PrefixGroup0005ActualRows.drop 128).take 19
+
+theorem k6PrefixGroup0005ActualShard04_passes :
+    k6PrefixGroup0005ActualShard04Rows.all
+      Erdos848.GeneratedFortyMillionRootCoefficientCoverage.k6PrefixGroup0005RootCoefficientPasses = true := by
+  rfl
+
+#print axioms k6PrefixGroup0005ActualShard04_passes
+
+end Erdos848.GeneratedFortyMillionActualRootCoefficientCoverage

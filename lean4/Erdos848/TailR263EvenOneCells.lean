@@ -73,10 +73,28 @@ theorem two_coordinate_pair_of_not_contained
     subst points
     exact ⟨0, by simp⟩
   obtain ⟨a, ha⟩ := hnonempty
+  have h49Fin :
+      ¬ ∃ residue : Fin 49, ∀ x ∈ points,
+        (⟨x % 49, Nat.mod_lt _ (by norm_num)⟩ : Fin 49) = residue := by
+    intro hcontained
+    apply h49
+    obtain ⟨residue, hresidue⟩ := hcontained
+    refine ⟨residue, ?_⟩
+    intro x hx
+    exact congrArg Fin.val (hresidue x hx)
+  have h121Fin :
+      ¬ ∃ residue : Fin 121, ∀ x ∈ points,
+        (⟨x % 121, Nat.mod_lt _ (by norm_num)⟩ : Fin 121) = residue := by
+    intro hcontained
+    apply h121
+    obtain ⟨residue, hresidue⟩ := hcontained
+    refine ⟨residue, ?_⟩
+    intro x hx
+    exact congrArg Fin.val (hresidue x hx)
   obtain ⟨b, hb, hab49⟩ :=
     exists_coordinate_ne_fixed_of_not_contained
       (points := points) (fun x => (⟨x % 49, Nat.mod_lt _ (by norm_num)⟩ :
-        Fin 49)) ha h49
+        Fin 49)) ha h49Fin
   have hab49' : b % 49 ≠ a % 49 := by
     intro heq
     apply hab49
@@ -85,7 +103,7 @@ theorem two_coordinate_pair_of_not_contained
   · obtain ⟨c, hc, hca121⟩ :=
       exists_coordinate_ne_fixed_of_not_contained
         (points := points) (fun x =>
-          (⟨x % 121, Nat.mod_lt _ (by norm_num)⟩ : Fin 121)) ha h121
+          (⟨x % 121, Nat.mod_lt _ (by norm_num)⟩ : Fin 121)) ha h121Fin
     have hca121' : c % 121 ≠ a % 121 := by
       intro heq
       apply hca121
@@ -98,9 +116,9 @@ theorem two_coordinate_pair_of_not_contained
       · exact fun hbc => hab49' (hbc.trans hca49)
       · exact fun hbc => hca121' (hbc.symm.trans hab121)
     · exact ⟨a, ha, c, hc,
-        fun hac => hca49 (by subst c; rfl), hca49.symm, hca121'.symm⟩
+        fun hac => hca49 (by subst c; rfl), Ne.symm hca49, Ne.symm hca121'⟩
   · exact ⟨a, ha, b, hb,
-      fun hab => hab49' (by subst b; rfl), hab49'.symm, hab121.symm⟩
+      fun hab => hab49' (by subst b; rfl), Ne.symm hab49', Ne.symm hab121⟩
 
 theorem fiveMillionR263EvenOneGoodCell_pair
     {N : Nat} {B : Finset Nat} {cell : Fin 9}
@@ -204,7 +222,7 @@ theorem fiveMillionR263EvenOneCell_ratio_le49
       div_le_div_of_nonneg_right hcardQ hNpos.le
     _ <= ((N : Rat) / 1764 + 1) / N :=
       div_le_div_of_nonneg_right hceil hNpos.le
-    _ = 1 / 1764 + 1 / N := by field_simp; ring
+    _ = 1 / 1764 + 1 / N := by field_simp
 
 theorem fiveMillionR263EvenOneCell_ratio_le121
     {N : Nat} {B : Finset Nat} {cell : Fin 9}
@@ -228,7 +246,7 @@ theorem fiveMillionR263EvenOneCell_ratio_le121
       div_le_div_of_nonneg_right hcardQ hNpos.le
     _ <= ((N : Rat) / 4356 + 1) / N :=
       div_le_div_of_nonneg_right hceil hNpos.le
-    _ = 1 / 4356 + 1 / N := by field_simp; ring
+    _ = 1 / 4356 + 1 / N := by field_simp
 
 theorem card_sdiff_cellFibre_finNine_le_eight_mul
     {X : Type*} [DecidableEq X]

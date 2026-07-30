@@ -99,7 +99,7 @@ theorem tenMillionFinite23OptionRoot_exists_pair_faithful_extension
   let left := tenMillionFinite23PairLeft pair
   let right := tenMillionFinite23PairRight pair
   have hlr : left ≠ right := by
-    simpa [left, right] using tenMillionFinite23PairLeft_ne_right pair
+    simp [left, right]
   cases hleft : givenRoot left with
   | none =>
       cases hright : givenRoot right with
@@ -195,8 +195,291 @@ theorem tenMillionFinite23OptionRoot_exists_pair_faithful_extension
             have hqr : q = r := by
               simpa [left, right, hlr, hlr.symm] using heq
             subst r
-            exact ⟨q, by simpa [left] using hleft,
-              by simpa [right] using hright⟩
+            refine ⟨q, ?_, ?_⟩
+            · rfl
+            · rfl
+
+private def tenMillionFinite23FreshTwo
+    {m : Nat} (hm : 3 ≤ m) (a b : Fin m) : Fin m :=
+  if a.val ≠ 0 ∧ b.val ≠ 0 then
+    ⟨0, by omega⟩
+  else if a.val ≠ 1 ∧ b.val ≠ 1 then
+    ⟨1, by omega⟩
+  else
+    ⟨2, by omega⟩
+
+private theorem tenMillionFinite23FreshTwo_ne_left
+    {m : Nat} (hm : 3 ≤ m) (a b : Fin m) :
+    tenMillionFinite23FreshTwo hm a b ≠ a := by
+  unfold tenMillionFinite23FreshTwo
+  split
+  · rename_i hzero
+    intro h
+    apply hzero.1
+    exact (congrArg Fin.val h).symm
+  · rename_i hzero
+    split
+    · rename_i hone
+      intro h
+      apply hone.1
+      exact (congrArg Fin.val h).symm
+    · rename_i hone
+      have hzero' : a.val = 0 ∨ b.val = 0 := by
+        by_contra h
+        apply hzero
+        constructor <;> omega
+      have hone' : a.val = 1 ∨ b.val = 1 := by
+        by_contra h
+        apply hone
+        constructor <;> omega
+      intro h
+      have hval := congrArg Fin.val h
+      rcases hzero' with ha0 | hb0 <;>
+        rcases hone' with ha1 | hb1 <;> simp_all
+
+private theorem tenMillionFinite23FreshTwo_ne_right
+    {m : Nat} (hm : 3 ≤ m) (a b : Fin m) :
+    tenMillionFinite23FreshTwo hm a b ≠ b := by
+  unfold tenMillionFinite23FreshTwo
+  split
+  · rename_i hzero
+    intro h
+    apply hzero.2
+    exact (congrArg Fin.val h).symm
+  · rename_i hzero
+    split
+    · rename_i hone
+      intro h
+      apply hone.2
+      exact (congrArg Fin.val h).symm
+    · rename_i hone
+      have hzero' : a.val = 0 ∨ b.val = 0 := by
+        by_contra h
+        apply hzero
+        constructor <;> omega
+      have hone' : a.val = 1 ∨ b.val = 1 := by
+        by_contra h
+        apply hone
+        constructor <;> omega
+      intro h
+      have hval := congrArg Fin.val h
+      rcases hzero' with ha0 | hb0 <;>
+        rcases hone' with ha1 | hb1 <;> simp_all
+
+theorem tenMillionFinite23OptionRoot_exists_all_pairs_faithful_extension
+    {m : Nat} (hm : 3 ≤ m) (givenRoot : Fin 3 → Option (Fin m)) :
+    ∃ total : Fin 3 → Fin m,
+      e1FiniteOptionRootExtends givenRoot total ∧
+      ∀ pair : Fin 3,
+        total (tenMillionFinite23PairLeft pair) =
+            total (tenMillionFinite23PairRight pair) →
+          ∃ q, givenRoot (tenMillionFinite23PairLeft pair) = some q ∧
+            givenRoot (tenMillionFinite23PairRight pair) = some q := by
+  classical
+  have htwo : 2 ≤ m := by omega
+  cases h0 : givenRoot 0 with
+  | none =>
+      cases h1 : givenRoot 1 with
+      | none =>
+          cases h2 : givenRoot 2 with
+          | none =>
+              let z : Fin m := ⟨0, by omega⟩
+              let o : Fin m := ⟨1, by omega⟩
+              let t : Fin m := ⟨2, by omega⟩
+              have hzo : z ≠ o := by
+                intro h
+                have := congrArg Fin.val h
+                simp [z, o] at this
+              have hzt : z ≠ t := by
+                intro h
+                have := congrArg Fin.val h
+                simp [z, t] at this
+              have hot : o ≠ t := by
+                intro h
+                have := congrArg Fin.val h
+                simp [o, t] at this
+              refine ⟨![z, o, t], ?_, ?_⟩
+              · intro i q hi
+                fin_cases i <;> simp_all
+              · intro pair heq
+                fin_cases pair <;>
+                  simp_all [tenMillionFinite23PairLeft,
+                    tenMillionFinite23PairRight]
+          | some c =>
+              let d := tenMillionFinite23Different htwo c
+              let e := tenMillionFinite23FreshTwo hm c d
+              have hdc : d ≠ c := tenMillionFinite23Different_ne htwo c
+              have hec : e ≠ c :=
+                tenMillionFinite23FreshTwo_ne_left hm c d
+              have hed : e ≠ d :=
+                tenMillionFinite23FreshTwo_ne_right hm c d
+              refine ⟨![d, e, c], ?_, ?_⟩
+              · intro i q hi
+                fin_cases i <;> simp_all
+              · intro pair heq
+                fin_cases pair <;>
+                  simp_all [tenMillionFinite23PairLeft,
+                    tenMillionFinite23PairRight]
+      | some b =>
+          cases h2 : givenRoot 2 with
+          | none =>
+              let d := tenMillionFinite23Different htwo b
+              let e := tenMillionFinite23FreshTwo hm b d
+              have hdb : d ≠ b := tenMillionFinite23Different_ne htwo b
+              have heb : e ≠ b :=
+                tenMillionFinite23FreshTwo_ne_left hm b d
+              have hed : e ≠ d :=
+                tenMillionFinite23FreshTwo_ne_right hm b d
+              refine ⟨![d, b, e], ?_, ?_⟩
+              · intro i q hi
+                fin_cases i <;> simp_all
+              · intro pair heq
+                fin_cases pair <;>
+                  simp_all [tenMillionFinite23PairLeft,
+                    tenMillionFinite23PairRight]
+          | some c =>
+              by_cases hbc : b = c
+              · let d := tenMillionFinite23Different htwo b
+                have hdb : d ≠ b :=
+                  tenMillionFinite23Different_ne htwo b
+                refine ⟨![d, b, c], ?_, ?_⟩
+                · intro i q hi
+                  fin_cases i <;> simp_all
+                · intro pair heq
+                  fin_cases pair <;>
+                    simp_all [tenMillionFinite23PairLeft,
+                      tenMillionFinite23PairRight]
+              · let d := tenMillionFinite23FreshTwo hm b c
+                have hdb : d ≠ b :=
+                  tenMillionFinite23FreshTwo_ne_left hm b c
+                have hdc : d ≠ c :=
+                  tenMillionFinite23FreshTwo_ne_right hm b c
+                refine ⟨![d, b, c], ?_, ?_⟩
+                · intro i q hi
+                  fin_cases i <;> simp_all
+                · intro pair heq
+                  fin_cases pair <;>
+                    simp_all [tenMillionFinite23PairLeft,
+                      tenMillionFinite23PairRight]
+  | some a =>
+      cases h1 : givenRoot 1 with
+      | none =>
+          cases h2 : givenRoot 2 with
+          | none =>
+              let d := tenMillionFinite23Different htwo a
+              let e := tenMillionFinite23FreshTwo hm a d
+              have hda : d ≠ a := tenMillionFinite23Different_ne htwo a
+              have hea : e ≠ a :=
+                tenMillionFinite23FreshTwo_ne_left hm a d
+              have hed : e ≠ d :=
+                tenMillionFinite23FreshTwo_ne_right hm a d
+              refine ⟨![a, d, e], ?_, ?_⟩
+              · intro i q hi
+                fin_cases i <;> simp_all
+              · intro pair heq
+                fin_cases pair <;>
+                  simp_all [tenMillionFinite23PairLeft,
+                    tenMillionFinite23PairRight]
+          | some c =>
+              by_cases hac : a = c
+              · let d := tenMillionFinite23Different htwo a
+                have hda : d ≠ a :=
+                  tenMillionFinite23Different_ne htwo a
+                refine ⟨![a, d, c], ?_, ?_⟩
+                · intro i q hi
+                  fin_cases i <;> simp_all
+                · intro pair heq
+                  fin_cases pair <;>
+                    simp_all [tenMillionFinite23PairLeft,
+                      tenMillionFinite23PairRight]
+              · let d := tenMillionFinite23FreshTwo hm a c
+                have hda : d ≠ a :=
+                  tenMillionFinite23FreshTwo_ne_left hm a c
+                have hdc : d ≠ c :=
+                  tenMillionFinite23FreshTwo_ne_right hm a c
+                refine ⟨![a, d, c], ?_, ?_⟩
+                · intro i q hi
+                  fin_cases i <;> simp_all
+                · intro pair heq
+                  fin_cases pair <;>
+                    simp_all [tenMillionFinite23PairLeft,
+                      tenMillionFinite23PairRight]
+      | some b =>
+          cases h2 : givenRoot 2 with
+          | none =>
+              by_cases hab : a = b
+              · let d := tenMillionFinite23Different htwo a
+                have hda : d ≠ a :=
+                  tenMillionFinite23Different_ne htwo a
+                refine ⟨![a, b, d], ?_, ?_⟩
+                · intro i q hi
+                  fin_cases i <;> simp_all
+                · intro pair heq
+                  fin_cases pair <;>
+                    simp_all [tenMillionFinite23PairLeft,
+                      tenMillionFinite23PairRight]
+              · let d := tenMillionFinite23FreshTwo hm a b
+                have hda : d ≠ a :=
+                  tenMillionFinite23FreshTwo_ne_left hm a b
+                have hdb : d ≠ b :=
+                  tenMillionFinite23FreshTwo_ne_right hm a b
+                refine ⟨![a, b, d], ?_, ?_⟩
+                · intro i q hi
+                  fin_cases i <;> simp_all
+                · intro pair heq
+                  fin_cases pair <;>
+                    simp_all [tenMillionFinite23PairLeft,
+                      tenMillionFinite23PairRight]
+          | some c =>
+              refine ⟨![a, b, c], ?_, ?_⟩
+              · intro i q hi
+                fin_cases i <;> simp_all
+              · intro pair heq
+                fin_cases pair <;>
+                  simp_all [tenMillionFinite23PairLeft,
+                    tenMillionFinite23PairRight]
+
+theorem tenMillionFinite23OptionRoot_exists_all_pairs_noncommon_extension
+    {m : Nat} (hm : 3 ≤ m) (givenRoot : Fin 3 → Option (Fin m))
+    (hnotCommon : ¬ ∃ q, ∀ i, givenRoot i = some q) :
+    ∃ total : Fin 3 → Fin m,
+      e1FiniteOptionRootExtends givenRoot total ∧
+      (∀ pair : Fin 3,
+        total (tenMillionFinite23PairLeft pair) =
+            total (tenMillionFinite23PairRight pair) →
+          ∃ q, givenRoot (tenMillionFinite23PairLeft pair) = some q ∧
+            givenRoot (tenMillionFinite23PairRight pair) = some q) ∧
+      e1FiniteRootPatternOf
+        (total 0).val (total 1).val (total 2).val ≠ .allEqual := by
+  obtain ⟨total, hextends, hfaithful⟩ :=
+    tenMillionFinite23OptionRoot_exists_all_pairs_faithful_extension
+      hm givenRoot
+  refine ⟨total, hextends, hfaithful, ?_⟩
+  intro hpattern
+  have hall := (e1FiniteRootPatternOf_eq_allEqual_iff
+    (total 0).val (total 1).val (total 2).val).mp hpattern
+  have h01 : total 0 = total 1 := Fin.ext hall.1
+  have h02 : total 0 = total 2 := Fin.ext hall.2
+  obtain ⟨q, hq0, hq1⟩ := hfaithful 0 (by
+    simpa [tenMillionFinite23PairLeft,
+      tenMillionFinite23PairRight] using h01)
+  obtain ⟨r, hr0, hr2⟩ := hfaithful 1 (by
+    simpa [tenMillionFinite23PairLeft,
+      tenMillionFinite23PairRight] using h02)
+  have hqr : q = r := by
+    have hq0' : givenRoot 0 = some q := by
+      simpa [tenMillionFinite23PairLeft] using hq0
+    have hr0' : givenRoot 0 = some r := by
+      simpa [tenMillionFinite23PairLeft] using hr0
+    exact Option.some.inj (hq0'.symm.trans hr0')
+  subst r
+  apply hnotCommon
+  refine ⟨q, ?_⟩
+  intro i
+  fin_cases i
+  · exact hq0
+  · exact hq1
+  · exact hr2
 
 theorem tenMillionFinite23OptionRoot_exists_pair_noncommon_extension
     {m : Nat} (hm : 2 ≤ m) (givenRoot : Fin 3 → Option (Fin m))
@@ -218,9 +501,9 @@ theorem tenMillionFinite23OptionRoot_exists_pair_noncommon_extension
   let right := tenMillionFinite23PairRight pair
   let third := tenMillionFinite23PairThird pair
   have hleftThird : left ≠ third := by
-    simpa [left, third] using tenMillionFinite23PairLeft_ne_third pair
+    simp [left, third]
   have hrightThird : right ≠ third := by
-    simpa [right, third] using tenMillionFinite23PairRight_ne_third pair
+    simp [right, third]
   by_cases hpair : base left = base right
   · obtain ⟨q, hleftQ, hrightQ⟩ := hbaseFaithful hpair
     cases hthird : givenRoot third with

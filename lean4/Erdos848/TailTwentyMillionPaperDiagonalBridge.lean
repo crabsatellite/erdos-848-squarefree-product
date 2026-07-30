@@ -20,11 +20,6 @@ interface for the interval `20_000_000 ≤ N < 40_000_000`.
 set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 
-def paperDiagonalRatio
-    (N : Nat) (selection : PaperDiagonalSelection) : Rat :=
-  (((tailDiagonalBad N).filter
-    (fun x => truncatedDiagonalAtomOf x ∈ selection.atoms)).card : Rat) / N
-
 def TwentyMillionPaperDiagonalGridBound : Prop :=
   ∀ N, twentyMillionLower ≤ N → N < twentyMillionUpper →
     ∀ selection : PaperDiagonalSelection,

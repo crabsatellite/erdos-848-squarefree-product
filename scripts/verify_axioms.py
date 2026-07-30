@@ -1,86 +1,185 @@
 #!/usr/bin/env python3
-"""Run the trust-zero Lean audit and require the standard Mathlib axiom set."""
+"""Run the publication-root trust-zero audit and enforce its exact axiom set."""
 
 from __future__ import annotations
 
-import os
 import re
-import signal
 import subprocess
+import sys
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
 LEAN = ROOT / "lean4"
-AUDIT = "Erdos848/MainTheoremAxiomAudit.lean"
+AUDIT = "Erdos848/CertificateBoundaryAxiomAudit.lean"
+PUBLICATION_ROOT = LEAN / "Erdos848" / "PublicationRoot.lean"
+GENERATED_ASSEMBLY_ROOT = (
+    LEAN / "Erdos848" / "PaperGeneratedCertificateProvider.lean"
+)
 ENDPOINTS = [
-    "A7_has_property_public",
-    "A18_has_property_public",
-    "sawhney_main",
-    "problem_848_asymptotic",
-    "erdos848_original_asymptotic",
-    "erdos848_original_N49",
-    "erdos848_original_N99",
-    "erdos848_finite_reduction",
-    "originalProblem_of_prefixColouringState",
-    "originalProblem_prefix_of_colouringCertificate",
-    "GeneratedFiveMillionPrefixTrace.closeThroughFiveMillion",
-    "erdos848_through_five_million",
-    "erdos848_full_of_five_million_tail",
-    "originalProblem_of_hallStatement",
-    "erdos848HallStatement_iff_originalProblem",
-    "exists_sameValuation_eightPivotCluster_of_defect",
-    "hallCompletion_card_le_globalMixedDiagonalBasePairTail",
-    "hallCompletion_card_le_globalMixedResidualBasePairTail",
-    "pairTailValuation_even_or_odd",
-    "erdos848GlobalMixedTailClose_of_branchedPairTailTerminalBound",
-    "erdos848_five_million_tail_of_branchedPairTailTerminalBound",
-    "erdos848_full_of_branchedPairTailTerminalBound",
+    "NonSquarefreeProductProp",
+    "OriginalProblem848Statement",
+    "originalA7_has_property",
+    "erdos848_prefix_close",
+    "erdos848_first_low_close",
+    "erdos848_second_low_close",
+    "PaperCertificateProvider.fiveToTenMillion",
+    "PaperCertificateProvider.tenToTwentyMillion",
+    "PaperCertificateProvider.twentyToFortyMillion",
+    "PaperCertificateProvider.fortyMillionTail",
+    "erdos848_paper_tail_close",
+    "erdos848_all_N_of_certificates",
+    "PaperGeneratedCertificateProvider.numericalCertificates",
+    "PaperGeneratedCertificateProvider.tailClose",
+    "PaperGeneratedCertificateProvider.all_N",
 ]
 ALLOWED = {"propext", "Classical.choice", "Quot.sound"}
+FORBIDDEN_SOURCE_TOKENS = (
+    "axiom",
+    "sorry",
+    "admit",
+    "native_decide",
+    "opaque",
+    "unsafe",
+    "extern",
+    "run_tac",
+    "Lean.ofReduceBool",
+    "Lean.trustCompiler",
+)
+LOCAL_IMPORT = re.compile(
+    r"^\s*import\s+(Erdos848(?:\.[A-Za-z0-9_']+)+)\s*$",
+    re.MULTILINE,
+)
+FORBIDDEN_PATTERN = re.compile(
+    rf"(?<![A-Za-z0-9_'.])(?:"
+    + "|".join(re.escape(token) for token in FORBIDDEN_SOURCE_TOKENS)
+    + rf")(?![A-Za-z0-9_'.])"
+)
 
 
-def terminate_process_tree(process: subprocess.Popen[str]) -> None:
-    if process.poll() is not None:
-        return
-    if os.name == "nt":
-        subprocess.run(
-            ["taskkill", "/PID", str(process.pid), "/T", "/F"],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            check=False,
+def strip_comments_and_strings(source: str) -> str:
+    """Preserve line numbers while removing nested comments and strings."""
+    result: list[str] = []
+    index = 0
+    block_depth = 0
+    in_string = False
+    escaped = False
+    while index < len(source):
+        pair = source[index : index + 2]
+        char = source[index]
+        if block_depth:
+            if pair == "/-":
+                block_depth += 1
+                result.extend("  ")
+                index += 2
+            elif pair == "-/":
+                block_depth -= 1
+                result.extend("  ")
+                index += 2
+            else:
+                result.append("\n" if char == "\n" else " ")
+                index += 1
+            continue
+        if in_string:
+            result.append("\n" if char == "\n" else " ")
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+            index += 1
+            continue
+        if pair == "--":
+            while index < len(source) and source[index] != "\n":
+                result.append(" ")
+                index += 1
+            continue
+        if pair == "/-":
+            block_depth = 1
+            result.extend("  ")
+            index += 2
+            continue
+        if char == '"':
+            in_string = True
+            result.append(" ")
+            index += 1
+            continue
+        result.append(char)
+        index += 1
+    if block_depth or in_string:
+        raise ValueError("unterminated Lean comment or string")
+    return "".join(result)
+
+
+def local_import_path(module: str) -> Path:
+    return LEAN.joinpath(*module.split(".")).with_suffix(".lean")
+
+
+def publication_dependency_sources() -> tuple[list[Path], list[str]]:
+    # Audit both the mathematical publication root and the concrete generated
+    # specialization consumed by the unconditional all-N theorem.
+    pending = [PUBLICATION_ROOT, GENERATED_ASSEMBLY_ROOT]
+    seen: set[Path] = set()
+    failures: list[str] = []
+    while pending:
+        path = pending.pop()
+        path = path.resolve()
+        if path in seen:
+            continue
+        if not path.is_file():
+            raise SystemExit(f"[source:error] missing local source: {path}")
+        seen.add(path)
+        source = path.read_text(encoding="utf-8-sig")
+        for match in LOCAL_IMPORT.finditer(source):
+            pending.append(local_import_path(match.group(1)))
+        if FORBIDDEN_PATTERN.search(source) is None:
+            continue
+        stripped = strip_comments_and_strings(source)
+        for match in FORBIDDEN_PATTERN.finditer(stripped):
+            failures.append(
+                f"{path.relative_to(ROOT)}:"
+                f"{stripped.count(chr(10), 0, match.start()) + 1}: "
+                f"{match.group(0)}"
+            )
+    return sorted(seen), failures
+
+
+def verify_publication_sources() -> int:
+    sources, failures = publication_dependency_sources()
+    if failures:
+        raise SystemExit(
+            "[source:error] forbidden tokens in publication dependency cone:\n"
+            + "\n".join(failures)
         )
-    else:
-        try:
-            os.killpg(process.pid, signal.SIGKILL)
-        except ProcessLookupError:
-            pass
+    return len(sources)
 
 
 def main() -> int:
-    creation_flags = subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0
-    proc = subprocess.Popen(
-        ["lake", "env", "lean", "--trust=0", "-M", "12288", AUDIT],
-        cwd=LEAN,
+    source_count = verify_publication_sources()
+    proc = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "run_lean_guarded.py"),
+            "--direct-lean",
+            "--trim-working-set-at-mb",
+            "12000",
+            "--memory-mb",
+            "16384",
+            "--timeout-seconds",
+            "1800",
+            AUDIT,
+        ],
+        cwd=ROOT,
         text=True,
         encoding="utf-8",
         errors="replace",
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
-        creationflags=creation_flags,
-        start_new_session=os.name != "nt",
+        timeout=1900,
     )
-    try:
-        output, _ = proc.communicate(timeout=1800)
-    except subprocess.TimeoutExpired:
-        terminate_process_tree(proc)
-        proc.wait()
-        raise SystemExit("[axioms:error] trust-zero audit timed out after 1800 seconds")
-    except KeyboardInterrupt:
-        terminate_process_tree(proc)
-        proc.wait()
-        raise
-    if proc.returncode:
+    output = proc.stdout
+    if proc.returncode != 0:
         raise SystemExit(output or f"Lean audit failed with exit code {proc.returncode}")
     normalized_output = re.sub(r"\s+", " ", output)
     for endpoint in ENDPOINTS:
@@ -109,7 +208,10 @@ def main() -> int:
                     f"[axioms:error] forbidden axioms for {endpoint}: "
                     f"{sorted(unexpected)}"
                 )
-    print(f"[axioms:ok] endpoints={len(ENDPOINTS)} allowed={sorted(ALLOWED)}")
+    print(
+        f"[axioms:ok] endpoints={len(ENDPOINTS)} "
+        f"sources={source_count} allowed={sorted(ALLOWED)}"
+    )
     return 0
 
 

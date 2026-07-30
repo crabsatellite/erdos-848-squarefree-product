@@ -1,4 +1,5 @@
 import Erdos848.TailR263EvenOneFinite23HallPayment
+import Erdos848.TailR263EvenOneFinite23ClassifiedCore
 
 namespace Erdos848
 
@@ -14,12 +15,7 @@ proof premise.
 set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 
-def e1FiniteTripleCommonAt
-    (pivots : Finset Nat) (hcard : pivots.card = 3)
-    (index : E1FinitePrimeIndex) : Prop :=
-  ∃ residue : Fin (e1FiniteModulus index), ∀ i : Fin 3,
-    globalMixedThreePivotAt pivots hcard i %
-      e1FiniteModulus index = residue.val
+attribute [local instance] Classical.propDecidable
 
 private theorem e1FiniteTripleIntersection_profile_good
     {N : Nat} {B pivots : Finset Nat}
@@ -195,7 +191,7 @@ theorem e1FiniteHallBaseTripleIntersection_ratio_le_worst
       exact h.trans (by
         norm_num [e1FiniteFourTargetRat, e1FiniteFourTargetMillion])
 
-private theorem e1FiniteMixed_profile
+theorem e1FiniteHallBaseMixedHalfPayment_ratio_le_profile
     {N : Nat} {B pivots : Finset Nat}
     (hLower : 5_000_000 <= N)
     (hBout : Erdos848OutsideSet N B)
@@ -231,13 +227,11 @@ private theorem e1FiniteMixed_profile
     · intro hcommon
       have htype := hseven.mp hcommon
       cases cellType <;>
-        simp [e1FiniteConstraintForProfile, e1FiniteSevenConstraint] at
-          hindex htype
+        simp [e1FiniteConstraintForProfile, e1FiniteSevenConstraint] at hindex htype
     · intro hcommon
       have htype := heleven.mp hcommon
       cases cellType <;>
-        simp [e1FiniteConstraintForProfile, e1FiniteElevenConstraint] at
-          hindex htype
+        simp [e1FiniteConstraintForProfile, e1FiniteElevenConstraint] at hindex htype
     · simp [e1FiniteConstraintForProfile] at hindex
     · simp [e1FiniteConstraintForProfile] at hindex
     · simp [e1FiniteConstraintForProfile] at hindex
@@ -254,24 +248,29 @@ theorem e1FiniteHallBaseMixedHalfPayment_ratio_le_worst
       e1FiniteThreeTargetRat .both := by
   by_cases hseven : e1FiniteTripleCommonAt pivots hcard 1
   · by_cases heleven : e1FiniteTripleCommonAt pivots hcard 2
-    · exact e1FiniteMixed_profile hLower hBout hpivots hcard .both hthree
+    · exact e1FiniteHallBaseMixedHalfPayment_ratio_le_profile
+        hLower hBout hpivots hcard .both hthree
         (by simp [hseven]) (by simp [heleven])
-    · have h := e1FiniteMixed_profile hLower hBout hpivots hcard .seven hthree
+    · have h := e1FiniteHallBaseMixedHalfPayment_ratio_le_profile
+        hLower hBout hpivots hcard .seven hthree
         (by simp [hseven]) (by simp [heleven])
       exact h.trans (by
         norm_num [e1FiniteThreeTargetRat, e1FiniteThreeTargetMillion])
   · by_cases heleven : e1FiniteTripleCommonAt pivots hcard 2
-    · have h := e1FiniteMixed_profile hLower hBout hpivots hcard .eleven hthree
+    · have h := e1FiniteHallBaseMixedHalfPayment_ratio_le_profile
+        hLower hBout hpivots hcard .eleven hthree
         (by simp [hseven]) (by simp [heleven])
       exact h.trans (by
         norm_num [e1FiniteThreeTargetRat, e1FiniteThreeTargetMillion])
-    · have h := e1FiniteMixed_profile hLower hBout hpivots hcard .good hthree
+    · have h := e1FiniteHallBaseMixedHalfPayment_ratio_le_profile
+        hLower hBout hpivots hcard .good hthree
         (by simp [hseven]) (by simp [heleven])
       exact h.trans (by
         norm_num [e1FiniteThreeTargetRat, e1FiniteThreeTargetMillion])
 
 #print axioms e1FiniteHallBaseTripleIntersection_ratio_le_good
 #print axioms e1FiniteHallBaseTripleIntersection_ratio_le_worst
+#print axioms e1FiniteHallBaseMixedHalfPayment_ratio_le_profile
 #print axioms e1FiniteHallBaseMixedHalfPayment_ratio_le_worst
 
 end Erdos848

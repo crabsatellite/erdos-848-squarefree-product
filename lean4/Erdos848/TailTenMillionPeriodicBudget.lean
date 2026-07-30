@@ -115,7 +115,8 @@ theorem tenMillionPeriodicOddBranchTotal_le_evenControlling
       tenMillionRootOdd7, tenMillionSquareTail7,
       tenMillionDiagonalUnrestricted, tenMillionFourPayment,
       tenMillionEvenFourDensity, tenMillionEvenFourEndpoint,
-      tenMillionSquareTail29, tenMillionRootV2, tenMillionLower]
+      tenMillionSquareTail23, tenMillionSquareTail29,
+      tenMillionRootV2, tenMillionLower]
 
 theorem tenMillionPeriodicOddBranchTotal_lt_lowerTarget
     (branch : TenMillionPeriodicOddBranch) :
@@ -123,7 +124,7 @@ theorem tenMillionPeriodicOddBranchTotal_lt_lowerTarget
       tenMillionHallTarget tenMillionLower :=
   lt_of_le_of_lt
     (tenMillionPeriodicOddBranchTotal_le_evenControlling branch)
-    (tenMillionCorrectedControlling_lt_target_sub_sixtyEightPpm.trans
+    (tenMillionCorrectedControlling_lt_target_sub_fiftyFivePpm.trans
       (by
         norm_num [tenMillionHallTarget, tenMillionLower]))
 

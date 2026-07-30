@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""Run the closed-release Lean build, trust=0 checks, and axiom gate."""
+"""Run read-only closed-release trust=0 checks and the exact axiom gate.
+
+The expensive generated closure must be built by
+``build_generated_certificate.py`` first.  This gate deliberately does not
+call ``lake build``: Lake's default scheduler is not constrained by the
+certificate builder's aggregate-memory policy, and a release verifier must not
+rewrite or delete frozen object files while it is auditing them.
+"""
 
 from __future__ import annotations
 
@@ -37,6 +44,28 @@ def run(command: list[str], *, cwd: Path = ROOT) -> str:
     return completed.stdout
 
 
+def guarded_lean_command(source: str, memory_mib: int) -> list[str]:
+    trim_at = min(12000, memory_mib - 1024)
+    return [
+        sys.executable,
+        "scripts/run_lean_guarded.py",
+        "--direct-lean",
+        "--strict-import-preflight",
+        "--no-olean",
+        "--threads",
+        "1",
+        "--trim-working-set-at-mb",
+        str(trim_at),
+        "--memory-mb",
+        str(memory_mib),
+        "--lean-memory-mb",
+        str(memory_mib),
+        "--timeout-seconds",
+        "1800",
+        source,
+    ]
+
+
 def audit_axioms(output: str, allowed: set[str]) -> None:
     seen: set[str] = set()
     for payload in re.findall(r"depends on axioms:\s*\[([^\]]*)\]", output):
@@ -71,21 +100,12 @@ def main() -> int:
             "--audit-sources",
         ]
     )
-    run(["lake", "build", "Erdos848.PublicationRoot"], cwd=LEAN)
     map_relative = Path(acceptance["theorem_map"]).relative_to("lean4").as_posix()
     audit_relative = Path(acceptance["axiom_audit"]).relative_to("lean4").as_posix()
-    lean_common = [
-        "lake",
-        "env",
-        "lean",
-        "--trust=0",
-        "-M",
-        str(args.memory_mib),
-    ]
-    run(lean_common + [map_relative], cwd=LEAN)
-    audit_output = run(lean_common + [audit_relative], cwd=LEAN)
+    run(guarded_lean_command(map_relative, args.memory_mib))
+    audit_output = run(guarded_lean_command(audit_relative, args.memory_mib))
     audit_axioms(audit_output, set(acceptance["allowed_axioms"]))
-    print("[kernel-gate:ok] paper-machine version, build, trust=0, and axioms")
+    print("[kernel-gate:ok] paper-machine version, trust=0, and axioms")
     return 0
 
 

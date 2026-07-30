@@ -36,14 +36,15 @@ def tenMillionCorrectedControllingTotal : Rat :=
 
 theorem tenMillionCorrectedControllingTotal_exact :
     tenMillionCorrectedControllingTotal =
-      6_290_102_589_088_435_413_227_712_405_186_027_457_349 /
-        157_537_268_638_217_597_480_778_074_851_578_375_000_000 := by
+      2_097_576_872_990_460_283_764_560_718_228_160_613_483 /
+        52_512_422_879_405_865_826_926_024_950_526_125_000_000 := by
   norm_num [tenMillionCorrectedControllingTotal,
     tenMillionCorrectedEvenBranchTotal,
     TenMillionCorrectedEvenBranch.legacy, tenMillionBranchTotal,
     tenMillionDiagonalUnrestricted, tenMillionFourPayment,
     tenMillionEvenFourDensity, tenMillionEvenFourEndpoint,
-    tenMillionSquareTail29, tenMillionRootV2, tenMillionLower]
+    tenMillionSquareTail23, tenMillionSquareTail29,
+    tenMillionRootV2, tenMillionLower]
 
 theorem tenMillionCorrectedEvenBranchTotal_le_controlling
     (branch : TenMillionCorrectedEvenBranch) :
@@ -57,25 +58,27 @@ theorem tenMillionCorrectedEvenBranchTotal_le_controlling
       tenMillionDiagonalConcentrated, tenMillionDiagonalLowTwoAdic,
       tenMillionDiagonalE2Cell,
       tenMillionRootV1, tenMillionRootV2, tenMillionRootV3,
-      tenMillionSquareTail7, tenMillionSquareTail29,
+      tenMillionSquareTail7, tenMillionSquareTail23,
+      tenMillionSquareTail29,
       tenMillionFinitePayment, tenMillionFourPayment,
       tenMillionEvenFourDensity, tenMillionEvenFourEndpoint,
       tenMillionEvenCellDensity, tenMillionEvenCellEndpoint,
       tenMillionLower]
 
-theorem tenMillionCorrectedControlling_lt_target_sub_sixtyEightPpm :
+theorem tenMillionCorrectedControlling_lt_target_sub_fiftyFivePpm :
     tenMillionCorrectedControllingTotal <
-      tenMillionHallTarget tenMillionLower - 68 / 1_000_000 := by
+      tenMillionHallTarget tenMillionLower - 55 / 1_000_000 := by
   norm_num [tenMillionCorrectedControllingTotal,
     tenMillionCorrectedEvenBranchTotal,
     TenMillionCorrectedEvenBranch.legacy, tenMillionBranchTotal,
     tenMillionHallTarget, tenMillionDiagonalUnrestricted,
     tenMillionFourPayment, tenMillionEvenFourDensity,
-    tenMillionEvenFourEndpoint, tenMillionSquareTail29,
+    tenMillionEvenFourEndpoint, tenMillionSquareTail23,
+    tenMillionSquareTail29,
     tenMillionRootV2, tenMillionLower]
 
 #print axioms tenMillionCorrectedControllingTotal_exact
 #print axioms tenMillionCorrectedEvenBranchTotal_le_controlling
-#print axioms tenMillionCorrectedControlling_lt_target_sub_sixtyEightPpm
+#print axioms tenMillionCorrectedControlling_lt_target_sub_fiftyFivePpm
 
 end Erdos848

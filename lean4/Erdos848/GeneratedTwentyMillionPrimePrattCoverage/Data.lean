@@ -1,0 +1,71 @@
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0000
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0001
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0002
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0003
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0004
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0005
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0006
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0007
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0008
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0009
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0010
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0011
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0012
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0013
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0014
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0015
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0016
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0017
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0018
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0019
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0020
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0021
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0022
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0023
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0024
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0025
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0026
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0027
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0028
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0029
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0030
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0031
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0032
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0033
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0034
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0035
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0036
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0037
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0038
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0039
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0040
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0041
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0042
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0043
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0044
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0045
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0046
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0047
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0048
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0049
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0050
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0051
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0052
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0053
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0054
+import Erdos848.GeneratedTwentyMillionPrimePrattCoverage.DataChunk0055
+import Erdos848.GeneratedTailPrimePrattCoverage.Data
+import Erdos848.PrattTableExtensionChecker
+
+namespace Erdos848.GeneratedTwentyMillionPrimePrattCoverage
+
+set_option maxRecDepth 1000000
+set_option maxHeartbeats 0
+
+def extraNodes : Erdos848.PrattNodeTree :=
+  (.node 28624 (.node 14336 (.node 7168 (.node 3584 (.node 1536 nodeDataChunk0000 (.node 1024 nodeDataChunk0001 nodeDataChunk0002)) (.node 2048 (.node 1024 nodeDataChunk0003 nodeDataChunk0004) (.node 1024 nodeDataChunk0005 nodeDataChunk0006))) (.node 3584 (.node 1536 nodeDataChunk0007 (.node 1024 nodeDataChunk0008 nodeDataChunk0009)) (.node 2048 (.node 1024 nodeDataChunk0010 nodeDataChunk0011) (.node 1024 nodeDataChunk0012 nodeDataChunk0013)))) (.node 7168 (.node 3584 (.node 1536 nodeDataChunk0014 (.node 1024 nodeDataChunk0015 nodeDataChunk0016)) (.node 2048 (.node 1024 nodeDataChunk0017 nodeDataChunk0018) (.node 1024 nodeDataChunk0019 nodeDataChunk0020))) (.node 3584 (.node 1536 nodeDataChunk0021 (.node 1024 nodeDataChunk0022 nodeDataChunk0023)) (.node 2048 (.node 1024 nodeDataChunk0024 nodeDataChunk0025) (.node 1024 nodeDataChunk0026 nodeDataChunk0027))))) (.node 14288 (.node 7168 (.node 3584 (.node 1536 nodeDataChunk0028 (.node 1024 nodeDataChunk0029 nodeDataChunk0030)) (.node 2048 (.node 1024 nodeDataChunk0031 nodeDataChunk0032) (.node 1024 nodeDataChunk0033 nodeDataChunk0034))) (.node 3584 (.node 1536 nodeDataChunk0035 (.node 1024 nodeDataChunk0036 nodeDataChunk0037)) (.node 2048 (.node 1024 nodeDataChunk0038 nodeDataChunk0039) (.node 1024 nodeDataChunk0040 nodeDataChunk0041)))) (.node 7120 (.node 3584 (.node 1536 nodeDataChunk0042 (.node 1024 nodeDataChunk0043 nodeDataChunk0044)) (.node 2048 (.node 1024 nodeDataChunk0045 nodeDataChunk0046) (.node 1024 nodeDataChunk0047 nodeDataChunk0048))) (.node 3536 (.node 1536 nodeDataChunk0049 (.node 1024 nodeDataChunk0050 nodeDataChunk0051)) (.node 2000 (.node 1024 nodeDataChunk0052 nodeDataChunk0053) (.node 976 nodeDataChunk0054 nodeDataChunk0055))))))
+
+def table : Erdos848.PrattTableData :=
+  Erdos848.GeneratedTailPrimePrattCoverage.table.extend extraNodes
+
+end Erdos848.GeneratedTwentyMillionPrimePrattCoverage

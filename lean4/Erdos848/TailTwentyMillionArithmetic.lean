@@ -87,10 +87,10 @@ def twentyMillionDiagonalOneOdd : ℚ := 6_323_839 / 1_000_000_000
 def twentyMillionDiagonalOneOddCell : ℚ := 705_249 / 1_000_000_000
 
 /-- Root ceilings recomputed over the full support endpoint `40_000_000`. -/
-def twentyMillionRootEvenOne : ℚ := 8_136_977 / 1_000_000_000
-def twentyMillionRootEvenTwo : ℚ := 9_719_077 / 1_000_000_000
+def twentyMillionRootEvenOne : ℚ := 8_622_089 / 1_000_000_000
+def twentyMillionRootEvenTwo : ℚ := 10_006_474 / 1_000_000_000
 def twentyMillionRootEvenThree : ℚ := 12_915_119 / 1_000_000_000
-def twentyMillionRootOdd : ℚ := 10_162_405 / 1_000_000_000
+def twentyMillionRootOdd : ℚ := 10_177_869 / 1_000_000_000
 
 /-- Exact normalized payment in each of the ten terminal rows. -/
 def twentyMillionBranchTotal : TwentyMillionBranch → ℚ
@@ -132,21 +132,22 @@ def twentyMillionBranchTotal : TwentyMillionBranch → ℚ
         twentyMillionFiniteOddOneCommonThree + twentyMillionSquareOdd +
         twentyMillionRootOdd / 2
 
-/-- The controlling row after correcting the support endpoint to forty million. -/
-theorem twentyMillionOddTwoGeneric_exact :
-    twentyMillionBranchTotal .oddTwoGeneric =
-      17_199_658_854_408_379_159_061_718_993_859_780_352_873_763 /
-        430_892_705_645_537_116_883_834_841_040_194_062_000_000_000 := by
-  norm_num [twentyMillionBranchTotal, twentyMillionDiagonalOddUnion,
-    twentyMillionEvenCharge, twentyMillionFiniteOddTwo,
-    twentyMillionSquareOdd, twentyMillionRootOdd]
+/-- The controlling row after including the rigorous reciprocal-mass
+correction in the transformed-root envelopes. -/
+theorem twentyMillionEvenTwoGeneric_lt_target :
+    twentyMillionBranchTotal .evenTwoGeneric < twentyMillionTarget := by
+  norm_num [twentyMillionBranchTotal, twentyMillionTarget,
+    twentyMillionHallTarget, twentyMillionLower,
+    twentyMillionDiagonalUnrestricted,
+    twentyMillionFiniteEvenGeneric, twentyMillionSquareEven,
+    twentyMillionRootEvenTwo]
 
 /-- Arithmetic maximality of the controlling row among the ten rows.  This
 does not replace the semantic proof that the ten rows exhaust Hall defects. -/
-theorem twentyMillionBranchTotal_le_oddTwoGeneric
+theorem twentyMillionBranchTotal_le_evenTwoGeneric
     (branch : TwentyMillionBranch) :
     twentyMillionBranchTotal branch ≤
-      twentyMillionBranchTotal .oddTwoGeneric := by
+      twentyMillionBranchTotal .evenTwoGeneric := by
   cases branch <;>
     norm_num [twentyMillionBranchTotal,
       twentyMillionDelta, twentyMillionEvenCharge,

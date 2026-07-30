@@ -218,4 +218,46 @@ theorem finiteResidueCount_scaled_le
   rw [hcount]
   nlinarith
 
+/-- Rational form of `finiteResidueCount_scaled_le`.  It keeps the sharp
+last-partial-period payment `R * (M - R) / M` and is convenient when a
+consumer only needs a cardinality envelope, not the exact prefix count. -/
+theorem finiteResidueCount_cast_le
+    (residues : Finset ℕ) (period N : ℕ) (hperiod : 0 < period)
+    (hresidues : residues ⊆ Finset.range period) :
+    (((Finset.range N).filter fun x =>
+        x % period ∈ residues).card : ℚ) ≤
+      (residues.card : ℚ) / period * N +
+        (residues.card : ℚ) *
+          ((period - residues.card : Nat) : ℚ) / period := by
+  have hscaled :=
+    finiteResidueCount_scaled_le
+      residues period N hperiod hresidues
+  have hscaledQ :
+      (period : ℚ) *
+          (((Finset.range N).filter fun x =>
+            x % period ∈ residues).card : ℚ) ≤
+        (residues.card : ℚ) * N +
+          (residues.card : ℚ) *
+            (period - residues.card : Nat) := by
+    exact_mod_cast hscaled
+  have hperiodQ : (0 : ℚ) < period := by
+    exact_mod_cast hperiod
+  calc
+    (((Finset.range N).filter fun x =>
+        x % period ∈ residues).card : ℚ) =
+        ((period : ℚ) *
+          (((Finset.range N).filter fun x =>
+            x % period ∈ residues).card : ℚ)) / period := by
+          field_simp [ne_of_gt hperiodQ]
+    _ ≤
+        ((residues.card : ℚ) * N +
+          (residues.card : ℚ) *
+            (period - residues.card : Nat)) / period :=
+      div_le_div_of_nonneg_right hscaledQ hperiodQ.le
+    _ =
+      (residues.card : ℚ) / period * N +
+        (residues.card : ℚ) *
+          ((period - residues.card : Nat) : ℚ) / period := by
+      ring
+
 end Erdos848
