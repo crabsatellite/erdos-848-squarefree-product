@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CHECKER = Path(__file__).resolve().with_name("check_proof_state.py")
 FIXTURE_FILES = [
     "proof-state.json",
+    "certificate-pipeline.json",
     "release-manifest.json",
     "paper/proof-contract.json",
     "paper/erdos_848_kernel_asymptotic.tex",
@@ -27,6 +28,7 @@ FIXTURE_FILES = [
     "paper/theorem-map.json",
     "lean4/lean-toolchain",
     "lean4/lake-manifest.json",
+    "lean4/.lake/erdos848-Erdos848-status.json",
     "lean4/Erdos848/PublicationContract.lean",
     "lean4/Erdos848/PublicationRoot.lean",
     "lean4/Erdos848/PaperGeneratedCertificateProvider.lean",
@@ -182,6 +184,35 @@ def main() -> int:
             "closed machine with open alignment",
             "closed machine theorem requires a complete, aligned manuscript",
         )
+        state_path.write_bytes((ROOT / "proof-state.json").read_bytes())
+
+        status_path = (
+            tree / "lean4" / ".lake" / "erdos848-Erdos848-status.json"
+        )
+        original_status = status_path.read_bytes()
+        status = json.loads(original_status)
+        status["build_input_signature"] = "0" * 64
+        status_path.write_text(json.dumps(status), encoding="utf-8")
+        require_failure(
+            tree,
+            "controlled-builder signature drift",
+            "proof-state kernel evidence differs from controlled builder status",
+        )
+        status_path.write_bytes(original_status)
+
+        pipeline_path = tree / "certificate-pipeline.json"
+        original_pipeline = pipeline_path.read_bytes()
+        pipeline = json.loads(original_pipeline)
+        pipeline["certificate_boundary"]["kernel_evidence"][
+            "build_input_signature"
+        ] = "0" * 64
+        pipeline_path.write_text(json.dumps(pipeline), encoding="utf-8")
+        require_failure(
+            tree,
+            "certificate-pipeline evidence drift",
+            "certificate-pipeline kernel evidence differs from controlled builder status",
+        )
+        pipeline_path.write_bytes(original_pipeline)
     finally:
         if tree.parent == drive_root and tree.name.startswith("e848-contract-test-"):
             shutil.rmtree(tree, onerror=remove_readonly)

@@ -329,6 +329,59 @@ def validate_pins(policy: dict) -> None:
         fail("Lake package revisions differ from release-manifest.json")
 
 
+def validate_local_kernel_evidence(state: dict) -> None:
+    """Bind internal status prose to the exact controlled-builder record.
+
+    Clean public/source-only packages deliberately omit ``lean4/.lake``.  When
+    the status file is present, however, every duplicated evidence field must
+    agree with it so that an old successful run cannot masquerade as evidence
+    for the current source checkpoint.
+    """
+
+    evidence = state.get("kernel_evidence")
+    if not isinstance(evidence, dict):
+        fail("proof-state.kernel_evidence must be an object")
+    status_path = repo_path(
+        evidence.get("build_status_path"),
+        "kernel_evidence.build_status_path",
+    )
+    if not status_path.is_file():
+        return
+    status = load_json(status_path, "controlled builder status")
+    comparisons = (
+        ("build_status", "status"),
+        ("build_finished_at", "finished_at"),
+        ("build_input_signature", "build_input_signature"),
+    )
+    for evidence_key, status_key in comparisons:
+        if evidence.get(evidence_key) != status.get(status_key):
+            fail(
+                "proof-state kernel evidence differs from controlled builder "
+                f"status for {evidence_key}"
+            )
+
+    pipeline_path = ROOT / "certificate-pipeline.json"
+    if not pipeline_path.is_file():
+        return
+    pipeline = load_json(pipeline_path)
+    boundary = pipeline.get("certificate_boundary")
+    if not isinstance(boundary, dict):
+        fail("certificate-pipeline certificate_boundary must be an object")
+    pipeline_evidence = boundary.get("kernel_evidence")
+    if not isinstance(pipeline_evidence, dict):
+        fail("certificate-pipeline kernel_evidence must be an object")
+    if pipeline_evidence.get("status_path") != evidence.get("build_status_path"):
+        fail("certificate-pipeline status path differs from proof-state")
+    for key in ("build_finished_at", "build_input_signature"):
+        if pipeline_evidence.get(key) != status.get(
+            "finished_at" if key == "build_finished_at" else key
+        ):
+            fail(
+                "certificate-pipeline kernel evidence differs from controlled "
+                f"builder status for {key}"
+            )
+
+
 def validate_state(
     *, require_release_ready: bool = False, audit_sources: bool = False
 ) -> dict:
@@ -363,6 +416,7 @@ def validate_state(
         machine_status != "closed" or claim_status != "complete"
     ):
         fail("aligned manuscript requires a closed machine theorem and complete claim")
+    validate_local_kernel_evidence(state)
 
     contract_version = state.get("proof_contract_version")
     if not isinstance(contract_version, str) or not re.fullmatch(

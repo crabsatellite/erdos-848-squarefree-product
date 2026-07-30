@@ -50,8 +50,8 @@
     "provider_status": "trust-zero-kernel-checked",
     "build_status": "passed",
     "build_status_path": "lean4/.lake/erdos848-Erdos848-status.json",
-    "build_finished_at": "2026-07-30T01:54:53.029193+00:00",
-    "build_input_signature": "10f7f00c666439a40fb25a6e4f230d1de56839591fccff65f7efccc66d2e0da6",
+    "build_finished_at": "2026-07-30T09:39:45.903827+00:00",
+    "build_input_signature": "487b860a1d75f421a8eb590c30ec3e69cf84334425f948f99ff821431c676d96",
     "qr_high_subrange_required": true,
     "optimization_status": "frozen-at-wheel-wordwise-process-batched-and-sharded-grid-equilibrium",
     "finite_replay_engineering": {
