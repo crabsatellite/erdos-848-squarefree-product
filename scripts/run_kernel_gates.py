@@ -22,6 +22,14 @@ ROOT = Path(__file__).resolve().parents[1]
 LEAN = ROOT / "lean4"
 
 
+def configure_stdout() -> None:
+    """Keep Unicode Lean diagnostics printable on legacy Windows consoles."""
+
+    reconfigure = getattr(sys.stdout, "reconfigure", None)
+    if reconfigure is not None:
+        reconfigure(errors="backslashreplace")
+
+
 def fail(message: str) -> None:
     raise SystemExit(f"[kernel-gate:error] {message}")
 
@@ -79,6 +87,7 @@ def audit_axioms(output: str, allowed: set[str]) -> None:
 
 
 def main() -> int:
+    configure_stdout()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--memory-mib",
