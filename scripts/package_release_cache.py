@@ -22,6 +22,7 @@ from cache_release_common import (
     MAX_GITHUB_ASSET_BYTES,
     CacheReleaseError,
     clean_commit,
+    load_json,
     publication_manifest,
     run,
     safe_posix_path,
@@ -231,6 +232,162 @@ def package_shard(
         temporary.unlink(missing_ok=True)
 
 
+def rebind_existing_assets(
+    *,
+    output: Path,
+    records: list[dict[str, object]],
+    public_commit: str,
+    internal_commit: str,
+    publication_manifest_path: Path,
+    publication_manifest_sha256: str,
+    publication: dict,
+    public: Path,
+) -> None:
+    """Rebind byte-identical cache archives to a metadata-only source update."""
+
+    manifest_path = output / CACHE_MANIFEST_NAME
+    if not output.is_dir() or not manifest_path.is_file():
+        raise CacheReleaseError(
+            "--rebind-existing-assets requires a complete existing asset directory"
+        )
+    previous = load_json(manifest_path)
+    if (
+        previous.get("schema_version") != CACHE_SCHEMA_VERSION
+        or previous.get("package_role") != "derived-olean-cache"
+    ):
+        raise CacheReleaseError("existing cache manifest is not a supported release")
+
+    previous_files = previous.get("files")
+    if not isinstance(previous_files, list):
+        raise CacheReleaseError("existing cache manifest has no files list")
+    expected_sources = {
+        (
+            str(record["source_path"]),
+            str(record["source_sha256"]),
+            str(record["cache_path"]),
+            int(record["cache_bytes"]),
+        )
+        for record in records
+    }
+    previous_sources: set[tuple[str, str, str, int]] = set()
+    for record in previous_files:
+        if not isinstance(record, dict):
+            raise CacheReleaseError("existing cache manifest has a malformed file")
+        try:
+            previous_sources.add(
+                (
+                    str(record["source_path"]),
+                    str(record["source_sha256"]),
+                    str(record["cache_path"]),
+                    int(record["cache_bytes"]),
+                )
+            )
+        except (KeyError, TypeError, ValueError) as exc:
+            raise CacheReleaseError(
+                "existing cache manifest has an incomplete file record"
+            ) from exc
+    if (
+        len(previous_files) != len(previous_sources)
+        or previous_sources != expected_sources
+    ):
+        raise CacheReleaseError(
+            "public Lean source/cache mapping changed; existing archives cannot be rebound"
+        )
+
+    archives = previous.get("archives")
+    if not isinstance(archives, list) or not archives:
+        raise CacheReleaseError("existing cache manifest has no archives")
+    archive_names: set[str] = set()
+    for record in archives:
+        if not isinstance(record, dict):
+            raise CacheReleaseError("existing cache manifest has a malformed archive")
+        name = record.get("archive")
+        expected_size = record.get("archive_bytes")
+        expected_hash = record.get("archive_sha256")
+        if not isinstance(name, str) or PurePosixPath(name).name != name:
+            raise CacheReleaseError(f"unsafe existing archive name: {name!r}")
+        if name in archive_names:
+            raise CacheReleaseError(f"duplicate existing archive: {name}")
+        archive_names.add(name)
+        archive = output / name
+        if (
+            not archive.is_file()
+            or not isinstance(expected_size, int)
+            or archive.stat().st_size != expected_size
+            or expected_size >= MAX_GITHUB_ASSET_BYTES
+            or not isinstance(expected_hash, str)
+            or sha256_file(archive) != expected_hash
+        ):
+            raise CacheReleaseError(f"existing archive failed size/hash audit: {name}")
+    referenced_archives = {
+        str(record.get("archive"))
+        for record in previous_files
+        if isinstance(record, dict)
+    }
+    if referenced_archives != archive_names:
+        raise CacheReleaseError(
+            "existing cache files and archive inventory do not agree"
+        )
+
+    toolchain = (public / "lean4" / "lean-toolchain").read_text(
+        encoding="utf-8"
+    ).strip()
+    if previous.get("lean_toolchain") != toolchain:
+        raise CacheReleaseError("Lean toolchain changed; archives cannot be rebound")
+    if previous.get("main_theorem") != publication.get("main_theorem"):
+        raise CacheReleaseError("main theorem changed; archives cannot be rebound")
+    if previous.get("allowed_axioms") != publication.get("allowed_axioms"):
+        raise CacheReleaseError("axiom policy changed; archives cannot be rebound")
+
+    status_path = LEAN / ".lake" / "erdos848-Erdos848-status.json"
+    status = load_json(status_path)
+    if status.get("status") != "passed":
+        raise CacheReleaseError("internal provider status is not passed")
+    if (
+        previous.get("provider_build_input_signature")
+        != status.get("build_input_signature")
+    ):
+        raise CacheReleaseError(
+            "controlled-builder signature changed; archives cannot be rebound"
+        )
+
+    rebound = dict(previous)
+    rebound.update(
+        {
+            "public_commit": public_commit,
+            "internal_source_commit": internal_commit,
+            "publication_manifest": {
+                "path": publication_manifest_path.name,
+                "sha256": publication_manifest_sha256,
+            },
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        }
+    )
+    temporary = manifest_path.with_suffix(".json.partial")
+    temporary.write_text(
+        json.dumps(rebound, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    os.replace(temporary, manifest_path)
+    checksum_lines = [
+        f"{sha256_file(manifest_path)}  {CACHE_MANIFEST_NAME}",
+        *[
+            f"{record['archive_sha256']}  {record['archive']}"
+            for record in archives
+        ],
+    ]
+    (output / CHECKSUMS_NAME).write_text(
+        "\n".join(checksum_lines) + "\n",
+        encoding="utf-8",
+    )
+    print(
+        f"[cache-pack:rebind-ok] modules={len(previous_files)} "
+        f"archives={len(archives)} public_commit={public_commit} "
+        f"manifest_sha256={sha256_file(manifest_path)}",
+        flush=True,
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -258,6 +415,15 @@ def main() -> int:
     )
     parser.add_argument("--compression-level", type=int, default=6)
     parser.add_argument("--plan-only", action="store_true")
+    parser.add_argument(
+        "--rebind-existing-assets",
+        action="store_true",
+        help=(
+            "Reuse existing byte-identical ZIPs after auditing every source "
+            "mapping, archive size/hash, toolchain, theorem, axiom policy, "
+            "and controlled-builder signature."
+        ),
+    )
     args = parser.parse_args()
 
     try:
@@ -332,6 +498,18 @@ def main() -> int:
             flush=True,
         )
         if args.plan_only:
+            return 0
+        if args.rebind_existing_assets:
+            rebind_existing_assets(
+                output=output,
+                records=records,
+                public_commit=public_commit,
+                internal_commit=internal_commit,
+                publication_manifest_path=manifest_path,
+                publication_manifest_sha256=manifest_sha,
+                publication=manifest,
+                public=public,
+            )
             return 0
 
         output.mkdir(parents=True, exist_ok=True)
