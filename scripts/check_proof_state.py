@@ -151,7 +151,14 @@ def lean_header_imports(path: Path) -> list[str]:
             raise
         imports: list[str] = []
         reached_code = False
-        for line in stripped.splitlines():
+        lines = stripped.splitlines()
+        # A bounded read may stop in the middle of an import.  The incomplete
+        # final fragment is not Lean code and must not terminate the import
+        # header scan; grow the window and read it again instead.  This matters
+        # for generated modules with hundreds of import lines.
+        if truncated and header and not header.endswith(("\n", "\r")):
+            lines = lines[:-1]
+        for line in lines:
             line = line.strip()
             if not line:
                 continue

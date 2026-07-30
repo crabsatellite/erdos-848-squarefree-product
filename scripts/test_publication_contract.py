@@ -12,6 +12,9 @@ import sys
 import tempfile
 from pathlib import Path
 
+import check_proof_state
+import run_lean_guarded
+
 
 ROOT = Path(__file__).resolve().parents[1]
 CHECKER = Path(__file__).resolve().with_name("check_proof_state.py")
@@ -78,11 +81,43 @@ def copy_fixture(tree: Path) -> None:
         shutil.copy2(source, target)
 
 
+def test_import_gates(tree: Path) -> None:
+    long_header = tree / "long-import-header.lean"
+    modules = [f"Erdos848.GeneratedBoundary.Module{index:04d}" for index in range(400)]
+    long_header.write_text(
+        "".join(f"import {module}\n" for module in modules) + "\ndef marker := 1\n",
+        encoding="utf-8",
+    )
+    parsed = check_proof_state.lean_header_imports(long_header)
+    if parsed != modules:
+        raise SystemExit(
+            "[contract-test:error] bounded import reader truncated a long header"
+        )
+    print("[contract-test:pass] long generated import header is complete")
+
+    missing_import = tree / "missing-local-import.lean"
+    missing_import.write_text(
+        "import Erdos848.ContractTestDefinitelyMissing\n",
+        encoding="utf-8",
+    )
+    try:
+        run_lean_guarded.local_imports(missing_import)
+    except SystemExit as exc:
+        if "missing local Lean source" not in str(exc):
+            raise
+    else:
+        raise SystemExit(
+            "[contract-test:error] guarded preflight accepted a missing local source"
+        )
+    print("[contract-test:pass] missing local import fails closed")
+
+
 def main() -> int:
     drive_root = Path(ROOT.anchor)
     tree = Path(tempfile.mkdtemp(prefix="e848-contract-test-", dir=drive_root))
     try:
         copy_fixture(tree)
+        test_import_gates(tree)
         require_pass(tree, "exact current paper-complete/kernel-closed checkpoint")
 
         paper_path = tree / "paper" / "proof-contract.json"

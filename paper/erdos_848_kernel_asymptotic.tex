@@ -2,6 +2,7 @@
 
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{booktabs}
+\usepackage{tabularx}
 \usepackage{geometry}
 \usepackage{hyperref}
 \usepackage{xcolor}
@@ -28,6 +29,7 @@
 \newcommand{\TN}{T_N}
 \newcommand{\calP}{\mathcal{P}}
 \newcommand{\leanname}[1]{}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 
 \title{\textbf{Erd\H{o}s Problem 848:\\
 Exact Hall Closure by Square-Sieve Descent and Prefix Colouring}}
@@ -71,20 +73,78 @@ terminal all-$N$ theorem are replayed by the ordinary Lean kernel.
 \leanname{erdos848_paper_tail_close}
 \leanname{PaperGeneratedCertificateProvider.all_N}
 
-\section{Statement and Hall formulation}
+\section{Introduction and Hall formulation}
 
 Write
 \[
   \CN=\{n\in[1,N]:n\equiv 7\pmod {25}\}.
 \]
-We prove
+Erd\H{o}s and S\'ark\"ozy asked whether this construction is extremal
+\cite{Erdos848Original}.  We prove
 \begin{equation}\label{eq:target}
   |A|\leq |\CN|
 \end{equation}
 for every $N$ and every $A\subseteq[1,N]$ such that $ab+1$ is
 nonsquarefree for all $a,b\in A$.  Sawhney proved the assertion for all
 sufficiently large $N$ by a density sieve and structural reduction
-\cite{Sawhney848}; the argument below supplies an explicit all-$N$ proof.
+\cite{Sawhney848}.  Sothanaphan made Sawhney's asymptotic inputs explicit and
+obtained the threshold $N\geq2.64\cdot10^{17}$
+\cite{Sothanaphan848}.  The argument below supplies an exact all-$N$ proof.
+
+\begin{table}[ht]
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.16}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.15\textwidth}Y Y Y@{}}
+\toprule
+Work & Proven range and conclusion & Why the problem was not yet closed &
+New mechanism relevant here\\
+\midrule
+Sawhney (2025) &
+The class $7\bmod25$ is extremal for every $N\geq N_0$, for some
+unspecified $N_0$; a stability statement also identifies the two candidate
+extremal classes. &
+The argument is asymptotic: it neither gives $N_0$ nor treats the finite
+prefix. &
+Density sieves and the mod-$25$ structural reduction.\\
+\addlinespace
+Sothanaphan (2026) &
+The same extremal bound holds explicitly for
+$N\geq2.64\cdot10^{17}$. &
+The interval $1\leq N<2.64\cdot10^{17}$ remains; a pointwise search over
+that interval would not be a practical or transparent close. &
+Explicit squarefree-progression estimates and a Pell-equation bound for
+large square divisors.\\
+\addlinespace
+This paper &
+The exact extremal value is proved for every $N\geq1$. &
+No range remains.  The four tail subranges are assembled into one theorem
+for every $N\geq5\cdot10^6$. &
+Hall reformulation, range compression, prefix colouring, and
+valuation--cell--fibre descent to kernel-certified finite states.\\
+\bottomrule
+\end{tabularx}
+\caption{Prior results and the all-$N$ close.}
+\label{tab:prior-work}
+\end{table}
+
+The computational part of the proof is therefore not a pointwise
+enumeration of every $N$.  The Hall reformulation replaces the extremal-set
+question by a neighbourhood inequality; range compression reduces moving
+endpoints to finitely many exact endpoint or cell conditions; and the
+valuation--cell--fibre descent turns the unbounded tail into finite typed
+states.  Only these compressed states are certified in Lean.  This use of
+finite computation is in the tradition of explicit computational number
+theory, where a bounded remainder is discharged by separately checkable
+arithmetic certificates rather than treated as numerical evidence
+\cite{HelfgottPlatt,OliveiraSilvaHerzogPardi}.
+
+The squarefree-progression estimates behind the large-$N$ analysis belong to
+the classical line of Prachar and Hooley
+\cite{PracharSquarefreeAP,HooleySquarefreeAP}.  Our finite square-divisor
+sieves are tailored to the Hall graph: they combine those distributional
+inputs with exact residue, valuation, and fibre data rather than invoking an
+asymptotic density statement as the final step.
 
 \begin{proposition}[Sharpness]\label{prop:sharpness}
 The set $\CN$ is admissible: if $a,b\in\CN$, then $ab+1$ is not squarefree.
@@ -4695,25 +4755,10 @@ strict row comparison and monotonicity of the target give
 contradicting the defect.  For $N\geq5\cdot10^{11}$ the identical argument
 uses the uniform row.
 
-All implications just invoked are proved as ordinary propositions in
-\begin{center}\small
-\path{lean4/Erdos848/TailHighQrFiniteClose.lean}\\
-\path{lean4/Erdos848/TailHighUnboundedClose.lean}.
-\end{center}
-The six finite rows are in
-\begin{center}\small
-\path{lean4/Erdos848/GeneratedHybridPaperRootCoverage/}\\
-\path{HighQrFinalRows.lean}.
-\end{center}
-Their QR semantics are imported by that file.  Ordinary Lean kernel replay
-of the assembled endpoint
-\begin{center}\small
-\path{Erdos848.PaperGeneratedCertificateProvider.all_N}
-\end{center}
-reports only
-\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}; no
-external evaluator, theorem-valued certificate, or unchecked native decision
-is used.
+All implications just invoked, including the exact row comparisons and their
+QR semantics, are ordinary propositions in the accompanying Lean
+formalization.  The paper-to-Lean map and trust boundary are stated in
+Section~\ref{sec:machine-proof}.
 \end{proof}
 
 \begin{theorem}[Erd\H{o}s Problem 848: terminal assembly]
@@ -4739,7 +4784,120 @@ Proposition~\ref{prop:sharpness} supplies the matching lower bound, and
 Theorem~\ref{thm:hall-equivalence} gives the equivalent Hall formulation.
 \end{proof}
 
-\begin{thebibliography}{9}
+\section{Machine-checked proof and verification artifact}
+\label{sec:machine-proof}
+
+The formal artifact uses Lean~4 and Mathlib
+\cite{Lean4,Mathlib}.  Its purpose is to check the exact finite arithmetic,
+the paper-to-machine interfaces, and the terminal all-$N$ assembly with a
+small trusted kernel.  This follows the established distinction between an
+untrusted proof-producing computation and an independently replayed formal
+certificate, as in large computational and formal proofs
+\cite{GonthierOddOrder,HalesFlyspeck}.
+
+\subsection*{Paper-to-Lean correspondence}
+
+The final declaration is
+\begin{center}\small
+\texttt{Erdos848.PaperGeneratedCertificateProvider.all\_N}.
+\end{center}
+The complete machine-readable theorem map contains twelve published Lean
+declarations.  The load-bearing correspondence is summarized below.
+
+\begin{table}[ht]
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.14}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.34\textwidth}Y@{}}
+\toprule
+Paper component & Lean declarations\\
+\midrule
+Problem statement and sharp construction &
+\texttt{OriginalProblem848Statement},
+\texttt{originalA7\_has\_property}\\
+\addlinespace
+Exact prefix and the two low ranges through $5\cdot10^6$ &
+\texttt{erdos848\_prefix\_close},
+\texttt{erdos848\_first\_low\_close},
+\texttt{erdos848\_second\_low\_close}\\
+\addlinespace
+The four tail intervals &
+\texttt{PaperCertificateProvider.fiveToTenMillion},
+\texttt{PaperCertificateProvider.tenToTwentyMillion},
+\texttt{PaperCertificateProvider.twentyToFortyMillion},
+\texttt{PaperCertificateProvider.fortyMillionTail}\\
+\addlinespace
+Unified tail theorem for every $N\geq5\cdot10^6$ &
+\texttt{erdos848\_paper\_tail\_close}\\
+\addlinespace
+Terminal all-$N$ theorem &
+\texttt{PaperGeneratedCertificateProvider.all\_N}\\
+\bottomrule
+\end{tabularx}
+\caption{Load-bearing paper-to-Lean correspondence.}
+\label{tab:lean-correspondence}
+\end{table}
+
+\subsection*{Certificate production and trust boundary}
+
+The finite-state producers may use C++ or Python to find witnesses, compress
+ranges, and emit Lean source.  They are not part of the trusted proof: Lean
+does not rerun their search and no theorem is imported from an external
+evaluator.  The generated data are presented to semantic checkers as ordinary
+Lean terms; the checkers prove the required Hall, residue, valuation, cell,
+and fibre statements; and the kernel validates the resulting proof terms.
+Thus precomputed witnesses change proof-production time, not the logical
+trust boundary.
+
+The transitive publication cone contains exactly $30{,}572$ local Lean source
+modules.  It excludes project axioms, \texttt{sorry}, \texttt{admit},
+\texttt{native\_decide}, \texttt{unsafe}, and external code.  A
+\texttt{--trust=0} axiom audit of the published endpoints reports exactly
+\[
+ \texttt{[propext, Classical.choice, Quot.sound]},
+\]
+the standard classical and quotient dependencies used by Lean and Mathlib.
+
+\subsection*{Reproduction and cached artifacts}
+
+The repository pins the Lean toolchain and the Mathlib dependency graph.  The
+machine-readable theorem map binds the paper labels to declarations, while
+the proof contract and release manifest bind the TeX, PDF,
+source closure, toolchain, terminal endpoint, and axiom policy.  From the
+repository root, the release-state audit is
+\begin{quote}\scriptsize\ttfamily
+python -B scripts/check\_proof\_state.py
+  --require-release-ready --audit-sources
+\end{quote}
+and the bounded builder and kernel gates are documented in the accompanying
+\texttt{README.md}.  Optional precompiled \texttt{.olean} shards are a
+hash-checked transport cache.  They can shorten replay, but they are neither
+mathematical premises nor a substitute for kernel checking.
+
+\section*{Declaration of Generative AI and AI-Assisted Technologies}
+
+During the preparation of this work, the author used OpenAI Codex for code
+navigation, drafting and copy-editing, and assistance with Lean~4 source and
+verification scripts.  No other generative-AI system was used.  The author
+checked the mathematical claims, citations, manuscript-to-Lean
+correspondence, and kernel audit.  AI output is not treated as mathematical
+evidence.  The author is responsible for the definitions, proofs, citations,
+code, and manuscript.
+
+\section*{Acknowledgements}
+
+The author thanks the developers of Lean and Mathlib for the formalization
+environment.
+
+\begingroup
+\small
+\begin{thebibliography}{20}
+
+\bibitem{Erdos848Original}
+P.~Erd\H{o}s,
+\emph{Some of my favourite problems in various branches of combinatorics},
+Le Matematiche 47 (1992), no.~2, 231--240.
+\url{https://lematematiche.dmi.unict.it/index.php/lematematiche/article/view/587}
 
 \bibitem{Sawhney848}
 M.~Sawhney,
@@ -4751,6 +4909,18 @@ $a,b\in A$}, 2025.
 N.~Sothanaphan,
 \emph{An Explicit Threshold in Erd\H{o}s Problem 848}, March 24, 2026.
 \url{https://drive.google.com/file/d/1ujhm4_WYpgRV_rd1rJXIfHyvx16COEKe/view}
+
+\bibitem{PracharSquarefreeAP}
+K.~Prachar,
+\emph{\"Uber die kleinste quadratfreie Zahl einer arithmetischen Reihe},
+Monatsh. Math. 62 (1958), 173--176.
+\url{https://resolver.sub.uni-goettingen.de/purl?362162050_0062|log15}
+
+\bibitem{HooleySquarefreeAP}
+C.~Hooley,
+\emph{A note on square-free numbers in arithmetic progressions},
+Bull. Lond. Math. Soc. 7 (1975), 133--138.
+\url{https://doi.org/10.1112/blms/7.2.133}
 
 \bibitem{RosserSchoenfeld}
 J.~B. Rosser and L.~Schoenfeld,
@@ -4764,6 +4934,47 @@ P.~Dusart,
 arXiv:1002.0442, 2010.
 \url{https://arxiv.org/abs/1002.0442}
 
+\bibitem{HelfgottPlatt}
+H.~A. Helfgott and D.~J. Platt,
+\emph{Numerical verification of the ternary Goldbach conjecture up to
+$8.875\cdot10^{30}$},
+Experiment. Math. 22 (2013), no.~4, 406--409.
+\url{https://doi.org/10.1080/10586458.2013.831742}
+
+\bibitem{OliveiraSilvaHerzogPardi}
+T.~Oliveira e Silva, S.~Herzog, and S.~Pardi,
+\emph{Empirical verification of the even Goldbach conjecture and computation
+of prime gaps up to $4\cdot10^{18}$},
+Math. Comp. 83 (2014), no.~288, 2033--2060.
+\url{https://doi.org/10.1090/S0025-5718-2013-02787-1}
+
+\bibitem{GonthierOddOrder}
+G.~Gonthier et al.,
+\emph{A machine-checked proof of the Odd Order Theorem},
+in Interactive Theorem Proving (ITP 2013), Lecture Notes in Comput. Sci.
+7998, Springer, 2013, 163--179.
+\url{https://doi.org/10.1007/978-3-642-39634-2_14}
+
+\bibitem{HalesFlyspeck}
+T.~C. Hales et al.,
+\emph{A formal proof of the Kepler conjecture},
+Forum Math. Pi 5 (2017), e2, 29 pp.
+\url{https://doi.org/10.1017/fmp.2017.1}
+
+\bibitem{Lean4}
+L.~de Moura and S.~Ullrich,
+\emph{The Lean 4 theorem prover and programming language},
+in Automated Deduction -- CADE 28, Lecture Notes in Comput. Sci. 12699,
+Springer, 2021, 625--635.
+\url{https://doi.org/10.1007/978-3-030-79876-5_37}
+
+\bibitem{Mathlib}
+The mathlib Community,
+\emph{The Lean mathematical library},
+in Proceedings of CPP 2020, ACM, 2020, 367--381.
+\url{https://doi.org/10.1145/3372885.3373824}
+
 \end{thebibliography}
+\endgroup
 
 \end{document}

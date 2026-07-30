@@ -153,7 +153,13 @@ def local_imports(source: Path) -> list[tuple[str, Path]]:
         for module in line.removeprefix("import ").split():
             imported_source = LEAN_ROOT / Path(*module.split("."))
             imported_source = imported_source.with_suffix(".lean")
-            if imported_source.is_file():
+            is_local = module == "Erdos848" or module.startswith("Erdos848.")
+            if is_local and not imported_source.is_file():
+                raise SystemExit(
+                    f"missing local Lean source for import {module}: "
+                    f"{imported_source}"
+                )
+            if is_local:
                 imports.append((module, imported_source.resolve()))
     return imports
 

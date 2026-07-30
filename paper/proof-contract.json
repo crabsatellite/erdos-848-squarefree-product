@@ -4,9 +4,9 @@
   "claim_status": "complete",
   "manuscript_kind": "complete-all-n-paper-proof-with-kernel-replayed-generated-finite-certificates",
   "tex_path": "paper/erdos_848_kernel_asymptotic.tex",
-  "tex_sha256": "9421589d03692f87ff2a64e42dc230badab5bed87b020422dc3005b7e3fb6c47",
+  "tex_sha256": "7f1eeff52f4140bf6e60338b8705888cb4d1707b503a72f5240988cd1e41050b",
   "pdf_path": "paper/Li_Erdos_848_Kernel_Asymptotic_2026.pdf",
-  "pdf_sha256": "379b24e2970e411d4980fe8e2455c42aa3e44d8b7475c2f0ee080a57c500886b",
+  "pdf_sha256": "7d9b1847337b35865e5056aeb761dd5626155d5a7c43c5cff780e6cbcf3af2dc",
   "theorem_map_path": "paper/theorem-map.json",
   "theorem_map_sha256": "b70a9f63ba6d09a3cb30428c9557e51a998094ca8139d8124b185638409e0eba",
   "scope": {

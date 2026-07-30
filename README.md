@@ -20,13 +20,15 @@ the axiom audit, and `PUBLICATION_MANIFEST.json`.
 ## Contents
 
 - `paper/erdos_848_kernel_asymptotic.tex`: manuscript source.
-- `paper/Li_Erdos_848_Kernel_Asymptotic_2026.pdf`: audited 64-page PDF.
+- `paper/Li_Erdos_848_Kernel_Asymptotic_2026.pdf`: audited 66-page PDF.
 - `paper/theorem-map.json`: paper-label to Lean-declaration map.
-- `lean4/`: the exact 30,502-module publication source closure.
+- `lean4/`: the exact 30,572-module publication source closure.
 - `scripts/verify_public_repository.py`: public source/claim/hash gate.
 - `scripts/build_generated_certificate.py`: bounded resumable OLean builder.
 - `scripts/install_release_cache.py`: hash-bound release-cache installer.
 - `scripts/run_kernel_gates.py`: read-only trust-zero theorem and axiom gate.
+- `scripts/verify_four_range_paper_arithmetic.py`: exact rational check of the
+  four range budgets printed in the manuscript.
 
 ## Verification
 
@@ -35,11 +37,12 @@ unbounded `lake build` for this generated closure.
 
 ```powershell
 python -B scripts/verify_public_repository.py
+python -B scripts/verify_four_range_paper_arithmetic.py
 python -B scripts/build_generated_certificate.py --kind generic --module-prefix Erdos848 --generic-target Erdos848.PaperGeneratedCertificateProvider --workers 2 --max-active-leaves 2 --max-memory-mib 15360 --final-max-memory-mib 32768 --core-max-memory-mib 32768 --leaf-timeout-seconds 1800 --final-timeout-seconds 7200 --core-timeout-seconds 3600 --preflight-leaves 0 --stage all
 python -B scripts/run_kernel_gates.py --memory-mib 32768
 ```
 
-The matching GitHub Release provides the 30,502 project OLean files as
+The matching GitHub Release provides the 30,572 project OLean files as
 sub-2-GiB ZIP shards.  Download every cache asset into one directory, then run:
 
 ```powershell
@@ -55,7 +58,7 @@ The only accepted logical dependencies are `propext`, `Classical.choice`, and
 `Quot.sound`.  There is no project axiom, `sorry`, `admit`, `native_decide`,
 or compiler-trust escape in the publication closure.
 
-This tree was materialized from internal source commit `cbb5fb887e253a779ed6e36d5c3de4426073fd1d`.
+This tree was materialized from internal source commit `47d46477d5b41897600c7a7933703fe39c8becc9`.
 
 ## Licensing
 
