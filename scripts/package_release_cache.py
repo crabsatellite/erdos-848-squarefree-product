@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 from pathlib import Path, PurePosixPath
+import re
 import sys
 import zipfile
 
@@ -278,11 +279,29 @@ def main() -> int:
             cwd=public,
         )
         manifest, manifest_path, manifest_sha = publication_manifest(public)
-        internal_commit = clean_commit(ROOT)
-        if manifest.get("internal_source_commit") != internal_commit:
+        internal_head = clean_commit(ROOT)
+        internal_commit = manifest.get("internal_source_commit")
+        if (
+            not isinstance(internal_commit, str)
+            or re.fullmatch(r"[0-9a-f]{40}", internal_commit) is None
+        ):
             raise CacheReleaseError(
-                "public manifest is not bound to the current internal source commit"
+                "public manifest has no valid internal source commit"
             )
+        if internal_commit != internal_head:
+            run(
+                ["git", "merge-base", "--is-ancestor", internal_commit, internal_head],
+                cwd=ROOT,
+            )
+            changed = run(
+                ["git", "diff", "--name-only", f"{internal_commit}..{internal_head}"],
+                cwd=ROOT,
+            ).splitlines()
+            if changed != ["publication-binding.json"]:
+                raise CacheReleaseError(
+                    "internal source checkpoint has non-binding follow-up changes: "
+                    f"{changed}"
+                )
 
         records: list[dict[str, object]] = []
         missing: list[str] = []
