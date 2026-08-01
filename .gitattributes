@@ -1,0 +1,4 @@
+# Keep manuscript prose out of automatically generated source archives.
+# The machine-readable theorem map and proof contract remain archived.
+paper/*.pdf export-ignore
+paper/*.tex export-ignore
