@@ -7,7 +7,7 @@
     }
   ],
   "title": "Erdos Problem 848: Kernel-Checked Lean Proof Source Archive",
-  "version": "1.0.0-kernel-archive.1",
+  "version": "1.0.0-kernel-archive.2",
   "access_right": "open",
   "upload_type": "software",
   "language": "eng",
@@ -19,12 +19,5 @@
     "formal proof",
     "computer-assisted proof",
     "squarefree products"
-  ],
-  "related_identifiers": [
-    {
-      "identifier": "https://doi.org/10.5281/zenodo.21701047",
-      "relation": "isSupplementTo",
-      "resource_type": "publication-preprint"
-    }
   ]
 }
