@@ -7,15 +7,22 @@ proof routes, generators, caches, and unrelated Lean modules are excluded.
 
 ## Result
 
-For every natural number `N`, the first `N` positive integers contain a
-7-element subset such that the product of any two distinct selected integers
-is not squarefree.  The unconditional Lean endpoint is:
+For every natural number `N`, if `A` is a subset of `{1, ..., N}` and
+`a * b + 1` is not squarefree for all `a, b` in `A` (including `a = b`), then
+the size of `A` is at most the number of integers in `{1, ..., N}` that are
+congruent to `7` modulo `25`.  That residue class attains the bound.  The
+unconditional Lean endpoint is:
 
 `Erdos848.PaperGeneratedCertificateProvider.all_N`
 
 The paper and machine proof are linked through `paper/theorem-map.json`,
 `\leanname{...}` annotations in the TeX source, the trust-zero theorem map,
 the axiom audit, and `PUBLICATION_MANIFEST.json`.
+
+## Related paper
+
+The accompanying paper is identified by its version-independent Zenodo
+Concept DOI: [10.5281/zenodo.21701047](https://doi.org/10.5281/zenodo.21701047).
 
 ## Contents
 

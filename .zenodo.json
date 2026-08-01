@@ -19,5 +19,12 @@
     "formal proof",
     "computer-assisted proof",
     "squarefree products"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://doi.org/10.5281/zenodo.21701047",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-preprint"
+    }
   ]
 }
