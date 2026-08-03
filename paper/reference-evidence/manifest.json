@@ -1,0 +1,1120 @@
+{
+  "schema_version": 1,
+  "bib_file": "../references.bib",
+  "artifact_manifest": "artifact-sha256.json",
+  "artifact_manifest_sha256": "414cd0ce1e2b347663b266ebcf882256750dcfe52510155b7b9f515f5cecf203",
+  "entries": [
+    {
+      "key": "Erdos848Original",
+      "checks": [
+        {
+          "id": "source_anchor",
+          "file": "Erdos848Original/journal-page.text.txt",
+          "line": 1,
+          "exact": "Some of my favourite problems in various branches of combinatorics",
+          "normalized_contains": "Some of my favourite problems in various branches of combinatorics"
+        }
+      ],
+      "meta_checks": [
+        {
+          "id": "meta_journal_page_artifact_type",
+          "file": "Erdos848Original/journal-page.meta.json",
+          "field": "artifact_type",
+          "exact": "html"
+        },
+        {
+          "id": "meta_journal_page_final_url",
+          "file": "Erdos848Original/journal-page.meta.json",
+          "field": "final_url",
+          "exact": "https://lematematiche.dmi.unict.it/index.php/lematematiche/article/view/587"
+        },
+        {
+          "id": "meta_journal_page_status",
+          "file": "Erdos848Original/journal-page.meta.json",
+          "field": "status",
+          "exact": "200"
+        },
+        {
+          "id": "meta_journal_page_sha256_raw_bytes",
+          "file": "Erdos848Original/journal-page.meta.json",
+          "field": "sha256_raw_bytes",
+          "exact": "98a75a5d1be81b478ac864b9174a291fb05c63d020a3e08b9ab9c8f83f8b582a"
+        }
+      ],
+      "bib_checks": [
+        {
+          "id": "bib_author",
+          "field": "author",
+          "exact": "Erd{\\H{o}}s, Paul"
+        },
+        {
+          "id": "bib_title",
+          "field": "title",
+          "exact": "Some of My Favourite Problems in Various Branches of Combinatorics"
+        },
+        {
+          "id": "bib_journal",
+          "field": "journal",
+          "exact": "Le Matematiche"
+        },
+        {
+          "id": "bib_volume",
+          "field": "volume",
+          "exact": "47"
+        },
+        {
+          "id": "bib_number",
+          "field": "number",
+          "exact": "2"
+        },
+        {
+          "id": "bib_pages",
+          "field": "pages",
+          "exact": "231--240"
+        },
+        {
+          "id": "bib_year",
+          "field": "year",
+          "exact": "1992"
+        },
+        {
+          "id": "bib_url",
+          "field": "url",
+          "exact": "https://lematematiche.dmi.unict.it/index.php/lematematiche/article/view/587"
+        }
+      ]
+    },
+    {
+      "key": "Sawhney848",
+      "checks": [
+        {
+          "id": "source_anchor",
+          "file": "Sawhney848/preprint.pdf.txt",
+          "line": 4,
+          "exact": "                                                     MEHTAAB SAWHNEY",
+          "normalized_contains": "MEHTAAB SAWHNEY"
+        }
+      ],
+      "meta_checks": [
+        {
+          "id": "meta_preprint_artifact_type",
+          "file": "Sawhney848/preprint.meta.json",
+          "field": "artifact_type",
+          "exact": "pdf"
+        },
+        {
+          "id": "meta_preprint_final_url",
+          "file": "Sawhney848/preprint.meta.json",
+          "field": "final_url",
+          "exact": "https://www.math.columbia.edu/~msawhney/Problem_848.pdf"
+        },
+        {
+          "id": "meta_preprint_status",
+          "file": "Sawhney848/preprint.meta.json",
+          "field": "status",
+          "exact": "200"
+        },
+        {
+          "id": "meta_preprint_sha256_raw_bytes",
+          "file": "Sawhney848/preprint.meta.json",
+          "field": "sha256_raw_bytes",
+          "exact": "112deb12350ea812e5a8e140f2df00b72d2a848c5dc0d2000de738e948e637ba"
+        }
+      ],
+      "bib_checks": [
+        {
+          "id": "bib_author",
+          "field": "author",
+          "exact": "Sawhney, Mehtaab"
+        },
+        {
+          "id": "bib_title",
+          "field": "title",
+          "exact": "On {$A\\subseteq[N]$} Such That {$ab+1$} Is Never Squarefree for {$a,b\\in A$}"
+        },
+        {
+          "id": "bib_year",
+          "field": "year",
+          "exact": "2025"
+        },
+        {
+          "id": "bib_note",
+          "field": "note",
+          "exact": "Preprint"
+        },
+        {
+          "id": "bib_url",
+          "field": "url",
+          "exact": "https://www.math.columbia.edu/~msawhney/Problem_848.pdf"
+        }
+      ]
+    },
+    {
+      "key": "Sothanaphan848",
+      "checks": [
+        {
+          "id": "source_anchor",
+          "file": "Sothanaphan848/preprint.pdf.txt",
+          "line": 1,
+          "exact": "                  An Explicit Threshold in Erdős Problem #848",
+          "normalized_contains": "An Explicit Threshold"
+        }
+      ],
+      "meta_checks": [
+        {
+          "id": "meta_preprint_artifact_type",
+          "file": "Sothanaphan848/preprint.meta.json",
+          "field": "artifact_type",
+          "exact": "pdf"
+        },
+        {
+          "id": "meta_preprint_final_url",
+          "file": "Sothanaphan848/preprint.meta.json",
+          "field": "final_url",
+          "exact": "https://drive.usercontent.google.com/download?id=1ujhm4_WYpgRV_rd1rJXIfHyvx16COEKe&export=download&confirm=t"
+        },
+        {
+          "id": "meta_preprint_status",
+          "file": "Sothanaphan848/preprint.meta.json",
+          "field": "status",
+          "exact": "200"
+        },
+        {
+          "id": "meta_preprint_sha256_raw_bytes",
+          "file": "Sothanaphan848/preprint.meta.json",
+          "field": "sha256_raw_bytes",
+          "exact": "8162113a571dc2283fc77de1cdf36e7abf424eeec952aa27cf82a4f44b3a796f"
+        }
+      ],
+      "bib_checks": [
+        {
+          "id": "bib_author",
+          "field": "author",
+          "exact": "Sothanaphan, Nat"
+        },
+        {
+          "id": "bib_title",
+          "field": "title",
+          "exact": "An Explicit Threshold in Erd{\\H{o}}s Problem 848"
+        },
+        {
+          "id": "bib_year",
+          "field": "year",
+          "exact": "2026"
+        },
+        {
+          "id": "bib_month",
+          "field": "month",
+          "exact": "mar"
+        },
+        {
+          "id": "bib_note",
+          "field": "note",
+          "exact": "Preprint dated March 24, 2026"
+        },
+        {
+          "id": "bib_url",
+          "field": "url",
+          "exact": "https://drive.google.com/file/d/1ujhm4_WYpgRV_rd1rJXIfHyvx16COEKe/view"
+        }
+      ]
+    },
+    {
+      "key": "PracharSquarefreeAP",
+      "checks": [
+        {
+          "id": "source_anchor",
+          "file": "PracharSquarefreeAP/crossref-search.json.txt",
+          "line": 79,
+          "exact": "$.message.items[0].title[0] = �ber die kleinste quadratfreie Zahl einer arithmetischen Reihe",
+          "normalized_contains": "quadratfreie Zahl einer arithmetischen Reihe"
+        }
+      ],
+      "meta_checks": [
+        {
+          "id": "meta_crossref_search_artifact_type",
+          "file": "PracharSquarefreeAP/crossref-search.meta.json",
+          "field": "artifact_type",
+          "exact": "json"
+        },
+        {
+          "id": "meta_crossref_search_final_url",
+          "file": "PracharSquarefreeAP/crossref-search.meta.json",
+          "field": "final_url",
+          "exact": "https://api.crossref.org/works?query.title=%C3%9Cber%20die%20kleinste%20quadratfreie%20Zahl%20einer%20arithmetischen%20Reihe&query.author=Prachar&rows=3"
+        },
+        {
+          "id": "meta_crossref_search_status",
+          "file": "PracharSquarefreeAP/crossref-search.meta.json",
+          "field": "status",
+          "exact": "200"
+        },
+        {
+          "id": "meta_crossref_search_sha256_raw_bytes",
+          "file": "PracharSquarefreeAP/crossref-search.meta.json",
+          "field": "sha256_raw_bytes",
+          "exact": "1e709c53c31bdc0d3901af183451ce0ed731d894425abbaa0fc9094157444d86"
+        },
+        {
+          "id": "meta_journal_page_artifact_type",
+          "file": "PracharSquarefreeAP/journal-page.meta.json",
+          "field": "artifact_type",
+          "exact": "html"
+        },
+        {
+          "id": "meta_journal_page_final_url",
+          "file": "PracharSquarefreeAP/journal-page.meta.json",
+          "field": "final_url",
+          "exact": "https://www.digizeitschriften.de/"
+        },
+        {
+          "id": "meta_journal_page_status",
+          "file": "PracharSquarefreeAP/journal-page.meta.json",
+          "field": "status",
+          "exact": "200"
+        },
+        {
+          "id": "meta_journal_page_sha256_raw_bytes",
+          "file": "PracharSquarefreeAP/journal-page.meta.json",
+          "field": "sha256_raw_bytes",
+          "exact": "17d344c05dd48c0c59246eceeacae075bbf56dc4ce78c0f149b8b3f2eab88554"
+        }
+      ],
+      "bib_checks": [
+        {
+          "id": "bib_author",
+          "field": "author",
+          "exact": "Prachar, Karl"
+        },
+        {
+          "id": "bib_title",
+          "field": "title",
+          "exact": "{\\\"U}ber die kleinste quadratfreie Zahl einer arithmetischen Reihe"
+        },
+        {
+          "id": "bib_journal",
+          "field": "journal",
+          "exact": "Monatshefte f{\\\"u}r Mathematik"
+        },
+        {
+          "id": "bib_volume",
+          "field": "volume",
+          "exact": "62"
+        },
+        {
+          "id": "bib_pages",
+          "field": "pages",
+          "exact": "173--176"
+        },
+        {
+          "id": "bib_year",
+          "field": "year",
+          "exact": "1958"
+        },
+        {
+          "id": "bib_url",
+          "field": "url",
+          "exact": "https://resolver.sub.uni-goettingen.de/purl?362162050_0062|log15"
+        }
+      ]
+    },
+    {
+      "key": "HooleySquarefreeAP",
+      "checks": [
+        {
+          "id": "source_anchor",
+          "file": "HooleySquarefreeAP/crossref.json.txt",
+          "line": 93,
+          "exact": "$.message.title[0] = A Note on Square‐Free Numbers in Arithmetic Progressions",
+          "normalized_contains": "Square‐Free Numbers in Arithmetic Progressions"
+        },
+        {
+          "id": "source_doi",
+          "file": "HooleySquarefreeAP/crossref.json.txt",
+          "line": 1,
+          "exact": "$.message.DOI = 10.1112/blms/7.2.133"
+        }
+      ],
+      "meta_checks": [
+        {
+          "id": "meta_crossref_artifact_type",
+          "file": "HooleySquarefreeAP/crossref.meta.json",
+          "field": "artifact_type",
+          "exact": "json"
+        },
+        {
+          "id": "meta_crossref_final_url",
+          "file": "HooleySquarefreeAP/crossref.meta.json",
+          "field": "final_url",
+          "exact": "https://api.crossref.org/works/10.1112/blms/7.2.133"
+        },
+        {
+          "id": "meta_crossref_status",
+          "file": "HooleySquarefreeAP/crossref.meta.json",
+          "field": "status",
+          "exact": "200"
+        },
+        {
+          "id": "meta_crossref_sha256_raw_bytes",
+          "file": "HooleySquarefreeAP/crossref.meta.json",
+          "field": "sha256_raw_bytes",
+          "exact": "60816023967f6573a52e8f6d7d86c5f894b9df0a15f7eb53b47405f9f25f8bea"
+        }
+      ],
+      "bib_checks": [
+        {
+          "id": "bib_author",
+          "field": "author",
+          "exact": "Hooley, Christopher"
+        },
+        {
+          "id": "bib_title",
+          "field": "title",
+          "exact": "A Note on Square-Free Numbers in Arithmetic Progressions"
+        },
+        {
+          "id": "bib_journal",
+          "field": "journal",
+          "exact": "Bulletin of the London Mathematical Society"
+        },
+        {
+          "id": "bib_volume",
+          "field": "volume",
+          "exact": "7"
+        },
+        {
+          "id": "bib_number",
+          "field": "number",
+          "exact": "2"
+        },
+        {
+          "id": "bib_pages",
+          "field": "pages",
+          "exact": "133--138"
+        },
+        {
+          "id": "bib_year",
+          "field": "year",
+          "exact": "1975"
+        },
+        {
+          "id": "bib_doi",
+          "field": "doi",
+          "exact": "10.1112/blms/7.2.133"
+        },
+        {
+          "id": "bib_url",
+          "field": "url",
+          "exact": "https://doi.org/10.1112/blms/7.2.133"
+        }
+      ]
+    },
+    {
+      "key": "RosserSchoenfeld",
+      "checks": [
+        {
+          "id": "source_anchor",
+          "file": "RosserSchoenfeld/crossref.json.txt",
+          "line": 69,
+          "exact": "$.message.title[0] = Approximate formulas for some functions of prime numbers",
+          "normalized_contains": "Approximate formulas for some functions of prime numbers"
+        },
+        {
+          "id": "source_doi",
+          "file": "RosserSchoenfeld/crossref.json.txt",
+          "line": 1,
+          "exact": "$.message.DOI = 10.1215/ijm/1255631807"
+        }
+      ],
+      "meta_checks": [
+        {
+          "id": "meta_crossref_artifact_type",
+          "file": "RosserSchoenfeld/crossref.meta.json",
+          "field": "artifact_type",
+          "exact": "json"
+        },
+        {
+          "id": "meta_crossref_final_url",
+          "file": "RosserSchoenfeld/crossref.meta.json",
+          "field": "final_url",
+          "exact": "https://api.crossref.org/works/10.1215/ijm/1255631807"
+        },
+        {
+          "id": "meta_crossref_status",
+          "file": "RosserSchoenfeld/crossref.meta.json",
+          "field": "status",
+          "exact": "200"
+        },
+        {
+          "id": "meta_crossref_sha256_raw_bytes",
+          "file": "RosserSchoenfeld/crossref.meta.json",
+          "field": "sha256_raw_bytes",
+          "exact": "80b7224ea3aea0b28108d0b22f241f08cfbfc28543ee7d9f619814b623c742a1"
+        }
+      ],
+      "bib_checks": [
+        {
+          "id": "bib_author",
+          "field": "author",
+          "exact": "Rosser, J. Barkley and Schoenfeld, Lowell"
+        },
+        {
+          "id": "bib_title",
+          "field": "title",
+          "exact": "Approximate Formulas for Some Functions of Prime Numbers"
+        },
+        {
+          "id": "bib_journal",
+          "field": "journal",
+          "exact": "Illinois Journal of Mathematics"
+        },
+        {
+          "id": "bib_volume",
+          "field": "volume",
+          "exact": "6"
+        },
+        {
+          "id": "bib_pages",
+          "field": "pages",
+          "exact": "64--94"
+        },
+        {
+          "id": "bib_year",
+          "field": "year",
+          "exact": "1962"
+        },
+        {
+          "id": "bib_doi",
+          "field": "doi",
+          "exact": "10.1215/ijm/1255631807"
+        },
+        {
+          "id": "bib_url",
+          "field": "url",
+          "exact": "https://doi.org/10.1215/ijm/1255631807"
+        }
+      ]
+    },
+    {
+      "key": "DusartPrimes",
+      "checks": [
+        {
+          "id": "source_anchor",
+          "file": "DusartPrimes/arxiv.text.txt",
+          "line": 8,
+          "exact": "Estimates of Some Functions Over Primes without R.H.",
+          "normalized_contains": "Estimates of Some Functions Over Primes without R.H."
+        }
+      ],
+      "meta_checks": [
+        {
+          "id": "meta_arxiv_artifact_type",
+          "file": "DusartPrimes/arxiv.meta.json",
+          "field": "artifact_type",
+          "exact": "html"
+        },
+        {
+          "id": "meta_arxiv_final_url",
+          "file": "DusartPrimes/arxiv.meta.json",
+          "field": "final_url",
+          "exact": "https://export.arxiv.org/api/query?id_list=1002.0442"
+        },
+        {
+          "id": "meta_arxiv_status",
+          "file": "DusartPrimes/arxiv.meta.json",
+          "field": "status",
+          "exact": "200"
+        },
+        {
+          "id": "meta_arxiv_sha256_raw_bytes",
+          "file": "DusartPrimes/arxiv.meta.json",
+          "field": "sha256_raw_bytes",
+          "exact": "8bd28a520ae513ae8205126af3a65b9171d5989ee654df2ae270f2844dfb002d"
+        }
+      ],
+      "bib_checks": [
+        {
+          "id": "bib_author",
+          "field": "author",
+          "exact": "Dusart, Pierre"
+        },
+        {
+          "id": "bib_title",
+          "field": "title",
+          "exact": "Estimates of Some Functions over Primes without {R.H.}"
+        },
+        {
+          "id": "bib_year",
+          "field": "year",
+          "exact": "2010"
+        },
+        {
+          "id": "bib_eprint",
+          "field": "eprint",
+          "exact": "1002.0442"
+        },
+        {
+          "id": "bib_archiveprefix",
+          "field": "archiveprefix",
+          "exact": "arXiv"
+        },
+        {
+          "id": "bib_primaryclass",
+          "field": "primaryclass",
+          "exact": "math.NT"
+        },
+        {
+          "id": "bib_url",
+          "field": "url",
+          "exact": "https://arxiv.org/abs/1002.0442"
+        }
+      ]
+    },
+    {
+      "key": "HelfgottPlatt",
+      "checks": [
+        {
+          "id": "source_anchor",
+          "file": "HelfgottPlatt/crossref.json.txt",
+          "line": 123,
+          "exact": "$.message.title[0] = Numerical Verification of the Ternary Goldbach Conjecture up to 8.875·10<sup>30</sup>",
+          "normalized_contains": "Numerical Verification of the Ternary Goldbach Conjecture"
+        },
+        {
+          "id": "source_doi",
+          "file": "HelfgottPlatt/crossref.json.txt",
+          "line": 1,
+          "exact": "$.message.DOI = 10.1080/10586458.2013.831742"
+        }
+      ],
+      "meta_checks": [
+        {
+          "id": "meta_crossref_artifact_type",
+          "file": "HelfgottPlatt/crossref.meta.json",
+          "field": "artifact_type",
+          "exact": "json"
+        },
+        {
+          "id": "meta_crossref_final_url",
+          "file": "HelfgottPlatt/crossref.meta.json",
+          "field": "final_url",
+          "exact": "https://api.crossref.org/works/10.1080/10586458.2013.831742"
+        },
+        {
+          "id": "meta_crossref_status",
+          "file": "HelfgottPlatt/crossref.meta.json",
+          "field": "status",
+          "exact": "200"
+        },
+        {
+          "id": "meta_crossref_sha256_raw_bytes",
+          "file": "HelfgottPlatt/crossref.meta.json",
+          "field": "sha256_raw_bytes",
+          "exact": "45c2cce3868ced4a862e4531f6f83c5cb3eef9a4156aa0404bf53ead29577337"
+        }
+      ],
+      "bib_checks": [
+        {
+          "id": "bib_author",
+          "field": "author",
+          "exact": "Helfgott, Harald Andr{\\'e}s and Platt, David J."
+        },
+        {
+          "id": "bib_title",
+          "field": "title",
+          "exact": "Numerical Verification of the Ternary Goldbach Conjecture up to {$8.875\\cdot10^{30}$}"
+        },
+        {
+          "id": "bib_journal",
+          "field": "journal",
+          "exact": "Experimental Mathematics"
+        },
+        {
+          "id": "bib_volume",
+          "field": "volume",
+          "exact": "22"
+        },
+        {
+          "id": "bib_number",
+          "field": "number",
+          "exact": "4"
+        },
+        {
+          "id": "bib_pages",
+          "field": "pages",
+          "exact": "406--409"
+        },
+        {
+          "id": "bib_year",
+          "field": "year",
+          "exact": "2013"
+        },
+        {
+          "id": "bib_doi",
+          "field": "doi",
+          "exact": "10.1080/10586458.2013.831742"
+        },
+        {
+          "id": "bib_url",
+          "field": "url",
+          "exact": "https://doi.org/10.1080/10586458.2013.831742"
+        }
+      ]
+    },
+    {
+      "key": "OliveiraSilvaHerzogPardi",
+      "checks": [
+        {
+          "id": "source_anchor",
+          "file": "OliveiraSilvaHerzogPardi/crossref.json.txt",
+          "line": 605,
+          "exact": "$.message.title[0] = Empirical verification of the even Goldbach conjecture and computation of prime gaps up to 4⋅10¹⁸",
+          "normalized_contains": "Empirical verification of the even Goldbach conjecture"
+        },
+        {
+          "id": "source_doi",
+          "file": "OliveiraSilvaHerzogPardi/crossref.json.txt",
+          "line": 1,
+          "exact": "$.message.DOI = 10.1090/s0025-5718-2013-02787-1"
+        }
+      ],
+      "meta_checks": [
+        {
+          "id": "meta_crossref_artifact_type",
+          "file": "OliveiraSilvaHerzogPardi/crossref.meta.json",
+          "field": "artifact_type",
+          "exact": "json"
+        },
+        {
+          "id": "meta_crossref_final_url",
+          "file": "OliveiraSilvaHerzogPardi/crossref.meta.json",
+          "field": "final_url",
+          "exact": "https://api.crossref.org/works/10.1090/S0025-5718-2013-02787-1"
+        },
+        {
+          "id": "meta_crossref_status",
+          "file": "OliveiraSilvaHerzogPardi/crossref.meta.json",
+          "field": "status",
+          "exact": "200"
+        },
+        {
+          "id": "meta_crossref_sha256_raw_bytes",
+          "file": "OliveiraSilvaHerzogPardi/crossref.meta.json",
+          "field": "sha256_raw_bytes",
+          "exact": "adc250bb48343c3f28ec43766080cd09149fe86f38fabd755d2422234d2bda4b"
+        }
+      ],
+      "bib_checks": [
+        {
+          "id": "bib_author",
+          "field": "author",
+          "exact": "Oliveira e Silva, Tom{\\'a}s and Herzog, Siegfried and Pardi, Silvio"
+        },
+        {
+          "id": "bib_title",
+          "field": "title",
+          "exact": "Empirical Verification of the Even Goldbach Conjecture and Computation of Prime Gaps up to {$4\\cdot10^{18}$}"
+        },
+        {
+          "id": "bib_journal",
+          "field": "journal",
+          "exact": "Mathematics of Computation"
+        },
+        {
+          "id": "bib_volume",
+          "field": "volume",
+          "exact": "83"
+        },
+        {
+          "id": "bib_number",
+          "field": "number",
+          "exact": "288"
+        },
+        {
+          "id": "bib_pages",
+          "field": "pages",
+          "exact": "2033--2060"
+        },
+        {
+          "id": "bib_year",
+          "field": "year",
+          "exact": "2014"
+        },
+        {
+          "id": "bib_doi",
+          "field": "doi",
+          "exact": "10.1090/S0025-5718-2013-02787-1"
+        },
+        {
+          "id": "bib_url",
+          "field": "url",
+          "exact": "https://doi.org/10.1090/S0025-5718-2013-02787-1"
+        }
+      ]
+    },
+    {
+      "key": "GonthierOddOrder",
+      "checks": [
+        {
+          "id": "source_anchor",
+          "file": "GonthierOddOrder/crossref.json.txt",
+          "line": 380,
+          "exact": "$.message.title[0] = A Machine-Checked Proof of the Odd Order Theorem",
+          "normalized_contains": "A Machine-Checked Proof of the Odd Order Theorem"
+        },
+        {
+          "id": "source_doi",
+          "file": "GonthierOddOrder/crossref.json.txt",
+          "line": 1,
+          "exact": "$.message.DOI = 10.1007/978-3-642-39634-2_14"
+        }
+      ],
+      "meta_checks": [
+        {
+          "id": "meta_crossref_artifact_type",
+          "file": "GonthierOddOrder/crossref.meta.json",
+          "field": "artifact_type",
+          "exact": "json"
+        },
+        {
+          "id": "meta_crossref_final_url",
+          "file": "GonthierOddOrder/crossref.meta.json",
+          "field": "final_url",
+          "exact": "https://api.crossref.org/works/10.1007/978-3-642-39634-2_14"
+        },
+        {
+          "id": "meta_crossref_status",
+          "file": "GonthierOddOrder/crossref.meta.json",
+          "field": "status",
+          "exact": "200"
+        },
+        {
+          "id": "meta_crossref_sha256_raw_bytes",
+          "file": "GonthierOddOrder/crossref.meta.json",
+          "field": "sha256_raw_bytes",
+          "exact": "e3ccd5b79c0f239a8ae7c6b92f97c23c8519838386bde5317e91ec85968ab0b5"
+        }
+      ],
+      "bib_checks": [
+        {
+          "id": "bib_author",
+          "field": "author",
+          "exact": "Gonthier, Georges and Asperti, Andrea and Avigad, Jeremy and Bertot, Yves and Cohen, Cyril and Garillot, Fran{\\c{c}}ois and Le Roux, St{\\'e}phane and Mahboubi, Assia and O'Connor, Russell and Ould Biha, Sidi and Pasca, Ioana and Rideau, Laurence and Solovyev, Alexey and Tassi, Enrico and Th{\\'e}ry, Laurent"
+        },
+        {
+          "id": "bib_title",
+          "field": "title",
+          "exact": "A Machine-Checked Proof of the Odd Order Theorem"
+        },
+        {
+          "id": "bib_booktitle",
+          "field": "booktitle",
+          "exact": "Interactive Theorem Proving"
+        },
+        {
+          "id": "bib_series",
+          "field": "series",
+          "exact": "Lecture Notes in Computer Science"
+        },
+        {
+          "id": "bib_volume",
+          "field": "volume",
+          "exact": "7998"
+        },
+        {
+          "id": "bib_pages",
+          "field": "pages",
+          "exact": "163--179"
+        },
+        {
+          "id": "bib_publisher",
+          "field": "publisher",
+          "exact": "Springer"
+        },
+        {
+          "id": "bib_year",
+          "field": "year",
+          "exact": "2013"
+        },
+        {
+          "id": "bib_doi",
+          "field": "doi",
+          "exact": "10.1007/978-3-642-39634-2_14"
+        },
+        {
+          "id": "bib_url",
+          "field": "url",
+          "exact": "https://doi.org/10.1007/978-3-642-39634-2_14"
+        }
+      ]
+    },
+    {
+      "key": "HalesFlyspeck",
+      "checks": [
+        {
+          "id": "source_anchor",
+          "file": "HalesFlyspeck/crossref.json.txt",
+          "line": 4,
+          "exact": "$.message.abstract = <jats:p>This article describes a formal proof of the Kepler conjecture on dense sphere packings in a combination of the HOL Light and Isabelle proof assistants. This paper constitutes the official published account of the now completed Flyspeck project.</jats:p>",
+          "normalized_contains": "A FORMAL PROOF OF THE KEPLER CONJECTURE"
+        },
+        {
+          "id": "source_doi",
+          "file": "HalesFlyspeck/crossref.json.txt",
+          "line": 1,
+          "exact": "$.message.DOI = 10.1017/fmp.2017.1"
+        }
+      ],
+      "meta_checks": [
+        {
+          "id": "meta_crossref_artifact_type",
+          "file": "HalesFlyspeck/crossref.meta.json",
+          "field": "artifact_type",
+          "exact": "json"
+        },
+        {
+          "id": "meta_crossref_final_url",
+          "file": "HalesFlyspeck/crossref.meta.json",
+          "field": "final_url",
+          "exact": "https://api.crossref.org/works/10.1017/fmp.2017.1"
+        },
+        {
+          "id": "meta_crossref_status",
+          "file": "HalesFlyspeck/crossref.meta.json",
+          "field": "status",
+          "exact": "200"
+        },
+        {
+          "id": "meta_crossref_sha256_raw_bytes",
+          "file": "HalesFlyspeck/crossref.meta.json",
+          "field": "sha256_raw_bytes",
+          "exact": "4e33ab7dc5a3edb62a6d0e0538c900976a8895c2967074213a87f34b40dcf0dc"
+        }
+      ],
+      "bib_checks": [
+        {
+          "id": "bib_author",
+          "field": "author",
+          "exact": "Hales, Thomas C. and Adams, Mark and Bauer, Gertrud and Dang, Tat Dat and Harrison, John and Hoang, Truong Le and Kaliszyk, Cezary and Magron, Victor and McLaughlin, Sean and Nguyen, Tat Thang and Nguyen, Quang Truong and Nipkow, Tobias and Obua, Steven and Pleso, Joseph and Rute, Jason and Solovyev, Alexey and Ta, An Hoai Thi and Tran, Nam Trung and Trieu, Thi Diep and Urban, Josef and Vu, Ky and Zumkeller, Roland"
+        },
+        {
+          "id": "bib_title",
+          "field": "title",
+          "exact": "A Formal Proof of the Kepler Conjecture"
+        },
+        {
+          "id": "bib_journal",
+          "field": "journal",
+          "exact": "Forum of Mathematics, Pi"
+        },
+        {
+          "id": "bib_volume",
+          "field": "volume",
+          "exact": "5"
+        },
+        {
+          "id": "bib_pages",
+          "field": "pages",
+          "exact": "e2"
+        },
+        {
+          "id": "bib_year",
+          "field": "year",
+          "exact": "2017"
+        },
+        {
+          "id": "bib_doi",
+          "field": "doi",
+          "exact": "10.1017/fmp.2017.1"
+        },
+        {
+          "id": "bib_url",
+          "field": "url",
+          "exact": "https://doi.org/10.1017/fmp.2017.1"
+        }
+      ]
+    },
+    {
+      "key": "Lean4",
+      "checks": [
+        {
+          "id": "source_anchor",
+          "file": "Lean4/crossref.json.txt",
+          "line": 277,
+          "exact": "$.message.title[0] = The Lean 4 Theorem Prover and Programming Language",
+          "normalized_contains": "The Lean 4 Theorem Prover and Programming Language"
+        },
+        {
+          "id": "source_doi",
+          "file": "Lean4/crossref.json.txt",
+          "line": 1,
+          "exact": "$.message.DOI = 10.1007/978-3-030-79876-5_37"
+        }
+      ],
+      "meta_checks": [
+        {
+          "id": "meta_crossref_artifact_type",
+          "file": "Lean4/crossref.meta.json",
+          "field": "artifact_type",
+          "exact": "json"
+        },
+        {
+          "id": "meta_crossref_final_url",
+          "file": "Lean4/crossref.meta.json",
+          "field": "final_url",
+          "exact": "https://api.crossref.org/works/10.1007/978-3-030-79876-5_37"
+        },
+        {
+          "id": "meta_crossref_status",
+          "file": "Lean4/crossref.meta.json",
+          "field": "status",
+          "exact": "200"
+        },
+        {
+          "id": "meta_crossref_sha256_raw_bytes",
+          "file": "Lean4/crossref.meta.json",
+          "field": "sha256_raw_bytes",
+          "exact": "c1e4619e8d8e975c2636084206cb73db0047c1d29dd6f5496320024631fd8167"
+        }
+      ],
+      "bib_checks": [
+        {
+          "id": "bib_author",
+          "field": "author",
+          "exact": "de Moura, Leonardo and Ullrich, Sebastian"
+        },
+        {
+          "id": "bib_title",
+          "field": "title",
+          "exact": "The {Lean 4} Theorem Prover and Programming Language"
+        },
+        {
+          "id": "bib_booktitle",
+          "field": "booktitle",
+          "exact": "Automated Deduction -- CADE 28"
+        },
+        {
+          "id": "bib_series",
+          "field": "series",
+          "exact": "Lecture Notes in Computer Science"
+        },
+        {
+          "id": "bib_volume",
+          "field": "volume",
+          "exact": "12699"
+        },
+        {
+          "id": "bib_pages",
+          "field": "pages",
+          "exact": "625--635"
+        },
+        {
+          "id": "bib_publisher",
+          "field": "publisher",
+          "exact": "Springer"
+        },
+        {
+          "id": "bib_year",
+          "field": "year",
+          "exact": "2021"
+        },
+        {
+          "id": "bib_doi",
+          "field": "doi",
+          "exact": "10.1007/978-3-030-79876-5_37"
+        },
+        {
+          "id": "bib_url",
+          "field": "url",
+          "exact": "https://doi.org/10.1007/978-3-030-79876-5_37"
+        }
+      ]
+    },
+    {
+      "key": "Mathlib",
+      "checks": [
+        {
+          "id": "source_anchor",
+          "file": "Mathlib/crossref.json.txt",
+          "line": 261,
+          "exact": "$.message.title[0] = The lean mathematical library",
+          "normalized_contains": "The lean mathematical library"
+        },
+        {
+          "id": "source_doi",
+          "file": "Mathlib/crossref.json.txt",
+          "line": 1,
+          "exact": "$.message.DOI = 10.1145/3372885.3373824"
+        }
+      ],
+      "meta_checks": [
+        {
+          "id": "meta_crossref_artifact_type",
+          "file": "Mathlib/crossref.meta.json",
+          "field": "artifact_type",
+          "exact": "json"
+        },
+        {
+          "id": "meta_crossref_final_url",
+          "file": "Mathlib/crossref.meta.json",
+          "field": "final_url",
+          "exact": "https://api.crossref.org/works/10.1145/3372885.3373824"
+        },
+        {
+          "id": "meta_crossref_status",
+          "file": "Mathlib/crossref.meta.json",
+          "field": "status",
+          "exact": "200"
+        },
+        {
+          "id": "meta_crossref_sha256_raw_bytes",
+          "file": "Mathlib/crossref.meta.json",
+          "field": "sha256_raw_bytes",
+          "exact": "5d651bb6977c66f650f751ea3a937ef7d62c42f0a11695e3b8c64dedea4187cc"
+        }
+      ],
+      "bib_checks": [
+        {
+          "id": "bib_author",
+          "field": "author",
+          "exact": "{The mathlib Community}"
+        },
+        {
+          "id": "bib_title",
+          "field": "title",
+          "exact": "The {Lean} Mathematical Library"
+        },
+        {
+          "id": "bib_booktitle",
+          "field": "booktitle",
+          "exact": "Proceedings of the 9th ACM SIGPLAN International Conference on Certified Programs and Proofs"
+        },
+        {
+          "id": "bib_pages",
+          "field": "pages",
+          "exact": "367--381"
+        },
+        {
+          "id": "bib_publisher",
+          "field": "publisher",
+          "exact": "ACM"
+        },
+        {
+          "id": "bib_year",
+          "field": "year",
+          "exact": "2020"
+        },
+        {
+          "id": "bib_doi",
+          "field": "doi",
+          "exact": "10.1145/3372885.3373824"
+        },
+        {
+          "id": "bib_url",
+          "field": "url",
+          "exact": "https://doi.org/10.1145/3372885.3373824"
+        }
+      ]
+    }
+  ]
+}

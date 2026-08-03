@@ -11,7 +11,7 @@ namespace Erdos848.PaperGeneratedCertificateProvider
 # Final generated-certificate assembly
 
 Every field below is a finite certificate object.  There is no theorem-valued
-placeholder and no remaining argument once the generated source modules have
+assumption and no remaining argument once the generated source modules have
 passed ordinary kernel replay.
 -/
 

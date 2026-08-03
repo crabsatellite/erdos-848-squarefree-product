@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "key": "HalesFlyspeck",
+  "artifact_type": "json",
+  "requested_url": "https://api.crossref.org/works/10.1017/fmp.2017.1",
+  "final_url": "https://api.crossref.org/works/10.1017/fmp.2017.1",
+  "status": 200,
+  "content_type": "application/json",
+  "fetched_at_utc": "2026-07-30T11:47:25.280051+00:00",
+  "sha256_raw_bytes": "4e33ab7dc5a3edb62a6d0e0538c900976a8895c2967074213a87f34b40dcf0dc",
+  "artifact_file": "crossref.json",
+  "text_file": "crossref.json.txt",
+  "text_lines": 384,
+  "json_text_extractor": "canonical sorted JSON plus flattened scalar paths"
+}

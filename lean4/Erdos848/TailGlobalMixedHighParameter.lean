@@ -6,9 +6,8 @@ namespace Erdos848
 /-!
 # Global high-tail points as transformed parameters
 
-The archived transformed-parameter argument was restricted to
-`5,000,000 ≤ N < 10,000,000` and `Y = N / 49`.  Here the same literal map is
-proved for every `N ≥ 5,000,000` at the fixed global split `Y = N / 55`, using
+The transformed-parameter map is proved for every `N ≥ 5,000,000` at the
+fixed global split `Y = N / 55`, using
 the new `3025/605` survivor sets.
 -/
 

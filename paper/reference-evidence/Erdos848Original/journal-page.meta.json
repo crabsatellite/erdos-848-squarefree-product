@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "key": "Erdos848Original",
+  "artifact_type": "html",
+  "requested_url": "https://lematematiche.dmi.unict.it/index.php/lematematiche/article/view/587",
+  "final_url": "https://lematematiche.dmi.unict.it/index.php/lematematiche/article/view/587",
+  "status": 200,
+  "content_type": "text/html; charset=utf-8",
+  "fetched_at_utc": "2026-07-30T11:47:12.356754+00:00",
+  "sha256_raw_bytes": "98a75a5d1be81b478ac864b9174a291fb05c63d020a3e08b9ab9c8f83f8b582a",
+  "artifact_file": "journal-page.html",
+  "text_file": "journal-page.text.txt",
+  "text_lines": 61,
+  "html_text_extractor": "python html.parser.HTMLParser"
+}

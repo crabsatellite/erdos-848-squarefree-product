@@ -39,10 +39,10 @@ theorem highDiagonalWheelSixCandidates_anchor_card :
       (highDiagonalAnchoredWheelCutoff + 1)
       (by norm_num [highDiagonalWheelSixPeriod])
       highDiagonalWheelSixResidues_subset
-  simpa [highDiagonalWheelSixCandidates,
-    highDiagonalAnchoredWheelCutoff,
-    highDiagonalWheelSixPeriod,
-    highDiagonalWheelSixResidues_card] using hcount
+  unfold highDiagonalWheelSixCandidates
+  rw [hcount, highDiagonalWheelSixResidues_card]
+  norm_num [highDiagonalAnchoredWheelCutoff,
+    highDiagonalWheelSixPeriod]
 
 private theorem highDiagonalWheelSixCandidates_mono
     {left right : Nat} (h : left ≤ right) :

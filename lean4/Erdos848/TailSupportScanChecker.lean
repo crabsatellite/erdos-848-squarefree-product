@@ -316,9 +316,8 @@ theorem CosetWordMaskCertificate.testBit_eq
     index (by omega) (by omega)
   exact beq_iff_eq.mp hchecked
 
-/-- Legacy literal list retained while the generated table is audited.  The
-actual scan below uses the producer's conservative prime superset, including
-2 and 5; every genuine non-5 odd support is therefore covered. -/
+/-- Conservative prime superset used by the generated scan.  It includes
+`2` and `5`, so every genuine non-5 odd support is covered. -/
 def fiveMillionOddRootSupportPrimes : List ℕ :=
   [3, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
    73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149,

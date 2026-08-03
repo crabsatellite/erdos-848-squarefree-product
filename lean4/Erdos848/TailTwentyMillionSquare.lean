@@ -67,7 +67,7 @@ theorem finitePrimeSquareTail19_lt
       norm_num [primesTwentyThrough47, reciprocalSquareQ,
         primeSquareTail47Envelope, primeSquareTail19Envelope]
 
-/-- The archived odd square payment is exactly `3/25` of this envelope. -/
+/-- The odd square payment is exactly `3/25` of this envelope. -/
 theorem twentyMillionSquareOdd_eq_tail19 :
     3 * primeSquareTail19Envelope / 25 =
       twentyMillionSquareOdd := by

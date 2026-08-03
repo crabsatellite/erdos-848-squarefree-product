@@ -1,0 +1,717 @@
+                  An Explicit Threshold in Erdős Problem #848
+                                              Nat Sothanaphan∗
+
+                                                 Mar 24, 2026
+
+
+
+                                                    Abstract
+            Let N ∈ N and let A ⊆ {1, . . . , N } be such that ab + 1 is not squarefree for every pair
+        a, b ∈ A. Sawhney proved that, for all sufficiently large N , the truncated residue class 7 modulo
+        25 is extremal, and the class 18 modulo 25 is also extremal whenever it has the same cardinality
+        [2]. In this note we make the threshold explicit: for every N ≥ 2.64 × 1017 ,
+                                                                                 
+                                                                           N + 18
+                              |A| ≤ {n ∈ [N ] : n ≡ 7 (mod 25)} =                   .
+                                                                             25
+
+        This bound is attained by [N ] ∩ {n ∈ Z : n ≡ 7 (mod 25)}, and also by [N ] ∩ {n ∈ Z : n ≡ 18
+        (mod 25)} whenever the latter has the same cardinality. Our argument follows Sawhney’s mod-
+        25 decomposition and replaces the two asymptotic inputs by explicit estimates for squarefree
+        numbers in arithmetic progressions and for the values of x2 + 1 having a square factor.
+
+    Disclaimer: This document is generated in a near-autonomous process by AI, specifically GPT-
+5.2 Thinking and GPT-5.4 Thinking. 1 It has passed through considerable correctness checks, but
+mistakes are still possible and caution is advised.
+    The author thanks Ingo Althofer for improving bounds in some earlier versions of these notes.
+
+
+1       Introduction
+For N ∈ N, let [N ] := {1, 2, . . . , N }. We study sets A ⊆ [N ] with the property that
+
+                                         µ(ab + 1) = 0        (a, b ∈ A),
+
+where µ denotes the Möbius function. Equivalently, every integer of the form ab+1 is not squarefree.
+A natural construction is to take one of the truncated residue classes
+
+           [N ] ∩ {n ∈ Z : n ≡ 7     (mod 25)}         or      [N ] ∩ {n ∈ Z : n ≡ 18    (mod 25)},
+    ∗
+    natsothanaphan@gmail.com
+    1
+    https://chatgpt.com/share/69a33163-d13c-8010-8062-4923ab4b2d34;
+https://chatgpt.com/share/69a5fd85-bb18-8010-8cf9-0cf91ee1b16a;
+https://chatgpt.com/share/69a6ca5b-d020-8010-becf-f079cb575cd8;
+https://chatgpt.com/share/69ab01c2-51b8-8010-9bb0-ce5d02e5fe0e;
+https://chatgpt.com/share/69ab0f7a-2150-8010-9c82-88b68ce0f7ac;
+https://chatgpt.com/share/69befe62-dd90-8010-8f74-94d2b215d654;
+https://chatgpt.com/share/69c03152-2e88-8010-ae98-e3ed3e7ded08;
+https://chatgpt.com/share/69c042ab-0fc8-8010-998e-cf47aa4cfbe5;
+https://chatgpt.com/share/69c17376-5b08-8010-9058-f25bc43cf3dd;
+https://chatgpt.com/share/69c1841a-41ec-8010-b54d-ca4a1ff1cd26.
+Some chats cannot be shared due to persistent errors and are not linked here.
+
+
+                                                         1
+since then 25 | ab + 1 for every pair a, b from that class. The corresponding extremal problem
+appears as Erdős Problem #848; see Bloom’s list [1].
+    Sawhney [2] proved that, for all sufficiently large N , the truncated residue class 7 modulo 25 is
+extremal, and the class 18 modulo 25 is also extremal whenever it has the same cardinality. The
+purpose of this note is to make that threshold explicit. Our main result is the following.
+
+Theorem 1. Let N ≥ 2.64 × 1017 , and let A ⊆ [N ] satisfy µ(ab + 1) = 0 for all a, b ∈ A. Then
+                                                                     
+                                                               N + 18
+                   |A| ≤ {n ∈ [N ] : n ≡ 7 (mod 25)} =                  .
+                                                                  25
+
+Moreover, equality is attained by [N ]∩{n ∈ Z : n ≡ 7 (mod 25)}, and also by [N ]∩{n ∈ Z : n ≡ 18
+(mod 25)} whenever the latter has the same cardinality.
+
+    The proof follows Sawhney’s overall structure. We partition A according to its residue classes
+modulo 25, write A7 and A18 for the two distinguished classes, and let A∗ denote the union of
+the remaining classes. The final case analysis is the same as in [2]; the main task is to make two
+auxiliary estimates explicit.
+    The first estimate concerns squarefree numbers in a fixed arithmetic progression. Here we use
+a self-contained Möbius-splitting argument, in the spirit of Prachar and Hooley [3, 4], to obtain
+an explicit replacement for Sawhney’s Lemma 2.2. The second estimate bounds the number of x
+for which x2 + 1 has a square factor; this gives an explicit replacement for Sawhney’s Lemma 2.1
+by reducing the large-square contribution to a family of negative Pell equations. Combining these
+bounds with Sawhney’s residue-class decomposition yields Theorem 1.
+
+
+2    An explicit squarefree estimate in an arithmetic progression
+For integers x ≥ 1, q ≥ 1, and (a, q) = 1, write
+
+                      S2 (x; q, a) := #{n ≤ x : n ≡ a        (mod q), µ2 (n) = 1}.
+
+Also define
+                        ρ(q) := max #{y           (mod q) : y 2 ≡ u     (mod q)}.
+                                 (u,q)=1
+
+Lemma 1 (A root-count bound). For every q ≥ 1 one has
+                                                               128
+                      ρ(q) ≤ λq 1/4 ,      λ :=                                < 6.876.
+                                                  (8 · 3 · 5 · 7 · 11 · 13)1/4
+
+Proof. By the Chinese remainder theorem it suffices to consider prime powers. If p is odd, then
+y 2 ≡ u (mod pν ) has at most two solutions for every unit u. For powers of 2, the same congruence
+has exactly one solution modulo 2, at most two solutions modulo 4, and at most four solutions
+modulo 2ν for ν ≥ 3. Hence, if q = 2ν m with m odd, then
+
+                                            ρ(q) ≤ cν 2ω(m) ,
+
+where c0 = c1 = 1, c2 = 2, and cν = 4 for ν ≥ 3.
+   If m = 1, then
+                                             cν     4
+                                             ν/4
+                                                 ≤ 1/4
+                                            2     8
+
+
+                                                     2
+for every ν ≥ 0, since the left-hand side is maximized at ν = 3. Thus ρ(q) ≤ λq 1/4 in this case.
+    Now assume m > 1 and write k := ω(m) ≥ 1. Among odd integers with k distinct prime
+factors, the minimum is the product of the first k odd primes. A direct check for 1 ≤ k ≤ 5 shows
+that
+                                         2k                          32
+                                                    1/4
+                                                        ≤                          .
+                               (3 · 5 · 7 · · · pk )      (3 · 5 · 7 · 11 · 13)1/4
+For k ≥ 5, adjoining the next odd prime multiplies the denominator by at least 171/4 > 2, while
+the numerator is multiplied only by 2, so the ratio decreases from that point onward. Therefore
+                                                             32
+                                        2ω(m) ≤                            m1/4 .
+                                                  (3 · 5 · 7 · 11 · 13)1/4
+
+Combining this with
+                                                             4
+                                                   cν ≤          2ν/4
+                                                          81/4
+gives
+                                      4 ν/4              32
+                        ρ(q) ≤            2 ·                          m1/4 = λq 1/4 .
+                                     81/4     (3 · 5 · 7 · 11 · 13)1/4
+
+
+Proposition 1 (Explicit squarefree count in a progression). Let x ≥ 1, let q ≥ 1 with q ≤ x, let
+(a, q) = 1, and let D ≥ 1. Then
+                                                                   
+                                 xY      1        x      1/4   2x   x
+                  S2 (x; q, a) −      1− 2   ≤D+    + λq          +     .
+                                 q      p        qD            qD D2
+                                        p∤q
+
+Proof. The identity                                          X
+                                                  µ2 (n) =           µ(d)
+                                                             d2 |n
+
+gives                         X
+             S2 (x; q, a) =         µ(d) Ad ,       Ad := #{m ≤ x/d2 : md2 ≡ a           (mod q)}.
+                              d≥1
+
+Split the sum at D.
+    If (d, q) > 1, then Ad = 0 because (a, q) = 1. If (d, q) = 1, then md2 ≡ a (mod q) picks out one
+residue class modulo q, so
+                                                   x
+                                            Ad − 2 ≤ 1.
+                                                  qd
+Therefore
+                                        X                 x X µ(d)
+                                              µ(d)Ad −             ≤ D.
+                                                          q    d2
+                                        d≤D                   d≤D
+                                                             (d,q)=1
+
+Also,
+                                              
+                         x X µ(d) x Y      1       xX 1     x
+                               2
+                                 −     1 −   2
+                                                 ≤       <    .
+                         q    d    q       p       q  d2   qD
+                               d≤D                 p∤q                      d>D
+                              (d,q)=1
+
+
+                                                           3
+Hence
+                                                         
+                                  X              xY     1        x
+                                        µ(d)Ad −     1− 2   ≤D+    .
+                                                 q     p        qD
+                                  d≤D                p∤q
+
+      For the tail,
+                                              X                   X
+                                                   µ(d)Ad ≤             Ad .
+                                             d>D                  d>D
+
+Write n = md2 .       Then m ≤ x/D2 , (m, q) = 1, and for each fixed m the congruence d2 ≡ am̄
+(mod q), where m̄ denotes the inverse of m modulo q, has at most ρ(q) residue classes modulo q.
+Thus
+                    X           X       n   p                           o
+                        Ad ≤          # d ≤ x/m : d2 ≡ am̄ (mod q)
+                         d>D        m≤x/D2
+                                                p         !
+                                             X    x/m
+                                  ≤ ρ(q)               +1
+                                                   q
+                                         m≤x/D2
+                                                 
+                                           2x   x
+                                  ≤ ρ(q)      +      .
+                                           qD D2
+By Lemma 1,
+                                                                                
+                                        X
+                                                            1/4       2x   x
+                                            µ(d)Ad ≤ λq                  +           .
+                                                                      qD D2
+                                      d>D
+
+Combining the bounds gives the result.
+
+Corollary 1 (Explicit replacement for Sawhney’s Lemma 2.2). Let q0 ∈ {25, 100}, let b ∈ N with
+b ≤ N , and let t (mod q0 ) satisfy
+
+                                   p2 ∤ (bt + 1)         for every prime p | q0 .
+
+Then, for every N ≥ 2q0 ,
+                                                                      N          Y             1 
+         #{a ≤ N : a ≡ t       (mod q0 ), µ(ab + 1) = 0} ≤               1−                 1−        + κq0 N 3/4 ,
+                                                                      q0                         p2
+                                                                               (p,q0 b)=1
+
+where one may take
+                                            κ25 = 4.7,         κ100 = 5.3.
+Proof. Choose a0 ∈ [1, q0 ] with a0 ≡ t (mod q0 ) and write
+
+                 a = a0 + q0 n,         0 ≤ n < X,         X := #{a ≤ N : a ≡ t              (mod q0 )}.
+
+Set
+                               d := q0 b,      c := ba0 + 1,            g := gcd(c, d).
+Then ab + 1 = dn + c.
+   If p | g, then p ∤ b because c ≡ 1 (mod p) for every prime p | b. Hence p | q0 . Since q0 is a perfect
+square, p2 | d. By hypothesis p2 ∤ c, so p occurs to exact exponent 1 in g. Thus g is squarefree.
+Moreover, if p | g, then p | q0 and p2 | q0 , so p | d/g. Writing
+
+                                              d = gd1 ,        c = gc1 ,
+
+                                                           4
+we therefore have (c1 , d1 ) = 1, every prime divisor of g also divides d1 , and hence
+
+                               d1 n + c1 ≡ c1 ̸≡ 0       (mod p)        (p | g)
+
+for every n. Therefore
+
+                            µ2 (dn + c) = µ2 g(d1 n + c1 ) = µ2 (d1 n + c1 )
+                                                          
+
+
+for every n. The prime divisors of d1 are exactly the prime divisors of d = q0 b.
+    The values d1 n + c1 with 0 ≤ n < X form an arithmetic progression of length X in the residue
+class c1 (mod d1 ). Let a1 be the least positive residue congruent to c1 modulo d1 . Since
+
+                                    ba0 + 1   bq0 + 1       1
+                             c1 =           ≤         = d1 + ≤ d1 + 1,
+                                       g         g          g
+
+we have either c1 = a1 or c1 = d1 + 1 and a1 = 1. Thus the set {d1 n + c1 : 0 ≤ n < X} differs
+from the set of positive integers m ≤ x := d1 (X − 1) + c1 with m ≡ a1 (mod d1 ) by at most the
+single initial value 1. Since N ≥ 2q0 , every residue class modulo q0 occurs at least twice in [1, N ],
+so X ≥ 2 and hence x ≥ d1 + 1 > d1 . Also c1 ≤ d1 + 1, so
+                         x         c1     1
+                            =X −1+    ≤X+                    and            x ≤ d1 X + 1.
+                         d1        d1     d1
+   Apply Proposition 1 with modulus d1 , residue a1 , and
+                             l       m                 25                          7
+                       D := αq0 N 3/4 ,       α25 := ,                      α100 := .
+                                                       8                           2
+Since x/d1 = X − 1 + c1 /d1 ≥ X − 1, this gives
+                                               x         Y      1        x
+        #{0 ≤ n < X : µ2 (d1 n + c1 ) = 1} ≥                   1−   −1−D−
+                                               d1                p2       d1 D
+                                                 (p,q0 b)=1
+                                                                      
+                                                       1/4    2x    x
+                                                − λd1             +
+                                                             d1 D D2
+                                                           Y         1       X   1
+                                            ≥ (X − 1)             1− 2 −1−D−     −
+                                                                     p         D d1 D
+                                                           (p,q0 b)=1
+                                                                                                  1/4
+                                                           1/4 X            2λ          5/4 X   λd1
+                                                 − 2λd1            −              − λd1       −       .
+                                                              D         3/4
+                                                                        d1 D               D2    D2
+
+Hence
+                                                                  Y                  1        X   1
+ #{a ≤ N : a ≡ t      (mod q0 ), µ(ab + 1) = 0} ≤ X 1 −                          1−      2
+                                                                                            +2+D+   +
+                                                                                       p          D d1 D
+                                                                (p,q0 b)=1
+                                                                                                       1/4
+                                                               1/4 X              2λ        5/4 X    λd1
+                                                          + 2λd1     +           3/4
+                                                                                        + λd1    2
+                                                                                                   +    2
+                                                                                                           .
+                                                                        D        d1 D          D       D
+                                                      √
+Now g divides the squarefree kernel of q0 , so q0 /g ≥ q0 ; since d1 = q0 b/g and b ≥ 1, it follows
+that
+                               √                           N
+                                 q0 ≤ d1 ≤ q0 N,      X≤       + 1.
+                                                            q0
+
+                                                     5
+Also,
+                                        Y            1       Y     1
+                          0≤1−                   1−      ≤ 1 −    1 −    < 0.367,
+                                                      p2              p2
+                                    (p,q0 b)=1                      p̸=5
+
+since q0 ∈ {25, 100}. Hence replacing X by N/q0 in the main term costs at most 0.367.
+    For each fixed q0 ∈ {25, 100}, divide the remaining error terms by N 3/4 . Using
+                                                      1       1                1       1
+                      D ≤ αq0 N 3/4 + 1,                ≤           ,             ≤ 2 3/2 ,
+                                                      D   αq0 N 3/4            D2  αq0 N
+and also
+                                       √                                   N
+                                           q0 ≤ d1 ≤ q0 N,          X≤        + 1,
+                                                                           q0
+we obtain the upper bound
+                          2.367          1    N/q0 + 1         1
+            Eq0 (N ) :=     3/4
+                                + αq0 + 3/4 +       3/2
+                                                        +    √
+                          N            N      αq0 N       αq0 q0 N 3/2
+                                 1/4                                           5/4                  1/4
+                              2λq0 (N/q0 + 1)        2λ      λq (N/q0 + 1)   λq
+                          +             5/4
+                                              +      3/8
+                                                            + 0  2
+                                                                           + 2 0 2.
+                                  αq0 N         αq0 q N 3/2     αq0 N       αq0 N
+                                                              0
+
+Each nonconstant term on the right is decreasing in N , so Eq0 (N ) is decreasing. At N = 2.64×1017
+one finds
+                            E25 (N ) < 4.700,       E100 (N ) < 5.275.
+Therefore the stated choices
+                                             κ25 = 4.7,           κ100 = 5.3
+are admissible.
+
+
+3       An explicit bound for the x2 + 1 progression
+Define                                                                        
+                                                             Y               2
+                                       Cquad := 1 −                       1− 2 .
+                                                                            p
+                                                       p≡1    (mod 4)
+                                                             p≥13
+
+Lemma 2 (A numerical bound for Cquad ). One has
+
+                                                 Cquad < 0.02734669.
+
+Proof. A direct computation up to 107 gives
+                                              
+                               Y             2
+                                         1 − 2 = 0.9726535106 . . .
+                                    7
+                                            p
+                                  13≤p≤10
+                                 p≡1 (mod 4)
+
+                                                                                        −2 < 1/(y − 1),
+                      Q                      P                                 P
+For the tail, using   i (1 − ui ) ≥ 1 −          i ui for 0 ≤ ui ≤ 1 and        n>y n
+                                                
+                                Y              2     X 2          2
+                                            1− 2 ≥1−      2
+                                                            >1− 7     .
+                                              p         p      10 − 1
+                             p>107                    7           p>10
+                          p≡1 (mod 4)
+
+Combining these bounds yields the claim.
+
+                                                             6
+Proposition 2 (Explicit replacement for Sawhney’s Lemma 2.1). Let q ∈ {25, 50}, let t (mod q),
+and assume t ̸≡ 7, 18 (mod 25). Write
+
+                                      X := #{x ≤ N : x ≡ t                    (mod q)}.
+
+Then for every integer R ≥ 2,
+
+ #{x ≤ N : x ≡ t     (mod q), µ(x2 + 1) = 0} ≤ X Cquad + R(1 + log R)
+                                                                        2X(log R + 2) N 2 + 1               
+                                                                                                          √ N .
+                                                                   +                 +          1 + log 2+ 3
+                                                                             R          R2
+Proof. Write x = qn + t with 0 ≤ n < X and let
+
+                                Q := #{0 ≤ n < X : µ2 ((qn + t)2 + 1) = 1}.
+
+Then                      X
+                  Q=            µ(r)Ar ,         Ar := #{0 ≤ n < X : r2 | (qn + t)2 + 1}.
+                          r≥1
+
+If r has a prime factor p | q, then Ar = 0, since p = 2 or 5 and x2 + 1 is never divisible by 4 or by
+25 on the progression under consideration. If r has a prime factor p ≡ 3 (mod 4), then also Ar = 0
+because −1 is not a quadratic residue modulo p. Hence only squarefree r composed of primes
+p ≡ 1 (mod 4), p ≥ 13, contribute. For such r, the congruence u2 ≡ −1 (mod r2 ) has exactly 2ω(r)
+solutions modulo r2 . Hence
+                                              X 2ω(r)
+                                        Ar −           ≤ 2ω(r) .
+                                                r2
+   Set                                                         X
+                                                       TR :=           Ar .
+                                                               r>R
+
+Then, since |µ(r)| ≤ 1,
+                                             X             2ω(r) X ω(r)
+                                   Q≥X             µ(r)         − 2     − TR .
+                                                            r2
+                                             r≤R                        r≤R
+
+Since 2ω(r) ≤ d(r) and
+                                X                X             X1
+                                      d(r) =           1≤R                  ≤ R(1 + log R),
+                                                                        a
+                                r≤R            ab≤R            a≤R
+
+we obtain                                   X
+                                                  2ω(r) ≤ R(1 + log R).
+                                            r≤R
+
+Also, with the same notation and partial summation,
+                                      X 2ω(r)          X d(r)              2(log R + 2)
+                                                  ≤                    ≤                .
+                                            r2               r2                 R
+                                      r>R              r>R
+
+Therefore
+                                    2ω(r)
+                                                                              
+                         X                             Y                  2            2(log R + 2)
+                                µ(r) 2 ≥                               1− 2        −                .
+                                     r                                   p                  R
+                       r≤R                       p≡1    (mod 4)
+                                                       p≥13
+
+
+
+                                                               7
+Hence                                          
+                              Y               2                  2X(log R + 2)
+                  Q≥X                     1 − 2 − R(1 + log R) −               − TR .
+                                             p                        R
+                        p≡1    (mod 4)
+                              p≥13
+
+Therefore
+                                                                              2X(log R + 2)
+  #{x ≤ N : x ≡ t     (mod q), µ(x2 + 1) = 0} ≤ X Cquad + R(1 + log R) +                    + TR .
+                                                                                   R
+   It remains to bound TR . Each pair counted by Ar corresponds to an integer x ≤ N with x ≡ t
+(mod q) and r2 | x2 + 1. Writing
+                                         x2 + 1 = dr2 ,
+we have
+                                           N2 + 1
+                                     d≤           ,       x2 − dr2 = −1.
+                                            R2
+For each fixed positive integer d, the positive solutions of x2 −du2 = −1 grow at least geometrically.
+Indeed, if                                   √              √
+                                     x2 + u2 d > x1 + u1 d > 1
+
+            √ solutions, then their quotient is a totally positive unit of norm 1, hence has the
+are two positive
+shape v√+ w d with integers v, w, w ≥ 1, and v 2 − dw2 = 1. Since x21 − du21 = −1, one has
+x1 < u1 d. Expanding                √              √          √
+                            x2 + u2 d = (x1 + u1 d)(v + w d)
+therefore gives                                                   √
+                                    x2 = x1 v + du1 w > x1 (v +       d w).
+          √             √                                                         √              √
+Now v + d w ≥  √ 2 + 3. Indeed,
+                         √      if v√= 2, then dw2 = 3, so necessarily v +            dw = 2 +       3; if
+v ≥ 3, then v + d w ≥ 3 + 2 > 2 + 3. Thus
+                                               √
+                                     x2 > (2 + 3) x1 .
+
+Therefore, for each fixed d, the number of positive solutions (x, u) with x ≤ N is at most 1 +
+log2+√3 N . Summing over d ≤ (N 2 + 1)/R2 gives
+
+                                             N2 + 1               
+                                                                √ N .
+                                     TR ≤             1 + log 2+ 3
+                                              R2
+Substituting this into the previous estimate finishes the proof.
+
+Corollary 2 (Numerical bound for A∗ ). Let
+
+                                   A7 := {a ∈ A : a ≡ 7       (mod 25)},
+                                  A18 := {a ∈ A : a ≡ 18       (mod 25)},
+                                     ∗
+                                   A := A \ (A7 ∪ A18 ).
+
+For every N ≥ 2.64 × 1017 one has
+
+(a)
+                                            |A∗ |  23
+                                                  ≤ Cquad + 0.001973;
+                                             N     25
+
+
+                                                      8
+(b) if A∗ consists only of odd elements, then
+                                                |A∗ |  23
+                                                      ≤ Cquad + 0.001973.
+                                                 N     50
+Proof. Apply Proposition 2 to each of the 23 admissible residue classes modulo 25 in part (a), and
+to each of the 23 admissible odd residue classes modulo 50 in part (b). In either case, if q ∈ {25, 50}
+denotes the modulus in question and Xt := #{x ≤ N : x ≡ t (mod q)}, then
+                                                          
+                                       X             N
+                                           Xt ≤ 23     +1 ,
+                                        t
+                                                     q
+where the sum runs over the corresponding 23 admissible residue classes. Thus the total main-term
+contribution is at most
+                                     23
+                                         N Cquad + 23Cquad .
+                                      q
+Take                                                  
+                                               259 2/3
+                                        R :=       N     .
+                                               200
+Since R ≤ 259
+          200 N
+                2/3 + 1, the quantity
+
+
+                 R(1 + log R) 2(N/q + 1)(log R + 2) N 2 + 1                 √ N
+                                                                                  
+                              +                         +          1 + log 2+ 3
+                      N                   NR                N R2
+is bounded above by
+                                                                  
+                            259 −1/3       −1              259 2/3
+                                N     +N         1 + log       N   +1
+                            200                            200
+                                                                      
+                                 400(N/q + 1)         259 2/3
+                               +                 log       N    +1 +2
+                                    259N 5/3          200
+                                 40000(N 2 + 1)            √ N .
+                                                                 
+                               +                  1 + log 2+ 3
+                                   67081N 7/3
+For q ∈ {25, 50}, a direct check shows that the right-hand side is decreasing for N ≥ 2.64 × 1017 .
+At N = 2.64 × 1017 it is less than 8.577 × 10−5 . Multiplying by 23 gives a density error less than
+1.973 × 10−3 . Also,
+                            23Cquad
+                                     < 3 × 10−18     (N ≥ 2.64 × 1017 ),
+                               N
+so the extra contribution from the preceding main-term estimate is negligible on this scale. Round-
+ing upward to 0.001973 proves both claims.
+
+
+4    Numerical constants
+Define
+                                        Y         1
+                                                                            Y   1
+                                                                                    
+                         C2,5 := 1 −            1− 2       ,       C5 := 1 −   1− 2 .
+                                                  p                              p
+                                       p̸=2,5                             p̸=5
+
+             (1 − p−2 ) = 1/ζ(2) = 6/π 2 ,
+        Q
+Since    p
+
+                                                 6/π 2
+                           C2,5 = 1 −                           = 0.1556568029 . . . ,             (1)
+                                         (1 − 1/22 )(1 − 1/52 )
+                                           6/π 2         25
+                            C5 = 1 −             2
+                                                   = 1 − 2 = 0.3667426022 . . . .                  (2)
+                                        (1 − 1/5 )      4π
+
+                                                               9
+5    Proof of the main theorem
+Proof of Theorem 1. The residue class 7 (mod 25) satisfies ab + 1 ≡ 0 (mod 25) for all a, b in the
+class, so it meets the constraint and has size ⌊(N + 18)/25⌋. The same is true for the residue class
+18 (mod 25), whose cardinality is ⌊(N + 7)/25⌋. It therefore remains to prove the stated upper
+bound. As in Sawhney’s argument, define
+
+                                A7 := {a ∈ A : a ≡ 7          (mod 25)},
+                                A18 := {a ∈ A : a ≡ 18         (mod 25)},
+                                    ∗
+                                A := A \ (A7 ∪ A18 ).
+
+If A ⊆ A7 , then the result is immediate. If A ⊆ A18 , then
+                                                                 
+                                                                          
+                                                            N +7     N + 18
+                 |A| ≤ {n ∈ [N ] : n ≡ 18       (mod 25)} =       ≤           .
+                                                             25        25
+
+So it suffices to show that whenever A is not contained in A7 or A18 , one has
+
+                                                |A|  1
+                                                    < .
+                                                 N   25
+We consider three cases.
+Case 1: A∗ contains an even element. Pick an even b ∈ A∗ . For every a ∈ A7 ∪ A18 , the
+integer ab + 1 is odd and is not divisible by 25. Hence Corollary 1 with q0 = 25 gives
+
+                                    |A7 ∪ A18 |  2
+                                                ≤ C2,5 + 9.4N −1/4 .
+                                        N        25
+By Corollary 2(a),
+                                        |A∗ |  23
+                                              ≤ Cquad + 0.001973.
+                                         N     25
+Therefore
+                           |A|  23      2
+                               ≤ Cquad + C2,5 + 0.001973 + 9.4N −1/4 .
+                            N   25      25
+Using Lemma 2, (1), and N ≥ 2.64 × 1017 , we obtain
+
+                           |A|
+                               < 0.0376115 + 0.001973 + 0.000415 < 0.04.
+                            N
+
+Case 2: A∗ ̸= ∅ and A∗ consists only of odd elements. By Corollary 2(b),
+
+                                        |A∗ |  23
+                                              ≤ Cquad + 0.001973.
+                                         N     50
+
+Subcase 2a: A7 ∪ A18 contains no even elements. Then
+
+                     A7 ⊆ {7, 57}       (mod 100),        A18 ⊆ {43, 93}   (mod 100).
+
+Fix b ∈ A∗ . Since b is odd, among {7, 57} exactly one residue class gives 4 | (bt + 1), and among
+{43, 93} exactly one residue class gives 4 | (bt + 1). Also 25 ∤ (bt + 1) on all four residue classes,
+because t ≡ 7 or 18 (mod 25) whereas b ∈ A∗ implies b ̸≡ 7, 18 (mod 25). These two classes
+
+                                                     10
+contribute at most 2(N/100 + 1) elements. On the remaining two residue classes, Corollary 1 with
+q0 = 100 applies and yields
+
+                           |A7 ∪ A18 |   1  1                   2
+                                       ≤   + C2,5 + 10.6N −1/4 + .
+                               N         50 50                  N
+Hence
+                   |A|  23       1  1                              2
+                       ≤ Cquad +   + C2,5 + 0.001973 + 10.6N −1/4 + .
+                    N   50       50 50                             N
+Using Lemma 2, (1), and N ≥ 2.64 × 1017 , we obtain
+
+                      |A|
+                          < 0.0356927 + 0.001973 + 0.000468 + 10−17 < 0.04.
+                       N
+
+Subcase 2b: at least one of A7 or A18 contains an even element. Without loss of generality, assume
+A7 contains an even element and pick b′ ∈ A7 even. Pick any b ∈ A∗ . Since b ̸≡ 7 (mod 25), we
+have 25 ∤ (7b + 1), so Corollary 1 applies to A7 with the odd witness b and gives
+
+                                     |A7 |  1
+                                           ≤ C5 + 4.7N −1/4 ,
+                                      N     25
+while b′ ≡ 7 (mod 25) implies 25 ∤ (18b′ + 1), so applying it to A18 with the even witness b′ gives
+
+                                    |A18 |  1
+                                           ≤ C2,5 + 4.7N −1/4 .
+                                     N      25
+Therefore
+                     |A|  23       1   1
+                         ≤ Cquad + C5 + C2,5 + 0.001973 + 9.4N −1/4 .
+                      N   50      25   25
+Using Lemma 2, (1)–(2), and N ≥ 2.64 × 1017 , we obtain
+
+                          |A|
+                              < 0.0334755 + 0.001973 + 0.000415 < 0.04.
+                           N
+
+Case 3: A∗ = ∅ and both A7 and A18 are nonempty. Pick b ∈ A7 and b′ ∈ A18 . Since b ≡ 7
+(mod 25) and b′ ≡ 18 (mod 25), we have 25 ∤ (18b + 1) and 25 ∤ (7b′ + 1). Thus Corollary 1 with
+q0 = 25 applies to A7 (using b′ ) and to A18 (using b), yielding
+
+                                     |A|  2
+                                         ≤ C5 + 9.4N −1/4 .
+                                      N   25
+Using (2) and N ≥ 2.64 × 1017 , we obtain
+
+                                |A|
+                                    < 0.0293395 + 0.000415 < 0.04.
+                                 N
+   All cases give |A| /N < 1/25, which finishes the proof.
+
+
+
+
+                                                 11
+References
+[1] T. F. Bloom, Erdős Problem #848, https://www.erdosproblems.com/848, accessed 2026-
+    03-24.
+
+[2] M. Sawhney, On A ⊆ [N ] such that ab + 1 is never squarefree for a, b ∈ A, https://www.
+    math.columbia.edu/~msawhney/Problem_848.pdf, accessed 2026-03-24.
+
+[3] K. Prachar, Über die kleinste quadratfreie Zahl einer arithmetischen Reihe, Monatshefte für
+    Mathematik 62 (1958), 173–176.
+
+[4] C. Hooley, A note on square-free numbers in arithmetic progressions, Bulletin of the London
+    Mathematical Society 7 (1975), 133–138.
+
+
+
+
+                                              12
+

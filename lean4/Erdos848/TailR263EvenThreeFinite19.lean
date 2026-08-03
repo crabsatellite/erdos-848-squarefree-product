@@ -8,7 +8,7 @@ namespace Erdos848
 /-!
 # Direct cutoff-19 finite certificate for the E3 cell
 
-The Hall cut is unchanged.  On each of the two mod-25 base progressions the
+On each of the two mod-25 base progressions the
 six finite prime-square coordinates are `3, 7, 11, 13, 17, 19`.  Three E3
 pivots in one mod-nine cell have a common mod-nine root.  The remaining five
 coordinates have only the five equality partitions of three roots.  A

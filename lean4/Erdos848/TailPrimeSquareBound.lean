@@ -3,7 +3,7 @@ import Erdos848.GeneratedTailPrimeSquareCoverage.Node0098
 
 namespace Erdos848
 
-/-- Kernel-only prime-square tail at the archived cutoff `47`.  The finite
+/-- Kernel-only prime-square tail at cutoff `47`.  The finite
 part is the generated exact prime tree through `204081`; the remaining finite
 set is bounded by the telescoping integer tail. -/
 theorem finitePrimeSquareTail47_lt

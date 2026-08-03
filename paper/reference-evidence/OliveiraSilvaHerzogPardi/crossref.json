@@ -1,0 +1,723 @@
+{
+  "message": {
+    "DOI": "10.1090/s0025-5718-2013-02787-1",
+    "ISSN": [
+      "1088-6842",
+      "0025-5718"
+    ],
+    "URL": "https://doi.org/10.1090/s0025-5718-2013-02787-1",
+    "abstract": "<p>\n                    This paper describes how the even Goldbach conjecture was confirmed to be true for all even numbers not larger than \n                    <inline-formula content-type=\"math/mathml\">\n                      <mml:math xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" alttext=\"4 dot 10 Superscript 18\">\n                        <mml:semantics>\n                          <mml:mrow>\n                            <mml:mn>4</mml:mn>\n                            <mml:mo>\n                              ⋅\n                              \n                            </mml:mo>\n                            <mml:msup>\n                              <mml:mn>10</mml:mn>\n                              <mml:mrow class=\"MJX-TeXAtom-ORD\">\n                                <mml:mn>18</mml:mn>\n                              </mml:mrow>\n                            </mml:msup>\n                          </mml:mrow>\n                          <mml:annotation encoding=\"application/x-tex\">4\\cdot 10^{18}</mml:annotation>\n                        </mml:semantics>\n                      </mml:math>\n                    </inline-formula>\n                    . Using a result of Ramaré and Saouter, it follows that the odd Goldbach conjecture is true up to\n                    <inline-formula content-type=\"math/mathml\">\n                      <mml:math xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" alttext=\"8.37 dot 10 Superscript 26\">\n                        <mml:semantics>\n                          <mml:mrow>\n                            <mml:mn>8.37</mml:mn>\n                            <mml:mo>\n                              ⋅\n                              \n                            </mml:mo>\n                            <mml:msup>\n                              <mml:mn>10</mml:mn>\n                              <mml:mrow class=\"MJX-TeXAtom-ORD\">\n                                <mml:mn>26</mml:mn>\n                              </mml:mrow>\n                            </mml:msup>\n                          </mml:mrow>\n                          <mml:annotation encoding=\"application/x-tex\">8.37\\cdot 10^{26}</mml:annotation>\n                        </mml:semantics>\n                      </mml:math>\n                    </inline-formula>\n                    . The empirical data collected during this extensive verification effort, namely, counts and first occurrences of so-called minimal Goldbach partitions with a given smallest prime and of gaps between consecutive primes with a given even gap, are used to test several conjectured formulas related to prime numbers. In particular, the counts of minimal Goldbach partitions and of prime gaps are in excellent accord with the predictions made using the prime\n                    <inline-formula content-type=\"math/mathml\">\n                      <mml:math xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" alttext=\"k\">\n                        <mml:semantics>\n                          <mml:mi>k</mml:mi>\n                          <mml:annotation encoding=\"application/x-tex\">k</mml:annotation>\n                        </mml:semantics>\n                      </mml:math>\n                    </inline-formula>\n                    -tuple conjecture of Hardy and Littlewood (with an error that appears to be\n                    <inline-formula content-type=\"math/mathml\">\n                      <mml:math xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" alttext=\"upper O left-parenthesis StartRoot t log log t EndRoot right-parenthesis\">\n                        <mml:semantics>\n                          <mml:mrow>\n                            <mml:mi>O</mml:mi>\n                            <mml:mo stretchy=\"false\">(</mml:mo>\n                            <mml:msqrt>\n                              <mml:mi>t</mml:mi>\n                              <mml:mi>log</mml:mi>\n                              <mml:mo>\n                                ⁡\n                                \n                              </mml:mo>\n                              <mml:mi>log</mml:mi>\n                              <mml:mo>\n                                ⁡\n                                \n                              </mml:mo>\n                              <mml:mi>t</mml:mi>\n                            </mml:msqrt>\n                            <mml:mo stretchy=\"false\">)</mml:mo>\n                          </mml:mrow>\n                          <mml:annotation encoding=\"application/x-tex\">O(\\sqrt {t\\log \\log t})</mml:annotation>\n                        </mml:semantics>\n                      </mml:math>\n                    </inline-formula>\n                    , where\n                    <inline-formula content-type=\"math/mathml\">\n                      <mml:math xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" alttext=\"t\">\n                        <mml:semantics>\n                          <mml:mi>t</mml:mi>\n                          <mml:annotation encoding=\"application/x-tex\">t</mml:annotation>\n                        </mml:semantics>\n                      </mml:math>\n                    </inline-formula>\n                    is the true value of the quantity being estimated). Prime gap moments also show excellent agreement with a generalization of a conjecture made in\n                    <inline-formula content-type=\"math/mathml\">\n                      <mml:math xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" alttext=\"1982\">\n                        <mml:semantics>\n                          <mml:mn>1982</mml:mn>\n                          <mml:annotation encoding=\"application/x-tex\">1982</mml:annotation>\n                        </mml:semantics>\n                      </mml:math>\n                    </inline-formula>\n                    by Heath-Brown.\n                  </p>",
+    "alternative-id": [
+      "S0025-5718-2013-02787-1"
+    ],
+    "archive": [
+      "CLOCKSS",
+      "Portico"
+    ],
+    "author": [
+      {
+        "affiliation": [],
+        "family": "Oliveira e Silva",
+        "given": "Tomás",
+        "role": [
+          {
+            "role": "author",
+            "vocabulary": "crossref"
+          }
+        ],
+        "sequence": "first"
+      },
+      {
+        "affiliation": [],
+        "family": "Herzog",
+        "given": "Siegfried",
+        "role": [
+          {
+            "role": "author",
+            "vocabulary": "crossref"
+          }
+        ],
+        "sequence": "additional"
+      },
+      {
+        "affiliation": [],
+        "family": "Pardi",
+        "given": "Silvio",
+        "role": [
+          {
+            "role": "author",
+            "vocabulary": "crossref"
+          }
+        ],
+        "sequence": "additional"
+      }
+    ],
+    "container-title": [
+      "Mathematics of Computation"
+    ],
+    "content-domain": {
+      "crossmark-restriction": false,
+      "domain": []
+    },
+    "created": {
+      "date-parts": [
+        [
+          2013,
+          11,
+          18
+        ]
+      ],
+      "date-time": "2013-11-18T14:15:40Z",
+      "timestamp": 1384784140000
+    },
+    "deposited": {
+      "date-parts": [
+        [
+          2026,
+          4,
+          21
+        ]
+      ],
+      "date-time": "2026-04-21T17:58:39Z",
+      "timestamp": 1776794319000
+    },
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          7,
+          25
+        ]
+      ],
+      "date-time": "2026-07-25T05:01:28Z",
+      "timestamp": 1784955688893,
+      "version": "3.55.0"
+    },
+    "is-referenced-by-count": 74,
+    "issn-type": [
+      {
+        "type": "electronic",
+        "value": "1088-6842"
+      },
+      {
+        "type": "print",
+        "value": "0025-5718"
+      }
+    ],
+    "issue": "288",
+    "issued": {
+      "date-parts": [
+        [
+          2013,
+          11,
+          18
+        ]
+      ]
+    },
+    "journal-issue": {
+      "issue": "288",
+      "published-print": {
+        "date-parts": [
+          [
+            2014,
+            7
+          ]
+        ]
+      }
+    },
+    "language": "en",
+    "license": [
+      {
+        "URL": "https://www.ams.org/publications/copyright-and-permissions",
+        "content-version": "am",
+        "delay-in-days": 365,
+        "start": {
+          "date-parts": [
+            [
+              2014,
+              11,
+              18
+            ]
+          ],
+          "date-time": "2014-11-18T00:00:00Z",
+          "timestamp": 1416268800000
+        }
+      }
+    ],
+    "link": [
+      {
+        "URL": "http://www.ams.org/mcom/2014-83-288/S0025-5718-2013-02787-1/S0025-5718-2013-02787-1.pdf",
+        "content-type": "unspecified",
+        "content-version": "vor",
+        "intended-application": "similarity-checking"
+      },
+      {
+        "URL": "https://www.ams.org/mcom/2014-83-288/S0025-5718-2013-02787-1/S0025-5718-2013-02787-1.pdf",
+        "content-type": "unspecified",
+        "content-version": "vor",
+        "intended-application": "similarity-checking"
+      }
+    ],
+    "member": "14",
+    "original-title": [],
+    "page": "2033-2060",
+    "prefix": "10.1090",
+    "published": {
+      "date-parts": [
+        [
+          2013,
+          11,
+          18
+        ]
+      ]
+    },
+    "published-online": {
+      "date-parts": [
+        [
+          2013,
+          11,
+          18
+        ]
+      ]
+    },
+    "publisher": "American Mathematical Society (AMS)",
+    "reference": [
+      {
+        "key": "1",
+        "unstructured": "Ralph G. Archibald, Goldbach’s theorem, Scripta Mathematica 3 (1935), 44–50, 153–161."
+      },
+      {
+        "DOI": "10.1090/S0025-5718-03-01501-1",
+        "ISSN": "https://id.crossref.org/issn/0025-5718",
+        "article-title": "Prime sieves using binary quadratic forms",
+        "author": "Atkin, A. O. L.",
+        "doi-asserted-by": "publisher",
+        "first-page": "1023",
+        "issn-type": "print",
+        "issue": "246",
+        "journal-title": "Math. Comp.",
+        "key": "2",
+        "volume": "73",
+        "year": "2004"
+      },
+      {
+        "DOI": "10.1007/bf01932283",
+        "ISSN": "https://id.crossref.org/issn/0901-246X",
+        "article-title": "The segmented sieve of Eratosthenes and primes in arithmetic progressions to 10¹²",
+        "author": "Bays, Carter",
+        "doi-asserted-by": "publisher",
+        "first-page": "121",
+        "issn-type": "print",
+        "issue": "2",
+        "journal-title": "Nordisk Tidskr. Informationsbehandling (BIT)",
+        "key": "3",
+        "volume": "17",
+        "year": "1977"
+      },
+      {
+        "DOI": "10.1007/bf01933655",
+        "ISSN": "https://id.crossref.org/issn/0901-246X",
+        "article-title": "Numerical results on the Goldbach conjecture",
+        "author": "Bohman, Jan",
+        "doi-asserted-by": "publisher",
+        "first-page": "239",
+        "issn-type": "print",
+        "issue": "3",
+        "journal-title": "Nordisk Tidskr. Informationsbehandling (BIT)",
+        "key": "4",
+        "volume": "15",
+        "year": "1975"
+      },
+      {
+        "DOI": "10.2307/2005532",
+        "ISSN": "https://id.crossref.org/issn/0025-5718",
+        "article-title": "The first occurrence of large gaps between successive primes",
+        "author": "Brent, Richard P.",
+        "doi-asserted-by": "publisher",
+        "first-page": "959",
+        "issn-type": "print",
+        "journal-title": "Math. Comp.",
+        "key": "5",
+        "volume": "27",
+        "year": "1973"
+      },
+      {
+        "DOI": "10.2307/2005842",
+        "ISSN": "https://id.crossref.org/issn/0025-5718",
+        "article-title": "The distribution of small gaps between successive primes",
+        "author": "Brent, Richard P.",
+        "doi-asserted-by": "publisher",
+        "first-page": "315",
+        "issn-type": "print",
+        "journal-title": "Math. Comp.",
+        "key": "6",
+        "volume": "28",
+        "year": "1974"
+      },
+      {
+        "DOI": "10.4064/aa-2-1-23-46",
+        "doi-asserted-by": "crossref",
+        "key": "7",
+        "unstructured": "Harald Cramér, On the order of magnitude of the difference between consecutive prime numbers, Acta Arithmetica II (1937), 23–46."
+      },
+      {
+        "DOI": "10.1090/S0025-5718-96-00674-6",
+        "ISSN": "https://id.crossref.org/issn/0025-5718",
+        "article-title": "Computing 𝜋(𝑥): the Meissel, Lehmer, Lagarias, Miller, Odlyzko method",
+        "author": "Deléglise, M.",
+        "doi-asserted-by": "publisher",
+        "first-page": "235",
+        "issn-type": "print",
+        "issue": "213",
+        "journal-title": "Math. Comp.",
+        "key": "8",
+        "volume": "65",
+        "year": "1996"
+      },
+      {
+        "DOI": "10.1090/S0025-5718-04-01649-7",
+        "ISSN": "https://id.crossref.org/issn/0025-5718",
+        "article-title": "Counting primes in residue classes",
+        "author": "Deléglise, Marc",
+        "doi-asserted-by": "publisher",
+        "first-page": "1565",
+        "issn-type": "print",
+        "issue": "247",
+        "journal-title": "Math. Comp.",
+        "key": "9",
+        "volume": "73",
+        "year": "2004"
+      },
+      {
+        "DOI": "10.1090/S1079-6762-97-00031-0",
+        "ISSN": "https://id.crossref.org/issn/1079-6762",
+        "article-title": "A complete Vinogradov 3-primes theorem under the Riemann hypothesis",
+        "author": "Deshouillers, J.-M.",
+        "doi-asserted-by": "publisher",
+        "first-page": "99",
+        "issn-type": "print",
+        "journal-title": "Electron. Res. Announc. Amer. Math. Soc.",
+        "key": "10",
+        "volume": "3",
+        "year": "1997"
+      },
+      {
+        "DOI": "10.1007/BFb0054863",
+        "doi-asserted-by": "crossref",
+        "key": "11",
+        "unstructured": "J.-M. Deshouillers, H. J. J. te Riele, and Y. Saouter, New experimental results concerning the Goldbach conjecture, Algorithmic Number Theory: ANTS-III Proceedings (J. P. Buhler, ed.), Lecture Notes in Computer Science, vol. 1423, Springer-Verlag, Berlin / New York, 1998, pp. 204–215."
+      },
+      {
+        "key": "12",
+        "unstructured": "Jean-Marc Deshouillers and Herman te Riele, On the probabilistic complexity of numerically checking the binary Goldbach conjecture in certain intervals, Number Theory and Its Applications (S. Kanemitsu and K. Gÿory, eds.), Kluwer Academic Publishers, Dordrecht / Boston / London, 1999, pp. 89–99."
+      },
+      {
+        "key": "13",
+        "unstructured": "Leonard Eugene Dickson, History of the theory of numbers, vol. I: Divisibility and Primality, AMS Chelsea Publishing, Providence, Rhode Island, USA, 1992, Published originally by the Carnegie Institute of Washington (publication number 256) in 1919."
+      },
+      {
+        "DOI": "10.1016/0020-0190(96)00099-3",
+        "ISSN": "https://id.crossref.org/issn/0020-0190",
+        "article-title": "A space-efficient fast prime number sieve",
+        "author": "Dunten, Brian",
+        "doi-asserted-by": "publisher",
+        "first-page": "79",
+        "issn-type": "print",
+        "issue": "2",
+        "journal-title": "Inform. Process. Lett.",
+        "key": "14",
+        "volume": "59",
+        "year": "1996"
+      },
+      {
+        "DOI": "10.2307/1990253",
+        "ISSN": "https://id.crossref.org/issn/0002-9947",
+        "article-title": "The general form of the so-called law of the iterated logarithm",
+        "author": "Feller, W.",
+        "doi-asserted-by": "publisher",
+        "first-page": "373",
+        "issn-type": "print",
+        "journal-title": "Trans. Amer. Math. Soc.",
+        "key": "15",
+        "volume": "54",
+        "year": "1943"
+      },
+      {
+        "DOI": "10.1112/S0025579300016442",
+        "ISSN": "https://id.crossref.org/issn/0025-5793",
+        "article-title": "On the distribution of primes in short intervals",
+        "author": "Gallagher, P. X.",
+        "doi-asserted-by": "publisher",
+        "first-page": "4",
+        "issn-type": "print",
+        "issue": "1",
+        "journal-title": "Mathematika",
+        "key": "16",
+        "volume": "23",
+        "year": "1976"
+      },
+      {
+        "DOI": "10.1007/10722028_17",
+        "ISBN": "https://id.crossref.org/isbn/3540676953",
+        "article-title": "Dissecting a sieve to cut its need for space",
+        "author": "Galway, William F.",
+        "doi-asserted-by": "publisher",
+        "first-page": "297",
+        "isbn-type": "print",
+        "key": "17",
+        "year": "2000"
+      },
+      {
+        "DOI": "10.1080/03461238.1995.10413946",
+        "doi-asserted-by": "crossref",
+        "key": "18",
+        "unstructured": "A. Granville, Harald Cramér and the distribution of prime numbers, Scandinavian Actuarial Journal 1995 (1995), no. 1, 12–28."
+      },
+      {
+        "key": "19",
+        "unstructured": "A. Granville, J. van de Lune, and H. J. J. te Riele, Checking the Goldbach conjecture on a vector computer, Number Theory and Applications (R. A. Mollin, ed.), Kluwer Academic Publishers, Dordrecht / Boston / London, 1989, pp. 423–433."
+      },
+      {
+        "DOI": "10.1007/978-0-387-26677-0",
+        "ISBN": "https://id.crossref.org/isbn/0387208607",
+        "author": "Guy, Richard K.",
+        "doi-asserted-by": "publisher",
+        "edition": "3",
+        "isbn-type": "print",
+        "key": "20",
+        "series-title": "Problem Books in Mathematics",
+        "volume-title": "Unsolved problems in number theory",
+        "year": "2004"
+      },
+      {
+        "DOI": "10.1007/BF02403921",
+        "doi-asserted-by": "crossref",
+        "key": "21",
+        "unstructured": "G. H. Hardy and J. E. Littlewood, Some problems of ‘partitio numerorum’; III: On the expression of a number as a sum of primes, Acta Mathematica 44 (1922), 1–70."
+      },
+      {
+        "ISBN": "https://id.crossref.org/isbn/0198531702",
+        "author": "Hardy, G. H.",
+        "edition": "5",
+        "isbn-type": "print",
+        "key": "22",
+        "volume-title": "An introduction to the theory of numbers",
+        "year": "1979"
+      },
+      {
+        "DOI": "10.4064/aa-41-1-85-99",
+        "ISSN": "https://id.crossref.org/issn/0065-1036",
+        "article-title": "Gaps between primes, and the pair correlation of zeros of the zeta function",
+        "author": "Heath-Brown, D. R.",
+        "doi-asserted-by": "publisher",
+        "first-page": "85",
+        "issn-type": "print",
+        "issue": "1",
+        "journal-title": "Acta Arith.",
+        "key": "23",
+        "volume": "41",
+        "year": "1982"
+      },
+      {
+        "key": "24",
+        "unstructured": "Chen Jing-Run, On the representation of a large even number as the sum of a prime and the product of at most two primes, Sci. Sinica 21 (1978), 157–176, In chinese."
+      },
+      {
+        "key": "25",
+        "unstructured": "Donald E. Knuth, 2006, PRIME-SIEVE-SPARSE program, retrieved on March 2012 from \\url{http://www-cs-faculty.stanford.edu/ uno/programs/prime-sieve-sparse.w}."
+      },
+      {
+        "DOI": "10.4064/aa148-2-4",
+        "ISSN": "https://id.crossref.org/issn/0065-1036",
+        "article-title": "Averages of Euler products, distribution of singular series and the ubiquity of Poisson distribution",
+        "author": "Kowalski, Emmanuel",
+        "doi-asserted-by": "publisher",
+        "first-page": "153",
+        "issn-type": "print",
+        "issue": "2",
+        "journal-title": "Acta Arith.",
+        "key": "26",
+        "volume": "148",
+        "year": "2011"
+      },
+      {
+        "DOI": "10.2307/2007973",
+        "ISSN": "https://id.crossref.org/issn/0025-5718",
+        "article-title": "Computing 𝜋(𝑥): the Meissel-Lehmer method",
+        "author": "Lagarias, J. C.",
+        "doi-asserted-by": "publisher",
+        "first-page": "537",
+        "issn-type": "print",
+        "issue": "170",
+        "journal-title": "Math. Comp.",
+        "key": "27",
+        "volume": "44",
+        "year": "1985"
+      },
+      {
+        "DOI": "10.1007/BF01933648",
+        "ISSN": "https://id.crossref.org/issn/0006-3835",
+        "article-title": "A note on Goldbach’s conjecture",
+        "author": "Light, W. A.",
+        "doi-asserted-by": "publisher",
+        "first-page": "525",
+        "issn-type": "print",
+        "issue": "4",
+        "journal-title": "BIT",
+        "key": "28",
+        "volume": "20",
+        "year": "1980"
+      },
+      {
+        "DOI": "10.4064/aa105-2-3",
+        "ISSN": "https://id.crossref.org/issn/0065-1036",
+        "article-title": "On the Vinogradov bound in the three primes Goldbach conjecture",
+        "author": "Liu, Ming-Chit",
+        "doi-asserted-by": "publisher",
+        "first-page": "133",
+        "issn-type": "print",
+        "issue": "2",
+        "journal-title": "Acta Arith.",
+        "key": "29",
+        "volume": "105",
+        "year": "2002"
+      },
+      {
+        "DOI": "10.1016/j.jnt.2010.03.017",
+        "ISSN": "https://id.crossref.org/issn/0022-314X",
+        "article-title": "Exceptional set of Goldbach number",
+        "author": "Lu, Wen Chao",
+        "doi-asserted-by": "publisher",
+        "first-page": "2359",
+        "issn-type": "print",
+        "issue": "10",
+        "journal-title": "J. Number Theory",
+        "key": "30",
+        "volume": "130",
+        "year": "2010"
+      },
+      {
+        "DOI": "10.1090/S0025-5718-99-01065-0",
+        "ISSN": "https://id.crossref.org/issn/0025-5718",
+        "article-title": "New maximal prime gaps and first occurrences",
+        "author": "Nicely, Thomas R.",
+        "doi-asserted-by": "publisher",
+        "first-page": "1311",
+        "issn-type": "print",
+        "issue": "227",
+        "journal-title": "Math. Comp.",
+        "key": "31",
+        "volume": "68",
+        "year": "1999"
+      },
+      {
+        "article-title": "New prime gaps between 10¹⁵ and 5×10¹⁶",
+        "author": "Nyman, Bertil",
+        "first-page": "Article 03.3.1, 6",
+        "issue": "3",
+        "journal-title": "J. Integer Seq.",
+        "key": "32",
+        "volume": "6",
+        "year": "2003"
+      },
+      {
+        "DOI": "10.1080/10586458.1999.10504393",
+        "ISSN": "https://id.crossref.org/issn/1058-6458",
+        "article-title": "Jumping champions",
+        "author": "Odlyzko, Andrew",
+        "doi-asserted-by": "crossref",
+        "first-page": "107",
+        "issn-type": "print",
+        "issue": "2",
+        "journal-title": "Experiment. Math.",
+        "key": "33",
+        "volume": "8",
+        "year": "1999"
+      },
+      {
+        "key": "34",
+        "unstructured": "Tomás Oliveira e Silva, Fast implementation of the segmented sieve of Eratosthenes, Available at \\url{http://www.ieeta.pt/ tos/software/prime_{s}ieve.html#n}, August 2003, 2010."
+      },
+      {
+        "key": "35",
+        "unstructured": "Tomás Oliveira e Silva, Computing 𝜋(𝑥): the combinatorial method, Revista do DETUA 4 (2006), no. 6, 759–768, Available at \\url{http://www.ieeta.pt/ tos/bib/5.4.html}."
+      },
+      {
+        "key": "36",
+        "unstructured": "Alphonse de Polignac, Six propositions arithmologiques déduites du cribe d’Eratosthène, Nouvelles Annales de Mathématiques 8 (1849), 423–429."
+      },
+      {
+        "DOI": "10.1007/BF00264164",
+        "ISSN": "https://id.crossref.org/issn/0001-5903",
+        "article-title": "Explaining the wheel sieve",
+        "author": "Pritchard, Paul",
+        "doi-asserted-by": "publisher",
+        "first-page": "477",
+        "issn-type": "print",
+        "issue": "4",
+        "journal-title": "Acta Inform.",
+        "key": "37",
+        "volume": "17",
+        "year": "1982"
+      },
+      {
+        "DOI": "10.1016/0196-6774(83)90014-7",
+        "ISSN": "https://id.crossref.org/issn/0196-6774",
+        "article-title": "Fast compact prime number sieves (among others)",
+        "author": "Pritchard, Paul",
+        "doi-asserted-by": "publisher",
+        "first-page": "332",
+        "issn-type": "print",
+        "issue": "4",
+        "journal-title": "J. Algorithms",
+        "key": "38",
+        "volume": "4",
+        "year": "1983"
+      },
+      {
+        "DOI": "10.1016/S0022-314X(02)00029-X",
+        "ISSN": "https://id.crossref.org/issn/0022-314X",
+        "article-title": "Short effective intervals containing primes",
+        "author": "Ramaré, Olivier",
+        "doi-asserted-by": "publisher",
+        "first-page": "10",
+        "issn-type": "print",
+        "issue": "1",
+        "journal-title": "J. Number Theory",
+        "key": "39",
+        "volume": "98",
+        "year": "2003"
+      },
+      {
+        "DOI": "10.1090/S0025-5718-00-01290-4",
+        "ISSN": "https://id.crossref.org/issn/0025-5718",
+        "article-title": "Verifying the Goldbach conjecture up to 4⋅10¹⁴",
+        "author": "Richstein, Jörg",
+        "doi-asserted-by": "publisher",
+        "first-page": "1745",
+        "issn-type": "print",
+        "issue": "236",
+        "journal-title": "Math. Comp.",
+        "key": "40",
+        "volume": "70",
+        "year": "2001"
+      },
+      {
+        "DOI": "10.1090/S0025-5718-98-00928-4",
+        "ISSN": "https://id.crossref.org/issn/0025-5718",
+        "article-title": "Checking the odd Goldbach conjecture up to 10²⁰",
+        "author": "Saouter, Yannick",
+        "doi-asserted-by": "publisher",
+        "first-page": "863",
+        "issn-type": "print",
+        "issue": "222",
+        "journal-title": "Math. Comp.",
+        "key": "41",
+        "volume": "67",
+        "year": "1998"
+      },
+      {
+        "key": "42",
+        "unstructured": "Pascal Sebah and Xavier Gourdon, Introduction to twin primes and Brun’s constant computation, Retrieved from \\url{http://numbers.computation.free.fr/Constants/Primes/twin.html} on March 2012, 2002."
+      },
+      {
+        "DOI": "10.2307/2002951",
+        "ISSN": "https://id.crossref.org/issn/0025-5718",
+        "article-title": "On maximal gaps between successive primes",
+        "author": "Shanks, Daniel",
+        "doi-asserted-by": "publisher",
+        "first-page": "646",
+        "issn-type": "print",
+        "journal-title": "Math. Comp.",
+        "key": "43",
+        "volume": "18",
+        "year": "1964"
+      },
+      {
+        "DOI": "10.1007/bf01939515",
+        "ISSN": "https://id.crossref.org/issn/0901-246X",
+        "article-title": "On checking the Goldbach conjecture",
+        "author": "Shen, Mok-kong",
+        "doi-asserted-by": "publisher",
+        "first-page": "243",
+        "issn-type": "print",
+        "journal-title": "Nordisk Tidskr. Informationsbehandling (BIT)",
+        "key": "44",
+        "volume": "4",
+        "year": "1964"
+      },
+      {
+        "DOI": "10.1145/363235.363247",
+        "doi-asserted-by": "crossref",
+        "key": "45",
+        "unstructured": "Richard C. Singleton, Algorithm 357: An efficient prime number generator, Communications of the ACM 12 (1969), no. 10, 563–564."
+      },
+      {
+        "DOI": "10.2307/2153264",
+        "ISSN": "https://id.crossref.org/issn/0025-5718",
+        "article-title": "Checking the Goldbach conjecture up to 4⋅10¹¹",
+        "author": "Sinisalo, Matti K.",
+        "doi-asserted-by": "publisher",
+        "first-page": "931",
+        "issn-type": "print",
+        "issue": "204",
+        "journal-title": "Math. Comp.",
+        "key": "46",
+        "volume": "61",
+        "year": "1993"
+      },
+      {
+        "DOI": "10.1090/S0025-5718-65-99251-3",
+        "doi-asserted-by": "crossref",
+        "key": "47",
+        "unstructured": "M. L. Stein and P. R. Stein, Experimental results on additive 2-bases, Mathematics of Computation 19 (1965), no. 91, 427–434."
+      },
+      {
+        "key": "48",
+        "unstructured": "Terence Tao, Every odd number greater than 1 is the sum of at most five primes, Math. Comp., published electronically June 24, 2013."
+      },
+      {
+        "key": "49",
+        "unstructured": "Marek Wolf, Some heuristics on the gaps between consecutive primes, arXiv:1102.0481v2 [math.NT], May 2011."
+      },
+      {
+        "DOI": "10.2307/2008665",
+        "ISSN": "https://id.crossref.org/issn/0025-5718",
+        "article-title": "First occurrence prime gaps",
+        "author": "Young, Jeff",
+        "doi-asserted-by": "publisher",
+        "first-page": "221",
+        "issn-type": "print",
+        "issue": "185",
+        "journal-title": "Math. Comp.",
+        "key": "50",
+        "volume": "52",
+        "year": "1989"
+      }
+    ],
+    "reference-count": 50,
+    "references-count": 50,
+    "relation": {},
+    "resource": {
+      "primary": {
+        "URL": "https://www.ams.org/mcom/2014-83-288/S0025-5718-2013-02787-1/"
+      }
+    },
+    "score": 1,
+    "short-container-title": [
+      "Math. Comp."
+    ],
+    "short-title": [],
+    "source": "Crossref",
+    "subject": [],
+    "subtitle": [],
+    "title": [
+      "Empirical verification of the even Goldbach conjecture and computation of prime gaps up to 4⋅10¹⁸"
+    ],
+    "type": "journal-article",
+    "volume": "83"
+  },
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "status": "ok"
+}

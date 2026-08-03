@@ -27,10 +27,18 @@
       "lean4/lakefile.toml",
       "lean4/lean-toolchain",
       "scripts/build_release_package.py",
+      "scripts/build_paper.ps1",
       "scripts/check_proof_state.py",
       "scripts/run_kernel_gates.py",
       "scripts/test_publication_contract.py",
-      "scripts/verify_publication_package.py"
+      "scripts/verify_four_range_paper_arithmetic.py",
+      "scripts/verify_paper_lean_correspondence.py",
+      "scripts/verify_paper_lean_numbers.py",
+      "scripts/verify_publication_package.py",
+      "scripts/verify_reference_evidence.py"
+    ],
+    "fixed_directories": [
+      "paper/reference-evidence"
     ],
     "generated_metadata": "release-content.json",
     "local_module_prefix": "Erdos848",

@@ -15,8 +15,8 @@ mask as the ordinary condition on `m`.  The provider below contains only:
 * the forty-eight closed Boolean root scans.
 
 It contains no ambient `N`, Hall set, pivot, interval theorem, or matching
-conclusion.  A generated provider can therefore replace a temporary
-certificate value without changing any mathematical consumer.
+conclusion.  Generated certificate data can therefore be regenerated
+without changing any mathematical consumer.
 -/
 
 set_option maxHeartbeats 0

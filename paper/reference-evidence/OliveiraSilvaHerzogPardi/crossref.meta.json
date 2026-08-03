@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "key": "OliveiraSilvaHerzogPardi",
+  "artifact_type": "json",
+  "requested_url": "https://api.crossref.org/works/10.1090/S0025-5718-2013-02787-1",
+  "final_url": "https://api.crossref.org/works/10.1090/S0025-5718-2013-02787-1",
+  "status": 200,
+  "content_type": "application/json",
+  "fetched_at_utc": "2026-07-30T11:47:23.775314+00:00",
+  "sha256_raw_bytes": "adc250bb48343c3f28ec43766080cd09149fe86f38fabd755d2422234d2bda4b",
+  "artifact_file": "crossref.json",
+  "text_file": "crossref.json.txt",
+  "text_lines": 512,
+  "json_text_extractor": "canonical sorted JSON plus flattened scalar paths"
+}

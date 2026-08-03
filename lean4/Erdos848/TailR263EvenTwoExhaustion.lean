@@ -4,7 +4,7 @@ import Erdos848.TailR263EvenOneMixedHalfTerminal
 namespace Erdos848
 
 /-!
-# Exhausting the `E2` cell split at the unchanged R263 cut
+# Exhausting the `E2` cell split at the R263 cut
 
 This file contains only the finite nine-cell allocation which routes the
 already checked `E2` terminals.  Two cells of size at least two feed the

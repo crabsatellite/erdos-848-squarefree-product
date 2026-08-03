@@ -7,7 +7,7 @@ namespace Erdos848
 
 This file contains only finite-set identities.  It connects equality patterns
 of three total root coordinates to the all-three and two-of-three events used
-by the unchanged four-pivot and mixed-half inequalities.
+by the four-pivot and mixed-half inequalities.
 -/
 
 set_option maxHeartbeats 0

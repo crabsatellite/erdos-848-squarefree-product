@@ -8,7 +8,7 @@ set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 
 /-- The conjunction of all exact blocks and the terminal check covers every
-ambient value at or above the unchanged five-million endpoint. -/
+ambient value at or above the five-million endpoint. -/
 theorem globalMixedExactFallback_sound
     {coefficient endpoint N : ℕ}
     (hN : 5_000_000 ≤ N) (hEndpointLower : 5_000_000 ≤ endpoint)

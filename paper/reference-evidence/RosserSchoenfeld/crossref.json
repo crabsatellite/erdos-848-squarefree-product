@@ -1,0 +1,167 @@
+{
+  "message": {
+    "DOI": "10.1215/ijm/1255631807",
+    "ISSN": [
+      "0019-2082"
+    ],
+    "URL": "https://doi.org/10.1215/ijm/1255631807",
+    "author": [
+      {
+        "affiliation": [
+          {
+            "name": "Institute for Defense Analyses, Princeton, New Jersey; Pennsylvania State University, University Park,  Pennsylvania"
+          }
+        ],
+        "family": "Rosser",
+        "given": "J. Barkley",
+        "role": [
+          {
+            "role": "author",
+            "vocabulary": "crossref"
+          }
+        ],
+        "sequence": "first"
+      },
+      {
+        "affiliation": [
+          {
+            "name": "Institute for Defense Analyses, Princeton, New Jersey; Pennsylvania State University, University Park,  Pennsylvania"
+          }
+        ],
+        "family": "Schoenfeld",
+        "given": "Lowell",
+        "role": [
+          {
+            "role": "author",
+            "vocabulary": "crossref"
+          }
+        ],
+        "sequence": "additional"
+      }
+    ],
+    "container-title": [
+      "Illinois Journal of Mathematics"
+    ],
+    "content-domain": {
+      "crossmark-restriction": false,
+      "domain": []
+    },
+    "created": {
+      "date-parts": [
+        [
+          2019,
+          2,
+          28
+        ]
+      ],
+      "date-time": "2019-02-28T21:47:53Z",
+      "timestamp": 1551390473000
+    },
+    "deposited": {
+      "date-parts": [
+        [
+          2024,
+          1,
+          30
+        ]
+      ],
+      "date-time": "2024-01-30T20:57:58Z",
+      "timestamp": 1706648278000
+    },
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          7,
+          30
+        ]
+      ],
+      "date-time": "2026-07-30T05:30:03Z",
+      "timestamp": 1785389403504,
+      "version": "3.55.0"
+    },
+    "is-referenced-by-count": 683,
+    "issn-type": [
+      {
+        "type": "print",
+        "value": "0019-2082"
+      }
+    ],
+    "issue": "1",
+    "issued": {
+      "date-parts": [
+        [
+          1962,
+          3,
+          1
+        ]
+      ]
+    },
+    "journal-issue": {
+      "issue": "1",
+      "published-online": {
+        "date-parts": [
+          [
+            1962,
+            3,
+            1
+          ]
+        ]
+      }
+    },
+    "link": [
+      {
+        "URL": "https://projecteuclid.org/journalArticle/Download?urlid=10.1215/ijm/1255631807",
+        "content-type": "unspecified",
+        "content-version": "vor",
+        "intended-application": "similarity-checking"
+      }
+    ],
+    "member": "73",
+    "original-title": [],
+    "prefix": "10.1215",
+    "published": {
+      "date-parts": [
+        [
+          1962,
+          3,
+          1
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          1962,
+          3,
+          1
+        ]
+      ]
+    },
+    "publisher": "Duke University Press",
+    "reference-count": 0,
+    "references-count": 0,
+    "relation": {},
+    "resource": {
+      "primary": {
+        "URL": "https://projecteuclid.org/journals/illinois-journal-of-mathematics/volume-6/issue-1/Approximate-formulas-for-some-functions-of-prime-numbers/10.1215/ijm/1255631807.full"
+      }
+    },
+    "score": 1,
+    "short-container-title": [
+      "Illinois J. Math."
+    ],
+    "short-title": [],
+    "source": "Crossref",
+    "subject": [],
+    "subtitle": [],
+    "title": [
+      "Approximate formulas for some functions of prime numbers"
+    ],
+    "type": "journal-article",
+    "volume": "6"
+  },
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "status": "ok"
+}

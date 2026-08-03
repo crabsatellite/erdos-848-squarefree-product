@@ -1,0 +1,12 @@
+https://arxiv.org/api/yUe8v7deevvC33UnhUFg2JyPW5o
+arXiv Query: search_query=&id_list=1002.0442&start=0&max_results=10
+2026-07-30T11:47:22Z
+10
+1
+0
+http://arxiv.org/abs/1002.0442v1
+Estimates of Some Functions Over Primes without R.H.
+2010-02-02T10:26:44Z
+Some computations made about the Riemann Hypothesis and in particular, the verification that zeroes of zeta belong on the critical line and the extension of zero-free region are useful to get better effective estimates of number theory classical functions which are closely linked to zeta zeroes like psi(x), theta(x), pi(x) or the k-th prime number.
+2010-02-02T10:26:44Z
+Pierre Dusart

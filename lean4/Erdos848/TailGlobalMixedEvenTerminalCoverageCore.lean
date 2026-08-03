@@ -3,10 +3,9 @@ import Erdos848.GeneratedTailGlobalMixedSupportCoverage.ExtensionData
 
 namespace Erdos848
 
-/-! Lightweight, computation-facing completeness predicate for the terminal
-trie.  It deliberately restates the support endpoint from the same generated
-extension-prime table, so finite coverage modules do not import the large
-historical Hall chain. -/
+/-! Lightweight completeness predicate for the terminal trie.  It restates
+the support endpoint from the same generated extension-prime table, keeping
+finite coverage modules independent of the full Hall development. -/
 
 def globalMixedEvenSupportEndpoint (supportPrefix : List Nat) : Nat :=
   max 5_000_000

@@ -5,16 +5,12 @@ namespace Erdos848
 /-!
 # Exact arithmetic close for the twenty-million valuation block
 
-This file records the ten exact rational rows produced by
-`systematic_mixed_valuation_20m_close.py` after auditing its support endpoint
-at `40_000_000`.  It contains no floating-point arithmetic: every decimal
-ceiling in the paper is represented by the corresponding rational number.
-
-The theorem `twentyMillionBranch_total_lt_target` is the terminal arithmetic
-step common to every branch on `20_000_000 ≤ N < 40_000_000`.  The separate
-finite-sieve, root-profile, diagonal, and Hall-semantic certificates that feed
-these rows must still be connected before this interval itself is kernel
-closed.
+This file records the ten exact rational rows on
+`20_000_000 ≤ N < 40_000_000`.  It contains no floating-point arithmetic:
+every displayed ceiling is represented by the corresponding rational number.
+The theorem `twentyMillionBranch_total_lt_target` is the common terminal
+arithmetic step.  Separate semantic theorems supply the finite-sieve,
+root-profile, diagonal, and Hall inputs consumed by these rows.
 -/
 
 /-- The ten exhaustive valuation/parity rows in the twenty-million block. -/
@@ -196,12 +192,11 @@ theorem twentyMillionTarget_le_normalizedTarget {N : ℕ}
   rw [twentyMillionTarget, twentyMillionHallTarget, twentyMillionLower]
   exact sub_le_sub_left hdiv (1 / 25)
 
-/-! ## Static map of the remaining producer obligations
+/-! ## Static types for the semantic range bounds
 
-The following range-bound types make the corrected endpoint explicit without
-pretending that the Python functions are already Lean definitions.  A kernel
-producer must instantiate `actualPayment` with the formal transformed-root or
-diagonal quantity and prove the corresponding range bound.
+The following range-bound types make the endpoint explicit.  A semantic
+certificate instantiates `actualPayment` with the formal transformed-root or
+diagonal quantity and proves the corresponding range bound.
 -/
 
 inductive TwentyMillionRootClass where

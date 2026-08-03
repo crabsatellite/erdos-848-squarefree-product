@@ -6,11 +6,11 @@ namespace Erdos848
 open TwentyMillion
 
 /-!
-# Literal allocation into the ten arithmetic rows
+# Allocation into the ten arithmetic rows
 
-This module assigns the semantic pivot-and-charge evidence to the ten row
-names used by `twentyMillionBranchTotal`.  It does not yet claim any of the
-finite, transformed-root, square-tail, or diagonal estimates.
+This module assigns the pivot-and-charge evidence to the ten row names used
+by `twentyMillionBranchTotal`.  The finite, transformed-root, square-tail,
+and diagonal estimates are supplied by separate semantic theorems.
 -/
 
 set_option maxHeartbeats 0

@@ -1,0 +1,188 @@
+{
+  "schema_version": 2,
+  "manuscript": "paper/erdos_848_kernel_asymptotic.tex",
+  "theorem_map": "paper/theorem-map.json",
+  "lean_entrypoint": "lean4/Erdos848/PaperGeneratedCertificateProvider.lean",
+  "publication_entrypoints": [
+    "lean4/Erdos848/PaperGeneratedCertificateProvider.lean",
+    "lean4/Erdos848/PublicationTheoremMap.lean",
+    "lean4/Erdos848/PublicationAxiomAudit.lean"
+  ],
+  "published_endpoint_count": 15,
+  "paper_endpoint_count_marker": "contains fifteen published Lean",
+  "published_module_count": 30638,
+  "paper_module_count_marker": "contains exactly $30{,}638$ local Lean source",
+  "results": [
+    {
+      "label": "eq:target",
+      "anchors": [
+        ["lean4/Erdos848/ProblemCore.lean", "def OriginalProblem848Statement"]
+      ]
+    },
+    {
+      "label": "prop:sharpness",
+      "anchors": [
+        ["lean4/Erdos848/SharpnessCore.lean", "theorem originalA7_has_property"]
+      ]
+    },
+    {
+      "label": "thm:hall-reduction",
+      "anchors": [
+        ["lean4/Erdos848/HallReduction.lean", "theorem originalProblem_of_hallStatement"]
+      ]
+    },
+    {
+      "label": "thm:hall-equivalence",
+      "anchors": [
+        ["lean4/Erdos848/HallReduction.lean", "theorem erdos848HallStatement_iff_originalProblem"]
+      ]
+    },
+    {
+      "label": "thm:finite-prefix-colouring-close",
+      "anchors": [
+        ["lean4/Erdos848/PrefixClose.lean", "theorem erdos848_through_five_million"],
+        ["lean4/Erdos848/GeneratedFiveMillionPrefixTrace/Certificate.lean", "theorem colouringCertificate"],
+        ["lean4/Erdos848/GeneratedFiveMillionPrefixTrace/Certificate.lean", "theorem closeThroughFiveMillion"]
+      ]
+    },
+    {
+      "label": "lem:pure-global-small",
+      "anchors": [
+        ["lean4/Erdos848/TailPureGlobalSmall.lean", "theorem pureGlobalSmallBadPoints_card_div_le_envelope"]
+      ]
+    },
+    {
+      "label": "lem:pure-global-medium",
+      "anchors": [
+        ["lean4/Erdos848/TailPureGlobalMedium.lean", "theorem pureGlobalMediumBadPoints_card_div_le_envelope"]
+      ]
+    },
+    {
+      "label": "lem:pure-global-high",
+      "anchors": [
+        ["lean4/Erdos848/TailPureGlobalHigh.lean", "theorem pureGlobalHighBadPoints_card_div_le_envelope"]
+      ]
+    },
+    {
+      "label": "thm:pure-parity-matching",
+      "anchors": [
+        ["lean4/Erdos848/TailPureGlobalDegree.lean", "theorem pureGlobalBadEnvelope_le_strictHalfTarget"],
+        ["lean4/Erdos848/TailPureGlobalDegree.lean", "theorem pureGlobalOppositeBaseMatching"]
+      ]
+    },
+    {
+      "label": "prop:uniform-mixed-degree",
+      "anchors": [
+        ["lean4/Erdos848/TailGlobalMixedDegree.lean", "theorem globalMixedA7_degree_lower"],
+        ["lean4/Erdos848/TailGlobalMixedDegree.lean", "theorem globalMixedA18_degree_lower"]
+      ]
+    },
+    {
+      "label": "cor:uniform-mixed-residual",
+      "anchors": [
+        ["lean4/Erdos848/TailGlobalMixedResidual.lean", "theorem globalMixedHallResidual_cast_lower_of_defect"],
+        ["lean4/Erdos848/TailGlobalMixedResidual.lean", "theorem exists_large_fiveMillionValuationPart_of_defect"]
+      ]
+    },
+    {
+      "label": "lem:valuation-partition",
+      "anchors": [
+        ["lean4/Erdos848/TailGlobalMixedValuationPartition.lean", "lemma fiveMillionValuationPart_disjoint"],
+        ["lean4/Erdos848/TailGlobalMixedValuationPartition.lean", "theorem fiveMillionValuationParts_cover"],
+        ["lean4/Erdos848/TailGlobalMixedValuationPartition.lean", "theorem fiveMillionValuationParts_card_sum"]
+      ]
+    },
+    {
+      "label": "lem:nine-cell-capacity",
+      "anchors": [
+        ["lean4/Erdos848/TailFiveMillionNineCellCapacityMatching.lean", "theorem fiveMillionNineCellCapacityDichotomy"]
+      ]
+    },
+    {
+      "label": "prop:five-million-interval-close",
+      "anchors": [
+        ["lean4/Erdos848/TailR263Exhaustion.lean", "theorem fiveMillionR263BranchExhaustion_kernel"],
+        ["lean4/Erdos848/TailR263Exhaustion.lean", "theorem erdos848FiveToTenMillionClose"],
+        ["lean4/Erdos848/PaperCertificateProvider.lean", "theorem fiveToTenMillion"]
+      ]
+    },
+    {
+      "label": "prop:ten-million-interval-close",
+      "anchors": [
+        ["lean4/Erdos848/TailTenMillionKernelExhaustion.lean", "theorem tenMillionKernelBranchExhaustion"],
+        ["lean4/Erdos848/TailTenMillionKernelExhaustion.lean", "theorem erdos848TenToTwentyMillionClose"],
+        ["lean4/Erdos848/PaperCertificateProvider.lean", "theorem tenToTwentyMillion"]
+      ]
+    },
+    {
+      "label": "prop:twenty-million-interval-close",
+      "anchors": [
+        ["lean4/Erdos848/TailTwentyMillionKernelClose.lean", "theorem twentyMillionKernelBranchTotal_lt_target"],
+        ["lean4/Erdos848/TailTwentyMillionKernelClose.lean", "theorem erdos848TwentyMillionClose_kernel"],
+        ["lean4/Erdos848/PaperCertificateProvider.lean", "theorem twentyToFortyMillion"]
+      ]
+    },
+    {
+      "label": "lem:global-ten-branch-allocation",
+      "anchors": [
+        ["lean4/Erdos848/TailTwentyMillionDegree19.lean", "theorem exists_twentyMillionBranchApplies_global19"]
+      ]
+    },
+    {
+      "label": "thm:mixed-joint-tail-close",
+      "anchors": [
+        ["lean4/Erdos848/TailFortyMillionTenBranchArithmetic.lean", "theorem fortyMillionTenBranchTotal_lt_target"],
+        ["lean4/Erdos848/TailFortyMillionKernelClose.lean", "theorem erdos848FortyMillionClose_kernel"]
+      ]
+    },
+    {
+      "label": "thm:actual-support-mixed-close",
+      "anchors": [
+        ["lean4/Erdos848/TailHybridTenBranchArithmetic.lean", "theorem hybridTenBranchTotal_lt_target"],
+        ["lean4/Erdos848/TailHybridKernelClose.lean", "theorem erdos848PaperTwoHundredMillionToTwoBillionClose_of_certificates"],
+        ["lean4/Erdos848/PaperCertificateProvider.lean", "theorem twoHundredToTwoBillion"]
+      ]
+    },
+    {
+      "label": "thm:finite-high-tail",
+      "anchors": [
+        ["lean4/Erdos848/TailHighQrFiniteClose.lean", "theorem HighQrFiniteCloseCertificate.close"],
+        ["lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean", "def highQrFinalFiniteCertificate"]
+      ]
+    },
+    {
+      "label": "thm:unbounded-high-tail",
+      "anchors": [
+        ["lean4/Erdos848/TailHighUnboundedClose.lean", "theorem erdos848HighUnboundedClose"]
+      ]
+    },
+    {
+      "label": "thm:formal-high-tail-close",
+      "anchors": [
+        ["lean4/Erdos848/TailHighIntegratedClose.lean", "theorem HighTailCloseCertificate.close"],
+        ["lean4/Erdos848/PaperCertificateProvider.lean", "theorem twoBillionTail"]
+      ]
+    },
+    {
+      "label": "thm:forty-million-tail-assembly",
+      "anchors": [
+        ["lean4/Erdos848/PaperHighRangeCore.lean", "theorem erdos848PaperFortyMillionTail_of_high_range_close"],
+        ["lean4/Erdos848/PaperCertificateProvider.lean", "theorem fortyMillionTail"]
+      ]
+    },
+    {
+      "label": "thm:mixed-cell-five-million-close",
+      "anchors": [
+        ["lean4/Erdos848/MainTheoremCore.lean", "theorem erdos848_five_million_tail_of_paper_four_range_close"],
+        ["lean4/Erdos848/PublicationRoot.lean", "theorem erdos848_paper_tail_close"]
+      ]
+    },
+    {
+      "label": "thm:erdos-848-complete",
+      "anchors": [
+        ["lean4/Erdos848/PrefixClose.lean", "theorem erdos848_full_of_five_million_tail"],
+        ["lean4/Erdos848/PaperGeneratedCertificateProvider.lean", "theorem all_N"]
+      ]
+    }
+  ]
+}

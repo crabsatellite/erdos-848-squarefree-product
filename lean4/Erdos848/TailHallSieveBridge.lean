@@ -83,8 +83,8 @@ noncomputable def hallTailSquarePayment
       (tailSquarePrimeEvent cutoff pivot)).card : ℚ)) /
         (pivots.card - k + 1 : ℕ)
 
-/-- The unconditional semantic bridge missing from the archived numerical
-tables.  Once the pivots are literal members of `hallCompletion N B`, the
+/-- Unconditional semantic Hall implication.  Once the pivots are members
+of `hallCompletion N B`, the
 completion cardinality is bounded by the exact finite-intersection and tail
 payments above. -/
 theorem hallCompletion_card_le_pivotSieve

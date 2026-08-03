@@ -439,6 +439,7 @@ def validate_state(
     map_path = repo_path(
         paper.get("theorem_map_path"), "paper contract theorem_map_path"
     )
+    paper_paths = {paper_contract_path, tex_path, pdf_path, map_path}
     for path, digest_key in (
         (tex_path, "tex_sha256"),
         (pdf_path, "pdf_sha256"),
@@ -455,6 +456,28 @@ def validate_state(
                 f"paper artifact hash mismatch for "
                 f"{path.relative_to(ROOT).as_posix()}: expected={expected}, actual={actual}"
             )
+    additional_artifacts = paper.get("additional_artifacts")
+    if not isinstance(additional_artifacts, list) or not additional_artifacts:
+        fail("paper contract additional_artifacts must be a nonempty list")
+    for index, artifact in enumerate(additional_artifacts):
+        if not isinstance(artifact, dict) or set(artifact) != {"path", "sha256"}:
+            fail(f"paper contract additional_artifacts[{index}] is malformed")
+        path = repo_path(
+            artifact["path"], f"paper contract additional_artifacts[{index}].path"
+        )
+        if not path.is_file():
+            fail(f"paper artifact is missing: {path.relative_to(ROOT).as_posix()}")
+        expected = require_sha256(
+            artifact["sha256"],
+            f"paper contract additional_artifacts[{index}].sha256",
+        )
+        actual = sha256_bytes(path.read_bytes())
+        if actual != expected:
+            fail(
+                f"paper artifact hash mismatch for "
+                f"{path.relative_to(ROOT).as_posix()}: expected={expected}, actual={actual}"
+            )
+        paper_paths.add(path)
     scope = paper.get("scope")
     if not isinstance(scope, dict):
         fail("paper contract scope must be an object")
@@ -585,7 +608,7 @@ def validate_state(
         "paper": paper,
         "endpoints": endpoints,
         "lean_closure": closure,
-        "paper_paths": {paper_contract_path, tex_path, pdf_path, map_path},
+        "paper_paths": paper_paths,
         "full_source_audit": audit_sources or require_release_ready,
     }
 
@@ -602,6 +625,14 @@ def release_source_relatives(result: dict) -> list[str]:
         source_policy.get("fixed_files"), "source_policy.fixed_files"
     )
     paths.update(repo_path(item, f"source_policy.fixed_files[{item}]") for item in fixed)
+    fixed_directories = require_unique_strings(
+        source_policy.get("fixed_directories"), "source_policy.fixed_directories"
+    )
+    for item in fixed_directories:
+        directory = repo_path(item, f"source_policy.fixed_directories[{item}]")
+        if not directory.is_dir():
+            fail(f"release source directory is missing: {directory}")
+        paths.update(path for path in directory.rglob("*") if path.is_file())
     forbidden_parts = set(
         require_unique_strings(
             source_policy.get("forbidden_path_components"),

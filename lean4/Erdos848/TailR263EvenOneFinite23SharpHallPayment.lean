@@ -3,7 +3,7 @@ import Erdos848.TailR263FourPivotTerminal
 
 namespace Erdos848
 
-/-! The sharp feasible certificate acts on the unchanged Hall-base cut. -/
+/-! The sharp feasible certificate acts on the Hall-base cut. -/
 
 set_option maxHeartbeats 0
 set_option maxRecDepth 1000000

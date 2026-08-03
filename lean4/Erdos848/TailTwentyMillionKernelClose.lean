@@ -13,14 +13,10 @@ open TwentyMillion
 /-!
 # Kernel close of the twenty-million interval
 
-The earlier arithmetic table paired a cutoff-47 even finite term with a
-cutoff-47 square tail.  The literal generated finite certificate closes at
-cutoff 23.  The transformed-root certificate already counts high primes from
-cutoff 19, so the kernel square-tail bound may be applied directly at cutoff
-23 without an endpoint correction.
-
-The resulting ten rational rows are slightly different from the archived
-displayed table but remain strictly below the same Hall target.
+The even finite certificate closes at cutoff 23.  The transformed-root
+certificate counts high primes from cutoff 19, so the square-tail bound is
+applied directly at cutoff 23 without an endpoint correction.  All ten
+rational rows are checked strictly below the Hall target.
 -/
 
 set_option maxHeartbeats 0

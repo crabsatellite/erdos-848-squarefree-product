@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "key": "Mathlib",
+  "artifact_type": "json",
+  "requested_url": "https://api.crossref.org/works/10.1145/3372885.3373824",
+  "final_url": "https://api.crossref.org/works/10.1145/3372885.3373824",
+  "status": 200,
+  "content_type": "application/json",
+  "fetched_at_utc": "2026-07-30T11:47:26.637376+00:00",
+  "sha256_raw_bytes": "5d651bb6977c66f650f751ea3a937ef7d62c42f0a11695e3b8c64dedea4187cc",
+  "artifact_file": "crossref.json",
+  "text_file": "crossref.json.txt",
+  "text_lines": 266,
+  "json_text_extractor": "canonical sorted JSON plus flattened scalar paths"
+}

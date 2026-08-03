@@ -1,0 +1,616 @@
+{
+  "schema_version": 2,
+  "manuscript": "paper/erdos_848_kernel_asymptotic.tex",
+  "claims": [
+    {
+      "id": "five-million-cut",
+      "paper_exact": "\\newcommand{\\FiveMillion}{5\\cdot10^6}",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/GeneratedFiveMillionPrefixTrace/Certificate.lean",
+          "exact": "limit := 5000000"
+        },
+        {
+          "path": "lean4/Erdos848/MainTheoremCore.lean",
+          "exact": "5_000_000"
+        }
+      ]
+    },
+    {
+      "id": "ten-million-cut",
+      "paper_exact": "\\newcommand{\\TenMillion}{10^7}",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/MainTheoremCore.lean",
+          "exact": "10_000_000"
+        }
+      ]
+    },
+    {
+      "id": "twenty-million-cut",
+      "paper_exact": "\\newcommand{\\TwentyMillion}{2\\cdot10^7}",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/MainTheoremCore.lean",
+          "exact": "20_000_000"
+        }
+      ]
+    },
+    {
+      "id": "forty-million-cut",
+      "paper_exact": "\\newcommand{\\FortyMillion}{4\\cdot10^7}",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/MainTheoremCore.lean",
+          "exact": "40_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/PaperHighRangeCore.lean",
+          "exact": "40_000_000"
+        }
+      ]
+    },
+    {
+      "id": "two-hundred-million-cut",
+      "paper_exact": "\\newcommand{\\TwoHundredMillion}{2\\cdot10^8}",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/PaperHighRangeCore.lean",
+          "exact": "200_000_000"
+        }
+      ]
+    },
+    {
+      "id": "two-billion-cut",
+      "paper_exact": "\\newcommand{\\TwoBillion}{2\\cdot10^9}",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/PaperHighRangeCore.lean",
+          "exact": "2_000_000_000"
+        }
+      ]
+    },
+    {
+      "id": "five-hundred-billion-cut",
+      "paper_exact": "\\newcommand{\\FiveHundredBillion}{5\\cdot10^{11}}",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "lower := 500_000_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailHighQrRootEnvelopeCertificate.lean",
+          "exact": "def highQrFiniteStop : Nat := 500_000_000_000"
+        }
+      ]
+    },
+    {
+      "id": "prefix-anchor-count",
+      "paper_exact": "There are $200000$ anchor histories",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/GeneratedFiveMillionPrefixTrace/AnchorData.lean",
+          "exact": "(.node 200000"
+        }
+      ]
+    },
+    {
+      "id": "prefix-opposite-count",
+      "paper_exact": "and $200000$ histories for the",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/GeneratedFiveMillionPrefixTrace/OppositeData.lean",
+          "exact": "(.node 200000"
+        }
+      ]
+    },
+    {
+      "id": "prefix-outside-count",
+      "paper_exact": "There are $125808$ remaining diagonal histories",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/GeneratedFiveMillionPrefixTrace/OutsideData.lean",
+          "exact": "(.node 125808"
+        }
+      ]
+    },
+    {
+      "id": "pure-small-prime-list",
+      "paper_exact": "\\{3,7,11,13,17,19,23,29,31,37,41,43,47\\}",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailPureFiveMillionBudget.lean",
+          "exact": "[3, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]"
+        }
+      ]
+    },
+    {
+      "id": "pure-small-envelope",
+      "paper_exact": [
+        "S_0=100001\\sum_{p}\\frac1{p^2}+13",
+        "displayed thirteen primes"
+      ],
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailPureFiveMillionBudget.lean",
+          "exact": "100_001 * pureFiveMillionSmallDensity + pureSmallPrimes47.length"
+        },
+        {
+          "path": "lean4/Erdos848/TailPureFiveMillionBudget.lean",
+          "exact": "pureSmallPrimes47.length = 13"
+        }
+      ]
+    },
+    {
+      "id": "pure-medium-envelope",
+      "paper_exact": "\\frac{3887}{25\\cdot10^6}+\\frac{59}{10^4}",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailPureGlobalMedium.lean",
+          "exact": "3_887 / (25 * 1_000_000) + 59 / 10_000"
+        }
+      ]
+    },
+    {
+      "id": "pure-root-envelope",
+      "paper_exact": "\\frac{11264064/3125}{\\FiveMillion}",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailPureFiveMillionBudget.lean",
+          "exact": "11_264_064 / 3_125"
+        },
+        {
+          "path": "lean4/Erdos848/TailPureGlobalHigh.lean",
+          "exact": "pureFiveMillionRootEnvelope / 5_000_000"
+        }
+      ]
+    },
+    {
+      "id": "mixed-degree-margin",
+      "paper_exact": "\\frac N{50}+\\frac N{525}",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailGlobalMixedDegree.lean",
+          "exact": "(N : Rat) / 50 + (N : Rat) / 525"
+        }
+      ]
+    },
+    {
+      "id": "mixed-degree-decomposition",
+      "paper_exact": [
+        "p\\in\\{2,3,7\\}",
+        "7<p\\leq N/55",
+        "p>N/55",
+        "envelope $17/1225$",
+        "\\frac{1+19601/49}{\\FiveMillion}"
+      ],
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailGlobalMixedSmallPeriodic.lean",
+          "exact": "def globalMixedDegreeSmallPrimes : Finset Nat := {2, 3, 7}"
+        },
+        {
+          "path": "lean4/Erdos848/TailGlobalMixedDegree.lean",
+          "exact": "N pivot (N / 55) baseResidue"
+        },
+        {
+          "path": "lean4/Erdos848/TailGlobalMixedDegree.lean",
+          "exact": "17 / 1225"
+        },
+        {
+          "path": "lean4/Erdos848/TailGlobalMixedDegree.lean",
+          "exact": "(1 + 19601 / 49) / 5_000_000"
+        }
+      ]
+    },
+    {
+      "id": "mixed-square-tail-seven",
+      "paper_exact": [
+        "263529083909042886517376461184337967",
+        "8573456796637692379906289787841000000"
+      ],
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailFiveMillionSquareTailCore.lean",
+          "exact": "263529083909042886517376461184337967 /"
+        },
+        {
+          "path": "lean4/Erdos848/TailFiveMillionSquareTailCore.lean",
+          "exact": "8573456796637692379906289787841000000"
+        }
+      ]
+    },
+    {
+      "id": "mixed-root-seven",
+      "paper_exact": [
+        "221926420176",
+        "12755647965025"
+      ],
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailGlobalMixedFiveMillionConstants.lean",
+          "exact": "221926420176 / 12755647965025"
+        }
+      ]
+    },
+    {
+      "id": "mixed-residual-endpoint",
+      "paper_exact": "In particular $|\\RN(B)|>19046$",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailGlobalMixedResidual.lean",
+          "exact": "19046 < (hallResidual N B).card"
+        }
+      ]
+    },
+    {
+      "id": "valuation-part-endpoint",
+      "paper_exact": "has more than $3809$ elements",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailGlobalMixedResidual.lean",
+          "exact": "3809 < (fiveMillionValuationPart N B cls).card"
+        }
+      ]
+    },
+    {
+      "id": "five-million-residual-charge",
+      "paper_exact": "more than the $128$ points needed",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailR263Exhaustion.lean",
+          "exact": "128 < (hallResidual N B).card"
+        }
+      ]
+    },
+    {
+      "id": "ten-million-odd-remainder",
+      "paper_exact": "at least $91$ residual pivots remain",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailTenMillionKernelExhaustion.lean",
+          "exact": "91 ≤"
+        }
+      ]
+    },
+    {
+      "id": "twenty-million-cutoffs",
+      "paper_exact": [
+        "even branches use finite cutoff $23$",
+        "odd branches use cutoff $19$"
+      ],
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailTwentyMillionKernelClose.lean",
+          "exact": ".evenThreeCommonThree => 23"
+        },
+        {
+          "path": "lean4/Erdos848/TailTwentyMillionKernelClose.lean",
+          "exact": ".oddOneCommonThree => 19"
+        }
+      ]
+    },
+    {
+      "id": "global-gap-charge-cap",
+      "paper_exact": "g_N=\\lfloor (N-1)/20001\\rfloor+1",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailTwentyMillionPivotAllocation.lean",
+          "exact": "(N - 1) / 20_001 + 1"
+        }
+      ]
+    },
+    {
+      "id": "forty-million-blocks",
+      "paper_exact": "40,\\ 50,\\ 70,\\ 80,\\ 100,\\ 150,\\ 200",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailFortyMillionBlockDefs.lean",
+          "exact": "| .fortyToFifty => 40_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailFortyMillionBlockDefs.lean",
+          "exact": "| .fiftyToSeventy => 50_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailFortyMillionBlockDefs.lean",
+          "exact": "| .seventyToEighty => 70_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailFortyMillionBlockDefs.lean",
+          "exact": "| .eightyToHundred => 80_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailFortyMillionBlockDefs.lean",
+          "exact": "| .hundredToHundredFifty => 100_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailFortyMillionBlockDefs.lean",
+          "exact": "| .hundredFiftyToTwoHundred => 150_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailFortyMillionBlockDefs.lean",
+          "exact": "| .hundredFiftyToTwoHundred => 200_000_000"
+        }
+      ]
+    },
+    {
+      "id": "shared-finite-payments",
+      "paper_exact": [
+        "10^{-6}(8685,12616,8685,12616,8685,12616,",
+        "19420,20878,26643,29459)"
+      ],
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailFortyMillionTenBranchArithmetic.lean",
+          "exact": "8_685 / 1_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailFortyMillionTenBranchArithmetic.lean",
+          "exact": "12_616 / 1_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailFortyMillionTenBranchArithmetic.lean",
+          "exact": "19_420 / 1_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailFortyMillionTenBranchArithmetic.lean",
+          "exact": "20_878 / 1_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailFortyMillionTenBranchArithmetic.lean",
+          "exact": "26_643 / 1_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailFortyMillionTenBranchArithmetic.lean",
+          "exact": "29_459 / 1_000_000"
+        }
+      ]
+    },
+    {
+      "id": "hybrid-regime-endpoints",
+      "paper_exact": "200,\\ 300,\\ 500,\\ 1000,\\ 2000",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailHybridPaperDiagonalGridData.lean",
+          "exact": "| .twoHundredToThreeHundred => 200_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailHybridPaperDiagonalGridData.lean",
+          "exact": "| .threeHundredToFiveHundred => 300_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailHybridPaperDiagonalGridData.lean",
+          "exact": "| .fiveHundredToOneBillion => 500_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailHybridPaperDiagonalGridData.lean",
+          "exact": "| .oneToTwoBillion => 1_000_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailHybridPaperDiagonalGridData.lean",
+          "exact": "| .oneToTwoBillion => 2_000_000_000"
+        }
+      ]
+    },
+    {
+      "id": "hybrid-root-splits",
+      "paper_exact": "transformed-root splits $75,85,100,125$",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailHybridPaperRootData.lean",
+          "exact": "| .twoHundredToThreeHundred => 75"
+        },
+        {
+          "path": "lean4/Erdos848/TailHybridPaperRootData.lean",
+          "exact": "| .threeHundredToFiveHundred => 85"
+        },
+        {
+          "path": "lean4/Erdos848/TailHybridPaperRootData.lean",
+          "exact": "| .fiveHundredToOneBillion => 100"
+        },
+        {
+          "path": "lean4/Erdos848/TailHybridPaperRootData.lean",
+          "exact": "| .oneToTwoBillion => 125"
+        }
+      ]
+    },
+    {
+      "id": "hybrid-root-ceilings",
+      "paper_exact": "10^{-9}(9000000,\\ 7700000,\\ 6400000,\\ 5000000)",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailHybridTenBranchArithmetic.lean",
+          "exact": "| .twoHundredToThreeHundred => 9_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailHybridTenBranchArithmetic.lean",
+          "exact": "| .threeHundredToFiveHundred => 7_700_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailHybridTenBranchArithmetic.lean",
+          "exact": "| .fiveHundredToOneBillion => 6_400_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailHybridTenBranchArithmetic.lean",
+          "exact": "| .oneToTwoBillion => 5_000_000"
+        }
+      ]
+    },
+    {
+      "id": "high-row-endpoints",
+      "paper_exact": "2,\\ 2.3,\\ 2.8,\\ 4.2,\\ 6,\\ 12,\\ 500",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
+          "exact": "lower := 2_000_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
+          "exact": "lower := 2_300_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
+          "exact": "lower := 2_800_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
+          "exact": "lower := 4_200_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
+          "exact": "lower := 6_000_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
+          "exact": "lower := 12_000_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
+          "exact": "stop := 500_000_000_000"
+        }
+      ]
+    },
+    {
+      "id": "high-row-prime-profiles",
+      "paper_exact": "respectively $16,18,18,18,30,30$",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
+          "exact": "primeProfile := .p16\n  lower := 2_000_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
+          "exact": "primeProfile := .p18\n  lower := 2_300_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
+          "exact": "primeProfile := .p18\n  lower := 2_800_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
+          "exact": "primeProfile := .p18\n  lower := 4_200_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
+          "exact": "primeProfile := .p30\n  lower := 6_000_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
+          "exact": "primeProfile := .p30\n  lower := 12_000_000_000"
+        }
+      ]
+    },
+    {
+      "id": "unbounded-root-envelope",
+      "paper_exact": "\\frac{8062340}{10^9}",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "rootEnvelope := 8_062_340 / 1_000_000_000"
+        }
+      ]
+    },
+    {
+      "id": "unbounded-root-parameters",
+      "paper_exact": [
+        "Use split $120$",
+        "root floor $840$",
+        "anchored $47$-prime sieve"
+      ],
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "split := 120"
+        },
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "rootFloor := 840"
+        },
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "primeProfile := .p47"
+        }
+      ]
+    },
+    {
+      "id": "unbounded-diagonal-envelopes",
+      "paper_exact": [
+        "10^{-9}(26005710,20944421,17208292,16649746,",
+        "13003280,7437057,6604680,917036)"
+      ],
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "unrestrictedDiagonal := 26_005_710 / 1_000_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "concentratedDiagonal := 20_944_421 / 1_000_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "evenTwoCellDiagonal := 17_208_292 / 1_000_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "lowTwoAdicDiagonal := 16_649_746 / 1_000_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "oddUnionDiagonal := 13_003_280 / 1_000_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "oddPlusCellDiagonal := 7_437_057 / 1_000_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "oneOddDiagonal := 6_604_680 / 1_000_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "oneOddCellDiagonal := 917_036 / 1_000_000_000"
+        }
+      ]
+    },
+    {
+      "id": "unbounded-wheel-divisors",
+      "paper_exact": "(1821,2892,2627,2295,3643,4590,3643,3643)",
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "unrestrictedDivisor := 1_821"
+        },
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "concentratedDivisor := 2_892"
+        },
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "evenTwoCellDivisor := 2_627"
+        },
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "lowTwoAdicDivisor := 2_295"
+        },
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "oddUnionDivisor := 3_643"
+        },
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "oddPlusCellDivisor := 4_590"
+        },
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "oneOddDivisor := 3_643"
+        },
+        {
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "exact": "oneOddCellDivisor := 3_643"
+        }
+      ]
+    }
+  ]
+}

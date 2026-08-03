@@ -12,10 +12,9 @@ open TwentyMillion
 /-!
 # Literal odd cutoff-19 Hall payments
 
-This is the final semantic bridge for the generated odd certificates.  The
-two C++/Python-facing ingredients are only finite root-pattern inequalities;
-all actual Hall events, quotient injections, mod-four fibres, and divisions
-by `N` are proved here in Lean.
+This is the semantic interpretation of the generated odd certificates.
+Their inputs are finite root-pattern inequalities; all Hall events, quotient
+injections, mod-four fibres, and divisions by `N` are proved here in Lean.
 -/
 
 set_option maxHeartbeats 0

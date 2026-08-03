@@ -1,0 +1,243 @@
+{
+  "message": {
+    "DOI": "10.1080/10586458.2013.831742",
+    "ISSN": [
+      "1058-6458",
+      "1944-950X"
+    ],
+    "URL": "https://doi.org/10.1080/10586458.2013.831742",
+    "alternative-id": [
+      "10.1080/10586458.2013.831742"
+    ],
+    "author": [
+      {
+        "affiliation": [],
+        "family": "Helfgott",
+        "given": "H. A.",
+        "role": [
+          {
+            "role": "author",
+            "vocabulary": "crossref"
+          }
+        ],
+        "sequence": "first"
+      },
+      {
+        "affiliation": [],
+        "family": "Platt",
+        "given": "David J.",
+        "role": [
+          {
+            "role": "author",
+            "vocabulary": "crossref"
+          }
+        ],
+        "sequence": "additional"
+      }
+    ],
+    "container-title": [
+      "Experimental Mathematics"
+    ],
+    "content-domain": {
+      "crossmark-restriction": false,
+      "domain": []
+    },
+    "created": {
+      "date-parts": [
+        [
+          2013,
+          12,
+          9
+        ]
+      ],
+      "date-time": "2013-12-09T15:16:30Z",
+      "timestamp": 1386602190000
+    },
+    "deposited": {
+      "date-parts": [
+        [
+          2017,
+          6,
+          21
+        ]
+      ],
+      "date-time": "2017-06-21T23:57:46Z",
+      "timestamp": 1498089466000
+    },
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          3,
+          18
+        ]
+      ],
+      "date-time": "2026-03-18T07:50:50Z",
+      "timestamp": 1773820250031,
+      "version": "3.50.1"
+    },
+    "is-referenced-by-count": 8,
+    "issn-type": [
+      {
+        "type": "print",
+        "value": "1058-6458"
+      },
+      {
+        "type": "electronic",
+        "value": "1944-950X"
+      }
+    ],
+    "issue": "4",
+    "issued": {
+      "date-parts": [
+        [
+          2013,
+          10,
+          2
+        ]
+      ]
+    },
+    "journal-issue": {
+      "issue": "4",
+      "published-print": {
+        "date-parts": [
+          [
+            2013,
+            10,
+            2
+          ]
+        ]
+      }
+    },
+    "language": "en",
+    "link": [
+      {
+        "URL": "http://www.tandfonline.com/doi/pdf/10.1080/10586458.2013.831742",
+        "content-type": "unspecified",
+        "content-version": "vor",
+        "intended-application": "similarity-checking"
+      }
+    ],
+    "member": "301",
+    "original-title": [],
+    "page": "406-409",
+    "prefix": "10.1080",
+    "published": {
+      "date-parts": [
+        [
+          2013,
+          10,
+          2
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2013,
+          10,
+          2
+        ]
+      ]
+    },
+    "publisher": "Informa UK Limited",
+    "reference": [
+      {
+        "key": "CIT0001",
+        "unstructured": "Batut, [Batut et al. 00] C., Belabas, K., Bernardi, D., Cohen, H. and Olivier, M. 2000. “User's Guide to PARI-GP”. Available online (pari.math.u-bordeaux.fr/pub/pari/manuals/2.3.3/users.pdf)"
+      },
+      {
+        "author": "Fine [Fine and Rosenberger 07] Benjamin",
+        "key": "CIT0002",
+        "volume-title": "Number Theory: An Introduction via the Distribution of Primes",
+        "year": "2007"
+      },
+      {
+        "key": "CIT0003",
+        "unstructured": "Gourdon, [Gourdon 04] X. 2004. “The 1013 First Zeros of the Riemann Zeta Function, and Zeros Computation at Very Large Height”. Available online (http://numbers.computation.free.fr/Constants/Miscellaneous/zetazeros1e13-1e24.pdf)"
+      },
+      {
+        "key": "CIT0004",
+        "unstructured": "Helfgott, [Helfgott 12] H. A. 2012. “Minor Arcs for Goldbach's Problem”. arXiv:1205.5252"
+      },
+      {
+        "key": "CIT0005",
+        "unstructured": "Helfgott, [Helfgott 13] H. A. 2013. “Major Arcs for Goldbach's Problem”. arXiv:1305.2897"
+      },
+      {
+        "author": "Morain [Morain 92] F.",
+        "first-page": "263",
+        "key": "CIT0006",
+        "volume-title": "ISSAC ‘92 (New York)",
+        "year": "1992"
+      },
+      {
+        "author": "e Silva [Oliveira e Silva et al. 13] Tomás Oliveira",
+        "journal-title": "Math. Comp.",
+        "key": "CIT0007",
+        "year": "2013"
+      },
+      {
+        "key": "CIT0008",
+        "unstructured": "Platt, [Platt 11] David J. 2011. “Computing Degree 1L-functions Rigorously”. PhD thesis, University of Bristol."
+      },
+      {
+        "DOI": "10.1016/S0022-314X(02)00029-X",
+        "author": "[Ramaré and Saouter 03] Olivier Ramaré",
+        "doi-asserted-by": "crossref",
+        "first-page": "10",
+        "journal-title": "J. Number Theory",
+        "key": "CIT0009",
+        "volume": "98",
+        "year": "2003"
+      },
+      {
+        "DOI": "10.1090/S0025-5718-98-00928-4",
+        "author": "Saouter [Saouter 98] Yannick",
+        "doi-asserted-by": "crossref",
+        "first-page": "863",
+        "journal-title": "Math. Comp.",
+        "key": "CIT0010",
+        "volume": "67",
+        "year": "1998"
+      },
+      {
+        "author": "Sinisalo [Sinisalo 93] Matti K",
+        "key": "CIT0011",
+        "volume-title": "Checking the Goldbach Conjecture up to 4 ·1011"
+      },
+      {
+        "DOI": "10.1007/978-3-642-56176-4_10",
+        "author": "Wedeniwski [Wedeniwski 02] S.",
+        "doi-asserted-by": "crossref",
+        "key": "CIT0012",
+        "volume-title": "ZetaGrid: Computations Connected with the Verification of the Riemann Hypothesis",
+        "year": "2002"
+      }
+    ],
+    "reference-count": 12,
+    "references-count": 12,
+    "relation": {},
+    "resource": {
+      "primary": {
+        "URL": "http://www.tandfonline.com/doi/abs/10.1080/10586458.2013.831742"
+      }
+    },
+    "score": 1,
+    "short-container-title": [
+      "Experimental Mathematics"
+    ],
+    "short-title": [],
+    "source": "Crossref",
+    "subject": [],
+    "subtitle": [],
+    "title": [
+      "Numerical Verification of the Ternary Goldbach Conjecture up to 8.875·10<sup>30</sup>"
+    ],
+    "type": "journal-article",
+    "volume": "22"
+  },
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "status": "ok"
+}

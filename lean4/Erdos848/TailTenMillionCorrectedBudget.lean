@@ -3,12 +3,11 @@ import Erdos848.TailTenMillionBudget
 namespace Erdos848
 
 /-!
-# Corrected numerical close for the ten-million even branches
+# Exact numerical close for the ten-million even branches
 
-The historical one-odd branch is intentionally absent.  Its replacement is
-the cutoff-seven periodic allocation.  Among the five unchanged even cell
-branches, `E2` with two dense cells remains controlling after the
-kernel-corrected reciprocal-survivor root ceiling is substituted.
+The odd allocation is handled by the cutoff-seven periodic theorem.  Among
+the five even cell branches, `E2` with two dense cells is controlling after
+the certified reciprocal-survivor root ceiling is included.
 -/
 
 inductive TenMillionCorrectedEvenBranch where
@@ -19,7 +18,7 @@ inductive TenMillionCorrectedEvenBranch where
   | e3Cell
   deriving DecidableEq
 
-def TenMillionCorrectedEvenBranch.legacy :
+def TenMillionCorrectedEvenBranch.baseBranch :
     TenMillionCorrectedEvenBranch → TenMillionBranch
   | .e1TwoCells => .e1TwoCells
   | .e1OneCell => .e1OneCell
@@ -29,7 +28,7 @@ def TenMillionCorrectedEvenBranch.legacy :
 
 def tenMillionCorrectedEvenBranchTotal
     (branch : TenMillionCorrectedEvenBranch) : Rat :=
-  tenMillionBranchTotal branch.legacy
+  tenMillionBranchTotal branch.baseBranch
 
 def tenMillionCorrectedControllingTotal : Rat :=
   tenMillionCorrectedEvenBranchTotal .e2TwoCells
@@ -40,7 +39,7 @@ theorem tenMillionCorrectedControllingTotal_exact :
         52_512_422_879_405_865_826_926_024_950_526_125_000_000 := by
   norm_num [tenMillionCorrectedControllingTotal,
     tenMillionCorrectedEvenBranchTotal,
-    TenMillionCorrectedEvenBranch.legacy, tenMillionBranchTotal,
+    TenMillionCorrectedEvenBranch.baseBranch, tenMillionBranchTotal,
     tenMillionDiagonalUnrestricted, tenMillionFourPayment,
     tenMillionEvenFourDensity, tenMillionEvenFourEndpoint,
     tenMillionSquareTail23, tenMillionSquareTail29,
@@ -53,7 +52,7 @@ theorem tenMillionCorrectedEvenBranchTotal_le_controlling
   cases branch <;>
     norm_num [tenMillionCorrectedControllingTotal,
       tenMillionCorrectedEvenBranchTotal,
-      TenMillionCorrectedEvenBranch.legacy, tenMillionBranchTotal,
+      TenMillionCorrectedEvenBranch.baseBranch, tenMillionBranchTotal,
       tenMillionCellCharge, tenMillionDiagonalUnrestricted,
       tenMillionDiagonalConcentrated, tenMillionDiagonalLowTwoAdic,
       tenMillionDiagonalE2Cell,
@@ -70,7 +69,7 @@ theorem tenMillionCorrectedControlling_lt_target_sub_fiftyFivePpm :
       tenMillionHallTarget tenMillionLower - 55 / 1_000_000 := by
   norm_num [tenMillionCorrectedControllingTotal,
     tenMillionCorrectedEvenBranchTotal,
-    TenMillionCorrectedEvenBranch.legacy, tenMillionBranchTotal,
+    TenMillionCorrectedEvenBranch.baseBranch, tenMillionBranchTotal,
     tenMillionHallTarget, tenMillionDiagonalUnrestricted,
     tenMillionFourPayment, tenMillionEvenFourDensity,
     tenMillionEvenFourEndpoint, tenMillionSquareTail23,

@@ -9,7 +9,7 @@ import Erdos848.TailFiveMillionResidual
 namespace Erdos848
 
 /-!
-# Direct E1 terminals at the unchanged Hall cut
+# Direct E1 terminals at the Hall cut
 
 The two-good row uses the unrestricted diagonal and four sharp good
 three-subsets.  The one-cell row charges the eight remaining singleton cells,

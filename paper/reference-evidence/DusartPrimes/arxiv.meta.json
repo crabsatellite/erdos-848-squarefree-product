@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "key": "DusartPrimes",
+  "artifact_type": "html",
+  "requested_url": "https://export.arxiv.org/api/query?id_list=1002.0442",
+  "final_url": "https://export.arxiv.org/api/query?id_list=1002.0442",
+  "status": 200,
+  "content_type": "application/atom+xml; charset=utf-8",
+  "fetched_at_utc": "2026-07-30T11:47:22.255540+00:00",
+  "sha256_raw_bytes": "8bd28a520ae513ae8205126af3a65b9171d5989ee654df2ae270f2844dfb002d",
+  "artifact_file": "arxiv.html",
+  "text_file": "arxiv.text.txt",
+  "text_lines": 12,
+  "html_text_extractor": "python html.parser.HTMLParser"
+}

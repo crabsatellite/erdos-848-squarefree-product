@@ -4,7 +4,7 @@ import Erdos848.TailGlobalMixedPrimeSemantics
 namespace Erdos848
 
 /-!
-# Exact E3 rescaling at the unchanged five-million cut
+# Exact E3 rescaling at the five-million cut
 
 The global odd-row checker already controls an affine prime-counting row.
 For an `E3` pivot the two-adic root factor is four, but the transformed

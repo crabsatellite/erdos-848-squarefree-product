@@ -6,7 +6,7 @@ namespace Erdos848
 /-!
 # Hall-base payments for the literal E1 cutoff-23 certificate
 
-This file makes the finite certificate act on the unchanged Hall cut.  The
+This file makes the finite certificate act on the Hall cut.  The
 only split is the existing disjoint pair of base progressions, modulo 25
 residues 7 and 18.
 -/

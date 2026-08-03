@@ -1,0 +1,248 @@
+           ON A ⊆ [N ] SUCH THAT ab + 1 IS NEVER SQUAREFREE FOR a, b ∈ A
+
+
+                                                     MEHTAAB SAWHNEY
+
+
+
+
+                                              1. Statement of result
+  In this short note, we address the following question of Erdős [2]. We remark that substantial progress
+towards this problem was made by van Doorn, Weisenberg and Cambie [1].
+Proposition 1.1. There exists an integer N0 such that if N ≥ N0 then the following holds. Let A ⊆ [N ]
+with the property that if a, b ∈ A then ab + 1 is not squarefree. Then |A| ≤ |{n ∈ [N ] : n ≡ 7 mod 25}|.
+Remark. Equality is achieved precisely when A = {n ∈ [N ] : n ≡ 7 mod 25} or (possibly) A = {n ∈ [N ] :
+n ≡ 18 mod 25}. The proof in fact gives that there exists η > 0 such that if |A| ≥ (1/25 − η) · N and N is
+sufficiently large then A is contained in either {n ∈ [N ] : n ≡ 7 mod 25} or {n ∈ [N ] : n ≡ 18 mod 25}.
+   It may be of interest to explore further whether one can give a strong structural classification of sets A
+with size δN where δ is a fixed small constant.
+
+                                                 2. Preliminary lemmas
+   We now require the following pair of preliminary lemmas; the first was already used by van Doorn (see
+[1]). In order to be self-contained, we provide proofs with suboptimal error terms.
+Lemma 2.1. Let P be a subset of primes with max P ≤ N 1/2 and let q be a positive integer. For each
+p ∈ P, define Rp to denote a set of residue classes modulo p2 with |Rp | ≤ 2 and Rp = ∅ if (p, q) ̸= 1. Then
+                             \[                          N        Y        |Rp | 
+      n ∈ [N ] : n ≡ t mod q          {n mod p2 ∈ Rp } −       · 1−         1− 2         ≪ N (log N )−1/2 .
+                                                             q                   p
+                                  p∈P                                p∈P
+                  √
+Proof. Let T = ⌊ log N ⌋. Note that
+                              \     [                             X       N     N
+                         [N ]             {n mod p2 ∈ Rp } ≪               2
+                                                                             ≪ .
+                                                                          p     T
+                                       p∈P                           1/2       T ≤p≤N
+                                    T ≤p≤N 1/2
+
+Therefore it suffices to estimate
+                                                                   \ [                     
+                                n ∈ [N ] : n ≡ t        mod q                {n mod p2 ∈ Rp } .
+                                                                       p∈P
+                                                                       p≤T
+                   √
+Note that as T ≤ log N , we have that p≤T p2 ≤ N o(1) . Via inclusion exclusion, we have
+                                      Q
+                            \ [                     
+       n ∈ [N ] : n ≡ t mod q        {n mod p2 ∈ Rp }
+                                        p∈P
+                                        p≤T
+                                          X                          \
+                                    =              (−1)|S|−1 ·             {n mod p2 ∈ Rp } ∩ {n ∈ [N ] : n ≡ t mod q}
+                                        S⊆P∩[T ]                     p∈S
+                                          S̸=∅
+                                                                                  Q
+                                                                               N    p∈S |Rp |
+                                                       X
+                                          o(1)                       |S|−1
+                                    =N           +              (−1)         ·   · Q      2
+                                                                               q     p∈S p
+                                                     S⊆P∩[T ]
+                                                       S̸=∅
+
+   This research was conducted during the period that the author served as a Clay Research Fellow. The author thanks Mark
+Sellke for useful comments.
+                                                                 1
+                                       N         Y                |Rp | 
+                                   =     · 1−                  1−            + N o(1) .
+                                       q                             p2
+                                                p∈P∩[T ]
+
+Completing the product, we have the desired result.                                                            □
+
+   We next require a variant of the previous lemma which allows us to incorporate the “off-diagonal” con-
+straints that ab + 1 is not squarefree.
+Lemma 2.2. Fix a positive integer N , residue class t mod q with q a perfect square and an integer b such
+that 1 ≤ b ≤ N . Suppose that there does not exist a prime p such that p2 |q and p2 |(bt + 1).
+   Then we have that
+                                                         N         Y          1           N
+            {a ∈ [N ] : a ≡ t mod q ∧ µ(ab + 1) = 0} −     · 1−             1− 2        ≪√         .
+                                                         q           p          p            log N
+                                                                             (p,qb)=1
+
+Proof. Note that ab + 1 ≤ N 2 + 1. Therefore if µ(ab + 1) = 0, there exists a prime p such that p2 |(ab + 1).
+Additionally note that (p, qb) = 1. In particular, if p|b then p ∤ ab + 1. Furthermore if p|q, then observe
+                          2
+ab + 1 ≡ bt + 1 ̸≡ 0 mod
+                     √ p by the imposed condition.
+   We now let T = ⌊ log N ⌋. We have that
+                           X                                  X N             N
+                                |{a ∈ [N ] : p2 |(ab + 1)}| ≪           + 1   ≪ .
+                                                                     p2         T
+                          T ≤p≤N                                        T ≤p≤N
+
+Therefore it suffices to handle p ≤ T with (p, qb) = 1. The condition that p2 |ab + 1 gives one specified residue
+class (depending on each prime p) and therefore we may handle the remaining primes via Lemma 2.1 and
+we may conclude the proof.                                                                                     □
+
+                             3. Completing the proof of Proposition 1.1
+   We now give the remainder of the analysis to conclude the proof. The proof consists of breaking the
+set into the parts which are 7 mod 25, 18 mod 25 and the remainder. We then apply combinations of
+Lemma 2.1 Q and Lemma 2.2 based on whether the relevant sets are nonempty. To optimize the numerical
+factor of (p,qb)=1 (1 − 1/p2 ), we introduce casework based on whether these sets contain an even integer.
+We note that there exist various solutions within this framework; indeed the initial version of the solution
+required more extensive casework modulo numbers including 169 and 289.
+
+Proof of Proposition 1.1. Let η > 0 be a small absolute constant, let N be sufficiently large and suppose
+that |A| ≥ (1/25 − η) · N . Define
+                                         A7 = {a ∈ A : a ≡ 7 mod 25}
+                                        A18 = {a ∈ A : a ≡ 18 mod 25}
+                                         A∗ = A \ (A7 ∪ A18 ).
+   We first prove that A∗ is empty.
+   Suppose that there exists b ∈ A∗ with 2|b. Then for each x ∈ A∗ , there is p ≡ 1 mod 4 with p ≥ 13
+such that p2 |x2 + 1. By breaking A∗ into residue classes modulo 25 (of which there are 23 possibilities) and
+applying Lemma 2.1, we have that
+                               |A∗ |  23          Y          2 
+                                    ≤         1−             1− 2     + o(1).
+                                N       25                      p
+                                                    p≡1 mod 4
+                                                      p≥13
+
+For a ∈ A7 ∪ A18 , we have that there exists p ̸= 2, 5 such that p2 |ab + 1. This implies by Lemma 2.2 that
+                              |A7 ∪ A18 |  2           Y         1 
+                                         ≤           1−        1− 2       + o(1).
+                                  N           25                     p
+                                                               p̸=2,5
+                                                           2
+Combining these bounds we have that
+                 |A|  23         Y                       2     2    Y     1 
+                    ≤        1−                         1−    2
+                                                                  +     1−     1− 2    + o(1)
+                  N     25                                   p      25           p
+                                     p≡1 mod 4                                  p̸=2,5
+                                       p≥13
+                                              ≤ 0.0252 + 0.0125 = 0.0377;
+
+here we have absorbed the o(1) error assuming that N is sufficiently large.
+   Therefore we have reduced to the case that A∗ consists of odd elements. By breaking A∗ into residue
+classes modulo 50 and noting there are 23 valid possibilities and applying Lemma 2.1, we have that
+                           |A∗ |  1  23          Y            2 
+                                 ≤             1−               1− 2     + o(1).
+                            N        2 25                          p
+                                                              p≡1 mod 4
+                                                                p≥13
+
+We now split into cases based on whether or not A7 ∪ A18 contains even elements. First suppose that no
+element of A7 ∪ A18 is even; then A7 ⊆ {7, 57} mod 100 and A18 ⊆ {43, 93} mod 100. Fixing b ∈ A∗ , for
+each of A7 and A18 one of the residue classes mod 100 will have 22 as a divisor and the other will not.
+Therefore applying Lemma 2.2 to these progressions mod 100, we have that
+                          |A7 ∪ A18 |    1    1     Y        1 
+                                      ≤    +        1−      1− 2      + o(1).
+                               N        50    50                p
+                                                                       p̸=2,5
+
+Therefore we have a bound of
+           |A|  1  23               Y              2     1    1     Y      1 
+               ≤            1−                      1−        +    +       1 −     1 −      + o(1)
+            N      2 25                                  p2     50    50               p2
+                                 p≡1 mod 4                                               p̸=2,5
+                                   p≥13
+                                 ≤ 0.0126 + 0.0200 + 0.0032 = 0.0358.
+
+Therefore we have reduced to the case where A∗ is nonempty, consisting of odd elements and at least one of
+A7 or A18 has an even element. We now fix b ∈ A∗ and b′ ∈ A7 with 2|b′ (with the case where A18 has the
+even element being completely analogous). The size of |A∗ | is bounded as before. By using b and Lemma 2.2,
+we have that
+                                  |A7 |    1     Y          1 
+                                        ≤     1−       1− 2        + o(1).
+                                   N      25                 p
+                                                             p̸=5
+
+Additionally, using b′ ∈ A7 and Lemma 2.2, we have that
+                                  |A18 |    1    Y      1 
+                                         ≤     1−      1− 2    + o(1).
+                                   N       25            p
+                                                             p̸=2,5
+
+Therefore we have that
+  |A|  1  23           Y                2     1     Y     1    1     Y      1 
+       ≤            1−                   1−        +     1 −    1 −      +    1 −     1 −      + o(1)
+   N       2 25                               p2     25             p2     25             p2
+                         p≡1 mod 4                                    p̸=5                        p̸=2,5
+                           p≥13
+                         ≤ 0.0126 + 0.0147 + 0.0063 = 0.0336.
+
+   Therefore we have now reduced to the case where A∗ = ∅. Suppose that A7 and A18 are nonempty; fixing
+b ∈ A7 and b′ ∈ A18 and applying Lemma 2.2 twice we have that
+                              |A|    2      Y      1 
+                                  ≤     1−       1− 2     + o(1) ≤ 0.0294.
+                               N    25               p
+                                                    p̸=5
+
+  Therefore A is fully contained inside one of A7 or A18 . This immediately gives the desired bound.       □
+                                                                3
+                                 4. Discussion of the role of AI assistance
+   The proof of Proposition 1.1 was obtained with assistance from ChatGPT 5 Pro. The primary discussion
+with GPT is
+                  https://chatgpt.com/share/68ec50da-cf00-8005-b5f6-b683506e5853.
+   The main additional lemma Lemma 2.2 over those on [1] was suggested by ChatGPT 5 Pro. The lemma is
+a slight variant of standard facts giving the density of square–free integers. GPT however crucially notes that
+one may exclude primes depending on b and on the common difference of the progression under consideration.
+GPT then attempts (in various elaborate and incorrect ways) to prove that one cannot have two residue
+classes modulo 25 with positive density; these attempts are seen to be incorrect by using an analogous
+example modulo 169. However it attempts naturally suggest using a single   Q element in the alternate residue
+class to sieve A7 and A18 . Additionally at various steps it treats 1 − p̸=5 (1 − 1/p2 ) = (1 − 6/π 2 · 25/24)
+as 0; this “mistake” was quite useful as it suggests pushing this quantity as close to zero as possible. Giving
+these lemmas, and supposing that A∗ is nonempty, one gets a bound of the form
+             23         Y           2      2      Y        1 
+                    1−              1− 2      +     1−        1− 2       ≤ 0.0252 + 0.0294 ≈ 0.0546.
+              25                        p       25                p
+                         p≡1 mod 4                            p̸=5
+                           p≥13
+
+This is already quite close to the desired bound and incorporating further primes to push the numerical
+factor towards zero ultimately completes the proof. (A particularly encouraging subcase is assuming that
+A∗ is empty and then carrying out the argument; an incorrect execution of this appears in 3.3 of ChatGPT’s
+first response but the correct numerics are sufficient.) We remark that in the discussion/initial solution of
+the author the auxiliary prime 3 was used; that the prime 2 could be used was realized slightly later leading
+to a cleaner proof.
+
+                                     Numerical constants and verification
+   We record various constants in the argument to 4 digits; we round to preserve the stated inequalities.
+       Q         
+     • p 1 − p12 = π62 ≥ 0.6079, so 1 − π62 ≤ 0.3921.
+       Q            
+     • p̸=5 1 − p12 = 4π  25                    25
+                            2 ≥ 0.6332, so 1 − 4π 2 ≤ 0.3668.
+                      
+     • p̸=2,5 1 − p12 = 3π  25                    25
+       Q
+                              2 ≥ 0.8443, so 1 − 3π 2 ≤ 0.1557.
+                            
+     • 1 − p≡1 (4) 1 − p22 ≤ 0.0274.
+           Q
+                 p≥13
+
+                                                      References
+[1] Thomas F. Bloom, https://www.erdosproblems.com/go_to/848. 1, 4
+[2] Paul Erdős, Some of my favourite problems in various branches of combinatorics, vol. 47, 1992, Combinatorics 92 (Catania,
+    1992), pp. 231–240. 1
+
+   Department of Mathematics, Columbia University, New York, NY 10027
+   Email address: m.sawhney@columbia.edu
+
+
+
+
+                                                             4
+

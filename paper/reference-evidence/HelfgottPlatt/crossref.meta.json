@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "key": "HelfgottPlatt",
+  "artifact_type": "json",
+  "requested_url": "https://api.crossref.org/works/10.1080/10586458.2013.831742",
+  "final_url": "https://api.crossref.org/works/10.1080/10586458.2013.831742",
+  "status": 200,
+  "content_type": "application/json",
+  "fetched_at_utc": "2026-07-30T11:47:22.940611+00:00",
+  "sha256_raw_bytes": "45c2cce3868ced4a862e4531f6f83c5cb3eef9a4156aa0404bf53ead29577337",
+  "artifact_file": "crossref.json",
+  "text_file": "crossref.json.txt",
+  "text_lines": 128,
+  "json_text_extractor": "canonical sorted JSON plus flattened scalar paths"
+}

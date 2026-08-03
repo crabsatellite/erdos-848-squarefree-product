@@ -6,7 +6,7 @@ import Erdos848.TailSquareTail23
 namespace Erdos848
 
 /-!
-# The cutoff-23 `E3` tail at the unchanged R263 cut
+# The cutoff-23 `E3` tail at the R263 cut
 
 The published `E3` row does not need a new transformed-root certificate.
 We retain the already checked (coarser) cutoff-seven high-prime/root bound and

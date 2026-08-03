@@ -8,7 +8,7 @@ namespace Erdos848
 
 The first three cutoff coordinates are the actual mod-9, mod-49, and
 mod-121 pivot coordinates.  This file packages the four cell/fibre profiles
-used by the unchanged Hall cut and connects their common/non-common residue
+used by the Hall cut and connects their common/non-common residue
 hypotheses to the exact generated arithmetic certificate.
 -/
 

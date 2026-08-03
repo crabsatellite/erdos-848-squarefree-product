@@ -7,11 +7,11 @@ namespace Erdos848
 /-!
 # Complete R263 allocation at the five-million endpoint
 
-This is the root dispatcher for the unchanged R263 cut.  A strict Hall defect
-first gives more than 19046 actual residual points.  The five valuation rows
-are then exhausted in order.  Every branch either produces a literal
-kernel-checked terminal certificate or supplies the exact small cardinality
-charge consumed by the next row.
+This is the complete case analysis for the R263 cut.  A strict Hall defect
+first gives more than 19046 residual points.  The five valuation rows are
+then exhausted in order.  Every branch either produces a kernel-checked
+terminal certificate or supplies the exact cardinality charge consumed by
+the next row.
 -/
 
 set_option maxHeartbeats 0

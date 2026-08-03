@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "key": "Sawhney848",
+  "artifact_type": "pdf",
+  "requested_url": "https://www.math.columbia.edu/~msawhney/Problem_848.pdf",
+  "final_url": "https://www.math.columbia.edu/~msawhney/Problem_848.pdf",
+  "status": 200,
+  "content_type": "application/pdf",
+  "fetched_at_utc": "2026-07-30T11:47:14.194185+00:00",
+  "sha256_raw_bytes": "112deb12350ea812e5a8e140f2df00b72d2a848c5dc0d2000de738e948e637ba",
+  "artifact_file": "preprint.pdf",
+  "text_file": "preprint.pdf.txt",
+  "text_lines": 251,
+  "pdf_text_extractor": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\MiKTeX\\miktex\\bin\\x64\\pdftotext.EXE"
+}

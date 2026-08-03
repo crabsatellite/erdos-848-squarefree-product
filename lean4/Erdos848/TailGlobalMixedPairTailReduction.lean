@@ -453,7 +453,7 @@ theorem globalMixedEightPivotPairTailReduction_of_defect
 
 /-- The exact remaining analytic statement.  It quantifies over the literal
 eight-pivot cluster produced above and asks only for the two terminal counts
-on the fixed universe to fit below the unchanged Hall target. -/
+on the fixed universe to fit below the Hall target. -/
 def Erdos848GlobalMixedPairTailTerminalBound : Prop :=
   ∀ N : Nat, 5_000_000 <= N →
     ∀ B : Finset Nat,
@@ -532,7 +532,7 @@ def Erdos848GlobalMixedOddPairTailTerminalBound : Prop :=
             tailHallTarget N
 
 /-- The honest direct tail interface: one even terminal and one odd terminal,
-both at the unchanged five-million cut. -/
+both at the five-million cut. -/
 def Erdos848GlobalMixedBranchedPairTailTerminalBound : Prop :=
   Erdos848GlobalMixedEvenPairTailTerminalBound ∧
     Erdos848GlobalMixedOddPairTailTerminalBound

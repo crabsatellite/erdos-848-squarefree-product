@@ -5,7 +5,7 @@ import Erdos848.TailTenMillionCombinatorics
 namespace Erdos848
 
 /-!
-# Direct `E2` two-cell terminal at the unchanged R263 cut
+# Direct `E2` two-cell terminal at the R263 cut
 
 After charging at most ten `E1` points, two distinct `E2` mod-nine cells with
 two points each supply four actual Hall pivots.  The residual is contained in

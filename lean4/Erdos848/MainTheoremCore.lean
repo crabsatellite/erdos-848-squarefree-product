@@ -5,7 +5,7 @@ namespace Erdos848
 /-!
 ## Lightweight exact assembly target
 
-This module contains only the literal range propositions and their all-`N`
+This module contains only the range propositions and their all-`N`
 assembly.  In particular it does not import the large asymptotic development,
 so the finite certificate and Hall-sieve routes can be checked independently.
 -/
@@ -45,7 +45,7 @@ structure Erdos848PaperTailCertificate : Prop where
   twentyToForty : Erdos848PaperTwentyToFortyMillionClose
   fortyMillionTail : Erdos848PaperFortyMillionTailClose
 
-/-- Assemble the four paper tail intervals into the literal `N ≥ 5,000,000`
+/-- Assemble the four paper tail intervals into the `N ≥ 5,000,000`
 statement.  In particular, the first interval alone is not enough. -/
 theorem erdos848_five_million_tail_of_paper_four_range_close
     (hfive : Erdos848PaperFiveToTenMillionClose)
@@ -89,8 +89,8 @@ theorem erdos848_full_of_prefix_low_tail_close
   · exact hsecond N (Nat.le_of_not_gt h₁) h₂
   · exact htail N (Nat.le_of_not_gt h₂)
 
-/-- Compatibility name for the former four-piece interface
-`prefix / low / low / N ≥ 5M`.  This is not the paper's four-tail splice. -/
+/-- Alternative assembly through the three finite subintervals
+`prefix / low / low / N ≥ 5M`. -/
 theorem erdos848_full_of_four_range_close
     (hprefix : Erdos848PrefixClose)
     (hfirst : Erdos848FirstLowClose)
@@ -99,8 +99,7 @@ theorem erdos848_full_of_four_range_close
     ∀ N, OriginalProblem848Statement N :=
   erdos848_full_of_prefix_low_tail_close hprefix hfirst hsecond htail
 
-/-- Exact seven-piece assembly appearing in the audited paper:
-prefix, two low ranges, and all four tail ranges. -/
+/-- Fine-grained assembly from three prefix pieces and four tail ranges. -/
 theorem erdos848_full_of_paper_four_range_close
     (hprefix : Erdos848PrefixClose)
     (hfirst : Erdos848FirstLowClose)

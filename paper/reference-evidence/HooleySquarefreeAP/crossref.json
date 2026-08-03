@@ -1,0 +1,215 @@
+{
+  "message": {
+    "DOI": "10.1112/blms/7.2.133",
+    "ISSN": [
+      "0024-6093",
+      "1469-2120"
+    ],
+    "URL": "https://doi.org/10.1112/blms/7.2.133",
+    "alternative-id": [
+      "10.1112/blms/7.2.133"
+    ],
+    "archive": [
+      "Portico"
+    ],
+    "author": [
+      {
+        "affiliation": [
+          {
+            "name": "Department of Pure Mathematics, University College, Cardiff"
+          }
+        ],
+        "family": "Hooley",
+        "given": "C.",
+        "role": [
+          {
+            "role": "author",
+            "vocabulary": "crossref"
+          }
+        ],
+        "sequence": "first"
+      }
+    ],
+    "container-title": [
+      "Bulletin of the London Mathematical Society"
+    ],
+    "content-domain": {
+      "crossmark-restriction": false,
+      "domain": []
+    },
+    "created": {
+      "date-parts": [
+        [
+          2007,
+          2,
+          14
+        ]
+      ],
+      "date-time": "2007-02-14T02:46:39Z",
+      "timestamp": 1171421199000
+    },
+    "deposited": {
+      "date-parts": [
+        [
+          2021,
+          9,
+          28
+        ]
+      ],
+      "date-time": "2021-09-28T00:15:13Z",
+      "timestamp": 1632788113000
+    },
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          2,
+          5
+        ]
+      ],
+      "date-time": "2026-02-05T20:54:36Z",
+      "timestamp": 1770324876796,
+      "version": "3.49.0"
+    },
+    "is-referenced-by-count": 19,
+    "issn-type": [
+      {
+        "type": "print",
+        "value": "0024-6093"
+      },
+      {
+        "type": "electronic",
+        "value": "1469-2120"
+      }
+    ],
+    "issue": "2",
+    "issued": {
+      "date-parts": [
+        [
+          1975,
+          7
+        ]
+      ]
+    },
+    "journal-issue": {
+      "issue": "2",
+      "published-print": {
+        "date-parts": [
+          [
+            1975,
+            7
+          ]
+        ]
+      }
+    },
+    "language": "en",
+    "license": [
+      {
+        "URL": "http://onlinelibrary.wiley.com/termsAndConditions#vor",
+        "content-version": "vor",
+        "delay-in-days": 15151,
+        "start": {
+          "date-parts": [
+            [
+              2016,
+              12,
+              23
+            ]
+          ],
+          "date-time": "2016-12-23T00:00:00Z",
+          "timestamp": 1482451200000
+        }
+      },
+      {
+        "URL": "http://doi.wiley.com/10.1002/tdm_license_1.1",
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "start": {
+          "date-parts": [
+            [
+              1975,
+              7,
+              1
+            ]
+          ],
+          "date-time": "1975-07-01T00:00:00Z",
+          "timestamp": 173404800000
+        }
+      }
+    ],
+    "link": [
+      {
+        "URL": "https://api.wiley.com/onlinelibrary/tdm/v1/articles/10.1112%2Fblms%2F7.2.133",
+        "content-type": "application/pdf",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.1112/blms/7.2.133",
+        "content-type": "application/pdf",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://onlinelibrary.wiley.com/doi/pdf/10.1112/blms/7.2.133",
+        "content-type": "unspecified",
+        "content-version": "vor",
+        "intended-application": "similarity-checking"
+      }
+    ],
+    "member": "311",
+    "original-title": [],
+    "page": "133-138",
+    "prefix": "10.1112",
+    "published": {
+      "date-parts": [
+        [
+          1975,
+          7
+        ]
+      ]
+    },
+    "published-online": {
+      "date-parts": [
+        [
+          2016,
+          12,
+          23
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          1975,
+          7
+        ]
+      ]
+    },
+    "publisher": "Wiley",
+    "reference-count": 0,
+    "references-count": 0,
+    "relation": {},
+    "resource": {
+      "primary": {
+        "URL": "https://onlinelibrary.wiley.com/doi/10.1112/blms/7.2.133"
+      }
+    },
+    "score": 1,
+    "short-container-title": [
+      "Bulletin of the London Mathematical Society"
+    ],
+    "short-title": [],
+    "source": "Crossref",
+    "subject": [],
+    "subtitle": [],
+    "title": [
+      "A Note on Square‐Free Numbers in Arithmetic Progressions"
+    ],
+    "type": "journal-article",
+    "volume": "7"
+  },
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "status": "ok"
+}

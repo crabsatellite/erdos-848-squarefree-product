@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "key": "RosserSchoenfeld",
+  "artifact_type": "json",
+  "requested_url": "https://api.crossref.org/works/10.1215/ijm/1255631807",
+  "final_url": "https://api.crossref.org/works/10.1215/ijm/1255631807",
+  "status": 200,
+  "content_type": "application/json",
+  "fetched_at_utc": "2026-07-30T11:47:21.776424+00:00",
+  "sha256_raw_bytes": "80b7224ea3aea0b28108d0b22f241f08cfbfc28543ee7d9f619814b623c742a1",
+  "artifact_file": "crossref.json",
+  "text_file": "crossref.json.txt",
+  "text_lines": 74,
+  "json_text_extractor": "canonical sorted JSON plus flattened scalar paths"
+}

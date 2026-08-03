@@ -5,8 +5,8 @@ namespace Erdos848
 /-!
 ## Exact finite density in the controlling five-million odd branch
 
-This file replaces the statewise Python dynamic programme for the finite part
-of the archived `O1, s = 7` row by a uniform combinatorial theorem.
+This file proves a uniform combinatorial bound for the finite part of the
+`O1, s = 7` row.
 
 There are six finite-bad forms.  Before the mod-49 layer, a mod-9 residue can
 activate at most one of them.  Each form has one bad mod-49 residue, so the
@@ -221,9 +221,9 @@ theorem fiveMillionPeriodicFiniteResidues_card
     rw [Finset.sum_boole]
     simp
 
-/-- Exact, uniform replacement for the archived Python DP output `R = 495`.
-The theorem quantifies over every possible mod-49 collision pattern and every
-mod-9 choice that activates at most one form. -/
+/-- Exact uniform density bound `R = 495`.  The theorem quantifies over every
+possible mod-49 collision pattern and every mod-9 choice that activates at
+most one form. -/
 theorem fiveMillionPeriodicFiniteCount_le_495
     (fullModFour : FiveMillionModFour)
     (modNineEvent : FiveMillionModNine → Option FiveMillionFiniteForm)

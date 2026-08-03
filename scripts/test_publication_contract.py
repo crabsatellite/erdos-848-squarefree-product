@@ -26,6 +26,11 @@ FIXTURE_FILES = [
     "paper/erdos_848_kernel_asymptotic.tex",
     "paper/Li_Erdos_848_Kernel_Asymptotic_2026.pdf",
     "paper/theorem-map.json",
+    "paper/lean-proof-components.json",
+    "paper/numeric-claims.json",
+    "paper/references.bib",
+    "paper/reference-evidence/manifest.json",
+    "paper/reference-evidence/artifact-sha256.json",
     "lean4/lean-toolchain",
     "lean4/lake-manifest.json",
     "lean4/.lake/erdos848-Erdos848-status.json",
@@ -139,6 +144,16 @@ def main() -> int:
         tex_path.write_bytes(original_tex + b"\n% drift\n")
         require_failure(tree, "TeX byte drift", "paper artifact hash mismatch")
         tex_path.write_bytes(original_tex)
+
+        numeric_path = tree / "paper" / "numeric-claims.json"
+        original_numeric = numeric_path.read_bytes()
+        numeric_path.write_bytes(original_numeric + b"\n")
+        require_failure(
+            tree,
+            "machine-bound numeric claim drift",
+            "paper artifact hash mismatch",
+        )
+        numeric_path.write_bytes(original_numeric)
 
         lean_path = tree / "lean4" / "Erdos848" / "PublicationContract.lean"
         original_lean = lean_path.read_text(encoding="utf-8")

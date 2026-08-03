@@ -117,8 +117,8 @@ lemma hall_bound_of_completion_cast_lt_target
 
 /-! ## Exhaustive low-range parity split
 
-Using one even pivot is already enough for the even-degree branch.  Thus the
-archived eight-even split can be sharpened: for any residual of size at least
+Using one even pivot is enough for the even-degree branch.  For any residual
+of size at least
 eleven, either there is an even pivot, both odd classes contain four pivots, or
 one odd class contains eight pivots while the other has at most three. -/
 
@@ -795,8 +795,8 @@ theorem secondLow_evenPivot_hall_bound
 
 /-! ## Minimal direct-close contracts for the two low ranges
 
-The residual-density scans from the archived proof are absent: the strengthened
-single-pivot trichotomy does not require them.  These structures contain only
+The strengthened single-pivot trichotomy needs no residual-density scan.
+These structures contain only
 the pure opposite-base close and the diagonal/one-pivot degree estimates that
 the branch theorems consume. -/
 

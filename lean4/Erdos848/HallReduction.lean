@@ -3,7 +3,7 @@ import Erdos848.ProblemCore
 namespace Erdos848
 
 /-!
-The exact Hall cut used by the archived four-range argument.
+The exact Hall cut used by the range proof.
 
 For an outside compatible set `B`, `hallNonNeighbours N B` is the part of the
 sharp residue class `OriginalA7 N` having no squarefree edge to `B`.  The Hall
@@ -182,8 +182,8 @@ lemma hallCompletion_subset_Icc {N : ℕ} {B : Finset ℕ}
   · exact originalA7_subset_Icc N
       (hallNonNeighbours_subset_originalA7 N B hxT)
 
-/-- The exact sharp-class cardinality is always at least the rational target
-used by the archived low-range inequalities. -/
+/-- The exact sharp-class cardinality is always at least the normalized
+rational target used by the range certificates. -/
 lemma originalA7_card_cast_lower (N : ℕ) :
     (N : ℚ) / 25 - 7 / 25 ≤ ((OriginalA7 N).card : ℚ) := by
   rw [originalA7_card_exact]

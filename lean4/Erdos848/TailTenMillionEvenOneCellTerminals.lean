@@ -349,7 +349,7 @@ noncomputable def tenMillionEvenOneOneDenseCellTerminal
     (branch := .e1OneCell)
     hLower hBout hBprop (Or.inl rfl) selection hresidual htail (by
       unfold tenMillionCorrectedEvenBranchTotal
-        TenMillionCorrectedEvenBranch.legacy tenMillionBranchTotal
+        TenMillionCorrectedEvenBranch.baseBranch tenMillionBranchTotal
       ring_nf
       apply le_rfl)
 
@@ -384,7 +384,7 @@ noncomputable def tenMillionEvenTwoOneDenseCellTerminal
     hLower hBout hBprop (Or.inr (Or.inl rfl)) selection
       hresidual htail (by
         unfold tenMillionCorrectedEvenBranchTotal
-          TenMillionCorrectedEvenBranch.legacy tenMillionBranchTotal
+          TenMillionCorrectedEvenBranch.baseBranch tenMillionBranchTotal
         ring_nf
         apply le_rfl)
 
@@ -417,7 +417,7 @@ noncomputable def tenMillionEvenThreeDenseCellTerminal
     hLower hBout hBprop (Or.inr (Or.inr rfl)) selection
       hresidual htail (by
         unfold tenMillionCorrectedEvenBranchTotal
-          TenMillionCorrectedEvenBranch.legacy tenMillionBranchTotal
+          TenMillionCorrectedEvenBranch.baseBranch tenMillionBranchTotal
         ring_nf
         apply le_rfl)
 

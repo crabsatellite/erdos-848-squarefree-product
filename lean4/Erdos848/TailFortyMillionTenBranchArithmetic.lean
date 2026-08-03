@@ -8,10 +8,10 @@ namespace Erdos848
 /-!
 # Ten-branch arithmetic for `40M <= N < 200M`
 
-The degree-19 exhaustion and cutoff-19/23 finite certificates do not stop at
-`40M`.  Reusing those ten branches avoids a second finite-sieve
-formalization.  The only block-dependent inputs are the checked paper-grid
-envelopes and the transformed-root ceilings from the archived computation.
+The degree-19 exhaustion and cutoff-19/23 finite certificates remain valid
+above `40M`.  The same ten branches therefore apply.  The only
+block-dependent inputs are the checked diagonal-grid envelopes and the
+transformed-root ceilings.
 
 This file is only exact rational arithmetic.  It does not assume any root
 certificate or final Hall inequality.
@@ -68,7 +68,7 @@ def fortyMillionTenBranchDiagonal
     (selection : PaperDiagonalSelection) : Rat :=
   (block.regime.envelopeNumerator selection : Rat) / 1_000_000_000
 
-/-- Kernel-checker envelopes obtained from the already public all-support QR
+/-- Kernel-checker envelopes obtained from the all-support QR
 witness at fixed split `55` and cutoff `23`.  The values combine the maximum
 checked root coefficient with the cumulative upper prime count on intervals
 of length `16_384`; no new support tree is needed. -/

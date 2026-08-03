@@ -5,13 +5,13 @@ namespace Erdos848
 /-!
 # Exact five-million arithmetic for the uniform pure matching certificate
 
-This file is the exact-arithmetic image of the endpoint calculation in
-`systematic_pure_joint_tail_close.py`.  It contains no floating-point input:
-the finite union constant is evaluated from the literal prime list,
-and the tail payment uses the rounded-up support bounds checked in
-`GeneratedTailPureSupportCoverage`.  The theorem below proves that this
-slightly larger, structurally certified envelope still clears the strict
-half-block margin consumed by the direct dense matching argument.
+This file contains the exact endpoint arithmetic for the uniform pure
+matching certificate.  It has no floating-point input: the finite union
+constant is evaluated from the displayed prime list, and the tail payment
+uses the rounded-up support bounds checked in
+`GeneratedTailPureSupportCoverage`.  The theorem below proves that the
+structurally certified envelope clears the strict half-block margin consumed
+by the dense matching argument.
 -/
 
 /-- Odd primes other than five through the finite cutoff `47`. -/
@@ -31,14 +31,14 @@ def pureFiveMillionSmallBadUpper : ℚ :=
 /-- Medium-prime payment using one complete mod-`25` base progression and
 the already-certified relaxed bound `π(192307) ≤ π(204081) = 18311`.
 Using mod `25` rather than the sharper parity-aware mod `50` count costs
-fewer than `389` points and keeps the public semantic bridge minimal. -/
+fewer than `389` points and gives a uniform semantic interface. -/
 def pureFiveMillionMediumEnvelope : ℚ := 190_884 / 10
 
 /-- Uniform root payment.  The worst certified row is the five-prime support
 row: `512 * (6 + 1.04004) = 3604.50048`. -/
 def pureFiveMillionRootEnvelope : ℚ := 11_264_064 / 3_125
 
-/-- Rounded-up structural tail envelope used by the public proof. -/
+/-- Rounded-up structural tail envelope used by the matching proof. -/
 def pureFiveMillionTailEnvelope : ℚ :=
   pureFiveMillionMediumEnvelope + pureFiveMillionRootEnvelope
 

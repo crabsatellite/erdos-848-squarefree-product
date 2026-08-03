@@ -17,26 +17,6 @@ are handled separately by the prefix anti-monotonicity theorem.
 set_option maxHeartbeats 0
 set_option maxRecDepth 1000000
 
-/- Moved to `TailGlobalMixedEvenTerminalCountDefs` so the literal count
-semantics do not import the affine/Hall dependency graph. -/
-/-
-def globalMixedEvenTerminalNormalCount
-    (valuation : GlobalMixedEvenValuation)
-    (support : List Nat) (squareCoset : Bool) : Nat :=
-  globalMixedCoreEvenRestrictedCount
-    (globalMixedNormalSupportWords support squareCoset)
-    (GeneratedTailGlobalMixedEvenSupportCoverage.normalValuationWords
-      valuation)
-
-def globalMixedEvenTerminalTwistCount
-    (valuation : GlobalMixedEvenValuation)
-    (support : List Nat) (squareCoset : Bool) : Nat :=
-  globalMixedCoreEvenRestrictedCount
-    (globalMixedTwistSupportWords support squareCoset)
-    (GeneratedTailGlobalMixedEvenSupportCoverage.twistValuationWords
-      valuation)
--/
-
 def globalMixedEvenRowBound
     (valuation : GlobalMixedEvenValuation)
     (k survivors N : Nat) : Prop :=

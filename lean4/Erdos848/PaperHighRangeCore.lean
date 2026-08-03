@@ -5,13 +5,13 @@ namespace Erdos848
 /-!
 # Exact high-range splice for the audited paper
 
-The kernel theorem closes `40M <= N < 200M`.  The two definitions below are
+The kernel theorem proves `40M <= N < 200M`.  The two definitions below are
 the exact types produced by the middle numerical providers and the high-tail
 row certificate; neither is stored as a theorem field.
 -/
 
 /-- Lightweight interface for the finite forty-to-two-hundred-million
-kernel theorem.  Its definition is intentionally identical to
+kernel theorem.  Its definition agrees with
 `Erdos848FortyMillionClose`, without importing that large implementation. -/
 def Erdos848PaperFortyToTwoHundredMillionClose : Prop :=
   forall N, 40_000_000 <= N -> N < 200_000_000 ->

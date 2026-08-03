@@ -52,7 +52,7 @@ theorem globalMixedThreePivotBase_atFiveMillion_lt :
     fiveMillionSquareTail7Envelope]
 
 /-- At the global endpoint, a bound of `0.027815 N` for the diagonal together
-with the distinct-prime endpoint term closes the unchanged Hall target. -/
+with the distinct-prime endpoint term closes the Hall target. -/
 theorem globalMixedThreePivot_endpoint_budget :
     globalMixedThreePivotBaseMainEnvelope +
         globalMixedThreePivotFiniteCommonEndpoint 5_000_000 +

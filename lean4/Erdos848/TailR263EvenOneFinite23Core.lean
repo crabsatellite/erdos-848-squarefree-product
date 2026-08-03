@@ -7,7 +7,7 @@ namespace Erdos848
 /-!
 # Cutoff-23 finite root coordinates for the R263 E1 branch
 
-This is the literal finite part of the unchanged Hall cut.  On either
+This is the finite part of the Hall cut.  On either
 mod-25 base progression, every even-valuation finite event through 23 is one
 of the seven prime-square coordinates below.  The quotient root is unique;
 the later finite certificates therefore enumerate equality patterns of these

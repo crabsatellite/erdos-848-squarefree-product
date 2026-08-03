@@ -6,11 +6,10 @@ namespace Erdos848
 /-!
 # Pure opposite-base matching
 
-The archived paper proves the pure `18 mod 25` branch by a degree/codegree
-argument.  The actual one-form degree bounds are stronger than that argument
-needs: in each opposite-parity block both directional degrees exceed half of
-the relevant block.  This file records the shorter Hall mechanism and the
-literal conversion from a matching to the Problem 848 Hall inequality.
+The pure `18 mod 25` branch follows from the uniform one-form degree bounds:
+in each opposite-parity block both directional degrees exceed half of the
+relevant block.  This file records the resulting Hall mechanism and the
+conversion from a matching to the Problem 848 Hall inequality.
 
 No interval-specific numerical estimate is assumed or asserted here.
 -/

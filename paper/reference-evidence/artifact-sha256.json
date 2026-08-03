@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "artifacts": [
+    {
+      "path": "DusartPrimes/arxiv.html",
+      "bytes": 1662,
+      "sha256": "8bd28a520ae513ae8205126af3a65b9171d5989ee654df2ae270f2844dfb002d"
+    },
+    {
+      "path": "Erdos848Original/journal-page.html",
+      "bytes": 14836,
+      "sha256": "1016c88442a05b0f7dda853b3400f4d4cb636e8c91be6abd2eaec974a9ef4759"
+    },
+    {
+      "path": "GonthierOddOrder/crossref.json",
+      "bytes": 21258,
+      "sha256": "d5903c3da14a8224059631feea7de26b15050ac01f2bb040b3bf600f4950c8af"
+    },
+    {
+      "path": "HalesFlyspeck/crossref.json",
+      "bytes": 19395,
+      "sha256": "2126c93587d0d87398aeac3c667ced5cc7e65bac5e3342c5c75cd73d964de0e8"
+    },
+    {
+      "path": "HelfgottPlatt/crossref.json",
+      "bytes": 6349,
+      "sha256": "444aa85373e385168c598d065a4c038d7813ca185785318adfc716b3b70006ea"
+    },
+    {
+      "path": "HooleySquarefreeAP/crossref.json",
+      "bytes": 4713,
+      "sha256": "022a4df84d09744dbd77298139a54857fa9dd17c29d8f8785fd57e7f266d80cb"
+    },
+    {
+      "path": "Lean4/crossref.json",
+      "bytes": 17150,
+      "sha256": "5887428147fd46ff1c92c7b7ebbc0c4a0d5bc16df27ceb59ca79d0e69e5fbb5d"
+    },
+    {
+      "path": "Mathlib/crossref.json",
+      "bytes": 16405,
+      "sha256": "e790760c56e022852bcdd9c1b3c3bdfbc019ec5cec1ed8a82a1745b517a447a7"
+    },
+    {
+      "path": "OliveiraSilvaHerzogPardi/crossref.json",
+      "bytes": 30065,
+      "sha256": "c8869bae00389428cd46c5ecf5a7e176b438ff172fcc0d9cc7b0c5c404ead111"
+    },
+    {
+      "path": "PracharSquarefreeAP/crossref-search.json",
+      "bytes": 14069,
+      "sha256": "712a138100b654b7e3a6211482852f3cce65b195b7234b2c515dbd0929ec2f17"
+    },
+    {
+      "path": "PracharSquarefreeAP/journal-page.html",
+      "bytes": 7056,
+      "sha256": "17d344c05dd48c0c59246eceeacae075bbf56dc4ce78c0f149b8b3f2eab88554"
+    },
+    {
+      "path": "RosserSchoenfeld/crossref.json",
+      "bytes": 3717,
+      "sha256": "4fd26494463b90625827e94a286445ec1870291e5042a8d75828d164f451c5b9"
+    },
+    {
+      "path": "Sawhney848/preprint.pdf",
+      "bytes": 360117,
+      "sha256": "112deb12350ea812e5a8e140f2df00b72d2a848c5dc0d2000de738e948e637ba"
+    },
+    {
+      "path": "Sothanaphan848/preprint.pdf",
+      "bytes": 283954,
+      "sha256": "8162113a571dc2283fc77de1cdf36e7abf424eeec952aa27cf82a4f44b3a796f"
+    }
+  ]
+}

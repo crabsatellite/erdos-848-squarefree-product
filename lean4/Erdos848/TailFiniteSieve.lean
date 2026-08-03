@@ -6,9 +6,9 @@ namespace Erdos848
 /-!
 Exact Bonferroni core for the direct mixed-tail sieve.
 
-The archived producers truncate inclusion--exclusion at degrees one through
-four.  The lemmas below prove those signs for an arbitrary number of active
-events, so the generated tail certificates need only supply exact intersection
+The finite sieve truncates inclusion--exclusion at degrees one through four.
+The lemmas below prove those signs for an arbitrary number of active events,
+so the generated tail certificates need only supply exact intersection
 counts; no floating-point probability calculation enters the trusted base.
 -/
 

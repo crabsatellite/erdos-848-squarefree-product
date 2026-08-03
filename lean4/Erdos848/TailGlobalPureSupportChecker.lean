@@ -44,8 +44,8 @@ rather than by `2N`. -/
 def globalPureSupportEndpoint (supportPrefix : List ℕ) : ℕ :=
   max 5_000_000 (globalPureSupportLowerProduct supportPrefix)
 
-/-- Specialized 676-bit support word.  Unlike the legacy endpoint table, this
-does not materialize the unused words 11 through 37. -/
+/-- Specialized 676-bit support word; unused words 11 through 37 are not
+materialized. -/
 def globalPureOddRootSupportWord : List ℕ → Bool → ℕ → ℕ
   | [], squareCoset, wordIndex =>
       (if squareCoset then GeneratedTailSupportCoverage.squareCosetWords

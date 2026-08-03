@@ -10,8 +10,8 @@ namespace Erdos848
 /-!
 # The two dense-cell terminals on the ten-million block
 
-The diagonal, finite, and tail terms below are all bounds on literal pieces
-of the unchanged Hall completion.  The only producer-side data used is in the
+The diagonal, finite, and tail terms below are all bounds on pieces of the
+Hall completion.  The only generated data used is in the
 separately checked root, finite-pattern, and compact diagonal certificates.
 -/
 
@@ -221,7 +221,7 @@ noncomputable def tenMillionEvenOneTwoCellTerminalCertificate
     (branch := .e1TwoCells)
     selection hresidual hfinite htail (by
       unfold tenMillionCorrectedEvenBranchTotal
-        TenMillionCorrectedEvenBranch.legacy tenMillionBranchTotal
+        TenMillionCorrectedEvenBranch.baseBranch tenMillionBranchTotal
       ring_nf
       apply le_rfl)
 
@@ -246,7 +246,7 @@ noncomputable def tenMillionEvenTwoTwoCellTerminalCertificate
     (branch := .e2TwoCells)
     selection hresidual hfinite htail (by
       unfold tenMillionCorrectedEvenBranchTotal
-        TenMillionCorrectedEvenBranch.legacy tenMillionBranchTotal
+        TenMillionCorrectedEvenBranch.baseBranch tenMillionBranchTotal
       ring_nf
       apply le_rfl)
 

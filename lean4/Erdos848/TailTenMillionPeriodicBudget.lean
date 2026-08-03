@@ -108,7 +108,7 @@ theorem tenMillionPeriodicOddBranchTotal_le_evenControlling
       tenMillionPeriodicFinite, tenMillionPeriodicOddTail,
       tenMillionCorrectedControllingTotal,
       tenMillionCorrectedEvenBranchTotal,
-      TenMillionCorrectedEvenBranch.legacy, tenMillionBranchTotal,
+      TenMillionCorrectedEvenBranch.baseBranch, tenMillionBranchTotal,
       tenMillionCellCharge, tenMillionDiagonalOneOddCell,
       tenMillionOddFourDensity, tenMillionOddFourEndpoint,
       tenMillionOddTwoCellDensity, tenMillionOddTwoCellEndpoint,

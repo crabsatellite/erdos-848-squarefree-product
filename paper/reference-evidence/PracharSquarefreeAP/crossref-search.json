@@ -1,0 +1,548 @@
+{
+  "message": {
+    "facets": {},
+    "items": [
+      {
+        "DOI": "10.1007/bf01301288",
+        "ISSN": [
+          "0026-9255",
+          "1436-5081"
+        ],
+        "URL": "https://doi.org/10.1007/bf01301288",
+        "alternative-id": [
+          "BF01301288"
+        ],
+        "author": [
+          {
+            "affiliation": [],
+            "family": "Prachar",
+            "given": "Karl",
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ],
+            "sequence": "first"
+          }
+        ],
+        "container-title": [
+          "Monatshefte f�r Mathematik"
+        ],
+        "content-domain": {
+          "crossmark-restriction": false,
+          "domain": []
+        },
+        "created": {
+          "date-parts": [
+            [
+              2005,
+              3,
+              25
+            ]
+          ],
+          "date-time": "2005-03-25T07:30:53Z",
+          "timestamp": 1111735853000
+        },
+        "deposited": {
+          "date-parts": [
+            [
+              2019,
+              4,
+              30
+            ]
+          ],
+          "date-time": "2019-04-30T14:08:26Z",
+          "timestamp": 1556633306000
+        },
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              3,
+              11
+            ]
+          ],
+          "date-time": "2026-03-11T16:14:46Z",
+          "timestamp": 1773245686012,
+          "version": "3.50.1"
+        },
+        "is-referenced-by-count": 41,
+        "issn-type": [
+          {
+            "type": "print",
+            "value": "0026-9255"
+          },
+          {
+            "type": "electronic",
+            "value": "1436-5081"
+          }
+        ],
+        "issue": "2",
+        "issued": {
+          "date-parts": [
+            [
+              1958,
+              6
+            ]
+          ]
+        },
+        "journal-issue": {
+          "issue": "2",
+          "published-print": {
+            "date-parts": [
+              [
+                1958,
+                6
+              ]
+            ]
+          }
+        },
+        "language": "de",
+        "license": [
+          {
+            "URL": "http://www.springer.com/tdm",
+            "content-version": "tdm",
+            "delay-in-days": 0,
+            "start": {
+              "date-parts": [
+                [
+                  1958,
+                  6,
+                  1
+                ]
+              ],
+              "date-time": "1958-06-01T00:00:00Z",
+              "timestamp": -365644800000
+            }
+          }
+        ],
+        "link": [
+          {
+            "URL": "http://link.springer.com/content/pdf/10.1007/BF01301288.pdf",
+            "content-type": "application/pdf",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "http://link.springer.com/article/10.1007/BF01301288/fulltext.html",
+            "content-type": "text/html",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "http://link.springer.com/content/pdf/10.1007/BF01301288",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "member": "297",
+        "page": "173-176",
+        "prefix": "10.1007",
+        "published": {
+          "date-parts": [
+            [
+              1958,
+              6
+            ]
+          ]
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              1958,
+              6
+            ]
+          ]
+        },
+        "publisher": "Springer Science and Business Media LLC",
+        "reference": [
+          {
+            "key": "CR1",
+            "unstructured": "Handbuch der Lehre von der Verteilung der Primzahlen. Leipzig und Berlin 1909, Bd. 2, S. 633?636."
+          }
+        ],
+        "reference-count": 1,
+        "references-count": 1,
+        "resource": {
+          "primary": {
+            "URL": "http://link.springer.com/10.1007/BF01301288"
+          }
+        },
+        "score": 108.88579,
+        "short-container-title": [
+          "Monatshefte f�r Mathematik"
+        ],
+        "source": "Crossref",
+        "title": [
+          "�ber die kleinste quadratfreie Zahl einer arithmetischen Reihe"
+        ],
+        "type": "journal-article",
+        "volume": "62"
+      },
+      {
+        "DOI": "10.1515/crll.1961.206.3",
+        "ISSN": [
+          "0075-4102",
+          "1435-5345"
+        ],
+        "URL": "https://doi.org/10.1515/crll.1961.206.3",
+        "alternative-id": [
+          "10.1515/crll.1961.206.3"
+        ],
+        "author": [
+          {
+            "affiliation": [],
+            "family": "Prachar",
+            "given": "K.",
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ],
+            "sequence": "first"
+          }
+        ],
+        "container-title": [
+          "crll"
+        ],
+        "content-domain": {
+          "crossmark-restriction": false,
+          "domain": []
+        },
+        "created": {
+          "date-parts": [
+            [
+              2009,
+              12,
+              10
+            ]
+          ],
+          "date-time": "2009-12-10T09:44:35Z",
+          "timestamp": 1260438275000
+        },
+        "deposited": {
+          "date-parts": [
+            [
+              2022,
+              4,
+              10
+            ]
+          ],
+          "date-time": "2022-04-10T13:57:40Z",
+          "timestamp": 1649599060000
+        },
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              4,
+              7
+            ]
+          ],
+          "date-time": "2026-04-07T01:46:30Z",
+          "timestamp": 1775526390726,
+          "version": "3.50.1"
+        },
+        "is-referenced-by-count": 12,
+        "issn-type": [
+          {
+            "type": "print",
+            "value": "0075-4102"
+          },
+          {
+            "type": "electronic",
+            "value": "1435-5345"
+          }
+        ],
+        "issue": "206",
+        "issued": {
+          "date-parts": [
+            [
+              1961
+            ]
+          ]
+        },
+        "journal-issue": {
+          "issue": "206",
+          "published-online": {
+            "date-parts": [
+              [
+                2009,
+                12,
+                10
+              ]
+            ]
+          },
+          "published-print": {
+            "date-parts": [
+              [
+                1961
+              ]
+            ]
+          }
+        },
+        "language": "en",
+        "link": [
+          {
+            "URL": "http://www.degruyter.com/view/j/crll.1961.1961.issue-206/crll.1961.206.3/crll.1961.206.3.xml",
+            "content-type": "text/html",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://www.degruyter.com/document/doi/10.1515/crll.1961.206.3/xml",
+            "content-type": "application/xml",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://www.degruyter.com/document/doi/10.1515/crll.1961.206.3/pdf",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "member": "374",
+        "page": "3-4",
+        "prefix": "10.1515",
+        "published": {
+          "date-parts": [
+            [
+              1961
+            ]
+          ]
+        },
+        "published-online": {
+          "date-parts": [
+            [
+              2009,
+              12,
+              10
+            ]
+          ]
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              1961
+            ]
+          ]
+        },
+        "publisher": "Walter de Gruyter GmbH",
+        "reference-count": 0,
+        "references-count": 0,
+        "resource": {
+          "primary": {
+            "URL": "https://www.degruyter.com/document/doi/10.1515/crll.1961.206.3/html"
+          }
+        },
+        "score": 87.064156,
+        "source": "Crossref",
+        "title": [
+          "Über die kleinste Primzahl einer arithmetischen Reihe."
+        ],
+        "type": "journal-article",
+        "volume": "1961"
+      },
+      {
+        "DOI": "10.1007/bf01302992",
+        "ISSN": [
+          "0026-9255",
+          "1436-5081"
+        ],
+        "URL": "https://doi.org/10.1007/bf01302992",
+        "alternative-id": [
+          "BF01302992"
+        ],
+        "author": [
+          {
+            "affiliation": [],
+            "family": "Prachar",
+            "given": "K.",
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ],
+            "sequence": "first"
+          }
+        ],
+        "container-title": [
+          "Monatshefte f�r Mathematik"
+        ],
+        "content-domain": {
+          "crossmark-restriction": false,
+          "domain": []
+        },
+        "created": {
+          "date-parts": [
+            [
+              2005,
+              3,
+              25
+            ]
+          ],
+          "date-time": "2005-03-25T14:25:47Z",
+          "timestamp": 1111760747000
+        },
+        "deposited": {
+          "date-parts": [
+            [
+              2019,
+              4,
+              30
+            ]
+          ],
+          "date-time": "2019-04-30T18:08:41Z",
+          "timestamp": 1556647721000
+        },
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              3,
+              11
+            ]
+          ],
+          "date-time": "2026-03-11T13:10:49Z",
+          "timestamp": 1773234649667,
+          "version": "3.50.1"
+        },
+        "is-referenced-by-count": 14,
+        "issn-type": [
+          {
+            "type": "print",
+            "value": "0026-9255"
+          },
+          {
+            "type": "electronic",
+            "value": "1436-5081"
+          }
+        ],
+        "issue": "2",
+        "issued": {
+          "date-parts": [
+            [
+              1955,
+              6
+            ]
+          ]
+        },
+        "journal-issue": {
+          "issue": "2",
+          "published-print": {
+            "date-parts": [
+              [
+                1955,
+                6
+              ]
+            ]
+          }
+        },
+        "language": "de",
+        "license": [
+          {
+            "URL": "http://www.springer.com/tdm",
+            "content-version": "tdm",
+            "delay-in-days": 0,
+            "start": {
+              "date-parts": [
+                [
+                  1955,
+                  6,
+                  1
+                ]
+              ],
+              "date-time": "1955-06-01T00:00:00Z",
+              "timestamp": -460339200000
+            }
+          }
+        ],
+        "link": [
+          {
+            "URL": "http://link.springer.com/content/pdf/10.1007/BF01302992.pdf",
+            "content-type": "application/pdf",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "http://link.springer.com/article/10.1007/BF01302992/fulltext.html",
+            "content-type": "text/html",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "http://link.springer.com/content/pdf/10.1007/BF01302992",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "member": "297",
+        "page": "91-97",
+        "prefix": "10.1007",
+        "published": {
+          "date-parts": [
+            [
+              1955,
+              6
+            ]
+          ]
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              1955,
+              6
+            ]
+          ]
+        },
+        "publisher": "Springer Science and Business Media LLC",
+        "reference": [
+          {
+            "key": "CR1",
+            "unstructured": "C-Eulersche Konstante."
+          },
+          {
+            "key": "CR2",
+            "unstructured": "Wenn loglogM vorkommt, so soll automatischM>e vorausgesetzt werden."
+          },
+          {
+            "key": "CR3",
+            "unstructured": "Wenn es keinq gibt, so sind die Überlegungen einfacher."
+          }
+        ],
+        "reference-count": 3,
+        "references-count": 3,
+        "resource": {
+          "primary": {
+            "URL": "http://link.springer.com/10.1007/BF01302992"
+          }
+        },
+        "score": 44.957,
+        "short-container-title": [
+          "Monatshefte f�r Mathematik"
+        ],
+        "source": "Crossref",
+        "title": [
+          "�ber die Anzahl der Teiler einer nat�rlichen Zahl, welche die Formp?1 haben"
+        ],
+        "type": "journal-article",
+        "volume": "59"
+      }
+    ],
+    "items-per-page": 3,
+    "query": {
+      "search-terms": null,
+      "start-index": 0
+    },
+    "total-results": 16
+  },
+  "message-type": "work-list",
+  "message-version": "1.0.0",
+  "status": "ok"
+}

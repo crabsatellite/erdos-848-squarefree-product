@@ -263,7 +263,7 @@ theorem exists_sameValuation_eightPivotCluster_of_defect
 
 /-- The same proportional residual bound already supplies three pivots in a
 window of span below `2627`.  This smaller cluster is the optimized
-`n = 3, k = 2` pair-tail route; it uses the unchanged Hall residual. -/
+`n = 3, k = 2` pair-tail route; it uses the Hall residual. -/
 theorem exists_sameValuation_threePivotCluster_of_defect
     {N : Nat} {B : Finset Nat}
     (hLower : 5_000_000 <= N)

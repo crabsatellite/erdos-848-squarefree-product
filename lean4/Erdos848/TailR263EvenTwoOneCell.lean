@@ -5,7 +5,7 @@ import Erdos848.TailFiveMillionR263Terminal
 namespace Erdos848
 
 /-!
-# Direct E2 one-cell terminal at the unchanged five-million cut
+# Direct E2 one-cell terminal at the five-million cut
 
 After at most ten `E1` points and the eight sparse `E2` cells are charged,
 the literal residual is contained in the low-two-adic diagonal together with

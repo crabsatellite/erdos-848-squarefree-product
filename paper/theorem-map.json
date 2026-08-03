@@ -1,7 +1,7 @@
 [
   {
     "label": "eq:target",
-    "title": "The literal nonsquarefree-product property and exact upper-bound statement",
+    "title": "The nonsquarefree-product property and exact upper-bound statement",
     "lean": ["NonSquarefreeProductProp", "OriginalProblem848Statement"]
   },
   {
@@ -10,48 +10,63 @@
     "lean": ["originalA7_has_property"]
   },
   {
+    "label": "thm:hall-reduction",
+    "title": "The Hall inequality implies the original extremal statement",
+    "lean": ["originalProblem_of_hallStatement"]
+  },
+  {
+    "label": "thm:hall-equivalence",
+    "title": "Equivalence of the Hall and original formulations",
+    "lean": ["erdos848HallStatement_iff_originalProblem"]
+  },
+  {
     "label": "thm:finite-prefix-colouring-close",
-    "title": "Kernel-checked prefix range used by the paper",
-    "lean": ["erdos848_prefix_close"]
-  },
-  {
-    "label": "thm:first-low-parity-close",
-    "title": "Kernel-checked statement of the first low range",
-    "lean": ["erdos848_first_low_close"]
-  },
-  {
-    "label": "thm:second-low-parity-close",
-    "title": "Kernel-checked statement of the second low range",
-    "lean": ["erdos848_second_low_close"]
+    "title": "Exact prefix certificate through five million",
+    "lean": ["erdos848_through_five_million"]
   },
   {
     "label": "prop:five-million-interval-close",
-    "title": "Five-to-ten-million certificate provider",
+    "title": "Five-to-ten-million certificate",
     "lean": ["PaperCertificateProvider.fiveToTenMillion"]
   },
   {
     "label": "prop:ten-million-interval-close",
-    "title": "Ten-to-twenty-million certificate provider",
+    "title": "Ten-to-twenty-million certificate",
     "lean": ["PaperCertificateProvider.tenToTwentyMillion"]
   },
   {
     "label": "prop:twenty-million-interval-close",
-    "title": "Twenty-to-forty-million certificate provider",
+    "title": "Twenty-to-forty-million certificate",
     "lean": ["PaperCertificateProvider.twentyToFortyMillion"]
   },
   {
     "label": "thm:mixed-joint-tail-close",
-    "title": "Forty-million unbounded-tail certificate provider",
+    "title": "Forty-to-two-hundred-million kernel theorem",
+    "lean": ["erdos848FortyMillionClose_kernel"]
+  },
+  {
+    "label": "thm:actual-support-mixed-close",
+    "title": "Two-hundred-million-to-two-billion certificate",
+    "lean": ["PaperCertificateProvider.twoHundredToTwoBillion"]
+  },
+  {
+    "label": "thm:formal-high-tail-close",
+    "title": "Two-billion unbounded-tail certificate",
+    "lean": ["PaperCertificateProvider.twoBillionTail"]
+  },
+  {
+    "label": "thm:forty-million-tail-assembly",
+    "title": "Assembly of the full range from forty million onward",
     "lean": ["PaperCertificateProvider.fortyMillionTail"]
   },
   {
     "label": "thm:mixed-cell-five-million-close",
-    "title": "Exact assembly of all four paper tail intervals",
+    "title": "Assembly of the four published tail ranges from five million onward",
     "lean": ["erdos848_paper_tail_close"]
   },
   {
     "label": "thm:erdos-848-complete",
-    "title": "Unconditional all-N terminal theorem",
+    "title": "Unconditional all-N theorem",
     "lean": ["PaperGeneratedCertificateProvider.all_N"]
   }
 ]

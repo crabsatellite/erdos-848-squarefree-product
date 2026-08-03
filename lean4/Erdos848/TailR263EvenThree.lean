@@ -9,7 +9,7 @@ import Erdos848.TailR263EvenTwoOneCell
 namespace Erdos848
 
 /-!
-# Direct `E3` terminal at the unchanged R263 cut
+# Direct `E3` terminal at the R263 cut
 
 After the preceding rows charge at most ten `E1` and ten `E2` points, nineteen
 `E3` points force three into one of the nine mod-nine cells.  The cutoff-19
@@ -165,7 +165,7 @@ theorem fiveMillionR263EvenThree_residual_ratio_le
 
 def fiveMillionR263EvenThreeFinite19Envelope : Rat := 1221 / 100000
 
-/-- Fully kernel-closed `E3` assembly at the unchanged R263 cut. -/
+/-- Fully kernel-closed `E3` assembly at the R263 cut. -/
 noncomputable def fiveMillionR263EvenThreeTerminal
     {N : Nat} {B : Finset Nat}
     (hLower : 5_000_000 <= N)

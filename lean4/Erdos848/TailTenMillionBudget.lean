@@ -5,28 +5,21 @@ namespace Erdos848
 /-!
 # The ten-million tail block
 
-This file kernelizes the exact rational budget in
-`audit/systematic_mixed_cell_10m_close.py`.  It does **not** assume that the
-producer's decimal output is a proof.  The thirteen terminal rows are exposed
-separately, their rational arithmetic is checked by Lean, and the remaining
-mathematical obligation is stated directly in terms of the actual Hall
-completion.
-
-Consequently, `Erdos848TenMillionBranchExhaustion` below is deliberately not
-called a certificate or a close theorem.  Proving it requires the degree,
-cell-selection, finite-sieve, transformed-root, square-tail, fibre, and
-diagonal arguments from the paper.  Once it is proved, the final theorem in
-this file closes the literal interval without changing the Hall cut.
+This file contains the exact rational budgets for the ten-million interval.
+The terminal rows are stated separately and Lean checks their rational
+arithmetic.  The accompanying exhaustion proposition is phrased directly in
+terms of the Hall completion and is supplied by the degree, cell-selection,
+finite-sieve, transformed-root, square-tail, fibre, and diagonal theorems.
 -/
 
 def tenMillionLower : ℕ := 10_000_000
 def tenMillionUpper : ℕ := 20_000_000
 
-/-- The normalized Hall target used throughout the archived tail proof. -/
+/-- The normalized Hall target used throughout the interval proof. -/
 def tenMillionHallTarget (N : ℕ) : ℚ :=
   1 / 25 - 7 / (25 * (N : ℚ))
 
-/-! ## Exact producer inputs -/
+/-! ## Exact budget inputs -/
 
 def tenMillionCellCharge : ℚ :=
   1 / 1_000_001 + 1 / tenMillionLower
@@ -270,7 +263,7 @@ theorem tenMillionBranch_budget (branch : TenMillionBranch) :
   lt_of_le_of_lt (tenMillionBranchTotal_le_controlling branch)
     tenMillionControlling_lt_lower_target
 
-/-! ## Direct Hall bridge and the honest remaining obligation -/
+/-! ## Direct Hall implication and branch exhaustion -/
 
 /-- A normalized bound for the *actual* Hall completion implies the literal
 integer Hall inequality.  This is the conversion silently used by the paper's
@@ -301,7 +294,7 @@ theorem hallCompletion_card_le_of_ratio_le_target
   rw [hallCompletion_card hBout] at hnat
   exact hnat
 
-/-- The interval-specific producer obligation under an alleged strict Hall
+/-- The interval-specific branch exhaustion under an alleged strict Hall
 defect.  Equality cases (in particular the sharp base construction) are not
 required to satisfy a strict normalized completion estimate. -/
 def Erdos848TenMillionBranchExhaustion : Prop :=

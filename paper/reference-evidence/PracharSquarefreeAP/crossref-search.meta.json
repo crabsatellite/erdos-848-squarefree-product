@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "key": "PracharSquarefreeAP",
+  "artifact_type": "json",
+  "requested_url": "https://api.crossref.org/works?query.title=%C3%9Cber%20die%20kleinste%20quadratfreie%20Zahl%20einer%20arithmetischen%20Reihe&query.author=Prachar&rows=3",
+  "final_url": "https://api.crossref.org/works?query.title=%C3%9Cber%20die%20kleinste%20quadratfreie%20Zahl%20einer%20arithmetischen%20Reihe&query.author=Prachar&rows=3",
+  "status": 200,
+  "content_type": "application/json",
+  "fetched_at_utc": "2026-07-30T11:48:09.617959+00:00",
+  "sha256_raw_bytes": "1e709c53c31bdc0d3901af183451ce0ed731d894425abbaa0fc9094157444d86",
+  "artifact_file": "crossref-search.json",
+  "text_file": "crossref-search.json.txt",
+  "text_lines": 245,
+  "json_text_extractor": "canonical sorted JSON plus flattened scalar paths"
+}

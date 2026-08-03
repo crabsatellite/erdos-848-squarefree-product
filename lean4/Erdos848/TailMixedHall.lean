@@ -5,9 +5,9 @@ namespace Erdos848
 /-!
 ## Exact mixed-defect interface for the forty-million tail
 
-The analytic part of the archived proof gives lower bounds for the
-squarefree degree of one genuinely non-base vertex into both sharp base
-classes.  This file proves the set-theoretic implication used immediately
+The degree theorems give lower bounds for the squarefree degree of one
+genuinely non-base vertex into both sharp base classes.  This file proves
+the set-theoretic implication used immediately
 after those bounds.  In particular, it does not assume an asymptotic
 threshold, change the Hall cut, or introduce a project axiom.
 -/
@@ -88,8 +88,8 @@ lemma hallBaseIntersection_card_add_degree_le
 If `B` violates the original Hall inequality and contains a vertex outside
 `OriginalA18 N`, then the sum of that vertex's degrees into the two base
 classes is strictly smaller than `|B*| + |OriginalA18 N|`.  This is the
-integer statement behind both residual constants `0.00032208` and
-`0.0003135517807` in the archived proof.
+integer degree-subtraction statement consumed by the quantitative residual
+theorems.
 -/
 theorem mixedHallDefect_residual_exact
     {N : ℕ} {B : Finset ℕ} {t : ℕ}

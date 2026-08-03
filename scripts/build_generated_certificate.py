@@ -2082,6 +2082,29 @@ def main() -> int:
                     or re.fullmatch(
                         r"K\d+Certificate", module.rsplit(".", 1)[-1]
                     ) is not None
+                    # The middle support-soundness certificates concatenate
+                    # dozens of already-checked prefix groups.  Their work is
+                    # assembly, not an independent Boolean leaf; k=4--6 can
+                    # exceed the 12 GiB parallel ceiling while remaining below
+                    # the 24 GiB serial release ceiling.
+                    or re.fullmatch(
+                        r"K[456]SoundCertificate",
+                        module.rsplit(".", 1)[-1],
+                    ) is not None
+                    # The final odd-one subblock checks in the 20M finite-19
+                    # family reduce a substantially larger Boolean state than
+                    # the preceding cross-pattern leaves.  Keep the six tail
+                    # batches serial under the 24 GiB release ceiling; the
+                    # earlier batches remain two-way parallel at 12 GiB each.
+                    or (
+                        module.startswith(
+                            f"{namespace}.GeneratedTailTwentyMillionOddFinite19."
+                        )
+                        and re.fullmatch(
+                            r"LeafBatch004[0-5]",
+                            module.rsplit(".", 1)[-1],
+                        ) is not None
+                    )
                     # The unified scans for the two longer root blocks can
                     # exceed the 8 GiB parallel-leaf ceiling during kernel
                     # reduction.  Keep the already-light Block0/1 scans

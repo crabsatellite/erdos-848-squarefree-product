@@ -105,7 +105,7 @@ theorem fiveMillionOneOddS7Total_lt_target
   exact fiveMillionOneOddS7Total_lt_lowerTarget.trans_le
     (tailHallTarget_mono (by norm_num [fiveMillionLower]) hN)
 
-/-! ## Honest residual producer obligation -/
+/-! ## Residual branch bound -/
 
 /-- Exact finite-threshold payment on the two sharp base progressions only.
 The off-base part of the completion is paid separately by its diagonal
@@ -118,26 +118,6 @@ noncomputable def hallBaseFiniteThresholdPayment
       finiteSquarePrimeEvent cutoff pivot point).card).card : ℚ)
 
 /-- Literal one-pivot tail count on the base part. -/
-/- Moved to `TailFiveMillionHallTailCore`.
-noncomputable def hallBaseTailSquareCount
-    (N : ℕ) (B : Finset ℕ) (cutoff pivot : ℕ) : ℚ := by
-  classical
-  exact (((hallBasePart N B).filter
-    (tailSquarePrimeEvent cutoff pivot)).card : ℚ)
-
-/-- Exact one-form tail payment on the base part of the completion. -/
-noncomputable def hallBaseTailSquarePayment
-    (N : ℕ) (B pivots : Finset ℕ) (cutoff k : ℕ) : ℚ := by
-  classical
-  exact (∑ pivot ∈ pivots,
-    hallBaseTailSquareCount N B cutoff pivot) /
-        (pivots.card - k + 1 : ℕ)
-
-/-- Pointwise `k`-of-`n` sieve on the literal base part.  The pivots are
-members of the full Hall completion, so every base point is covered by a
-finite or tail square-prime event. -/
--/
-
 theorem hallBasePart_card_le_pivotThresholdSieve
     {N cutoff k : ℕ} {B pivots : Finset ℕ}
     (hBprop : NonSquarefreeProductProp B)
@@ -171,56 +151,6 @@ theorem hallBaseFiniteThresholdPayment_threeSeven_ratio_le
     fiveMillionOneOddS7Density, fiveMillionOneOddS7PrefixPayment,
     fiveMillionLower] using
       fiveMillionBasePeriodicThreshold_ratio_le hLower certificate
-
-/-- Literal per-pivot tail bounds for the controlling six-pivot row.  The
-next theorem performs the exact denominator-four aggregation; a producer is
-responsible only for these actual one-pivot counts. -/
-/- Moved to `TailFiveMillionHallTailCore`.
-structure FiveMillionBaseTailCertificate
-    (N : ℕ) (B pivots : Finset ℕ) : Prop where
-  pivotsCard : pivots.card = 6
-  perPivot : ∀ pivot ∈ pivots,
-    hallBaseTailSquareCount N B 7 pivot / N ≤
-      (fiveMillionOddRoot7Envelope +
-        6 * fiveMillionSquareTail7Envelope / 25) / 3
-
-/-- Exact aggregation of the six one-form tail bounds with threshold `k=3`.
-The resulting factor is `6 / (6 - 3 + 1) / 3 = 1/2`. -/
-theorem hallBaseTailSquarePayment_sixThree_ratio_le
-    {N : ℕ} {B pivots : Finset ℕ}
-    (certificate : FiveMillionBaseTailCertificate N B pivots) :
-    hallBaseTailSquarePayment N B pivots 7 3 / N ≤
-      (1 / 2 : ℚ) * fiveMillionOddRoot7Envelope +
-        (1 / 2 : ℚ) * 6 * fiveMillionSquareTail7Envelope / 25 := by
-  have hsum :
-      (∑ pivot ∈ pivots,
-        hallBaseTailSquareCount N B 7 pivot / N) ≤
-      6 * ((fiveMillionOddRoot7Envelope +
-        6 * fiveMillionSquareTail7Envelope / 25) / 3) := by
-    have h := Finset.sum_le_sum fun pivot hpivot =>
-      certificate.perPivot pivot hpivot
-    simpa [certificate.pivotsCard] using h
-  unfold hallBaseTailSquarePayment
-  rw [certificate.pivotsCard]
-  change
-    (∑ pivot ∈ pivots, hallBaseTailSquareCount N B 7 pivot) / 4 / N ≤ _
-  calc
-    (∑ pivot ∈ pivots, hallBaseTailSquareCount N B 7 pivot) / 4 / N =
-        (∑ pivot ∈ pivots,
-          hallBaseTailSquareCount N B 7 pivot / N) / 4 := by
-      rw [← Finset.sum_div]
-      ring
-    _ ≤ (6 * ((fiveMillionOddRoot7Envelope +
-        6 * fiveMillionSquareTail7Envelope / 25) / 3)) / 4 := by
-      exact div_le_div_of_nonneg_right hsum (by norm_num)
-    _ = (1 / 2 : ℚ) * fiveMillionOddRoot7Envelope +
-        (1 / 2 : ℚ) * 6 * fiveMillionSquareTail7Envelope / 25 := by
-      ring
-
-/-- Fully semantic terminal data for the controlling `O1, s = 7` branch.
-Every field refers to the actual Hall completion, residual, pivots or CRT
-events.  Numerical maximization is absent from this interface. -/
--/
 
 structure FiveMillionOneOddS7Certificate
     (N : ℕ) (B : Finset ℕ) : Type where
@@ -292,7 +222,7 @@ theorem fiveMillionOneOddS7Certificate.toPivotSieveWitness
   simp only [fiveMillionLower]
   linarith
 
-/-- Exact producer obligation for the five-to-ten-million interval.
+/-- Exact branch bound for the five-to-ten-million interval.
 
 The pivot-sieve estimate is needed only under a *strict Hall defect*.  It
 cannot hold for every compatible outside set: for example, when `B = ∅` the

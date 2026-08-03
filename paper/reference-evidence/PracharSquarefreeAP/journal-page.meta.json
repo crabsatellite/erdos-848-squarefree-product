@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "key": "PracharSquarefreeAP",
+  "artifact_type": "html",
+  "requested_url": "https://resolver.sub.uni-goettingen.de/purl?362162050_0062|log15",
+  "final_url": "https://www.digizeitschriften.de/",
+  "status": 200,
+  "content_type": "text/html; charset=UTF-8",
+  "fetched_at_utc": "2026-07-30T11:47:20.408317+00:00",
+  "sha256_raw_bytes": "17d344c05dd48c0c59246eceeacae075bbf56dc4ce78c0f149b8b3f2eab88554",
+  "artifact_file": "journal-page.html",
+  "text_file": "journal-page.text.txt",
+  "text_lines": 19,
+  "html_text_extractor": "python html.parser.HTMLParser"
+}

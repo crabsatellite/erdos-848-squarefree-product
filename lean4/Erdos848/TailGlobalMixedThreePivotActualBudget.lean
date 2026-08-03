@@ -7,7 +7,7 @@ namespace Erdos848
 
 The finite and tail terms are now closed.  This file records, without decimal
 arithmetic, the precise residual density which each valuation branch may
-spend and still contradict the unchanged Hall target.
+spend and still contradict the Hall target.
 -/
 
 set_option maxHeartbeats 0

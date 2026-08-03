@@ -121,7 +121,7 @@ theorem TwentyMillionTerminalCertificate.completion_ratio_le_branchTotal
     _ = twentyMillionBranchTotal certificate.branch :=
       (twentyMillionBranchTotal_eq_components certificate.branch).symm
 
-/-- Exact producer obligation left for the interval.  It is required only in
+/-- Exact terminal exhaustion for the interval.  It is required only in
 the strict-Hall-defect case, where the degree certificate forces one of the
 ten allocation rows. -/
 def Erdos848TwentyMillionTerminalExhaustion : Prop :=

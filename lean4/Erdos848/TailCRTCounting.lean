@@ -147,9 +147,9 @@ theorem count_mul_add_of_periodic
       rw [harg, Nat.count_add, hshiftCount, ih]
       ring
 
-/-- Exact formula implemented by the archived `residue_count` routine.  A
-periodic union of residue classes contributes full cycles plus the literal
-selected residues in the final partial cycle. -/
+/-- Exact periodic residue-count formula.  A union of residue classes
+contributes full cycles plus the selected residues in the final partial
+cycle. -/
 theorem card_filter_residueSet_exact
     (residues : Finset ℕ) (period N : ℕ) (hperiod : 0 < period)
     (hresidues : residues ⊆ Finset.range period) :

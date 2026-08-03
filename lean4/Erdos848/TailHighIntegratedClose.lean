@@ -6,12 +6,12 @@ namespace Erdos848
 /-!
 # Complete high-tail splice
 
-The public high tail has exactly two components:
+The high tail has exactly two components:
 
 * six QR-screened rows covering `2B ≤ N < 500B`;
 * one analytic theorem covering every `N ≥ 500B`.
 
-The earlier exact-marker and variable-row bridges are not part of this route.
+Their endpoint equality is stored explicitly in the certificate.
 -/
 
 structure HighTailCloseCertificate where

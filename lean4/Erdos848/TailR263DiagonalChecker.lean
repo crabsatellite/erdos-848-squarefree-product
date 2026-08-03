@@ -7,7 +7,7 @@ namespace Erdos848
 
 The existing outside-base marker already contains every diagonal candidate
 below ten million.  This file only projects that sound marker into the ten
-pieces used by the unchanged R263 cut: the low-two-adic core and the nine
+pieces used by the R263 cut: the low-two-adic core and the nine
 `v₂ = 2` mod-nine cells.  Generated data is therefore a finite projection
 certificate, not a second root enumeration.
 -/

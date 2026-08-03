@@ -3,10 +3,10 @@ import Erdos848.TailR263EvenThreeTail
 namespace Erdos848
 
 /-!
-# The cutoff-19 `E3` tail at the unchanged R263 cut
+# The cutoff-19 `E3` tail at the R263 cut
 
 Only the prime `23` moves from the finite side to the square tail relative to
-the cutoff-23 certificate.  The high-prime/root term is unchanged.
+the cutoff-23 certificate.  Both use the same high-prime/root term.
 -/
 
 set_option maxHeartbeats 0

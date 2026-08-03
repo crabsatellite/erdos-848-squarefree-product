@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "key": "Sothanaphan848",
+  "artifact_type": "pdf",
+  "requested_url": "https://drive.usercontent.google.com/download?id=1ujhm4_WYpgRV_rd1rJXIfHyvx16COEKe&export=download&confirm=t",
+  "final_url": "https://drive.usercontent.google.com/download?id=1ujhm4_WYpgRV_rd1rJXIfHyvx16COEKe&export=download&confirm=t",
+  "status": 200,
+  "content_type": "application/octet-stream",
+  "fetched_at_utc": "2026-07-30T11:47:16.317545+00:00",
+  "sha256_raw_bytes": "8162113a571dc2283fc77de1cdf36e7abf424eeec952aa27cf82a4f44b3a796f",
+  "artifact_file": "preprint.pdf",
+  "text_file": "preprint.pdf.txt",
+  "text_lines": 728,
+  "pdf_text_extractor": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\MiKTeX\\miktex\\bin\\x64\\pdftotext.EXE"
+}

@@ -4,7 +4,7 @@ import Erdos848.TailR263EvenTwoExhaustion
 namespace Erdos848
 
 /-!
-# Exhausting the `E2` and `E3` rows at the unchanged R263 cut
+# Exhausting the `E2` and `E3` rows at the R263 cut
 
 The preceding `E2` allocation either produces a kernel terminal or charges at
 most ten `E2` points.  In the latter case, nineteen `E3` points force the

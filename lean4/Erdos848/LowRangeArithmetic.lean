@@ -6,7 +6,7 @@ namespace Erdos848
 set_option maxHeartbeats 1000000
 
 /-!
-Exact terminal arithmetic for the two archived low ranges.
+Exact terminal arithmetic for the two low ranges.
 
 The external scripts checked every ceiling jump.  These lemmas use the
 stronger uniform estimates
@@ -21,7 +21,7 @@ floating-point margin is accepted here.
 -/
 
 /- The six blocks are a performance boundary, not a mathematical cut.  Their
-union is exactly the archived list of sixty primes below `300`, with `5`
+union is the list of sixty primes below `300`, with `5`
 omitted.  Keeping ten denominators per kernel obligation prevents rational
 normalization from becoming one monolithic proof term. -/
 def lowPrimeBlock0 : Finset ℕ :=

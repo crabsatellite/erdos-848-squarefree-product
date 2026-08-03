@@ -34,36 +34,14 @@ theorem fiveMillionOneOddS7DiagonalEnvelope_kernel_close :
   simpa [fiveMillionOneOddS7DiagonalEnvelope] using
     GeneratedTailDiagonalCoverage.fiveMillionOneOddS7Diagonal_kernel_close
 
-/- Moved to `TailGlobalMixedFiveMillionConstants` so the affine global row
-can be checked without loading the interval-specific diagonal certificate. -/
-
 def fiveMillionOddRoot7WitnessN : ℕ := 5_000_107
 def fiveMillionOddRoot7WitnessY : ℕ := 102_043
 def fiveMillionOddRoot7PrimeDelta : ℕ := 9_768
 def fiveMillionOddRoot7Height : ℕ := 64
 def fiveMillionOddRoot7Survivors : ℕ := 70
 
-/- Moved to `TailFiveMillionSquareTailCore` so the global Hall tail does not
-import the interval-specific diagonal certificate.
-def fiveMillionSquareTail7Envelope : ℚ :=
-  263529083909042886517376461184337967 /
-    8573456796637692379906289787841000000
-
-/-- The formerly external square-tail constant is now a theorem about every
-finite set of distinct primes above seven. -/
-theorem fiveMillionSquareTail7_kernel_close
-    (s : Finset ℕ)
-    (hprime : ∀ p ∈ s, Nat.Prime p)
-    (hcut : ∀ p ∈ s, 7 < p) :
-    (∑ p ∈ s, reciprocalSquareQ p) ≤
-      fiveMillionSquareTail7Envelope := by
-  simpa [fiveMillionSquareTail7Envelope, primeSquareTail7Envelope] using
-    finitePrimeSquareTail7_le s hprime hcut
--/
-
-/-- The archived `55 / 196` density is now justified uniformly over every
-allowed mod-49 collision pattern, rather than imported from the Python dynamic
-programme. -/
+/-- The `55 / 196` density holds uniformly over every allowed mod-49
+collision pattern. -/
 theorem fiveMillionOneOddS7_finite_density_le
     (fullModFour : FiveMillionModFour)
     (modNineEvent : FiveMillionModNine → Option FiveMillionFiniteForm)
@@ -132,7 +110,7 @@ theorem fiveMillionOddRoot7_primeDelta_exact :
   rw [hpiSeven]
   norm_num [fiveMillionOddRoot7PrimeDelta]
 
-/-- Exact arithmetic identity for the archived controlling root row.  The
+/-- Exact arithmetic identity for the controlling root row.  The
 prime-count delta `9768` and support maximum `70` are kernel theorems; the
 remaining root obligation is the finite jump-scan maximality. -/
 theorem fiveMillionOddRoot7_witness_exact :
@@ -164,7 +142,7 @@ theorem fiveMillionOneOddS7_prefix_payment :
       fiveMillionOneOddS7PrefixPayment := by
   norm_num [fiveMillionOneOddS7Density, fiveMillionOneOddS7PrefixPayment]
 
-/-- The exact controlling budget from the archived `O1, s = 7` row.  The
+/-- The exact controlling budget from the `O1, s = 7` row.  The
 left side is, in order, the eventwise diagonal, periodic finite payment,
 transformed-root payment, square tail, and raw charge. -/
 theorem fiveMillionOneOddS7_budget :

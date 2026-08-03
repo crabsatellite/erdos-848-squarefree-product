@@ -1,0 +1,489 @@
+{
+  "message": {
+    "DOI": "10.1145/3372885.3373824",
+    "URL": "https://doi.org/10.1145/3372885.3373824",
+    "alternative-id": [
+      "10.1145/3372885.3373824",
+      "10.1145/3372885"
+    ],
+    "assertion": [
+      {
+        "group": {
+          "label": "Publication History",
+          "name": "publication_history"
+        },
+        "label": "Published",
+        "name": "published",
+        "order": 2,
+        "value": "2020-01-22"
+      }
+    ],
+    "author": [
+      {
+        "affiliation": [
+          {
+            "name": "n.n., n.n."
+          }
+        ],
+        "family": "The mathlib Community",
+        "role": [
+          {
+            "role": "author",
+            "vocabulary": "crossref"
+          }
+        ],
+        "sequence": "first"
+      }
+    ],
+    "container-title": [
+      "Proceedings of the 9th ACM SIGPLAN International Conference on Certified Programs and Proofs"
+    ],
+    "content-domain": {
+      "crossmark-restriction": true,
+      "domain": [
+        "dl.acm.org"
+      ]
+    },
+    "created": {
+      "date-parts": [
+        [
+          2020,
+          1,
+          22
+        ]
+      ],
+      "date-time": "2020-01-22T13:09:33Z",
+      "timestamp": 1579698573000
+    },
+    "deposited": {
+      "date-parts": [
+        [
+          2025,
+          6,
+          17
+        ]
+      ],
+      "date-time": "2025-06-17T22:41:09Z",
+      "timestamp": 1750200069000
+    },
+    "event": {
+      "acronym": "POPL '20",
+      "location": "New Orleans LA USA",
+      "name": "POPL '20: 47th Annual ACM SIGPLAN Symposium on Principles of Programming Languages",
+      "sponsor": [
+        "SIGPLAN ACM Special Interest Group on Programming Languages",
+        "SIGLOG ACM Special Interest Group on Logic and Computation"
+      ]
+    },
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          7,
+          23
+        ]
+      ],
+      "date-time": "2026-07-23T23:10:17Z",
+      "timestamp": 1784848217791,
+      "version": "3.55.0"
+    },
+    "is-referenced-by-count": 129,
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          1,
+          20
+        ]
+      ]
+    },
+    "license": [
+      {
+        "URL": "https://www.acm.org/publications/policies/copyright_policy#Background",
+        "content-version": "vor",
+        "delay-in-days": 0,
+        "start": {
+          "date-parts": [
+            [
+              2020,
+              1,
+              20
+            ]
+          ],
+          "date-time": "2020-01-20T00:00:00Z",
+          "timestamp": 1579478400000
+        }
+      }
+    ],
+    "link": [
+      {
+        "URL": "https://dl.acm.org/doi/10.1145/3372885.3373824",
+        "content-type": "unspecified",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://dl.acm.org/doi/pdf/10.1145/3372885.3373824",
+        "content-type": "unspecified",
+        "content-version": "vor",
+        "intended-application": "similarity-checking"
+      }
+    ],
+    "member": "320",
+    "original-title": [],
+    "page": "367-381",
+    "prefix": "10.1145",
+    "published": {
+      "date-parts": [
+        [
+          2020,
+          1,
+          20
+        ]
+      ]
+    },
+    "published-online": {
+      "date-parts": [
+        [
+          2020,
+          1,
+          22
+        ]
+      ]
+    },
+    "published-print": {
+      "date-parts": [
+        [
+          2020,
+          1,
+          20
+        ]
+      ]
+    },
+    "publisher": "ACM",
+    "publisher-location": "New York, NY, USA",
+    "reference": [
+      {
+        "key": "e_1_3_2_1_1_1",
+        "volume-title": "12th International Conference on Automated Deduction, Nancy, France, June 26 - July 1, 1994, Proceedings . 238–251"
+      },
+      {
+        "DOI": "10.6092/issn.1972-5787/8124",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_2_1"
+      },
+      {
+        "DOI": "10.1007/978-3-319-14125-1_1",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_3_1"
+      },
+      {
+        "DOI": "10.1007/978-3-642-03359-9_8",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_4_1"
+      },
+      {
+        "key": "e_1_3_2_1_5_1",
+        "unstructured": "Jeremy Avigad Leonardo de Moura and Soonho Kong. 2014. Theorem Proving in Lean . Carnegie Mellon University.  Jeremy Avigad Leonardo de Moura and Soonho Kong. 2014. Theorem Proving in Lean . Carnegie Mellon University."
+      },
+      {
+        "key": "e_1_3_2_1_6_1",
+        "unstructured": "Seulkee Baek. 2019. Reflected Decision Procedures in Lean. Master’s thesis. Carnegie Mellon University. http://www.andrew.cmu.edu/ user/avigad/Students/baek_ms_thesis.pdf  Seulkee Baek. 2019. Reflected Decision Procedures in Lean. Master’s thesis. Carnegie Mellon University. http://www.andrew.cmu.edu/ user/avigad/Students/baek_ms_thesis.pdf"
+      },
+      {
+        "DOI": "10.1007/978-3-540-24849-1_3",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_7_1"
+      },
+      {
+        "DOI": "10.1007/s10817-017-9440-6",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_8_1"
+      },
+      {
+        "DOI": "10.1007/978-3-319-20615-8_17",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_9_1"
+      },
+      {
+        "DOI": "10.1007/978-3-662-07964-5",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_10_1"
+      },
+      {
+        "DOI": "10.1007/s10817-013-9278-5",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_11_1"
+      },
+      {
+        "DOI": "10.1007/978-3-319-20615-8_1",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_12_1"
+      },
+      {
+        "DOI": "10.6092/issn.1972-5787/4593",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_13_1"
+      },
+      {
+        "DOI": "10.1007/s11786-014-0181-1",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_14_1"
+      },
+      {
+        "DOI": "10.1145/3372885.3373830",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_15_1"
+      },
+      {
+        "DOI": "10.4230/LIPIcs.ITP.2019.12",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_16_1"
+      },
+      {
+        "key": "e_1_3_2_1_17_1",
+        "unstructured": "Robert L. Constable Stuart F. Allen Mark Bromley Rance Cleaveland J. F. Cremer R. W. Harper Douglas J. Howe Todd B. Knoblock N. P. Mendler Prakash Panangaden James T. Sasaki and Scott F. Smith. 1986. Implementing mathematics with the Nuprl proof development system . Prentice Hall. http://dl.acm.org/citation.cfm?id=10510  Robert L. Constable Stuart F. Allen Mark Bromley Rance Cleaveland J. F. Cremer R. W. Harper Douglas J. Howe Todd B. Knoblock N. P. Mendler Prakash Panangaden James T. Sasaki and Scott F. Smith. 1986. Implementing mathematics with the Nuprl proof development system . Prentice Hall. http://dl.acm.org/citation.cfm?id=10510"
+      },
+      {
+        "DOI": "10.4230/LIPIcs.ITP.2019.15",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_18_1"
+      },
+      {
+        "DOI": "10.1007/978-3-540-73595-3_13",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_19_1"
+      },
+      {
+        "DOI": "10.1007/978-3-319-21401-6_26",
+        "doi-asserted-by": "crossref",
+        "key": "e_1_3_2_1_20_1",
+        "unstructured": "Leonardo de Moura Soonho Kong Jeremy Avigad Floris van Doorn and Jakob von Raumer. 2015. The Lean Theorem Prover (system description). https://leanprover.github.io/papers/system.pdf  Leonardo de Moura Soonho Kong Jeremy Avigad Floris van Doorn and Jakob von Raumer. 2015. The Lean Theorem Prover (system description). https://leanprover.github.io/papers/system.pdf"
+      },
+      {
+        "key": "e_1_3_2_1_21_1",
+        "unstructured": "Jose Divasón and Jesús Aransay. 2013. Rank-Nullity Theorem in Linear Algebra. Archive of Formal Proofs (Jan. 2013). http://isa-afp.org/entries/ Rank_Nullity_Theorem.html Formal proof development.  Jose Divasón and Jesús Aransay. 2013. Rank-Nullity Theorem in Linear Algebra. Archive of Formal Proofs (Jan. 2013). http://isa-afp.org/entries/ Rank_Nullity_Theorem.html Formal proof development."
+      },
+      {
+        "DOI": "10.1145/3110278",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_22_1"
+      },
+      {
+        "DOI": "10.4007/annals.2017.185.1.8",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_23_1"
+      },
+      {
+        "DOI": "10.1007/978-3-642-03359-9_23",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_24_1"
+      },
+      {
+        "DOI": "10.1007/BFb0092872",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_25_1"
+      },
+      {
+        "DOI": "10.1007/978-3-642-22863-6_10",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_26_1"
+      },
+      {
+        "DOI": "10.6092/issn.1972-5787/1979",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_27_1"
+      },
+      {
+        "DOI": "10.6092/issn.1972-5787/1980",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_28_1"
+      },
+      {
+        "DOI": "10.15439/2016F520",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_29_1"
+      },
+      {
+        "DOI": "10.1007/11541868_7",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_30_1"
+      },
+      {
+        "DOI": "10.1007/978-3-540-74464-1_11",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_31_1"
+      },
+      {
+        "DOI": "10.1017/fmp.2017.1",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_32_1"
+      },
+      {
+        "DOI": "10.4230/LIPIcs.ITP.2019.19",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_33_1"
+      },
+      {
+        "DOI": "10.1145/3372885.3373826",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_34_1"
+      },
+      {
+        "DOI": "10.1007/978-3-642-03359-9_4",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_35_1"
+      },
+      {
+        "DOI": "10.1007/s10817-012-9250-9",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_36_1"
+      },
+      {
+        "DOI": "10.4007/annals.2019.190.3.6",
+        "doi-asserted-by": "crossref",
+        "key": "e_1_3_2_1_37_1",
+        "unstructured": "Hao Huang. 2019. Induced subgraphs of hypercubes and a proof of the Sensitivity Conjecture. arXiv preprint arXiv:1907.00847 (2019).  Hao Huang. 2019. Induced subgraphs of hypercubes and a proof of the Sensitivity Conjecture. arXiv preprint arXiv:1907.00847 (2019)."
+      },
+      {
+        "DOI": "10.1145/3293880.3294093",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_38_1"
+      },
+      {
+        "DOI": "10.15439/2017F289",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_39_1"
+      },
+      {
+        "DOI": "10.1145/2854065.2854070",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_40_1"
+      },
+      {
+        "DOI": "10.1007/3-540-48256-3_11",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_41_1"
+      },
+      {
+        "DOI": "10.1007/978-1-4757-3188-0",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_42_1"
+      },
+      {
+        "key": "e_1_3_2_1_43_1",
+        "unstructured": "Holden Lee. 2014. Vector Spaces. Archive of Formal Proofs (2014). http: //isa-afp.org/entries/VectorSpace.html Formal proof development.  Holden Lee. 2014. Vector Spaces. Archive of Formal Proofs (2014). http: //isa-afp.org/entries/VectorSpace.html Formal proof development."
+      },
+      {
+        "DOI": "10.1145/3293880.3294089",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_44_1"
+      },
+      {
+        "key": "e_1_3_2_1_46_1",
+        "unstructured": "Assia Mahboubi and Enrico Tassi. 2017. Mathematical Components. https://math-comp.github.io/mcb/  Assia Mahboubi and Enrico Tassi. 2017. Mathematical Components. https://math-comp.github.io/mcb/"
+      },
+      {
+        "key": "e_1_3_2_1_47_1",
+        "unstructured": "Norman Megill and David A. Wheeler. 2019. Metamath: A Computer Language for Mathematical Proofs . Lulu Press.  Norman Megill and David A. Wheeler. 2019. Metamath: A Computer Language for Mathematical Proofs . Lulu Press."
+      },
+      {
+        "DOI": "10.4204/EPTCS.290.6",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_48_1"
+      },
+      {
+        "DOI": "10.1007/3-540-45949-9",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_49_1"
+      },
+      {
+        "DOI": "10.1007/3-540-55602-8_217",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_50_1"
+      },
+      {
+        "key": "e_1_3_2_1_51_1",
+        "unstructured": "Karol Pak. 2016. Topological Foundations for a Formal Theory of Manifolds. In Joint Proceedings of the FM4M MathUI and ThEdu Workshops Doctoral Program and Work in Progress at the Conference on Intelligent Computer Mathematics 2016 co-located with the 9th Conference on Intelligent Computer Mathematics (CICM 2016) Bialystok Poland July 25-29 2016 . 14–16. http://ceur-ws.org/Vol-1785/F4.pdf  Karol Pak. 2016. Topological Foundations for a Formal Theory of Manifolds. In Joint Proceedings of the FM4M MathUI and ThEdu Workshops Doctoral Program and Work in Progress at the Conference on Intelligent Computer Mathematics 2016 co-located with the 9th Conference on Intelligent Computer Mathematics (CICM 2016) Bialystok Poland July 25-29 2016 . 14–16. http://ceur-ws.org/Vol-1785/F4.pdf"
+      },
+      {
+        "DOI": "10.1007/BFb0040259",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_52_1"
+      },
+      {
+        "DOI": "10.1145/125826.125848",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_53_1"
+      },
+      {
+        "DOI": "10.1007/978-3-319-40229-1_8",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_54_1"
+      },
+      {
+        "DOI": "10.1007/978-3-540-71067-7_6",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_55_1"
+      },
+      {
+        "DOI": "10.1017/S0960129511000119",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_56_1"
+      },
+      {
+        "DOI": "10.1145/3412932.3412935",
+        "doi-asserted-by": "crossref",
+        "key": "e_1_3_2_1_57_1",
+        "unstructured": "Sebastian Ullrich and Leonardo de Moura. 2019. Counting Immutable Beans: Reference Counting Optimized for Purely Functional Programming. arXiv: cs.PL/1908.05647  Sebastian Ullrich and Leonardo de Moura. 2019. Counting Immutable Beans: Reference Counting Optimized for Purely Functional Programming. arXiv: cs.PL/1908.05647"
+      },
+      {
+        "DOI": "10.1007/s11786-008-0053-7",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_58_1"
+      },
+      {
+        "DOI": "10.1145/75277.75283",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_59_1"
+      },
+      {
+        "DOI": "10.1007/BFb0028402",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_60_1"
+      },
+      {
+        "DOI": "10.1080/00029890.1986.11971923",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_61_1"
+      },
+      {
+        "DOI": "10.4230/LIPIcs.ITP.2019.31",
+        "doi-asserted-by": "publisher",
+        "key": "e_1_3_2_1_62_1"
+      }
+    ],
+    "reference-count": 61,
+    "references-count": 61,
+    "relation": {},
+    "resource": {
+      "primary": {
+        "URL": "https://dl.acm.org/doi/10.1145/3372885.3373824"
+      }
+    },
+    "score": 1,
+    "short-container-title": [],
+    "short-title": [],
+    "source": "Crossref",
+    "subject": [],
+    "subtitle": [],
+    "title": [
+      "The lean mathematical library"
+    ],
+    "type": "proceedings-article",
+    "update-policy": "https://doi.org/10.1145/crossmark-policy"
+  },
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "status": "ok"
+}

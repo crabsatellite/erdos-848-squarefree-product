@@ -143,6 +143,34 @@ def run_contract_gate() -> None:
         fail(f"paper/Lean contract gate failed with exit code {completed.returncode}")
 
 
+def run_manuscript_gates() -> None:
+    commands = [
+        [sys.executable, "-B", "scripts/verify_paper_lean_correspondence.py"],
+        [sys.executable, "-B", "scripts/verify_paper_lean_numbers.py"],
+        [
+            sys.executable,
+            "-B",
+            "scripts/verify_reference_evidence.py",
+            "--require-cited-coverage",
+            "--require-entry-checks",
+        ],
+    ]
+    for command in commands:
+        completed = subprocess.run(
+            command,
+            cwd=ROOT,
+            check=False,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+        )
+        print(completed.stdout, end="" if completed.stdout.endswith("\n") else "\n")
+        if completed.returncode != 0:
+            fail(f"manuscript gate failed: {' '.join(command[2:])}")
+
+
 def require_clean_git() -> str:
     head = subprocess.run(
         ["git", "rev-parse", "HEAD"],
@@ -179,6 +207,7 @@ def main() -> int:
     manifest = load_manifest()
     count = verify_files(manifest)
     run_contract_gate()
+    run_manuscript_gates()
     public_head = "not-required"
     if not args.allow_dirty:
         public_head = require_clean_git()
