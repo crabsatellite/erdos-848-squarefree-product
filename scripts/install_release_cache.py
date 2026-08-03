@@ -284,7 +284,12 @@ def main() -> int:
             or publication_binding.get("path") != publication_path.name
             or publication_binding.get("sha256") != publication_sha
         ):
-            raise CacheReleaseError("publication manifest binding mismatch")
+            expected = publication_binding.get("sha256")
+            raise CacheReleaseError(
+                "publication manifest binding mismatch: "
+                f"expected={expected}, actual={publication_sha}; "
+                "check out the exact release tag with its .gitattributes"
+            )
         if (
             cache_manifest.get("internal_source_commit")
             != publication.get("internal_source_commit")
@@ -337,4 +342,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

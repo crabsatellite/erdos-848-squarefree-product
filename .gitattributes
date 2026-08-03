@@ -1,0 +1,12 @@
+* -text whitespace=cr-at-eol
+*.bib diff
+*.gitignore diff
+*.json diff
+*.lean diff
+*.md diff
+*.ps1 diff
+*.py diff
+*.tex diff
+*.toml diff
+*.txt diff
+paper/reference-evidence/** -diff

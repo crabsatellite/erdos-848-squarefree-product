@@ -69,7 +69,7 @@ The only accepted logical dependencies are `propext`, `Classical.choice`, and
 `Quot.sound`.  There is no project axiom, `sorry`, `admit`, `native_decide`,
 or compiler-trust escape in the publication closure.
 
-This tree was materialized from internal source commit `03bb0a08b5406eb38c9302039fecc9b1e983e113`.
+This tree was materialized from internal source commit `be419f0a266aa2247692446873260cf12609ae9a`.
 
 ## Licensing
 

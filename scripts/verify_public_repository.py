@@ -17,6 +17,19 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "PUBLICATION_MANIFEST.json"
 EXPECTED_THEOREM = "Erdos848.PaperGeneratedCertificateProvider.all_N"
 EXPECTED_AXIOMS = ["propext", "Classical.choice", "Quot.sound"]
+EXPECTED_GITATTRIBUTES = b"""* -text whitespace=cr-at-eol
+*.bib diff
+*.gitignore diff
+*.json diff
+*.lean diff
+*.md diff
+*.ps1 diff
+*.py diff
+*.tex diff
+*.toml diff
+*.txt diff
+paper/reference-evidence/** -diff
+"""
 IGNORED_DIRECTORIES = {".git", ".lake", "__pycache__"}
 IGNORED_SUFFIXES = {
     ".aux",
@@ -193,6 +206,28 @@ def require_clean_git() -> str:
     ).stdout
     if status.strip():
         fail("public Git worktree is dirty")
+    attributes_path = ROOT / ".gitattributes"
+    if attributes_path.read_bytes() != EXPECTED_GITATTRIBUTES:
+        fail("public .gitattributes does not freeze release bytes")
+    attribute = subprocess.run(
+        [
+            "git",
+            "check-attr",
+            "text",
+            "--",
+            "PUBLICATION_MANIFEST.json",
+            "lean4/Erdos848/PublicationRoot.lean",
+        ],
+        cwd=ROOT,
+        check=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        stdout=subprocess.PIPE,
+    ).stdout
+    lines = [line.strip() for line in attribute.splitlines() if line.strip()]
+    if len(lines) != 2 or any(not line.endswith(": text: unset") for line in lines):
+        fail("Git text conversion is not disabled for publication bytes")
     return head
 
 
