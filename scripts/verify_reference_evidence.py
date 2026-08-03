@@ -185,7 +185,7 @@ def main() -> int:
     )
     parser.add_argument(
         "--tex",
-        default="paper/erdos_848_kernel_asymptotic.tex",
+        default="paper/erdos_848_kernel_checked_exact_extremal_bound.tex",
     )
     parser.add_argument("--require-cited-coverage", action="store_true")
     parser.add_argument("--require-entry-checks", action="store_true")

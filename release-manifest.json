@@ -29,6 +29,7 @@
       "scripts/build_release_package.py",
       "scripts/build_paper.ps1",
       "scripts/check_proof_state.py",
+      "scripts/refresh_proof_contract.py",
       "scripts/run_kernel_gates.py",
       "scripts/test_publication_contract.py",
       "scripts/verify_four_range_paper_arithmetic.py",

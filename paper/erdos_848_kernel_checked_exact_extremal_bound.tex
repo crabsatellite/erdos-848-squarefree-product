@@ -1,0 +1,958 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\geometry{margin=2.7cm}
+\setlength{\emergencystretch}{3em}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=green!45!black,
+  urlcolor=blue!60!black,
+  pdftitle={Erdos Problem 848: A Kernel-Checked Proof of the Exact Extremal Bound},
+  pdfauthor={Alex Chengyu Li}
+}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\CN}{C_N}
+\newcommand{\DN}{D_N}
+\newcommand{\TN}{T_N}
+\newcommand{\RN}{R_N}
+\newcommand{\leanname}[1]{}
+\newcommand{\FiveMillion}{5\cdot10^6}
+\newcommand{\TenMillion}{10^7}
+\newcommand{\TwentyMillion}{2\cdot10^7}
+\newcommand{\FortyMillion}{4\cdot10^7}
+\newcommand{\TwoHundredMillion}{2\cdot10^8}
+\newcommand{\TwoBillion}{2\cdot10^9}
+\newcommand{\FiveHundredBillion}{5\cdot10^{11}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\textbf{Erd\H{o}s Problem 848:\\
+A Kernel-Checked Proof of the Exact Extremal Bound}}
+\author{Alex Chengyu Li\\[3pt]
+\small Independent Researcher, Tokyo, Japan}
+\date{July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+For $N\geq1$, let $A\subseteq[1,N]$ satisfy the condition that $ab+1$ is
+nonsquarefree for every $a,b\in A$.  We determine the exact maximum
+cardinality of such a set, proving that
+\[
+ |A|\leq \bigl|\{n\leq N:n\equiv7\pmod {25}\}\bigr|,
+\]
+with equality attained by the progression $7\pmod {25}$.  Thus the
+extremal value is established for every $N$, closing the finite range left
+by the preceding asymptotic results.  The proof begins with an exact Hall
+reformulation.  A prefix-colouring certificate handles
+$N\leq\FiveMillion$; for larger $N$, uniform square-divisor estimates,
+opposite-base matchings, and valuation--cell--fibre decompositions reduce
+the remaining Hall defects to finitely many exact rational certificate
+states, together with a uniform argument on the unbounded tail.
+Certificate generators lie outside the trusted base: they emit ordinary
+Lean data, semantic checkers prove the required statements about that data,
+and the Lean~4 kernel replays the terminal all-$N$ theorem with
+\texttt{--trust=0}.  The complete proof archive, semantic checkers, theorem
+map, and reproduction metadata are available at Zenodo, concept DOI:
+\href{https://doi.org/10.5281/zenodo.21750213}%
+{\nolinkurl{10.5281/zenodo.21750213}}.
+\end{abstract}
+
+% Machine-readable endpoint tags.  These macros are typographically empty.
+\leanname{NonSquarefreeProductProp}
+\leanname{OriginalProblem848Statement}
+\leanname{originalA7_has_property}
+\leanname{originalProblem_of_hallStatement}
+\leanname{erdos848HallStatement_iff_originalProblem}
+\leanname{erdos848_through_five_million}
+\leanname{PaperCertificateProvider.fiveToTenMillion}
+\leanname{PaperCertificateProvider.tenToTwentyMillion}
+\leanname{PaperCertificateProvider.twentyToFortyMillion}
+\leanname{erdos848FortyMillionClose_kernel}
+\leanname{PaperCertificateProvider.twoHundredToTwoBillion}
+\leanname{PaperCertificateProvider.twoBillionTail}
+\leanname{PaperCertificateProvider.fortyMillionTail}
+\leanname{erdos848_paper_tail_close}
+\leanname{PaperGeneratedCertificateProvider.all_N}
+
+\section{Introduction}
+
+Write
+\[
+  \CN=\{n\in[1,N]:n\equiv7\pmod {25}\}.
+\]
+Erd\H{o}s and S\'ark\"ozy asked whether this construction is extremal
+\cite{Erdos848Original}.  Sawhney proved the assertion for all sufficiently
+large $N$ by a density sieve and structural reduction
+\cite{Sawhney848}.  Sothanaphan made the asymptotic inputs explicit and
+obtained the threshold $N\geq2.64\cdot10^{17}$
+\cite{Sothanaphan848}.  We prove the exact statement
+\begin{equation}\label{eq:target}
+  |A|\leq|\CN|
+\end{equation}
+for every positive integer $N$.
+
+\begin{table}[ht]
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.16}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.15\textwidth}Y Y Y@{}}
+\toprule
+Work & Proven range and conclusion & Remaining obstruction & Mechanism used here\\
+\midrule
+Sawhney (2025) &
+The class $7\bmod25$ is extremal for every $N\geq N_0$, for some
+unspecified $N_0$; a stability statement identifies the two candidate
+extremal classes. &
+The argument is asymptotic and gives neither $N_0$ nor the finite prefix. &
+Density sieves and the mod-$25$ structural reduction.\\
+\addlinespace
+Sothanaphan (2026) &
+The same extremal bound holds explicitly for
+$N\geq2.64\cdot10^{17}$. &
+The interval below that threshold remains; a pointwise search would not be a
+practical proof. &
+Explicit squarefree-progression estimates and a Pell-equation bound for
+large square divisors.\\
+\addlinespace
+This paper &
+The exact extremal value is proved for every $N\geq1$. &
+No range remains. &
+Hall reformulation, range compression, valuation--cell--fibre descent, and
+kernel-certified finite states.\\
+\bottomrule
+\end{tabularx}
+\caption{Prior results and the all-$N$ theorem.}
+\label{tab:prior-work}
+\end{table}
+
+The computational part is not a pointwise enumeration of $N$.  The Hall
+reformulation replaces the extremal-set question by a neighbourhood
+inequality.  Monotone rational bounds compress long ranges to finitely many
+rows.  Valuation, residue-cell, and prime-square-fibre partitions compress
+the small tail ranges to finitely many structural states.  Only these states
+are certified.  This is the standard proof-producing use of computation in
+explicit number theory: a bounded remainder is discharged by independently
+checkable arithmetic data, not by numerical evidence
+\cite{HelfgottPlatt,OliveiraSilvaHerzogPardi}.
+
+The squarefree-progression estimates belong to the classical line of
+Prachar and Hooley \cite{PracharSquarefreeAP,HooleySquarefreeAP}.  Here they
+are combined with exact residue and valuation information tailored to the
+Hall graph.  The machine proof follows the certificate-checking separation
+used in major formalized computational proofs
+\cite{GonthierOddOrder,HalesFlyspeck}.
+
+\begin{proposition}[Sharpness]\label{prop:sharpness}
+The set $\CN$ is admissible: if $a,b\in\CN$, then $ab+1$ is not squarefree.
+\end{proposition}
+
+\begin{proof}
+Since $a\equiv b\equiv7\pmod {25}$,
+\[
+  ab+1\equiv 7^2+1=50\equiv0\pmod {25}.
+\]
+Thus $5^2\mid ab+1$.
+\end{proof}
+
+\section{The exact Hall cut}
+
+Join $b\in[1,N]\setminus\CN$ to $a\in\CN$ when $ab+1$ is squarefree.
+For $B\subseteq[1,N]\setminus\CN$, put
+\[
+  \Gamma_N(B)=\{a\in\CN:\text{$ab+1$ is squarefree for some $b\in B$}\}
+\]
+and
+\[
+  \TN(B)=\CN\setminus\Gamma_N(B).
+\]
+Thus $a\in\TN(B)$ exactly when $ab+1$ is nonsquarefree for every $b\in B$.
+For every $B$ whose internal products plus one are nonsquarefree, the Hall
+inequality is
+\begin{equation}\label{eq:hall-defect}
+  |B|+|\TN(B)|\leq|\CN|.
+\end{equation}
+
+\begin{theorem}[Hall reduction]\label{thm:hall-reduction}
+If \eqref{eq:hall-defect} holds for every compatible outside set $B$, then
+\eqref{eq:target} holds.
+\end{theorem}
+
+\begin{proof}
+Let $A$ be admissible and put $B=A\setminus\CN$.  Then
+$A\cap\CN\subseteq\TN(B)$, whence
+\[
+ |A|=|B|+|A\cap\CN|
+ \leq |B|+|\TN(B)|\leq|\CN|.
+\]
+\end{proof}
+
+\begin{theorem}[Hall equivalence]\label{thm:hall-equivalence}
+The Hall inequality \eqref{eq:hall-defect} is equivalent to the exact
+upper bound \eqref{eq:target}.
+\end{theorem}
+
+\begin{proof}
+The forward implication is Theorem~\ref{thm:hall-reduction}.  Conversely,
+assume \eqref{eq:target} and let $B$ satisfy the hypotheses of
+\eqref{eq:hall-defect}.  Put $A=B\cup\TN(B)$.  Products internal to $B$ are
+nonsquarefree by hypothesis; products internal to $\TN(B)$ are divisible by
+$25$; and every cross-product is nonsquarefree by the definition of
+$\TN(B)$.  Hence $A$ is admissible.  The two parts are disjoint, so
+\[
+ |B|+|\TN(B)|=|A|\leq|\CN|.
+\]
+\end{proof}
+
+For later normalization define the Hall completion
+\[
+  H_N(B)=B\cup\TN(B).
+\]
+The union is disjoint, so $|H_N(B)|=|B|+|\TN(B)|$.  The exact lower bound
+\begin{equation}\label{eq:normalized-target}
+  |\CN|\geq \frac N{25}-\frac7{25}
+\end{equation}
+shows that
+\[
+ \frac{|H_N(B)|}{N}\leq \frac1{25}-\frac7{25N}
+\]
+implies \eqref{eq:hall-defect}.  All rational certificate rows below are
+checked against this target.
+We call a compatible outside set with
+$|\CN|<|B|+|\TN(B)|$ a \emph{strict Hall defect}.
+
+\section{The exact five-million prefix}
+
+\begin{theorem}[Exact prefix colouring]
+\label{thm:finite-prefix-colouring-close}
+For every $1\leq N\leq\FiveMillion$, let
+\[
+ \mathcal D_N=\{x\leq N:x^2+1\text{ is nonsquarefree}\},
+\]
+and join distinct $x,y\in\mathcal D_N$ when $xy+1$ is nonsquarefree.
+This graph has a proper colouring whose colour set is indexed by $\CN$.
+Consequently \eqref{eq:target} and \eqref{eq:hall-defect} hold throughout
+this interval.
+\end{theorem}
+
+\begin{proof}
+Every admissible set is a clique in this graph, so the colouring implies the
+cardinality bound.  It remains to describe the checked certificate.
+
+Put $L=\FiveMillion$.  At a prefix write
+\[
+ U=\{u\leq N:u\equiv7\pmod {25}\},\qquad
+ V=\{v\leq N:v\equiv18\pmod {25}\},\qquad
+ E=\mathcal D_N\setminus(U\cup V).
+\]
+For every $u\leq L$ in the $7\bmod25$ class, the certificate stores a chain
+of half-open intervals partitioning $[u,L+1)$.  On each interval its anchor
+state contains $u$, at most one member of $V$, and at most one member of
+$E$.  The semantic checker verifies the interval chain, the three role
+constraints, and squarefreeness of every product between two occupied roles.
+
+There are $200000$ anchor histories and $200000$ histories for the
+$18\bmod25$ vertices.  There are $125808$ remaining diagonal histories.
+Each candidate history is a contiguous interval partition through $L+1$ and
+assigns the candidate to one checked anchor state whenever it is present.
+The outside diagonal marker is also checked in Lean.  If $x\in E$ and
+$x^2+1$ is nonsquarefree, some prime square $p^2$ with $p\neq5$ divides it;
+necessarily $p$ is odd and $p\equiv1\pmod4$.  The verified roots of
+$z^2\equiv-1\pmod {p^2}$ place $x$ in the marker.  Conversely every marked
+progression carries its prime-square witness.  Thus every vertex receives
+exactly one active colour at every
+prefix, and two distinct vertices with the same colour have squarefree
+product plus one.  The anchor set at $N$ is precisely $\CN$.
+\end{proof}
+
+\section{Uniform tail reductions from five million}
+
+Let
+\[
+  \DN=\{n\in[1,N]:n\equiv18\pmod {25}\}.
+\]
+For a Hall completion $H_N(B)$ put
+\[
+  \RN(B)=H_N(B)\setminus(\CN\cup\DN).
+\]
+The first task is to eliminate a defect supported only on $\DN$; the second
+is to quantify the residual once a genuinely mixed pivot exists.
+
+\subsection{Pure opposite-base matching}
+
+For each parity, split the source $\DN$ into that parity and the target
+$\CN$ into the opposite parity.  The target block has at least the size of
+the source block: the injection $x\mapsto x-11$ preserves the mod-$25$
+classes and reverses parity.  For opposite parities, $xy+1$ is odd, so the
+square prime $2$ is inactive; moreover
+$xy+1\equiv18\cdot7+1\equiv2\pmod {25}$, so $5$ is inactive.
+
+For a fixed pivot, nonsquarefree values are divided into three disjoint
+prime ranges:
+\[
+ p\leq47,\qquad 47<p\leq N/26,\qquad p>N/26.
+\]
+The following three lemmas are cardinality bounds for the bad-point
+sets used in Lean.
+
+\begin{lemma}[Small-prime payment]\label{lem:pure-global-small}
+Let $N\geq\FiveMillion$, let $X\subseteq[1,N]$ lie in one residue class
+modulo $50$, and let $b$ be any pivot.  Then
+\[
+ \frac{\#\{x\in X:\exists p\in
+ \{3,7,11,13,17,19,23,29,31,37,41,43,47\},\
+ p^2\mid bx+1\}}{N}
+ \leq \frac{S_0}{\FiveMillion},
+\]
+where
+\[
+ S_0=100001\sum_{p}\frac1{p^2}+13
+\]
+and the sum is over the displayed thirteen primes.
+\end{lemma}
+
+\begin{proof}
+For a fixed $p$, the conditions $x\bmod50$ and $p^2\mid bx+1$ select at
+most one class modulo $50p^2$, hence at most
+\[
+ \left\lfloor\frac{N+1}{50p^2}\right\rfloor+1
+\]
+points.  Sum this bound over the thirteen primes.  After division by $N$,
+the endpoint term is decreasing for $N\geq\FiveMillion$, so its maximum is
+the displayed value at $\FiveMillion$.
+\end{proof}
+
+\begin{lemma}[Medium-prime payment]\label{lem:pure-global-medium}
+Under the same hypotheses, the contribution of
+$47<p\leq N/26$ is at most
+\[
+ \frac{3887}{25\cdot10^6}+\frac{59}{10^4}.
+\]
+\end{lemma}
+
+\begin{proof}
+The residue-class union bound gives the reciprocal-square contribution
+\[
+ \frac1{25}\sum_{47<p\leq N/26}\frac1{p^2}.
+\]
+The certified prime-square tail is less than $3887/10^6$.  The terminal
+class contributes $\pi(N/26)/N$, and the checked prime-count estimate bounds
+this by $59/10^4$ for $N\geq\FiveMillion$.  Adding the two terms proves the
+claim.
+\end{proof}
+
+\begin{lemma}[High-prime payment]\label{lem:pure-global-high}
+Assume in addition that $1\leq b\leq N$ and that $bx+1$ is coprime to $10$
+for every $x\in X$.  Then the contribution of primes $p>N/26$ is at most
+\[
+ \frac{11264064/3125}{\FiveMillion}.
+\]
+\end{lemma}
+
+\begin{proof}
+Write $bx+1=p^2m$.  The split $p>N/26$ gives $m\leq676$.  After writing the
+fixed mod-$50$ progression parameter, the congruence becomes a transformed
+root problem.  The support screen records the distinct prime divisors of
+$b$, and the two nonzero square cosets modulo $5$ are treated separately.
+For every support prefix, the generated word mask is checked pointwise
+against its quadratic-residue predicate.  The transformed-parameter
+cardinality theorem then bounds the row by its stored rational root
+coefficient.  The support-product theorem proves that every possible pivot
+selects a checked row.  The largest checked coefficient is
+$11264064/3125$, and division by $N$ is maximized at
+$N=\FiveMillion$.
+\end{proof}
+
+\begin{theorem}[Uniform pure opposite-base matching]
+\label{thm:pure-parity-matching}
+For every $N\geq\FiveMillion$, the squarefree-edge graph from $\DN$ to
+$\CN$ has a matching saturating $\DN$.  Consequently every compatible
+$B\subseteq\DN$ satisfies \eqref{eq:hall-defect}.
+\end{theorem}
+
+\begin{proof}
+The exact rational calculation in Lean proves
+\begin{equation}\label{eq:pure-envelope}
+ \frac{S_0}{\FiveMillion}
+ +\left(\frac{3887}{25\cdot10^6}+\frac{59}{10^4}\right)
+ +\frac{11264064/3125}{\FiveMillion}
+ \leq\frac1{100}-\frac1{\FiveMillion}.
+\end{equation}
+Lemmas~\ref{lem:pure-global-small}--\ref{lem:pure-global-high} therefore
+show, in each parity block and in both directions, that strictly more than
+half of the opposite block consists of squarefree neighbours.  The elementary
+dense bipartite matching lemma now applies: the source side has size at most
+the target side, and every vertex has degree greater than half of the
+opposite side.  Hall's condition follows by considering subsets of size at
+most and greater than half separately.  The two parity matchings combine
+because their target parities are disjoint.  Finally, a matching from
+$B\subseteq\DN$ into $\CN\setminus\TN(B)$ gives
+$|B|\leq|\CN|-|\TN(B)|$.
+\end{proof}
+
+\subsection{A quantitative mixed residual}
+
+\begin{proposition}[Uniform mixed degree]\label{prop:uniform-mixed-degree}
+Let $N\geq\FiveMillion$, let $B$ be a compatible outside set, and let
+$b\in\RN(B)$.  Then $b$ has more than
+\[
+  \frac N{50}+\frac N{525}
+\]
+squarefree neighbours in each of $\CN$ and $\DN$.
+\end{proposition}
+
+\begin{proof}
+Because $b\in\RN(B)$, the square $5^2$ cannot divide the relevant forms.
+Split a nonsquarefree form $bx+1$ into the three ranges
+\[
+ p\in\{2,3,7\},\qquad 7<p\leq N/55,\qquad p>N/55.
+\]
+Put
+\[
+ \tau_7=
+ \frac{263529083909042886517376461184337967}
+ {8573456796637692379906289787841000000},
+ \qquad
+ \rho_7=\frac{221926420176}{12755647965025}.
+\]
+The first part is counted by the exact periodic masks and has normalized
+envelope $17/1225$.  The second is bounded by the certified reciprocal-square
+tail $\tau_7/25$.  In the last range the all-support transformed-root rows,
+including all three even valuations, give $\rho_7/6$.  The base progression
+contains at least $N/25-1$ points.  The exact margin is
+\[
+ \frac{17}{1225}
+ +\frac{\tau_7}{25}
+ +\frac{\rho_7}6
+ +\frac{1+19601/49}{\FiveMillion}
+ <\frac1{50}-\frac1{525}.
+\]
+The endpoint correction decreases with $N$, so subtracting all bad points
+from the base progression gives the stated degree in both directions.
+\end{proof}
+
+\begin{corollary}[Uniform mixed residual]\label{cor:uniform-mixed-residual}
+If $N\geq\FiveMillion$ and a compatible outside set $B$ violates
+\eqref{eq:hall-defect}, then
+\begin{equation}\label{eq:mixed-residual}
+  \frac{2N}{525}-1<|\RN(B)|.
+\end{equation}
+In particular $|\RN(B)|>19046$, and one of the five valuation parts used
+below has more than $3809$ elements.
+\end{corollary}
+
+\begin{proof}
+Theorem~\ref{thm:pure-parity-matching} implies that $\RN(B)$ is nonempty;
+choose $b\in\RN(B)$.  Apply Proposition~\ref{prop:uniform-mixed-degree} to
+both base classes.  The exact degree-subtraction identity removes the
+neighbours already occupied by $B$ and the non-neighbours $\TN(B)$ and gives
+\[
+ \frac{2N}{525}-1<|\RN(B)|.
+\]
+At $N=\FiveMillion$ the left side is greater than $19046$, and it increases
+with $N$.  The five valuation parts are disjoint and cover $\RN(B)$.  If
+each had size at most $3809$, their union would have size at most
+$5\cdot3809=19045$, a contradiction.
+\end{proof}
+
+\section{Valuation, cell, and fibre descent}
+
+The five valuation classes are
+\[
+ E_1,\ E_2,\ E_3,\ O_1,\ O_3,
+\]
+where, respectively,
+\[
+ x\equiv2\pmod4,\quad x\equiv4\pmod8,\quad x\equiv0\pmod8,
+ \quad x\equiv1\pmod4,\quad x\equiv3\pmod4.
+\]
+Within a class we next split by the nine residues modulo $9$; within a cell
+we use prime-square fibres, principally modulo $7^2$ and $11^2$.
+
+\begin{lemma}[Valuation partition]\label{lem:valuation-partition}
+The five valuation parts are pairwise disjoint and their union is
+$\RN(B)$.  Consequently their cardinalities sum to $|\RN(B)|$.
+\end{lemma}
+
+\begin{proof}
+Each integer has exactly one of the five defining valuation patterns.  The
+formal proof reduces the five cases to parity and exact $2$-adic
+divisibilities, proves pairwise disjointness, and applies cardinality of a
+disjoint finite union.
+\end{proof}
+
+\begin{lemma}[Nine-cell capacity dichotomy]\label{lem:nine-cell-capacity}
+Suppose all nine mod-$9$ cells in one odd valuation class are active.
+With two copies of every mod-$49$ fibre and one spare slot, either there is
+an injective assignment selecting eight cells and compatible fibres, or
+there is a set $Y$ of cells for which
+\[
+  2\,|\Gamma_{49}(Y)|+1<|Y|.
+\]
+\end{lemma}
+
+\begin{proof}
+Apply Hall's theorem to the bipartite graph whose left side is the nine cells
+and whose right side consists of two copies of every mod-$49$ fibre together
+with one spare vertex.  A saturating matching uses the spare at most once,
+and therefore gives eight genuine cell--fibre choices.  If no matching
+exists, Hall supplies $Y$ with the displayed capacity defect.
+\end{proof}
+
+For every terminal branch the checker proves an inequality of the form
+\begin{equation}\label{eq:terminal-template}
+ \frac{|H_N(B)|}{N}
+ \leq D_\beta+F_\beta+Q_\beta
+ <\frac1{25}-\frac7{25L}
+ \leq\frac1{25}-\frac7{25N}.
+\end{equation}
+Here $L$ is the lower endpoint, $D_\beta$ is the diagonal/residual payment,
+$F_\beta$ is an exact finite-prime payment, and $Q_\beta$ is the
+reciprocal-square plus transformed-root payment.  The first inequality is a
+semantic theorem about the selected pivots; the middle inequality is exact
+rational arithmetic; the last is monotonicity.  Thus
+\eqref{eq:terminal-template} contradicts a strict Hall defect.
+
+\begin{theorem}[The five-to-ten-million range]
+\label{prop:five-million-interval-close}
+The Hall inequality holds for
+\[
+ \FiveMillion\leq N<\TenMillion.
+\]
+\end{theorem}
+
+\begin{proof}
+Assume a strict defect.  Corollary~\ref{cor:uniform-mixed-residual} gives
+$|\RN(B)|>19046$, in particular more than the $128$ points needed after all
+finite charges.  The case analysis examines $E_1$, then $E_2$, then $E_3$,
+then a one-odd-class allocation, and finally the remaining two-odd-class
+case.  At each step either the cell and fibre lemmas construct a terminal
+pivot pattern, or the entire failed class has the exact bounded cardinality
+charged to the next step.  The last step cannot fail because the five
+valuation parts cover $\RN(B)$.
+
+Every terminal object contains its selected pivots, the proof that they lie
+in $H_N(B)$, the exact finite-prime bound, the transformed-root bound, and
+the diagonal bound.  Its semantic theorem yields the first inequality in
+\eqref{eq:terminal-template}; its checked rational budget yields the strict
+middle inequality with $L=\FiveMillion$.  This contradicts the defect.
+\end{proof}
+
+\begin{theorem}[The ten-to-twenty-million range]
+\label{prop:ten-million-interval-close}
+The Hall inequality holds for
+\[
+ \TenMillion\leq N<\TwentyMillion.
+\]
+\end{theorem}
+
+\begin{proof}
+Again $|\RN(B)|>19046$.  In $E_1$ and then $E_2$, the case analysis tests for
+two dense mod-$9$ cells, then one dense cell, and otherwise charges all nine
+cells.  It next tests $E_3$.  If all three even classes are charged, their
+total charge is explicit and at least $91$ residual pivots remain in the two
+odd classes.  The odd case analysis then returns a three-pivot terminal.  The
+two-dense-cell alternatives return four-pivot terminals; the one-cell and
+odd alternatives return three-pivot terminals.  These cases are exhaustive
+by construction.
+
+Both terminal types prove their actual Hall-completion ratio strictly below
+$1/25-7/(25N)$.  The proof uses the checked periodic finite-prime rows,
+root bounds, diagonal bounds, and exact cell charges.  Hence a strict defect
+is impossible.
+\end{proof}
+
+\begin{theorem}[The twenty-to-forty-million range]
+\label{prop:twenty-million-interval-close}
+The Hall inequality holds for
+\[
+ \TwentyMillion\leq N<\FortyMillion.
+\]
+\end{theorem}
+
+\begin{proof}
+The cutoff-$19$ allocation theorem selects one of ten branches:
+generic or common-mod-$9$ triples in each of $E_1,E_2,E_3$, followed by
+generic or common-mod-$9$ branches in two odd classes or in one odd class.
+The even branches use finite cutoff $23$; the odd branches use cutoff $19$.
+For a terminal certificate with branch $\beta$, Lean proves
+\[
+ \frac{|H_N(B)|}{N}\leq T_\beta,
+\]
+where $T_\beta$ is the sum of the certified residual, finite-prime, and tail
+payments.  Exact rational normalization proves
+\[
+ T_\beta<\frac1{25}-\frac7{25\TwentyMillion}
+ \leq\frac1{25}-\frac7{25N}
+\]
+for all ten branches.  The selected branch therefore contradicts the
+assumed Hall defect.
+\end{proof}
+
+\section{The compressed middle ranges}
+
+\begin{lemma}[Ten-branch allocation]\label{lem:global-ten-branch-allocation}
+Let $N\geq\TwentyMillion$ and suppose that $B$ is a compatible outside set
+with a strict Hall defect.  Then one of the ten branches used in the proof
+of Theorem~\ref{prop:twenty-million-interval-close} applies.
+\end{lemma}
+
+\begin{proof}
+The uniform cutoff-$19$ degree theorem gives the required residual mass.
+Put $g_N=\lfloor (N-1)/20001\rfloor+1$ and inspect $E_1,E_2,E_3$ in order.  If
+the current class has more than $g_N$ members, a three-pivot gap selection
+either is nonconstant modulo $9$ or lies in one mod-$9$ cell.  Otherwise
+charge the class by at most $g_N$.  If all three are charged, the remaining
+mass lies in the two odd classes; the same gap selection and mod-$9$
+dichotomy gives the final four branches.  Each unsuccessful test has the
+cardinality bound used by the next test, so the alternatives are exhaustive.
+\end{proof}
+
+\begin{theorem}[The forty-to-two-hundred-million range]
+\label{thm:mixed-joint-tail-close}
+The Hall inequality holds for
+\[
+ \FortyMillion\leq N<\TwoHundredMillion.
+\]
+\end{theorem}
+
+\begin{proof}
+The interval is divided into the six half-open blocks with endpoints
+\[
+ 40,\ 50,\ 70,\ 80,\ 100,\ 150,\ 200
+\quad\text{million}.
+\]
+Lemma~\ref{lem:global-ten-branch-allocation} selects a branch.  On each
+block, the residual payment is a checked diagonal envelope plus the exact
+charges from preceding sparse classes.  The finite-prime payments, in branch
+order, are
+\[
+ 10^{-6}(8685,12616,8685,12616,8685,12616,
+ 19420,20878,26643,29459).
+\]
+The tail payment uses cutoff $23$ in the six even branches and cutoff $19$
+in the four odd branches, together with the four blockwise transformed-root
+envelopes.  The semantic terminal theorem gives the first inequality in
+\eqref{eq:terminal-template}.  The theorem
+  checked rational table verifies all $6\cdot10$ comparisons, and block
+  membership gives the final
+monotonicity step.  Hence no strict defect exists.
+\end{proof}
+
+\begin{theorem}[The two-hundred-million-to-two-billion range]
+\label{thm:actual-support-mixed-close}
+The Hall inequality holds for
+\[
+ \TwoHundredMillion\leq N<\TwoBillion.
+\]
+\end{theorem}
+
+\begin{proof}
+The four structural regimes have endpoints
+\[
+ 200,\ 300,\ 500,\ 1000,\ 2000
+\quad\text{million}
+\]
+and transformed-root splits $75,85,100,125$, respectively.  Their quotient
+boxes have sizes $75^2,85^2,100^2,125^2$.  The normal and mod-$5$-twisted
+word tables certify the quadratic-residue survivor counts for every support
+length through eight.  A separate finite list of root-envelope rows covers
+each integer in the four regimes; its Boolean cover checker proves that
+there is neither a gap nor an overlap error relevant to row selection.
+
+Lemma~\ref{lem:global-ten-branch-allocation} supplies one of the same ten
+branches.  For a regime $\rho$ and branch $\beta$, define
+\[
+ T_{\rho,\beta}
+ =D_{\rho,\beta}+F_\beta+Q_{\rho,\beta},
+\]
+where the diagonal envelope $D_{\rho,\beta}$ is selected from the eight
+checked diagonal classes, $F_\beta$ is the finite-prime vector displayed in
+the preceding proof, and $Q_{\rho,\beta}$ uses the regime root ceiling
+\[
+ 10^{-9}(9000000,\ 7700000,\ 6400000,\ 5000000).
+\]
+The root provider supplies only finite word masks and checked row data; it
+contains no Hall theorem.  The semantic checker derives the actual
+transformed-root inequality from those data.  The terminal theorem then
+proves $|H_N(B)|/N\leq T_{\rho,\beta}$, and exact rational arithmetic proves
+\[
+ T_{\rho,\beta}
+ <\frac1{25}-\frac7{25L_\rho}
+ \leq\frac1{25}-\frac7{25N}
+\]
+for all $4\cdot10$ cases.  This contradicts a strict defect.
+\end{proof}
+
+\section{The high tail}
+
+The finite high tail uses six complete rows.  Each row contains a checked
+diagonal budget, four checked quadratic-residue root rows (for
+$E_1,E_2,E_3$ and the odd class), endpoint-alignment proofs, and the Boolean
+proof that all ten branch totals are below the target.
+
+\begin{theorem}[Finite high-tail certificate]\label{thm:finite-high-tail}
+The six certified rows prove the Hall inequality for
+\[
+ \TwoBillion\leq N<\FiveHundredBillion.
+\]
+\end{theorem}
+
+\begin{proof}
+The half-open row endpoints are
+\[
+ 2,\ 2.3,\ 2.8,\ 4.2,\ 6,\ 12,\ 500
+\quad\text{billion}.
+\]
+Their prime profiles are respectively $16,18,18,18,30,30$.  The list-level
+cover predicate checks that the first lower endpoint is $2$ billion, each
+next lower endpoint is one more than the previous inclusive upper endpoint,
+and the stop is $500$ billion.  Hence every $N$ in the displayed range
+selects a unique complete row.  Lemma~\ref{lem:global-ten-branch-allocation}
+selects a branch, and the row's semantic theorem bounds the actual Hall
+completion by that branch total.  The stored Boolean equality is converted
+to the proposition that every branch total is strictly below
+$1/25-7/(25N)$.  Thus \eqref{eq:hall-defect} follows.
+\end{proof}
+
+\begin{theorem}[Unbounded high tail]\label{thm:unbounded-high-tail}
+The Hall inequality holds for every
+\[
+ N\geq\FiveHundredBillion.
+\]
+\end{theorem}
+
+\begin{proof}
+Use split $120$, root floor $840$, and the anchored $47$-prime sieve.  The
+common root envelope is
+\[
+ \frac{8062340}{10^9}.
+\]
+The eight diagonal envelopes are
+\[
+ 10^{-9}(26005710,20944421,17208292,16649746,
+ 13003280,7437057,6604680,917036),
+\]
+with grouped wheel divisors
+\[
+ (1821,2892,2627,2295,3643,4590,3643,3643).
+\]
+The root checker proves the transformed-root inequality, the diagonal
+checker proves the eight semantic diagonal inequalities, and the
+ten-branch checker proves every resulting total below the target at
+$\FiveHundredBillion$.  All positive endpoint corrections decrease with
+$N$, so the same bounds apply for every larger $N$.  Combining the selected
+branch from Lemma~\ref{lem:global-ten-branch-allocation} with these three
+checked implications rules out a strict Hall defect.
+\end{proof}
+
+\begin{theorem}[Certified high range]\label{thm:formal-high-tail-close}
+The Hall inequality, and hence the exact upper bound, holds for every
+$N\geq\TwoBillion$.
+\end{theorem}
+
+\begin{proof}
+Theorem~\ref{thm:finite-high-tail} covers
+$\TwoBillion\leq N<\FiveHundredBillion$, and
+Theorem~\ref{thm:unbounded-high-tail} covers
+$N\geq\FiveHundredBillion$.
+\end{proof}
+
+\section{Assembly}
+
+\begin{theorem}[The range from forty million onward]
+\label{thm:forty-million-tail-assembly}
+The Hall inequality, and hence the exact upper bound, holds for every
+$N\geq\FortyMillion$.
+\end{theorem}
+
+\begin{proof}
+Theorems~\ref{thm:mixed-joint-tail-close},
+\ref{thm:actual-support-mixed-close}, and
+\ref{thm:formal-high-tail-close} cover, respectively,
+\[
+ [\FortyMillion,\TwoHundredMillion),\qquad
+ [\TwoHundredMillion,\TwoBillion),\qquad
+ [\TwoBillion,\infty).
+\]
+\end{proof}
+
+\begin{theorem}[The range from five million onward]
+\label{thm:mixed-cell-five-million-close}
+The Hall inequality, and hence the exact upper bound, holds for every
+$N\geq\FiveMillion$.
+\end{theorem}
+
+\begin{proof}
+Theorems~\ref{prop:five-million-interval-close},
+\ref{prop:ten-million-interval-close}, and
+\ref{prop:twenty-million-interval-close} cover
+\[
+ [\FiveMillion,\TenMillion),\quad
+ [\TenMillion,\TwentyMillion),\quad
+ [\TwentyMillion,\FortyMillion),
+\]
+and Theorem~\ref{thm:forty-million-tail-assembly} covers the remaining
+unbounded interval.  These four ranges are necessary inputs to this
+particular assembly: the first range alone does not imply the other three.
+\end{proof}
+
+\begin{theorem}[Erd\H{o}s Problem 848]
+\label{thm:erdos-848-complete}
+For every integer $N\geq1$, the maximum cardinality of a set
+$A\subseteq[1,N]$ for which $ab+1$ is nonsquarefree for every $a,b\in A$ is
+\[
+ \left|\{n\leq N:n\equiv7\pmod {25}\}\right|.
+\]
+Equivalently, the Hall inequality \eqref{eq:hall-defect} holds for every $N$.
+\end{theorem}
+
+\begin{proof}
+Theorem~\ref{thm:finite-prefix-colouring-close} gives the upper bound for
+$N\leq\FiveMillion$, and
+Theorem~\ref{thm:mixed-cell-five-million-close} gives it for
+$N\geq\FiveMillion$.  Proposition~\ref{prop:sharpness} supplies equality.
+The Hall formulation is equivalent by
+Theorem~\ref{thm:hall-equivalence}.
+\end{proof}
+
+\section{Machine-checked proof and verification artifact}
+\label{sec:machine-proof}
+
+The formal artifact uses Lean~4 and Mathlib \cite{Lean4,Mathlib}.  Its role
+is to check the exact finite arithmetic, the manuscript-to-Lean interfaces,
+and the final all-$N$ assembly with a small trusted kernel.
+
+\subsection*{Manuscript-to-Lean correspondence}
+
+The final declaration is
+\begin{center}\small
+\texttt{Erdos848.PaperGeneratedCertificateProvider.all\_N}.
+\end{center}
+The machine-readable endpoint map contains fifteen published Lean
+declarations.  A separate result map binds every numbered result in this
+manuscript to at least one exact Lean declaration token and source file.  Its
+gate checks equality between the set of manuscript labels and the set of
+result-map labels, checks every declaration token in its named source, and
+checks that every named module lies in the final theorem's import cone.
+Thus a broad module-level association cannot conceal a missing intermediate
+result.
+
+\begin{table}[ht]
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.14}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.32\textwidth}Y@{}}
+\toprule
+Paper component & Principal Lean declarations\\
+\midrule
+Problem, sharpness, and Hall equivalence &
+\texttt{OriginalProblem848Statement},
+\texttt{originalA7\_has\_property},
+\texttt{erdos848HallStatement\_iff\_originalProblem}\\
+\addlinespace
+Exact prefix through $\FiveMillion$ &
+\texttt{erdos848\_through\_five\_million}\\
+\addlinespace
+Uniform pure matching and mixed residual &
+\texttt{pureGlobalOppositeBaseMatching},
+\texttt{globalMixedHallResidual\_cast\_lower\_of\_defect}\\
+\addlinespace
+The first three tail intervals &
+\texttt{erdos848FiveToTenMillionClose},
+\texttt{erdos848TenToTwentyMillionClose},
+\texttt{erdos848TwentyMillionClose\_kernel}\\
+\addlinespace
+The middle and high subranges &
+\texttt{erdos848FortyMillionClose\_kernel},
+\texttt{erdos848PaperTwoHundredMillionToTwoBillionClose\_of\_certificates},
+\texttt{HighTailCloseCertificate.close}\\
+\addlinespace
+Unified tail and final theorem &
+\texttt{erdos848\_paper\_tail\_close},
+\texttt{PaperGeneratedCertificateProvider.all\_N}\\
+\bottomrule
+\end{tabularx}
+\caption{Principal manuscript-to-Lean correspondences.  The complete
+per-result map is machine-readable.}
+\label{tab:lean-correspondence}
+\end{table}
+
+\subsection*{Certificate production and trust boundary}
+
+External C++ or Python programs may search for witnesses, compress ranges,
+and emit Lean source.  They are not trusted and are not rerun by Lean.
+Generated data are ordinary Lean terms.  Semantic checkers prove their
+residue, valuation, cell, fibre, coverage, and rational-budget properties.
+Only the resulting proof terms are accepted by the kernel.  Precomputed
+witnesses therefore change proof-production time, not the logical trust
+boundary.
+
+The transitive publication cone contains exactly $30{,}638$ local Lean source
+modules.  It excludes project axioms, \texttt{sorry}, \texttt{admit},
+\texttt{native\_decide}, \texttt{unsafe}, and external code.  A
+\texttt{--trust=0} axiom audit of the published endpoints reports exactly
+\[
+ \texttt{[propext, Classical.choice, Quot.sound]},
+\]
+the standard classical and quotient dependencies used by Lean and Mathlib.
+
+\subsection*{Reproduction and cached artifacts}
+
+The version-independent Zenodo concept DOI for the code archive is
+\href{https://doi.org/10.5281/zenodo.21750213}%
+{\nolinkurl{10.5281/zenodo.21750213}}; it resolves to the latest archived
+code release.  The repository pins the Lean toolchain and Mathlib dependency
+graph.  The proof contract and release manifest bind the TeX, PDF, source
+closure,
+toolchain, endpoint map, result map, numeric claims, bibliography evidence,
+and axiom policy.  The release-state audit is
+\begin{quote}\scriptsize\ttfamily
+python -B scripts/check\_proof\_state.py
+  --require-release-ready --audit-sources
+\end{quote}
+and the manuscript-specific gates are
+\begin{quote}\scriptsize\ttfamily
+python -B scripts/verify\_paper\_lean\_correspondence.py\\
+python -B scripts/verify\_paper\_lean\_numbers.py\\
+python -B scripts/verify\_reference\_evidence.py\\
+\hspace*{2em}--require-cited-coverage --require-entry-checks
+\end{quote}
+Optional precompiled \texttt{.olean} shards are a hash-checked transport
+cache.  They can shorten replay, but they are neither mathematical premises
+nor a substitute for kernel checking.
+
+\section*{Declaration of Generative AI and AI-Assisted Technologies}
+
+During the preparation of this work, the author used OpenAI Codex for code
+navigation, drafting and copy-editing, and assistance with Lean~4 source and
+verification scripts.  No other generative-AI system was used.  The author
+checked the mathematical claims, citations, manuscript-to-Lean
+correspondence, and kernel audit.  AI output is not treated as mathematical
+evidence.  The author is responsible for the definitions, proofs, citations,
+code, and manuscript.
+
+\section*{Acknowledgements}
+
+The author thanks the developers of Lean and Mathlib for the formalization
+environment.
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

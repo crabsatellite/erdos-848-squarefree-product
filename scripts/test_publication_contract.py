@@ -18,13 +18,14 @@ import run_lean_guarded
 
 ROOT = Path(__file__).resolve().parents[1]
 CHECKER = Path(__file__).resolve().with_name("check_proof_state.py")
+REFRESHER = Path(__file__).resolve().with_name("refresh_proof_contract.py")
 FIXTURE_FILES = [
     "proof-state.json",
     "certificate-pipeline.json",
     "release-manifest.json",
     "paper/proof-contract.json",
-    "paper/erdos_848_kernel_asymptotic.tex",
-    "paper/Li_Erdos_848_Kernel_Asymptotic_2026.pdf",
+    "paper/erdos_848_kernel_checked_exact_extremal_bound.tex",
+    "paper/Li_Erdos_848_Kernel_Checked_Exact_Extremal_Bound_2026.pdf",
     "paper/theorem-map.json",
     "paper/lean-proof-components.json",
     "paper/numeric-claims.json",
@@ -78,6 +79,25 @@ def require_failure(tree: Path, label: str, expected: str) -> None:
             f"({expected!r}):\n{result.stdout}"
         )
     print(f"[contract-test:pass] {label} -> {expected}")
+
+
+def run_refresher(tree: Path, *, write: bool) -> subprocess.CompletedProcess[str]:
+    env = os.environ.copy()
+    env["ERDOS848_PUBLICATION_ROOT"] = str(tree)
+    command = [sys.executable, "-B", str(REFRESHER)]
+    if write:
+        command.append("--write")
+    return subprocess.run(
+        command,
+        cwd=tree,
+        env=env,
+        check=False,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
 
 
 def copy_fixture(tree: Path) -> None:
@@ -139,11 +159,25 @@ def main() -> int:
         )
         paper_path.write_bytes(original_paper)
 
-        tex_path = tree / "paper" / "erdos_848_kernel_asymptotic.tex"
+        tex_path = tree / "paper" / "erdos_848_kernel_checked_exact_extremal_bound.tex"
         original_tex = tex_path.read_bytes()
         tex_path.write_bytes(original_tex + b"\n% drift\n")
         require_failure(tree, "TeX byte drift", "paper artifact hash mismatch")
+        refresh_check = run_refresher(tree, write=False)
+        if refresh_check.returncode == 0 or "stale artifact hashes" not in refresh_check.stdout:
+            raise SystemExit(
+                "[contract-test:error] hash refresher did not detect TeX drift:\n"
+                + refresh_check.stdout
+            )
+        refresh_write = run_refresher(tree, write=True)
+        if refresh_write.returncode != 0:
+            raise SystemExit(
+                "[contract-test:error] hash refresher did not repair TeX drift:\n"
+                + refresh_write.stdout
+            )
+        require_pass(tree, "automatic proof-contract hash refresh")
         tex_path.write_bytes(original_tex)
+        paper_path.write_bytes(original_paper)
 
         numeric_path = tree / "paper" / "numeric-claims.json"
         original_numeric = numeric_path.read_bytes()

@@ -20,8 +20,8 @@ the axiom audit, and `PUBLICATION_MANIFEST.json`.
 
 ## Contents
 
-- `paper/erdos_848_kernel_asymptotic.tex`: manuscript source.
-- `paper/Li_Erdos_848_Kernel_Asymptotic_2026.pdf`: audited PDF.
+- `paper/erdos_848_kernel_checked_exact_extremal_bound.tex`: manuscript source.
+- `paper/Li_Erdos_848_Kernel_Checked_Exact_Extremal_Bound_2026.pdf`: audited PDF.
 - `paper/theorem-map.json`: paper-label to Lean-declaration map.
 - `paper/lean-proof-components.json`: exhaustive numbered-result to Lean-module
   map.
@@ -32,6 +32,8 @@ the axiom audit, and `PUBLICATION_MANIFEST.json`.
 - `scripts/verify_public_repository.py`: public source/claim/hash gate.
 - `scripts/build_generated_certificate.py`: bounded resumable OLean builder.
 - `scripts/install_release_cache.py`: hash-bound release-cache installer.
+- `scripts/refresh_proof_contract.py`: atomic manuscript-hash refresher and
+  drift check.
 - `scripts/run_kernel_gates.py`: read-only trust-zero theorem and axiom gate.
 - `scripts/verify_four_range_paper_arithmetic.py`: exact rational check of the
   four range budgets printed in the manuscript.
@@ -67,7 +69,7 @@ The only accepted logical dependencies are `propext`, `Classical.choice`, and
 `Quot.sound`.  There is no project axiom, `sorry`, `admit`, `native_decide`,
 or compiler-trust escape in the publication closure.
 
-This tree was materialized from internal source commit `0cbd018dee44676998b022a9b86040c4e99913f0`.
+This tree was materialized from internal source commit `03bb0a08b5406eb38c9302039fecc9b1e983e113`.
 
 ## Licensing
 

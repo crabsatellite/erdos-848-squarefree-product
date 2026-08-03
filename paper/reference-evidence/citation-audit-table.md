@@ -1,6 +1,6 @@
 # Citation Audit Table
 
-- TeX: `../erdos_848_kernel_asymptotic.tex`
+- TeX: `../erdos_848_kernel_checked_exact_extremal_bound.tex`
 - Manifest: `manifest.json`
 - Rows: `16`
 

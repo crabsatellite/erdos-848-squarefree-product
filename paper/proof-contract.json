@@ -3,20 +3,20 @@
   "proof_contract_version": "erdos-848-all-n-four-range-v1",
   "claim_status": "complete",
   "manuscript_kind": "complete-all-n-paper-proof-with-kernel-replayed-generated-finite-certificates",
-  "tex_path": "paper/erdos_848_kernel_asymptotic.tex",
+  "tex_path": "paper/erdos_848_kernel_checked_exact_extremal_bound.tex",
   "tex_sha256": "5592ec847702e0d571038eaaebb2346555d020194a6a0bf257397da6a80fb6b1",
-  "pdf_path": "paper/Li_Erdos_848_Kernel_Asymptotic_2026.pdf",
-  "pdf_sha256": "b331e5cca433e3297ab579c8f39878e36b80a044d5989d0a73de546c5d952d10",
+  "pdf_path": "paper/Li_Erdos_848_Kernel_Checked_Exact_Extremal_Bound_2026.pdf",
+  "pdf_sha256": "54a910e7bcdaaaf03d24aee2685083f3b14a55be325ce54f6bc18e96bb890a8b",
   "theorem_map_path": "paper/theorem-map.json",
   "theorem_map_sha256": "968c626c9da9bd59ccd1f7285b43a9c486a9f0ed46039485dca8823172138695",
   "additional_artifacts": [
     {
       "path": "paper/lean-proof-components.json",
-      "sha256": "3c78f572c5ffe00b1f4c33eea119b4f1e1d587621d0d7c04dbba310f6fd0f3f8"
+      "sha256": "0cddeb805242f6b84ef5575a89e6cbb0c94652f4593a4430f8e4ed0eee0ef911"
     },
     {
       "path": "paper/numeric-claims.json",
-      "sha256": "75592edb4acf400d89669bc0b0f22c5c5cd39e78ddeaa0995e76b7f01268d374"
+      "sha256": "7d5b6c8d0524998b153d08fb9952b70a182341c8ab4896418285c48ddad551d7"
     },
     {
       "path": "paper/references.bib",

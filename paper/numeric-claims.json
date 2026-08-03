@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "manuscript": "paper/erdos_848_kernel_asymptotic.tex",
+  "manuscript": "paper/erdos_848_kernel_checked_exact_extremal_bound.tex",
   "claims": [
     {
       "id": "five-million-cut",

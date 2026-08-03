@@ -2,8 +2,8 @@ $ErrorActionPreference = "Stop"
 
 $root = Split-Path -Parent $PSScriptRoot
 $paper = Join-Path $root "paper"
-$source = "erdos_848_kernel_asymptotic.tex"
-$job = "Li_Erdos_848_Kernel_Asymptotic_2026"
+$source = "erdos_848_kernel_checked_exact_extremal_bound.tex"
+$job = "Li_Erdos_848_Kernel_Checked_Exact_Extremal_Bound_2026"
 $priorSourceDateEpoch = $env:SOURCE_DATE_EPOCH
 $priorForceSourceDate = $env:FORCE_SOURCE_DATE
 $env:SOURCE_DATE_EPOCH = "1767225600"
@@ -61,4 +61,9 @@ try {
     Pop-Location
     $env:SOURCE_DATE_EPOCH = $priorSourceDateEpoch
     $env:FORCE_SOURCE_DATE = $priorForceSourceDate
+}
+
+python -B (Join-Path $root "scripts\refresh_proof_contract.py") --write
+if ($LASTEXITCODE -ne 0) {
+    throw "Proof-contract refresh failed with exit code $LASTEXITCODE"
 }
