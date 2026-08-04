@@ -56,10 +56,19 @@ def prepare_dependencies() -> None:
     manifest = LEAN / "lake-manifest.json"
     toolchain = LEAN / "lean-toolchain"
     before = (sha256_file(manifest), sha256_file(toolchain))
-    print("[cache-install:dependencies] lake exe cache get", flush=True)
+    dependency_cache = LEAN / ".lake" / "release-mathlib-cache"
+    dependency_cache.mkdir(parents=True, exist_ok=True)
+    environment = os.environ.copy()
+    environment["MATHLIB_CACHE_DIR"] = str(dependency_cache)
+    print(
+        "[cache-install:dependencies] lake exe cache get "
+        f"(isolated cache: {dependency_cache})",
+        flush=True,
+    )
     completed = subprocess.run(
         ["lake", "exe", "cache", "get"],
         cwd=LEAN,
+        env=environment,
         check=False,
     )
     if completed.returncode != 0:
