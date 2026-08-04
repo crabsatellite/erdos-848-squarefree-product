@@ -33,6 +33,7 @@ if hasattr(sys.stderr, "reconfigure"):
 ROOT = Path(__file__).resolve().parents[1]
 LEAN_ROOT = ROOT / "lean4"
 OLEAN_ROOT = LEAN_ROOT / ".lake" / "build" / "lib" / "lean"
+SHORT_ROOT_ENV = "ERDOS848_SHORT_REPOSITORY_ROOT"
 RUN_LOCK = LEAN_ROOT / ".lake" / "run-lean-guarded.lock"
 TEMP_OLEAN_PATTERNS = (
     re.compile(r"^\..+\.tmp-(?P<pid>[0-9]+)\.olean$"),
@@ -96,6 +97,37 @@ def path_is_inside(path: str | Path, root: Path) -> bool:
     except (OSError, ValueError):
         return False
     return True
+
+
+def configured_short_lean_root() -> Path | None:
+    """Validate the short repository mapping supplied by the kernel gate."""
+    value = os.environ.get(SHORT_ROOT_ENV)
+    if not value:
+        return None
+    short_repository = Path(value)
+    try:
+        if not os.path.samefile(short_repository, ROOT):
+            raise SystemExit(
+                f"{SHORT_ROOT_ENV} does not identify the current repository"
+            )
+    except OSError as error:
+        raise SystemExit(f"invalid {SHORT_ROOT_ENV}: {error}") from error
+    return short_repository / "lean4"
+
+
+def rewrite_lean_path(lean_path: str, short_lean_root: Path) -> str:
+    """Rewrite project-local LEAN_PATH entries through the short mapping."""
+    rewritten: list[str] = []
+    canonical_root = LEAN_ROOT.resolve()
+    for value in lean_path.split(os.pathsep):
+        path = Path(value)
+        try:
+            relative = path.resolve().relative_to(canonical_root)
+        except (OSError, ValueError):
+            rewritten.append(value)
+        else:
+            rewritten.append(str(short_lean_root / relative))
+    return os.pathsep.join(rewritten)
 
 
 def repo_lean_processes() -> list[psutil.Process]:
@@ -579,6 +611,9 @@ def main() -> None:
     reap_stale_temporary_oleans("PRE")
 
     command_env = None
+    command_cwd = LEAN_ROOT
+    command_source = source
+    short_lean_root = configured_short_lean_root()
     lean_memory_mb = args.lean_memory_mb or args.memory_mb
     if args.direct_lean:
         if sys.platform != "win32":
@@ -600,6 +635,14 @@ def main() -> None:
         lean_path = lake_environment.stdout.strip()
         if not lean_path:
             raise SystemExit("lake did not provide LEAN_PATH")
+        if short_lean_root is not None:
+            lean_path = rewrite_lean_path(lean_path, short_lean_root)
+            command_cwd = short_lean_root
+            command_source = short_lean_root / relative
+            print(
+                f"LEAN_PATH_SHORT_ROOT=active path:{short_lean_root}",
+                flush=True,
+            )
         command_env["LEAN_PATH"] = lean_path
         lean_executable = subprocess.run(
             ["elan", "which", "lean"],
@@ -632,12 +675,15 @@ def main() -> None:
             f".{output.stem}.tmp-{os.getpid()}.olean"
         )
         temporary_output.unlink(missing_ok=True)
-        command.extend(["-o", str(temporary_output)])
-    command.append(str(source))
+        command_output = temporary_output
+        if short_lean_root is not None:
+            command_output = short_lean_root / temporary_output.relative_to(LEAN_ROOT)
+        command.extend(["-o", str(command_output)])
+    command.append(str(command_source))
 
     process = subprocess.Popen(
         command,
-        cwd=LEAN_ROOT,
+        cwd=command_cwd,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,

@@ -12,14 +12,18 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
 from pathlib import Path
 
+from windows_short_path import WindowsShortPathError, windows_short_root
+
 
 ROOT = Path(__file__).resolve().parents[1]
 LEAN = ROOT / "lean4"
+SHORT_ROOT_ENV = "ERDOS848_SHORT_REPOSITORY_ROOT"
 
 
 def configure_stdout() -> None:
@@ -86,6 +90,25 @@ def audit_axioms(output: str, allowed: set[str]) -> None:
     print(f"[kernel-gate:axioms-ok] dependencies={sorted(seen)}")
 
 
+def run_gates(memory_mib: int) -> None:
+    state = json.loads((ROOT / "proof-state.json").read_text(encoding="utf-8"))
+    acceptance = state["acceptance"]
+    run(
+        [
+            sys.executable,
+            "scripts/check_proof_state.py",
+            "--require-release-ready",
+            "--audit-sources",
+        ]
+    )
+    map_relative = Path(acceptance["theorem_map"]).relative_to("lean4").as_posix()
+    audit_relative = Path(acceptance["axiom_audit"]).relative_to("lean4").as_posix()
+    run(guarded_lean_command(map_relative, memory_mib))
+    audit_output = run(guarded_lean_command(audit_relative, memory_mib))
+    audit_axioms(audit_output, set(acceptance["allowed_axioms"]))
+    print("[kernel-gate:ok] paper-machine version, trust=0, and axioms")
+
+
 def main() -> int:
     configure_stdout()
     parser = argparse.ArgumentParser(description=__doc__)
@@ -99,22 +122,25 @@ def main() -> int:
     if args.memory_mib < 1024:
         fail("--memory-mib must be at least 1024")
 
-    state = json.loads((ROOT / "proof-state.json").read_text(encoding="utf-8"))
-    acceptance = state["acceptance"]
-    run(
-        [
-            sys.executable,
-            "scripts/check_proof_state.py",
-            "--require-release-ready",
-            "--audit-sources",
-        ]
-    )
-    map_relative = Path(acceptance["theorem_map"]).relative_to("lean4").as_posix()
-    audit_relative = Path(acceptance["axiom_audit"]).relative_to("lean4").as_posix()
-    run(guarded_lean_command(map_relative, args.memory_mib))
-    audit_output = run(guarded_lean_command(audit_relative, args.memory_mib))
-    audit_axioms(audit_output, set(acceptance["allowed_axioms"]))
-    print("[kernel-gate:ok] paper-machine version, trust=0, and axioms")
+    if sys.platform == "win32":
+        previous = os.environ.get(SHORT_ROOT_ENV)
+        try:
+            with windows_short_root(ROOT) as short_root:
+                os.environ[SHORT_ROOT_ENV] = str(short_root)
+                print(
+                    f"[kernel-gate:short-path] repository={short_root}",
+                    flush=True,
+                )
+                run_gates(args.memory_mib)
+        except WindowsShortPathError as error:
+            fail(str(error))
+        finally:
+            if previous is None:
+                os.environ.pop(SHORT_ROOT_ENV, None)
+            else:
+                os.environ[SHORT_ROOT_ENV] = previous
+    else:
+        run_gates(args.memory_mib)
     return 0
 
 

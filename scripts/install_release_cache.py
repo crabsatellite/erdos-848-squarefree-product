@@ -4,8 +4,6 @@
 from __future__ import annotations
 
 import argparse
-from contextlib import contextmanager
-import ctypes
 import hashlib
 import json
 import os
@@ -30,6 +28,7 @@ from cache_release_common import (
     source_modules,
     source_to_olean,
 )
+from windows_short_path import WindowsShortPathError, windows_short_root
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -52,60 +51,6 @@ def verify_toolchain(expected: str) -> None:
         raise CacheReleaseError(
             f"active Lean does not match pinned {version}: {output}"
         )
-
-
-def windows_free_drive_letter() -> str:
-    """Return an unused drive letter for a temporary short-path mapping."""
-    if os.name != "nt":
-        raise CacheReleaseError("short drive mappings are only available on Windows")
-    used = int(ctypes.windll.kernel32.GetLogicalDrives())
-    for letter in "QPONMLKJIHGFEDCBAUVWXY":
-        if not (used & (1 << (ord(letter) - ord("A")))):
-            return letter
-    raise CacheReleaseError("no free drive letter is available for cache recovery")
-
-
-@contextmanager
-def windows_short_root(root: Path):
-    """Temporarily expose ``root`` through an unused Windows drive letter."""
-    letter = windows_free_drive_letter()
-    drive = f"{letter}:"
-    mapped = subprocess.run(
-        ["subst.exe", drive, str(root)],
-        check=False,
-        text=True,
-        encoding="utf-8",
-        errors="replace",
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-    )
-    if mapped.returncode != 0:
-        raise CacheReleaseError(
-            f"could not create temporary short-path mapping {drive}: "
-            f"{mapped.stdout.strip()}"
-        )
-    short_root = Path(f"{drive}\\")
-    try:
-        if not short_root.is_dir():
-            raise CacheReleaseError(
-                f"temporary short-path mapping {drive} is not accessible"
-            )
-        yield short_root
-    finally:
-        removed = subprocess.run(
-            ["subst.exe", drive, "/D"],
-            check=False,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-        )
-        if removed.returncode != 0:
-            raise CacheReleaseError(
-                f"could not remove temporary short-path mapping {drive}: "
-                f"{removed.stdout.strip()}"
-            )
 
 
 def run_dependency_unpack(
@@ -225,7 +170,11 @@ def prepare_dependencies() -> None:
         check=False,
     )
     if completed.returncode != 0:
-        if not recover_windows_mathlib_long_paths(environment):
+        try:
+            recovered = recover_windows_mathlib_long_paths(environment)
+        except WindowsShortPathError:
+            recovered = False
+        if not recovered:
             raise CacheReleaseError(
                 f"mathlib cache bootstrap failed ({completed.returncode})"
             )
