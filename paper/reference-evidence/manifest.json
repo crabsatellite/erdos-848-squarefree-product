@@ -203,14 +203,9 @@
           "exact": "2026"
         },
         {
-          "id": "bib_month",
-          "field": "month",
-          "exact": "mar"
-        },
-        {
           "id": "bib_note",
           "field": "note",
-          "exact": "Preprint dated March 24, 2026"
+          "exact": "Preprint dated March 24"
         },
         {
           "id": "bib_url",

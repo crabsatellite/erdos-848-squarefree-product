@@ -67,7 +67,8 @@
       "label": "thm:pure-parity-matching",
       "anchors": [
         ["lean4/Erdos848/TailPureGlobalDegree.lean", "theorem pureGlobalBadEnvelope_le_strictHalfTarget"],
-        ["lean4/Erdos848/TailPureGlobalDegree.lean", "theorem pureGlobalOppositeBaseMatching"]
+        ["lean4/Erdos848/TailPureGlobalDegree.lean", "theorem pureGlobalOppositeBaseMatching"],
+        ["lean4/Erdos848/TailPureMatching.lean", "theorem hall_bound_of_pure_opposite_matching"]
       ]
     },
     {
@@ -181,7 +182,9 @@
       "label": "thm:erdos-848-complete",
       "anchors": [
         ["lean4/Erdos848/PrefixClose.lean", "theorem erdos848_full_of_five_million_tail"],
-        ["lean4/Erdos848/PaperGeneratedCertificateProvider.lean", "theorem all_N"]
+        ["lean4/Erdos848/PaperGeneratedCertificateProvider.lean", "theorem all_N"],
+        ["lean4/Erdos848/SharpnessCore.lean", "theorem originalA7_has_property"],
+        ["lean4/Erdos848/HallReduction.lean", "theorem erdos848HallStatement_iff_originalProblem"]
       ]
     }
   ]

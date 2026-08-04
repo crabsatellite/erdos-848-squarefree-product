@@ -54,7 +54,7 @@ For $N\geq1$, let $A\subseteq[1,N]$ satisfy the condition that $ab+1$ is
 nonsquarefree for every $a,b\in A$.  We determine the exact maximum
 cardinality of such a set, proving that
 \[
- |A|\leq \bigl|\{n\leq N:n\equiv7\pmod {25}\}\bigr|,
+ |A|\leq \bigl|\{1\leq n\leq N:n\equiv7\pmod {25}\}\bigr|,
 \]
 with equality attained by the progression $7\pmod {25}$.  Thus the
 extremal value is established for every $N$, closing the finite range left
@@ -146,9 +146,8 @@ reformulation replaces the extremal-set question by a neighbourhood
 inequality.  Monotone rational bounds compress long ranges to finitely many
 rows.  Valuation, residue-cell, and prime-square-fibre partitions compress
 the small tail ranges to finitely many structural states.  Only these states
-are certified.  This is the standard proof-producing use of computation in
-explicit number theory: a bounded remainder is discharged by independently
-checkable arithmetic data, not by numerical evidence
+are certified.  The bounded remainder is discharged by independently
+checkable arithmetic data, not by extrapolation from numerical evidence
 \cite{HelfgottPlatt,OliveiraSilvaHerzogPardi}.
 
 The squarefree-progression estimates belong to the classical line of
@@ -172,6 +171,7 @@ Thus $5^2\mid ab+1$.
 
 \section{The exact Hall cut}
 
+Throughout, $N$ is a positive integer and $[1,N]=\{1,\ldots,N\}$.
 Join $b\in[1,N]\setminus\CN$ to $a\in\CN$ when $ab+1$ is squarefree.
 For $B\subseteq[1,N]\setminus\CN$, put
 \[
@@ -242,7 +242,7 @@ $|\CN|<|B|+|\TN(B)|$ a \emph{strict Hall defect}.
 \label{thm:finite-prefix-colouring-close}
 For every $1\leq N\leq\FiveMillion$, let
 \[
- \mathcal D_N=\{x\leq N:x^2+1\text{ is nonsquarefree}\},
+ \mathcal D_N=\{x\in[1,N]:x^2+1\text{ is nonsquarefree}\},
 \]
 and join distinct $x,y\in\mathcal D_N$ when $xy+1$ is nonsquarefree.
 This graph has a proper colouring whose colour set is indexed by $\CN$.
@@ -351,9 +351,9 @@ The residue-class union bound gives the reciprocal-square contribution
  \frac1{25}\sum_{47<p\leq N/26}\frac1{p^2}.
 \]
 The certified prime-square tail is less than $3887/10^6$.  The terminal
-class contributes $\pi(N/26)/N$, and the checked prime-count estimate bounds
-this by $59/10^4$ for $N\geq\FiveMillion$.  Adding the two terms proves the
-claim.
+class contributes $\pi(N/26)/N$, and an explicit prime-count estimate bounds
+this by $59/10^4$ for $N\geq\FiveMillion$
+\cite{RosserSchoenfeld,DusartPrimes}.  Adding the two terms proves the claim.
 \end{proof}
 
 \begin{lemma}[High-prime payment]\label{lem:pure-global-high}
@@ -497,20 +497,26 @@ disjoint finite union.
 \end{proof}
 
 \begin{lemma}[Nine-cell capacity dichotomy]\label{lem:nine-cell-capacity}
-Suppose all nine mod-$9$ cells in one odd valuation class are active.
-With two copies of every mod-$49$ fibre and one spare slot, either there is
-an injective assignment selecting eight cells and compatible fibres, or
-there is a set $Y$ of cells for which
+Fix one odd valuation class after the previously charged points have been
+removed, and let $\mathcal R$ be the resulting structured residual.  Join a
+residue label $c\pmod 9$ to a residue $r\pmod {49}$ when some $x\in\mathcal R$
+satisfies $x\equiv c\pmod 9$ and $x\equiv r\pmod {49}$.  For a set $Y$ of
+mod-$9$ labels, let $\Gamma_{49}(Y)$ be its neighbourhood in the mod-$49$
+residues.  Then either eight distinct mod-$9$ labels can be assigned occupied
+mod-$49$ fibres, with no fibre used more than twice, or there is a set $Y$ for
+which
 \[
   2\,|\Gamma_{49}(Y)|+1<|Y|.
 \]
 \end{lemma}
 
 \begin{proof}
-Apply Hall's theorem to the bipartite graph whose left side is the nine cells
-and whose right side consists of two copies of every mod-$49$ fibre together
-with one spare vertex.  A saturating matching uses the spare at most once,
-and therefore gives eight genuine cell--fibre choices.  If no matching
+Apply Hall's theorem to the bipartite graph whose left side is the nine
+mod-$9$ labels and whose right side consists of two copies of every mod-$49$
+residue together with one spare vertex.  A saturating matching uses the spare
+at most once.  Every other matched edge has, by definition, an occupant in
+$\mathcal R$; choosing one produces eight pivots in distinct mod-$9$ cells,
+with each mod-$49$ residue used at most twice.  If no saturating matching
 exists, Hall supplies $Y$ with the displayed capacity defect.
 \end{proof}
 
@@ -648,10 +654,9 @@ order, are
 The tail payment uses cutoff $23$ in the six even branches and cutoff $19$
 in the four odd branches, together with the four blockwise transformed-root
 envelopes.  The semantic terminal theorem gives the first inequality in
-\eqref{eq:terminal-template}.  The theorem
-  checked rational table verifies all $6\cdot10$ comparisons, and block
-  membership gives the final
-monotonicity step.  Hence no strict defect exists.
+\eqref{eq:terminal-template}.  The checked rational table verifies all
+$6\cdot10$ comparisons, and block membership gives the final monotonicity
+step.  Hence no strict defect exists.
 \end{proof}
 
 \begin{theorem}[The two-hundred-million-to-two-billion range]
@@ -672,8 +677,8 @@ and transformed-root splits $75,85,100,125$, respectively.  Their quotient
 boxes have sizes $75^2,85^2,100^2,125^2$.  The normal and mod-$5$-twisted
 word tables certify the quadratic-residue survivor counts for every support
 length through eight.  A separate finite list of root-envelope rows covers
-each integer in the four regimes; its Boolean cover checker proves that
-there is neither a gap nor an overlap error relevant to row selection.
+the four regimes, and its cover checker proves that every integer in those
+regimes lies in the domain of a certified row.
 
 Lemma~\ref{lem:global-ten-branch-allocation} supplies one of the same ten
 branches.  For a regime $\rho$ and branch $\beta$, define
@@ -687,8 +692,8 @@ the preceding proof, and $Q_{\rho,\beta}$ uses the regime root ceiling
 \[
  10^{-9}(9000000,\ 7700000,\ 6400000,\ 5000000).
 \]
-The root provider supplies only finite word masks and checked row data; it
-contains no Hall theorem.  The semantic checker derives the actual
+The root certificate consists only of finite word masks and checked row data;
+it asserts no Hall inequality.  The semantic checker derives the actual
 transformed-root inequality from those data.  The terminal theorem then
 proves $|H_N(B)|/N\leq T_{\rho,\beta}$, and exact rational arithmetic proves
 \[
@@ -808,8 +813,8 @@ Theorems~\ref{prop:five-million-interval-close},
  [\TwentyMillion,\FortyMillion),
 \]
 and Theorem~\ref{thm:forty-million-tail-assembly} covers the remaining
-unbounded interval.  These four ranges are necessary inputs to this
-particular assembly: the first range alone does not imply the other three.
+unbounded interval.  These four half-open intervals are pairwise disjoint and
+cover $[\FiveMillion,\infty)$.
 \end{proof}
 
 \begin{theorem}[Erd\H{o}s Problem 848]
@@ -817,7 +822,7 @@ particular assembly: the first range alone does not imply the other three.
 For every integer $N\geq1$, the maximum cardinality of a set
 $A\subseteq[1,N]$ for which $ab+1$ is nonsquarefree for every $a,b\in A$ is
 \[
- \left|\{n\leq N:n\equiv7\pmod {25}\}\right|.
+ \left|\{1\leq n\leq N:n\equiv7\pmod {25}\}\right|.
 \]
 Equivalently, the Hall inequality \eqref{eq:hall-defect} holds for every $N$.
 \end{theorem}
@@ -840,18 +845,20 @@ and the final all-$N$ assembly with a small trusted kernel.
 
 \subsection*{Manuscript-to-Lean correspondence}
 
-The final declaration is
+The final upper-bound declaration is
 \begin{center}\small
 \texttt{Erdos848.PaperGeneratedCertificateProvider.all\_N}.
 \end{center}
+Together with \texttt{originalA7\_has\_property} and
+\texttt{erdos848HallStatement\_iff\_originalProblem}, it yields the sharpness
+and Hall-equivalence clauses of Theorem~\ref{thm:erdos-848-complete}.
 The machine-readable endpoint map contains fifteen published Lean
 declarations.  A separate result map binds every numbered result in this
-manuscript to at least one exact Lean declaration token and source file.  Its
-gate checks equality between the set of manuscript labels and the set of
-result-map labels, checks every declaration token in its named source, and
-checks that every named module lies in the final theorem's import cone.
-Thus a broad module-level association cannot conceal a missing intermediate
-result.
+manuscript to exact Lean declaration names and source files.  The accompanying
+verification script compares the manuscript labels with the result map,
+checks each declaration in its cited source, and confirms that every cited
+module lies in the import closure of the final upper-bound theorem.  The
+correspondence is therefore checked at declaration level.
 
 \begin{table}[ht]
 \centering
@@ -883,7 +890,7 @@ The middle and high subranges &
 \texttt{erdos848PaperTwoHundredMillionToTwoBillionClose\_of\_certificates},
 \texttt{HighTailCloseCertificate.close}\\
 \addlinespace
-Unified tail and final theorem &
+Unified tail and final upper bound &
 \texttt{erdos848\_paper\_tail\_close},
 \texttt{PaperGeneratedCertificateProvider.all\_N}\\
 \bottomrule
@@ -937,15 +944,16 @@ Optional precompiled \texttt{.olean} shards are a hash-checked transport
 cache.  They can shorten replay, but they are neither mathematical premises
 nor a substitute for kernel checking.
 
-\section*{Declaration of Generative AI and AI-Assisted Technologies}
+\section*{Disclosure and verification statement}
 
-During the preparation of this work, the author used OpenAI Codex for code
-navigation, drafting and copy-editing, and assistance with Lean~4 source and
-verification scripts.  No other generative-AI system was used.  The author
-checked the mathematical claims, citations, manuscript-to-Lean
-correspondence, and kernel audit.  AI output is not treated as mathematical
-evidence.  The author is responsible for the definitions, proofs, citations,
-code, and manuscript.
+Multiple artificial-intelligence tools and an author-developed research system
+were used in the research and preparation of this article.  The author is
+responsible for the mathematical content and conclusions of the article.
+All results can also be independently verified through the accompanying
+kernel-checked machine-proof project; their formal validity is therefore
+subject to reproducible kernel verification rather than the author's assertion
+alone.  Further details concerning the systems and their use will be disclosed
+separately.
 
 \section*{Acknowledgements}
 
