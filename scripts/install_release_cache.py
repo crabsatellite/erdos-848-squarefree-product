@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
+import ctypes
 import hashlib
 import json
 import os
@@ -52,6 +54,157 @@ def verify_toolchain(expected: str) -> None:
         )
 
 
+def windows_free_drive_letter() -> str:
+    """Return an unused drive letter for a temporary short-path mapping."""
+    if os.name != "nt":
+        raise CacheReleaseError("short drive mappings are only available on Windows")
+    used = int(ctypes.windll.kernel32.GetLogicalDrives())
+    for letter in "QPONMLKJIHGFEDCBAUVWXY":
+        if not (used & (1 << (ord(letter) - ord("A")))):
+            return letter
+    raise CacheReleaseError("no free drive letter is available for cache recovery")
+
+
+@contextmanager
+def windows_short_root(root: Path):
+    """Temporarily expose ``root`` through an unused Windows drive letter."""
+    letter = windows_free_drive_letter()
+    drive = f"{letter}:"
+    mapped = subprocess.run(
+        ["subst.exe", drive, str(root)],
+        check=False,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    if mapped.returncode != 0:
+        raise CacheReleaseError(
+            f"could not create temporary short-path mapping {drive}: "
+            f"{mapped.stdout.strip()}"
+        )
+    short_root = Path(f"{drive}\\")
+    try:
+        if not short_root.is_dir():
+            raise CacheReleaseError(
+                f"temporary short-path mapping {drive} is not accessible"
+            )
+        yield short_root
+    finally:
+        removed = subprocess.run(
+            ["subst.exe", drive, "/D"],
+            check=False,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+        )
+        if removed.returncode != 0:
+            raise CacheReleaseError(
+                f"could not remove temporary short-path mapping {drive}: "
+                f"{removed.stdout.strip()}"
+            )
+
+
+def run_dependency_unpack(
+    cwd: Path,
+    environment: dict[str, str],
+) -> subprocess.CompletedProcess[str]:
+    completed = subprocess.run(
+        ["lake", "exe", "cache", "unpack"],
+        cwd=cwd,
+        env=environment,
+        check=False,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    if completed.stdout:
+        print(completed.stdout, end="" if completed.stdout.endswith("\n") else "\n")
+    return completed
+
+
+def recover_windows_mathlib_long_paths(environment: dict[str, str]) -> bool:
+    """Recover Mathlib cache entries whose redirected target exceeds Win32 limits.
+
+    Mathlib's cache command redirects Mathlib archives into its dependency tree.
+    On a deeply nested checkout, ``leantar`` can reject only the deepest targets.
+    A temporary drive mapping shortens both the archive and extraction paths.  The
+    official unpack command is rerun afterwards, so this recovery still fails
+    closed unless every expected dependency trace is present.
+    """
+    if os.name != "nt":
+        return False
+    print(
+        "[cache-install:dependencies] retrying deep Mathlib paths through "
+        "a temporary drive mapping",
+        flush=True,
+    )
+    with windows_short_root(LEAN) as short_root:
+        short_environment = environment.copy()
+        short_cache = short_root / ".lake" / "release-mathlib-cache"
+        short_environment["MATHLIB_CACHE_DIR"] = str(short_cache)
+
+        probe = run_dependency_unpack(short_root, short_environment)
+        if probe.returncode == 0:
+            return True
+        archive_hashes = sorted(
+            set(re.findall(r"(?i)([0-9a-f]{16})\.ltar", probe.stdout))
+        )
+        if not archive_hashes:
+            return False
+
+        prefix = subprocess.run(
+            ["lean", "--print-prefix"],
+            cwd=short_root,
+            env=short_environment,
+            check=False,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+        )
+        if prefix.returncode != 0:
+            return False
+        leantar = Path(prefix.stdout.strip()) / "bin" / "leantar.exe"
+        mathlib_root = short_root / ".lake" / "packages" / "mathlib"
+        if not leantar.is_file() or not mathlib_root.is_dir():
+            return False
+
+        for index, archive_hash in enumerate(archive_hashes, start=1):
+            archive = short_cache / f"{archive_hash}.ltar"
+            if not archive.is_file():
+                return False
+            extracted = subprocess.run(
+                [
+                    str(leantar),
+                    "-f",
+                    "-x",
+                    "-C",
+                    str(mathlib_root),
+                    str(archive),
+                ],
+                cwd=short_root,
+                env=short_environment,
+                check=False,
+            )
+            if extracted.returncode != 0:
+                return False
+            print(
+                "[cache-install:dependency-recovered] "
+                f"{index}/{len(archive_hashes)} {archive.name}",
+                flush=True,
+            )
+
+        verified = run_dependency_unpack(short_root, short_environment)
+        return verified.returncode == 0
+
+
 def prepare_dependencies() -> None:
     manifest = LEAN / "lake-manifest.json"
     toolchain = LEAN / "lean-toolchain"
@@ -72,9 +225,10 @@ def prepare_dependencies() -> None:
         check=False,
     )
     if completed.returncode != 0:
-        raise CacheReleaseError(
-            f"mathlib cache bootstrap failed ({completed.returncode})"
-        )
+        if not recover_windows_mathlib_long_paths(environment):
+            raise CacheReleaseError(
+                f"mathlib cache bootstrap failed ({completed.returncode})"
+            )
     after = (sha256_file(manifest), sha256_file(toolchain))
     if before != after:
         raise CacheReleaseError(
