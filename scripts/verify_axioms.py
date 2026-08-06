@@ -11,7 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 LEAN = ROOT / "lean4"
-AUDIT = "Erdos848/CertificateBoundaryAxiomAudit.lean"
+AUDIT = "Erdos848/PublicationAxiomAudit.lean"
 PUBLICATION_ROOT = LEAN / "Erdos848" / "PublicationRoot.lean"
 GENERATED_ASSEMBLY_ROOT = (
     LEAN / "Erdos848" / "PaperGeneratedCertificateProvider.lean"
@@ -20,17 +20,17 @@ ENDPOINTS = [
     "NonSquarefreeProductProp",
     "OriginalProblem848Statement",
     "originalA7_has_property",
-    "erdos848_prefix_close",
-    "erdos848_first_low_close",
-    "erdos848_second_low_close",
+    "originalProblem_of_hallStatement",
+    "erdos848HallStatement_iff_originalProblem",
+    "erdos848_through_five_million",
     "PaperCertificateProvider.fiveToTenMillion",
     "PaperCertificateProvider.tenToTwentyMillion",
     "PaperCertificateProvider.twentyToFortyMillion",
+    "erdos848FortyMillionClose_kernel",
+    "PaperCertificateProvider.twoHundredToTwoBillion",
+    "PaperCertificateProvider.twoBillionTail",
     "PaperCertificateProvider.fortyMillionTail",
     "erdos848_paper_tail_close",
-    "erdos848_all_N_of_certificates",
-    "PaperGeneratedCertificateProvider.numericalCertificates",
-    "PaperGeneratedCertificateProvider.tailClose",
     "PaperGeneratedCertificateProvider.all_N",
 ]
 ALLOWED = {"propext", "Classical.choice", "Quot.sound"}

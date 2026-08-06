@@ -16,7 +16,7 @@
     "minimal_root": "lean4/Erdos848/PaperGeneratedCertificateProvider.lean",
     "theorem_map": "lean4/Erdos848/PublicationTheoremMap.lean",
     "axiom_audit": "lean4/Erdos848/PublicationAxiomAudit.lean",
-    "certificate_boundary_axiom_audit": "lean4/Erdos848/CertificateBoundaryAxiomAudit.lean",
+    "certificate_boundary_axiom_audit": "lean4/Erdos848/PublicationAxiomAudit.lean",
     "allowed_axioms": [
       "propext",
       "Classical.choice",

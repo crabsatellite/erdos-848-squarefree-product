@@ -45,7 +45,7 @@
     "Erdos848/PaperCertificateProvider.lean",
     "Erdos848/PaperGeneratedCertificateProvider.lean",
     "Erdos848/PublicationRoot.lean",
-    "Erdos848/CertificateBoundaryAxiomAudit.lean"
+    "Erdos848/PublicationAxiomAudit.lean"
   ],
   "families": [
     {
