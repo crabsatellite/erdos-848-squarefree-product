@@ -21,6 +21,7 @@
       "NOTICE.md",
       "README.md",
       "RELEASE.md",
+      "certificate-pipeline.json",
       "proof-state.json",
       "release-manifest.json",
       "lean4/lake-manifest.json",

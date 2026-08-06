@@ -1,0 +1,550 @@
+{
+  "schema_version": 1,
+  "policy": {
+    "producer_trust": "none",
+    "acceptance": [
+      "lean --trust=0",
+      "no project axioms or proof escapes",
+      "only propext, Classical.choice, and Quot.sound",
+      "final unconditional theorem specializes finite numerical objects"
+    ],
+    "memory_tree_mib": 24576,
+    "working_set_trim_mib": 12000,
+    "full_runs_require_explicit_family": true,
+    "source_generation_precedes_all_kernel_runs": true,
+    "execution_order": [
+      "middle-prime-slope-wheel",
+      "mathematical-provider-foundation",
+      "five-million-sharp-finite23",
+      "middle-normal-unified",
+      "middle-twist-unified",
+      "middle-root-envelope",
+      "high-qr-six-row",
+      "final-kernel-assembly"
+    ]
+  },
+  "certificate_boundary": {
+    "mathematical_endpoint": "Erdos848.erdos848_all_N_of_certificates",
+    "final_endpoint": "Erdos848.PaperGeneratedCertificateProvider.all_N",
+    "status": "trust-zero-kernel-checked",
+    "remaining_kind": "none",
+    "qr_high_subrange_required": true,
+    "high_qr_interval": [
+      2000000000,
+      500000000000
+    ],
+    "unbounded_interval_lower": 500000000000,
+    "kernel_evidence": {
+      "status_path": "lean4/.lake/erdos848-Erdos848-status.json",
+      "build_status_sha256": "3fdff1632a5e259e26a74b412c1be4c15fae76246ffe1685bf393c3ebfc14c9d",
+      "build_finished_at": "2026-08-03T17:21:06.328357+00:00",
+      "build_input_signature": "c1364c0f0ce047c87564846aea09c1deb27de2b2044a8a0e8de98536cdcc4ea9"
+    }
+  },
+  "final_modules": [
+    "Erdos848/PaperCertificateProvider.lean",
+    "Erdos848/PaperGeneratedCertificateProvider.lean",
+    "Erdos848/PublicationRoot.lean",
+    "Erdos848/CertificateBoundaryAxiomAudit.lean"
+  ],
+  "families": [
+    {
+      "id": "mathematical-provider-foundation",
+      "state": "kernel-checked",
+      "source_globs": [
+        "Erdos848/PaperCertificateProvider.lean"
+      ],
+      "semantic_gate": "Replay the complete theorem-valued provider ABI and its exact historical dependency cone before any new numerical object is specialized; mtime-proven OLeans are safely adopted and only genuinely stale modules are rebuilt",
+      "depends_on": [
+        "middle-prime-slope-wheel"
+      ],
+      "observed_frontier": {
+        "provider_dependency_modules": 20478,
+        "already_fresh": 396,
+        "mtime_proven_reusable": 19222,
+        "actual_rebuild_before_prerequisite_families": 860,
+        "actual_generated_rebuilds": 502,
+        "actual_ordinary_core_rebuilds": 358,
+        "optimized_historical_families": {
+          "twenty_million_finite23_modules": 12,
+          "ten_million_even_finite23_modules": 13,
+          "twenty_million_odd_finite19_modules": 52,
+          "twenty_million_root_jump_modules": 23,
+          "ten_million_root_jump_modules": 17,
+          "twenty_million_paper_grid_modules": 74,
+          "hybrid_paper_grid_modules": 96
+        }
+      },
+      "generator_commands": [
+        [
+          "python",
+          "scripts/generate_twenty_million_finite23_certificate.py"
+        ],
+        [
+          "python",
+          "scripts/generate_ten_million_even_finite23_certificate.py"
+        ],
+        [
+          "python",
+          "scripts/generate_twenty_million_odd_finite19_certificate.py"
+        ],
+        [
+          "python",
+          "scripts/generate_twenty_million_root_jump_certificate.py"
+        ],
+        [
+          "python",
+          "scripts/generate_ten_million_kernel_root_jump_certificate.py"
+        ],
+        [
+          "python",
+          "scripts/generate_paper_diagonal_grid_certificate.py",
+          "--source-namespace",
+          "Erdos848.GeneratedTruncatedDiagonalTwentyMillion",
+          "--atom-namespace",
+          "Erdos848.GeneratedTruncatedDiagonalTwentyMillionAtoms",
+          "--namespace",
+          "Erdos848.GeneratedPaperDiagonalGridTwentyMillion",
+          "--cutoff",
+          "9999999",
+          "--permille",
+          "3",
+          "--rows-per-block",
+          "4",
+          "--cutoff-rows-per-block",
+          "128",
+          "--cutoff-atoms-per-shard",
+          "64",
+          "--cutoff-shard-source-bytes",
+          "2000000",
+          "--max-rows",
+          "232",
+          "--sharded-cutoffs"
+        ],
+        [
+          "python",
+          "scripts/generate_paper_diagonal_grid_certificate.py",
+          "--source-namespace",
+          "Erdos848.GeneratedHybridHighDiagonalTwoBillion",
+          "--atom-namespace",
+          "Erdos848.GeneratedHybridHighDiagonalTwoBillionAtoms",
+          "--namespace",
+          "Erdos848.GeneratedHybridPaperDiagonalGrid",
+          "--cutoff",
+          "9999999",
+          "--permille",
+          "5",
+          "--rows-per-block",
+          "16",
+          "--cutoff-rows-per-block",
+          "128",
+          "--cutoff-atoms-per-shard",
+          "64",
+          "--cutoff-shard-source-bytes",
+          "2000000",
+          "--hybrid"
+        ]
+      ],
+      "commands": [
+        [
+          "python",
+          "scripts/build_generated_certificate.py",
+          "--kind",
+          "generic",
+          "--module-prefix",
+          "Erdos848",
+          "--generic-target",
+          "Erdos848.PaperCertificateProvider",
+          "--workers",
+          "2",
+          "--max-active-leaves",
+          "2",
+          "--max-memory-mib",
+          "12288",
+          "--final-max-memory-mib",
+          "24576",
+          "--core-max-memory-mib",
+          "24576",
+          "--leaf-timeout-seconds",
+          "1800",
+          "--final-timeout-seconds",
+          "3600",
+          "--preflight-leaves",
+          "2",
+          "--preflight-timeout-seconds",
+          "900"
+        ]
+      ]
+    },
+    {
+      "id": "five-million-sharp-finite23",
+      "state": "kernel-checked",
+      "depends_on": [
+        "mathematical-provider-foundation"
+      ],
+      "source_globs": [
+        "Erdos848/GeneratedTailR263EvenOneFinite23/Sharp*.lean"
+      ],
+      "semantic_gate": "100 independent 625-case Boolean leaves instantiate E1Finite23SharpCertificate on [5M,10M); symmetry quotienting is deliberately rejected because it would add a new permutation-invariance theorem for only 62,500 rows",
+      "observed_frontier": {
+        "boolean_leaves": 100,
+        "aggregates": 1,
+        "source_modules": 101
+      },
+      "generator_command": [
+        "python",
+        "scripts/generate_tail_r263_even_one_finite23_certificates.py"
+      ],
+      "commands": [
+        [
+          "python",
+          "scripts/build_generated_certificate.py",
+          "--kind",
+          "generic",
+          "--module-prefix",
+          "Erdos848.GeneratedTailR263EvenOneFinite23",
+          "--generic-target",
+          "Erdos848.GeneratedTailR263EvenOneFinite23.SharpCertificate",
+          "--workers",
+          "2",
+          "--max-active-leaves",
+          "2",
+          "--max-memory-mib",
+          "12288",
+          "--final-max-memory-mib",
+          "24576",
+          "--leaf-timeout-seconds",
+          "1800",
+          "--final-timeout-seconds",
+          "3600",
+          "--preflight-leaves",
+          "2",
+          "--preflight-timeout-seconds",
+          "900"
+        ]
+      ]
+    },
+    {
+      "id": "middle-normal-unified",
+      "state": "kernel-checked",
+      "depends_on": [
+        "mathematical-provider-foundation"
+      ],
+      "source_globs": [
+        "Erdos848/GeneratedHybridPaperRootCoverage/Block3MaskSemanticBatch*.lean",
+        "Erdos848/GeneratedHybridPaperRootCoverage/Block3MaskSemanticChunk*.lean",
+        "Erdos848/GeneratedHybridPaperRootCoverage/Block3MaskSemanticBatchedCertificate.lean",
+        "Erdos848/GeneratedHybridPaperRootCoverage/Block3MaskSemanticCertificate.lean",
+        "Erdos848/GeneratedHybridPaperRootCoverage/Unified*.lean"
+      ],
+      "semantic_gate": "One 15,625-bit master QR table, checked in 101 paired batches, is restricted to all four paper regimes; 48 normal short-circuit scans close [200M,2B)",
+      "observed_frontier": {
+        "master_primes": 201,
+        "paired_semantic_batches": 101,
+        "aggregate_chunks": 7,
+        "unified_scans": 48,
+        "lower_semantic_families_eliminated": 3
+      },
+      "generator_commands": [
+        [
+          "python",
+          "scripts/generate_hybrid_paper_root_certificate.py"
+        ],
+        [
+          "python",
+          "scripts/generate_hybrid_paper_root_coset_certificate.py"
+        ],
+        [
+          "python",
+          "scripts/generate_hybrid_paper_unified_certificate.py",
+          "--write"
+        ]
+      ],
+      "commands": [
+        [
+          "python",
+          "scripts/build_generated_certificate.py",
+          "--kind",
+          "generic",
+          "--module-prefix",
+          "Erdos848.GeneratedHybridPaperRootCoverage",
+          "--generic-target",
+          "Erdos848.GeneratedHybridPaperRootCoverage.UnifiedCertificate",
+          "--workers",
+          "2",
+          "--max-active-leaves",
+          "2",
+          "--max-memory-mib",
+          "12288",
+          "--final-max-memory-mib",
+          "24576",
+          "--leaf-timeout-seconds",
+          "1800",
+          "--final-timeout-seconds",
+          "3600",
+          "--preflight-leaves",
+          "2",
+          "--preflight-timeout-seconds",
+          "900"
+        ]
+      ]
+    },
+    {
+      "id": "middle-twist-unified",
+      "state": "kernel-checked",
+      "depends_on": [
+        "middle-normal-unified"
+      ],
+      "source_globs": [
+        "Erdos848/GeneratedHybridPaperRootTwistCoverage/Block3MaskSemanticBatch*.lean",
+        "Erdos848/GeneratedHybridPaperRootTwistCoverage/Block3MaskSemanticChunk*.lean",
+        "Erdos848/GeneratedHybridPaperRootTwistCoverage/Block3MaskSemanticBatchedCertificate.lean",
+        "Erdos848/GeneratedHybridPaperRootTwistCoverage/Block3MaskSemanticCertificate.lean",
+        "Erdos848/GeneratedHybridPaperRootTwistCoverage/Unified*.lean"
+      ],
+      "semantic_gate": "The five-twist master table is checked wordwise with Array lookup in 101 paired batches, then reused by 48 short-circuit scans for all four paper regimes",
+      "observed_frontier": {
+        "master_primes": 201,
+        "paired_semantic_batches": 101,
+        "aggregate_chunks": 7,
+        "unified_scans": 48,
+        "bitwise_list_lookup_removed": true,
+        "lower_semantic_families_eliminated": 3
+      },
+      "generator_command": [
+        "python",
+        "scripts/generate_hybrid_paper_root_twist_certificate.py"
+      ],
+      "commands": [
+        [
+          "python",
+          "scripts/build_generated_certificate.py",
+          "--kind",
+          "generic",
+          "--module-prefix",
+          "Erdos848.GeneratedHybridPaperRootTwistCoverage",
+          "--generic-target",
+          "Erdos848.GeneratedHybridPaperRootTwistCoverage.UnifiedCertificate",
+          "--workers",
+          "2",
+          "--max-active-leaves",
+          "2",
+          "--max-memory-mib",
+          "12288",
+          "--final-max-memory-mib",
+          "24576",
+          "--leaf-timeout-seconds",
+          "1800",
+          "--final-timeout-seconds",
+          "3600",
+          "--preflight-leaves",
+          "2",
+          "--preflight-timeout-seconds",
+          "900"
+        ]
+      ]
+    },
+    {
+      "id": "middle-prime-slope-wheel",
+      "state": "kernel-checked",
+      "source_globs": [
+        "Erdos848/GeneratedHybridPaperPrimeSlopeCoverage/*.lean"
+      ],
+      "semantic_gate": "A shared kernel-certified 30,030 wheel reduces every period from 30,030 integers to 5,760 coprime offsets; 64-entry packed words certify all 412 prime-count slope periods through 16M",
+      "observed_frontier": {
+        "periods": 412,
+        "raw_offsets_per_period": 30030,
+        "wheel_offsets_per_period": 5760,
+        "row_reduction_factor": 5.213541666666667,
+        "packed_word_width": 64,
+        "packed_words_per_period": 90,
+        "words_per_chunk": 10,
+        "chunks_per_source_module": 6,
+        "chunk_source_modules": 618,
+        "periods_per_assembly_source_module": 1,
+        "period_coverage_source_modules": 412,
+        "period_assembly_source_modules": 412,
+        "periods_per_semantic_group": 32,
+        "semantic_group_modules": 13,
+        "source_modules": 1458,
+        "source_mib": 12.82
+      },
+      "generator_command": [
+        "python",
+        "scripts/generate_hybrid_paper_prime_slope_certificate.py"
+      ],
+      "commands": [
+        [
+          "python",
+          "scripts/build_generated_certificate.py",
+          "--kind",
+          "generic",
+          "--module-prefix",
+          "Erdos848.GeneratedHybridPaperPrimeSlopeCoverage",
+          "--generic-target",
+          "Erdos848.GeneratedHybridPaperPrimeSlopeCoverage.Certificate",
+          "--workers",
+          "2",
+          "--max-active-leaves",
+          "2",
+          "--max-memory-mib",
+          "12288",
+          "--final-max-memory-mib",
+          "24576",
+          "--leaf-timeout-seconds",
+          "1800",
+          "--final-timeout-seconds",
+          "3600",
+          "--preflight-leaves",
+          "2",
+          "--preflight-timeout-seconds",
+          "900"
+        ]
+      ]
+    },
+    {
+      "id": "middle-root-envelope",
+      "state": "kernel-checked",
+      "depends_on": [
+        "middle-prime-slope-wheel",
+        "mathematical-provider-foundation"
+      ],
+      "source_globs": [
+        "Erdos848/GeneratedHybridPaperRootEnvelopeCoverage/*.lean"
+      ],
+      "semantic_gate": "592 exact envelope rows in 37 groups consume the wheel-backed prime-count slope theorem and instantiate HybridPaperRootEnvelopeCertificate",
+      "observed_frontier": {
+        "rows": 592,
+        "groups": 37,
+        "source_modules": 38
+      },
+      "generator_command": [
+        "python",
+        "scripts/generate_hybrid_paper_root_envelope_certificate.py"
+      ],
+      "commands": [
+        [
+          "python",
+          "scripts/build_generated_certificate.py",
+          "--kind",
+          "generic",
+          "--module-prefix",
+          "Erdos848.GeneratedHybridPaperRootEnvelopeCoverage",
+          "--generic-target",
+          "Erdos848.GeneratedHybridPaperRootEnvelopeCoverage.Certificate",
+          "--workers",
+          "2",
+          "--max-active-leaves",
+          "2",
+          "--max-memory-mib",
+          "12288",
+          "--final-max-memory-mib",
+          "24576",
+          "--leaf-timeout-seconds",
+          "1800",
+          "--final-timeout-seconds",
+          "3600",
+          "--preflight-leaves",
+          "2",
+          "--preflight-timeout-seconds",
+          "900"
+        ]
+      ]
+    },
+    {
+      "id": "high-qr-six-row",
+      "state": "kernel-checked",
+      "depends_on": [
+        "five-million-sharp-finite23",
+        "middle-twist-unified",
+        "middle-root-envelope"
+      ],
+      "source_globs": [
+        "Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinal*.lean"
+      ],
+      "semantic_gate": "Six contiguous QR-screened complete rows close [2B,500B); the existing theorem closes every N at or above 500B",
+      "observed_frontier": {
+        "finite_rows": 6,
+        "finite_lower": 2000000000,
+        "finite_upper": 500000000000,
+        "unbounded_lower": 500000000000,
+        "screen_targets": [
+          6250,
+          6250,
+          6250,
+          6250,
+          6250,
+          3189,
+          1589,
+          789,
+          389,
+          190
+        ],
+        "scan_modules": 20
+      },
+      "generator_command": [
+        "python",
+        "scripts/generate_high_qr_final_certificate.py",
+        "--write",
+        "--json",
+        "lean4/.lake/high-qr-final-audit.json"
+      ],
+      "commands": [
+        [
+          "python",
+          "scripts/build_generated_certificate.py",
+          "--kind",
+          "generic",
+          "--module-prefix",
+          "Erdos848.GeneratedHybridPaperRootCoverage",
+          "--generic-target",
+          "Erdos848.GeneratedHybridPaperRootCoverage.HighQrFinalCertificate",
+          "--workers",
+          "2",
+          "--max-active-leaves",
+          "2",
+          "--max-memory-mib",
+          "12288",
+          "--final-max-memory-mib",
+          "24576",
+          "--leaf-timeout-seconds",
+          "1800",
+          "--final-timeout-seconds",
+          "3600",
+          "--preflight-leaves",
+          "2",
+          "--preflight-timeout-seconds",
+          "900"
+        ]
+      ]
+    },
+    {
+      "id": "final-kernel-assembly",
+      "state": "kernel-checked",
+      "depends_on": [
+        "high-qr-six-row"
+      ],
+      "source_globs": [
+        "Erdos848/PaperGeneratedCertificateProvider.lean"
+      ],
+      "semantic_gate": "The concrete numerical provider fills every finite field and specializes erdos848_all_N_of_certificates to the unconditional theorem all_N",
+      "commands": [
+        [
+          "python",
+          "scripts/run_lean_guarded.py",
+          "--direct-lean",
+          "--strict-import-preflight",
+          "--trim-working-set-at-mb",
+          "12000",
+          "--memory-mb",
+          "24576",
+          "--lean-memory-mb",
+          "24576",
+          "--timeout-seconds",
+          "7200",
+          "Erdos848/PaperGeneratedCertificateProvider.lean"
+        ]
+      ]
+    }
+  ]
+}

@@ -30,6 +30,7 @@ the axiom audit, and `PUBLICATION_MANIFEST.json`.
   bindings.
 - `paper/reference-evidence/`: cached citation evidence and exact reference
   audit manifest.
+- `certificate-pipeline.json`: certificate-family build and replay record.
 - `lean4/`: the exact 30,638-module publication source closure.
 - `scripts/verify_public_repository.py`: public source/claim/hash gate.
 - `scripts/build_generated_certificate.py`: bounded resumable OLean builder.
@@ -80,7 +81,7 @@ The only accepted logical dependencies are `propext`, `Classical.choice`, and
 `Quot.sound`.  There is no project axiom, `sorry`, `admit`, `native_decide`,
 or compiler-trust escape in the publication closure.
 
-This tree was materialized from internal source commit `b6208634623bfa6162862d37f6477ccafb053f9e`.
+This tree was materialized from internal source commit `07556d5553ec5e3052040b3b0a7dc763fe3c1b67`.
 
 ## Licensing
 
