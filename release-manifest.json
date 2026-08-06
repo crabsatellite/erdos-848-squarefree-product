@@ -33,6 +33,7 @@
       "scripts/run_kernel_gates.py",
       "scripts/test_publication_contract.py",
       "scripts/verify_four_range_paper_arithmetic.py",
+      "scripts/verify_paper_math_implementation.py",
       "scripts/verify_paper_lean_correspondence.py",
       "scripts/verify_paper_lean_numbers.py",
       "scripts/verify_publication_package.py",

@@ -124,6 +124,25 @@ def check_twenty_million() -> None:
         ),
         (8_622_089, 10_006_474, 12_915_119, 10_177_869),
     )
+    representative = (
+        Q(25_289_550, 1_000_000_000)
+        + Q(8_685, 1_000_000)
+        + 3 * SQUARE_TAIL_23 / 25
+        + Q(10_006_474, 2_000_000_000)
+    )
+    expected = Q(
+        303791140850460908947114523,
+        7596668444022826249000000000,
+    )
+    margin = target(20_000_000) - representative
+    expected_margin = Q(
+        75490557093924693317991,
+        7596668444022826249000000000,
+    )
+    assert representative == expected
+    assert margin == expected_margin
+    assert margin > 0
+    print("PASS displayed 20M even-two-generic total and exact margin")
 
 
 def check_forty_to_two_hundred() -> None:

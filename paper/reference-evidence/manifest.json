@@ -140,7 +140,7 @@
         {
           "id": "bib_note",
           "field": "note",
-          "exact": "Preprint"
+          "exact": "Preprint. Available at \\url{https://www.math.columbia.edu/~msawhney/Problem_848.pdf}"
         },
         {
           "id": "bib_url",
@@ -195,7 +195,7 @@
         {
           "id": "bib_title",
           "field": "title",
-          "exact": "An Explicit Threshold in Erd{\\H{o}}s Problem 848"
+          "exact": "An Explicit Threshold in {Erd{\\H{o}}s} Problem 848"
         },
         {
           "id": "bib_year",
@@ -205,7 +205,7 @@
         {
           "id": "bib_note",
           "field": "note",
-          "exact": "Preprint dated March 24"
+          "exact": "Preprint dated March 24. Available at \\url{https://drive.google.com/file/d/1ujhm4_WYpgRV_rd1rJXIfHyvx16COEKe/view}"
         },
         {
           "id": "bib_url",

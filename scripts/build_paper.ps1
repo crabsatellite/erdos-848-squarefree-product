@@ -20,6 +20,11 @@ if ($LASTEXITCODE -ne 0) {
     throw "Paper/Lean correspondence gate failed with exit code $LASTEXITCODE"
 }
 
+python -B (Join-Path $root "scripts\verify_paper_math_implementation.py") --quiet
+if ($LASTEXITCODE -ne 0) {
+    throw "Paper mathematics/implementation gate failed with exit code $LASTEXITCODE"
+}
+
 python -B (Join-Path $root "scripts\verify_paper_lean_numbers.py") --quiet
 if ($LASTEXITCODE -ne 0) {
     throw "Paper/Lean numeric gate failed with exit code $LASTEXITCODE"

@@ -330,12 +330,14 @@ def validate_pins(policy: dict) -> None:
 
 
 def validate_local_kernel_evidence(state: dict) -> None:
-    """Bind internal status prose to the exact controlled-builder record.
+    """Bind durable release metadata to the controlled-builder record.
 
     Clean public/source-only packages deliberately omit ``lean4/.lake``.  When
-    the status file is present, however, every duplicated evidence field must
-    agree with it so that an old successful run cannot masquerade as evidence
-    for the current source checkpoint.
+    the raw status file is present, its hash and every duplicated evidence
+    field must agree.  When it is absent, the proof-state and certificate
+    pipeline must still agree on the status hash and the recorded build fields.
+    This preserves the release binding without making an ignored cache file a
+    prerequisite for a clean source archive.
     """
 
     evidence = state.get("kernel_evidence")
@@ -345,20 +347,26 @@ def validate_local_kernel_evidence(state: dict) -> None:
         evidence.get("build_status_path"),
         "kernel_evidence.build_status_path",
     )
-    if not status_path.is_file():
-        return
-    status = load_json(status_path, "controlled builder status")
-    comparisons = (
-        ("build_status", "status"),
-        ("build_finished_at", "finished_at"),
-        ("build_input_signature", "build_input_signature"),
+    status_sha256 = require_sha256(
+        evidence.get("build_status_sha256"),
+        "kernel_evidence.build_status_sha256",
     )
-    for evidence_key, status_key in comparisons:
-        if evidence.get(evidence_key) != status.get(status_key):
-            fail(
-                "proof-state kernel evidence differs from controlled builder "
-                f"status for {evidence_key}"
-            )
+    if status_path.is_file():
+        payload = status_path.read_bytes()
+        if sha256_bytes(payload) != status_sha256:
+            fail("controlled builder status hash differs from proof-state")
+        status = load_json(status_path, "controlled builder status")
+        comparisons = (
+            ("build_status", "status"),
+            ("build_finished_at", "finished_at"),
+            ("build_input_signature", "build_input_signature"),
+        )
+        for evidence_key, status_key in comparisons:
+            if evidence.get(evidence_key) != status.get(status_key):
+                fail(
+                    "proof-state kernel evidence differs from controlled builder "
+                    f"status for {evidence_key}"
+                )
 
     pipeline_path = ROOT / "certificate-pipeline.json"
     if not pipeline_path.is_file():
@@ -371,14 +379,16 @@ def validate_local_kernel_evidence(state: dict) -> None:
     if not isinstance(pipeline_evidence, dict):
         fail("certificate-pipeline kernel_evidence must be an object")
     if pipeline_evidence.get("status_path") != evidence.get("build_status_path"):
-        fail("certificate-pipeline status path differs from proof-state")
-    for key in ("build_finished_at", "build_input_signature"):
-        if pipeline_evidence.get(key) != status.get(
-            "finished_at" if key == "build_finished_at" else key
-        ):
+        fail("proof-state and certificate-pipeline kernel evidence differ for status_path")
+    for key in (
+        "build_status_sha256",
+        "build_finished_at",
+        "build_input_signature",
+    ):
+        if pipeline_evidence.get(key) != evidence.get(key):
             fail(
-                "certificate-pipeline kernel evidence differs from controlled "
-                f"builder status for {key}"
+                "proof-state and certificate-pipeline kernel evidence differ "
+                f"for {key}"
             )
 
 

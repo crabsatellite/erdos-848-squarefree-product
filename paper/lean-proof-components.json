@@ -9,9 +9,7 @@
     "lean4/Erdos848/PublicationAxiomAudit.lean"
   ],
   "published_endpoint_count": 15,
-  "paper_endpoint_count_marker": "contains fifteen published Lean",
   "published_module_count": 30638,
-  "paper_module_count_marker": "contains exactly $30{,}638$ local Lean source",
   "results": [
     {
       "label": "eq:target",

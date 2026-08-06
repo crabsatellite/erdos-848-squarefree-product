@@ -29,12 +29,13 @@ FIXTURE_FILES = [
     "paper/theorem-map.json",
     "paper/lean-proof-components.json",
     "paper/numeric-claims.json",
+    "paper/math-implementation-map.json",
     "paper/references.bib",
     "paper/reference-evidence/manifest.json",
     "paper/reference-evidence/artifact-sha256.json",
+    "scripts/verify_paper_math_implementation.py",
     "lean4/lean-toolchain",
     "lean4/lake-manifest.json",
-    "lean4/.lake/erdos848-Erdos848-status.json",
     "lean4/Erdos848/PublicationContract.lean",
     "lean4/Erdos848/PublicationRoot.lean",
     "lean4/Erdos848/PaperGeneratedCertificateProvider.lean",
@@ -235,19 +236,16 @@ def main() -> int:
         )
         state_path.write_bytes((ROOT / "proof-state.json").read_bytes())
 
-        status_path = (
-            tree / "lean4" / ".lake" / "erdos848-Erdos848-status.json"
-        )
-        original_status = status_path.read_bytes()
-        status = json.loads(original_status)
-        status["build_input_signature"] = "0" * 64
-        status_path.write_text(json.dumps(status), encoding="utf-8")
+        original_state = state_path.read_bytes()
+        state = json.loads(original_state)
+        state["kernel_evidence"]["build_input_signature"] = "0" * 64
+        state_path.write_text(json.dumps(state), encoding="utf-8")
         require_failure(
             tree,
-            "controlled-builder signature drift",
-            "proof-state kernel evidence differs from controlled builder status",
+            "proof-state kernel-evidence drift",
+            "proof-state and certificate-pipeline kernel evidence differ",
         )
-        status_path.write_bytes(original_status)
+        state_path.write_bytes(original_state)
 
         pipeline_path = tree / "certificate-pipeline.json"
         original_pipeline = pipeline_path.read_bytes()
@@ -259,7 +257,7 @@ def main() -> int:
         require_failure(
             tree,
             "certificate-pipeline evidence drift",
-            "certificate-pipeline kernel evidence differs from controlled builder status",
+            "proof-state and certificate-pipeline kernel evidence differ",
         )
         pipeline_path.write_bytes(original_pipeline)
     finally:

@@ -50,6 +50,7 @@
     "provider_status": "trust-zero-kernel-checked",
     "build_status": "passed",
     "build_status_path": "lean4/.lake/erdos848-Erdos848-status.json",
+    "build_status_sha256": "3fdff1632a5e259e26a74b412c1be4c15fae76246ffe1685bf393c3ebfc14c9d",
     "build_finished_at": "2026-08-03T17:21:06.328357+00:00",
     "build_input_signature": "c1364c0f0ce047c87564846aea09c1deb27de2b2044a8a0e8de98536cdcc4ea9",
     "qr_high_subrange_required": true,

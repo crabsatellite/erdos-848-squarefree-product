@@ -43,6 +43,23 @@ def fail(message: str) -> None:
     raise SystemExit(f"[cache-pack:error] {message}")
 
 
+def provider_evidence() -> dict:
+    state = load_json(ROOT / "proof-state.json")
+    evidence = state.get("kernel_evidence")
+    if not isinstance(evidence, dict) or evidence.get("build_status") != "passed":
+        raise CacheReleaseError("internal provider status is not passed")
+    signature = evidence.get("build_input_signature")
+    if not isinstance(signature, str) or re.fullmatch(r"[0-9a-f]{64}", signature) is None:
+        raise CacheReleaseError("internal provider signature is invalid")
+    status_sha256 = evidence.get("build_status_sha256")
+    if not isinstance(status_sha256, str) or re.fullmatch(r"[0-9a-f]{64}", status_sha256) is None:
+        raise CacheReleaseError("internal provider status hash is invalid")
+    raw_status = LEAN / ".lake" / "erdos848-Erdos848-status.json"
+    if raw_status.is_file() and sha256_file(raw_status) != status_sha256:
+        raise CacheReleaseError("internal provider status hash differs from proof-state")
+    return evidence
+
+
 def cache_source(cache_root: Path, archive_path: str) -> Path:
     pure = safe_posix_path(archive_path)
     prefix = PurePosixPath("lean4/.lake/build/lib/lean")
@@ -339,10 +356,7 @@ def rebind_existing_assets(
     if previous.get("allowed_axioms") != publication.get("allowed_axioms"):
         raise CacheReleaseError("axiom policy changed; archives cannot be rebound")
 
-    status_path = LEAN / ".lake" / "erdos848-Erdos848-status.json"
-    status = load_json(status_path)
-    if status.get("status") != "passed":
-        raise CacheReleaseError("internal provider status is not passed")
+    status = provider_evidence()
     if (
         previous.get("provider_build_input_signature")
         != status.get("build_input_signature")
@@ -546,10 +560,7 @@ def main() -> int:
         toolchain = (public / "lean4" / "lean-toolchain").read_text(
             encoding="utf-8"
         ).strip()
-        status_path = LEAN / ".lake" / "erdos848-Erdos848-status.json"
-        status = json.loads(status_path.read_text(encoding="utf-8"))
-        if status.get("status") != "passed":
-            raise CacheReleaseError("internal provider status is not passed")
+        status = provider_evidence()
         release_manifest = {
             "schema_version": CACHE_SCHEMA_VERSION,
             "package_role": "derived-olean-cache",

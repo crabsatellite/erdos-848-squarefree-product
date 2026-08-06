@@ -26,6 +26,8 @@ the axiom audit, and `PUBLICATION_MANIFEST.json`.
 - `paper/lean-proof-components.json`: exhaustive numbered-result to Lean-module
   map.
 - `paper/numeric-claims.json`: manuscript/Lean numeric bindings.
+- `paper/math-implementation-map.json`: proof-step to implementation-declaration
+  bindings.
 - `paper/reference-evidence/`: cached citation evidence and exact reference
   audit manifest.
 - `lean4/`: the exact 30,638-module publication source closure.
@@ -45,6 +47,7 @@ unbounded `lake build` for this generated closure.
 
 ```powershell
 python -B scripts/verify_public_repository.py
+python -B scripts/verify_paper_math_implementation.py
 python -B scripts/verify_paper_lean_correspondence.py
 python -B scripts/verify_paper_lean_numbers.py
 python -B scripts/verify_reference_evidence.py --require-cited-coverage --require-entry-checks
@@ -77,7 +80,7 @@ The only accepted logical dependencies are `propext`, `Classical.choice`, and
 `Quot.sound`.  There is no project axiom, `sorry`, `admit`, `native_decide`,
 or compiler-trust escape in the publication closure.
 
-This tree was materialized from internal source commit `f9754c61dab1fffba50fe1f04801b12adebb7e7a`.
+This tree was materialized from internal source commit `b6208634623bfa6162862d37f6477ccafb053f9e`.
 
 ## Licensing
 

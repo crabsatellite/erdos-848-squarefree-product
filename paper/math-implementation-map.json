@@ -1,0 +1,434 @@
+{
+  "schema_version": 1,
+  "manuscript": "paper/erdos_848_kernel_checked_exact_extremal_bound.tex",
+  "lean_entrypoint": "lean4/Erdos848/PaperGeneratedCertificateProvider.lean",
+  "entries": [
+    {
+      "id": "literal-statement-and-sharp-cardinality",
+      "paper_markers": [
+        "with $a=b$ allowed",
+        "\\label{eq:sharp-cardinality}",
+        "\\left\\lfloor\\frac{N+18}{25}\\right\\rfloor"
+      ],
+      "bindings": [
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/ProblemCore.lean",
+          "declaration": "def NonSquarefreeProductProp",
+          "contains": ["a * b + 1", "Squarefree"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/HallReduction.lean",
+          "declaration": "lemma originalA7_card_exact",
+          "contains": ["(N + 18) / 25", "OriginalA7 N"]
+        },
+        {
+          "role": "consumer",
+          "path": "lean4/Erdos848/HallReduction.lean",
+          "declaration": "theorem erdos848HallStatement_iff_originalProblem",
+          "contains": ["OriginalProblem848Statement N", "originalProblem_of_hallStatement"]
+        }
+      ]
+    },
+    {
+      "id": "hall-completion-reduction",
+      "paper_markers": [
+        "\\label{thm:hall-reduction}",
+        "compatible outside set",
+        "\\texttt{Erdos848OutsideSet}",
+        "H_N(B)=B\\cup\\TN(B)",
+        "\\label{eq:normalized-target}"
+      ],
+      "bindings": [
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/HallReduction.lean",
+          "declaration": "def Erdos848OutsideSet",
+          "contains": ["Finset.Icc 1 N \\ OriginalA7 N"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/HallReduction.lean",
+          "declaration": "def Erdos848HallStatement",
+          "contains": ["B.card + (hallNonNeighbours N B).card", "(OriginalA7 N).card"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/HallReduction.lean",
+          "declaration": "lemma originalA7_card_cast_lower",
+          "contains": ["7 / 25", "originalA7_card_exact"]
+        },
+        {
+          "role": "consumer",
+          "path": "lean4/Erdos848/HallReduction.lean",
+          "declaration": "theorem originalProblem_of_hallStatement",
+          "contains": ["Erdos848HallStatement N", "OriginalProblem848Statement N"]
+        }
+      ]
+    },
+    {
+      "id": "three-pivot-hall-decomposition",
+      "paper_markers": [
+        "\\label{eq:mixed-half-decomposition}",
+        "\\path{card_le_half_three_two_add_half_tail_sum}",
+        "\\path{hallCompletion_card_le_fiveMillionR263MixedHalfComponents}",
+        "\\path{TwentyMillionKernelTerminalCertificate.completion_ratio_le_branchTotal}"
+      ],
+      "bindings": [
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/HallPartition.lean",
+          "declaration": "lemma hallCompletion_card_partition",
+          "contains": ["(hallResidual N B).card + (hallBasePart N B).card", "(hallCompletion N B).card"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailR263MixedHalfDecomposition.lean",
+          "declaration": "theorem card_le_half_three_two_add_half_tail_sum",
+          "contains": ["points.card", "3 <= (pivots.filter", "2 <= (pivots.filter", "tail pivot point"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailR263MixedHalfDecomposition.lean",
+          "declaration": "theorem hallCompletion_card_le_fiveMillionR263MixedHalfComponents",
+          "contains": ["hallResidual N B", "fiveMillionR263BaseMixedHalfPayment", "hallBaseTailSquarePayment"]
+        },
+        {
+          "role": "consumer",
+          "path": "lean4/Erdos848/TailTwentyMillionKernelClose.lean",
+          "declaration": "TwentyMillionKernelTerminalCertificate.completion_ratio_le_branchTotal",
+          "contains": ["hallCompletion_card_le_fiveMillionR263MixedHalfComponents", "twentyMillionBranch_residual_ratio_le", "certificate.finiteBound", "certificate.tailBound"]
+        }
+      ]
+    },
+    {
+      "id": "prefix-colouring",
+      "paper_markers": [
+        "\\label{thm:finite-prefix-colouring-close}",
+        "c_N:\\mathcal D_N\\to\\CN",
+        "contiguous partition of $[u,L+1)$"
+      ],
+      "bindings": [
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/PrefixTraceChecker.lean",
+          "declaration": "def Valid (oracle : SquarefreeOracle) (state : AnchorStateData)",
+          "contains": ["anchor % 25 = 7", "opposite", "exceptional"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/LowRangePrefixTraceChecker.lean",
+          "declaration": "theorem prefixColouringCertificate",
+          "contains": ["PrefixColouringCertificate certificate.limit", "colourAt"]
+        },
+        {
+          "role": "consumer",
+          "path": "lean4/Erdos848/PrefixClose.lean",
+          "declaration": "theorem erdos848_through_five_million",
+          "contains": ["5_000_000", "GeneratedFiveMillionPrefixTrace.closeThroughFiveMillion"]
+        }
+      ]
+    },
+    {
+      "id": "transformed-root-counting",
+      "paper_markers": [
+        "\\label{eq:transformed-root}",
+        "t_2-t_1\\geq 2m(N/26)",
+        "nonzero quadratic"
+      ],
+      "bindings": [
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailFiveMillionActualSupportCore.lean",
+          "declaration": "lemma quotient_modEq_square_of_prime_dvd_pivot",
+          "contains": ["p ^ 2 * m = pivot * point + 1", "root ^ 2"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailTransformedRootCounting.lean",
+          "declaration": "theorem transformedEquation_parameter_gap",
+          "contains": ["2 * m * Y", "constant + modulus"]
+        },
+        {
+          "role": "consumer",
+          "path": "lean4/Erdos848/TailPureGlobalHigh.lean",
+          "declaration": "theorem pureGlobalHighBadPoints_card_div_le_envelope",
+          "contains": ["pureGlobalHighParameterSet", "pureFiveMillionRootEnvelope / 5_000_000"]
+        }
+      ]
+    },
+    {
+      "id": "pure-opposite-base-matching",
+      "paper_markers": [
+        "\\label{thm:pure-parity-matching}",
+        "\\label{eq:pure-envelope}",
+        "x\\mapsto x-11"
+      ],
+      "bindings": [
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailPureGlobalDegree.lean",
+          "declaration": "theorem pureGlobalParityDegreeCertificate",
+          "contains": ["PureOppositeParityDegreeCertificate", "bad_card_lt_block_half"]
+        },
+        {
+          "role": "consumer",
+          "path": "lean4/Erdos848/TailPureGlobalDegree.lean",
+          "declaration": "theorem pureGlobalOppositeBaseMatching",
+          "contains": ["pureOppositeBaseMatching_of_degree", "pureGlobalParityDegreeCertificate"]
+        }
+      ]
+    },
+    {
+      "id": "uniform-mixed-degree-and-residual",
+      "paper_markers": [
+        "\\label{prop:uniform-mixed-degree}",
+        "writing $m=5m'$ gives",
+        "$m'\\leq605$",
+        "\\label{eq:mixed-residual}"
+      ],
+      "bindings": [
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailGlobalMixedPrimeCheckerDefs.lean",
+          "declaration": "def globalMixedNormalBound",
+          "contains": ["3025"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailGlobalMixedPrimeCheckerDefs.lean",
+          "declaration": "def globalMixedTwistBound",
+          "contains": ["605"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailGlobalMixedDegree.lean",
+          "declaration": "theorem globalMixedBaseResidue_degree_lower",
+          "contains": ["(N : Rat) / 50 + (N : Rat) / 525", "globalMixedBaseBadPoints_ratio_le"]
+        },
+        {
+          "role": "consumer",
+          "path": "lean4/Erdos848/TailGlobalMixedResidual.lean",
+          "declaration": "theorem globalMixedHallResidual_cast_lower_of_defect",
+          "contains": ["globalMixedA7_degree_lower", "globalMixedA18_degree_lower", "(2 : Rat) * N / 525 - 1"]
+        }
+      ]
+    },
+    {
+      "id": "valuation-and-branch-allocation",
+      "paper_markers": [
+        "\\label{lem:valuation-partition}",
+        "\\label{lem:global-ten-branch-allocation}",
+        "distance at most $459$",
+        "distance at most $229$"
+      ],
+      "bindings": [
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailGlobalMixedValuationPartition.lean",
+          "declaration": "def fiveMillionValuationClassOf",
+          "contains": ["match x % 8", ".evenThree", ".oddOne", ".evenOne", ".oddThree", ".evenTwo"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailTwentyMillionPivotAllocation.lean",
+          "declaration": "def twentyMillionGapChargeCap",
+          "contains": ["(N - 1) / 20_001 + 1"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailTwentyMillionBranchAllocation.lean",
+          "declaration": "def TwentyMillionBranchApplies",
+          "contains": [".evenTwoGeneric", ".oddTwoGeneric", ".oddOneCommonThree", "paperModNineCell"]
+        },
+        {
+          "role": "consumer",
+          "path": "lean4/Erdos848/TailTwentyMillionDegree19.lean",
+          "declaration": "theorem exists_twentyMillionBranchApplies_global19",
+          "contains": ["TwentyMillionBranchApplies N B branch", "exists_twentyMillionBranchApplies hLower hBout", "twentyMillionDegreeSumCertificate_global19"]
+        }
+      ]
+    },
+    {
+      "id": "twenty-million-representative-budget",
+      "paper_markers": [
+        "D_\\beta=\\frac{25289550}{10^9}",
+        "F_\\beta=\\frac{8685}{10^6}",
+        "\\frac7{25\\cdot\\TwentyMillion}",
+        "303791140850460908947114523",
+        "75490557093924693317991"
+      ],
+      "bindings": [
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailTwentyMillionResidualBudget.lean",
+          "declaration": "def twentyMillionBranchResidualPayment",
+          "contains": [".evenTwoGeneric => twentyMillionDiagonalUnrestricted"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailTwentyMillionKernelClose.lean",
+          "declaration": "def twentyMillionKernelBranchFinitePayment",
+          "contains": [".evenTwoGeneric", "8_685 / 1_000_000"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailTwentyMillionKernelClose.lean",
+          "declaration": "def twentyMillionKernelBranchTailPayment",
+          "contains": [".evenTwoGeneric", "3 * fiveMillionSquareTail23Envelope / 25", "twentyMillionRootEvenTwo / 2"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailSquareTail23.lean",
+          "declaration": "def fiveMillionSquareTail23Envelope",
+          "contains": ["64081802747648035629863", "7596668444022826249000000"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailTwentyMillionArithmetic.lean",
+          "declaration": "def twentyMillionDiagonalUnrestricted",
+          "contains": ["25_289_550 / 1_000_000_000"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailTwentyMillionArithmetic.lean",
+          "declaration": "def twentyMillionRootEvenTwo",
+          "contains": ["10_006_474 / 1_000_000_000"]
+        },
+        {
+          "role": "consumer",
+          "path": "lean4/Erdos848/TailTwentyMillionKernelClose.lean",
+          "declaration": "TwentyMillionKernelTerminalCertificate.completion_ratio_le_branchTotal",
+          "contains": ["twentyMillionBranchResidualPayment", "twentyMillionKernelBranchFinitePayment", "twentyMillionKernelBranchTailPayment"]
+        },
+        {
+          "role": "consumer",
+          "path": "lean4/Erdos848/TailTwentyMillionKernelClose.lean",
+          "declaration": "theorem twentyMillionKernelBranchTotal_lt_target",
+          "contains": ["twentyMillionKernelBranchTotal branch < twentyMillionTarget", "fiveMillionSquareTail23Envelope"]
+        }
+      ]
+    },
+    {
+      "id": "five-to-ten-million-close",
+      "paper_markers": ["\\label{prop:five-million-interval-close}", "the largest such total is $128$"],
+      "bindings": [
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailR263Exhaustion.lean",
+          "declaration": "theorem fiveMillionR263BranchExhaustion_kernel",
+          "contains": ["128 < (hallResidual N B).card", "fiveMillionR263OddTwo_exhaustion"]
+        },
+        {
+          "role": "consumer",
+          "path": "lean4/Erdos848/TailR263Exhaustion.lean",
+          "declaration": "theorem erdos848FiveToTenMillionClose",
+          "contains": ["5_000_000", "10_000_000", "fiveMillionR263BranchExhaustion_kernel"]
+        }
+      ]
+    },
+    {
+      "id": "ten-to-twenty-million-close",
+      "paper_markers": ["\\label{prop:ten-million-interval-close}", "at least $91$ residual pivots"],
+      "bindings": [
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailTenMillionKernelExhaustion.lean",
+          "declaration": "theorem tenMillionKernelBranchExhaustion",
+          "contains": ["TenMillionKernelBranchExhaustion", "19_046 < (hallResidual N B).card", "tenMillionEvenAllocationTerminal"]
+        },
+        {
+          "role": "consumer",
+          "path": "lean4/Erdos848/TailTenMillionKernelExhaustion.lean",
+          "declaration": "theorem erdos848TenToTwentyMillionClose",
+          "contains": ["tenMillionLower", "tenMillionUpper", "tenMillionKernelBranchExhaustion"]
+        }
+      ]
+    },
+    {
+      "id": "forty-to-two-hundred-million-close",
+      "paper_markers": ["\\label{thm:mixed-joint-tail-close}", "40,\\ 50,\\ 70,\\ 80,\\ 100,\\ 150,\\ 200"],
+      "bindings": [
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailFortyMillionTenBranchArithmetic.lean",
+          "declaration": "theorem fortyMillionTenBranchTotal_lt_target",
+          "contains": ["fortyMillionTenBranchTotal block branch", "fortyMillionTenBranchTarget block"]
+        },
+        {
+          "role": "consumer",
+          "path": "lean4/Erdos848/TailFortyMillionKernelClose.lean",
+          "declaration": "theorem erdos848FortyMillionClose_kernel",
+          "contains": ["exists_twentyMillionBranchApplies_global19", "fortyMillionKernelTerminalCertificate_of_branch"]
+        }
+      ]
+    },
+    {
+      "id": "two-hundred-million-to-two-billion-close",
+      "paper_markers": ["\\label{thm:actual-support-mixed-close}", "transformed-root splits $75,85,100,125$"],
+      "bindings": [
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailHybridTenBranchArithmetic.lean",
+          "declaration": "theorem hybridTenBranchTotal_lt_target",
+          "contains": ["hybridTenBranchTotal regime branch", "hybridTenBranchTarget regime"]
+        },
+        {
+          "role": "consumer",
+          "path": "lean4/Erdos848/TailHybridKernelClose.lean",
+          "declaration": "theorem erdos848PaperTwoHundredMillionToTwoBillionClose_of_certificates",
+          "contains": ["exists_hybridPaperDiagonalRegime", "hybridTenBranchTotal_lt_target", "twentyMillionHall_of_ratio_le_target"]
+        }
+      ]
+    },
+    {
+      "id": "high-tail-close",
+      "paper_markers": ["\\label{thm:finite-high-tail}", "\\label{thm:unbounded-high-tail}", "\\frac{8062340}{10^9}"],
+      "bindings": [
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "declaration": "def highUnboundedBudget",
+          "contains": ["500_000_000_000", "rootEnvelope := 8_062_340 / 1_000_000_000"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailHighUnboundedData.lean",
+          "declaration": "def highUnboundedRootTerminal",
+          "contains": ["split := 120", "rootFloor := 840", "primeProfile := .p47"]
+        },
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/TailHighUnboundedClose.lean",
+          "declaration": "theorem erdos848HighUnboundedClose",
+          "contains": ["highUnboundedBudget.lower", "OriginalProblem848Statement N"]
+        },
+        {
+          "role": "consumer",
+          "path": "lean4/Erdos848/TailHighIntegratedClose.lean",
+          "declaration": "theorem HighTailCloseCertificate.close",
+          "contains": ["certificate.qr.close", "erdos848HighUnboundedClose"]
+        }
+      ]
+    },
+    {
+      "id": "all-n-assembly",
+      "paper_markers": ["\\label{thm:erdos-848-complete}", "Erdos848.PaperGeneratedCertificateProvider.all\\_N"],
+      "bindings": [
+        {
+          "role": "producer",
+          "path": "lean4/Erdos848/PublicationRoot.lean",
+          "declaration": "theorem erdos848_all_N_of_certificates",
+          "contains": ["erdos848_full_of_five_million_tail", "erdos848_paper_tail_close certificates"]
+        },
+        {
+          "role": "consumer",
+          "path": "lean4/Erdos848/PaperGeneratedCertificateProvider.lean",
+          "declaration": "theorem all_N",
+          "contains": ["OriginalProblem848Statement N", "erdos848_all_N_of_certificates numericalCertificates"]
+        }
+      ]
+    }
+  ]
+}

@@ -85,32 +85,12 @@
       ]
     },
     {
-      "id": "prefix-anchor-count",
-      "paper_exact": "There are $200000$ anchor histories",
+      "id": "sharp-cardinality",
+      "paper_exact": "\\left\\lfloor\\frac{N+18}{25}\\right\\rfloor",
       "lean": [
         {
-          "path": "lean4/Erdos848/GeneratedFiveMillionPrefixTrace/AnchorData.lean",
-          "exact": "(.node 200000"
-        }
-      ]
-    },
-    {
-      "id": "prefix-opposite-count",
-      "paper_exact": "and $200000$ histories for the",
-      "lean": [
-        {
-          "path": "lean4/Erdos848/GeneratedFiveMillionPrefixTrace/OppositeData.lean",
-          "exact": "(.node 200000"
-        }
-      ]
-    },
-    {
-      "id": "prefix-outside-count",
-      "paper_exact": "There are $125808$ remaining diagonal histories",
-      "lean": [
-        {
-          "path": "lean4/Erdos848/GeneratedFiveMillionPrefixTrace/OutsideData.lean",
-          "exact": "(.node 125808"
+          "path": "lean4/Erdos848/HallReduction.lean",
+          "exact": "(OriginalA7 N).card = (N + 18) / 25"
         }
       ]
     },
@@ -181,7 +161,7 @@
         "p\\in\\{2,3,7\\}",
         "7<p\\leq N/55",
         "p>N/55",
-        "envelope $17/1225$",
+        "upper bound $17/1225$",
         "\\frac{1+19601/49}{\\FiveMillion}"
       ],
       "lean": [
@@ -255,7 +235,7 @@
     },
     {
       "id": "five-million-residual-charge",
-      "paper_exact": "more than the $128$ points needed",
+      "paper_exact": "the largest such total is $128$",
       "lean": [
         {
           "path": "lean4/Erdos848/TailR263Exhaustion.lean",
@@ -276,8 +256,8 @@
     {
       "id": "twenty-million-cutoffs",
       "paper_exact": [
-        "even branches use finite cutoff $23$",
-        "odd branches use cutoff $19$"
+        "six even cases use finite cutoff $23$",
+        "four odd cases use cutoff $19$"
       ],
       "lean": [
         {
@@ -291,8 +271,44 @@
       ]
     },
     {
+      "id": "twenty-million-even-two-generic-budget",
+      "paper_exact": [
+        "D_\\beta=\\frac{25289550}{10^9}",
+        "F_\\beta=\\frac{8685}{10^6}",
+        "\\frac7{25\\cdot\\TwentyMillion}",
+        "303791140850460908947114523",
+        "75490557093924693317991"
+      ],
+      "lean": [
+        {
+          "path": "lean4/Erdos848/TailTwentyMillionResidualBudget.lean",
+          "exact": ".evenTwoGeneric => twentyMillionDiagonalUnrestricted"
+        },
+        {
+          "path": "lean4/Erdos848/TailTwentyMillionKernelClose.lean",
+          "exact": "8_685 / 1_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailTwentyMillionKernelClose.lean",
+          "exact": "3 * fiveMillionSquareTail23Envelope / 25"
+        },
+        {
+          "path": "lean4/Erdos848/TailTwentyMillionArithmetic.lean",
+          "exact": "25_289_550 / 1_000_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailTwentyMillionArithmetic.lean",
+          "exact": "10_006_474 / 1_000_000_000"
+        },
+        {
+          "path": "lean4/Erdos848/TailSquareTail23.lean",
+          "exact": "64081802747648035629863 /"
+        }
+      ]
+    },
+    {
       "id": "global-gap-charge-cap",
-      "paper_exact": "g_N=\\lfloor (N-1)/20001\\rfloor+1",
+      "paper_exact": "g_N=\\lfloor(N-1)/20001\\rfloor+1",
       "lean": [
         {
           "path": "lean4/Erdos848/TailTwentyMillionPivotAllocation.lean",
@@ -472,36 +488,6 @@
       ]
     },
     {
-      "id": "high-row-prime-profiles",
-      "paper_exact": "respectively $16,18,18,18,30,30$",
-      "lean": [
-        {
-          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
-          "exact": "primeProfile := .p16\n  lower := 2_000_000_000"
-        },
-        {
-          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
-          "exact": "primeProfile := .p18\n  lower := 2_300_000_000"
-        },
-        {
-          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
-          "exact": "primeProfile := .p18\n  lower := 2_800_000_000"
-        },
-        {
-          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
-          "exact": "primeProfile := .p18\n  lower := 4_200_000_000"
-        },
-        {
-          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
-          "exact": "primeProfile := .p30\n  lower := 6_000_000_000"
-        },
-        {
-          "path": "lean4/Erdos848/GeneratedHybridPaperRootCoverage/HighQrFinalRows.lean",
-          "exact": "primeProfile := .p30\n  lower := 12_000_000_000"
-        }
-      ]
-    },
-    {
       "id": "unbounded-root-envelope",
       "paper_exact": "\\frac{8062340}{10^9}",
       "lean": [
@@ -515,8 +501,8 @@
       "id": "unbounded-root-parameters",
       "paper_exact": [
         "Use split $120$",
-        "root floor $840$",
-        "anchored $47$-prime sieve"
+        "the integer $840$ is stored in the field",
+        "explicit sieve over primes up to $47$"
       ],
       "lean": [
         {
