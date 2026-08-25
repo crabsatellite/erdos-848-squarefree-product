@@ -18,6 +18,34 @@ The paper and machine proof are linked through `paper/theorem-map.json`,
 `\leanname{...}` annotations in the TeX source, the trust-zero theorem map,
 the axiom audit, and `PUBLICATION_MANIFEST.json`.
 
+## Prior work and attribution
+
+Erdős Problem 848 is a problem of Paul Erdős and András Sárközy, recorded by
+Erdős in [*Some of My Favourite Problems in Various Branches of
+Combinatorics* (1992)](https://lematematiche.dmi.unict.it/index.php/lematematiche/article/view/587).
+The exact all-`N` theorem in this repository builds on two preceding advances:
+
+- [Mehtaab Sawhney (2025)](https://www.math.columbia.edu/~msawhney/Problem_848.pdf)
+  proved that the `7 mod 25` construction is extremal for all sufficiently
+  large `N` and established a stability statement identifying the two
+  candidate extremal residue classes.
+- [Nat Sothanaphan (2026)](https://drive.google.com/file/d/1ujhm4_WYpgRV_rd1rJXIfHyvx16COEKe/view)
+  made the asymptotic inputs explicit and proved the same extremal bound for
+  `N >= 2.64 * 10^17`.
+
+This repository closes the remaining range and proves the exact statement for
+every `N >= 1`, together with the kernel-checked certificate and replay stack.
+Its claim is this exact all-`N` closure of the currently stated problem, not
+sole authorship of the earlier asymptotic or explicit-threshold results.  Full
+bibliographic data and pinned reference evidence are in `paper/references.bib`
+and `paper/reference-evidence/`.
+
+The retained Lean formalization of Sawhney's asymptotic argument comes from
+Raymond Jung and contributors to
+[`erdos-banger`](https://github.com/The-Obstacle-Is-The-Way/erdos-banger),
+without mathematical changes; see `NOTICE.md` for the exact source commit and
+license.
+
 ## Contents
 
 - `paper/erdos_848_kernel_checked_exact_extremal_bound.tex`: manuscript source.
