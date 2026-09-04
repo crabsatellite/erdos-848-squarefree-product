@@ -59,11 +59,13 @@ python -B scripts/build_generated_certificate.py --kind generic --module-prefix 
 python -B scripts/run_kernel_gates.py --memory-mib 32768
 ```
 
-The precompiled cache is bound exactly to tag `v1.0.5-kernel`, commit
-`bb8e1b10b0066639ee3440ba983c3f9774667d42`.  Check out that tag before using
-the cache; a later documentation or manuscript commit will intentionally fail
-the installer's source-binding check.  The `v1.0.5-kernel` GitHub Release
-provides the 30,638 project OLean files as sub-2-GiB ZIP shards.
+The precompiled cache was produced at tag `v1.0.5-kernel`, commit
+`bb8e1b10b0066639ee3440ba983c3f9774667d42`.  The installer accepts that exact
+release or a later paper-only public commit only after matching every Lean
+source path and SHA-256, the pinned toolchain, the main theorem, and the axiom
+contract.  Any Lean-source or proof-identity change fails closed.  The
+`v1.0.5-kernel` GitHub Release provides the 30,638 project OLean files
+as sub-2-GiB ZIP shards.
 Download every cache asset into one directory, then run:
 
 ```powershell
@@ -83,7 +85,7 @@ The only accepted logical dependencies are `propext`, `Classical.choice`, and
 `Quot.sound`.  There is no project axiom, `sorry`, `admit`, `native_decide`,
 or compiler-trust escape in the publication closure.
 
-This tree was materialized from internal source commit `5c0320283f3abe619e04ae180ba56cdd945ef5b3`.
+This tree was materialized from internal source commit `dc501cb3ff93c785c7921d98dcca5e3a24ec0f11`.
 
 ## Licensing
 

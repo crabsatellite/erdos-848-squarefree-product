@@ -66,13 +66,13 @@
     },
     "LiProofEngine2026": {
       "author_tokens": [
-        "Alex Chengyu Li"
+        "Li, Alex Chengyu"
       ],
       "title_tokens": [
         "Proof Engine Infrastructure: A Fail-Closed Claim-Graph Method for Accountable {AI}-Assisted Mathematical Research"
       ],
       "identifiers": [
-        "10.5281/zenodo.21672333"
+        "10.2139/ssrn.7237460"
       ]
     }
   }

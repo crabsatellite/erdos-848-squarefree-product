@@ -707,7 +707,7 @@
           "id": "meta_source_final_url",
           "file": "LiProofEngine2026/source.meta.json",
           "field": "final_url",
-          "exact": "https://doi.org/10.5281/zenodo.21672333"
+          "exact": "https://doi.org/10.2139/ssrn.7237460"
         },
         {
           "id": "meta_source_status",
@@ -726,7 +726,7 @@
         {
           "id": "bib_author",
           "field": "author",
-          "exact": "Alex Chengyu Li"
+          "exact": "Li, Alex Chengyu"
         },
         {
           "id": "bib_title",
@@ -739,14 +739,19 @@
           "exact": "2026"
         },
         {
+          "id": "bib_note",
+          "field": "note",
+          "exact": "Available at \\url{https://doi.org/10.2139/ssrn.7237460}"
+        },
+        {
           "id": "bib_doi",
           "field": "doi",
-          "exact": "10.5281/zenodo.21672333"
+          "exact": "10.2139/ssrn.7237460"
         },
         {
           "id": "bib_url",
           "field": "url",
-          "exact": "https://doi.org/10.5281/zenodo.21672333"
+          "exact": "https://doi.org/10.2139/ssrn.7237460"
         }
       ],
       "citation_bindings": [

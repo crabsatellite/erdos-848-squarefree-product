@@ -13,7 +13,9 @@ import tempfile
 from pathlib import Path
 
 import check_proof_state
+import install_release_cache
 import run_lean_guarded
+from cache_release_common import CacheReleaseError
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -140,12 +142,81 @@ def test_import_gates(tree: Path) -> None:
     print("[contract-test:pass] missing local import fails closed")
 
 
+def test_cache_binding_modes() -> None:
+    current_commit = "2" * 40
+    old_commit = "1" * 40
+    current_manifest_sha = "b" * 64
+    cache = {
+        "public_commit": current_commit,
+        "internal_source_commit": old_commit,
+        "publication_manifest": {
+            "path": "PUBLICATION_MANIFEST.json",
+            "sha256": current_manifest_sha,
+        },
+        "main_theorem": "Erdos848.final",
+        "allowed_axioms": ["propext"],
+    }
+    publication = {
+        "internal_source_commit": old_commit,
+        "main_theorem": "Erdos848.final",
+        "allowed_axioms": ["propext"],
+    }
+    manifest_path = Path("PUBLICATION_MANIFEST.json")
+    mode = install_release_cache.metadata_binding_mode_after_source_audit(
+        cache,
+        publication,
+        manifest_path,
+        current_manifest_sha,
+        current_commit,
+    )
+    if mode != "exact-publication":
+        raise SystemExit("[contract-test:error] exact cache binding was not recognized")
+
+    revised = dict(cache)
+    revised["public_commit"] = "3" * 40
+    revised["publication_manifest"] = {
+        "path": "PUBLICATION_MANIFEST.json",
+        "sha256": "c" * 64,
+    }
+    mode = install_release_cache.metadata_binding_mode_after_source_audit(
+        revised,
+        publication,
+        manifest_path,
+        current_manifest_sha,
+        current_commit,
+    )
+    if mode != "lean-source-equivalent-paper-revision":
+        raise SystemExit(
+            "[contract-test:error] paper-only cache reuse was not recognized"
+        )
+
+    wrong_identity = dict(revised)
+    wrong_identity["main_theorem"] = "Erdos848.wrong"
+    try:
+        install_release_cache.metadata_binding_mode_after_source_audit(
+            wrong_identity,
+            publication,
+            manifest_path,
+            current_manifest_sha,
+            current_commit,
+        )
+    except CacheReleaseError as exc:
+        if "proof identity mismatch" not in str(exc):
+            raise
+    else:
+        raise SystemExit(
+            "[contract-test:error] cache reuse accepted a changed proof identity"
+        )
+    print("[contract-test:pass] cache metadata binding modes fail closed")
+
+
 def main() -> int:
     drive_root = Path(ROOT.anchor)
     tree = Path(tempfile.mkdtemp(prefix="e848-contract-test-", dir=drive_root))
     try:
         copy_fixture(tree)
         test_import_gates(tree)
+        test_cache_binding_modes()
         require_pass(tree, "exact current paper-complete/kernel-closed checkpoint")
 
         paper_path = tree / "paper" / "proof-contract.json"

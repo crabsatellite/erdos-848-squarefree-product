@@ -264,6 +264,46 @@ def manifest_records(
     return archives, files
 
 
+def metadata_binding_mode_after_source_audit(
+    cache_manifest: dict,
+    publication: dict,
+    publication_path: Path,
+    publication_sha: str,
+    public_commit: str,
+) -> str:
+    """Classify cache metadata after exact Lean source equivalence is proved."""
+
+    cached_commit = cache_manifest.get("public_commit")
+    cached_internal = cache_manifest.get("internal_source_commit")
+    publication_internal = publication.get("internal_source_commit")
+    publication_binding = cache_manifest.get("publication_manifest")
+    if (
+        not isinstance(cached_commit, str)
+        or re.fullmatch(r"[0-9a-f]{40}", cached_commit) is None
+        or not isinstance(cached_internal, str)
+        or re.fullmatch(r"[0-9a-f]{40}", cached_internal) is None
+        or not isinstance(publication_internal, str)
+        or re.fullmatch(r"[0-9a-f]{40}", publication_internal) is None
+        or not isinstance(publication_binding, dict)
+        or publication_binding.get("path") != publication_path.name
+        or not isinstance(publication_binding.get("sha256"), str)
+        or re.fullmatch(r"[0-9a-f]{64}", publication_binding["sha256"]) is None
+    ):
+        raise CacheReleaseError("malformed cache/public metadata binding")
+    if (
+        cache_manifest.get("main_theorem") != publication.get("main_theorem")
+        or cache_manifest.get("allowed_axioms") != publication.get("allowed_axioms")
+    ):
+        raise CacheReleaseError("cache/public proof identity mismatch")
+    if (
+        cached_commit == public_commit
+        and publication_binding["sha256"] == publication_sha
+        and cached_internal == publication_internal
+    ):
+        return "exact-publication"
+    return "lean-source-equivalent-paper-revision"
+
+
 def verify_archives(asset_dir: Path, archives: dict[str, dict]) -> None:
     for index, name in enumerate(sorted(archives), start=1):
         record = archives[name]
@@ -383,40 +423,35 @@ def main() -> int:
             raise CacheReleaseError("unsupported cache release manifest")
 
         public_commit = clean_commit(ROOT)
-        if cache_manifest.get("public_commit") != public_commit:
-            raise CacheReleaseError(
-                "cache release is not bound to the checked-out public commit"
-            )
         publication, publication_path, publication_sha = publication_manifest(
             ROOT
         )
-        publication_binding = cache_manifest.get("publication_manifest")
-        if (
-            not isinstance(publication_binding, dict)
-            or publication_binding.get("path") != publication_path.name
-            or publication_binding.get("sha256") != publication_sha
-        ):
-            expected = publication_binding.get("sha256")
-            raise CacheReleaseError(
-                "publication manifest binding mismatch: "
-                f"expected={expected}, actual={publication_sha}; "
-                "check out the exact release tag with its .gitattributes"
-            )
-        if (
-            cache_manifest.get("internal_source_commit")
-            != publication.get("internal_source_commit")
-            or cache_manifest.get("main_theorem")
-            != publication.get("main_theorem")
-            or cache_manifest.get("allowed_axioms")
-            != publication.get("allowed_axioms")
-        ):
-            raise CacheReleaseError("cache/public proof identity mismatch")
         verify_toolchain(str(cache_manifest.get("lean_toolchain")))
         archives, records = manifest_records(cache_manifest, publication)
+        binding_mode = metadata_binding_mode_after_source_audit(
+            cache_manifest,
+            publication,
+            publication_path,
+            publication_sha,
+            public_commit,
+        )
+        if binding_mode != "exact-publication":
+            print(
+                "[cache-install:source-equivalent] "
+                f"cache_commit={cache_manifest['public_commit']} "
+                f"current_commit={public_commit}; verifying the complete "
+                "current public package before cache reuse",
+                flush=True,
+            )
+            run(
+                [sys.executable, "-B", "scripts/verify_public_repository.py"],
+                cwd=ROOT,
+                capture=False,
+            )
         verify_archives(asset_dir, archives)
         print(
             f"[cache-install:assets-ok] archives={len(archives)} "
-            f"modules={len(records)}",
+            f"modules={len(records)} binding={binding_mode}",
             flush=True,
         )
         if args.verify_only:

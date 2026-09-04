@@ -403,7 +403,7 @@ def prepare_active_metadata() -> None:
         "LiProofEngine2026": (
             "source.pdf",
             "source-view.txt",
-            "https://doi.org/10.5281/zenodo.21672333",
+            "https://doi.org/10.2139/ssrn.7237460",
         ),
     }
     for key, (artifact_name, text_name, final_url) in local_specs.items():
