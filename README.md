@@ -1,4 +1,4 @@
-# Erdős Problem 848: a kernel-checked proof
+# The Exact Extremal Bound in Erdős Problem 848
 
 This repository is the clean public proof package for Erdős Problem 848.  It
 contains the audited manuscript and exactly the transitive Lean source closure
@@ -14,8 +14,8 @@ class `7 (mod 25)`.  The unconditional Lean endpoint is:
 
 `Erdos848.PaperGeneratedCertificateProvider.all_N`
 
-The paper and machine proof are linked through `paper/theorem-map.json`,
-`\leanname{...}` annotations in the TeX source, the trust-zero theorem map,
+The paper and machine proof are linked through `paper/theorem-map.json`, the
+paper-to-implementation and numerical-claim maps, the trust-zero theorem map,
 the axiom audit, and `PUBLICATION_MANIFEST.json`.
 
 ## Contents
@@ -33,6 +33,8 @@ the axiom audit, and `PUBLICATION_MANIFEST.json`.
 - `certificate-pipeline.json`: certificate-family build and replay record.
 - `lean4/`: the exact 30,638-module publication source closure.
 - `scripts/verify_public_repository.py`: public source/claim/hash gate.
+- `scripts/build_release_package.py` and `scripts/verify_publication_package.py`:
+  deterministic source-package construction and verification.
 - `scripts/build_generated_certificate.py`: bounded resumable OLean builder.
 - `scripts/install_release_cache.py`: hash-bound release-cache installer.
 - `scripts/refresh_proof_contract.py`: atomic manuscript-hash refresher and
@@ -81,7 +83,7 @@ The only accepted logical dependencies are `propext`, `Classical.choice`, and
 `Quot.sound`.  There is no project axiom, `sorry`, `admit`, `native_decide`,
 or compiler-trust escape in the publication closure.
 
-This tree was materialized from internal source commit `eab5046786bed9d68ca36c8f16bc1217eeda065d`.
+This tree was materialized from internal source commit `5c0320283f3abe619e04ae180ba56cdd945ef5b3`.
 
 ## Licensing
 
