@@ -11,5 +11,6 @@
   "artifact_file": "preprint.pdf",
   "text_file": "preprint.pdf.txt",
   "text_lines": 728,
-  "pdf_text_extractor": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\MiKTeX\\miktex\\bin\\x64\\pdftotext.EXE"
+  "pdf_text_extractor": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\MiKTeX\\miktex\\bin\\x64\\pdftotext.EXE",
+  "sha256_text_view": "034e8ee36b3f218146d5479c194277aa80fcd95495c3acae5e6f3db1c9c886ad"
 }

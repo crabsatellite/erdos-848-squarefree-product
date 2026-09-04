@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "key": "RosserSchoenfeld",
+  "artifact_type": "pdf",
+  "requested_url": "https://doi.org/10.1215/ijm/1255631807",
+  "final_url": "https://doi.org/10.1215/ijm/1255631807",
+  "status": "local-pinned",
+  "sha256_raw_bytes": "8e37b06f82e09421bceb2502578c47b61469141f0287e6acedb70e01765ab556",
+  "sha256_text_view": "cb0e02c101202c614ee4bb22f92931edaa2e86fe7209a21daa5f59a44be598b4",
+  "artifact_file": "source.pdf",
+  "text_file": "source.pdf.txt"
+}

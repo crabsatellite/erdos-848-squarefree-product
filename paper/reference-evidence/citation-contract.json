@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "policy": {
+    "context_scope": "paragraph",
+    "require_bibitem_for_every_manifest_entry": true,
+    "require_canonical_links": false,
+    "require_claim_context_anchor": false,
+    "require_every_bibitem_cited": true,
+    "require_manifest_for_every_bibitem": true
+  },
+  "references": {
+    "Erdos848Original": {
+      "author_tokens": [
+        "Erd{\\H{o}}s, Paul"
+      ],
+      "title_tokens": [
+        "Some of My Favourite Problems in Various Branches of Combinatorics"
+      ],
+      "identifiers": [
+        "https://lematematiche.dmi.unict.it/index.php/lematematiche/article/view/587"
+      ]
+    },
+    "Sawhney848": {
+      "author_tokens": [
+        "Sawhney, Mehtaab"
+      ],
+      "title_tokens": [
+        "On {$A\\subseteq[N]$} Such That {$ab+1$} Is Never Squarefree for {$a,b\\in A$}"
+      ],
+      "identifiers": [
+        "https://www.math.columbia.edu/~msawhney/Problem_848.pdf"
+      ]
+    },
+    "Sothanaphan848": {
+      "author_tokens": [
+        "Sothanaphan, Nat"
+      ],
+      "title_tokens": [
+        "An Explicit Threshold in {Erd{\\H{o}}s} Problem 848"
+      ],
+      "identifiers": [
+        "https://drive.google.com/file/d/1ujhm4_WYpgRV_rd1rJXIfHyvx16COEKe/view"
+      ]
+    },
+    "RosserSchoenfeld": {
+      "author_tokens": [
+        "Rosser, J. Barkley and Schoenfeld, Lowell"
+      ],
+      "title_tokens": [
+        "Approximate Formulas for Some Functions of Prime Numbers"
+      ],
+      "identifiers": [
+        "10.1215/ijm/1255631807"
+      ]
+    },
+    "DusartPrimes": {
+      "author_tokens": [
+        "Dusart, Pierre"
+      ],
+      "title_tokens": [
+        "Estimates of Some Functions over Primes without {R.H.}"
+      ],
+      "identifiers": [
+        "https://arxiv.org/abs/1002.0442"
+      ]
+    },
+    "LiProofEngine2026": {
+      "author_tokens": [
+        "Alex Chengyu Li"
+      ],
+      "title_tokens": [
+        "Proof Engine Infrastructure: A Fail-Closed Claim-Graph Method for Accountable {AI}-Assisted Mathematical Research"
+      ],
+      "identifiers": [
+        "10.5281/zenodo.21672333"
+      ]
+    }
+  }
+}

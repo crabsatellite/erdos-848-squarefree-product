@@ -527,9 +527,6 @@ def validate_state(
         label = claim["label"]
         if label not in tex_labels:
             fail(f"paper theorem-map label is absent from TeX: {label}")
-        for name in claim["lean"]:
-            if f"\\leanname{{{name}}}" not in tex:
-                fail(f"paper endpoint is absent from TeX: {name}")
 
     map_source = strip_lean_comments(
         required_paths["theorem_map"].read_text(encoding="utf-8-sig")

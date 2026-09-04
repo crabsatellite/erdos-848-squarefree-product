@@ -4,9 +4,9 @@
   "claim_status": "complete",
   "manuscript_kind": "complete-all-n-paper-proof-with-kernel-replayed-generated-finite-certificates",
   "tex_path": "paper/erdos_848_kernel_checked_exact_extremal_bound.tex",
-  "tex_sha256": "2296d78d199eec9fc31883737599a3bf543953e4afb46c78bc4f53c737cdfcec",
+  "tex_sha256": "d98eee9e9a3259301c02738742fab35eddaaa45f99e40078c893f10d2d4fc5ed",
   "pdf_path": "paper/Li_Erdos_848_Kernel_Checked_Exact_Extremal_Bound_2026.pdf",
-  "pdf_sha256": "be729bd0671d975d2b4b335797e91ba4ac85f7c30b74dab2c2f70172c82f7ce3",
+  "pdf_sha256": "b062f001e3e6c37e5b06e1eee724bd99aa90e642e8790dde5121dfa08b69e679",
   "theorem_map_path": "paper/theorem-map.json",
   "theorem_map_sha256": "968c626c9da9bd59ccd1f7285b43a9c486a9f0ed46039485dca8823172138695",
   "additional_artifacts": [
@@ -16,23 +16,23 @@
     },
     {
       "path": "paper/numeric-claims.json",
-      "sha256": "2486dce19907e4f29384aa03b85db83d834f7968f47fb27f5371fc992b720b8b"
+      "sha256": "d72728449492a32862da43288c8001be216a146c4cacbaee450f882ec44850d7"
     },
     {
       "path": "paper/math-implementation-map.json",
-      "sha256": "ba0689c574fca5326d1a88fd8d490e7a5e4fdc991893a44b3f63ed8936c85ab1"
+      "sha256": "21da8ba1b72fd59248da4248c19c31d3b9caea410695fcc692978ea92a717f26"
     },
     {
       "path": "paper/references.bib",
-      "sha256": "431737c55aa80811cb56ff6bc41c1ca66384df30e64bcb0dc327b4b05d36bcb3"
+      "sha256": "3045e97e7ade081d0d132426c37f55dccfe650d97e5e0a6873aab7329824e64e"
     },
     {
       "path": "paper/reference-evidence/manifest.json",
-      "sha256": "3c80160801781c85daeeb5bce9496350330185244a5523ea6a7a4538e7f13eeb"
+      "sha256": "291114a37eba3c482400ebc597d906d9129f5dd519f5c88340b0e6c58aac472c"
     },
     {
       "path": "paper/reference-evidence/artifact-sha256.json",
-      "sha256": "414cd0ce1e2b347663b266ebcf882256750dcfe52510155b7b9f515f5cecf203"
+      "sha256": "84c1d60d8a5e2b712386581fb6f92c4c78b7223636acb4cc5b84b86e20de5ab7"
     }
   ],
   "scope": {

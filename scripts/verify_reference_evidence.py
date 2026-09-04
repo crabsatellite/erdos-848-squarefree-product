@@ -197,7 +197,7 @@ def main() -> int:
         manifest_path = ROOT / manifest_path
     base = manifest_path.parent
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    if manifest.get("schema_version") != 1:
+    if manifest.get("schema_version") not in (1, 2):
         fail("unsupported manifest schema")
 
     bib_path = base / manifest["bib_file"]

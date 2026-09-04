@@ -37,6 +37,16 @@
       "sha256": "5887428147fd46ff1c92c7b7ebbc0c4a0d5bc16df27ceb59ca79d0e69e5fbb5d"
     },
     {
+      "path": "LiProofEngine2026/proof-engine-infrastructure-manuscript.tex.txt",
+      "bytes": 47978,
+      "sha256": "a5d6549717fc5f9887cf2eb2394e34eafc50ae2bd1efd6953066fdfbc1a99c57"
+    },
+    {
+      "path": "LiProofEngine2026/source.pdf",
+      "bytes": 631093,
+      "sha256": "6b53d87d8d7824f27fa49dc5b995e1b48a16d69a15d539605c22fc7b35ca990e"
+    },
+    {
       "path": "Mathlib/crossref.json",
       "bytes": 16405,
       "sha256": "e790760c56e022852bcdd9c1b3c3bdfbc019ec5cec1ed8a82a1745b517a447a7"
@@ -60,6 +70,11 @@
       "path": "RosserSchoenfeld/crossref.json",
       "bytes": 3717,
       "sha256": "4fd26494463b90625827e94a286445ec1870291e5042a8d75828d164f451c5b9"
+    },
+    {
+      "path": "RosserSchoenfeld/source.pdf",
+      "bytes": 2520753,
+      "sha256": "8e37b06f82e09421bceb2502578c47b61469141f0287e6acedb70e01765ab556"
     },
     {
       "path": "Sawhney848/preprint.pdf",

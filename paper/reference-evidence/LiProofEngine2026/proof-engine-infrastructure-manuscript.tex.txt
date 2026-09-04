@@ -1,0 +1,1000 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{xurl}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{definition}{Definition}
+\newtheorem{principle}{Principle}
+\newtheorem{claim}{Claim}
+
+\title{Proof Engine Infrastructure:\\
+A Claim-Graph Framework for AI-Assisted Mathematical Research}
+\ifdefined\publicmode
+  \author{Alex Chengyu Li\\
+  \small GenAI Architect; Independent Researcher, Tokyo, Japan\\
+  \small \texttt{cl7076@nyu.edu}}
+\else
+  \author{Anonymous}
+\fi
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+AI systems can rapidly produce proof sketches, programs, formalization
+fragments, solver instances, and candidate proof strategies. These materials do
+not have a uniform evidentiary status. This paper introduces \emph{Proof Engine
+Infrastructure}, an architecture for converting untrusted generation into
+independently checkable mathematical claims.
+
+The framework has two coupled levels. At the evidentiary level, each claim is
+associated with a supporting artifact, a checking procedure, the scope of that
+check, and any remaining assumptions. At the inferential level, claims and
+proof obligations form a typed directed hypergraph. Alternative routes have
+disjunctive semantics, while obligations requiring several premises have
+conjunctive semantics. Closure is therefore a derived property of the graph,
+not a status asserted in prose.
+
+The central distinction is between a positive candidate and an \emph{earned}
+result. A persuasive argument, a stored certificate, or an isolated formal
+theorem may support a candidate without yet licensing its use as a premise.
+Every value, structure, or theorem that would contribute positive graph income
+must combine reference grounding, machine-checkable evidence, and an exact
+binding between the checked object and the stated claim. Promotion is admissible
+only when these obligations hold together with strength preservation,
+compositional completeness, and dependency preservation. The checking
+technology may vary without weakening this invariant. Failed routes remain
+typed negative evidence without disproving their output claims, while a
+separation of generative, verificatory, compositional, and publication
+functions prevents agent identity or provenance from substituting for
+mathematical evidence.
+
+Verification-cost minimization remains the design objective, extended from the
+cost of checking an individual artifact to the cost of composing heterogeneous
+evidence across the claim graph. The framework distinguishes earned research
+closure from the stronger state of publication closure. It is motivated by a
+kernel-checked Hamilton
+classification and a mixed-boundary Rado-number study, but its contribution is
+a general methodological framework rather than a fixed software pipeline, a
+new solver, a proof assistant, or an autonomous mathematician. The framework
+specifies invariant requirements for evidentiary status and derived closure;
+its concrete architecture must vary with the discipline, proof object, and
+available verification boundary.
+\end{abstract}
+
+\section{Introduction}
+
+AI-assisted mathematics is often framed as a question about model capability:
+can a system prove theorems, solve olympiad problems, or translate informal
+proofs into a proof assistant?  These are important questions, but they do not
+exhaust the methodological problem. Reliable research also requires procedures
+for checking generated material, recording failed approaches, tracking changing
+artifacts, and making the final evidence independently accessible.
+
+The framework starts from the premise that provenance does not determine
+evidentiary status. A generated object can support a mathematical claim only
+through a stated verification procedure of known scope. Proof Engine
+Infrastructure associates generated objects with such procedures, represents
+their logical dependencies in a claim graph, controls status transitions, and
+preserves the resulting positive and negative evidence.
+
+For a positive result, however, checker acceptance is not sufficient by itself.
+The checked object must be grounded in the intended definitions, reference data,
+or formal dependencies, and an inspectable bridge must show that the machine
+checked the same claim that the research argument consumes. This requirement is
+stable even when the checking technology changes.
+
+This distinction matters because the dominant evaluation instruments for
+AI-for-mathematics are model-centric or benchmark-centric.  Theorem-proving
+systems are scored on proof search, autoformalization accuracy, or competition
+performance \cite{polu2020gptf,wu2022autoformalization,yang2023leandojo,xin2024deepseekprover,deepmind2024alphaproof}.
+These measure the strength of a generator on a task distribution.  They do not
+measure whether the surrounding research system can take a generator's output
+and convert it, at low cost, into something a third party can independently
+check.  That conversion is the object of study here.
+
+This paper develops the architecture at the methodological level. Separate papers
+report the Hamilton classification \cite{liHamiltonNCR2026} and the Rado
+results \cite{liRadoNumbers2026}; the paired paper introduces a claim-level
+verification framework and instantiates it on their kernel-closed and
+mixed-boundary closure profiles \cite{liSatGuidedKernelArtifacts2026}; the
+present paper identifies the general methodological structure shared by those
+cases.
+
+The paired paper incorporates the Rado-centered path from SAT discovery to
+fast-verifiable artifacts into its broader two-case verification framework
+\cite{liSatGuidedKernelArtifacts2026}. The present paper abstracts that pattern
+beyond a single mathematical workload and separates the general architecture
+from the claim-level framework developed in the paired paper.
+
+The paper is also related to a separate Build Thesis manuscript
+\cite{liBuildThesis2026}. That manuscript argues at the philosophy-of-science
+level that mathematics's current AI acceleration should be explained through a
+built coupling between AI generation and cheap mechanical verification, not
+through structural conditions alone. The present paper gives that claim a
+methodological form by specifying the components of a proof engine.
+
+\subsection{Contributions}
+
+\begin{enumerate}[leftmargin=*]
+  \item It defines Proof Engine Infrastructure as a generation--verification
+        architecture and states why agent provenance alone cannot establish the
+        evidentiary status of an output (Section~\ref{sec:agent}).
+  \item It takes the claim-level verification profile developed in the paired
+        paper as a local evidentiary unit and defines its interface to a global
+        inference architecture
+        (Section~\ref{sec:interface}).
+  \item It formulates a technology-independent positive-evidence obligation:
+        every value, structure, or theorem that can change graph reachability
+        requires reference grounding, machine-checkable evidence, and exact
+        claim binding (Section~\ref{sec:positive}).
+  \item It introduces a typed claim graph in which closure is derived from
+        reachability through earned proof edges, and it separates generative,
+        verificatory, compositional, and publication functions
+        (Section~\ref{sec:claimgraph}).
+  \item It separates positive candidates from earned results and specifies an
+        admissibility rule governed by evidentiary adequacy, strength
+        preservation, compositional completeness, and assumption preservation
+        (Section~\ref{sec:earned}).
+  \item It distinguishes invariant methodological requirements from adaptive
+        engineering realizations, showing why different proof objects require
+        different artifact types, graph decompositions, checkers, and release
+        surfaces (Section~\ref{sec:adaptation}).
+  \item It lifts verification-cost minimization from a claim-level preference to
+        a graph-level design objective that includes the cost of composing
+        heterogeneous evidence, and formulates verification-boundary allocation
+        as an architectural problem
+        (Sections~\ref{sec:vcm}--\ref{sec:boundaries}).
+  \item It gives a two-dimensional reference architecture and derives
+        system-level consequences for local positive results, negative evidence,
+        and closure-respecting publication
+        (Sections~\ref{sec:layers}--\ref{sec:patterns}).
+  \item It distinguishes the architecture from model-centric and
+        benchmark-centric work, relates it to the Build Thesis, and explains how
+        concrete case papers supply evidence for the general architecture
+        (Sections~\ref{sec:related}--\ref{sec:companion}).
+\end{enumerate}
+
+\subsection{Scope and non-goals}
+
+This is a methodology paper.  It does not propose a new SAT solver, a new proof
+assistant, a new certificate format, or a finished software platform.  It does
+not claim that every mathematical artifact should be forced into one
+verification system. Concrete mathematical examples provide evidence and
+motivation; their proofs remain in the corresponding case papers. The framework
+also does not prescribe one universal implementation. Its invariants concern
+evidence and inference, while its engineering realization is expected to vary
+with the research object.
+
+\section{Artifacts, Not Agents, as Units of Evaluation}
+\label{sec:agent}
+
+An AI agent may propose proof strategies, write encoders,
+produce proof sketches, translate definitions, search examples, or summarize
+failed attempts. None of these actions establishes a mathematical claim. The origin of an
+artifact does not determine its mathematical status.
+
+\begin{claim}[Agent provenance is insufficient]
+No output becomes mathematical evidence merely because it was generated by an
+AI agent. It becomes evidence only after it has passed an independent
+verification procedure with stated scope.
+\end{claim}
+
+The resulting design objective is to support multiple fallible generation
+processes while making their mathematical outputs inexpensive to verify
+independently.
+
+This distinguishes a proof engine from a benchmark solver. A benchmark
+solver may demonstrate model capability on a task distribution.  A proof
+engine must record the development of mathematical claims through generation,
+checking, failed approaches, remaining assumptions, formal verification,
+publication, and later revision. A benchmark score evaluates a model on a task
+set; a proof engine produces a body of independently checkable artifacts.
+
+A more capable generator may propose better strategies, write cleaner encoders,
+and produce more nearly correct formal fragments. Each output nevertheless
+requires an appropriate check before it can support a mathematical claim. The
+cost of that check is a property of the surrounding infrastructure as well as
+of the generator. Model improvement primarily lowers the cost of
+\emph{generation}; the architecture is designed to lower the cost of
+\emph{verification}.
+
+\begin{definition}[Functional role]
+A functional role is a contribution to the formation or assessment of a
+mathematical claim. Roles describe what is being done---generation,
+verification, composition, or publication---rather than who or what performs
+it. A role is therefore not a trust rank.
+\end{definition}
+
+Table~\ref{tab:roles} gives a minimal separation of functions. A human or
+machine participant may perform more than one function, but performing one
+function does not confer the epistemic authority of another.
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.18\linewidth}
+>{\raggedright\arraybackslash}p{0.35\linewidth}
+>{\raggedright\arraybackslash}p{0.35\linewidth}@{}}
+\toprule
+Function & Contribution & What it does not establish alone \\
+\midrule
+Generation & Candidate claims, strategies, examples, or proof objects & That a
+candidate is correct \\
+\addlinespace
+Verification & A check of an artifact under a stated verification boundary &
+That the checked statement is sufficient for every claim that may use it \\
+\addlinespace
+Composition & An inference from verified components to a larger claim & That
+every component was verified under an adequate boundary \\
+\addlinespace
+Publication & A stable, inspectable presentation of claims and evidence & Any
+mathematical status not already earned by the preceding functions \\
+\bottomrule
+\end{tabular}
+\caption{Functional separation prevents provenance or authorship from
+substituting for evidence.}
+\label{tab:roles}
+\end{table}
+
+\section{The Generation-Verification Interface}
+\label{sec:interface}
+
+\begin{definition}[Generation-verification interface]
+A generation-verification interface is the part of a research infrastructure
+that exposes the evidentiary record of each substantive claim to the larger
+claim graph.
+\end{definition}
+
+The companion paper defines the corresponding local object as a
+\emph{verification profile}: a claim, its representing object, the checking
+procedure, the scope of the check, the remaining assumptions, and a stable
+identifier \cite{liSatGuidedKernelArtifacts2026}. The present paper does not
+repeat that claim-level taxonomy or its case-specific checks. It asks the next
+architectural question: how should many such local records be composed into a
+research state whose closure can be derived?
+
+The interface is therefore a logical boundary between local evidence and
+global inference. It accepts heterogeneous verification profiles without
+equating them, exposes the exact proposition that each profile licenses, and
+prevents a local status from silently becoming a stronger graph-level claim.
+
+\section{Positive Evidence: Reference Grounding and Machine Checking}
+\label{sec:positive}
+
+A verification profile says how an artifact was checked. A proof engine needs a
+stronger invariant for any value, structure, or theorem that would contribute
+positive evidence to the larger graph: the checked artifact must also be
+grounded in the intended research object and bound to the exact claim for which
+status is sought.
+
+\begin{definition}[Reference grounding]
+Reference grounding for a claim \(C\) is a versioned specification of the object
+to which \(C\) refers. It records the governing definitions and normalization,
+the provenance of any input or reference data, the relevant dependency set,
+and the baseline cases or calibration facts used to establish that the
+representation is the intended one.
+\end{definition}
+
+Reference grounding is domain dependent. For a finite mathematical value it may
+contain the instance family, input data, known cases, and encoding convention.
+For a formal theorem it may contain the exact definitions, imported theory, and
+the correspondence between the paper statement and the formal statement. For
+an empirical object it may contain raw observations, calibration data, and the
+measurement protocol. These objects are not interchangeable, but each fixes
+what is being checked.
+
+\begin{definition}[Machine-checkable evidence]
+Machine-checkable evidence for \(C\) is a versioned artifact, an independently
+executable checking procedure, and an acceptance record produced under a
+declared trust and dependency policy.
+\end{definition}
+
+The machine-checkable artifact may be a proof term, certificate, witness,
+exhaustive computation, symbolic derivation, or independently rerunnable
+analysis. The framework does not require one proof assistant, solver, or
+certificate language. It requires that the selected mechanism expose an
+acceptance relation whose scope is adequate for \(C\).
+
+\begin{definition}[Claim binding]
+A claim binding is an inspectable bridge showing that the reference-grounded
+object and the machine-checked object express the exact claim \(C\), with the
+same domain, definitions, normalization, endpoints, and declared assumptions.
+\end{definition}
+
+Let \(G(C)\), \(M(C)\), and \(B(C)\) denote reference grounding, machine
+acceptance, and exact claim binding. The positive-evidence obligation is
+\[
+  \operatorname{PositiveEvidence}(C)
+  \quad\Longrightarrow\quad
+  G(C)\land M(C)\land B(C).
+\]
+Reference data without a checker documents an object but does not establish the
+new result. A machine proof without reference grounding may certify the wrong
+encoding or an unintended formal statement. A semantic bridge without an
+accepted machine artifact establishes correspondence but not correctness. The
+three obligations are therefore conjunctive.
+
+\begin{principle}[Technology-independent positive evidence]
+Every value, structure, or theorem that changes claim-graph reachability must
+be supported by reference grounding, machine-checkable evidence, and an exact
+claim binding. The technology realizing the machine check may be replaced
+without changing the principle, provided that the replacement verifies the
+same claim at no weaker scope and exposes its trust assumptions.
+\end{principle}
+
+\begin{definition}[Equivalent checking realizations]
+Two machine-checking realizations are equivalent for a claim \(C\)
+when, relative to the same reference grounding, each produces independently
+replayable evidence for the same proposition, scope, and dependency policy. A
+replacement is admissible only if the new realization satisfies these same
+conditions or establishes a stronger result.
+\end{definition}
+
+This permits engineering evolution without evidentiary drift. A proof-assistant
+kernel may replace a certificate checker, a certified checker may replace raw
+solver replay, or an independently implemented verifier may replace an earlier
+script. The graph need not privilege the original technology; it must preserve
+the proposition established, the reference object, and every remaining
+assumption.
+
+\section{Claim Graphs and Derived Closure}
+\label{sec:claimgraph}
+
+The generation--verification interface describes the evidentiary status of
+individual artifacts. A theory of research closure must additionally represent
+how claims depend on one another, which arguments are alternatives, and which
+partial results must be combined.
+
+\begin{definition}[Claim graph]
+A claim graph is a directed acyclic hypergraph
+\[
+  \mathcal G=(\mathcal C,\mathcal E),
+\]
+where each vertex \(C\in\mathcal C\) is a typed mathematical claim and each
+hyperedge \(e\in\mathcal E\) has a finite input set \(I_e\subseteq\mathcal C\),
+one output claim \(o_e\in\mathcal C\), and a declared evidentiary status.
+\end{definition}
+
+Several edges with the same output encode alternative proofs and therefore
+have OR semantics. A single edge with several inputs encodes an assembly
+obligation and therefore has AND semantics. Let \(R_0\) be the declared root
+claims and let \(\mathcal E_{\mathrm{earned}}\) be the earned edges. Define
+\[
+\begin{aligned}
+R_{k+1}=R_k\cup
+\{\,o_e:\ e\in\mathcal E_{\mathrm{earned}},\ I_e\subseteq R_k\,\},
+\qquad
+\operatorname{Reach}(\mathcal G)=\bigcup_{k\geq 0}R_k .
+\end{aligned}
+\]
+A target claim \(T\) is research-closed relative to the declared root claims
+exactly when
+\(T\in\operatorname{Reach}(\mathcal G)\). Minimal open route sets, dependency-
+ready obligations, and unavailable premises can then be derived from the graph
+rather than inferred from a narrative description.
+
+\begin{principle}[Derived closure]
+A claim is closed only when it is reachable from the declared roots through
+earned edges. Neither confidence, authorship, nor the local success of an
+uncomposed argument changes this relation.
+\end{principle}
+
+\subsection{Edge lifecycle and negative evidence}
+
+The lifecycle separates the existence of positive evidence from its
+inferential use. A proposed edge begins open. Mathematical scrutiny or an
+appropriate checker may establish different forms of candidate evidence. The
+admissibility rule in Section~\ref{sec:earned} determines whether that evidence
+is sufficient for the edge to become earned. A refuted or insufficient
+argument becomes retired.
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.22\linewidth}
+>{\raggedright\arraybackslash}p{0.32\linewidth}
+>{\raggedright\arraybackslash}p{0.34\linewidth}@{}}
+\toprule
+State & Meaning & Effect on reachability \\
+\midrule
+Open & An unresolved proof obligation & None \\
+\addlinespace
+Argument-supported candidate & A positive mathematical argument is available
+at a stated local scope & None \\
+\addlinespace
+Mechanically checked candidate & A stated verification procedure accepted the
+corresponding artifact & None \\
+\addlinespace
+Earned & The candidate satisfies the admissibility conditions for its output
+claim & The edge may propagate its output claim \\
+\addlinespace
+Retired & The argument is invalid, insufficient, or superseded & None; its
+negative information may be preserved \\
+\addlinespace
+Publication-closed & The earned result is presented with the evidence needed
+for independent inspection & The claim may be published with its declared
+status \\
+\bottomrule
+\end{tabular}
+\caption{Candidate states are deliberately non-propagating. Only earned edges
+change research reachability, and publication closure is a separate stronger
+state.}
+\label{tab:lifecycle}
+\end{table}
+
+This lifecycle makes failure reusable without allowing it to alter closure.
+Retiring one argument does not disprove its output claim when other incoming
+edges remain possible. Conversely, preserving a failed argument does not give
+it positive evidentiary force.
+
+\section{Candidate-to-Earned Admissibility}
+\label{sec:earned}
+
+The distinction between candidate evidence and an earned edge is the central
+inferential boundary of the framework.
+
+\begin{definition}[Admissible promotion]
+The promotion of an edge \(e\) from candidate to earned is admissible when the
+output has reference grounding, an accepted machine-checkable artifact, and an
+exact claim binding; when every claim used in composition preserves its meaning
+and strength; when the components cover the full obligation; and when every
+assumption on which the conclusion depends remains visible.
+\end{definition}
+
+Let \(G(e)\), \(M(e)\), \(B(e)\), \(S(e)\), \(C(e)\), and \(D(e)\) denote,
+respectively, reference grounding, machine acceptance, claim binding, strength
+preservation, compositional completeness, and dependency preservation. The
+abstract promotion rule is
+\[
+ e\in\mathcal E_{\mathrm{earned}}
+ \quad\Longleftrightarrow\quad
+ G(e)\land M(e)\land B(e)\land S(e)\land C(e)\land D(e).
+\]
+The right-hand side is conjunctive: satisfying only a proper subset leaves the
+edge in a candidate state. Table~\ref{tab:gates} states the interpretation of
+these predicates.
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.25\linewidth}
+>{\raggedright\arraybackslash}p{0.63\linewidth}@{}}
+\toprule
+Condition & Theoretical requirement \\
+\midrule
+Reference grounding \(G(e)\) & The value or structure is identified by its
+definitions, normalization, reference inputs, provenance, and applicable
+baseline cases. \\
+\addlinespace
+Machine acceptance \(M(e)\) & A versioned artifact passes an independently
+executable checker under a declared trust and dependency policy. \\
+\addlinespace
+Claim binding \(B(e)\) & The grounded object and the checked object express the
+exact output claim at the required scope. \\
+\addlinespace
+Strength preservation \(S(e)\) & The statement established by each component
+implies the statement consumed by its parent under the same definitions and
+normalization. \\
+\addlinespace
+Compositional completeness \(C(e)\) & The components cover the whole
+obligation, and no case, endpoint, overlap, or quantitative contribution is
+silently omitted or counted twice. \\
+\addlinespace
+Dependency preservation \(D(e)\) & Every mathematical, computational, or
+literature assumption used by the components remains attached to the output
+claim. \\
+\bottomrule
+\end{tabular}
+\caption{The candidate-to-earned rule is an all-or-nothing condition on
+inferential use, not a ranking of how promising a candidate appears.}
+\label{tab:gates}
+\end{table}
+
+The conditions address distinct logical failures. Reference material alone
+does not prove a new positive value. A mechanically accepted artifact may encode
+the wrong object or have a narrower scope than the claim that cites it. A
+correct local lemma may leave cases uncovered. Quantitative arguments may fail
+when the same contribution is used twice. A conditional result cannot become
+unconditional by omitting its condition. These are instances of a general
+failure of promotion, not separate sources of partial closure.
+
+\begin{principle}[All-or-nothing promotion]
+An edge becomes earned only when every condition required for its inferential
+use holds simultaneously. Otherwise it remains a candidate, regardless of how
+many conditions have already been established.
+\end{principle}
+
+\subsection{Research closure and publication closure}
+
+An earned edge may establish a conditional research result while retaining an
+explicit external assumption. This is useful: the graph can represent the
+advance without describing it as an unconditional theorem. Publication closure
+is stronger because it additionally requires a public statement whose wording,
+evidence, assumptions, and verification boundary agree. Separating these states
+prevents a locally correct component from being advertised as closure of a
+stronger public claim.
+
+\section{Invariant Framework, Adaptive Architecture}
+\label{sec:adaptation}
+
+Proof Engine Infrastructure is not a claim that every research problem should
+use the same tools, decomposition, or workflow. It is a claim that different
+realizations should preserve the same methodological invariants: claims must be
+typed; positive results must combine reference grounding, machine-checkable
+evidence, and exact claim binding; composition must preserve strength and
+assumptions; and closure must be derived rather than asserted.
+
+The architecture is therefore parameterized by its \emph{epistemic object}.
+Across disciplines, the relevant object may be a mathematical theorem, an
+experimental measurement, a statistical estimate, or a verified program.
+These objects require different notions of evidence, error, replication, and
+closure. Even within mathematics, a finite classification, a symbolic identity,
+an asymptotic estimate, and a proof-assistant theorem do not generate the same
+verification obligations.
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.34\linewidth}
+>{\raggedright\arraybackslash}p{0.54\linewidth}@{}}
+\toprule
+Framework invariant & Domain-adaptive realization \\
+\midrule
+Typed claims and proof edges & The granularity of claims, the meaning of an
+edge, and the admissible decomposition of the target \\
+\addlinespace
+Positive-evidence obligation & The form of reference data, the machine-checking
+technology, and the bridge connecting the checked object to the intended claim
+\\
+\addlinespace
+Declared verification boundary & Witness checking, exhaustive search,
+certificate checking, symbolic validation, kernel checking, replication, or
+another domain-appropriate procedure \\
+\addlinespace
+Candidate-to-earned admissibility & The concrete tests needed for semantic
+identity, coverage, quantitative accounting, and dependency preservation \\
+\addlinespace
+Functional separation & The allocation of generation, verification,
+composition, and publication work among humans and machines \\
+\addlinespace
+Publication closure & The public artifacts, metadata, assumptions, and replay
+instructions required for independent inspection \\
+\bottomrule
+\end{tabular}
+\caption{The framework fixes evidentiary invariants while leaving the
+engineering architecture responsive to the research object.}
+\label{tab:adaptive}
+\end{table}
+
+This distinction also clarifies the role of engineering examples. A finite
+combinatorial classification may be organized around exhaustive case
+generation, versioned reference instances, compact witnesses, and a
+kernel-checked characterization. A mixed analytic--computational problem may
+instead require reference datasets, encoders, certificates, independently
+checked witnesses, analytic lemmas, and an explicit inventory of residual
+assumptions. A highly branching proof search may benefit from a finer claim
+graph, systematic negative evidence, recursive strength checks, and quantitative
+non-duplication checks. These are examples of adaptation, not mandatory
+components of every proof engine.
+
+\section{Verification-Cost Minimization}
+\label{sec:vcm}
+
+\begin{principle}[Verification-cost minimization]
+Among architectures that preserve the required evidentiary status, prefer the
+one that lowers the total cost of independent verification and composition.
+\end{principle}
+
+The motivating asymmetry is that AI may lower the cost of generating candidate
+outputs faster than the cost of verifying them
+\cite{liVerificationAsymmetry2026}. The present paper translates that
+cross-domain observation into a design objective for mathematical research:
+minimizing the cost of independently checking and composing claim-bound
+evidence. At the level of one claim, the companion paper's
+economy-of-verification principle selects the least burdensome adequate check
+\cite{liSatGuidedKernelArtifacts2026}. At the architectural level, local choices
+interact: an individually cheap check may create an expensive semantic bridge,
+an incompatible representation, or a dependency that must be reverified by
+every parent claim.
+
+For a claim \(C\) and an adequate boundary \(b\), let \(V_b(C)\) denote the cost
+to an independent reader of checking the corresponding evidence. Let \(K(e)\)
+denote the additional cost of establishing that the inputs of edge \(e\) are
+jointly sufficient for its output. For a declared target \(T\), an architecture
+seeks a reachable earned subgraph \(\mathcal G_T\) with low total cost
+\[
+  \sum_{C\in\mathcal C(\mathcal G_T)} V_{b(C)}(C)
+  + \sum_{e\in\mathcal E(\mathcal G_T)} K(e),
+\]
+subject to the admissibility conditions in Section~\ref{sec:earned}. This is a
+design objective, not a claim that verification effort is already measured on
+a universal numerical scale.
+
+The second term matters. A collection of locally checked lemmas can remain
+difficult to assess if their definitions differ, their scopes do not align, or
+their assumptions are not propagated. Conversely, a moderately expensive proof
+object may reduce total cost if it removes many repeated checks. Verification
+cost is therefore a property of the composed architecture, not merely of an
+individual checker.
+
+\section{Verification-Boundary Allocation}
+\label{sec:boundaries}
+
+The paired case paper defines and compares concrete verification boundaries,
+including witness, certificate, kernel, dependency, and archival checks
+\cite{liSatGuidedKernelArtifacts2026}. Here the architectural problem is not to
+repeat that taxonomy but to allocate heterogeneous boundaries across a claim
+graph.
+
+A boundary allocation is a partial map \(b:\mathcal C\to\mathcal B\), where
+\(\mathcal B\) is the set of checking procedures available in the relevant
+domain. It is valid only when \(b(C)\) is adequate for \(C\) and the output of
+that boundary can enter every proof edge that consumes \(C\) without changing
+the claim's meaning or dropping assumptions. Different claims in the same
+argument may therefore use different boundaries.
+
+No boundary is privileged independently of the proof object. Kernel checking
+may be appropriate for a formal theorem, certificate checking for a finite
+refutation, direct validation for a witness, and independent replication for a
+computational or empirical object. The architecture must make these differences
+composable. The same pluralism applies across disciplines: changing the
+epistemic object changes the admissible boundary family and may change the
+shape of the claim graph itself.
+
+\section{A Two-Dimensional Reference Architecture}
+\label{sec:layers}
+
+The framework has two dimensions that should not be collapsed into one linear
+pipeline. The \emph{inferential dimension} is the claim graph: it records which
+premises jointly support which conclusions. The \emph{evidentiary dimension}
+records how the artifact attached to each claim has been checked. A third
+operation, publication, projects an earned part of this structure onto a stable
+public surface. Figure~\ref{fig:layers} summarizes the relation.
+
+\begin{figure}[ht]
+\centering
+\small
+\begin{tabular}{@{}c@{}}
+\fbox{\parbox{0.88\linewidth}{\centering
+\textbf{Generation functions}\\
+produce candidate claims, routes, and artifacts without assigning them
+evidentiary status}}\\[3pt]
+$\downarrow$\\[-1pt]
+\fbox{\parbox{0.88\linewidth}{\centering
+\textbf{Local verification profiles}\\
+bind reference-grounded objects to machine-checkable evidence, exact claims,
+scopes, and remaining assumptions}}
+\\[3pt]
+$\downarrow$ \emph{admissibility of inferential use}\\[-1pt]
+\fbox{\parbox{0.88\linewidth}{\centering
+\textbf{Claim graph}\\
+composes earned edges under AND/OR dependency semantics and derives research
+closure}}\\[3pt]
+$\downarrow$ \emph{closure-respecting projection}\\[-1pt]
+\fbox{\parbox{0.88\linewidth}{\centering
+\textbf{Publication surface}\\
+presents the claims, evidence, assumptions, and stable references required for
+independent inspection}}
+\end{tabular}
+\caption{The reference architecture composes local evidentiary records along a
+claim graph and publishes only a closure-respecting projection. The concrete
+tools inside each box are domain adaptive.}
+\label{fig:layers}
+\end{figure}
+
+\section{System-Level Consequences}
+\label{sec:patterns}
+
+The claim-graph view adds consequences that do not appear at the level of an
+individual verification profile.
+
+\begin{principle}[Local positivity is not global closure]
+A checked local result changes the status of the target only when it enters an
+earned edge on a complete route from the declared roots.
+\end{principle}
+
+This prevents a formalized lemma, an exhaustive computation on a proper
+subdomain, or a persuasive conditional argument from being mistaken for the
+stronger claim that consumes it.
+
+\begin{principle}[Negative evidence is edge-relative]
+A refuted or insufficient argument changes the status of that argument, not
+automatically the truth status of its proposed conclusion.
+\end{principle}
+
+The failed edge can remain valuable when its assumptions, method, and
+obstruction are reproducible. Other incoming edges may still establish the
+same output claim. This locates negative knowledge without turning a failed
+method into a false theorem.
+
+\begin{principle}[Closure-respecting publication]
+The evidentiary status stated in a publication must be the image of an earned
+subgraph under a projection that preserves claims, assumptions, and
+verification boundaries.
+\end{principle}
+
+Publication may omit exploratory history, alternative routes, and internal
+coordination records, but it must not strengthen the surviving claims or erase
+their dependencies. The companion paper develops the corresponding
+claim-level publication and reproduction procedure; the present principle
+states the graph-level constraint on that procedure
+\cite{liSatGuidedKernelArtifacts2026}.
+
+\section{Relation to Model-Centric and Benchmark-Centric Work}
+\label{sec:related}
+
+Model-centric systems ask how capable a model is.  Benchmark-centric systems
+ask how well a model performs on a task set.  Proof Engine Infrastructure asks
+a different question: what architecture turns generated mathematical work into
+artifacts whose evidentiary status and checking cost are explicit?
+
+\paragraph{AI theorem proving and proof search.}
+A large body of work studies neural and LLM-based proof generation and search,
+from early generative theorem proving \cite{polu2020gptf} to
+retrieval-augmented and large-scale systems
+\cite{yang2023leandojo,xin2024deepseekprover} and competition-level systems
+\cite{deepmind2024alphaproof}.  These systems target the generation layer.  The
+present paper is complementary: it studies the surrounding architecture that
+assigns the generator's outputs to verification boundaries.
+
+\paragraph{Autoformalization.}
+Autoformalization translates informal statements and proofs into a proof
+assistant \cite{wu2022autoformalization,szegedy2020autoformalization}.  This is a
+means of producing input for formal verification, but a translation remains a
+generated artifact. It supports a formal claim only after its output has been
+kernel-checked and its assumptions audited.
+
+\paragraph{Proof assistants and libraries.}
+Proof assistants and their libraries supply the kernel-checking boundary
+\cite{demoura2021lean4,mathlib2020}.  Our claim is not novelty at this
+component level; it is that kernel checking is one boundary among several, and
+that the methodological contribution is an architecture specifying which
+claims are assigned to which boundary.
+
+\paragraph{SAT, certificates, and verified checking.}
+SAT-based mathematics and certified proof checking
+\cite{heule2016pythagorean,heule2018schur,wetzler2014drat,cruzfilipe2017lrat,lammich2017grat,gocht2022veripb}
+supply the finite-verification and certificate-checking boundaries.  Again the
+contribution is not a new solver or format; it is the placement of these
+boundaries inside one generation-verification interface alongside formal and
+archival boundaries.
+
+Stronger models can improve candidate proofs, and stronger checkers can lower
+verification cost. The present claim is that generation capability alone does
+not characterize a research infrastructure. Such an infrastructure must also
+verify, record, classify, select, and publish generated outputs together with
+their verification records.
+
+\section{Relation to the Build Thesis}
+
+The existing Build Thesis manuscript \cite{liBuildThesis2026} and the present
+paper address different levels of analysis. The Build Thesis advances a general
+explanatory claim:
+mathematics appears unusually accelerated by AI because an infrastructure build
+has coupled generation to cheap mechanical verification.  It is a
+philosophy-of-science and infrastructure-studies argument about why structural
+conditions are not enough.
+
+Proof Engine Infrastructure gives this thesis a methodological specification.
+It identifies reference grounding, machine-checkable positive evidence, exact
+claim binding, claim graphs, candidate-to-earned admissibility, functional
+separation, verification-boundary allocation, reusable negative evidence, and
+closure-respecting publication as elements of the build. It also explains why
+the invariant method admits different engineering architectures for different
+research objects.
+
+\section{Relation to the Case Studies}
+\label{sec:companion}
+
+The publication sequence has three distinct levels. The mathematical papers
+establish the Hamilton and Rado results \cite{liHamiltonNCR2026,liRadoNumbers2026}.
+The paired paper defines verification and closure profiles, then reports the
+claim-level evidence, statuses, public artifacts, and reproduction procedures
+for those two cases \cite{liSatGuidedKernelArtifacts2026}. The present paper
+does not repeat their theorem statements, audit outputs, artifact inventories,
+or commands. It uses the contrast only to test an architectural proposition:
+the invariants remain stable while the implementation changes with the proof
+object.
+
+In the Hamilton case, a uniform mathematical construction and a
+kernel-checkable final classification permit a comparatively concentrated
+verification architecture: reference-grounded formal definitions and theorem
+maps are paired with kernel checking, while exploratory finite computation need
+not remain a premise. In the Rado case, versioned finite objects, analytic
+arguments, search results, constructive witnesses, and formal dependency
+records require heterogeneous machine boundaries and a more explicit
+representation of remaining assumptions. These are engineering realizations of
+the framework, while the detailed evidence for each realization belongs to the
+paired case paper.
+
+\section{Limitations}
+
+This paper is methodological. It does not claim a new SAT solver, proof
+assistant, certificate format, or universal proof-engine implementation. The
+framework has informed engineering realizations using machine-readable claim
+graphs, automated status audits, and checked promotion rules, but these
+realizations are examples rather than parts of the definition.
+
+The cost objective is qualitative; the paper does not report a universal cost
+scale or a controlled comparison against a model-centric method. The Hamilton
+and Rado cases demonstrate contrasting realizations, not cross-field
+generality. Independent implementations, replications, and measurements are
+needed to evaluate productivity and portability.
+
+Finally, the framework does not mechanically establish novelty, importance, or
+the semantic equivalence of every informal sentence and formal statement.
+Machine checking establishes only the acceptance relation of the declared
+checker; the reference grounding and claim binding still require mathematical
+or domain review. Human review therefore remains necessary.
+
+\section{Conclusion}
+
+A proof engine is an infrastructure for converting generated mathematical
+materials into claims whose evidentiary and inferential status can be checked
+independently. Local verification profiles describe what each artifact
+establishes. A typed claim graph describes how those local results compose, and
+closure is derived only through edges whose positive outputs have reference
+grounding, machine-checkable evidence, and exact claim binding, and whose
+composition preserves strength, completeness, and dependencies.
+
+The framework fixes these invariants but not one engineering stack. Artifact
+types, reference packages, graph granularity, checkers, quantitative controls,
+and publication surfaces should change with the discipline and proof object.
+The technology is replaceable; the obligation to ground, check, and bind every
+positive result is not. The Hamilton and Rado realizations illustrate this
+adaptability; their mathematical and reproducibility details remain in the
+paired case paper. Together with graph-level verification-cost minimization and
+the separation of research from publication closure, the framework supports
+auditable AI-assisted research without treating generation capability or agent
+identity as mathematical trust.
+
+\section*{Declaration of Generative AI and AI-Assisted Technologies}
+
+AI-assisted tools were used during mathematical exploration, software
+development, and manuscript preparation. The author is solely responsible for
+the mathematical claims, citations, software, archived files, and text. No
+AI-generated output is cited as evidence unless it is accepted by one of the
+verification procedures described in this paper.
+
+\begin{thebibliography}{99}
+
+\bibitem{liVerificationAsymmetry2026}
+Alex Chengyu Li.
+\newblock \emph{Verification Asymmetry under AI Substitution: Wage-Ratio
+Inversion and Apprenticeship Thresholds}.
+\newblock Zenodo concept DOI
+\href{https://doi.org/10.5281/zenodo.20038847}{\nolinkurl{10.5281/zenodo.20038847}}, 2026.
+
+\bibitem{liBuildThesis2026}
+Alex Chengyu Li.
+\newblock \emph{The Build Thesis: Why Mathematics's AI Acceleration Is Not
+Reducible to Structural Conditions}.
+\newblock Draft manuscript, 2026.
+
+\bibitem{liRadoNumbers2026}
+Alex Chengyu Li.
+\newblock \emph{On Rado Numbers for $x + by = bz$: The $b^k$ Pattern and a
+Threshold Conjecture}.
+\newblock SSRN 6814341; Zenodo concept DOI
+\href{https://doi.org/10.5281/zenodo.18957993}{\nolinkurl{10.5281/zenodo.18957993}}, 2026.
+
+\bibitem{liHamiltonNCR2026}
+Alex Chengyu Li.
+\newblock \emph{Hamilton Cycles and Paths in the Noncrossing Partition
+Refinement Graph}.
+\newblock SSRN 7104338; technical archive concept DOI
+\href{https://doi.org/10.5281/zenodo.21316750}{\nolinkurl{10.5281/zenodo.21316750}}, 2026.
+
+\bibitem{liSatGuidedKernelArtifacts2026}
+Alex Chengyu Li.
+\newblock \emph{Auditable AI-Assisted Mathematics: Kernel-Checked Theorem
+Closure and SAT-Guided Artifacts}.
+\newblock SSRN 6892258; DOI
+\href{https://doi.org/10.2139/ssrn.6892258}{\nolinkurl{10.2139/ssrn.6892258}}, 2026.
+
+\bibitem{demoura2021lean4}
+Leonardo de Moura and Sebastian Ullrich.
+\newblock The Lean 4 theorem prover and programming language.
+\newblock In \emph{Automated Deduction -- CADE 28}, LNCS 12699, Springer, 2021,
+pp.\ 625--635.
+
+\bibitem{mathlib2020}
+The mathlib Community.
+\newblock The Lean mathematical library.
+\newblock In \emph{Proceedings of the 9th ACM SIGPLAN International Conference
+on Certified Programs and Proofs (CPP 2020)}, ACM, 2020, pp.\ 367--381.
+
+\bibitem{heule2016pythagorean}
+Marijn J.~H.~Heule, Oliver Kullmann, and Victor W.~Marek.
+\newblock Solving and verifying the Boolean Pythagorean triples problem via
+cube-and-conquer.
+\newblock In \emph{Theory and Applications of Satisfiability Testing -- SAT
+2016}, LNCS 9710, Springer, 2016, pp.\ 228--245.
+
+\bibitem{heule2018schur}
+Marijn J.~H.~Heule.
+\newblock Schur number five.
+\newblock In \emph{Proceedings of the Thirty-Second AAAI Conference on
+Artificial Intelligence (AAAI-18)}, AAAI Press, 2018, pp.\ 6598--6606.
+
+\bibitem{wetzler2014drat}
+Nathan Wetzler, Marijn J.~H.~Heule, and Warren A.~Hunt Jr.
+\newblock DRAT-trim: Efficient checking and trimming using expressive clausal
+proofs.
+\newblock In \emph{Theory and Applications of Satisfiability Testing -- SAT
+2014}, LNCS 8561, Springer, 2014, pp.\ 422--429.
+
+\bibitem{cruzfilipe2017lrat}
+Lu\'{\i}s Cruz-Filipe, Marijn J.~H.~Heule, Warren A.~Hunt Jr., Matt Kaufmann,
+and Peter Schneider-Kamp.
+\newblock Efficient certified RAT verification.
+\newblock In \emph{Automated Deduction -- CADE 26}, LNCS 10395, Springer, 2017,
+pp.\ 220--236.
+
+\bibitem{lammich2017grat}
+Peter Lammich.
+\newblock Efficient verified (UN)SAT certificate checking.
+\newblock In \emph{Automated Deduction -- CADE 26}, LNCS 10395, Springer, 2017,
+pp.\ 237--254.
+
+\bibitem{gocht2022veripb}
+Stephan Gocht, Ciaran McCreesh, and Jakob Nordstr\"om.
+\newblock An auditable, scalable proof-logging approach for combinatorial
+solving (VeriPB and pseudo-Boolean proofs).
+\newblock In \emph{Principles and Practice of Constraint Programming / related
+proceedings}, 2022.
+
+\bibitem{polu2020gptf}
+Stanislas Polu and Ilya Sutskever.
+\newblock Generative language modeling for automated theorem proving.
+\newblock arXiv:2009.03393, 2020.
+
+\bibitem{wu2022autoformalization}
+Yuhuai Wu, Albert Q.~Jiang, Wenda Li, Markus N.~Rabe, Charles Staats, Mateja
+Jamnik, and Christian Szegedy.
+\newblock Autoformalization with large language models.
+\newblock In \emph{Advances in Neural Information Processing Systems 35
+(NeurIPS 2022)}, 2022.
+
+\bibitem{szegedy2020autoformalization}
+Christian Szegedy.
+\newblock A promising path towards autoformalization and general artificial
+intelligence.
+\newblock In \emph{Intelligent Computer Mathematics (CICM 2020)}, LNCS 12236,
+Springer, 2020, pp.\ 3--20.
+
+\bibitem{hales2019formalabstracts}
+Thomas C.~Hales.
+\newblock The Formal Abstracts project.
+\newblock Project description and reports, 2019.
+
+\bibitem{yang2023leandojo}
+Kaiyu Yang, Aidan M.~Swope, Alex Gu, Rahul Chalamala, Peiyang Song, Shixing Yu,
+Saad Godil, Ryan Prenger, and Anima Anandkumar.
+\newblock LeanDojo: Theorem proving with retrieval-augmented language models.
+\newblock In \emph{Advances in Neural Information Processing Systems 36
+(NeurIPS 2023)}, 2023.
+
+\bibitem{xin2024deepseekprover}
+Huajian Xin et al.
+\newblock DeepSeek-Prover: Advancing theorem proving in LLMs through
+large-scale synthetic data.
+\newblock arXiv:2405.14333, 2024.
+
+\bibitem{deepmind2024alphaproof}
+Google DeepMind.
+\newblock AI achieves silver-medal standard solving International Mathematical
+Olympiad problems (AlphaProof and AlphaGeometry~2).
+\newblock Technical report / announcement, 2024.
+
+\end{thebibliography}
+
+\end{document}

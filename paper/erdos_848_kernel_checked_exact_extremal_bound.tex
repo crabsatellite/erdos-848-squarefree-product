@@ -18,7 +18,7 @@
   linkcolor=blue!60!black,
   citecolor=green!45!black,
   urlcolor=blue!60!black,
-  pdftitle={Erdos Problem 848: A Kernel-Checked Proof of the Exact Extremal Bound},
+  pdftitle={The Exact Extremal Bound in Erdos Problem 848},
   pdfauthor={Alex Chengyu Li}
 }
 
@@ -34,7 +34,6 @@
 \newcommand{\DN}{D_N}
 \newcommand{\TN}{T_N}
 \newcommand{\RN}{R_N}
-\newcommand{\leanname}[1]{}
 \newcommand{\FiveMillion}{5\cdot10^6}
 \newcommand{\TenMillion}{10^7}
 \newcommand{\TwentyMillion}{2\cdot10^7}
@@ -44,8 +43,8 @@
 \newcommand{\FiveHundredBillion}{5\cdot10^{11}}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 
-\title{\textbf{Erd\H{o}s Problem 848:\\
-A Kernel-Checked Proof of the Exact Extremal Bound}}
+\title{\textbf{The Exact Extremal Bound\\
+in Erd\H{o}s Problem 848}}
 \author{Alex Chengyu Li\\[3pt]
 \small Independent Researcher, Tokyo, Japan}
 \date{August 2026}
@@ -55,44 +54,26 @@ A Kernel-Checked Proof of the Exact Extremal Bound}}
 
 \begin{abstract}
 For $N\geq1$, let $A\subseteq[1,N]$ satisfy the condition that $ab+1$ is
-nonsquarefree for every $a,b\in A$, with $a=b$ allowed.  We determine the
-exact maximum cardinality of such a set, proving that
+nonsquarefree for every $a,b\in A$, with $a=b$ allowed.  We prove the sharp
+bound
 \[
  |A|\leq \left\lfloor\frac{N+18}{25}\right\rfloor,
 \]
 with equality attained by the elements of the progression $7\pmod {25}$ in
-$[1,N]$.  This establishes the extremal value for every $N$ and closes the
-finite range left by the preceding asymptotic results.  The proof begins
-with an exact Hall reformulation.  Exact prefix colourings handle
-$N\leq 5\cdot10^6$.  For larger $N$, square-divisor estimates match the
-second mod-$25$ construction and force any remaining Hall defect to contain
-many elements outside both distinguished progressions.  We partition those
-elements by their five possible $2$-adic types and their residues modulo $9$.
-Three- and four-pivot arguments then bound the Hall completion through
-explicit finite-prime counts and the solutions of a transformed quadratic
-equation.  The remaining comparisons reduce to exact rational inequalities
-over exhaustive finite cases, followed by a uniform estimate for the
-unbounded tail.  Finite witnesses enter Lean as ordinary data, semantic
-checkers establish the required inequalities, and the Lean~4 kernel replays
-the final all-$N$ theorem with \texttt{--trust=0}.
+$[1,N]$.  Earlier work established the same formula only above a large
+threshold.  Our proof converts the extremal problem, by an exact Hall
+equivalence, into a completion inequality relative to the progression
+$7\pmod {25}$.  A prefix-compatible colouring controls all
+$N\leq5\cdot10^6$ simultaneously.  Beyond this point, square-divisor
+estimates first eliminate defects supported on the competing progression
+$18\pmod {25}$ and then force every remaining defect to contain a large
+residual set.  A valuation and residue decomposition supplies bounded pivot
+configurations; finite-prime counts and spacing between solutions of a
+transformed quadratic equation rule out each configuration.  The resulting
+interval estimates are uniform, and a final monotone argument controls the
+unbounded tail.  All finite inequalities and witnesses are exact, and the
+complete theorem is formally verified in Lean~4.
 \end{abstract}
-
-% Machine-readable endpoint tags.  These macros are typographically empty.
-\leanname{NonSquarefreeProductProp}
-\leanname{OriginalProblem848Statement}
-\leanname{originalA7_has_property}
-\leanname{originalProblem_of_hallStatement}
-\leanname{erdos848HallStatement_iff_originalProblem}
-\leanname{erdos848_through_five_million}
-\leanname{PaperCertificateProvider.fiveToTenMillion}
-\leanname{PaperCertificateProvider.tenToTwentyMillion}
-\leanname{PaperCertificateProvider.twentyToFortyMillion}
-\leanname{erdos848FortyMillionClose_kernel}
-\leanname{PaperCertificateProvider.twoHundredToTwoBillion}
-\leanname{PaperCertificateProvider.twoBillionTail}
-\leanname{PaperCertificateProvider.fortyMillionTail}
-\leanname{erdos848_paper_tail_close}
-\leanname{PaperGeneratedCertificateProvider.all_N}
 
 \section{Introduction}
 
@@ -115,56 +96,72 @@ obtained the threshold $N\geq2.64\cdot10^{17}$
 \end{equation}
 for every positive integer $N$.
 
+\begin{theorem}[Exact solution of Erd\H{o}s Problem 848]
+\label{thm:erdos-848-complete}
+For every integer $N\geq1$, the maximum cardinality of a set
+$A\subseteq[1,N]$ for which $ab+1$ is nonsquarefree for every $a,b\in A$ is
+\[
+ \left|\{1\leq n\leq N:n\equiv7\pmod {25}\}\right|
+ =\left\lfloor\frac{N+18}{25}\right\rfloor.
+\]
+\end{theorem}
+
+Already at $N=18$ the two residue classes that organize the proof are
+visible.  Both singleton sets $\{7\}$ and $\{18\}$ are admissible because
+$7^2+1$ and $18^2+1$ are divisible by $25$, whereas
+$7\cdot18+1=127$ is squarefree.  The theorem says that no admissible pair
+exists.  Thus the exact problem is not merely to count one progression; it is
+to control how alternative residue classes can interact with it.
+
 \begin{table}[ht]
 \centering
 \footnotesize
 \renewcommand{\arraystretch}{1.16}
 \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.15\textwidth}Y Y Y@{}}
 \toprule
-Work & Proven range and conclusion & Remaining obstruction & Argument used here\\
+Work & Proven range and conclusion & Structural information & Role in the exact theorem\\
 \midrule
 Sawhney (2025) &
 The class $7\bmod25$ is extremal for every $N\geq N_0$, for some
 unspecified $N_0$; a stability statement identifies the two candidate
 extremal classes. &
-The argument is asymptotic and gives neither $N_0$ nor the finite prefix. &
-Density sieves and the mod-$25$ structural reduction.\\
+The stability argument identifies the two candidate extremal classes. &
+Provides the asymptotic structure on which the exact Hall analysis is built.\\
 \addlinespace
 Sothanaphan (2026) &
 The same extremal bound holds explicitly for
 $N\geq2.64\cdot10^{17}$. &
-The interval below that threshold remains; a pointwise search would not be a
-practical proof. &
-Explicit squarefree-progression estimates and a Pell-equation bound for
-large square divisors.\\
+The threshold is explicit, but the exact theorem below it remains open. &
+Provides quantitative squarefree-progression and large-divisor estimates.\\
 \addlinespace
 This paper &
 The exact extremal value is proved for every $N\geq1$. &
-No range remains. &
- Hall reformulation, interval estimates, valuation-class case analysis,
-quadratic root counts, and exact rational inequalities.\\
+The Hall reformulation identifies the obstruction at every scale. &
+Prefix-compatible colouring, valuation--residue pivots, transformed-root
+spacing, and a monotone unbounded-tail estimate.\\
 \bottomrule
 \end{tabularx}
 \caption{Prior results and the all-$N$ theorem.}
 \label{tab:prior-work}
 \end{table}
 
-The proof does not enumerate the possible values of $N$.  The Hall
-reformulation replaces the extremal-set question by one inequality for a
-completion $H_N(B)$.  Monotonicity permits a long interval of $N$ to be
-controlled at its lower endpoint once its structural case is fixed.  The
-cases arise from the $2$-adic class of a pivot, its residue modulo $9$, and
-the quadratic-residue restrictions imposed on the complementary quotient in
-$bx+1=p^2m$.  Exact finite calculations enter only after these reductions;
-they prove rational inequalities and do not extrapolate from sampled values
-\cite{HelfgottPlatt,OliveiraSilvaHerzogPardi}.
+The proof has four layers.  First, an exact Hall equivalence replaces the
+extremal-set question by one inequality for a completion $H_N(B)$.  Second,
+a single interval-valued colouring simultaneously controls the entire initial
+range.  Third, beyond that range,
+matching and degree estimates force a hypothetical Hall defect into a large
+residual set.  Its $2$-adic classes, residues modulo $9$, and occasional
+fibres modulo $7^2$ or $11^2$ produce a bounded family of pivot
+configurations.  Finally, quadratic-residue restrictions on the complementary
+quotient in $bx+1=p^2m$, together with spacing between transformed roots,
+give uniform bounds on each structural interval.  The endpoint comparisons
+are exact rational inequalities, and monotonicity propagates the final one to
+all larger $N$.
 
-The squarefree-progression estimates belong to the classical line of
-Prachar and Hooley \cite{PracharSquarefreeAP,HooleySquarefreeAP}.  Here they
-are combined with exact residue and valuation information tailored to the
-Hall graph.  Finite tables are accompanied by general soundness theorems, as
-in other formalized proofs with substantial computation
-\cite{GonthierOddOrder,HalesFlyspeck}.
+The squarefree-progression estimates are combined with exact residue and
+valuation information tailored to the Hall graph.  The finite data consist
+of exhaustive residue and interval certificates governed by general
+soundness theorems.
 
 \begin{proposition}[Sharpness]\label{prop:sharpness}
 The set $\CN$ is admissible: if $a,b\in\CN$, then $ab+1$ is not squarefree.
@@ -198,9 +195,7 @@ Call $B$ a \emph{compatible outside set} if
  \quad\text{and}\quad
  bb'+1\text{ is nonsquarefree for every }b,b'\in B,
 \]
-where $b=b'$ is allowed.  This is the exact condition denoted by
-\texttt{Erdos848OutsideSet} together with
-\texttt{NonSquarefreeProductProp} in the Lean development.
+where $b=b'$ is allowed.
 
 The usual Hall condition for the squarefree-edge graph is
 $|\Gamma_N(B)|\geq |B|$.  Since
@@ -208,7 +203,7 @@ $|\Gamma_N(B)|=|\CN|-|\TN(B)|$, it is equivalent to
 \begin{equation}\label{eq:hall-defect}
   |B|+|\TN(B)|\leq|\CN|.
 \end{equation}
-Only compatible outside sets need to be tested: they are precisely the
+It suffices to test compatible outside sets, since these are precisely the
 possible outside portions of an admissible set.
 
 \begin{theorem}[Hall reduction]\label{thm:hall-reduction}
@@ -259,7 +254,7 @@ against this target.
 We call a compatible outside set with
 $|\CN|<|B|+|\TN(B)|$ a \emph{strict Hall defect}.
 
-\section{The range up to five million}
+\section{A simultaneous prefix colouring}
 
 \begin{theorem}[Exact prefix colouring]
 \label{thm:finite-prefix-colouring-close}
@@ -278,8 +273,9 @@ The diagonal hypothesis shows that every member of an admissible set belongs
 to $\mathcal D_N$, and the off-diagonal hypothesis makes the admissible set a
  clique in this graph.  Thus a proper colouring by at most $|\CN|$ colours
  implies the cardinality bound.  Here ``indexed by $\CN$'' means a map into
- $\CN$; some colours may be unused.  A single finite certificate encodes the
- colourings for all prefixes in this range.
+ $\CN$; some colours may be unused.  It is enough to specify the colouring by
+interval data, because the assignment changes only at finitely many prefix
+endpoints.
 
 Put $L=\FiveMillion$.  At a prefix write
 \[
@@ -314,7 +310,7 @@ squarefreeness proof gives $xy+1$ squarefree.  Hence $c_N$ is a proper
 colouring with colour set $\CN$, exactly as required.
 \end{proof}
 
-\section{Uniform tail reductions from five million}
+\section{Uniform Hall reductions beyond the prefix}
 
 Let
 \[
@@ -437,7 +433,7 @@ and $p_1>N/26$ yields the spacing inequality
  Summing the resulting fibre bound over the admissible $m$ and their root
  classes bounds the number of possible $t$.  The finite calculation lists
  exactly those $m$ and root classes satisfying the quadratic-residue
- conditions above, indexed by $S(b)$ rather than by the value of $b$.
+ conditions above, indexed by the prime-divisor set $S(b)$.
  Since the elements of $S(b)$ are distinct prime divisors of $b$,
  $\prod_{q\in S(b)}q\leq b\leq N$; hence every pivot is covered by one of
  these cases.  Applying the spacing inequality in each case gives the
@@ -782,7 +778,7 @@ same decomposition as in \eqref{eq:branch-budget}.  Direct residue
 strictly below $1/25-7/(25N)$, so a strict defect is impossible.
 \end{proof}
 
-\subsection{A ten-case decomposition from twenty million onward}
+\subsection{The global ten-case decomposition}
 
 The later ranges use the following exhaustive case decomposition.  Put
 \[
@@ -825,10 +821,7 @@ are the eight diagonal subsets that are counted separately: all residual
 points; one common $E_1$ cell; the low-$2$-adic classes; one common $E_2$
 cell; the union of the two odd classes; that union with one common cell; one
  odd class; and one odd class with a common cell.  The entry $j\delta$ accounts
- for at most $j$ even classes satisfying the preceding size bounds.  In the
- formalization these conditions and bounds are represented by
- \texttt{TwentyMillionBranchApplies} and
-\texttt{twentyMillionBranchResidualPayment}.
+ for at most $j$ even classes satisfying the preceding size bounds.
 
 \begin{table}[ht]
 \centering
@@ -870,9 +863,9 @@ The Hall inequality holds for
 \[
  \frac{|H_N(B)|}{N}\leq T_\beta,
 \]
-where $T_\beta=D_\beta+F_\beta+Q_\beta$.  We display one complete comparison
-so that the normalization and strict margin can be checked without consulting
-the formal source.  Consider the case in which $E_1$ has at most
+where $T_\beta=D_\beta+F_\beta+Q_\beta$.  To make the normalization and strict
+margin explicit, we display one complete comparison.  Consider the case in
+which $E_1$ has at most
  $g_N=\lfloor(N-1)/20001\rfloor+1$ elements and $E_2$ contains a triple that
 is not contained in one residue class modulo $9$.  Put
 \[
@@ -910,7 +903,7 @@ case,
 and hence contradicts the assumed Hall defect.
 \end{proof}
 
-\section{From forty million to two billion}
+\section{Intermediate-scale Hall bounds}
 
 \begin{theorem}[The forty-to-two-hundred-million range]
 \label{thm:mixed-joint-tail-close}
@@ -961,8 +954,8 @@ The four subintervals have endpoints
 and transformed-root splits $75,85,100,125$, respectively.  Thus the
 large-prime threshold is $p>N/s$ with $s$ equal to the listed split, and the
 complementary quotient is at most $s^2$.  The normal and mod-$5$-twisted
-cases use, respectively, the integers in $[1,s^2]$---or the quotients after
-dividing by $5$---that satisfy the nonzero quadratic-residue conditions
+cases use, respectively, the integers in $[1,s^2]$, with division by $5$ in
+the twisted case, that satisfy the nonzero quadratic-residue conditions
 forced by the prime divisors of the pivot.  The fibre-spacing argument following
  \eqref{eq:transformed-root} converts their exact cardinalities into a root
  bound for each subinterval.
@@ -996,7 +989,7 @@ arithmetic gives
  for every subinterval and case.  This contradicts a strict defect.
 \end{proof}
 
-\section{The high tail}
+\section{The unbounded Hall regime}
 
 For the high tail the same ten mathematical cases remain valid.  Only the
  uniform bounds for the relevant diagonal subset and for the admissible roots
@@ -1042,9 +1035,7 @@ Use split $120$, so large prime squares are those with $p>N/120$ and their
 \]
 Consequently the factor
 $\bigl(\sqrt{\sqrt N}+1\bigr)/N$ in the root count is at most
- $841/840^4$.  In the formalization, the integer $840$ is stored in the field
- \texttt{rootFloor}; its sole role is to replace the variable fourth-root
- factor by this fixed rational bound.
+ $841/840^4$.
  An explicit sieve over primes up to $47$, together with the quadratic-residue
  conditions and fibre spacing, gives the common transformed-root bound
 \[
@@ -1085,7 +1076,7 @@ Theorem~\ref{thm:unbounded-high-tail} covers
 $N\geq\FiveHundredBillion$.
 \end{proof}
 
-\section{Completion of the proof}
+\section{Assembly of the exact bound}
 
 \begin{theorem}[The range from forty million onward]
 \label{thm:forty-million-tail-assembly}
@@ -1124,17 +1115,7 @@ unbounded interval.  These four half-open intervals are pairwise disjoint and
 cover $[\FiveMillion,\infty)$.
 \end{proof}
 
-\begin{theorem}[Erd\H{o}s Problem 848]
-\label{thm:erdos-848-complete}
-For every integer $N\geq1$, the maximum cardinality of a set
-$A\subseteq[1,N]$ for which $ab+1$ is nonsquarefree for every $a,b\in A$ is
-\[
- \left|\{1\leq n\leq N:n\equiv7\pmod {25}\}\right|.
-\]
-Equivalently, the Hall inequality \eqref{eq:hall-defect} holds for every $N$.
-\end{theorem}
-
-\begin{proof}
+\begin{proof}[Proof of Theorem~\ref{thm:erdos-848-complete}]
 Theorem~\ref{thm:finite-prefix-colouring-close} gives the upper bound for
 $N\leq\FiveMillion$, and
 Theorem~\ref{thm:mixed-cell-five-million-close} gives it for
@@ -1143,173 +1124,48 @@ The Hall formulation is equivalent by
 Theorem~\ref{thm:hall-equivalence}.
 \end{proof}
 
-\section{Correspondence with the Lean formalization}
-\label{sec:lean-correspondence}
-
- This section provides a dictionary between the mathematical proof above and
- the formal source.  Each name below denotes a definition or theorem in the
- dependency chain of the final declaration.
-
-\subsubsection*{The problem and the Hall sets}
-In \path{lean4/Erdos848/ProblemCore.lean},
-\path{NonSquarefreeProductProp} is the quantified condition on all ordered
-pairs, including the diagonal, and \path{OriginalA7} is $\CN$.  In
-\path{lean4/Erdos848/HallReduction.lean}, \path{OriginalA18} is $\DN$,
-\path{hallNonNeighbours} is $\TN(B)$, and \path{hallCompletion} is $H_N(B)$.
-The formal hypothesis corresponding to a compatible outside set is the
-conjunction of \path{Erdos848OutsideSet N B}, which says that $B$ lies in
-$[1,N]\setminus\CN$, and \path{NonSquarefreeProductProp B}, which gives
-compatibility inside $B$.  Finally,
-\path{lean4/Erdos848/HallPartition.lean} defines \path{hallResidual} and
-\path{hallBasePart}; these are exactly $\RN(B)$ and
-$H_N(B)\cap(\CN\cup\DN)$.  The theorem
-\path{hallCompletion_card_partition} establishes the partition used in
-\eqref{eq:mixed-half-decomposition}.
-
-\subsubsection*{The finite prefix}
-The structure \path{PrefixColouringState} in
-\path{lean4/Erdos848/ProblemCore.lean} has the two fields used in the proof of
-Theorem~\ref{thm:finite-prefix-colouring-close}: every diagonal candidate is
-sent to \path{OriginalA7 N}, and two distinct candidates with the same colour
-have squarefree product plus one.  The interval histories produce this
-structure through \path{prefixColouringCertificate} in
-\path{lean4/Erdos848/LowRangePrefixTraceChecker.lean}.
- The declaration
-\begin{center}\small
-\path{GeneratedFiveMillionPrefixTrace.closeThroughFiveMillion}
-\end{center}
-is used by \path{erdos848_through_five_million}, together with the general
-implication from a colouring to the extremal bound,
-\path{originalProblem_of_prefixColouringState}.
-
-\subsubsection*{Root counting and the mixed residual}
-The congruence imposed on the quotient $m$ is proved by
-\path{quotient_modEq_square_of_prime_dvd_pivot} in
-\path{lean4/Erdos848/TailFiveMillionActualSupportCore.lean}.  The spacing
-inequality following \eqref{eq:transformed-root} is
- \path{transformedEquation_parameter_gap} in
- \path{lean4/Erdos848/TailTransformedRootCounting.lean}.  These lemmas are used
- in the pure high-prime count and in the later normal and mod-$5$-twisted root
- counts.  The two degree bounds of
-Proposition~\ref{prop:uniform-mixed-degree} are
- \path{globalMixedA7_degree_lower} and \path{globalMixedA18_degree_lower}; they
- are combined in \path{globalMixedHallResidual_cast_lower_of_defect} to give
-\eqref{eq:mixed-residual}.
-
-\subsubsection*{The pivot inequality and the ten cases}
-The pointwise counting argument in
-\eqref{eq:mixed-half-decomposition} is formalized first as the abstract lemma
-\path{card_le_half_three_two_add_half_tail_sum}, and then for the actual Hall
-sets as
-\begin{center}\small
-\path{hallCompletion_card_le_fiveMillionR263MixedHalfComponents}.
-\end{center}
-Both occur in
-\path{lean4/Erdos848/TailR263MixedHalfDecomposition.lean}.  In the latter
- theorem the three summands after \path{hallResidual} are precisely the
- finite-prime and large-prime contributions denoted by $F_\beta$ and
-$Q_\beta$ above.  From twenty million onward,
-\path{TwentyMillionBranchApplies} states the ten mutually exhaustive
-alternatives in Table~\ref{tab:ten-branch-structure}, while
-\path{twentyMillionBranchResidualPayment} assigns the corresponding
-$D_\beta$.  The theorem
-\path{TwentyMillionKernelTerminalCertificate.completion_ratio_le_branchTotal}
- instantiates the displayed Hall-completion inequality and combines its three
- terms with the bounds for the selected case.  This is the formal counterpart of
-\eqref{eq:branch-budget}.
-
-\subsubsection*{Interval theorems}
-For each interval, the following implication appears in the Lean sources:
-\begin{itemize}\small
-\item $[\FiveMillion,\TenMillion)$:\par
-\path{fiveMillionR263BranchExhaustion_kernel}\par
-$\longrightarrow$ \path{erdos848FiveToTenMillionClose}.
-\item $[\TenMillion,\TwentyMillion)$:\par
-\path{tenMillionKernelBranchExhaustion}\par
-$\longrightarrow$ \path{erdos848TenToTwentyMillionClose}.
-\item $[\TwentyMillion,\FortyMillion)$:\par
-\path{exists_twentyMillionBranchApplies_global19}\par
-$\longrightarrow$ \path{erdos848TwentyMillionClose_kernel}.
-\item $[\FortyMillion,\TwoHundredMillion)$:\par
-\path{fortyMillionTenBranchTotal_lt_target}\par
-$\longrightarrow$ \path{erdos848FortyMillionClose_kernel}.
-\item $[\TwoHundredMillion,\TwoBillion)$:\par
-\path{hybridTenBranchTotal_lt_target}\par
-$\longrightarrow$
-\path{erdos848PaperTwoHundredMillionToTwoBillionClose_of_certificates}.
-\item $[\TwoBillion,\FiveHundredBillion)$:\par
-\path{highQrFinalFiniteCertificate}\par
-$\longrightarrow$ \path{HighQrFiniteCloseCertificate.close}.
-\item $[\FiveHundredBillion,\infty)$:\par
-\path{highUnboundedRootTerminal}\par
-$\longrightarrow$ \path{erdos848HighUnboundedClose}.
-\end{itemize}
-These declarations cover consecutive intervals and are combined by the
-declaration
-\begin{center}\small
-\path{Erdos848.PaperGeneratedCertificateProvider.all_N}.
-\end{center}
-
-\section{Kernel verification and reproduction}
+\section{Formal verification}
 \label{sec:machine-proof}
 
-The proof has been formalized in Lean~4 with Mathlib
-\cite{Lean4,Mathlib}.  The final upper-bound declaration is
+The proof has been formalized in Lean~4 with Mathlib.  The formal statement quantifies over every ordered pair
+$a,b\in A$, including $a=b$, and uses the same mod-$25$ progressions, Hall
+completion, residual set, valuation classes, interval endpoints, and rational
+bounds as the manuscript.  The final declaration is
 \begin{center}\small
 \texttt{Erdos848.PaperGeneratedCertificateProvider.all\_N}.
 \end{center}
-Together with \texttt{originalA7\_has\_property} and
-\texttt{erdos848HallStatement\_iff\_originalProblem}, it yields the sharpness
-and Hall-equivalence clauses of Theorem~\ref{thm:erdos-848-complete}.
-The formal statements use the same diagonal convention, mod-$25$ base
- classes, Hall completion, valuation classes, case conditions, and rational
- bounds as the manuscript.  The repository includes a correspondence table
- recording the Lean declarations associated with each displayed definition
- and inequality.  In particular, the calculation in the proof of
- Theorem~\ref{prop:twenty-million-interval-close} is linked to the
- \texttt{evenTwoGeneric} case.
+Together with the formal sharpness result and the equivalence between the Hall
+and original formulations, it proves Theorem~\ref{thm:erdos-848-complete}.
+The accompanying theorem map records the formal declarations used in the final
+interval assembly.
 
-Programs used to find finite witnesses or candidate quotient sets lie outside the
-logical argument.  Their outputs are read as ordinary Lean data, and general
-theorems prove the interval coverage, congruence conditions, fibre bounds,
-and rational inequalities needed above.  Only the resulting proof terms are
-accepted by the Lean kernel.  A \texttt{--trust=0} axiom audit of the final
-theorem reports
+Finite searches are used only to produce explicit witnesses and finite lists.
+Within the formal proof these objects are ordinary data: general theorems
+verify prefix coverage, residue-class exhaustion, interval coverage,
+congruence restrictions, root-fibre bounds, and the exact rational
+inequalities.  The final kernel audit reports only
 \[
  \texttt{[propext, Classical.choice, Quot.sound]},
 \]
 the standard classical and quotient dependencies used by Lean and Mathlib.
 
-The version-independent Zenodo concept DOI for the code archive is
+The version-independent Zenodo concept DOI for the formal archive is
 \href{https://doi.org/10.5281/zenodo.21750213}%
-{\nolinkurl{10.5281/zenodo.21750213}}; it resolves to the latest archived
- code release.  The repository pins the Lean toolchain and Mathlib dependency
- graph.  The archived proof can be checked with
-\begin{quote}\scriptsize\ttfamily
-python -B scripts/check\_proof\_state.py
-  --require-release-ready --audit-sources
-\end{quote}
- and the correspondence, arithmetic, and reference checks can be run with
-\begin{quote}\scriptsize\ttfamily
-python -B scripts/verify\_paper\_math\_implementation.py\\
-python -B scripts/verify\_paper\_lean\_correspondence.py\\
-python -B scripts/verify\_paper\_lean\_numbers.py\\
-python -B scripts/verify\_reference\_evidence.py\\
-\hspace*{2em}--require-cited-coverage --require-entry-checks
-\end{quote}
+{\nolinkurl{10.5281/zenodo.21750213}}.  The archive contains the theorem map,
+the pinned Lean toolchain and Mathlib dependency graph, the checked finite
+data, and the reproduction instructions.
 
 \section*{Disclosure and verification statement}
 
 During the preparation of this work, the author used an author-developed local
 implementation of the Proof Engine framework for AI-assisted mathematical
 research.  The implementation operates through replaceable AI-agent and
-harness components; the present work used multiple AI systems, including
-OpenAI Codex, within that implementation.  The framework is described in
-\emph{Proof Engine Infrastructure} (SSRN Scholarly Paper 7237460; DOI
-\href{https://doi.org/10.2139/ssrn.7237460}
-{\nolinkurl{10.2139/ssrn.7237460}}).  The author reviewed and edited the
-resulting material and assumes full responsibility for the definitions,
-statements, proofs, citations, code, and exposition.
+harness components; the present work used multiple AI tools, including OpenAI
+Codex, within that implementation.  The framework is described in
+\emph{Proof Engine Infrastructure}~\cite{LiProofEngine2026}.  The author
+reviewed and edited the resulting material and assumes full responsibility for
+the definitions, statements, proofs, computations, citations, code, and
+exposition.
 
 \section*{Acknowledgements}
 

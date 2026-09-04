@@ -36,7 +36,6 @@
       "paper_markers": [
         "\\label{thm:hall-reduction}",
         "compatible outside set",
-        "\\texttt{Erdos848OutsideSet}",
         "H_N(B)=B\\cup\\TN(B)",
         "\\label{eq:normalized-target}"
       ],
@@ -71,9 +70,9 @@
       "id": "three-pivot-hall-decomposition",
       "paper_markers": [
         "\\label{eq:mixed-half-decomposition}",
-        "\\path{card_le_half_three_two_add_half_tail_sum}",
-        "\\path{hallCompletion_card_le_fiveMillionR263MixedHalfComponents}",
-        "\\path{TwentyMillionKernelTerminalCertificate.completion_ratio_le_branchTotal}"
+        "\\frac12\\mathbf 1_{k(x)=3}",
+        "D_\\beta+F_\\beta+Q_\\beta",
+        "\\label{eq:branch-budget}"
       ],
       "bindings": [
         {

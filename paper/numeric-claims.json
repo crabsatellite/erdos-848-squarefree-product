@@ -501,7 +501,7 @@
       "id": "unbounded-root-parameters",
       "paper_exact": [
         "Use split $120$",
-        "the integer $840$ is stored in the field",
+        "840^4\\leq\\FiveHundredBillion",
         "explicit sieve over primes up to $47$"
       ],
       "lean": [

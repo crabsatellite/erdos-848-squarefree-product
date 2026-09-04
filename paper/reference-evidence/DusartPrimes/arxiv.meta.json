@@ -11,5 +11,6 @@
   "artifact_file": "arxiv.html",
   "text_file": "arxiv.text.txt",
   "text_lines": 12,
-  "html_text_extractor": "python html.parser.HTMLParser"
+  "html_text_extractor": "python html.parser.HTMLParser",
+  "sha256_text_view": "6a85b1bef5ab6ed8e132a4064e26e7753b16c660e0f38806a76748c348617c76"
 }

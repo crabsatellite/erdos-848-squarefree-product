@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "key": "LiProofEngine2026",
+  "artifact_type": "pdf",
+  "requested_url": "https://doi.org/10.5281/zenodo.21672333",
+  "final_url": "https://doi.org/10.5281/zenodo.21672333",
+  "status": "local-pinned",
+  "sha256_raw_bytes": "6b53d87d8d7824f27fa49dc5b995e1b48a16d69a15d539605c22fc7b35ca990e",
+  "sha256_text_view": "807dcf9367d32b0f86c21d3be8512210c38c47a48cf472241ac4a3435404cde9",
+  "artifact_file": "source.pdf",
+  "text_file": "source-view.txt"
+}

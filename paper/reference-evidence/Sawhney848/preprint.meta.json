@@ -9,7 +9,8 @@
   "fetched_at_utc": "2026-07-30T11:47:14.194185+00:00",
   "sha256_raw_bytes": "112deb12350ea812e5a8e140f2df00b72d2a848c5dc0d2000de738e948e637ba",
   "artifact_file": "preprint.pdf",
-  "text_file": "preprint.pdf.txt",
+  "text_file": "source-view.txt",
   "text_lines": 251,
-  "pdf_text_extractor": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\MiKTeX\\miktex\\bin\\x64\\pdftotext.EXE"
+  "pdf_text_extractor": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\MiKTeX\\miktex\\bin\\x64\\pdftotext.EXE",
+  "sha256_text_view": "5fd0282b9c07e367d5defbef71f9a1c1ef9b35c70244313e65415f5dab1b2f96"
 }

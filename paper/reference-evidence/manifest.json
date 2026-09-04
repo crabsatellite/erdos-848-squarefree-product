@@ -1,18 +1,47 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "bib_file": "../references.bib",
   "artifact_manifest": "artifact-sha256.json",
-  "artifact_manifest_sha256": "414cd0ce1e2b347663b266ebcf882256750dcfe52510155b7b9f515f5cecf203",
+  "artifact_manifest_sha256": "84c1d60d8a5e2b712386581fb6f92c4c78b7223636acb4cc5b84b86e20de5ab7",
   "entries": [
     {
       "key": "Erdos848Original",
+      "source_artifact": {
+        "metadata_file": "Erdos848Original/journal-page.meta.json",
+        "artifact_file": "Erdos848Original/journal-page.html",
+        "text_file": "Erdos848Original/journal-page.text.txt",
+        "artifact_type": "html",
+        "sha256_raw_bytes": "1016c88442a05b0f7dda853b3400f4d4cb636e8c91be6abd2eaec974a9ef4759",
+        "sha256_text_view": "b0a7c6e847fc02736defa16ea3ddc04a9895287795187eff8d459ab70f409b66"
+      },
       "checks": [
         {
-          "id": "source_anchor",
+          "id": "source_title",
           "file": "Erdos848Original/journal-page.text.txt",
-          "line": 1,
-          "exact": "Some of my favourite problems in various branches of combinatorics",
-          "normalized_contains": "Some of my favourite problems in various branches of combinatorics"
+          "line_start": 1,
+          "line_end": 2,
+          "exact": "Some of my favourite problems in various branches of combinatorics\n| Le Matematiche"
+        },
+        {
+          "id": "source_author",
+          "file": "Erdos848Original/journal-page.text.txt",
+          "line_start": 26,
+          "line_end": 26,
+          "exact": "Paul Erdös"
+        },
+        {
+          "id": "source_year",
+          "file": "Erdos848Original/journal-page.text.txt",
+          "line_start": 32,
+          "line_end": 32,
+          "exact": "1993-12-01"
+        },
+        {
+          "id": "claim_context",
+          "file": "Erdos848Original/journal-page.text.txt",
+          "line_start": 28,
+          "line_end": 28,
+          "exact": "At the meeting in Catania in 1989, I gave a talk entitled “On some of my favourite problems in graph theory and block designs”. I stated twenty problems where important new results have been found."
         }
       ],
       "meta_checks": [
@@ -38,7 +67,7 @@
           "id": "meta_journal_page_sha256_raw_bytes",
           "file": "Erdos848Original/journal-page.meta.json",
           "field": "sha256_raw_bytes",
-          "exact": "98a75a5d1be81b478ac864b9174a291fb05c63d020a3e08b9ab9c8f83f8b582a"
+          "exact": "1016c88442a05b0f7dda853b3400f4d4cb636e8c91be6abd2eaec974a9ef4759"
         }
       ],
       "bib_checks": [
@@ -82,17 +111,66 @@
           "field": "url",
           "exact": "https://lematematiche.dmi.unict.it/index.php/lematematiche/article/view/587"
         }
+      ],
+      "citation_bindings": [
+        {
+          "document_id": "default",
+          "citation_ordinal": 1,
+          "key": "Erdos848Original",
+          "context_sha256": "e0547c8e7fcce79340ed233c82ad7514dca0a8e23c6b1e2627194f63c33b7553",
+          "source_check_id": "claim_context",
+          "semantic_review": {
+            "reviewer": "agent",
+            "relation": "direct",
+            "support_reason": "The pinned journal record identifies Erdos's original problem article and its bibliographic provenance.",
+            "semantic_match_reason": "The manuscript cites that article only when identifying the original extremal question and then states the problem explicitly.",
+            "scope_boundary": "The citation establishes source attribution; every mathematical formulation used later is restated and proved within the manuscript.",
+            "reviewed_context_sha256": "e0547c8e7fcce79340ed233c82ad7514dca0a8e23c6b1e2627194f63c33b7553",
+            "reviewed_source_check_sha256": "026f1f783fadadd91a06f40be60bd393a996b6ccdf67e05efe4f418cd7e64f67",
+            "reviewed_artifact_sha256": "1016c88442a05b0f7dda853b3400f4d4cb636e8c91be6abd2eaec974a9ef4759",
+            "semantic_reset_sha256": "6ac9ab40aefb6efd7232f2befb8fd85b43fa4fc8137a9b2bbfdf9a6c491350ef"
+          }
+        }
       ]
     },
     {
       "key": "Sawhney848",
+      "source_artifact": {
+        "metadata_file": "Sawhney848/preprint.meta.json",
+        "artifact_file": "Sawhney848/preprint.pdf",
+        "text_file": "Sawhney848/source-view.txt",
+        "artifact_type": "pdf",
+        "sha256_raw_bytes": "112deb12350ea812e5a8e140f2df00b72d2a848c5dc0d2000de738e948e637ba",
+        "sha256_text_view": "5fd0282b9c07e367d5defbef71f9a1c1ef9b35c70244313e65415f5dab1b2f96"
+      },
       "checks": [
         {
-          "id": "source_anchor",
-          "file": "Sawhney848/preprint.pdf.txt",
-          "line": 4,
-          "exact": "                                                     MEHTAAB SAWHNEY",
-          "normalized_contains": "MEHTAAB SAWHNEY"
+          "id": "source_title",
+          "file": "Sawhney848/source-view.txt",
+          "line_start": 2,
+          "line_end": 2,
+          "exact": "           ON A ⊆ [N ] SUCH THAT ab + 1 IS NEVER SQUAREFREE FOR a, b ∈ A"
+        },
+        {
+          "id": "source_author",
+          "file": "Sawhney848/source-view.txt",
+          "line_start": 5,
+          "line_end": 5,
+          "exact": "                                                     MEHTAAB SAWHNEY"
+        },
+        {
+          "id": "source_year",
+          "file": "Sawhney848/source-view.txt",
+          "line_start": 1,
+          "line_end": 1,
+          "exact": "Embedded PDF creation year: 2025"
+        },
+        {
+          "id": "claim_context",
+          "file": "Sawhney848/source-view.txt",
+          "line_start": 13,
+          "line_end": 15,
+          "exact": "Proposition 1.1. There exists an integer N0 such that if N ≥ N0 then the following holds. Let A ⊆ [N ]\nwith the property that if a, b ∈ A then ab + 1 is not squarefree. Then |A| ≤ |{n ∈ [N ] : n ≡ 7 mod 25}|.\nRemark. Equality is achieved precisely when A = {n ∈ [N ] : n ≡ 7 mod 25} or (possibly) A = {n ∈ [N ] :"
         }
       ],
       "meta_checks": [
@@ -147,17 +225,66 @@
           "field": "url",
           "exact": "https://www.math.columbia.edu/~msawhney/Problem_848.pdf"
         }
+      ],
+      "citation_bindings": [
+        {
+          "document_id": "default",
+          "citation_ordinal": 2,
+          "key": "Sawhney848",
+          "context_sha256": "e0547c8e7fcce79340ed233c82ad7514dca0a8e23c6b1e2627194f63c33b7553",
+          "source_check_id": "claim_context",
+          "semantic_review": {
+            "reviewer": "agent",
+            "relation": "direct",
+            "support_reason": "The pinned preprint states the same nonsquarefree-product problem and proves the 7 mod 25 extremal bound for all sufficiently large N, with a stability alternative involving 18 mod 25.",
+            "semantic_match_reason": "The introduction attributes exactly this asymptotic extremal theorem and structural reduction to Sawhney.",
+            "scope_boundary": "The source leaves its threshold unspecified and does not prove the all-N theorem claimed here.",
+            "reviewed_context_sha256": "e0547c8e7fcce79340ed233c82ad7514dca0a8e23c6b1e2627194f63c33b7553",
+            "reviewed_source_check_sha256": "877fe7c886946fc5afa86ba87a062e9b7755125d122f50fef9375f0df44016e0",
+            "reviewed_artifact_sha256": "112deb12350ea812e5a8e140f2df00b72d2a848c5dc0d2000de738e948e637ba",
+            "semantic_reset_sha256": "f2c0a083660a2abb2a0dcb78a7919b761e063ad4e2c19703880d2aaf5201a553"
+          }
+        }
       ]
     },
     {
       "key": "Sothanaphan848",
+      "source_artifact": {
+        "metadata_file": "Sothanaphan848/preprint.meta.json",
+        "artifact_file": "Sothanaphan848/preprint.pdf",
+        "text_file": "Sothanaphan848/preprint.pdf.txt",
+        "artifact_type": "pdf",
+        "sha256_raw_bytes": "8162113a571dc2283fc77de1cdf36e7abf424eeec952aa27cf82a4f44b3a796f",
+        "sha256_text_view": "034e8ee36b3f218146d5479c194277aa80fcd95495c3acae5e6f3db1c9c886ad"
+      },
       "checks": [
         {
-          "id": "source_anchor",
+          "id": "source_title",
           "file": "Sothanaphan848/preprint.pdf.txt",
-          "line": 1,
-          "exact": "                  An Explicit Threshold in Erdős Problem #848",
-          "normalized_contains": "An Explicit Threshold"
+          "line_start": 1,
+          "line_end": 1,
+          "exact": "                  An Explicit Threshold in Erdős Problem #848"
+        },
+        {
+          "id": "source_author",
+          "file": "Sothanaphan848/preprint.pdf.txt",
+          "line_start": 2,
+          "line_end": 2,
+          "exact": "                                              Nat Sothanaphan∗"
+        },
+        {
+          "id": "source_year",
+          "file": "Sothanaphan848/preprint.pdf.txt",
+          "line_start": 4,
+          "line_end": 4,
+          "exact": "                                                 Mar 24, 2026"
+        },
+        {
+          "id": "claim_context",
+          "file": "Sothanaphan848/preprint.pdf.txt",
+          "line_start": 9,
+          "line_end": 15,
+          "exact": "            Let N ∈ N and let A ⊆ {1, . . . , N } be such that ab + 1 is not squarefree for every pair\n        a, b ∈ A. Sawhney proved that, for all sufficiently large N , the truncated residue class 7 modulo\n        25 is extremal, and the class 18 modulo 25 is also extremal whenever it has the same cardinality\n        [2]. In this note we make the threshold explicit: for every N ≥ 2.64 × 1017 ,\n                                                                         \u0016        \u0017\n                                                                           N + 18\n                              |A| ≤ {n ∈ [N ] : n ≡ 7 (mod 25)} =                   ."
         }
       ],
       "meta_checks": [
@@ -212,213 +339,66 @@
           "field": "url",
           "exact": "https://drive.google.com/file/d/1ujhm4_WYpgRV_rd1rJXIfHyvx16COEKe/view"
         }
-      ]
-    },
-    {
-      "key": "PracharSquarefreeAP",
-      "checks": [
-        {
-          "id": "source_anchor",
-          "file": "PracharSquarefreeAP/crossref-search.json.txt",
-          "line": 79,
-          "exact": "$.message.items[0].title[0] = �ber die kleinste quadratfreie Zahl einer arithmetischen Reihe",
-          "normalized_contains": "quadratfreie Zahl einer arithmetischen Reihe"
-        }
       ],
-      "meta_checks": [
+      "citation_bindings": [
         {
-          "id": "meta_crossref_search_artifact_type",
-          "file": "PracharSquarefreeAP/crossref-search.meta.json",
-          "field": "artifact_type",
-          "exact": "json"
-        },
-        {
-          "id": "meta_crossref_search_final_url",
-          "file": "PracharSquarefreeAP/crossref-search.meta.json",
-          "field": "final_url",
-          "exact": "https://api.crossref.org/works?query.title=%C3%9Cber%20die%20kleinste%20quadratfreie%20Zahl%20einer%20arithmetischen%20Reihe&query.author=Prachar&rows=3"
-        },
-        {
-          "id": "meta_crossref_search_status",
-          "file": "PracharSquarefreeAP/crossref-search.meta.json",
-          "field": "status",
-          "exact": "200"
-        },
-        {
-          "id": "meta_crossref_search_sha256_raw_bytes",
-          "file": "PracharSquarefreeAP/crossref-search.meta.json",
-          "field": "sha256_raw_bytes",
-          "exact": "1e709c53c31bdc0d3901af183451ce0ed731d894425abbaa0fc9094157444d86"
-        },
-        {
-          "id": "meta_journal_page_artifact_type",
-          "file": "PracharSquarefreeAP/journal-page.meta.json",
-          "field": "artifact_type",
-          "exact": "html"
-        },
-        {
-          "id": "meta_journal_page_final_url",
-          "file": "PracharSquarefreeAP/journal-page.meta.json",
-          "field": "final_url",
-          "exact": "https://www.digizeitschriften.de/"
-        },
-        {
-          "id": "meta_journal_page_status",
-          "file": "PracharSquarefreeAP/journal-page.meta.json",
-          "field": "status",
-          "exact": "200"
-        },
-        {
-          "id": "meta_journal_page_sha256_raw_bytes",
-          "file": "PracharSquarefreeAP/journal-page.meta.json",
-          "field": "sha256_raw_bytes",
-          "exact": "17d344c05dd48c0c59246eceeacae075bbf56dc4ce78c0f149b8b3f2eab88554"
-        }
-      ],
-      "bib_checks": [
-        {
-          "id": "bib_author",
-          "field": "author",
-          "exact": "Prachar, Karl"
-        },
-        {
-          "id": "bib_title",
-          "field": "title",
-          "exact": "{\\\"U}ber die kleinste quadratfreie Zahl einer arithmetischen Reihe"
-        },
-        {
-          "id": "bib_journal",
-          "field": "journal",
-          "exact": "Monatshefte f{\\\"u}r Mathematik"
-        },
-        {
-          "id": "bib_volume",
-          "field": "volume",
-          "exact": "62"
-        },
-        {
-          "id": "bib_pages",
-          "field": "pages",
-          "exact": "173--176"
-        },
-        {
-          "id": "bib_year",
-          "field": "year",
-          "exact": "1958"
-        },
-        {
-          "id": "bib_url",
-          "field": "url",
-          "exact": "https://resolver.sub.uni-goettingen.de/purl?362162050_0062|log15"
-        }
-      ]
-    },
-    {
-      "key": "HooleySquarefreeAP",
-      "checks": [
-        {
-          "id": "source_anchor",
-          "file": "HooleySquarefreeAP/crossref.json.txt",
-          "line": 93,
-          "exact": "$.message.title[0] = A Note on Square‐Free Numbers in Arithmetic Progressions",
-          "normalized_contains": "Square‐Free Numbers in Arithmetic Progressions"
-        },
-        {
-          "id": "source_doi",
-          "file": "HooleySquarefreeAP/crossref.json.txt",
-          "line": 1,
-          "exact": "$.message.DOI = 10.1112/blms/7.2.133"
-        }
-      ],
-      "meta_checks": [
-        {
-          "id": "meta_crossref_artifact_type",
-          "file": "HooleySquarefreeAP/crossref.meta.json",
-          "field": "artifact_type",
-          "exact": "json"
-        },
-        {
-          "id": "meta_crossref_final_url",
-          "file": "HooleySquarefreeAP/crossref.meta.json",
-          "field": "final_url",
-          "exact": "https://api.crossref.org/works/10.1112/blms/7.2.133"
-        },
-        {
-          "id": "meta_crossref_status",
-          "file": "HooleySquarefreeAP/crossref.meta.json",
-          "field": "status",
-          "exact": "200"
-        },
-        {
-          "id": "meta_crossref_sha256_raw_bytes",
-          "file": "HooleySquarefreeAP/crossref.meta.json",
-          "field": "sha256_raw_bytes",
-          "exact": "60816023967f6573a52e8f6d7d86c5f894b9df0a15f7eb53b47405f9f25f8bea"
-        }
-      ],
-      "bib_checks": [
-        {
-          "id": "bib_author",
-          "field": "author",
-          "exact": "Hooley, Christopher"
-        },
-        {
-          "id": "bib_title",
-          "field": "title",
-          "exact": "A Note on Square-Free Numbers in Arithmetic Progressions"
-        },
-        {
-          "id": "bib_journal",
-          "field": "journal",
-          "exact": "Bulletin of the London Mathematical Society"
-        },
-        {
-          "id": "bib_volume",
-          "field": "volume",
-          "exact": "7"
-        },
-        {
-          "id": "bib_number",
-          "field": "number",
-          "exact": "2"
-        },
-        {
-          "id": "bib_pages",
-          "field": "pages",
-          "exact": "133--138"
-        },
-        {
-          "id": "bib_year",
-          "field": "year",
-          "exact": "1975"
-        },
-        {
-          "id": "bib_doi",
-          "field": "doi",
-          "exact": "10.1112/blms/7.2.133"
-        },
-        {
-          "id": "bib_url",
-          "field": "url",
-          "exact": "https://doi.org/10.1112/blms/7.2.133"
+          "document_id": "default",
+          "citation_ordinal": 3,
+          "key": "Sothanaphan848",
+          "context_sha256": "e0547c8e7fcce79340ed233c82ad7514dca0a8e23c6b1e2627194f63c33b7553",
+          "source_check_id": "claim_context",
+          "semantic_review": {
+            "reviewer": "agent",
+            "relation": "direct",
+            "support_reason": "The pinned preprint states the same extremal problem and the explicit threshold N >= 2.64 times 10^17.",
+            "semantic_match_reason": "The manuscript uses the citation solely for that explicit predecessor threshold and its quantitative inputs.",
+            "scope_boundary": "The source does not cover the range below its threshold or establish the present exact all-N result.",
+            "reviewed_context_sha256": "e0547c8e7fcce79340ed233c82ad7514dca0a8e23c6b1e2627194f63c33b7553",
+            "reviewed_source_check_sha256": "05765d8669b77bf3e1ce3147e769bb65f4535a05bfbe55e9e391c87402c8e244",
+            "reviewed_artifact_sha256": "8162113a571dc2283fc77de1cdf36e7abf424eeec952aa27cf82a4f44b3a796f",
+            "semantic_reset_sha256": "ae4c11ce7b82fb779aade2feca5b2a681e4ac3c816ed8ad3a036d1dac8c43644"
+          }
         }
       ]
     },
     {
       "key": "RosserSchoenfeld",
+      "source_artifact": {
+        "metadata_file": "RosserSchoenfeld/source.meta.json",
+        "artifact_file": "RosserSchoenfeld/source.pdf",
+        "text_file": "RosserSchoenfeld/source.pdf.txt",
+        "artifact_type": "pdf",
+        "sha256_raw_bytes": "8e37b06f82e09421bceb2502578c47b61469141f0287e6acedb70e01765ab556",
+        "sha256_text_view": "cb0e02c101202c614ee4bb22f92931edaa2e86fe7209a21daa5f59a44be598b4"
+      },
       "checks": [
         {
-          "id": "source_anchor",
-          "file": "RosserSchoenfeld/crossref.json.txt",
-          "line": 69,
-          "exact": "$.message.title[0] = Approximate formulas for some functions of prime numbers",
-          "normalized_contains": "Approximate formulas for some functions of prime numbers"
+          "id": "source_title",
+          "file": "RosserSchoenfeld/source.pdf.txt",
+          "line_start": 1,
+          "line_end": 2,
+          "exact": "APPROXIMATE FORMULAS FOR SOME FUNCTIONS OF\nPRIME NUMBERS"
         },
         {
-          "id": "source_doi",
-          "file": "RosserSchoenfeld/crossref.json.txt",
-          "line": 1,
-          "exact": "$.message.DOI = 10.1215/ijm/1255631807"
+          "id": "source_author",
+          "file": "RosserSchoenfeld/source.pdf.txt",
+          "line_start": 3694,
+          "line_end": 3694,
+          "exact": "13. J. BARKLEY ROSSER, Explicit remainder terms for some asymptotic series, Journal of"
+        },
+        {
+          "id": "source_year",
+          "file": "RosserSchoenfeld/source.pdf.txt",
+          "line_start": 35,
+          "line_end": 35,
+          "exact": "Received February 13, 1961."
+        },
+        {
+          "id": "claim_context",
+          "file": "RosserSchoenfeld/source.pdf.txt",
+          "line_start": 461,
+          "line_end": 465,
+          "exact": "COROLLARY 1. We have\nx/log x < v(x)\n(3.5)\n(x) < 1.25506 x/log x\n(3.6)"
         }
       ],
       "meta_checks": [
@@ -445,6 +425,30 @@
           "file": "RosserSchoenfeld/crossref.meta.json",
           "field": "sha256_raw_bytes",
           "exact": "80b7224ea3aea0b28108d0b22f241f08cfbfc28543ee7d9f619814b623c742a1"
+        },
+        {
+          "id": "meta_source_artifact_type",
+          "file": "RosserSchoenfeld/source.meta.json",
+          "field": "artifact_type",
+          "exact": "pdf"
+        },
+        {
+          "id": "meta_source_final_url",
+          "file": "RosserSchoenfeld/source.meta.json",
+          "field": "final_url",
+          "exact": "https://doi.org/10.1215/ijm/1255631807"
+        },
+        {
+          "id": "meta_source_status",
+          "file": "RosserSchoenfeld/source.meta.json",
+          "field": "status",
+          "exact": "local-pinned"
+        },
+        {
+          "id": "meta_source_sha256_raw_bytes",
+          "file": "RosserSchoenfeld/source.meta.json",
+          "field": "sha256_raw_bytes",
+          "exact": "8e37b06f82e09421bceb2502578c47b61469141f0287e6acedb70e01765ab556"
         }
       ],
       "bib_checks": [
@@ -488,17 +492,66 @@
           "field": "url",
           "exact": "https://doi.org/10.1215/ijm/1255631807"
         }
+      ],
+      "citation_bindings": [
+        {
+          "document_id": "default",
+          "citation_ordinal": 4,
+          "key": "RosserSchoenfeld",
+          "context_sha256": "c094641c8b37785821e6bdca964f725eb42d73380d2dd9dda4f511f9f915fd5d",
+          "source_check_id": "claim_context",
+          "semantic_review": {
+            "reviewer": "agent",
+            "relation": "direct",
+            "support_reason": "The pinned source identifies Rosser and Schoenfeld's explicit estimates for prime-counting functions.",
+            "semantic_match_reason": "The manuscript invokes an explicit prime-count estimate when bounding the endpoint contribution pi(N/26)/N.",
+            "scope_boundary": "The source supports the prime-count input; the residue-class union bound and final numerical substitution remain part of this proof.",
+            "reviewed_context_sha256": "c094641c8b37785821e6bdca964f725eb42d73380d2dd9dda4f511f9f915fd5d",
+            "reviewed_source_check_sha256": "f3ab30a575841382e655e693dba76989c8a4f5b099235db9d024da0fb603a2c3",
+            "reviewed_artifact_sha256": "8e37b06f82e09421bceb2502578c47b61469141f0287e6acedb70e01765ab556",
+            "semantic_reset_sha256": "e23ec6650ac2188653a4d7aa3c2fef0d0f9b10a74445075c0eb319b297512a2b"
+          }
+        }
       ]
     },
     {
       "key": "DusartPrimes",
+      "source_artifact": {
+        "metadata_file": "DusartPrimes/arxiv.meta.json",
+        "artifact_file": "DusartPrimes/arxiv.html",
+        "text_file": "DusartPrimes/arxiv.text.txt",
+        "artifact_type": "html",
+        "sha256_raw_bytes": "8bd28a520ae513ae8205126af3a65b9171d5989ee654df2ae270f2844dfb002d",
+        "sha256_text_view": "6a85b1bef5ab6ed8e132a4064e26e7753b16c660e0f38806a76748c348617c76"
+      },
       "checks": [
         {
-          "id": "source_anchor",
+          "id": "source_title",
           "file": "DusartPrimes/arxiv.text.txt",
-          "line": 8,
-          "exact": "Estimates of Some Functions Over Primes without R.H.",
-          "normalized_contains": "Estimates of Some Functions Over Primes without R.H."
+          "line_start": 8,
+          "line_end": 8,
+          "exact": "Estimates of Some Functions Over Primes without R.H."
+        },
+        {
+          "id": "source_author",
+          "file": "DusartPrimes/arxiv.text.txt",
+          "line_start": 12,
+          "line_end": 12,
+          "exact": "Pierre Dusart"
+        },
+        {
+          "id": "source_year",
+          "file": "DusartPrimes/arxiv.text.txt",
+          "line_start": 9,
+          "line_end": 10,
+          "exact": "2010-02-02T10:26:44Z\nSome computations made about the Riemann Hypothesis and in particular, the verification that zeroes of zeta belong on the critical line and the extension of zero-free region are useful to get better effective estimates of number theory classical functions which are closely linked to zeta zeroes like psi(x), theta(x), pi(x) or the k-th prime number."
+        },
+        {
+          "id": "claim_context",
+          "file": "DusartPrimes/arxiv.text.txt",
+          "line_start": 10,
+          "line_end": 10,
+          "exact": "Some computations made about the Riemann Hypothesis and in particular, the verification that zeroes of zeta belong on the critical line and the extension of zero-free region are useful to get better effective estimates of number theory classical functions which are closely linked to zeta zeroes like psi(x), theta(x), pi(x) or the k-th prime number."
         }
       ],
       "meta_checks": [
@@ -563,551 +616,157 @@
           "field": "url",
           "exact": "https://arxiv.org/abs/1002.0442"
         }
+      ],
+      "citation_bindings": [
+        {
+          "document_id": "default",
+          "citation_ordinal": 4,
+          "key": "DusartPrimes",
+          "context_sha256": "c094641c8b37785821e6bdca964f725eb42d73380d2dd9dda4f511f9f915fd5d",
+          "source_check_id": "claim_context",
+          "semantic_review": {
+            "reviewer": "agent",
+            "relation": "direct",
+            "support_reason": "The pinned arXiv record identifies Dusart's explicit estimates for functions over primes without the Riemann hypothesis.",
+            "semantic_match_reason": "The manuscript cites it together with Rosser--Schoenfeld for the explicit prime-count input in the medium-prime bound.",
+            "scope_boundary": "The citation does not supply the Hall reduction or the paper's residue-class calculation.",
+            "reviewed_context_sha256": "c094641c8b37785821e6bdca964f725eb42d73380d2dd9dda4f511f9f915fd5d",
+            "reviewed_source_check_sha256": "7bb4aa1d624ec2a2bc9a256434ebda6896a3052ddcbcb765a36b0912ac527ce3",
+            "reviewed_artifact_sha256": "8bd28a520ae513ae8205126af3a65b9171d5989ee654df2ae270f2844dfb002d",
+            "semantic_reset_sha256": "6b6328db7ce11eb9b771467ed9a1b67d8f98b25bd24ea7d2f561e81804cc7b39"
+          }
+        }
       ]
     },
     {
-      "key": "HelfgottPlatt",
+      "key": "LiProofEngine2026",
+      "source_artifact": {
+        "metadata_file": "LiProofEngine2026/source.meta.json",
+        "artifact_file": "LiProofEngine2026/source.pdf",
+        "text_file": "LiProofEngine2026/source-view.txt",
+        "artifact_type": "pdf",
+        "sha256_raw_bytes": "6b53d87d8d7824f27fa49dc5b995e1b48a16d69a15d539605c22fc7b35ca990e",
+        "sha256_text_view": "807dcf9367d32b0f86c21d3be8512210c38c47a48cf472241ac4a3435404cde9"
+      },
       "checks": [
         {
-          "id": "source_anchor",
-          "file": "HelfgottPlatt/crossref.json.txt",
-          "line": 123,
-          "exact": "$.message.title[0] = Numerical Verification of the Ternary Goldbach Conjecture up to 8.875·10<sup>30</sup>",
-          "normalized_contains": "Numerical Verification of the Ternary Goldbach Conjecture"
+          "id": "source_title",
+          "file": "LiProofEngine2026/source-view.txt",
+          "line_start": 2,
+          "line_end": 10,
+          "exact": "Proof Engine Infrastructure: A Fail-Closed\n\n1\n\nClaim-Graph Method for Accountable AI-Assisted\n\n2\n\nMathematical Research"
         },
         {
-          "id": "source_doi",
-          "file": "HelfgottPlatt/crossref.json.txt",
-          "line": 1,
-          "exact": "$.message.DOI = 10.1080/10586458.2013.831742"
+          "id": "source_author",
+          "file": "LiProofEngine2026/source-view.txt",
+          "line_start": 14,
+          "line_end": 14,
+          "exact": "Alex Chengyu Li1*"
+        },
+        {
+          "id": "source_year",
+          "file": "LiProofEngine2026/source-view.txt",
+          "line_start": 1,
+          "line_end": 1,
+          "exact": "Embedded PDF creation year: 2026"
+        },
+        {
+          "id": "claim_context",
+          "file": "LiProofEngine2026/source-view.txt",
+          "line_start": 29,
+          "line_end": 34,
+          "exact": "Methods: Proof Engine Infrastructure was developed as a fail-closed method\nfor claim-level research reporting. An agent-to-claim control plane externalizes\nclaims, obligations, and receipts in a typed directed hypergraph. Its minimum loop\ndeclares the target and admissible roots, decomposes claim paths, dispatches work,\nassigns edge-adequate evidence boundaries, binds checked inputs and outputs,\ncomposes earned edges, and recomputes the frontier. A contrasting-case analysis"
         }
       ],
       "meta_checks": [
         {
-          "id": "meta_crossref_artifact_type",
-          "file": "HelfgottPlatt/crossref.meta.json",
+          "id": "meta_proof_engine_infrastructure_manuscript_artifact_type",
+          "file": "LiProofEngine2026/proof-engine-infrastructure-manuscript.meta.json",
           "field": "artifact_type",
-          "exact": "json"
+          "exact": "local-manuscript"
         },
         {
-          "id": "meta_crossref_final_url",
-          "file": "HelfgottPlatt/crossref.meta.json",
+          "id": "meta_proof_engine_infrastructure_manuscript_final_url",
+          "file": "LiProofEngine2026/proof-engine-infrastructure-manuscript.meta.json",
           "field": "final_url",
-          "exact": "https://api.crossref.org/works/10.1080/10586458.2013.831742"
+          "exact": "file:///E:/Dev/OpenExecution/research-line/academic-papers/projects/proof-engine-infrastructure-internal/paper/proof_engine_infrastructure.tex"
         },
         {
-          "id": "meta_crossref_status",
-          "file": "HelfgottPlatt/crossref.meta.json",
-          "field": "status",
-          "exact": "200"
-        },
-        {
-          "id": "meta_crossref_sha256_raw_bytes",
-          "file": "HelfgottPlatt/crossref.meta.json",
+          "id": "meta_proof_engine_infrastructure_manuscript_sha256_raw_bytes",
+          "file": "LiProofEngine2026/proof-engine-infrastructure-manuscript.meta.json",
           "field": "sha256_raw_bytes",
-          "exact": "45c2cce3868ced4a862e4531f6f83c5cb3eef9a4156aa0404bf53ead29577337"
+          "exact": "a5d6549717fc5f9887cf2eb2394e34eafc50ae2bd1efd6953066fdfbc1a99c57"
+        },
+        {
+          "id": "meta_source_artifact_type",
+          "file": "LiProofEngine2026/source.meta.json",
+          "field": "artifact_type",
+          "exact": "pdf"
+        },
+        {
+          "id": "meta_source_final_url",
+          "file": "LiProofEngine2026/source.meta.json",
+          "field": "final_url",
+          "exact": "https://doi.org/10.5281/zenodo.21672333"
+        },
+        {
+          "id": "meta_source_status",
+          "file": "LiProofEngine2026/source.meta.json",
+          "field": "status",
+          "exact": "local-pinned"
+        },
+        {
+          "id": "meta_source_sha256_raw_bytes",
+          "file": "LiProofEngine2026/source.meta.json",
+          "field": "sha256_raw_bytes",
+          "exact": "6b53d87d8d7824f27fa49dc5b995e1b48a16d69a15d539605c22fc7b35ca990e"
         }
       ],
       "bib_checks": [
         {
           "id": "bib_author",
           "field": "author",
-          "exact": "Helfgott, Harald Andr{\\'e}s and Platt, David J."
+          "exact": "Alex Chengyu Li"
         },
         {
           "id": "bib_title",
           "field": "title",
-          "exact": "Numerical Verification of the Ternary Goldbach Conjecture up to {$8.875\\cdot10^{30}$}"
-        },
-        {
-          "id": "bib_journal",
-          "field": "journal",
-          "exact": "Experimental Mathematics"
-        },
-        {
-          "id": "bib_volume",
-          "field": "volume",
-          "exact": "22"
-        },
-        {
-          "id": "bib_number",
-          "field": "number",
-          "exact": "4"
-        },
-        {
-          "id": "bib_pages",
-          "field": "pages",
-          "exact": "406--409"
+          "exact": "Proof Engine Infrastructure: A Fail-Closed Claim-Graph Method for Accountable {AI}-Assisted Mathematical Research"
         },
         {
           "id": "bib_year",
           "field": "year",
-          "exact": "2013"
+          "exact": "2026"
         },
         {
           "id": "bib_doi",
           "field": "doi",
-          "exact": "10.1080/10586458.2013.831742"
+          "exact": "10.5281/zenodo.21672333"
         },
         {
           "id": "bib_url",
           "field": "url",
-          "exact": "https://doi.org/10.1080/10586458.2013.831742"
-        }
-      ]
-    },
-    {
-      "key": "OliveiraSilvaHerzogPardi",
-      "checks": [
-        {
-          "id": "source_anchor",
-          "file": "OliveiraSilvaHerzogPardi/crossref.json.txt",
-          "line": 605,
-          "exact": "$.message.title[0] = Empirical verification of the even Goldbach conjecture and computation of prime gaps up to 4⋅10¹⁸",
-          "normalized_contains": "Empirical verification of the even Goldbach conjecture"
-        },
-        {
-          "id": "source_doi",
-          "file": "OliveiraSilvaHerzogPardi/crossref.json.txt",
-          "line": 1,
-          "exact": "$.message.DOI = 10.1090/s0025-5718-2013-02787-1"
+          "exact": "https://doi.org/10.5281/zenodo.21672333"
         }
       ],
-      "meta_checks": [
-        {
-          "id": "meta_crossref_artifact_type",
-          "file": "OliveiraSilvaHerzogPardi/crossref.meta.json",
-          "field": "artifact_type",
-          "exact": "json"
-        },
-        {
-          "id": "meta_crossref_final_url",
-          "file": "OliveiraSilvaHerzogPardi/crossref.meta.json",
-          "field": "final_url",
-          "exact": "https://api.crossref.org/works/10.1090/S0025-5718-2013-02787-1"
-        },
-        {
-          "id": "meta_crossref_status",
-          "file": "OliveiraSilvaHerzogPardi/crossref.meta.json",
-          "field": "status",
-          "exact": "200"
-        },
-        {
-          "id": "meta_crossref_sha256_raw_bytes",
-          "file": "OliveiraSilvaHerzogPardi/crossref.meta.json",
-          "field": "sha256_raw_bytes",
-          "exact": "adc250bb48343c3f28ec43766080cd09149fe86f38fabd755d2422234d2bda4b"
-        }
-      ],
-      "bib_checks": [
-        {
-          "id": "bib_author",
-          "field": "author",
-          "exact": "Oliveira e Silva, Tom{\\'a}s and Herzog, Siegfried and Pardi, Silvio"
-        },
-        {
-          "id": "bib_title",
-          "field": "title",
-          "exact": "Empirical Verification of the Even Goldbach Conjecture and Computation of Prime Gaps up to {$4\\cdot10^{18}$}"
-        },
-        {
-          "id": "bib_journal",
-          "field": "journal",
-          "exact": "Mathematics of Computation"
-        },
-        {
-          "id": "bib_volume",
-          "field": "volume",
-          "exact": "83"
-        },
-        {
-          "id": "bib_number",
-          "field": "number",
-          "exact": "288"
-        },
-        {
-          "id": "bib_pages",
-          "field": "pages",
-          "exact": "2033--2060"
-        },
-        {
-          "id": "bib_year",
-          "field": "year",
-          "exact": "2014"
-        },
-        {
-          "id": "bib_doi",
-          "field": "doi",
-          "exact": "10.1090/S0025-5718-2013-02787-1"
-        },
-        {
-          "id": "bib_url",
-          "field": "url",
-          "exact": "https://doi.org/10.1090/S0025-5718-2013-02787-1"
-        }
-      ]
-    },
-    {
-      "key": "GonthierOddOrder",
-      "checks": [
-        {
-          "id": "source_anchor",
-          "file": "GonthierOddOrder/crossref.json.txt",
-          "line": 380,
-          "exact": "$.message.title[0] = A Machine-Checked Proof of the Odd Order Theorem",
-          "normalized_contains": "A Machine-Checked Proof of the Odd Order Theorem"
-        },
-        {
-          "id": "source_doi",
-          "file": "GonthierOddOrder/crossref.json.txt",
-          "line": 1,
-          "exact": "$.message.DOI = 10.1007/978-3-642-39634-2_14"
-        }
-      ],
-      "meta_checks": [
-        {
-          "id": "meta_crossref_artifact_type",
-          "file": "GonthierOddOrder/crossref.meta.json",
-          "field": "artifact_type",
-          "exact": "json"
-        },
-        {
-          "id": "meta_crossref_final_url",
-          "file": "GonthierOddOrder/crossref.meta.json",
-          "field": "final_url",
-          "exact": "https://api.crossref.org/works/10.1007/978-3-642-39634-2_14"
-        },
-        {
-          "id": "meta_crossref_status",
-          "file": "GonthierOddOrder/crossref.meta.json",
-          "field": "status",
-          "exact": "200"
-        },
-        {
-          "id": "meta_crossref_sha256_raw_bytes",
-          "file": "GonthierOddOrder/crossref.meta.json",
-          "field": "sha256_raw_bytes",
-          "exact": "e3ccd5b79c0f239a8ae7c6b92f97c23c8519838386bde5317e91ec85968ab0b5"
-        }
-      ],
-      "bib_checks": [
-        {
-          "id": "bib_author",
-          "field": "author",
-          "exact": "Gonthier, Georges and Asperti, Andrea and Avigad, Jeremy and Bertot, Yves and Cohen, Cyril and Garillot, Fran{\\c{c}}ois and Le Roux, St{\\'e}phane and Mahboubi, Assia and O'Connor, Russell and Ould Biha, Sidi and Pasca, Ioana and Rideau, Laurence and Solovyev, Alexey and Tassi, Enrico and Th{\\'e}ry, Laurent"
-        },
-        {
-          "id": "bib_title",
-          "field": "title",
-          "exact": "A Machine-Checked Proof of the Odd Order Theorem"
-        },
-        {
-          "id": "bib_booktitle",
-          "field": "booktitle",
-          "exact": "Interactive Theorem Proving"
-        },
-        {
-          "id": "bib_series",
-          "field": "series",
-          "exact": "Lecture Notes in Computer Science"
-        },
-        {
-          "id": "bib_volume",
-          "field": "volume",
-          "exact": "7998"
-        },
-        {
-          "id": "bib_pages",
-          "field": "pages",
-          "exact": "163--179"
-        },
-        {
-          "id": "bib_publisher",
-          "field": "publisher",
-          "exact": "Springer"
-        },
-        {
-          "id": "bib_year",
-          "field": "year",
-          "exact": "2013"
-        },
-        {
-          "id": "bib_doi",
-          "field": "doi",
-          "exact": "10.1007/978-3-642-39634-2_14"
-        },
-        {
-          "id": "bib_url",
-          "field": "url",
-          "exact": "https://doi.org/10.1007/978-3-642-39634-2_14"
-        }
-      ]
-    },
-    {
-      "key": "HalesFlyspeck",
-      "checks": [
-        {
-          "id": "source_anchor",
-          "file": "HalesFlyspeck/crossref.json.txt",
-          "line": 4,
-          "exact": "$.message.abstract = <jats:p>This article describes a formal proof of the Kepler conjecture on dense sphere packings in a combination of the HOL Light and Isabelle proof assistants. This paper constitutes the official published account of the now completed Flyspeck project.</jats:p>",
-          "normalized_contains": "A FORMAL PROOF OF THE KEPLER CONJECTURE"
-        },
-        {
-          "id": "source_doi",
-          "file": "HalesFlyspeck/crossref.json.txt",
-          "line": 1,
-          "exact": "$.message.DOI = 10.1017/fmp.2017.1"
-        }
-      ],
-      "meta_checks": [
-        {
-          "id": "meta_crossref_artifact_type",
-          "file": "HalesFlyspeck/crossref.meta.json",
-          "field": "artifact_type",
-          "exact": "json"
-        },
-        {
-          "id": "meta_crossref_final_url",
-          "file": "HalesFlyspeck/crossref.meta.json",
-          "field": "final_url",
-          "exact": "https://api.crossref.org/works/10.1017/fmp.2017.1"
-        },
-        {
-          "id": "meta_crossref_status",
-          "file": "HalesFlyspeck/crossref.meta.json",
-          "field": "status",
-          "exact": "200"
-        },
-        {
-          "id": "meta_crossref_sha256_raw_bytes",
-          "file": "HalesFlyspeck/crossref.meta.json",
-          "field": "sha256_raw_bytes",
-          "exact": "4e33ab7dc5a3edb62a6d0e0538c900976a8895c2967074213a87f34b40dcf0dc"
-        }
-      ],
-      "bib_checks": [
-        {
-          "id": "bib_author",
-          "field": "author",
-          "exact": "Hales, Thomas C. and Adams, Mark and Bauer, Gertrud and Dang, Tat Dat and Harrison, John and Hoang, Truong Le and Kaliszyk, Cezary and Magron, Victor and McLaughlin, Sean and Nguyen, Tat Thang and Nguyen, Quang Truong and Nipkow, Tobias and Obua, Steven and Pleso, Joseph and Rute, Jason and Solovyev, Alexey and Ta, An Hoai Thi and Tran, Nam Trung and Trieu, Thi Diep and Urban, Josef and Vu, Ky and Zumkeller, Roland"
-        },
-        {
-          "id": "bib_title",
-          "field": "title",
-          "exact": "A Formal Proof of the Kepler Conjecture"
-        },
-        {
-          "id": "bib_journal",
-          "field": "journal",
-          "exact": "Forum of Mathematics, Pi"
-        },
-        {
-          "id": "bib_volume",
-          "field": "volume",
-          "exact": "5"
-        },
-        {
-          "id": "bib_pages",
-          "field": "pages",
-          "exact": "e2"
-        },
-        {
-          "id": "bib_year",
-          "field": "year",
-          "exact": "2017"
-        },
-        {
-          "id": "bib_doi",
-          "field": "doi",
-          "exact": "10.1017/fmp.2017.1"
-        },
-        {
-          "id": "bib_url",
-          "field": "url",
-          "exact": "https://doi.org/10.1017/fmp.2017.1"
-        }
-      ]
-    },
-    {
-      "key": "Lean4",
-      "checks": [
-        {
-          "id": "source_anchor",
-          "file": "Lean4/crossref.json.txt",
-          "line": 277,
-          "exact": "$.message.title[0] = The Lean 4 Theorem Prover and Programming Language",
-          "normalized_contains": "The Lean 4 Theorem Prover and Programming Language"
-        },
-        {
-          "id": "source_doi",
-          "file": "Lean4/crossref.json.txt",
-          "line": 1,
-          "exact": "$.message.DOI = 10.1007/978-3-030-79876-5_37"
-        }
-      ],
-      "meta_checks": [
-        {
-          "id": "meta_crossref_artifact_type",
-          "file": "Lean4/crossref.meta.json",
-          "field": "artifact_type",
-          "exact": "json"
-        },
-        {
-          "id": "meta_crossref_final_url",
-          "file": "Lean4/crossref.meta.json",
-          "field": "final_url",
-          "exact": "https://api.crossref.org/works/10.1007/978-3-030-79876-5_37"
-        },
-        {
-          "id": "meta_crossref_status",
-          "file": "Lean4/crossref.meta.json",
-          "field": "status",
-          "exact": "200"
-        },
-        {
-          "id": "meta_crossref_sha256_raw_bytes",
-          "file": "Lean4/crossref.meta.json",
-          "field": "sha256_raw_bytes",
-          "exact": "c1e4619e8d8e975c2636084206cb73db0047c1d29dd6f5496320024631fd8167"
-        }
-      ],
-      "bib_checks": [
-        {
-          "id": "bib_author",
-          "field": "author",
-          "exact": "de Moura, Leonardo and Ullrich, Sebastian"
-        },
-        {
-          "id": "bib_title",
-          "field": "title",
-          "exact": "The {Lean 4} Theorem Prover and Programming Language"
-        },
-        {
-          "id": "bib_booktitle",
-          "field": "booktitle",
-          "exact": "Automated Deduction -- CADE 28"
-        },
-        {
-          "id": "bib_series",
-          "field": "series",
-          "exact": "Lecture Notes in Computer Science"
-        },
-        {
-          "id": "bib_volume",
-          "field": "volume",
-          "exact": "12699"
-        },
-        {
-          "id": "bib_pages",
-          "field": "pages",
-          "exact": "625--635"
-        },
-        {
-          "id": "bib_publisher",
-          "field": "publisher",
-          "exact": "Springer"
-        },
-        {
-          "id": "bib_year",
-          "field": "year",
-          "exact": "2021"
-        },
-        {
-          "id": "bib_doi",
-          "field": "doi",
-          "exact": "10.1007/978-3-030-79876-5_37"
-        },
-        {
-          "id": "bib_url",
-          "field": "url",
-          "exact": "https://doi.org/10.1007/978-3-030-79876-5_37"
-        }
-      ]
-    },
-    {
-      "key": "Mathlib",
-      "checks": [
-        {
-          "id": "source_anchor",
-          "file": "Mathlib/crossref.json.txt",
-          "line": 261,
-          "exact": "$.message.title[0] = The lean mathematical library",
-          "normalized_contains": "The lean mathematical library"
-        },
-        {
-          "id": "source_doi",
-          "file": "Mathlib/crossref.json.txt",
-          "line": 1,
-          "exact": "$.message.DOI = 10.1145/3372885.3373824"
-        }
-      ],
-      "meta_checks": [
-        {
-          "id": "meta_crossref_artifact_type",
-          "file": "Mathlib/crossref.meta.json",
-          "field": "artifact_type",
-          "exact": "json"
-        },
-        {
-          "id": "meta_crossref_final_url",
-          "file": "Mathlib/crossref.meta.json",
-          "field": "final_url",
-          "exact": "https://api.crossref.org/works/10.1145/3372885.3373824"
-        },
-        {
-          "id": "meta_crossref_status",
-          "file": "Mathlib/crossref.meta.json",
-          "field": "status",
-          "exact": "200"
-        },
-        {
-          "id": "meta_crossref_sha256_raw_bytes",
-          "file": "Mathlib/crossref.meta.json",
-          "field": "sha256_raw_bytes",
-          "exact": "5d651bb6977c66f650f751ea3a937ef7d62c42f0a11695e3b8c64dedea4187cc"
-        }
-      ],
-      "bib_checks": [
-        {
-          "id": "bib_author",
-          "field": "author",
-          "exact": "{The mathlib Community}"
-        },
-        {
-          "id": "bib_title",
-          "field": "title",
-          "exact": "The {Lean} Mathematical Library"
-        },
-        {
-          "id": "bib_booktitle",
-          "field": "booktitle",
-          "exact": "Proceedings of the 9th ACM SIGPLAN International Conference on Certified Programs and Proofs"
-        },
-        {
-          "id": "bib_pages",
-          "field": "pages",
-          "exact": "367--381"
-        },
-        {
-          "id": "bib_publisher",
-          "field": "publisher",
-          "exact": "ACM"
-        },
-        {
-          "id": "bib_year",
-          "field": "year",
-          "exact": "2020"
-        },
-        {
-          "id": "bib_doi",
-          "field": "doi",
-          "exact": "10.1145/3372885.3373824"
-        },
-        {
-          "id": "bib_url",
-          "field": "url",
-          "exact": "https://doi.org/10.1145/3372885.3373824"
+      "citation_bindings": [
+        {
+          "document_id": "default",
+          "citation_ordinal": 5,
+          "key": "LiProofEngine2026",
+          "context_sha256": "25fa241baffa7c10ed95d0de493899976ce2186d5dfa5e5686c98b1b8f85f9b4",
+          "source_check_id": "claim_context",
+          "semantic_review": {
+            "reviewer": "agent",
+            "relation": "background",
+            "support_reason": "The pinned manuscript describes the named author-developed Proof Engine framework for AI-assisted mathematical research.",
+            "semantic_match_reason": "The disclosure cites it only to identify the framework within which replaceable AI tools were used.",
+            "scope_boundary": "The citation is not used as evidence for the mathematical theorem; the author retains responsibility as stated.",
+            "reviewed_context_sha256": "25fa241baffa7c10ed95d0de493899976ce2186d5dfa5e5686c98b1b8f85f9b4",
+            "reviewed_source_check_sha256": "a8d614683dd115d7924a785b9e171caf7db37d6a50287cdb6cdca975d01e11ba",
+            "reviewed_artifact_sha256": "6b53d87d8d7824f27fa49dc5b995e1b48a16d69a15d539605c22fc7b35ca990e",
+            "semantic_reset_sha256": "9985eaa3cf4e6ce5c61a11e75206b0aa2bc0fee8553fd2a6577b2f1dcc6613e4"
+          }
         }
       ]
     }

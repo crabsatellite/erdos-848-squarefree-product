@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "key": "liProofEngineInfrastructure2026",
+  "artifact_type": "local-manuscript",
+  "requested_url": "file:///E:/Dev/OpenExecution/research-line/academic-papers/projects/proof-engine-infrastructure-internal/paper/proof_engine_infrastructure.tex",
+  "final_url": "file:///E:/Dev/OpenExecution/research-line/academic-papers/projects/proof-engine-infrastructure-internal/paper/proof_engine_infrastructure.tex",
+  "sha256_raw_bytes": "a5d6549717fc5f9887cf2eb2394e34eafc50ae2bd1efd6953066fdfbc1a99c57",
+  "artifact_file": "proof-engine-infrastructure-manuscript.tex.txt",
+  "text_file": "proof-engine-infrastructure-manuscript.tex.txt",
+  "text_lines": 1000
+}

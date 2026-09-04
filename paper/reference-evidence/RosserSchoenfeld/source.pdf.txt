@@ -1,0 +1,3688 @@
+APPROXIMATE FORMULAS FOR SOME FUNCTIONS OF
+PRIME NUMBERS
+Dedicated to Hans Rademacher
+on the occasion of his seventieth birthday
+BY
+
+J. BARKLEY ROSSER AND LOWELL SCHOENFELD
+1. Acknowledgments
+The maior portion of Rosser’s work on this paper was done at Cornell
+University with support from the Air Force Office of Scientific Research. His
+recent work was done as an employee of the Communications Research Division (Proiect FOCUS) of the Institute for Defense Analyses. Schoenfeld’s
+work was begun at the Westinghouse Research Laboratories and was completed at the Pennsylvania State University.
+Three maior computations were performed to obtain various of the data
+listed herein. The first was performed some nine years ago by workers under
+the direction of Mr. Marvin Howard at the Institute for Numerical Analysis,
+then part of the National Bureau of Standards, with support from the Office
+of Naval Research. The second was performed some four years ago with the
+cooperation of Professor R. J. Walker on the IBM 650 at the Cornell Computing Center, with support from the National Science Foundation. The
+third was performed recently with the cooperation of Dr. Kenneth I. Appel
+at the Computing Center of and with the support of Proiect FOCUS.
+
+2. Introduction
+Counting 2 as the first prime, we denote by (x), (x), and (x), respectively, the number of primes =< x, the logarithm of the product of all primes
+=< x, and the logarithm of the least common multiple of all positive integers
+-< x; if x < 2, we take v(x) O(x) (x) 0. We also let pn denote the
+nth prime, and (n) denote the number of positive integers __< n and relatively prime to n. Throughout, n shall denote a positive integer, p a prime,
+and x a real number. We shall present approximate formulas for (x),
+(x), (x), pn, (n), and other functions related to prime numbers.
+In 1808, on the basis of attempting to fit known values of r(x) by an empirical formula, Legendre coniectured an approximation very similar to that
+given below in (2.19). In 1849, again on the basis of counts of the number
+of primes in various intervals, Gauss communicated to Encke a coniecture
+that in the neighborhood of the number x the average density of the primes
+is 1/log x. On this basis, if one should wish an estimate for the sum of f(p)
+over all primes p -< x, the natural approximation would be
+Received February 13, 1961.
+64
+
+65
+
+FORMULAS FOR SOME FUNCTIONS OF PRIME NUMBERS
+
+.
+’ fx
+
+(2.1)
+
+f(P)
+
+f(y) dy
+
+log y
+<=x
+Consequently, one would presume the following approximations"
+
+(2.2)
+
+r(x)
+_<_
+
+(2.3)
+
+0(x)
+
+(2.4)
+
+1
+_<_
+
+dy
+log y
+dy
+
+log p
+
+-
+
+x,
+
+,fx logdy loglogx-l-B,
+y
+
+y
+
+/ dyy
+
+log P
+p
+
+(2.5)
+
+1-----f
+
+log x
+
+.2
+
++ E,
+
+II
+(2.6)
+exp
+
+cl (a)
+
+a
+
+v<_-x
+
+c()
+(log x)
+
+’
+
+where a is a real constant, usually taken to be unity.
+In (2.4) we have indicated a "constant of integration," B, whose value is
+taken to be
+1/p log log z}.
+lim
+
+__<
+
+Because this limit exists, the absolute error in (2.4) tends to zero as x tends
+to infinity. In (2.5) and (2.6), we have indicated constants E, cl(a), nd
+c(a) for analogous reasons. In (2.2) nd (2.3), no constants are indicated
+because the limits to which they would correspond do not exist.
+The validity of the approximations (2.2) through (2.6) was rigorously
+established iust before the turn of the century by Hadmrd and de la Valle
+Poussin. A very excellent account of these matters is given in Ingham [6],
+together with extensive references to the literature.
+From Ingham [6], we can get alternate expressions for B, E, and c(1) as
+
+follows:
+
+(2.7)
+(2.s)
+
+B
+E
+
+C -t-- {log [1
+C
+
+n=
+
+(l/p)] + (l/p)},
+(log p)/pn,
+
+c(1) e-c,
+where C is Euler’s constant. We find (2.7) and (2.9) on pp. 22-23 of Ingham [6], and cn derive (2.8) from a formula near the top of p. 81. Approxi(2.9)
+
+mate numerical values re"
+
+(2.11)
+
+B
+E
+
+0.26149 72128 47643,
+1.33258 22757 33221,
+
+66
+
+$.
+
+BARKLEY ROSSER AND LOWELL SCHOENFELD
+
+0.56145 94835 66885,
+(2.12)
+C(1)
+1.78107 24179 90198,
+(2.13)
+1/C(1)
+0.83242 90656 62.
+(2.14)
+C(2)
+Let us define the logarithmic integral li(x) by
+El(log x),
+(2.15)
+li(x)
+where El(y) is the exponential integral, defined by
+
+(2.16)
+
+Ei(y)
+
++
+
+lim
+
+e----
+
+Then
+dy
+logy
+
+(2.17)
+
+li(x)
+
+li(2).
+
+Consequently, in place of (2.2), it is common to use li() as an approximation
+for (). This is more convenient than (2.2) because El(y) has been extensively tubulated; a convenient tabulation is given in the W.P.A. Tables
+[18], in which the reder should note the supplementury Table III at the end
+of Vol. II.
+If we use two terms of the asymptotic expansion for li(x), we get the following convenient approximation"
+
+-(x) =
+
+(2.18)
+
+log
+
+log
+
+Using a closer approximagion for li(z) gives ghe sharper resulg"
+
+(x)
+
+(2.19)
+
+1"
+log x
+From this, we see that a suitable approximation for Pn is given by
+
+(2.20)
+
+p
+
+n(log n + log log n
+
+1).
+
+Much work has been done in estimating the orders of magnitude of the
+errors in the various approximations listed above. A classic result appears
+as Theorem 23 on p. 65 of Ingham [6] in the form
+
+li(x) + 0( exp {-a(log ):}),
+where a is a positive bsolute constant. This means that there are positive
+ubsolute constants a, b, and X such that for x
+X
+
+(2.21)
+
+(x)
+
+(2.22)
+]z(x) li(x) < bx exp {-a(log )}.
+Improvements of this sort of result continue to appear. The sharpest
+known, given in Vinogradov [17], is
+(2.23)
+v(x) li(x) + O(x exp {-a(log x) /}).
+
+FORMULAS FOR SOME FUNCTIONS OF PRIME NUMBERS
+
+67
+
+Undoubtedly this is not the best possible result, but the precise behavior of
+r(x) li(x) depends on the location of the zeros of the Riemann zeta function, and cannot be determined until we have more precise information about
+them than we have now. A discussion of this point appears in Chap. IV of
+Ingham [6].
+Even in our present ignorance about the zeros of the zeta function, it can
+be shown that li(x) alone cannot be a wholly satisfactory approximation to
+r(x). Specifically, it has been shown that there is a sequence of values of x,
+tending to infinity, at which alternately
+
+(x)
+
+li(x) > xl/2/1Og X
+
+(x)
+
+li(x) <
+
+and
+
+xl/2/log x.
+
+Indeed, Theorem 35 on p. 103 of Ingham [6] states a significantly stronger
+result. An analogous result for O(x)
+x follows from Theorem 34 on p.
+100 of Ingham [6] by means of the relations
+
+k(x)
+
+(2.24)
+
+O(x)
+
+(2.25)
+
+Zn=l p(n)b(xl/n).
+
+Each of these summations is in fact only finite, since the summands become
+zero as soon as n > (log x)/(log 2). The first of these equations is derived
+on p. 12 of Ingham [6], and inversion of the first gives the second, in which
+is the MSbius function defined on p. 567 of Landau [7], vol. 2.
+Once one has a good estimate for r(x) li(x), one can get an approximation for sums of functions of primes as follows. Using the Stieltjes integral,
+one has
+
+.,
+
+p_
+
+f(p)
+
+f(y) dr(y).
+
+Integration by parts gives
+
+_,
+
+f’(y)r(y) dy
+
+f(x)(x)
+
+f(p)
+
+f’(y) li(y) dy
+
+f
+
+f’(y) r(y)
+
+]i(y)} dy.
+
+Then integration by parts gives
+
+_,
+
+(2.26)
+
+_<_
+
+f(p)
+
+f
+
+f(y) dy
+
+f(2) li(2)
+log y -t-
+
++ f(x){r(x)
+
+li(x)}
+
+f’(y){.(y)
+
+]i(y)/ dy,
+
+which is the precise version of (2.1). If the integral in (2.28) below con-
+
+8
+
+J. BARKLEY ROSSER AND LOWELL SCHOENFELD
+
+verges, we can rewrite (2.26) as
+
+(2.27)
+
+log y
+
+<__
+
+-t-f(x)/r(x)- li(x)}-t-
+
+f’()/’()
+
+li()} d,
+
+where K is the eonsgant given by
+
+(2.28)
+
+f(2) li(2)
+
+g]
+
+f’(y){.(y)
+
+li(y)} dy.
+
+Using these, we can get sharper forms of (2.3) through (2.6). Thus,
+from (2.21) und (2.26), we get
+
+O(x) x + O(x exp {-a(log z) /} ).
+(2.29)
+From (2.21) and (2.27), we get
+_,,<= lip log log x 4- B 4- 0(exp {-a(log x) /} ),
+(2.30)
+_<_ (log p)/p log x 4- E 4- 0(exp {-a(log x) 1/}).
+(2.31)
+From (2.30) we proceed as in (2.6) to get
+
+0(exp {-a(log x) }).
+(log x) 4From (2.29) and (2.24), one can get a formula for (x) analogous to (2.29).
+By starting from (2.23) rather than (2.21), one can get even sharper results
+than (2.29) through (2.32).
+Though results like those above are interesting, and are difficult to prove,
+they are of little use for getting dependable numerical approximations unless
+values of a, b, and X in (2.22) are furnished; this is seldom done. In Rosser
+[12], explicit bounds were presented for the errors in our approximations.
+More recently, much better bounds have been obtained by using modern
+computing machinery and taking advantage of new information about the
+zeros of the zeta function. These results will be stated in the early part of
+the present paper, with the proofs being mainly withheld until the later
+,<_<_
+
+sections.
+
+3. Widely applicable approximations
+For a very sharp approximation, one must either use complicated formulas
+or be satisfied with validity over a limited range. In this section, we shall
+list approximations which combine the advantages of being reasonably simple,
+reasonably precise, and valid for nearly all values. Note that Theorem 1
+below will replace (2.18) by closely related and specific inequalities, while
+Theorems 2-7 will do the same for (2.19), (2.20), (2.3), (2.4), (2.5), and
+(2.6) respectively. Theorem 8 is a variant of Theorem 7 which is sometimes
+more convenient.
+
+FORMULAS FOR SOME FUNCTIONS OF PRIME NUMBERS
+
+69
+
+THEOREM 1. We have
+
+(3.1)
+
+(3.2)
+
+(1- log------) <r(x)
+(x) <l-ogx
+3)
+x( +21ogx
+1
+
+x
+
+log x
+
+for59 < x,
+
+2
+
+1
+
+for l<x.
+
+THEOREM 2. We have
+x/(log x 1/2) < (x)
+(3.3)
+r(x) < (log x )
+(3.4)
+(and hence for 4.48169 <_- x).
+COROLLARY 1. We have
+x/log x < v(x)
+(3.5)
+(x) < 1.25506 x/log x
+(3.6)
+COnOLLAnY 2. For 1 < x < 113 and for 113.6 =< x
+(x) < 5x/(4 log x).
+(3.7)
+COROLLARY 3. We have
+3x/(5 log x) < r(2x) (x)
+(3.8)
+0 < r(2x)
+r(x) < 7x/(5 log x)
+(3.9)
+
+x
+
+for 67 _-< x,
+for e a/2 < x
+
+for 17 <= x,
+for 1 < x.
+
+for 201/2 =< x,
+for 1 < x.
+
+For the ranges of x for which these corollaries do not follow directly from
+the theorem, they can be verified by reference to Lehmer’s table of primes
+[10]. A similar remark applies to all corollaries of this section unless a proof
+is indicated.
+The inequality (3.8) improves a result of Finsler [3]. The left side of
+(3.9) is just the classic result, conjectured by Bertrand (and known as
+Bertrand’s Postulate) and proved in Tchebichef [14], that there is at least
+one prime between x and 2x. The right side of (3.9) gives a result of Finsler
+[3], with Finsler’s integral n replaced by our real x. Finsler’s elementary
+proofs are reproduced in Trost [15] on p. 58. The relation (3.12) below
+states a result of Rosser [11].
+THEOREM 3. We have
+
+(3.10)
+(3.11)
+
+n(log n + log log n
+p, < n(log n
+
+-+- log log n
+
+COROLLARY. We have
+
+(.12)
+(.1)
+
+-) < Pn
+
+-
+
+n log n <: Pn
+
+p, < n(log n
+
+log log n)
+
+1/2)
+
+for 2-<n,
+for 20 <__ n.
+forl <_ n,
+for6 <__n.
+
+70
+
+J. BARKLEY ROSSER AND LOWELL SCHOENFELD
+
+THEOREM 4. We have
+
+for 563 _<_ x,
+for 1
+
+x(1 1/(2 log x)) < O(x)
+(3.14)
+O(x) < x( + /(2 og x))
+(3.15)
+CoaoaY. We have
+x(1 1/log x) < O(x)
+(3.16)
+THEOREM 5. We have
+
+- -_
+
+_,
+
+_
+
+for41 <=x.
+
+log logx +B- 1/(2logsx) < _<xl/p
+(3.17)
+for 1 <: x,
+(3.18)
+for 286 __< x.
+<= 1/p < log log x B 1/(2 log x)
+COROLLARY. We have
+1/p
+log log x <
+(3.19)
+for l < x,
+(3.20)
+for l
+<= lip < log log x + B -+- 1/log x
+THEOREM 6. We have
+(log p)/p for 1 < x,
+log x + E
+1/(2 log x) <
+(3.21)
+_<_ (log p)/p < log x + E + 1/(2 log x) for 319 -< x.
+(3.22)
+COROLLARY. We have
+<__(logp)/p <logx-E+ 1/logx
+(3.23)
+for 32 _<_ x,
+(3.24)
+for
+=< (log p)/p < log x
+THEOREM 7. We have
+
+_,
+
+(3.25)
+
+(3.26)
+
+e
+
+log z
+
+l--
+
+for 285 _<_ x,
+
+2 log
+
+)
+
+II (1-- p1- < 1 1 -I" 21og.z
+
+p<__x
+
+for
+
+1
+
+COrOllArY. We have
+
+(3.27)
+
+e-C
+
+(1
+
+for1 <x.
+
+THEOREM 8. We hve
+
+(3.28)
+(3.29)
+COROLLARY 1.
+
+(3.30)
+
+1 < x,
+
+e (logx)
+
+1--2logsx
+
+p--1
+
+P
+
+<e e(logx)
+
+1-t-21ogsx
+
+for 286 -< x.
+
+< e (log )
+
+( + o1)x
+
+for1 <x.
+
+II
+
+1
+_<_p
+We have
+
+for
+
+71
+
+FORMULAS FOR SOME FUNCTIONS OF PRIME NUMBERS
+
+COROLLARY 2. We have
+
+II p P 1 < e E 1n
+,_
+C
+
+(3.31)
+
+forl <__ x.
+
+1<
+
+THEOREM 9. We have
+
+O(x) < 1.01624 x
+for 0 < x.
+For better bound for 0(x) when x _<_ 10s, note Theorem 18 below.
+
+(3.32)
+
+THEOREM 10. For d <-_ x, we have cx < O(x) for each of the following pairs
+
+.
+
+of values of c and d"
+
+;
+o1.01.0_
+;"
+.00.0,01.0__01
+.0o,.0l
+.01
+1"
+-1"
+1"
+227[
+809l
+14331
+1491
+3491
+53811 34571 2657
+
+c
+
+1427[ 853
+
+1481
+
+7481
+
+d
+
+599[ 557[
+
+101
+
+THEOREM 11. Let
+515
+
+R
+
+(546- )
+
+and e(x)
+
+(log x)
+
+exp {-- (log x)/R}
+
+Then we have
+
+{1 (x)} x < O(x) (x)
+(3.33)
+for 2 x,
+O(x) (x) < {1 + e(x)} x
+(3.34)
+for 1 x.
+An approximate value for R is
+R 17.51631.
+THEOREM 12. The quotient (x)/x takes its maximum at x 113, and
+(x) < 1.03883 x
+(.35)
+for 0 < x.
+1
+THEOREM 13. The quotient {(x)
+O(x)}/x tales its maximum at
+X
+
+361, and
+
+(3.36)
+
+(x)
+
+0(x) < 1.42620 x1/2
+
+forO <x.
+
+THEOREM 14. We have
+0.98 X 1]2 < (X)
+(X)
+(3.37)
+b(x) 0(x) < 0(x1/2) + 3x 1/3
+(3.38)
+COROLLARY. We have
+b(x) O(x) < 1.02 x1/2 + 3x 3
+(3.39)
+Proof. Use Theorem 9.
+THEOnEM 15. For 2 <_ n
+1
+1/(n- 1) __< n/(n);
+(3.40)
+
+-
+
+for 121 __< x,
+for 0
+forO < x.
+
+72
+
+J. BARKLEY ROSSER AND LOWELL SCHOENFELD
+
+also for 3
+
+<= n
+
+(3.41)
+
+n/4(n) < e c log log n -t- 5/(2 log log n)
+
+except when
+n- 2230 92870- 2.3.5.7.11.13.17.19.23
+
+in which case
+
+n/4(n) < e c log log n + 2.50637/log log n.
+(3.42)
+In (3.40), equality is attained whenever n is a prime. Thus, by taking n
+to be a large prime, we can make n/(n) arbitrarily close to unity. It is
+shown in Landau [7], pp. 217-219, vol. 1, that for each positive e there are
+an infinity of n’s for which
+(e c- e)log log n < n/(n).
+We do not know if there are an infinity of n’s for which
+e c log log n <= n/4,(n).
+
+4. Special approximations for limited ranges
+THEOREM 16. We have
+
+(4.1)
+
+li(x 1/2) < (x)
+
+li(x)
+
+(x) < i(x)
+
+(4.2)
+THEOREM 17. We have
+x -/li(x)
+(4.3)
+
+for 11 _<_ x =< l0s,
+for 2 <= x <= l0
+
+for e <= x <= l0
+li(x) +li(xl/2)}logx fore <= x <= l0
+
+(x)} log x < O(x)
+
+(4.4) (x) < x 2x 1/2 + {r(x)
+By use of Theorem 17 and the Rand table of primes [1], one can get quite
+sharp estimates of 0(x) for e =< x =< l0s. However, it is usually adequate
+to use the more convenient but less precise results below.
+
+THEOREM 18. For 0 < x <_ l0
+x
+2.05282 x 1/ < O(x) < x.
+(4.5)
+THEOREM 19. For 0 < x <= 1420.9 and for 1423 =< x __< l0
+
+(4.6)
+
+x- 2 x 1/ < O(x).
+
+The coefficient in (4.5) corrects a transposition of digits in Theorem 6 of
+
+Rosser [12].
+THEOREM 20. For 1 < x <-- l0
+log log x + B < p<= lip < log log x + B + 2/(x 1/ log x).
+(4.7)
+THEOREM 21. For 0 < x <_ l0
+(4.8) logx + E < p__< (logp)/p < logx-t- E 2.06123/x1/.
+
+-
+
+FORMULAS FOR SOME FUNCTIONS OF :PRIME NUMBERS
+
+73
+
+THEOREM 22. For 0 < x < 113 and for 113.8 <__ x <= 10
+(4.9)
+
+__< (log p)/p < log x + E
+x <- l0
+
+THEOREM 23. For 0
+
+(4.10)
+
+e c log x <
+
+]I_ P/(P
+
+1) < e c log x
+
+THEOREM 24. We have
+x 1/ < (x)
+
+(4.11)
+
+2eC/x1/2.
+
+O(x)
+
+O(X) < X 1/2 -Jl- 3X 1/
+
+(x)
+
+(4.12)
+
+2Ix 1/2.
+
+for 121 __< x __< 1016
+for 0 < x <= 1016.
+
+One immediately wonders if the results of Theorems 20-23 could be valid
+for all x. It is known that each of (4.1), (4.2), and (4.5) fails infinitely
+often for large x, and indeed each side of (4.5) fails infinitely often (see
+Theorems 35 and 34 on pp. 103 nd 100 of Inghm [6]). Perhnps one cn
+extend these results to show that ech of (4.7) through (4.10) fails for large
+x; we hve not investigated the matter.
+Theorem 18 gives sharp bounds for O(x) for 0 < x <__ 10 For larger
+values of x, sharp bounds for O(x) can be obtained by use of Theorem 14 and
+its corollary provided sharp bounds for k(x) are known. For 10 =< x =<
+5000
+e
+sharp bounds for k(x) can be obtained from our Table I, in which we
+tabulate against b values of such that for e _<_ x
+
+s.
+
+(-)x<(x) <(+)x.
+The values of m listed pertain to the computations by which Table I was
+established, all of which will be explained later.
+Finally, Theorem 11 can be used to get close approximations to both (x)
+and 0(x) for large x beyond the range of existing tables. Although Theorem
+11 is valid for small values of x as well as large, for x below about e3 it gives
+poorer estimates for 0(x) than can be obtained from Theorems 4, 9, 10, 18,
+and 19. From e ls’4 to e4s, Theorem 11 gives poorer estimates than can be
+obtained from Table I with the help of Theorem 14.
+We can use our sharp estimates for 0(x) to get sharp estimates for other
+functions depending on primes. Using the Stieltjes integral, we can write
+
+E f(p)
+
+_<_
+
+f f(Y)
+
+log y
+
+dO(y).
+
+An integration by parts gives
+,_<_
+
+logx
+
+\iog
+
+dy.
+
+Alternatively, one can derive (4.13) by use of Theorem A on p. 18 of Ingham
+
+[6]. From (4.13), as in the derivation of (2.26), we get
+f(y) dy 2f(2)
+f(p)
+
+f
+
+__<
+
+(4.14)
+
+log y
+
+log 2
+
++ f(x) {()
+log x
+
+x}
+
+f {O(y)
+
+y}- \log
+
+-
+
+(f(y)y) dy,
+Y}- \log
+
+For suitable f, we can write (4.14) as
+c f(y) dy
+F_,
+_<_
+
+(4.15)
+
+[ log y + Lf
+
+f(P)
+
+J2
+
++ f(x) {O(x)
+log x
+
+x}
+
+where Lf is the constant given by
+2f(2) c {O(y)
+(4.16)
+L/ log 2 /
+Jo.
+
+y}
+
+From (4.13) we get
+
+(4.17)
+
+-(x)
+
+(4.18)
+
+i
+_< p
+
+5-’ log p
+
+(4.19)
+
+p<__
+
+p
+
+c
+
+()
+
+lO(Y)
+
+d
+
+\log/dy.
+
+/ y log dyy
+log x +
+
+-+- log y) dy,
++ f* O(y)(1
+y log y
+O(x) f* (y) dy
+y.
+x +
+(x)
+
+x log x
+
+From (4.15) we get
+1
+
+log logxq-B q-
+
+()
+
+(4.20)
+
+x
+
+x log x
+
+{0(y)
+
+y}(1 + log y) dy,
+
+y log y
+(4.21)
+
+__<
+
+log p
+p
+
+log x -t- E
+
+-
+
++ O(x)x
+
+x
+
+/i O(y)y y dy.
+
+log log 2
+To prove (4.20), it suffices to show that in this case L]
+B;
+in (4.15) and use Theorem 11 and the definition
+to show this, we let x
+of B. The proof of (4.21) is similar.
+
+5. Tabular and computational results, and proofs
+derived therefrom
+The well-known table of primes, Lehmer [10], lists all primes less than 10
+in such a fashion that one can easily obtain the corresponding value of
+r(x) 1; since Lehmer takes unity to be the first prime, his count of primes
+
++
+
+FORMULAS FOR SOME FUNCTIONS OF PRIME NUMBERS
+
+75
+
+differs by unity from ours. Just recently the Rand Corporation has prepared
+a list of primes, published on microcards in Baker and Gruenberger [1], giving all primes up to slightly beyond 108 Within the large range of these
+tables, one can read off exact values of r(x) and p. Their count agrees with
+Lehmer’s rather than ours.
+By use of Lehmer’s Table, Rosser verified Theorem 16 and the right half
+of (4.5) for x __< 106. An account of his methods is given in Rosser [12].
+By the same methods, these results were extended to 107 in the first major
+computation cited in Section 1.
+We turn next to the calculations required to establish (2.10) through (2.14).
+The values for c(1) and 1/c(1) given there were computed from (2.9) and
+the known value of C. The values for B and c(2) given in (2.10) and (2.14)
+have been taken from pp. 43 and 44 of Rosser [11]. At the end of the footnote on p. 43 of this reference, there is given a twenty-four-decimal value of
+C
+B; this value corrects the slightly erroneous value of B C given in
+Table I of Gram [5]. Incidentally, Gram reproduces M:errifield’s incorrect
+value of ] p-3 in his Table I; a correct value is given on p. 249 of Davis [2].
+To determine the remaining quantity, E, we use the relation
+
+(log p)/(p8
+1)
+rl (log
+which is given near the bottom of p. 17 of Ingham [6]. From this we obtain
+
+’(s)/(s)
+
+forn > 1
+
+(5.1)
+
+(log p)/p’
+
+Substituting this into (2.8) gives
+
+Em=l (m) ’(mn)/(mn).
+
+=
+
+C
+E
+t(m) ’(m)/(m).
+(5.2)
+We first computed i"(n) by using an electronic computer to sum the first
+500 terms of the series
+
+"(n)
+
+]= (log m)/m’;
+
+the remainder of the series was computed by the Euler-Maclaurin sum
+formula. As a cheek, this was repeated with the first 1000 terms. Using
+the values of i’(n) given on p. 244 of Davis [2], values of
+
+’(n)/(n) and ] (log p)/pn
+were computed for 2 =< n -< 56 by using (5.1). These, together with the
+values of -i"(n) are listed for 2 =< n =< 29 in Table IV. In this table the
+values given for -’(n) are in error by less than 10-17. Division by (n)
+could cause slightly greater errors in -’(n)/(n). As we used seventeenp-n log p could be a bit greater. For
+decimal values in (5.1), the errors in
+n > 29, the three functions tabulated do not differ in the first seventeen
+decimals, and each is given to better than seventeen decimals by
+
+(log 2)/2
+
++ (log 3)/3 n.
+
+76
+
+.
+
+BARKLEY ROSSER AND LOWELL SCHOENFELD
+
+Using (2.8), we got the approximation
+
+E
+
+-1.33258 22757 33220 87
+
+which we checked by (5.2).
+Incidentally, our values of -’(n)/(n) check the seven-decimal values
+given in Walther [16].
+With vMues for B, E, und e-c now estublished, other computations could be
+undertaken. The second major computation cited in Section 1 was the
+tabulation by Rosser and Walker of many functions of primes for x -< 16,000.
+This verified Theorems 1-10 and their corollaries in this range, with the exception of Theorem 3, which was established for p _< 16,000. This computation also verified Theorems 18-23 for x -<_ 16,000.
+The third major computation cited in Section 1 was the tabulation by Appel
+nd Rosser of mny functions of primes for x _-< 10 This established
+Theorems 16 and 18-23 for 313 _-< x __< 10 which completed their verification. A discussion of this computation, together with prtial tabulation
+and many more details can be found in a report written by Appel and Rosser
+
+s.
+
+s,
+
+[19].
+Theorem 17 is an immediate consequence of Theorem 16 as a result of
+Lemmas 5 and 6 of Rosser [12]. Thus Theorems 16 through 23 are established.
+In Table II, at the end of this paper, we have listed values of t(x) and
+other functions selected from the Rosser-Walker tabulation. If an isolated
+value is desired in the range x -< 16,000, it can be readily computed by working
+from the nearest entry in Table II; it can be checked by working from the
+entry on the other side. If numerous random values are desired, it is probably
+easier to generate an entire table on one of the modern very fast computers,
+using the entries in Table II to check key values. Other values for comparison
+are available in the report by Appel and Rosser [19].
+For more limited ranges, one can derive values of some functions from
+tables already in the literature. Thus in Glaisher [4] is given a seven-decimal
+table of
+
+f(x)
+
+II<=, (1
+
+1/p)
+
+and its common logarithm for 2 _<_ x -< 10,000. By comparison with the
+Rosser-Walker tabulation, we verified that the Glaisher table is quite reliable.
+Round-off errors are common in the function values, but we found only four
+cases where the listed function value is in error by more than one unit in the
+last place. The correct values there are as follows"
+
+f(4271)
+f(8609)
+
+0.0670040,
+0.0619246,
+
+f(9397)
+f(9883)
+
+0.0613076,
+0.0609460.
+
+In all these cases, the logarithmic values given were accurate to within round-
+
+77
+
+FORMULAS FOR SOME FUNCTIONS OF :PRIME NUMBERS
+
+off errors. The last column of our Table II gives selected values of 1/f(x)
+to ten decimals.
+In Gram [5] is given an eight-decimal table of (x) for x =< 2000. The
+eighth decimal is quite unreliable, but no entry is in error by as much as
+10-7. From this, one can readily compute values of 0(x) for x =< 2000 by
+using our Table III, which gives the values of (x)
+0(x) for x < 50,653.
+The arguments x are those prime powers pr having r >= 2, so that the tabulated
+function is constant between entries. By means of Table III one can also
+compute (x) from the values of 0(x) given in Table II up to x
+16,000.
+We now turn to Theorems 12-14, 24. We first take note of the following
+result from pp. 90-91 of Landau [7], vol. 1, proved by adapting the elementary
+derivation of Tchebichef [14].
+
+THEOREM 25. For 1 <- x
+
+-
+
+(x) -< (x) < 1.2 ax + (3 log x + 5)(log x + 1),
+
+(5.3)
+
+where a denotes the constant
+
+v log 2 +
+
+log 3 +
+
+log 5
+
+0.92129
+
+...,
+
+according to the definition on p. 88 of Landau [7], vol. 1.
+
+Using (5.3) with Theorem 18 gives the following weakened form of Theorem
+9"
+
+(x) < 1.11 x
+
+(5.4)
+
+for 0 < x.
+
+Using values of O(x 1/2) from the Rosser-Walker computation, we verified
+(3.38) for x < 50,653 by using Table III. For 50,653 -<_ x < 1024, one can
+verify (3.38) by (2.24) and the right side of (4.5) to do this, we proceed by
+cases such as 2 __< x < 2 N where M and N are conveniently chosen integers.
+Finally, for 1024 <__ x, (3.38) holds by (2.24) and (5.4). Thus (3.38) has
+been completely established. From it, by (5.4) one can infer the following
+weakened form of (3.39)"
+for 0 < x.
+(x) (x) < 1.11 x /2 3x /
+(5.5)
+As (3.38) and the right side of (4.5) imply (4.12), we cn complete the
+proof of Theorem 24 by establishing (4.11). This is readily done for 121 _<_
+x < 50,653 by means of Table III. By using Theorems 18 and 19 with (2.24),
+we can finish the proof of (4.11) nd hence of Theorem 24.
+By comparison with Gram’s Table [5] of (x), Theorem 12 was verified
+
+-
+
+=<
+
+for x
+2000, nd it ws ascertained that in this rnge the maximum value
+of (x)/x lies between 1.03882 and 1.03883. Thus one can complete the
+proof of Theorem 12 by proving that (x) _<_ 1.03882 x for 2000 x. This
+follows for x < 50,653 by Theorem 18 and Table III. For 50,653 -< x _-< 10
+it follows by Theorem 18 nd (4.12). It will follow for 11 greter x by Table
+
+=<
+
+78
+
+,1.
+
+BARKLEY ROSSER AND LOWELL SCttOENFELD
+
+I as soon as we have justified the values in this table, which we will do in the
+next section.
+We can verify Theorem 13 in the range 0 < x < 50,653 by reference to
+Table III. It then suffices to verify b(x)
+(x) -<_ 1.42619 x 1/ for 50,653 __<
+x. For 106 _<_ x, we infer this by (5.5). For x < 106 we use (2.25); the
+2 and that is monotone let us conclude
+facts that h(Y)
+0 for y
+(x)
+
+(x)
+
+-
+
+() + () + (x ) (x )
++ (x") (x") + (x) + (x")
+/(X TM) /(X 1/15) + ](X 1/17) /(X 1/19)
+__< (x ") + x1/) + t(x") + (x ")
+< 1.04 (x 1/2 + x1/3 -t- x /5 -t- x 1/1)
+
+s.
+
+since (3.35) holds for x _<_ 10 This suffices to complete the proof.
+At this point, therefore, we have established (2.10) through (2.14), Theorems 16 through 24, Theorem 12 except for 10 < x, Theorem 13, and (3.38)
+of Theorem 14. We have also verified Theorems 1 through 10 and their
+corollaries for x __< 16,000 or for pn <_- 16,000.
+
+6. Sharpening of some results of Rosser, with application to
+several proofs
+In the preceding section, we carried our proofs as far as is practicable without
+appealing to very deep results. From here on, we shall be mainly concerned
+with invoking certain deep results to validate Table I and complete the proofs
+of the results stated in Section 3. Space does not permit us to give proofs in
+full, so that we shall assume that the reader is quite familiar with Ingham
+[6] and Rosser [12], from which we shall use notation and results with a
+minimum of reference.
+The most significant sharpening of results from Rosser [12] arises from the
+fact that it is now known that the first 25000 zeros of the zeta function have
+real part equal to 1/2, as shown in Lehmer [8] and Lehmer [9]. This enables
+e9"99. We do not now have
+us to replace the A on p. 223 of Rosser [12] by A
+N(A) F(A), which will make a slight change in a key formula, as we note
+below.
+Observing that
+322 W 546 cos
+
+-t- 329 cos 2 W 130 cos 3
+
+-
+
+25 cos 4
+
+2(1 + cos ) (3 + 10 cos )2 >__ 0,
+we can modify the proof of Theorem 20 of Rosser [12] to get a proof of
+we have < 1
+THEOREM 26. For A <1/ R log /).
+
+,,
+
+The R here is that defined in Theorem 11. In other places, as here, it replaces the number 17.72 appearing in Rosser [12]. Thus, we are conforming
+
+79
+
+FORMULAS FOR SOME FUNCTIONS OF PRIME NUMBERS
+
+with the notation of Rosser [12] when we temporarily abrogate the usual
+denotation of (n) and define
+
+(6.1)
+
+(-y)
+
+(m, x, /)
+
+5’
+
+--m--I
+
+e-(logx) (Rlogs,)
+
+-
+
+However, for the purposes of the next theorem we consider (6.1) as defining (,) for arbitrary positive R.
+THEOREM 27. If (’y) is defined as in (6.1) with m and R positive numbers,
+<= K, and if 0 <= log x __< (m 1 R log K, then
+
+if 2
+
+(,) < 2R(K)(K) + Q
+
+(6.2)
+where
+
+(6.3)
+
+1
+
+Q
+
+0.137 log K
+
+(y) log Y dy,
+
+0.443
+
+-!- K log K log (K/2z)
+
+Proceed as in the proof of Lemma 18 of Rosser [12].
+
+COROLLARY. If in (6.1) we take R to be the R of Theorem 11, and if A <= K,
+
+0 < m, and
+
+0 _-< log x < 1748(m -4- 1),
+
+(6.4)
+then
+
+(6.5)
+
+’
+
+O(y) log Y dy.
+
+(,) < 2R(K)O(K) + 0.1592
+
+Proof. As we are here using the R of Theorem 11, (6.4) verifies the final
+hypothesis of Theorem 27. In (6.5), the coefficient in front of the integral
+9"99
+A K.
+e9’99 in (6.3), which is permissible since e
+is got by taking K
+In Rosser [12], in the situation corresponding to taking K A in the corollary, the coefficient 2 did not appear in the first term on the right of (6.5).
+This is because N(A)
+F(A) in that paper. Except for that, we now proceed as in the proofs of Lemma 19 and Theorem 21 of Rosser [12] to derive
+
+=<
+
+THEOREM 28.
+
+If m is a positive integer,
+1
+
+mT1
+
+< k
+
+0.0003647
+
+loga <
+
+1748
+m
+
+0.123’
+
+1.298 m
+
+0.1592
+
+--.3
+
+mAa, ll
+
+/+)
+
+I
+
++
+m}2
+and1
+
++ ma < a, then for a
+
+x
+
+x(1-)-.s4<(x) <x(l+)-log(1-x-).
+
+80
+
+J. BARKLEY ROSSER AND LOWELL SCHOENFELD
+
+By taking a successively equal to e for the various values of b listed in
+Table I, and using with these values the listed values of m, the values of e
+listed in Table I were derived from Theorem 28. In particular, the value for
+b
+5000 was listed just as it was given by Theorem 28 despite the fact that
+Theorem 28 gives a smaller e for b
+4900, as listed in Table I. The bounds
+used for kl, k2, and k3 are those given in Lemma 17 of Rosser [12]. Bounds
+for larger m were obtained by the trivial inequality
+14
+
+E [/--m-- K
+
+I’’--m-1
+
+Now that we have justified Table I, we use it to complete the proof of
+Theorem 12, as noted above.
+10 by Theorem 18. For
+Turning to Theorem 9, we verify it for x
+10
+x
+1016, we have 0(x) < (x) x 1/ by Theorem 24, and so verify
+Theorem 9 in this range by Table I. Above 1016, we use Table I with the
+trivial inequality 0(x) < (x).
+We complete the verification of Theorem 10 for 16,000 -< x 10 by Theorem 19. Above this, we use (5.5) with Table I.
+As far as it furnishes bounds on 0(x), we verify Theorem 11 for x 101 by
+comparison with values of 0(x) taken from the Rosser-Walker tabulation.
+Now with e defined as in Theorem 11, we have e 0.625 for 2 x e9.
+Thus we can complete the verification of Theorem 11 in this range by Theorems 10 and 12. This puts us in the range of Table I. From here to e4s
+we can proceed by using Table I with (5.5). We now complete the proof of
+Theorem 11 as in the proof of Theorem 22 of Rosser [12], noting that by (5.5)
+the difference between 0(x) and (x) is so small as to be more than allowed
+for by the fact that various quantities do not actually attain the upper bounds
+by which they are replaced in the proof.
+We verify (3.37) for x -< 1016 by Theorem 24. For greater x, it follows by
+(2.24) and Theorem 10. Thus we have completed the proof of Theorem 14.
+For some of our later proofs we will need results that are sharper in certain
+ranges than Theorem 4. We now state and prove several such results.
+
+=<
+
+=< =<
+
+=<
+
+<=
+
+>=
+
+THEOREM 29
+
+=< =<
+
+For 1451 < x < e375
+
+(6.6)
+
+x(1 0.3) < O(x) <x (1-t--log.0.!_
+
+(6.7)
+
+x 1
+
+log
+THEOREM 30. For 809 < x < e57
+
+( 1] <0(x) <x (1-4-1ogx].
+
+THEOREM 31. For 569 =< x,
+
+(6.8)
+
+x
+
+<1 1-/
+
+<0(x) <x
+
+(1A-logx].
+
+For x _<_ 16,000, these are established by means of the Rosser-Walker tabu-
+
+81
+
+FORMULAS FOR SOME FUNCTIONS OF PRIME NUMBERS
+
+For 16,000 -<- x _<_ 108, these are established by Theorems 18 and 19.
+For 108 < x < 1016 we use Theorem 24 and Table I. For 1016 < x < e5
+we use the corollary of Theorem 14 and Table I. Finally, above e5 we use
+
+lation.
+
+Theorem 11.
+
+From these, Theorem 4 is an easy consequence.
+
+7. Proof of Theorems 1 through 3
+We start with five lemmas. As their proofs are similar, we state all five
+lemmas first before giving the proofs. We first make the definition
+
+J(x,a)
+
+r(1451)
+
+(7.1)
+
+0(1451)
+
+x
+
+og 5
+
+og
+
+( + og
+f(1-[-loYa)dyy"
+-i-
+
+log
+
+LEMMA 1. For e -<- x,
+
+x(
+
+(7.2)
+
+li(x) <logx 1-k 21ogx
+
+LEMMA 2. ForlOs-<- xanda
+
+(7.a)
+
+.
+.
+
+J(z, a) <
+
+0.31,
+
+lo
+
+lo
+
+For e N z and a 0.47, he ineqalig (7.) i vlid.
+L
+L 4. Fore
+z,
+z/(log z ) < li(z)
+li(zn).
+(7.4)
+ForlO N zaed
+L
+-0.47,
+x/(log x ) < J(x, a).
+(7.5)
+For each of these lemmas, the proof is in two parts. First, one verifies
+that in the stated range of x, the derivative of the left side is less than that
+of the right side. Second, one verifies that at the lower limit of x the left
+side is less than the right side. To perform the needed calculations, one can
+use the reduction formula
+
+(7.6)
+
+a dy
+
+log
+
++1 y
+
+b
+log b
+
+x
+
+log x t-
+
+f
+
+dy
+log Y
+
+to express the various integrals in terms of li(x) and elementary functions.
+For x <- e 1, one can get numerical values of li(x) from the tables of El(y)
+given in [18]. Outside this range, one can appeal to the following result.
+
+THEOREM 32.
+
+(7.7)
+
+If m is a positive integer and m <= y <= m + 1, then
+’ 1.06 -I- e E j y 1)
+2_
+m
+3
+=1
+
+.
+
+82
+
+and
+
+2(m+ )
+2
+
+(7.8)
+
+-
+
+BARKLEY ROSSER AND LOWELL SCHOENFELD
+
+1/2
+
+1.06
+
+m+ 1
+
+1
+
+(j- 1)
+
+e
+
+y
+
+are lower and upper bounds respectively for Ei (y).
+
+This is a consequence of equations (58), (68), and (69), and of Lemma 3
+and Theorem 7 of Rosser [13].
+We note the value (1451) 230 and the approximation 0(1451) 1396.4
+taken from the Rosser-Walker tabulation.
+We now turn to (3.2), which has already been established for x N 16,000
+by the Rosser-Walker tabulation. By Lemma 1 and Theorem 16, we verify
+(3.2) up to x 10 We have by (4.17) that
+
+s.
+
+(x)
+
+0()
+(1451)- (1451)
+log 1451 + log x +
+
+.
+
+dy
+y log y
+
+.
+
+So
+By Theorem 29, we can conclude v(x) < J(x, 0.31) if 1451 x e
+e
+In a similar way we comx
+by Lemma 2 we can infer (3.2) for l0
+bine Lemma 3 and Theorem 31 to complete the proof of (3.2).
+In a similar way, we combine Lemma 4 and Theorem 16 to verify (3.3) for
+10 and complete the verification by combining Lemmu 5 nd Theorem
+x
+
+s,
+
+31.
+
+We get (3.1) from (3.3), and (3.4) from (3.2), by applying the inequality
+x
+logx
+
+(1+ ) <logx-a
+x
+
+a
+
+logx
+
+forea<x
+
+.
+
+and a
+in the two cases a
+As preliminaries for the proof of Theorem 3 we undertake the proof of (3.12)
+and
+pn < n(log n -t- 2 log log n)
+
+(7.9)
+
+for 4 -< n.
+
+These were proved in Rosser [11], but can be derived so readily from the strong
+results now available that it seems worthwhile to indicate new proofs by this
+method. For instance, suppose if possible that pn <- n log n. Then
+n -< r(n log n).
+
+So by (3.2), we have
+n <
+
+nlogn
+log n -t- log log n
+
+(1
+
+1.5)
+
+log n -t- log log n
+
+=<
+
+n, and a
+a result which certainly fails if e __< n. So (3.12) holds for e
+trivial computation verifies it for smaller n. The proof of (7.9) is analogous.
+From these, we can now infer Lemmas 9 and 10 of Rosser [12], using the
+proofs given there. Using Lemma 9 of Rosser [12] with Theorem 18 gives
+nlogn-nloglogn- n- li(n)
+
+FORMULAS FOR SOME FUNCTIONS OF PRIME NUMBERS
+
+83
+
+for 5 <= n -< r(10s). Then (3.10) follows for e -< n -< r(10 s) by Lemma 7
+of Rosser [12]. Now use Lemma 9 of Rosser [12] with Theorem 30, and infer
+
+o. o
+nlogn+nloglogn--n--li(n) < p 1 +logp,]
+
+(
+
+for 140 _<_ n __< e
+[12], and
+
+s. As li(n) < 0.1 n for r(10s) =< n, by Lemma 7 of Rosser
+
+pn/(log p,) < n
+(7.10)
+We use Theorem 31 in a similar manner
+by (3.5), we infer (3.10) for n =< e
+to complete the proof of (3.10).
+We next prove (3.11). We note first of all that it has been verified for
+n -<_ 1862 by the Rosser-Walker tabulution. Now let 1862 <- n, and suppose
+that (3.11) has been verified for all integers less than n. Then the hypothesis
+of Lemma 10 of Rosser [12] is verified, and we conclude that
+
+s.
+
+log n + n log log n
+
+(7.11)
+
+n -}-
+
+n log log n
+log n
+
+By Theorem 19, if n =< 7r(10s), then
+p,- 2(p,) :/ < n log n -t-n log log n- n
+
+n log log n
+
+log n
+
+By (7.9),
+2(p,) 1/2 < 2(n log n + 2n log log n) 1/2 < 0.2 n,
+
+Now let r(10s) <= n -< e369. Then (7.11) and
+
+so that (3.tl) is verified.
+Theorem 29 give
+
+( 1-o.31=] <
+
+p= I
+
+n log n -f- n log log n
+
+n -4-
+
+n log log n
+log n
+
+_
+
+Using (7.10), we again infer (3.11 ). In a similar way, we can use Theorem
+31 to verify (3.11) for e69 _<_ n.
+
+8. Proof of Theorems 5 through 8
+We require several lemmas.
+LMMX 6. For1 <= x and A <= K,
+
+K(1, x) <
+
+0.0463
+X1]2
+
+-t-
+
+Taking m
+K<
+
+K
+
+K
+
+1
+
+1
+
+(8.1)
+
+2R(K) -{- 0.1592 i + log (K/2r)
+
+2<
+
+x in (6.5) gives
+
+1 -b log (K/2’)
+2R (K)
+g
+K2 -t-0.1592
+
+e-9.61 X--l/(logK).
+
+84
+
+J. BARKLEY ROSSER AND LOWELL SCHOENFELD
+
+A in this gives
+
+Taking K
+
+1
+
+(s.2)
+
+-9.61
+
+By Lemmas 16 and 17 of Rosser [12]
+
+<
+
+X 1/2
+
++ A<7EK
+
++ Z:
+x-1/ 11:)
+
+0.0463
+
+_
+
+1
+
+Our lemma now follows by use of (8.1) and (8.2).
+We next state two lemmas whose proofs are so similar that we give only the
+more difficult one, namely that for Lemma 8.
+LEMMA 7. For 1 < x,
+
+(y) dy
+
+y
+
+< K 1, x) -t- 1.84
+
+y2
+
+LEMMA 8. For 1 < x,
+(y- (y)) (1 -l-logy)
+dy
+
+log y
+
+__x
+
+0.31
+(K(1 x) + 1.8_4
+x + x ]
+
+2 -t- log x
+log x \
+
+y log y
+
+Proof. We have
+yp-2 (1 q- log y) dy
+
+0.31
+
+XP--1
+(p
+
+1) log x
+
+(p-- 1) 2,log2x
+
+2
+
+log
+
+Now
+
+x-
+
+2
+
+logx
+
+y- dy < -1-2
+xf
+logx
+J logay
+,/--1
+
+log x "-I-
+
+So
+
++ log y) dy
+log y
+
+1 [ yp-2 (1
+
+Jx
+
+2x
+
+-
+
+y-2
+log
+
+ady
+
+f
+
+y log
+
+dy
+log x
+
+-
+
+2-+-logx x
+log z
+7
+
+Hence
+log y)
+dy
+y
+
+(s.a)
+
+log x
+K(1, x).
+<2+
+log x
+
+So by Theorem 29 on p. 77 of Ingham [6], we have
+
+(y
+
+(y)) (1 + log y)
+y2 log. y
+
+dy
+
+2
+
++ log x K(1, x) -f- I,
+log x
+
+ayd
+
+FORMULAS FOR SOME FUNCTIONS OF PRIME NUMBERS
+
+85
+
+where
+
+f log2r--log(1--y-2)) y-)
+lOgy
+12q-log21gxx f=
+(2
+
+1
+
+(1.logy) dy
+
+2y log y
+
+(1
+
+2 log 2r
+
+dy
+
+2
+
++ r (x--2r--11)j
+1
+x
+q2-}-log{!Ogx2rx
+log
+r=l 2r(2r -I- 1
+x
+<2 q-loglg<lgx2rx
+-t-1-’x31g2}
+1 q- log x
+log 2r
+2 log x \ x
+
+rl
+
+From this, the lemma follows.
+LEMMA 9. For 0 <= a < n,
+
+ya--n--1 1
+
+Proof. We have
+Y
+
+a--n--1
+
+-
+
+n log y
+n
+dy <
+log2y
+n--a
+
+1 q- n 10g y
+dy
+log y
+
+a
+log x -l-
+
+< x
+logx
+
+(8.4)
+
+(8.15)
+
+og x
+
+M(z, a)
+
+-
+
+log x
+
+K(1 x) q-1"84q-
+
+0.31
+
+(log x) log 1 q-
+
+LEMMt 10. If1 < A <=
+
+and L(A
+
+a
+
+a
+
+n
+
+2q-logx
+
+foo ya--n--1
+
+log
+x
+
+n
+
+L(x)
+
+logx"
+
+ya d loy-’
+x
+
+Let us define
+
+x
+
+log y
+
+dy
+dy
+
+ya-n-1 dy
+
+1.02
++ 2.04
+x- + 4.5 x-2 + x--l’
+
+2 log z
+B and a < 1/2 nd
+
+log x"
+
+< M(B, a), then L(x) < M(x, a) for A <- x <- B.
+
+Proof. We readily verify that for A __< x both L(x) and M(x, a) are decreasing functions of x. So for A -< x _<_ B
+
+86
+
+BARKLEY ROSSER AND LOWELL SCttOENFELD
+
+$.
+
+L(x) <= L(A) < M(B, a) <-M(x, a).
+LEMMA 11. For l0 < x < e 6
+(8.7)
+L(x) < M(x, 0.31).
+in Lemma 6, we find
+Proof. By (8.4) and (8.5) and by taking K
+that
+
+L(10s) < 3 X 10-4 < M(e 6, 0.31).
+
+So we can use Lemma 10 with A
+108, B e 6.
+75
+LEMMA 12. For e <-- x,
+(8.8)
+L(x) < M(x, 0.47).
+25
+Proof. By taking K e in Lemma 6, we find that
+K(1, x) < 0.0463/x 1/2 e-9"61 x-1/(5R) 10-1.
+From this, we readily verify by (8.4) and (8.5) that
+L(e5) < 2.9 X 10-5 < M(e 1, 0.47),
+L(e1) < 7 X 10-6 < M(e4, 0.47),
+L (e4) < 9 X 10-9 < M(e
+0.47).
+Then by three applications of Lemma 10, we verify (8.8) for en __< x __< e
+Finally for ea __< x, we take
+
+,
+
+K
+
+exp
+
+a.
+
+log x
+R(log log x log 400)
+
+and observe that
+
+L(x) < 0.028/log x < M(x, 0.47)
+by (8.4), Lemma 6, and (8.5).
+LEMMA 13. For l0 _<_ x,
+
+(8.9)
+
+- 1
+_-_
+
+P
+
+log log x
+
+B
+
+log
+
+1
+
+1W21ogx
+
+)
+
+1.02
+
+(x- 1) logx"
+
+Proof. By (4.20), Lemma 8, and (3.39), we have
+1
+
+<_
+
+log log x- B
+
+I’(x)
+
+-x
+x log x
+
+(y- (y)) (1 -t-log y)
+
++
+
+yS logs y
+
+dy
+
+(1 -{- log y) dy
++ f ((y) --O(y))
+yS log y
+
+o(x)
+
+x log x
+
+x
+
+2
+
++ log
+log x
+
+(K(1 -Ix)
+
++
+
+1"84
+
+-i- --]
+
+(1.02 y -t- 3Y/a)(1 -t- log y) dy.
+yS logs y
+
+-
+
+FORMULAS FOR SOME FUNCTIONS OF PRIME NUMBERS
+
+87
+
+We apply Lemma 9 with n 1, once with a 1/2 and once with a 1/2. Then,
+with the help of (8.4), the above inequality reduces to
+1.02
+(x) x q_L(x)
+log logx-- B <
+x log x
+log x (x
+1) log x"
+375
+From this the lemma follows; we first assume 108 <__ x __< e and use Theorem
+29, Lemma 11, and (8.5), and we then assume e375 _<_ x and use Theorem 31,
+Lemma 12, and (8.5).
+We now proceed to the proof of Theorem 5. It was proved for x _<_ 16,000
+by the Rosser-Walker tabulation. For 16,000 _<_ x _<_ 10 s, it follows from
+Theorem 20. Finally, for 10 <= x, it follows by Lemma 13.
+The proof of Theorem 6 proceeds similarly. For 10 _<_ x, it depends on a
+lemma analogous to Lemma 13 that uses Lemma 7 rather than Lemma 8.
+The entire proof parallels that of Theorem 5 so closely that we omit the details.
+For x <- 16,000, Theorem 7 and Theorem 8 follow from the Rosser-Walker
+tabulation, and for 16,000 _<_ x __< l0 they follow by Theorem 23. So let us
+assume that 108 _<_ x. We apply Lemma 13 in the form that the left side of
+(8.9) with the absolute value bars removed is greater than the negative of
+the right side. In this, we substitute for B from (2.7) and take the exponential
+of both sides. We get"
+
+s,
+
+(8.10)
+
+e
+
+log x 1+ 2 log x
+
+--))exp((x-- 1)
+
+.02
+/
+logx
+
+>
+
+where
+
+Takingf(x)
+
+in (4.13), we infer if n > 1
+
+x
+
+o(y)
+
+(x)
+
+5-1
+p
+
+x log x
+
+-t- f
+J y+l
+
+1 -nlogy
+
+log2y
+
+dy.
+
+Then by Theorem 9 and Lemma 9
+1
+< 1.02
+<P
+1.02n
+n-- 1
+
+So
+
+S >
+
+=.
+
+-
+
+y
+y_ 1 logn log
+dy
+y
+
+x 1-
+
+1.02n
+logx- x -logx
+
+1.02
+
+x
+
+log x
+
+(x
+
+1.02
+1) log x
+
+So by (8.10) we conclude that (3.26) holds. Inverting both sides gives (3.28).
+Similarly, if we remove the absolute value bars on the left side of (8.9) and
+take the exponential of both sides, we infer (3.29). Inverting both sides
+gives (3.25).
+
+88
+
+ft. BARKLEY ROSSEI AND LOWELL SCttOENFELD
+
+9. Proof of Theorem 15
+In this section, (n) again denotes the Euler totient function.
+LEMMA 14. If m and n are positive integers, and n < exp 0(p+), then
+p/(p 1).
+{9.1)
+hie(n)
+q be the distinct primes, in increasing order, which
+Proof. Let q, q,
+divide n.
+
+Then
+exp (p+) > n
+
+So r
+
+m.
+
+n/(n)
+
+q
+
+q
+
+p... p
+
+exp (Pr).
+
+Consequently
+
+:= q/(q- 1) := p/(p- 1)
+
+p/(p.- 1),
+
+which is the sme as (9.1)
+By means of Lemm 14 we can verify (3.41) numerically for succession
+of intervMs if log n is not gret. For instance, we readily verify numericMly
+that
+4.375 < e c log log 210
+p/(p
+5/(2 log log 210).
+
++
+
+So we cn tke m
+exp 0(p+), then
+
+4 in Lemm 14, nd conclude that if 210
+
+n/(n) < e c log log 210 + 5/(2 log log 210)
+With the help of vMues of 0(x) nd of
+
+c
+
+e log log n
+
+n < 2310
+
+5/(2 log log n)
+
+taken from the Rosser-Walker tabulation, we proceeded in a step-by-step
+n < exp 0(313) except
+manner as indicated above, verifying (3.41) for 3
+at
+n
+p23 P
+t which point (3.42) holds. As 294 < 0(313), this verifies Theorem 15 for
+n E e294.
+
+THEOREM 33.
+
+UX
+
+5 and n < exp O(x), then
+
+n/(n)
+
+(9.2)
+
+H,- P/(P- 1).
+
+Proof. Choose m so that p+ x < p+. Then n < exp0(x)
+exp (p+). Also 5
+p+, else we would have p+
+5, contradicting
+x- 2. Now use Lemm14.
+x < p+. Sop
+5
+p+- 2
+LEMMA 15. Let n be an integer greater than unity and y a real number such
+that 288
+
+log n + y and log n < 0(log n + y), and
+0
+
+y- 2
+
+(0.9 logn)/loglogn.
+
+Then (3.41) holds for this value of n.
+
+FORMULAS FOR SOME FUNCTIONS OF PRIME NUMBERS
+
+89
+
+By (3.29) and Theorem 33
+e--Cn
+
+(n)
+
+<log(logn +y-- 2)
+
+(
+
+< log log n "-t- log 1
+< log log n --1 y
+
+2
+
+_<_ log log n -+-
+
+1.4
+
+0.5
+log (log n -t- y
+
+log
+
+:)
+
+2)
+
+log log n
+
+0.5
+
+log n + log log n
+
+log log n
+
+From this, (3.41) follows.
+To complete the proof of Theorem 15, we hve to show that (3.41) holds
+for 294 _<_ log n. In fact from Lemm 15, one can deduce (3.41) for 255 __<
+logn. First assume 255 __< logn =< 1340. Takeytobe
+2 -t- 2( 1
+
++ log n) /.
+
+Then wehve288 < logn+y < 1420. Also
+
+log n
+
+(log n + y)
+
+2(log n -k- y)1/2,
+
++
+
+y) by Theorem 19. As we easily verify that
+so that log n < 0(log n
+2 -< (0.9 log n)/log log n, we infer (3.41) by Lemma 15. Finally,
+0 <- y
+let 1340 _<_ log n. Take y
+(0.9 log n)/log log n. Then
+log n < O(log n -t- y)
+
+holds by (3.14), and the other hypotheses of Lemma 15 are readily verified,
+giving (3.41) again.
+
+90
+
+$.
+
+B&RKLEY ROSSER AND LOWELL SCHOENFELD
+
+TABLE I
+(1- e) x <(x) < (1 + e) xforeb_ x
+b
+
+m
+
+lO’e
+
+n
+
+b
+
+m
+
+lO’e
+
+n
+
+b
+
+m
+
+lO’e
+
+n
+
+18.4
+18.5
+18.6
+18.7
+18.8
+18.9
+19.0
+19.5
+20.0
+20.5
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+42
+44
+46
+48
+50
+52
+54
+56
+58
+60
+
+1
+1
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+4
+4
+
+1.6327
+1.6295
+1.6256
+1.5987
+1.5722
+1.5462
+1.5206
+1.3993
+1.2880
+1.1861
+1.0928
+9.2933
+7.9327
+6.8090
+5.8927
+5.1592
+4.5870
+4.1548
+3.8400
+3.6192
+3.4690
+3.3691
+3.3034
+3.2601
+3.2310
+3.2110
+3.1964
+3.1853
+2.9365
+2.6399
+2.2000
+1.9387
+1.8064
+1.7467
+1.7202
+1.7072
+1.6994
+1.6936
+1.5013
+1.3740
+
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+
+62
+64
+66
+68
+70
+72
+74
+76
+78
+80
+85
+90
+95
+100
+105
+110
+125
+150
+175
+200
+225
+250
+275
+300
+325
+350
+375
+400
+425
+450
+475
+500
+525
+550
+575
+600
+625
+650
+675
+700
+
+4
+4
+4
+4
+4
+4
+5
+5
+5
+5
+5
+5
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+5
+5
+5
+5
+
+1.3108
+1.2825
+1.2696
+1.2630
+1.2588
+1.2555
+1.2138
+1.1419
+1.1074
+1.0920
+1.0793
+1.0737
+1.0075
+9.9653
+9.9194
+9.8791
+9.7608
+9.5669
+9.3768
+9.1904
+9.0078
+8.8289
+8.6535
+8.4816
+8.3131
+8.1480
+7.9861
+7.8275
+7.6721
+7.5197
+7.3704
+7.2240
+7.0806
+6.9400
+6.8023
+6.6672
+6.5182
+6.3682
+6.2216
+6.0783
+
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+
+725
+750
+775
+800
+825
+850
+875
+900
+925
+950
+975
+1000
+1050
+1100
+1150
+1200
+1300
+1400
+1500
+1600
+1800
+2000
+2200
+2400
+2600
+2800
+3000
+3200
+3400
+3600
+3800
+4000
+4200
+4400
+4500
+4600
+4700
+4800
+4900
+5000
+
+5
+5
+5
+5
+5
+
+5.9384
+5.8017
+5.6682
+5.5378
+5.4103
+5.2843
+5.1397
+4.9991
+4.8624
+4.7294
+4.6001
+4.4744
+4.2331
+4.0049
+3.7703
+3.5217
+3.0730
+2.6819
+2.3411
+2.0120
+1.4334
+1.0274
+7.4229
+5.4246
+4.0328
+3.0861
+2.5073
+2.4309
+1.8801
+1.4596
+1.1388
+8.9428
+7.0899
+5.7041
+5.1602
+4.7095
+4.3563
+4.1232
+4.0977
+4.9163
+
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+5
+5
+5
+5
+5
+5
+5
+5
+5
+6
+6
+6
+6
+6
+6
+6
+6
+6
+
+4
+4
+4
+4
+4
+4
+4
+4
+4
+3
+3
+3
+3
+3
+2
+2
+2
+2
+2
+2
+2
+2
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+
+_
+
+FORMULAS FOR SOME FUNCTIONS OF PRIME NUMBERS
+
+TABLE II
+(x)
+500
+1000
+1500
+2000
+2500
+3000
+3500
+4000
+4500
+50O0
+5500
+6000
+6500
+7000
+7500
+80OO
+85OO
+9O00
+9500
+10000
+1O5O0
+11000
+11500
+12000
+12500
+13000
+13500
+14000
+14500
+15000
+155OO
+16000
+
+474.55444 41547
+956.24526 51201
+1462.14165 18014
+1939.83920 03026
+2433.60275 29800
+2932.35921 18787
+3409.45718 45205
+3911.14539 95812
+4412.18831 05019
+4911.69535 17069
+5391.37223 83531
+5893.29745 72481
+6408.90736 71752
+6920.42102 99437
+7364.85741 60237
+7875.15038 47974
+8343.99966 34035
+8870.37499 26578
+9418.36877 33985
+9895.99137 91570
+10403.90704 75207
+10877.34163 04695
+11362.43971 33403
+11840.48575 38722
+12348.83694 44657
+12868.72809 74239
+13371.76845 32826
+13867.29252 76925
+14307.28400 32521
+14844.79169 21653
+15384.23856 36932
+15886.79246 84213
+
+_1
+p_ P
+
+2.09670 95528
+2.19808 01272
+2.25562 82528
+2.29244 84920
+2.32105 31990
+2.34404 93716
+2.36222 13278
+2.37858 30199
+2.39276 53465
+2.40518 86577
+2.41586 31315
+2.42598 40781
+2.43543 75880
+2.44401 57706
+2.45091 39779
+2.45829 17384
+2.46460 59355
+2.47124 44465
+2.47772 62760
+2.48305 99472
+2.48842 73950
+2.49317 02420
+2.49778 96786
+2.50212 24249
+2.50652 81281
+2.51084 52555
+2.51484 72175
+2.51862 72664
+2.52185 38317
+2.52565 30642
+2.52932 29775
+2.53262 50069
+
+91
+
+log p
+P
+
+4.94448 99600
+5.60951 04754
+6.01869 61634
+6.29327 07024
+6.51384 37141
+6.69584 35999
+6.84275 32932
+6.97729 51026
+7.09571 03205
+7.20087 63227
+7.29230 15305
+7.37988 11065
+7.46249 21364
+7.53814 09953
+7.59945 43711
+7.66550 12982
+7.72243 05072
+7.78267 62189
+7.84187 45368
+7.89086 36043
+7.94043 00603
+7.98445 72244
+8.02755 03003
+8.06816 24606
+8.10963 67280
+8.15044 40734
+8.18842 74850
+8.22444 83834
+.8.25531 02383
+8.29177 62756
+8.32712 81756
+8.35904 03921
+
+11.15950 15857
+12.35097 56739
+13.08291 09945
+13.57375 00182
+13.96771 93817
+14.29270 53203
+14.55484 67736
+14.79498 00928
+15.00632 74987
+15.19393 85100
+15.35701 01674
+15.51324 05518
+15.66060 23831
+15.79552 97610
+15.90487 48550
+16.02265 87938
+16.12415 52820
+16.23155 79133
+16.33711 55421
+16.42448 96322
+16.51288 85620
+16.59139 63457
+16.66821 99665
+16.74059 88963
+16.81451 87368
+16.88726 89363
+16.95498 91186
+17.01920 34304
+17.07420 76210
+17.13920 20969
+17.20221 91093
+17.25911 70367
+
+;. BARKLEY ROSSER AND LOWELL SCHOENFELD
+
+92
+
+TABLE III
+(.)
+4
+8
+9
+16
+25
+27
+32
+49
+64
+81
+121
+125
+128
+169
+243
+256
+289
+343
+
+361
+512
+529
+625
+729
+841
+961
+1024
+1331
+1369
+1681
+1849
+2048
+2187
+2197
+2209
+2401
+2809
+3125
+3481
+
+3721
+4096
+4489
+4913
+
+()
+
+0.69314 71805 59945
+1.38629 43611 19891
+2.48490 66497 88000
+3.17805 38303 47946
+4.78749 17427 82046
+5.88610 40314 50156
+6.57925 12120 10101
+8.52516 13610 65414
+9.21830 85416 25360
+10.31692 08302 93469
+12.71481 61030 91840
+14.32425 40155 25940
+15.01740 11960 85886
+17.58235 05535 47422
+18.68096 28422 15532
+19.37411 00227 75477
+22.20732 33668 31693
+24.15323 35158 87O07
+27.09767 24950 53447
+27.79081 96756 13392
+30.92631 38915 42542
+32.53575 18039 76642
+33.63436 40926 44752
+37.00165 99226 31226
+40.43564 71271 16372
+41.12879 43076 76318
+43.52668 95804 74688
+47.13760 74931 18913
+50.85117 95598 23221
+54.61237 96755 16783
+55.30552 68560 76728
+56.40413 91447 44838
+58.96908 85022 06375
+62.81923 61039 16433
+64.76514 62529 71747
+68.73543 81665 23868
+70.34487 60789 57969
+74.42241 35228 63688
+78.53328 73870 37000
+79.22643 45675 96945
+83.43112 71869 87911
+86.26434 05310 44127
+
+(n)
+5041
+5329
+6241
+6561
+6859
+6889
+7921
+8192
+9409
+10201
+10609
+11449
+11881
+12167
+12769
+14641
+15625
+16129
+16384
+16807
+17161
+18769
+19321
+19683
+22201
+22801
+24389
+24649
+26569
+27889
+28561
+29791
+29929
+32041
+32761
+32768
+36481
+37249
+38809
+39601
+44521
+49729
+
+90.52702 04080 85442
+94.81747 98492 33834
+99.18692 77017 00855
+100.28553 99903 68965
+103.22997 89695 35405
+107.64881 95773 32003
+112.13745 59470 64143
+112.83060 31276 24088
+117.40531 41061 27471
+122.02043 46229 68731
+126.65516 36111 98366
+131.32799 24456 60272
+136.01934 03278 89416
+139.15483 45438 18566
+143.88222 23625 30906
+146.28011 76353 29277
+147.88955 55477 63377
+152.73374 26342 21969
+153.42688 98147 81914
+155.37279 99638 37227
+160.24799 72870 38379
+165.16797 82128 66504
+170.10245 21459 97195
+171.20106 44346 65305
+176.20501 07406 10764
+181.22229 05774 25689
+184.58958 64074 12163
+189.64583 22127 60471
+194.73958 24135 67233
+199.85757 62259 83988
+202.42252 55834 45525
+205.85651 27879 30671
+211.00980 43824 28450
+216.19719 01882 69205
+221.39568 72195 35031
+222.08883 44000 94976
+227.34110 78281 41606
+232.60379 80170 46492
+237.88700 17457 84480
+243.18030 657O5 08972
+248.53216 47039 85039
+253.93933 64754 45158
+
+93
+
+FORMULAS FOR SOME FUNCTIONS OF PRIME NUMBERS
+
+TABLE IV
+
+2
+3
+4
+5
+6
+
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+
+27
+28
+29
+
+V()
+
+V()/’()
+
+0.93754 82543 15843 75
+0.19812 62428 85636 85
+6891 12658 96125 38
+2857 37805 09462 95
+1285 21651 31795 72
+603 35169 60875 64
+290 19525 53710 67
+141 59822 27241 81
+69 70330 08171 39
+34 50222 22368 36
+17 13828 45854 35
+8 53239 08655 93
+4 25414 93381 78
+2 12310 85533 00
+1 06024 42032 51
+52968 83357 53
+26470 02978 82
+13230 23694 78
+6613 53020 74
+3306 23676 77
+1652 94254 16
+826 41272 38
+413 18686 29
+206 58693 60
+103 29130 38
+51 64493 08
+25 82222 51
+12 91103 25
+
+0.56996 09930 94532 80
+0.16482 26821 58277 24
+6366 97649 55371 13
+2755 61921 91530 47
+1263 30690 32511 06
+598 35585 70638 40
+289 01683 08046 75
+141 31440 78811 70
+69 63404 45284 02
+34 48518 00538 42
+17 13406 81216 67
+8 53134 39558 17
+4 25388 87954 23
+2 12304 36131 40
+1 06022 80005 72
+52968 42904 49
+26469 92874 47
+13230 21170 17
+6613 52389 83
+3306 23519 08
+1652 94214 75
+826 41262 53
+413 18683 83
+206 58692 98
+103 29130 23
+51 64493 04
+25 82222 50
+12 91103 24
+
+log p
+0.49309 11093 68764 43
+0.15075 75555 43950 43
+6060 76333 50770 08
+2683 86012 76798 36
+1245 90807 22800 O0
+594 06890 39148 20
+287 95247 08729 24
+141 04919 21424 53
+69 56784 47344 62
+34 46864 25630 50
+17 12993 52446 21
+8 53031 09167 11
+4 25363 05574 13
+2 12297 90562 75
+1 06021 18616 76
+52968 02557 64
+26469 82787 80
+13230 18648 51
+6613 51759 42
+3306 23361 48
+1652 94175 35
+826 41252 68
+413 18681 37
+206 58692 36
+103 29130 08
+51 64493 O0
+25 82222 49
+12 91103 24
+
+94
+
+J. BARKLEY ROSSER AND LOWELL SCHOENFELD
+
+BIBLIOGRAPHY
+1. C. L. BAKER AND :F. J. GRUENBERGER, The first six million prime numbers, Microcard
+Foundation, West Salem, Wisconsin, 1959.
+2. H. T. DAWS, Tables of the higher mathematical functions, Vol. II, Bloomington,
+Indiana, The Principia Press, Inc., 1935.
+3. P. FINSLER, ]ber die Primzahlen zwischen n und 2n, Festschrift zum 60. Geburtstag
+yon Prof. Dr. Andreas Speiser, Ziirich, Orell-Fiissli, 1945, pp. 118-122.
+4. J. W. L. GLAISHER, Table of the values of 1/2..
+
+..
+
+x
+
+the denominators being the
+
+series of prime numbers, Messenger of Mathematics, vol. 28 (1898), pp. 1-17.
+5. J. P. GRAM, Undersgelser angaaende Maengden af Primtal under en given Graense,
+K. Danske Vidensk. Selskabs Skrifter, Naturv. og Math. Afd., ser. 6, vol. 2
+(1881-86), pp. 183-308.
+6. A. E. INGHAM, The distribution of prime numbers, Cambridge Tract No. 30, Cambridge University Press, 1932.
+7. E. LANDAU, Handbuch der Lehre yon der Verteilung der Primzahlen, 2 vols., Leipzig,
+Teubner, 1909. Reprinted in 1953 by Chelsea Publishing Co., New York.
+8. D.H. LEHMER, On the roots of the Riemann zeta-function, Acta Math., vol. 95 (1956),
+pp. 291-298.
+Extended computation of the Riemann zeta-function, Mathematika, vol. 3
+9.
+(1956), pp. 102-108.
+10. D. N. LEHMER, List of prime numbers from 1 to 10,006,721, Carnegie Institution of
+Washington, Publication No. 165, 1914.
+11. BARKLEY ROSSER, The n-th prime is greater than n log n, Proc Lond. Math. Soc. (2),
+vol. 45 (1939), pp. 21-44.
+12. --, Explicit bounds for some functions of prime numbers, Amer. J. Math., vol. 63
+(1941), pp. 211-232.
+13. J. BARKLEY ROSSER, Explicit remainder terms for some asymptotic series, Journal of
+Rational Mechanics and Analysis (J. Math. Mech.), vol. 4 (1955), pp. 595-626.
+14. P. TCHEBCHEF, M$moire sur les nombres premiers, J. Math. Pures Appl. (1), vol. 17
+(1852), pp. 366-390.
+15. E. TROST, Primzahlen, Basel, Birkhiuser, 1953.
+16. A. WALTHER, Anschauliches zur Riemannschen Zetafunktion, Acta Math., vol. 48
+(1926), pp. 393-400.
+17. I. M. VINOGRADOV, Novaya ocenka funkcii (1
+it), Izv. Akad. Nauk SSSR, Ser.
+Mat., vol. 22 (1958), pp. 161-164.
+18. Tables of sine, cosine and exponential integrals, 2 vols., W.P.A. Tables prepared in
+1940 under the sponsorship of the National Bureau of Standards.
+19. KENNETH I. APPEL AND J. BARKLEY ROSSER, Table for estimating functions of primes,
+IDA-CRD Technical Report Number 4, September, 1961 (available on request
+from Communications Research Division, Institute for Defense Analyses,
+yon Neumann Hall, Princeton, New Jersey).
+
+,
+
+INSTITUTE FOR DEFENSE ANALYSES
+PRINCETON, NEW JERSEY
+PENNSYLVANIA STATE UNIVERSITY
+UNIVERSITY PARK, PENNSYLVANIA
+
+

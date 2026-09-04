@@ -26,9 +26,9 @@
       "sha256": "5360830b0d71588a579bf457f4edff348aff654f203582389f4ee67f2281dbef"
     },
     {
-      "bytes": 5978,
+      "bytes": 4454,
       "path": "README.md",
-      "sha256": "125ef0bc51cd64583560ecba94f0e6980122d36b540e462e56cbc40fd77a1702"
+      "sha256": "84957614b83c87c01822dbac2eddbaaa20d0157322f9df3a0dd3102c85591480"
     },
     {
       "bytes": 3633,
@@ -153246,14 +153246,14 @@
       "sha256": "ce4c4e3d87434b9663f46de25ce34b48a0cf0d392e0a320a0787b4674a2d7b61"
     },
     {
-      "bytes": 373748,
+      "bytes": 341212,
       "path": "paper/Li_Erdos_848_Kernel_Checked_Exact_Extremal_Bound_2026.pdf",
-      "sha256": "4275b8859a76e04e1159b9b71a3032eb91aa9829cfb523fdd5ba9ad2c96aa132"
+      "sha256": "b062f001e3e6c37e5b06e1eee724bd99aa90e642e8790dde5121dfa08b69e679"
     },
     {
-      "bytes": 54399,
+      "bytes": 47403,
       "path": "paper/erdos_848_kernel_checked_exact_extremal_bound.tex",
-      "sha256": "202b5e3c7c77f4d914020fa156f3b6c2b6111f9af697bb9847c1d4c0baebc82a"
+      "sha256": "d98eee9e9a3259301c02738742fab35eddaaa45f99e40078c893f10d2d4fc5ed"
     },
     {
       "bytes": 7540,
@@ -153261,19 +153261,19 @@
       "sha256": "c6c62b90029969ca5788d43c7aa616d46298214bfba6a2370c7aebabfcc5b323"
     },
     {
-      "bytes": 17354,
+      "bytes": 17201,
       "path": "paper/math-implementation-map.json",
-      "sha256": "ba0689c574fca5326d1a88fd8d490e7a5e4fdc991893a44b3f63ed8936c85ab1"
+      "sha256": "21da8ba1b72fd59248da4248c19c31d3b9caea410695fcc692978ea92a717f26"
     },
     {
-      "bytes": 18177,
+      "bytes": 18167,
       "path": "paper/numeric-claims.json",
-      "sha256": "2486dce19907e4f29384aa03b85db83d834f7968f47fb27f5371fc992b720b8b"
+      "sha256": "d72728449492a32862da43288c8001be216a146c4cacbaee450f882ec44850d7"
     },
     {
       "bytes": 2655,
       "path": "paper/proof-contract.json",
-      "sha256": "62433c1d0241d127571e1942414c840295d5c317c7f349653a505620608ea0aa"
+      "sha256": "af3bddbb94d33d7f59890298badb24fc2a1d0a99701acc6783f1c514a5557c55"
     },
     {
       "bytes": 1662,
@@ -153281,9 +153281,9 @@
       "sha256": "8bd28a520ae513ae8205126af3a65b9171d5989ee654df2ae270f2844dfb002d"
     },
     {
-      "bytes": 603,
+      "bytes": 694,
       "path": "paper/reference-evidence/DusartPrimes/arxiv.meta.json",
-      "sha256": "1e1a1ae60285026cb9c5c895dce4d66ee3610b3875a0b55efd39fb21641c65d4"
+      "sha256": "a146af11f856a4066d2b2bb9f7738a83810ce2360189aedc5ba8d732a4f2fe08"
     },
     {
       "bytes": 651,
@@ -153296,9 +153296,9 @@
       "sha256": "1016c88442a05b0f7dda853b3400f4d4cb636e8c91be6abd2eaec974a9ef4759"
     },
     {
-      "bytes": 656,
+      "bytes": 747,
       "path": "paper/reference-evidence/Erdos848Original/journal-page.meta.json",
-      "sha256": "8bdf16286bf018d2c020af216291efa4858809c67980cf8e8ba0e0c0a8f63fa0"
+      "sha256": "4cf25e951bdf87bbfd5fbb8c5bd2a7eb9de1934cad743fe90e1b6f94d0dc8420"
     },
     {
       "bytes": 1935,
@@ -153381,6 +153381,36 @@
       "sha256": "4ed8cfd3dc631c70cba8de42ae8b8325128bcb212c2fa4612d5805340965bb25"
     },
     {
+      "bytes": 692,
+      "path": "paper/reference-evidence/LiProofEngine2026/proof-engine-infrastructure-manuscript.meta.json",
+      "sha256": "e09caa2b166151eef29944d865d2acd3efc6d4378b2810b512bd5529f3d9ed81"
+    },
+    {
+      "bytes": 47978,
+      "path": "paper/reference-evidence/LiProofEngine2026/proof-engine-infrastructure-manuscript.tex.txt",
+      "sha256": "a5d6549717fc5f9887cf2eb2394e34eafc50ae2bd1efd6953066fdfbc1a99c57"
+    },
+    {
+      "bytes": 120927,
+      "path": "paper/reference-evidence/LiProofEngine2026/source-view.txt",
+      "sha256": "807dcf9367d32b0f86c21d3be8512210c38c47a48cf472241ac4a3435404cde9"
+    },
+    {
+      "bytes": 489,
+      "path": "paper/reference-evidence/LiProofEngine2026/source.meta.json",
+      "sha256": "21aaa7755a661ab4d77a71b48730f8fa7695050a7407dda53a565f11af60662f"
+    },
+    {
+      "bytes": 631093,
+      "path": "paper/reference-evidence/LiProofEngine2026/source.pdf",
+      "sha256": "6b53d87d8d7824f27fa49dc5b995e1b48a16d69a15d539605c22fc7b35ca990e"
+    },
+    {
+      "bytes": 120893,
+      "path": "paper/reference-evidence/LiProofEngine2026/source.pdf.txt",
+      "sha256": "0be7e03602d6f9f53619c83b2b0ec8aca14a687a5789d416ecff632bf4e10cde"
+    },
+    {
       "bytes": 16405,
       "path": "paper/reference-evidence/Mathlib/crossref.json",
       "sha256": "e790760c56e022852bcdd9c1b3c3bdfbc019ec5cec1ed8a82a1745b517a447a7"
@@ -153456,9 +153486,24 @@
       "sha256": "fe113a7cb5e48889ef3fbb30e150b901f17fedd0ff120218e6194c50de519c82"
     },
     {
-      "bytes": 652,
+      "bytes": 485,
+      "path": "paper/reference-evidence/RosserSchoenfeld/source.meta.json",
+      "sha256": "93ccc66a64006e15d0d21a5ebe79c3afdf8aa5530f07a4999b435962ca8a9066"
+    },
+    {
+      "bytes": 2520753,
+      "path": "paper/reference-evidence/RosserSchoenfeld/source.pdf",
+      "sha256": "8e37b06f82e09421bceb2502578c47b61469141f0287e6acedb70e01765ab556"
+    },
+    {
+      "bytes": 57620,
+      "path": "paper/reference-evidence/RosserSchoenfeld/source.pdf.txt",
+      "sha256": "cb0e02c101202c614ee4bb22f92931edaa2e86fe7209a21daa5f59a44be598b4"
+    },
+    {
+      "bytes": 742,
       "path": "paper/reference-evidence/Sawhney848/preprint.meta.json",
-      "sha256": "d13124bc752365be212097e1c4d0a04875846f1624a10a09f2a07543acc43bba"
+      "sha256": "a703fbc07fe87442b36f99b60488630cdd07583543759fec42eb4457266de7f5"
     },
     {
       "bytes": 360117,
@@ -153471,9 +153516,14 @@
       "sha256": "36b17e65df5c9880e1ec2885e96102c0b8eb44f2136a4efd4615614937da1e43"
     },
     {
-      "bytes": 771,
+      "bytes": 17008,
+      "path": "paper/reference-evidence/Sawhney848/source-view.txt",
+      "sha256": "5fd0282b9c07e367d5defbef71f9a1c1ef9b35c70244313e65415f5dab1b2f96"
+    },
+    {
+      "bytes": 862,
       "path": "paper/reference-evidence/Sothanaphan848/preprint.meta.json",
-      "sha256": "90c47dcfe7c63f1858e0c5a6654d753089e6efae183cef62b27621e4b7a24e40"
+      "sha256": "c9e3658abebaa85c250cd9298e170554dff4abc1b43ed966406c3b5790710567"
     },
     {
       "bytes": 283954,
@@ -153486,14 +153536,14 @@
       "sha256": "034e8ee36b3f218146d5479c194277aa80fcd95495c3acae5e6f3db1c9c886ad"
     },
     {
-      "bytes": 8672,
+      "bytes": 26090,
       "path": "paper/reference-evidence/_build_manifest.py",
-      "sha256": "a0c12306ba87072100c24508b7e8035e817e1c69854fc79931eceecffdb2b366"
+      "sha256": "a14d40589c615dbfe2f699f8f5d124c52225f8d9efa7426b174be924186b7b39"
     },
     {
-      "bytes": 2356,
+      "bytes": 2886,
       "path": "paper/reference-evidence/artifact-sha256.json",
-      "sha256": "414cd0ce1e2b347663b266ebcf882256750dcfe52510155b7b9f515f5cecf203"
+      "sha256": "84c1d60d8a5e2b712386581fb6f92c4c78b7223636acb4cc5b84b86e20de5ab7"
     },
     {
       "bytes": 11496,
@@ -153506,14 +153556,19 @@
       "sha256": "db4d28603eb36aa0159ced93782cf424b174d5194d7d0169b7083671d0df8f20"
     },
     {
-      "bytes": 34540,
-      "path": "paper/reference-evidence/manifest.json",
-      "sha256": "3c80160801781c85daeeb5bce9496350330185244a5523ea6a7a4538e7f13eeb"
+      "bytes": 2190,
+      "path": "paper/reference-evidence/citation-contract.json",
+      "sha256": "d62e7d2d64a17b20a4a0c62a1946695fd9dbe0db15e3ed82c9a5bc0855ad1b19"
     },
     {
-      "bytes": 5552,
+      "bytes": 31725,
+      "path": "paper/reference-evidence/manifest.json",
+      "sha256": "291114a37eba3c482400ebc597d906d9129f5dd519f5c88340b0e6c58aac472c"
+    },
+    {
+      "bytes": 2076,
       "path": "paper/references.bib",
-      "sha256": "431737c55aa80811cb56ff6bc41c1ca66384df30e64bcb0dc327b4b05d36bcb3"
+      "sha256": "3045e97e7ade081d0d132426c37f55dccfe650d97e5e0a6873aab7329824e64e"
     },
     {
       "bytes": 2367,
@@ -153541,14 +153596,19 @@
       "sha256": "154d353a596bb9ec6b3fd3d4f95bcfbb93ddee95367f05c293ea306cf4eb1181"
     },
     {
+      "bytes": 5487,
+      "path": "scripts/build_release_package.py",
+      "sha256": "8051f8aebac1a05888bb718f9c9c06319a66f2a203fa8cbf91b9c0aed85529b4"
+    },
+    {
       "bytes": 5422,
       "path": "scripts/cache_release_common.py",
       "sha256": "bff9b65563f90897f2c0cc270066e3c25a3c960424485e1f6bdbcb18f3ea0b55"
     },
     {
-      "bytes": 28109,
+      "bytes": 27956,
       "path": "scripts/check_proof_state.py",
-      "sha256": "5408104f0765d347e4610b33403d5bc11c2993cc6d85916dd968559f080e2aa6"
+      "sha256": "e560f5df0cb342fa5588f3dab0d37bfdd86a30be28155dd12db4e23585081dba"
     },
     {
       "bytes": 16473,
@@ -153611,9 +153671,14 @@
       "sha256": "0d4da1cf776e1fcfa9ab9be2d14073056807da2792de39701d317ea57fba3882"
     },
     {
-      "bytes": 9696,
+      "bytes": 12420,
+      "path": "scripts/verify_publication_package.py",
+      "sha256": "759c91574a44b23a8ebb72ee4b8eb1f321b2cc0cd0ac1bbc9c530b8b11fc03e5"
+    },
+    {
+      "bytes": 9705,
       "path": "scripts/verify_reference_evidence.py",
-      "sha256": "79bf8344e93aa22c6e83bd00b3c70a1359c8a7bc4ace1148f3c3153e14f19ef6"
+      "sha256": "3ac80e85be3678d5a482f7f36cca782e714d9057eafc0d9973819a69f9ca3a0e"
     },
     {
       "bytes": 2332,
@@ -153621,21 +153686,21 @@
       "sha256": "6687e4e91de146f67223ddd5bbec4959e33884fdd5416cc3325fc02f8b213117"
     }
   ],
-  "internal_source_commit": "d5fa9a5ff389f3dbaac62ee43ef7297d8db11fa7",
+  "internal_source_commit": "eab5046786bed9d68ca36c8f16bc1217eeda065d",
   "main_theorem": "Erdos848.PaperGeneratedCertificateProvider.all_N",
   "package_role": "clean-public-kernel-source",
   "paper": {
     "math_implementation": {
       "path": "paper/math-implementation-map.json",
-      "sha256": "ba0689c574fca5326d1a88fd8d490e7a5e4fdc991893a44b3f63ed8936c85ab1"
+      "sha256": "21da8ba1b72fd59248da4248c19c31d3b9caea410695fcc692978ea92a717f26"
     },
     "numeric_claims": {
       "path": "paper/numeric-claims.json",
-      "sha256": "2486dce19907e4f29384aa03b85db83d834f7968f47fb27f5371fc992b720b8b"
+      "sha256": "d72728449492a32862da43288c8001be216a146c4cacbaee450f882ec44850d7"
     },
     "pdf": {
       "path": "paper/Li_Erdos_848_Kernel_Checked_Exact_Extremal_Bound_2026.pdf",
-      "sha256": "4275b8859a76e04e1159b9b71a3032eb91aa9829cfb523fdd5ba9ad2c96aa132"
+      "sha256": "b062f001e3e6c37e5b06e1eee724bd99aa90e642e8790dde5121dfa08b69e679"
     },
     "proof_components": {
       "path": "paper/lean-proof-components.json",
@@ -153643,26 +153708,26 @@
     },
     "proof_contract": {
       "path": "paper/proof-contract.json",
-      "sha256": "62433c1d0241d127571e1942414c840295d5c317c7f349653a505620608ea0aa"
+      "sha256": "af3bddbb94d33d7f59890298badb24fc2a1d0a99701acc6783f1c514a5557c55"
     },
     "reference_evidence": {
       "path": "paper/reference-evidence/manifest.json",
-      "sha256": "3c80160801781c85daeeb5bce9496350330185244a5523ea6a7a4538e7f13eeb"
+      "sha256": "291114a37eba3c482400ebc597d906d9129f5dd519f5c88340b0e6c58aac472c"
     },
     "references": {
       "path": "paper/references.bib",
-      "sha256": "431737c55aa80811cb56ff6bc41c1ca66384df30e64bcb0dc327b4b05d36bcb3"
+      "sha256": "3045e97e7ade081d0d132426c37f55dccfe650d97e5e0a6873aab7329824e64e"
     },
     "tex": {
       "path": "paper/erdos_848_kernel_checked_exact_extremal_bound.tex",
-      "sha256": "202b5e3c7c77f4d914020fa156f3b6c2b6111f9af697bb9847c1d4c0baebc82a"
+      "sha256": "d98eee9e9a3259301c02738742fab35eddaaa45f99e40078c893f10d2d4fc5ed"
     },
     "theorem_map": {
       "path": "paper/theorem-map.json",
       "sha256": "968c626c9da9bd59ccd1f7285b43a9c486a9f0ed46039485dca8823172138695"
     }
   },
-  "policy_sha256": "070bf6388dedc9c4c56c6203b3d830523caa4f30be582f7fae70b4927224fcbe",
+  "policy_sha256": "7edc37d95f346510e37f489a6934260a666f6fafb66a44276d2cabe0c1be0fda",
   "proof_contract_version": "erdos-848-all-n-four-range-v1",
   "schema_version": 1
 }
