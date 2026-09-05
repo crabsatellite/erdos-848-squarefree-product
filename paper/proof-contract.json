@@ -4,9 +4,9 @@
   "claim_status": "complete",
   "manuscript_kind": "complete-all-n-paper-proof-with-kernel-replayed-generated-finite-certificates",
   "tex_path": "paper/erdos_848_kernel_checked_exact_extremal_bound.tex",
-  "tex_sha256": "d98eee9e9a3259301c02738742fab35eddaaa45f99e40078c893f10d2d4fc5ed",
+  "tex_sha256": "796b45b790ef8191fa8e7f4028796e23db0c6069fddb395fa8ac668bb8f7f2c0",
   "pdf_path": "paper/Li_Erdos_848_Kernel_Checked_Exact_Extremal_Bound_2026.pdf",
-  "pdf_sha256": "0393dbbbb641c7de220529e438ed59d2b25d2c28912e43010bdba5c0ca911f2a",
+  "pdf_sha256": "428a9b8a581e3c41505bc8df236a5ab48f13d1c1f59db35bcc3ba93ffabac7fb",
   "theorem_map_path": "paper/theorem-map.json",
   "theorem_map_sha256": "968c626c9da9bd59ccd1f7285b43a9c486a9f0ed46039485dca8823172138695",
   "additional_artifacts": [

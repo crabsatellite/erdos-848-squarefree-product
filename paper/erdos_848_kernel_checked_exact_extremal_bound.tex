@@ -816,12 +816,16 @@ has more than $g_N$ members, the preceding close-triple and mod-$9$
  alternatives exhaust all five valuation classes.
 \end{proof}
 
-The eight symbols in the last column of Table~\ref{tab:ten-branch-structure}
-are the eight diagonal subsets that are counted separately: all residual
-points; one common $E_1$ cell; the low-$2$-adic classes; one common $E_2$
-cell; the union of the two odd classes; that union with one common cell; one
- odd class; and one odd class with a common cell.  The entry $j\delta$ accounts
- for at most $j$ even classes satisfying the preceding size bounds.
+The last column of Table~\ref{tab:ten-branch-structure} specifies the
+valuation and residue restrictions on the diagonal candidates used to bound
+$D_\beta$.  Put $V=E_3\cup O_1\cup O_3$, and write $E_i(c)$ and $O_i(c)$
+for the indicated mod-$9$ cell in the corresponding class.  The eight
+selectors are: all residual candidates; $E_1(c)\cup E_2\cup V$; $V$;
+$E_2(c)\cup V$; $O_1\cup O_3$; one whole odd class together with one cell
+in the other; one odd class; and one cell in one odd class.  In particular,
+concentrating the pivot class does not discard the other retained classes.
+The entry $j\delta$ accounts for at most $j$ even classes satisfying the
+preceding size bounds.
 
 \begin{table}[ht]
 \centering
@@ -832,13 +836,13 @@ cell; the union of the two odd classes; that union with one common cell; one
  Case & Condition after the preceding size bounds hold & Set used to bound $D_\beta$\\
 \midrule
 $E_1$ generic & close triple in $E_1$, not constant mod $9$ & all residual points\\
-$E_1$ common & all of $E_1$ lies in one mod-$9$ cell & common $E_1$ cell\\
+$E_1$ common & all of $E_1$ lies in one mod-$9$ cell $c$ & $E_1(c)\cup E_2\cup V$\\
 $E_2$ generic & $|E_1|\leq g_N$; generic triple in $E_2$ & all residual points\\
-$E_2$ common & $|E_1|\leq g_N$; all of $E_2$ lies in one cell & common $E_2$ cell $+\delta$\\
-$E_3$ generic & $|E_1|,|E_2|\leq g_N$; generic triple in $E_3$ & $E_1\cup E_2$, plus $2\delta$\\
-$E_3$ common & same, with all of $E_3$ in one cell & $E_1\cup E_2$, plus $2\delta$\\
+$E_2$ common & $|E_1|\leq g_N$; all of $E_2$ lies in one cell $c$ & $E_2(c)\cup V$, plus $\delta$\\
+$E_3$ generic & $|E_1|,|E_2|\leq g_N$; generic triple in $E_3$ & $V$, plus $2\delta$\\
+$E_3$ common & same, with all of $E_3$ in one cell & $V$, plus $2\delta$\\
 two odd, generic & all even classes have size $\leq g_N$; generic odd triple & $O_1\cup O_3$, plus $3\delta$\\
-two odd, common & same, with the relevant odd class in one cell & $O_1\cup O_3$ and that cell, plus $3\delta$\\
+two odd, common & same, with the relevant odd class in one cell & the other odd class and that cell, plus $3\delta$\\
 one odd, generic & all even classes are small; the other odd class is empty & remaining odd class, plus $3\delta$\\
 one odd, common & same, with the remaining odd class in one cell & that common cell, plus $3\delta$\\
 \bottomrule

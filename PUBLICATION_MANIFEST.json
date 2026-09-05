@@ -153246,14 +153246,14 @@
       "sha256": "ce4c4e3d87434b9663f46de25ce34b48a0cf0d392e0a320a0787b4674a2d7b61"
     },
     {
-      "bytes": 341695,
+      "bytes": 342338,
       "path": "paper/Li_Erdos_848_Kernel_Checked_Exact_Extremal_Bound_2026.pdf",
-      "sha256": "0393dbbbb641c7de220529e438ed59d2b25d2c28912e43010bdba5c0ca911f2a"
+      "sha256": "428a9b8a581e3c41505bc8df236a5ab48f13d1c1f59db35bcc3ba93ffabac7fb"
     },
     {
-      "bytes": 47403,
+      "bytes": 47634,
       "path": "paper/erdos_848_kernel_checked_exact_extremal_bound.tex",
-      "sha256": "d98eee9e9a3259301c02738742fab35eddaaa45f99e40078c893f10d2d4fc5ed"
+      "sha256": "796b45b790ef8191fa8e7f4028796e23db0c6069fddb395fa8ac668bb8f7f2c0"
     },
     {
       "bytes": 7540,
@@ -153273,7 +153273,7 @@
     {
       "bytes": 2655,
       "path": "paper/proof-contract.json",
-      "sha256": "5904bde695b066ff266fb93fb9c8e2b44c4258339b90edbb85d7041a9e904474"
+      "sha256": "8f62f9e298de57f72e3c1fd781d26e232aeb5453a83b45501aa24179bef55994"
     },
     {
       "bytes": 1662,
